@@ -65,8 +65,12 @@ Repository security should include:
 - Secret scanning push protection enabled.
 - Dependabot security updates enabled.
 - Dependabot version update config for npm and GitHub Actions.
-- CodeQL JavaScript analysis.
+- CodeQL default setup for JavaScript analysis.
 - CI smoke and package checks.
+
+Do not add a custom CodeQL advanced workflow while GitHub CodeQL default setup is
+enabled for this repository. GitHub rejects SARIF from advanced configuration
+when default setup is active.
 
 ## Docs And Mintlify Changelog
 
