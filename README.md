@@ -50,6 +50,8 @@ docs: https://docs.brik64.com
   [brik64/brik64-cli releases](https://github.com/brik64/brik64-cli/releases)
 - GitHub Packages mirror:
   [@brik64/cli package mirror](https://github.com/brik64/brik64-cli/pkgs/npm/cli)
+- Agent skills:
+  [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
 - Public beta roadmap:
   [BRIK64 CLI beta project](https://github.com/orgs/brik64/projects/1)
 
@@ -114,6 +116,36 @@ npm install -g @brik64/cli@beta --registry=https://npm.pkg.github.com
 
 The npmjs package remains the primary public install path. GitHub Packages is a
 GitHub-visible mirror for release inspection and organization package inventory.
+
+## CLI And Agent Skill
+
+BRIK64 is designed for humans and AI agents working together. Use the CLI for
+local project actions and the official `brik64` skill for agent behavior,
+claim-safe reporting, `.brik` traceability, PCD 1.0 workflow, and
+`AGENTS.md` managed-instruction rules.
+
+Skill repository:
+[brik64/brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
+
+Recommended agent workflow:
+
+```text
+read docs.brik64.com -> check current skill repo -> inspect repo state
+-> run brik commands -> preserve .brik traceability -> report bounded evidence
+```
+
+Agent instructions are written only with explicit consent:
+
+```sh
+brik skill diff --target AGENTS.md
+brik skill install --target AGENTS.md
+brik skill update --target AGENTS.md
+brik skill remove --target AGENTS.md
+brik skill doctor
+```
+
+`brik init` prepares local BRIK64 metadata. It does not create or modify
+`AGENTS.md`.
 
 ## What It Does
 
