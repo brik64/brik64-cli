@@ -53,7 +53,7 @@ docs: https://docs.brik64.com
 - Agent skills:
   [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
 - Public beta roadmap:
-  [BRIK64 CLI beta project](https://github.com/orgs/brik64/projects/1)
+  [BRIK64 CLI Public Roadmap](docs/PUBLIC_ROADMAP.md)
 
 ## Public Interaction Policy
 
@@ -212,6 +212,9 @@ Planned release lanes:
 - macOS Intel package after platform-specific package and smoke gates pass.
 - Debian/Ubuntu Linux packages after distro-specific build and install gates pass.
 - Windows PC package after Windows runner validation and install smoke pass.
+- Homebrew, curl/GCP, apt-ready metadata, and GitHub Packages support the
+  platform milestones as distribution channels; they are not standalone product
+  milestones.
 
 Each platform package should ship with its own artifact, checksum, install smoke,
 and release evidence before it is promoted on npm, GitHub Releases, docs, or

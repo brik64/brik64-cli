@@ -1,6 +1,9 @@
 # BRIK64 CLI Distribution Roadmap
 
-This roadmap tracks public beta distribution channels for BRIK64 CLI.
+This roadmap tracks public beta distribution channels for BRIK64 CLI. For the
+public product milestones, read [`PUBLIC_ROADMAP.md`](PUBLIC_ROADMAP.md).
+Distribution channels support platform coverage; they are not the public
+milestones by themselves.
 
 ## Current Public Channels
 
@@ -28,9 +31,16 @@ and release-evidence gates pass. Docs, npm metadata, GitHub Releases,
 GitHub Packages, Homebrew, curl, and brik64.com should reference the same
 version and artifact evidence.
 
-## Project Tracking
+## Internal Tracking Boundary
 
-The GitHub Project should track each channel as a separate issue with:
+Internal GitHub Projects may track execution details, owners, scheduling, and
+private blockers. Public roadmap readers should not depend on those boards.
+
+Public channel readiness should be reflected through this repository's public
+roadmap, GitHub Releases, docs, package metadata, and issues for reproducible
+public bugs or metadata mismatches.
+
+Internal tracking should still capture:
 
 - target platform;
 - distribution channel;
