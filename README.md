@@ -78,7 +78,7 @@ claims, checksums, licenses, release notes, and docs remain aligned.
 
 ## Status
 
-Current beta: [`0.1.0-beta.2`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2)
+Current beta: [`0.1.0-beta.3`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3)
 
 This beta is intended for evaluation, local workflow trials, package smoke
 testing, and bounded PCD/evidence review. The current public beta surface is
@@ -183,7 +183,7 @@ For a fuller file-by-file description, read
 
 ## Current Scope
 
-The `0.1.0-beta.2` release is scoped to public beta evaluation. It is centered
+The `0.1.0-beta.3` release is scoped to public beta evaluation. It is centered
 on local developer workflow, macOS package validation, PCD seed material, and
 release evidence review. Production certification, expanded platform support,
 and advanced compiler-methodology claims are promoted only when the matching
@@ -197,7 +197,7 @@ Current beta availability:
 | Surface | Status | Link |
 | --- | --- | --- |
 | npmjs package | Primary public beta install path | [@brik64/cli on npm](https://www.npmjs.com/package/@brik64/cli) |
-| GitHub Release | Versioned release notes and beta asset review | [v0.1.0-beta.2](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2) |
+| GitHub Release | Versioned release notes and beta asset review | [v0.1.0-beta.3](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3) |
 | GitHub Packages | GitHub-visible npm mirror for organization package inventory | [@brik64/cli mirror](https://github.com/brik64/brik64-cli/pkgs/npm/cli) |
 | Docs | Install and usage documentation | [CLI install guide](https://docs.brik64.com/cli/install) |
 | Website | Public product entry point | [brik64.com](https://brik64.com) |
@@ -205,7 +205,7 @@ Current beta availability:
 Current platform asset:
 
 - macOS Apple Silicon package for local CLI evaluation, listed in the
-  [v0.1.0-beta.2 GitHub Release](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2).
+  [v0.1.0-beta.3 GitHub Release](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3).
 
 Planned release lanes:
 
@@ -224,7 +224,7 @@ operator gates. Use the GitHub release assets and checksums to review the exact
 package candidate before treating any install path as authoritative.
 
 GitHub release:
-[v0.1.0-beta.2](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2)
+[v0.1.0-beta.3](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3)
 
 ## Copyright And License
 
