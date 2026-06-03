@@ -35,6 +35,10 @@ function help() {
   process.stdout.write('  emit <file.pcd>      emit only when local certificate exists\n');
   process.stdout.write('       --target <ts|rust|python> --out <dir> --tests\n');
   process.stdout.write('  --version            print version\n');
+  process.stdout.write('\nreferences:\n');
+  process.stdout.write('  docs                 https://docs.brik64.com/cli/install\n');
+  process.stdout.write('  skill                https://github.com/brik64/brik64-tools-skills\n');
+  process.stdout.write('  pcd standard         https://github.com/brik64/pcd-standard\n');
 }
 
 function readFileRequired(file) {

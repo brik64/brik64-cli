@@ -9,7 +9,7 @@ validation, and versioned release evidence. Expanded platform support and
 stronger certification surfaces remain governed by the BRIK64 evidence process
 and commercial licensing terms.
 
-Public product information: https://brik64.com/home-cli
+Public product information: https://brik64.com
 Documentation: https://docs.brik64.com/cli/install
 Repository: https://github.com/brik64/brik64-cli
 Package: https://www.npmjs.com/package/@brik64/cli

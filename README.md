@@ -28,7 +28,7 @@ In BRIK64 workflows, `.brik` project state, PCD seed material, local evidence,
 and release metadata are kept close to the code so a team can review how a
 software surface is described, packaged, and promoted.
 
-PCD, or Polymer Circuit Description, is the structural description layer used by
+PCD, or Program Circuit Description, is the structural description layer used by
 BRIK64 to model software logic as reviewable pieces. In this beta, the CLI gives
 developers an entry point into that workflow: project scaffolding, local PCD
 examples, evidence files, package metadata, and public-beta release checks.
@@ -134,18 +134,17 @@ read docs.brik64.com -> check current skill repo -> inspect repo state
 -> run brik commands -> preserve .brik traceability -> report bounded evidence
 ```
 
-Agent instructions are written only with explicit consent:
+Install or read the official agent skill from the public skill repository before
+using BRIK64 agent workflows:
 
-```sh
-brik skill diff --target AGENTS.md
-brik skill install --target AGENTS.md
-brik skill update --target AGENTS.md
-brik skill remove --target AGENTS.md
-brik skill doctor
+```text
+https://github.com/brik64/brik64-tools-skills
 ```
 
 `brik init` prepares local BRIK64 metadata. It does not create or modify
-`AGENTS.md`.
+`AGENTS.md`. The current CLI beta does not expose `brik skill` subcommands; any
+agent instruction installation must remain explicit, reviewable, and
+consent-based.
 
 ## What It Does
 
