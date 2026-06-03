@@ -59,7 +59,8 @@ maintainers who need to understand what each path is for.
 | --- | --- |
 | `docs/REPOSITORY_MAP.md` | This file-by-file public repository map. |
 | `docs/BRIK_METHODOLOGY_TRANSITION.md` | Methodology transition plan for moving the CLI from executable beta source toward PCD-first implementation and evidence-backed promotion. |
-| `docs/DISTRIBUTION_ROADMAP.md` | Distribution roadmap for npm, GitHub Releases, GitHub Packages, curl/GCP, Homebrew, macOS Intel, Linux, and Windows lanes. |
+| `docs/PUBLIC_ROADMAP.md` | Public roadmap for CLI beta platform coverage, distribution hardening, agent workflow alignment, and SDK/language surface alignment. |
+| `docs/DISTRIBUTION_ROADMAP.md` | Distribution-channel roadmap for npm, GitHub Releases, GitHub Packages, curl/GCP, Homebrew, macOS Intel, Linux, and Windows lanes. |
 | `docs/GITHUB_NPM_PUBLISHING.md` | npm publishing workflow notes for the public beta package. |
 | `docs/GITHUB_PACKAGES_PUBLISHING.md` | GitHub Packages mirror workflow notes and verification boundary. |
 | `docs/GITHUB_REPO_GOVERNANCE.md` | Repository governance policy for branch protection, maintainer ownership, issue flow, package publication, and public interaction controls. |

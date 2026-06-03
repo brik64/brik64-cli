@@ -39,7 +39,8 @@ Recommended public repo settings:
 
 - Issues: enabled.
 - Wiki: enabled.
-- Projects: disabled unless used for public release tracking.
+- Projects: private/internal for execution tracking; do not use Projects as the
+  public roadmap entry point.
 - Merge commit, squash merge, and rebase merge: disabled for public PR paths.
 - Auto merge: disabled.
 - Delete branch on merge: enabled.
