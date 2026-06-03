@@ -5,7 +5,7 @@
 // certifiesTests: false
 // certifiesFixpoint: false
 // product = "brik64-cli"
-// cli_version = "0.1.0-beta.0"
+// cli_version = "0.1.0-beta.2"
 // composition_kind = "polymer"
 // source_units = "cli_core.pcd,cli_init_policy.pcd,cli_certify_emit.pcd"
 // compile_status = "not_compiled"
