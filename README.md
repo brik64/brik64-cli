@@ -121,6 +121,31 @@ GitHub-visible mirror for release inspection and organization package inventory.
 - Establishes the public package surface for controlled CLI evaluation and future
   SDK alignment.
 
+## Repository Map
+
+Use this map to understand what each public path contains before installing,
+auditing, or filing an issue.
+
+| Path | What it contains |
+| --- | --- |
+| `src/brik.js` | Executable Node.js entry point for the current public beta `brik` command. |
+| `tests/smoke.sh` | Local smoke test for version, help, init, skill install policy, status, and certify command behavior. |
+| `pcd/` | Candidate PCD seed material that describes the intended CLI command structure and composition path. |
+| `evidence/` | Public beta evidence notes and generated-review placeholders used for package inspection. |
+| `packaging/` | Platform packaging notes and local package review material for release lanes. |
+| `docs/` | Release, distribution, governance, platform, publishing, testing, and methodology documentation. |
+| `.github/` | Repository governance, CI, package publishing, CodeQL, Dependabot, issue templates, and maintainer ownership rules. |
+| `.brik/manifest.json` | BRIK64 project metadata for local traceability. It is not a certificate. |
+| `README.md` | Public entry point for installation, scope, repo map, release assets, and license summary. |
+| `LICENSE` | Proprietary beta license terms for BRIK64 CLI. |
+| `NOTICE` | Copyright and third-party notice surface. |
+| `SECURITY.md` | Security reporting policy and supported beta version scope. |
+| `CONTRIBUTING.md` | Public interaction policy: issues accepted, external pull requests not accepted. |
+| `package.json` | npm package metadata, executable mapping, scripts, package files, and beta keywords. |
+
+For a fuller file-by-file description, read
+[`docs/REPOSITORY_MAP.md`](docs/REPOSITORY_MAP.md).
+
 ## Current Scope
 
 The `0.1.0-beta.2` release is scoped to public beta evaluation. It is centered
