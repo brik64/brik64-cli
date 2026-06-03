@@ -57,10 +57,10 @@ jobs:
           fi
           gh api repos/brik64-admin/brik64-docs-site/dispatches \
             --method POST \
-            --field event_type=brik64-cli-release \
-            --field client_payload[package]=@brik64/cli \
-            --field client_payload[version]="$VERSION" \
-            --field client_payload[release_url]="$RELEASE_URL" \
-            --field client_payload[npm_url]="https://www.npmjs.com/package/@brik64/cli/v/$VERSION" \
-            --field client_payload[docs_target]="releases/changelog.mdx" \
-            --field client_payload[source_repo]="${{ github.repository }}"
+            --raw-field event_type=brik64-cli-release \
+            --raw-field 'client_payload[package]=@brik64/cli' \
+            --raw-field "client_payload[version]=$VERSION" \
+            --raw-field "client_payload[release_url]=$RELEASE_URL" \
+            --raw-field "client_payload[npm_url]=https://www.npmjs.com/package/@brik64/cli/v/$VERSION" \
+            --raw-field 'client_payload[docs_target]=releases/changelog.mdx' \
+            --raw-field 'client_payload[source_repo]=${{ github.repository }}'
