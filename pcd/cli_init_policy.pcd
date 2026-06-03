@@ -1,0 +1,30 @@
+// brik64.pcd_file.v1
+// name: brik_cli_init_policy
+// status: candidate_pcd_seed
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// command = "init"
+// writes = ".brik/manifest.json"
+// protected_file = "AGENTS.md"
+// agent_instruction_policy = "consent_required"
+// invariant creates_agents_md == false
+// invariant existing_agents_md_must_not_be_overwritten == true
+// claim_boundary = "local_candidate_only"
+
+PC brik_cli_init_policy {
+    fn brik_cli_init_policy(workspace_readable, has_brik_dir, has_agents_md, consent_given) {
+        if (workspace_readable == 0) {
+            return 64;
+        }
+        if (has_brik_dir == 1) {
+            return 0;
+        }
+        if (has_agents_md == 1) {
+            if (consent_given == 0) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+}

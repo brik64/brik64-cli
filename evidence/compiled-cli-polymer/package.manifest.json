@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.cli_bir_candidate_package_manifest.v1",
+  "generatedAt": "2026-06-01T09:36:21Z",
+  "source_compile_report": "out/pit-cycle/BRIK-CLI-BRIKC-COMPILE-EXECUTION-R156-20260601/brik_cli_brikc_compile_execution_report.json",
+  "artifact_kind": "cli_polymer_candidate_bir_package",
+  "artifacts": {
+    "bir": {
+      "path": "brik_cli_polymer.bir",
+      "sha256": "37c86b45fb810658459f5c88e9e92ab68945bb11b91179bb0ca0de15c0eec065"
+    },
+    "certificate": {
+      "path": "brik_cli_polymer.cert.json",
+      "sha256": "0ca22bebf3caf1e4bce7673b90805b54685f8310c517921ef0af29eefbf9ddab"
+    }
+  },
+  "claim_boundary": {
+    "package_only": true,
+    "executable_binary": false,
+    "semantic_execution": false,
+    "fixpoint": false,
+    "release": false,
+    "n5": false
+  }
+}

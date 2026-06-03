@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "generator": "brikc v5.0.0-beta.1",
+  "timestamp": "2026-06-01T09:27:14Z",
+  "issuer": "BRIK-64 v5.0.0-beta.1",
+  "valid_from": "2026-06-01T09:27:14Z",
+  "verification_url": "https://registry.brik64.dev/cert/341eff541ce59269",
+  "signature": "341eff541ce592695ffc34374513e0998ae6d98e571cc29d098b7c572161fe60",
+  "source": {
+    "file": "/Users/carlosjperez/Documents/GitHub/brik64-cli/pcd/cli_polymer.pcd",
+    "hash_sha256": "776bbd5a15357bf47350a81011f1d12bdf4a04fb843cd035c39f9b3985cb9196",
+    "language": "pcd"
+  },
+  "certification": {
+    "phi_c": 1.0,
+    "level": "CORE",
+    "monomers_used": [],
+    "monomer_names": [],
+    "domain_safe": true,
+    "deterministic": true,
+    "total_statements": 0
+  },
+  "target": {
+    "language": "bir",
+    "file": "/Users/carlosjperez/Documents/GitHub/brik64-prod/out/pit-cycle/BRIK-CLI-BRIKC-COMPILE-EXECUTION-R156-20260601/artifacts/brik_cli_polymer.bir",
+    "hash_sha256": "37c86b45fb810658459f5c88e9e92ab68945bb11b91179bb0ca0de15c0eec065",
+    "lines": 3
+  },
+  "chain": {
+    "source_hash": "776bbd5a15357bf47350a81011f1d12bdf4a04fb843cd035c39f9b3985cb9196",
+    "pcd_hash": "776bbd5a15357bf47350a81011f1d12bdf4a04fb843cd035c39f9b3985cb9196",
+    "plan_hash": "c82803e958cd599179090285b9994f310fe2bfdda8c9951d5cbabc036b026c6a",
+    "target_hash": "37c86b45fb810658459f5c88e9e92ab68945bb11b91179bb0ca0de15c0eec065",
+    "compiler_version": "5.0.0-beta.1"
+  }
+}

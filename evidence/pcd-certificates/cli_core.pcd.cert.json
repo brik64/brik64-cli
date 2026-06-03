@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "generatedAt": "2026-06-03T05:06:50Z",
+  "pcd": {
+    "path": "pcd/cli_core.pcd",
+    "sha256": "c1d3167109d842c5b321ed541604bdcff2c7be7865b2aac8116f1db03b557944"
+  },
+  "certificate": {
+    "kind": "local_candidate_certificate",
+    "status": "candidate_only",
+    "certifiesFormalCorrectness": false,
+    "certifiesTests": false,
+    "certifiesFixpoint": false,
+    "certifiesN5": false,
+    "permitsCompile": false
+  },
+  "claim_boundary": {
+    "formal_certification_allowed": false,
+    "public_beta_allowed": false,
+    "release_allowed": false,
+    "n5_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  }
+}

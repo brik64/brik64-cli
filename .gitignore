@@ -1,0 +1,11 @@
+target/
+dist/
+build/
+node_modules/
+*.log
+.DS_Store
+evidence/tmp/
+runner-env.local.sh
+*.secret
+*.token
+*.key

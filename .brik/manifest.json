@@ -1,0 +1,36 @@
+{
+  "schema": "brik64.cli_project_manifest.v1",
+  "project": "brik64-cli",
+  "cliVersion": "0.1.0-beta.0",
+  "semanticSourceStatus": "candidate_pcd_seed",
+  "semanticSourceRoot": "pcd/",
+  "compositionPcd": "pcd/cli_polymer.pcd",
+  "bootstrapEntrypoint": "src/brik.js",
+  "publicBinaryName": "brik",
+  "claimBoundary": {
+    "releaseAuthorized": false,
+    "fixpointClaimAuthorized": false,
+    "n5ClaimAuthorized": false,
+    "formalCertificationAuthorized": false,
+    "rustIndependenceClaimAuthorized": false
+  },
+  "methodologyTransition": {
+    "target": "pcd_first_cli_iteration",
+    "requiredBeforePublicBeta": [
+      "pcd_semantic_source_complete",
+      "pcd_polymer_composition_report_present",
+      "pcd_certification_report_present",
+      "brik_compiler_build_report_present",
+      "macos_arm64_execution_report_present",
+      "linux_distro_execution_reports_present",
+      "windows_x64_execution_report_present",
+      "release_claim_boundary_gate_pass"
+    ],
+    "currentStatus": "bootstrap_non_release"
+  },
+  "certification": {
+    "certifiesFormalCorrectness": false,
+    "certifiesTests": false,
+    "certifiesFixpoint": false
+  }
+}

@@ -1,0 +1,32 @@
+// brik64.pcd_file.v1
+// name: brik_cli_certify_emit
+// status: candidate_pcd_seed
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// commands = "certify,emit"
+// supported_emit_targets = "ts,rust,python"
+// certificate_kind = "local_candidate_certificate"
+// fail_closed_on missing_certificate
+// claim_boundary = "local_candidate_only"
+
+PC brik_cli_certify_emit {
+    fn brik_cli_certify_emit(pcd_present, certificate_present, target_code, tests_requested) {
+        if (pcd_present == 0) {
+            return 64;
+        }
+        if (certificate_present == 0) {
+            return 67;
+        }
+        if (target_code < 1) {
+            return 65;
+        }
+        if (target_code > 3) {
+            return 65;
+        }
+        if (tests_requested == 1) {
+            return 2;
+        }
+        return 1;
+    }
+}

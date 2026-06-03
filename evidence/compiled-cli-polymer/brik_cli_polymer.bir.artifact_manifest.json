@@ -1,0 +1,31 @@
+{
+  "schema_version": "brik64.generated_artifact_manifest.v1",
+  "kind": "brik64.bir_artifact_manifest.v1",
+  "source_pcd": "/Users/carlosjperez/Documents/GitHub/brik64-cli/pcd/cli_polymer.pcd",
+  "source_pcd_sha256": "sha256:776bbd5a15357bf47350a81011f1d12bdf4a04fb843cd035c39f9b3985cb9196",
+  "artifact": "/Users/carlosjperez/Documents/GitHub/brik64-prod/out/pit-cycle/BRIK-CLI-BRIKC-COMPILE-EXECUTION-R156-20260601/artifacts/brik_cli_polymer.bir",
+  "artifact_sha256": "sha256:37c86b45fb810658459f5c88e9e92ab68945bb11b91179bb0ca0de15c0eec065",
+  "target": "bir",
+  "claim_authority": "non_claim_artifact_binding",
+  "public_claims_allowed": false,
+  "certifies_tests": false,
+  "bir_metadata": {
+    "schema_version": "brik64.numeric_domain_bir_metadata.v1",
+    "module": "brik_cli_polymer",
+    "string_table_entries": 3,
+    "numeric_domain_profile_hash_bound_to_bir": true,
+    "numeric_domain_profile_hashes": [],
+    "numeric_domain_metadata_strings": [
+      "BRIK64-NUMERIC-DOMAIN-PROFILE-BINDING:v1",
+      "numeric_domain_profile_required=false",
+      "numeric_domain_profile_count=0"
+    ]
+  },
+  "numeric_domain": {
+    "schema_version": "brik64.numeric_domain_artifact_binding.v1",
+    "profile_required": false,
+    "numeric_domain_profile_hashes": [],
+    "validation_issues": [],
+    "guard_stability_findings": []
+  }
+}
