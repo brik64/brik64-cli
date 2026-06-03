@@ -35,7 +35,7 @@ The workflow:
 - requires `README.md` and `NOTICE`;
 - fails if the version already exists on npm;
 - publishes with public access and the selected dist-tag;
-- verifies npm version metadata and dist-tag after publish.
+- verifies npm version metadata, README filename/content metadata, tarball metadata, and dist-tag after publish. The workflow retries metadata reads because npm propagation can lag immediately after a successful publish.
 
 ## Trusted Publishing Upgrade
 

@@ -116,6 +116,24 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npm view "@brik64/cli@${{ github.event.inputs.version }}" version dist.integrity dist.shasum dist.tarball --json --prefer-online --registry https://registry.npmjs.org
+          for attempt in 1 2 3 4 5; do
+            if npm view "@brik64/cli@${{ github.event.inputs.version }}" --json --prefer-online --registry https://registry.npmjs.org > /tmp/npm-view.json; then
+              break
+            fi
+            echo "npm metadata not propagated yet; retry $attempt/5"
+            sleep 15
+          done
+          node - <<'NODE'
+          const fs = require('fs');
+          const pkg = JSON.parse(fs.readFileSync('/tmp/npm-view.json', 'utf8'));
+          const expected = process.env.EXPECTED_VERSION;
+          if (pkg.version !== expected) throw new Error(`version mismatch: ${pkg.version}`);
+          if (!pkg.dist?.integrity || !pkg.dist?.shasum || !pkg.dist?.tarball) throw new Error('missing dist metadata');
+          if (pkg.readmeFilename !== 'README.md') throw new Error(`unexpected readmeFilename: ${pkg.readmeFilename}`);
+          if (!pkg._contentLength || pkg._contentLength < 1000) throw new Error(`unexpected content length: ${pkg._contentLength}`);
+          console.log(JSON.stringify({version: pkg.version, readmeFilename: pkg.readmeFilename, contentLength: pkg._contentLength, tarball: pkg.dist.tarball}, null, 2));
+          NODE
           npm dist-tag ls @brik64/cli --prefer-online --registry https://registry.npmjs.org | tee /tmp/npm-dist-tags.txt
           grep -q "${{ github.event.inputs.dist_tag }}: ${{ github.event.inputs.version }}" /tmp/npm-dist-tags.txt
+        env:
+          EXPECTED_VERSION: ${{ github.event.inputs.version }}
