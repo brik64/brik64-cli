@@ -1,0 +1,38 @@
+name: Docs or release metadata issue
+description: Report a mismatch in docs, npm metadata, release notes, or checksums.
+title: "[release-docs]: "
+labels:
+  - documentation
+  - release-metadata
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for public docs, npm, GitHub release, checksum, or install-path mismatches.
+  - type: input
+    id: surface
+    attributes:
+      label: Affected surface
+      placeholder: "npm, GitHub release, README, docs.brik64.com, brik64.com"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Affected version
+      placeholder: "0.1.0-beta.2"
+    validations:
+      required: false
+  - type: textarea
+    id: mismatch
+    attributes:
+      label: Mismatch
+      description: Describe what is inconsistent and where.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected public wording or target
+    validations:
+      required: false

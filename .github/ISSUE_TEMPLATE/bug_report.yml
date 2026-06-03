@@ -1,0 +1,58 @@
+name: Bug report
+description: Report a reproducible BRIK64 CLI public beta issue.
+title: "[bug]: "
+labels:
+  - bug
+  - public-beta
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for reproducible issues in the public beta CLI package.
+        Do not include secrets, private source code, customer data, or raw credentials.
+  - type: input
+    id: version
+    attributes:
+      label: CLI version
+      description: Run `brik --version` and paste the output.
+      placeholder: "0.1.0-beta.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS Apple Silicon
+        - macOS Intel
+        - Linux
+        - Windows
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the shortest command sequence that reproduces the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Paste redacted logs, checksums, or package metadata if relevant.
+    validations:
+      required: false

@@ -3,7 +3,7 @@
   "version": "0.1.0-beta.2",
   "private": false,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
-  "homepage": "https://brik64.com/home-cli",
+  "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brik64/brik64-cli.git"
@@ -49,6 +49,8 @@
     "README.md",
     "LICENSE",
     "NOTICE",
+    "SECURITY.md",
+    "CONTRIBUTING.md",
     ".brik/manifest.json"
   ]
 }

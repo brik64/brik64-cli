@@ -1,21 +1,35 @@
 # Security Policy
 
+BRIK64 CLI is public beta evaluation software from BRIK64 INC.
+
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+| Version | Status |
+| --- | --- |
+| `0.1.0-beta.x` | Public beta security review and patch lane |
+| Earlier beta artifacts | Superseded |
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+## Reporting A Vulnerability
 
-## Reporting a Vulnerability
+Report suspected vulnerabilities through GitHub Security Advisories for this
+repository when available, or contact BRIK64 through the public company website:
 
-Use this section to tell people how to report a vulnerability.
+https://brik64.com
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+Do not include secrets, private source code, customer data, raw credentials, or
+unredacted infrastructure details in public issues.
+
+## Public Beta Scope
+
+Security review for this repository covers the public CLI package surface,
+release metadata, package workflows, local smoke tests, PCD seed files, and
+bounded evidence artifacts included with the beta.
+
+`brik64-prod` remains the authority for methodology, certification boundaries,
+evidence gates, compiler claim authorization, and release approval.
+
+## Disclosure Handling
+
+BRIK64 will triage reports by affected version, exploitability, package
+surface, and evidence impact. Fixes may be shipped as new beta versions,
+repository advisories, release notes, or docs updates depending on scope.

@@ -1,0 +1,66 @@
+name: Dispatch docs changelog update
+
+on:
+  release:
+    types:
+      - published
+      - edited
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, for example 0.1.0-beta.2"
+        required: true
+        type: string
+      release_url:
+        description: "GitHub release URL"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    name: Notify docs repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build changelog payload
+        id: payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+            RELEASE_URL="${{ github.event.release.html_url }}"
+          else
+            VERSION="${{ github.event.inputs.version }}"
+            RELEASE_URL="${{ github.event.inputs.release_url }}"
+          fi
+          case "$VERSION" in
+            v*) VERSION="${VERSION#v}" ;;
+          esac
+          printf 'version=%s\n' "$VERSION" >> "$GITHUB_OUTPUT"
+          printf 'release_url=%s\n' "$RELEASE_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch to brik64-docs-site
+        env:
+          GH_TOKEN: ${{ secrets.BRIK64_DOCS_REPO_DISPATCH_TOKEN }}
+          VERSION: ${{ steps.payload.outputs.version }}
+          RELEASE_URL: ${{ steps.payload.outputs.release_url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "Missing BRIK64_DOCS_REPO_DISPATCH_TOKEN secret."
+            echo "Create a fine-grained token that can dispatch workflows in brik64/brik64-docs-site."
+            exit 1
+          fi
+          gh api repos/brik64/brik64-docs-site/dispatches \
+            --method POST \
+            --field event_type=brik64-cli-release \
+            --field client_payload[package]=@brik64/cli \
+            --field client_payload[version]="$VERSION" \
+            --field client_payload[release_url]="$RELEASE_URL" \
+            --field client_payload[npm_url]="https://www.npmjs.com/package/@brik64/cli/v/$VERSION" \
+            --field client_payload[docs_target]="releases/changelog.mdx" \
+            --field client_payload[source_repo]="${{ github.repository }}"

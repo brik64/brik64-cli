@@ -9,7 +9,7 @@ and aligned with BRIK64 evidence boundaries.
 
 - Product surface: BRIK64 CLI.
 - Current public beta: `0.1.0-beta.2`.
-- Public web surface: https://brik64.com/home-cli
+- Public web surface: https://brik64.com
 - Docs: https://docs.brik64.com/cli/install
 - Package: https://www.npmjs.com/package/@brik64/cli
 - Release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2
@@ -160,7 +160,7 @@ brik --version
 brik help
 ```
 
-Public web surface: https://brik64.com/home-cli
+Public web surface: https://brik64.com
 
 Docs: https://docs.brik64.com/cli/install
 

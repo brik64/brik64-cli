@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke and package checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Install dependencies when lockfile exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --ignore-scripts
+          fi
+
+      - name: Run smoke tests
+        run: npm test
+
+      - name: Verify package contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm pack --dry-run
+          test -s README.md
+          test -s LICENSE
+          test -s NOTICE
+          test -s SECURITY.md

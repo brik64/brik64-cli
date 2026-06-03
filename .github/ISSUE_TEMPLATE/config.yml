@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: BRIK64 website
+    url: https://brik64.com
+    about: Use the company website for commercial, partnership, or account questions.
+  - name: BRIK64 docs
+    url: https://docs.brik64.com
+    about: Read installation, CLI, and methodology documentation.
