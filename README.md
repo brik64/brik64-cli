@@ -1,5 +1,22 @@
 # BRIK64 CLI
 
+```text
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║   ██████╗ ██████╗  ██╗██╗  ██╗ ██████╗ ██╗  ██╗    ║
+║   ██╔══██╗██╔══██╗ ██║██║ ██╔╝██╔════╝ ██║  ██║    ║
+║   ██████╔╝██████╔╝ ██║█████╔╝ ███████╗ ███████║    ║
+║   ██╔══██╗██╔══██╗ ██║██╔═██╗ ██╔═══██╗╚════██║    ║
+║   ██████╔╝██║  ██║ ██║██║  ██╗╚██████╔╝     ██║    ║
+║   ╚═════╝ ╚═╝  ╚═╝ ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═╝    ║
+║                                                      ║
+║        BRIK64 SYSTEM BOOT                            ║
+║        SOFTWARE LOGIC COMPILER                       ║
+║        MAKE SOFTWARE REVIEWABLE AGAIN                ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+```
+
 BRIK64 CLI is the public beta command-line surface for local BRIK64 project
 workflows. It gives developers a practical way to start working with
 PCD-oriented structure, local evidence review, and claim-safe project scaffolding
@@ -11,7 +28,7 @@ evidence, and release language that stays aligned with verified artifacts.
 
 ## Status
 
-Current beta: `0.1.0-beta.1`
+Current beta: `0.1.0-beta.2`
 
 This beta is intended for evaluation, local workflow trials, package smoke
 testing, and bounded PCD/evidence review. The current public beta surface is
@@ -53,11 +70,28 @@ Docs: https://docs.brik64.com/cli/install
 
 ## Current Scope
 
-The `0.1.0-beta.1` release is scoped to public beta evaluation. It is centered
+The `0.1.0-beta.2` release is scoped to public beta evaluation. It is centered
 on local developer workflow, macOS package validation, PCD seed material, and
 release evidence review. Production certification, expanded platform support,
 and advanced compiler-methodology claims are promoted only when the matching
 BRIK64 gates and evidence packs authorize that scope.
+
+
+## Release Assets
+
+Current beta asset:
+
+- macOS Apple Silicon package for local CLI evaluation.
+
+Planned release lanes:
+
+- macOS Intel package after platform-specific package and smoke gates pass.
+- Debian/Ubuntu Linux packages after distro-specific build and install gates pass.
+- Windows PC package after Windows runner validation and install smoke pass.
+
+Each platform package should ship with its own artifact, checksum, install smoke,
+and release evidence before it is promoted on npm, GitHub Releases, docs, or
+brik64.com.
 
 ## Release Evidence
 
@@ -65,12 +99,13 @@ The public beta package is tied to versioned release artifacts, checksums, and
 operator gates. Use the GitHub release assets and checksums to review the exact
 package candidate before treating any install path as authoritative.
 
-GitHub release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.1
+GitHub release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2
 
 ## Copyright And License
 
 Copyright (c) 2026 BRIK64 INC. All rights reserved.
 
-See `LICENSE` and `NOTICE`. Use, redistribution, commercial use, and derivative
-works require a separate license from BRIK64 unless a later release explicitly
-states otherwise.
+See `LICENSE` and `NOTICE`. BRIK64 CLI public beta is proprietary
+evaluation software from BRIK64 INC. Production, commercial, hosted,
+redistribution, partner, enterprise, regulated, or certification-oriented use
+requires written commercial terms from BRIK64 INC.

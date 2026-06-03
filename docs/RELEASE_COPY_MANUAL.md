@@ -8,11 +8,11 @@ and aligned with BRIK64 evidence boundaries.
 ## Authority
 
 - Product surface: BRIK64 CLI.
-- Current public beta: `0.1.0-beta.1`.
+- Current public beta: `0.1.0-beta.2`.
 - Public web surface: https://brik64.com/home-cli
 - Docs: https://docs.brik64.com/cli/install
 - Package: https://www.npmjs.com/package/@brik64/cli
-- Release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.1
+- Release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2
 - Evidence authority: `brik64-prod` gates, manifests, checksums, and release
   reports.
 - Implementation surface: `brik64-cli` source, package metadata, tests, PCD seed
@@ -296,3 +296,63 @@ Copyright (c) 2026 BRIK64 INC. All rights reserved.
 
 Use this footer in package README, release notes, NOTICE, docs cards, and public
 repo descriptions where space allows.
+
+
+## License Standard
+
+BRIK64 CLI public beta releases use the `BRIK64 CLI Public Beta Evaluation License`.
+This is proprietary evaluation software from BRIK64 INC. Public package metadata
+should use:
+
+```json
+"license": "SEE LICENSE IN LICENSE"
+```
+
+Every beta package should include:
+
+- `LICENSE` with the full BRIK64 CLI Public Beta Evaluation License;
+- `NOTICE` with copyright, public links, and beta licensing summary;
+- README copyright section pointing to both files;
+- package metadata with `author.name` set to `BRIK64 INC`.
+
+Use positive scope language for maturity and support boundaries. Commercial,
+hosted, redistribution, partner, enterprise, regulated, or certification-oriented
+use should route to written commercial terms from BRIK64 INC.
+
+
+## ASCII Banner Standard
+
+Use this provisional ASCII banner in CLI README and release surfaces until the
+final cross-repo visual identity asset is ready:
+
+```text
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║   ██████╗ ██████╗  ██╗██╗  ██╗ ██████╗ ██╗  ██╗    ║
+║   ██╔══██╗██╔══██╗ ██║██║ ██╔╝██╔════╝ ██║  ██║    ║
+║   ██████╔╝██████╔╝ ██║█████╔╝ ███████╗ ███████║    ║
+║   ██╔══██╗██╔══██╗ ██║██╔═██╗ ██╔═══██╗╚════██║    ║
+║   ██████╔╝██║  ██║ ██║██║  ██╗╚██████╔╝     ██║    ║
+║   ╚═════╝ ╚═╝  ╚═╝ ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═╝    ║
+║                                                      ║
+║        BRIK64 SYSTEM BOOT                            ║
+║        SOFTWARE LOGIC COMPILER                       ║
+║        MAKE SOFTWARE REVIEWABLE AGAIN                ║
+║                                                      ║
+╚══════════════════════════════════════════════════════╝
+```
+
+For beta copy, keep the claim-safe scope paragraph directly after the banner so
+the visual language stays anchored to current release evidence.
+
+## Release Asset Matrix Wording
+
+Use this wording for current and future platform packages:
+
+```text
+Current beta asset: macOS Apple Silicon package.
+Planned release lanes: macOS Intel, Debian/Ubuntu Linux packages, and Windows PC packages after platform-specific build and smoke gates pass.
+```
+
+Avoid presenting planned platform lanes as current support until the matching
+artifact, checksum, install smoke, and release gate exist.

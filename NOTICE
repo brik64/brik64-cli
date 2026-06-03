@@ -2,16 +2,17 @@ BRIK64 CLI Public Beta Notice
 
 Copyright (c) 2026 BRIK64 INC. All rights reserved.
 
-BRIK64 CLI 0.1 public beta is provided for evaluation of local PCD workflows,
-bounded evidence review, and claim-safe project scaffolding. The current public
-beta surface is focused on macOS local CLI usage, package validation, and
-versioned release evidence. Expanded platform support and stronger certification
-surfaces remain gated by the BRIK64 evidence process.
+BRIK64 CLI 0.1 public beta is proprietary software published for evaluation of
+local PCD workflows, bounded evidence review, and claim-safe project scaffolding.
+The current public beta surface is focused on macOS local CLI usage, package
+validation, and versioned release evidence. Expanded platform support and
+stronger certification surfaces remain governed by the BRIK64 evidence process
+and commercial licensing terms.
 
 Public product information: https://brik64.com/home-cli
 Documentation: https://docs.brik64.com/cli/install
 Repository: https://github.com/brik64/brik64-cli
 Package: https://www.npmjs.com/package/@brik64/cli
 
-Use, redistribution, commercial use, and derivative works require a separate
-license from BRIK64 unless a later release explicitly states otherwise.
+License: BRIK64 CLI Public Beta Evaluation License. This is not an open source
+license. See LICENSE for evaluation terms and reserved rights.
