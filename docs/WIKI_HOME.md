@@ -33,7 +33,7 @@ BRIK64 lands changes through authorized maintainers.
 
 ## Current Beta
 
-Current beta: `0.1.0-beta.2`
+Current beta: `0.1.0-beta.3`
 
 Install:
 

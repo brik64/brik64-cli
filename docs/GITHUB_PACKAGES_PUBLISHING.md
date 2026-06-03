@@ -26,7 +26,7 @@ Use the manual workflow:
 
 Inputs:
 
-- `version`: exact `package.json` version, for example `0.1.0-beta.2`.
+- `version`: exact `package.json` version, for example `0.1.0-beta.3`.
 - `dist_tag`: normally `beta`; use `latest` only when intentionally aligning the
   GitHub Packages default install path.
 - `confirm_github_packages_beta`: must equal

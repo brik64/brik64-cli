@@ -8,7 +8,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.2';
+const version = '0.1.0-beta.3';
 const ascii = [
   ' ____  ____  ___ _  __ __   _  _ ',
   '| __ )|  _ \\|_ _| |/ // /_ | || |',

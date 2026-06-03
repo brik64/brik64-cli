@@ -7,7 +7,7 @@ tmpdir="$(mktemp -d)"
 cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.2"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.3"
 node "$BRIK" --help | grep -q "status=public_beta"
 
 (

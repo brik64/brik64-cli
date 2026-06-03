@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
-  "generatedAt": "2026-06-03T05:06:50Z",
+  "generatedAt": "2026-06-03T20:12:17Z",
   "pcd": {
     "path": "pcd/cli_certify_emit.pcd",
     "sha256": "1d73245ebee8592a4eeacdb4b99398baf7c5ddfa3c88c5927f924a871eee7147"
