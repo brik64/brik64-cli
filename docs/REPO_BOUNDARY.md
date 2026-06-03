@@ -2,29 +2,28 @@
 
 ## Lives Here
 
-- CLI source code.
-- CLI tests and fixtures.
-- Platform packaging scripts.
-- Local beta artifacts.
-- Per-version changelogs.
+- Public beta CLI source code.
+- CLI smoke tests and fixtures.
+- Platform packaging scripts and wrappers.
+- Local beta artifacts and package metadata.
+- Per-version release notes, runbooks, and distribution docs.
 
-## Does Not Live Here
+## Authority Boundary
 
-- Private engines.
-- Claim-bearing certification authority.
-- Public release authorization.
-- N-level claims.
-- Prod evidence source of truth.
+- `brik64-cli` owns implementation, public package metadata, distribution
+  workflows, issue templates, and release-surface documentation for the CLI beta.
+- `brik64-prod` owns methodology gates, evidence authority, release decision,
+  compiler evidence, certificate boundaries, and public claim authorization.
 
-## Authority Split
+## Public Surface Rule
 
-- `brik64-cli`: implementation and packaging iteration.
-- `brik64-prod`: gates, evidence, methodology, release decision and claim
-  boundary.
+The public repository should help developers inspect, install, and report on the
+CLI beta without exposing private engines, internal gates, private evidence
+stores, raw credentials, or unsupported certification language.
 
 ## Platform Scope
 
 - macOS local testing can run on the current development machine.
 - Linux testing should run on the Hetzner runner and must be split by distro
-  family rather than claimed as universal Linux support.
+  family.
 - Windows testing remains pending until a real Windows PC/runner is available.

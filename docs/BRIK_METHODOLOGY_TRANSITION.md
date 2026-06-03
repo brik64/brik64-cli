@@ -1,25 +1,26 @@
-# BRIK CLI Methodology Transition
+# BRIK64 CLI Methodology Transition
 
-## Rule
+This document describes how the CLI beta moves from a practical JavaScript
+package surface toward the BRIK64 PCD-first methodology.
 
-The initial beta can use scaffold and operational artifacts while the CLI is
-being made usable. Once the beta CLI is functionally validated, CLI semantics
-must move to BRIK64 methodology:
+## Transition Path
 
-1. create `.brik` project metadata;
-2. generate CLI PCDs as the semantic source;
-3. certify candidate PCDs through the active prod gates;
-4. compile the CLI through the approved compiler path;
-5. make future CLI iterations by modifying PCD logic, not by treating emitted
-   target code as the semantic source.
+The current beta can use operational source and package artifacts while the CLI
+is being made usable. As the methodology matures, the CLI should move through
+this path:
 
-## Boundary
+1. Maintain `.brik` project metadata for traceability.
+2. Expand CLI PCDs as the intended semantic source.
+3. Certify candidate PCDs through the active prod gates.
+4. Compile the CLI through the approved compiler path.
+5. Make future CLI iterations by modifying PCD logic before target output.
 
-This document does not claim current fixpoint, N5 authorization, public beta
-release readiness or Rust independence.
+## Current Boundary
 
-The transition is blocked until the initial CLI beta has real platform evidence
-and `brik64-prod` release gates allow promotion.
+The public beta remains centered on local CLI usage, package inspection, PCD
+seed review, and release evidence. Stronger methodology language should be
+promoted only after the matching `brik64-prod` gates and platform evidence
+authorize it.
 
 ## Required Evidence Before Stronger Claims
 
