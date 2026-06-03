@@ -1,12 +1,12 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "private": false,
-  "description": "BRIK64 CLI 0.1 public beta scaffold for local PCD workflows and bounded evidence review.",
-  "homepage": "https://docs.brik64.com/cli/install",
+  "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
+  "homepage": "https://brik64.com/home-cli",
   "repository": {
     "type": "git",
-    "url": "https://github.com/brik64/brik64-cli.git"
+    "url": "git+https://github.com/brik64/brik64-cli.git"
   },
   "bugs": {
     "url": "https://github.com/brik64/brik64-cli/issues"
@@ -17,5 +17,38 @@
   },
   "scripts": {
     "test": "bash tests/smoke.sh"
-  }
+  },
+  "author": {
+    "name": "BRIK64 INC",
+    "url": "https://brik64.com"
+  },
+  "keywords": [
+    "brik64",
+    "brik",
+    "cli",
+    "pcd",
+    "evidence",
+    "software-trust",
+    "developer-tools",
+    "public-beta"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "beta",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "src",
+    "pcd",
+    "docs",
+    "evidence",
+    "packaging",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    ".brik/manifest.json"
+  ]
 }

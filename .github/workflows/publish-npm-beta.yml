@@ -1,0 +1,122 @@
+name: Publish npm beta
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Exact package.json version to publish, for example 0.1.0-beta.1"
+        required: true
+        type: string
+      dist_tag:
+        description: "npm dist-tag"
+        required: true
+        default: "beta"
+        type: choice
+        options:
+          - beta
+          - next
+      confirm_public_beta:
+        description: "Type PUBLISH_BRIK64_CLI_BETA to publish"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-publish-${{ github.event.inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish @brik64/cli beta
+    runs-on: ubuntu-latest
+    environment: npm-beta
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate manual confirmation
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event.inputs.confirm_public_beta }}" != "PUBLISH_BRIK64_CLI_BETA" ]; then
+            echo "Manual confirmation did not match."
+            exit 1
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
+      - name: Install dependencies when lockfile exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --ignore-scripts
+          fi
+
+      - name: Validate version and beta scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(node -p "require('./package.json').version")"
+          NAME="$(node -p "require('./package.json').name")"
+          if [ "$NAME" != "@brik64/cli" ]; then
+            echo "Unexpected package name: $NAME"
+            exit 1
+          fi
+          if [ "$VERSION" != "${{ github.event.inputs.version }}" ]; then
+            echo "Input version ${{ github.event.inputs.version }} does not match package.json $VERSION"
+            exit 1
+          fi
+          case "$VERSION" in
+            0.1.0-beta.*) ;;
+            *) echo "Only 0.1.0-beta.* versions are accepted by this beta workflow"; exit 1 ;;
+          esac
+
+      - name: Run smoke tests
+        run: npm test
+
+      - name: Verify package contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s README.md
+          test -s NOTICE
+          npm pack --dry-run
+
+      - name: Ensure version is not already published
+        shell: bash
+        run: |
+          set -euo pipefail
+          if npm view "@brik64/cli@${{ github.event.inputs.version }}" version --registry https://registry.npmjs.org >/tmp/npm-version.txt 2>/tmp/npm-version.err; then
+            echo "Version already exists on npm: ${{ github.event.inputs.version }}"
+            cat /tmp/npm-version.txt
+            exit 1
+          fi
+
+      - name: Publish to npm
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+          npm publish --access public --tag "${{ github.event.inputs.dist_tag }}" --registry https://registry.npmjs.org
+
+      - name: Verify npm publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm view "@brik64/cli@${{ github.event.inputs.version }}" version dist.integrity dist.shasum dist.tarball --json --prefer-online --registry https://registry.npmjs.org
+          npm dist-tag ls @brik64/cli --prefer-online --registry https://registry.npmjs.org | tee /tmp/npm-dist-tags.txt
+          grep -q "${{ github.event.inputs.dist_tag }}: ${{ github.event.inputs.version }}" /tmp/npm-dist-tags.txt
