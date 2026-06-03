@@ -20,7 +20,25 @@ from their own machine.
 
 Generated code is easy to ship. Trust is the harder part. BRIK64 CLI is built
 for teams that want software work to carry clearer structure, repeatable
-evidence, and release language that stays aligned with verified artifacts.
+evidence, and release language that stays aligned with bounded artifacts.
+
+BRIK64 is based on Digital Circuitality: the idea that critical software should
+be shaped as inspectable, composable logic rather than treated only as text.
+In BRIK64 workflows, `.brik` project state, PCD seed material, local evidence,
+and release metadata are kept close to the code so a team can review how a
+software surface is described, packaged, and promoted.
+
+PCD, or Polymer Circuit Description, is the structural description layer used by
+BRIK64 to model software logic as reviewable pieces. In this beta, the CLI gives
+developers an entry point into that workflow: project scaffolding, local PCD
+examples, evidence files, package metadata, and public-beta release checks.
+Stronger certification and compiler claims remain governed by the evidence gates
+maintained in `brik64-prod`.
+
+Start from the BRIK64 homepage: https://brik64.com
+
+For install instructions, technical context, and methodology notes, read the
+docs: https://docs.brik64.com
 
 ## Status
 
@@ -50,7 +68,7 @@ brik --version
 brik help
 ```
 
-Public web surface: https://brik64.com/home-cli
+Public web surface: https://brik64.com
 
 Docs: https://docs.brik64.com/cli/install
 
