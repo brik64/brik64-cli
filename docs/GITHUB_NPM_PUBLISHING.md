@@ -12,6 +12,11 @@ Use the manual workflow:
 .github/workflows/publish-npm-beta.yml
 ```
 
+This publishes to npmjs. It does not publish to GitHub Packages. Use
+`docs/GITHUB_PACKAGES_PUBLISHING.md` and
+`.github/workflows/publish-github-packages-beta.yml` for the separate GitHub
+Packages mirror.
+
 Inputs:
 
 - `version`: exact `package.json` version, for example `0.1.0-beta.1`.
