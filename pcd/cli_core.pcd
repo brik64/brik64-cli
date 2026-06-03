@@ -5,9 +5,9 @@
 // certifiesTests: false
 // certifiesFixpoint: false
 // product = "brik64-cli"
-// cli_version = "0.1.0-beta.0"
+// cli_version = "0.1.0-beta.2"
 // public_binary = "brik"
-// execution_status = "bootstrap_non_release"
+// execution_status = "public_beta"
 // ascii_banner = "BRIK64"
 // claim_boundary = "local_candidate_only"
 

@@ -8,7 +8,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.0';
+const version = '0.1.0-beta.2';
 const ascii = [
   ' ____  ____  ___ _  __ __   _  _ ',
   '| __ )|  _ \\|_ _| |/ // /_ | || |',
@@ -24,7 +24,7 @@ function sha256(value) {
 function printBanner() {
   process.stdout.write(`${ascii}\n`);
   process.stdout.write(`BRIK64 CLI ${version}\n`);
-  process.stdout.write('status=bootstrap_non_release\n');
+  process.stdout.write('status=public_beta\n');
 }
 
 function help() {
