@@ -29,7 +29,7 @@ maintainers who need to understand what each path is for.
 | Path | Description |
 | --- | --- |
 | `tests/` | Local test directory for current beta smoke checks. |
-| `tests/smoke.sh` | Shell smoke test covering basic CLI execution, help/version output, project initialization behavior, skill install policy, status output, and certify command behavior. |
+| `tests/smoke.sh` | Shell smoke test covering basic CLI execution, help/version output, project initialization behavior, `AGENTS.md` non-mutation policy, certify/emit behavior, target generation, and fail-closed unsupported targets. |
 
 ## PCD Seed Material
 
