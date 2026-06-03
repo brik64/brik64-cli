@@ -140,11 +140,12 @@ jobs:
             --registry https://registry.npmjs.org
           TARBALL="$(find "$PACKAGE_DIR" -name '*.tgz' -print -quit)"
           test -n "$TARBALL"
-          tar -tzf "$TARBALL" | grep -q '^package/README.md$'
-          tar -tzf "$TARBALL" | grep -q '^package/LICENSE$'
-          tar -tzf "$TARBALL" | grep -q '^package/NOTICE$'
-          tar -tzf "$TARBALL" | grep -q '^package/SECURITY.md$'
-          tar -tzf "$TARBALL" | grep -q '^package/CONTRIBUTING.md$'
+          tar -tzf "$TARBALL" > /tmp/npm-tarball-files.txt
+          grep -q '^package/README.md$' /tmp/npm-tarball-files.txt
+          grep -q '^package/LICENSE$' /tmp/npm-tarball-files.txt
+          grep -q '^package/NOTICE$' /tmp/npm-tarball-files.txt
+          grep -q '^package/SECURITY.md$' /tmp/npm-tarball-files.txt
+          grep -q '^package/CONTRIBUTING.md$' /tmp/npm-tarball-files.txt
           npm dist-tag ls @brik64/cli --prefer-online --registry https://registry.npmjs.org | tee /tmp/npm-dist-tags.txt
           grep -q "${{ github.event.inputs.dist_tag }}: ${{ github.event.inputs.version }}" /tmp/npm-dist-tags.txt
         env:
@@ -162,10 +163,10 @@ jobs:
           fi
           gh api repos/brik64-admin/brik64-docs-site/dispatches \
             --method POST \
-            --field event_type=brik64-cli-release \
-            --field client_payload[package]=@brik64/cli \
-            --field client_payload[version]="${{ github.event.inputs.version }}" \
-            --field client_payload[release_url]="https://github.com/brik64/brik64-cli/releases/tag/v${{ github.event.inputs.version }}" \
-            --field client_payload[npm_url]="https://www.npmjs.com/package/@brik64/cli/v/${{ github.event.inputs.version }}" \
-            --field client_payload[docs_target]="releases/changelog.mdx" \
-            --field client_payload[source_repo]="${{ github.repository }}"
+            --raw-field event_type=brik64-cli-release \
+            --raw-field 'client_payload[package]=@brik64/cli' \
+            --raw-field 'client_payload[version]=${{ github.event.inputs.version }}' \
+            --raw-field 'client_payload[release_url]=https://github.com/brik64/brik64-cli/releases/tag/v${{ github.event.inputs.version }}' \
+            --raw-field 'client_payload[npm_url]=https://www.npmjs.com/package/@brik64/cli/v/${{ github.event.inputs.version }}' \
+            --raw-field 'client_payload[docs_target]=releases/changelog.mdx' \
+            --raw-field 'client_payload[source_repo]=${{ github.repository }}'
