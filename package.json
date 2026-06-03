@@ -1,7 +1,17 @@
 {
   "name": "@brik64/cli",
   "version": "0.1.0-beta.0",
-  "private": true,
+  "private": false,
+  "description": "BRIK64 CLI 0.1 public beta scaffold for local PCD workflows and bounded evidence review.",
+  "homepage": "https://docs.brik64.com/cli/install",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brik64/brik64-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brik64/brik64-cli/issues"
+  },
+  "license": "SEE LICENSE IN LICENSE",
   "bin": {
     "brik": "src/brik.js"
   },
