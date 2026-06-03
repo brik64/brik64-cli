@@ -42,12 +42,16 @@ docs: https://docs.brik64.com
 
 ## Official Channels
 
-- Website: https://brik64.com
-- Docs: https://docs.brik64.com
-- npmjs primary package: https://www.npmjs.com/package/@brik64/cli
-- GitHub Releases: https://github.com/brik64/brik64-cli/releases
-- GitHub Packages mirror: https://github.com/brik64/brik64-cli/pkgs/npm/cli
-- Public beta roadmap: https://github.com/orgs/brik64/projects/1
+- Website: [brik64.com](https://brik64.com)
+- Docs: [docs.brik64.com](https://docs.brik64.com)
+- npmjs primary package:
+  [@brik64/cli](https://www.npmjs.com/package/@brik64/cli)
+- GitHub Releases:
+  [brik64/brik64-cli releases](https://github.com/brik64/brik64-cli/releases)
+- GitHub Packages mirror:
+  [@brik64/cli package mirror](https://github.com/brik64/brik64-cli/pkgs/npm/cli)
+- Public beta roadmap:
+  [BRIK64 CLI beta project](https://github.com/orgs/brik64/projects/1)
 
 ## Public Interaction Policy
 
@@ -72,7 +76,7 @@ claims, checksums, licenses, release notes, and docs remain aligned.
 
 ## Status
 
-Current beta: `0.1.0-beta.2`
+Current beta: [`0.1.0-beta.2`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2)
 
 This beta is intended for evaluation, local workflow trials, package smoke
 testing, and bounded PCD/evidence review. The current public beta surface is
@@ -98,9 +102,9 @@ brik --version
 brik help
 ```
 
-Public web surface: https://brik64.com
+Public web surface: [brik64.com](https://brik64.com)
 
-Docs: https://docs.brik64.com/cli/install
+Docs: [CLI install guide](https://docs.brik64.com/cli/install)
 
 GitHub Packages mirror:
 
@@ -157,9 +161,20 @@ BRIK64 gates and evidence packs authorize that scope.
 
 ## Release Assets
 
-Current beta asset:
+Current beta availability:
 
-- macOS Apple Silicon package for local CLI evaluation.
+| Surface | Status | Link |
+| --- | --- | --- |
+| npmjs package | Primary public beta install path | [@brik64/cli on npm](https://www.npmjs.com/package/@brik64/cli) |
+| GitHub Release | Versioned release notes and beta asset review | [v0.1.0-beta.2](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2) |
+| GitHub Packages | GitHub-visible npm mirror for organization package inventory | [@brik64/cli mirror](https://github.com/brik64/brik64-cli/pkgs/npm/cli) |
+| Docs | Install and usage documentation | [CLI install guide](https://docs.brik64.com/cli/install) |
+| Website | Public product entry point | [brik64.com](https://brik64.com) |
+
+Current platform asset:
+
+- macOS Apple Silicon package for local CLI evaluation, listed in the
+  [v0.1.0-beta.2 GitHub Release](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2).
 
 Planned release lanes:
 
@@ -177,13 +192,14 @@ The public beta package is tied to versioned release artifacts, checksums, and
 operator gates. Use the GitHub release assets and checksums to review the exact
 package candidate before treating any install path as authoritative.
 
-GitHub release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2
+GitHub release:
+[v0.1.0-beta.2](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.2)
 
 ## Copyright And License
 
 Copyright (c) 2026 BRIK64 INC. All rights reserved.
 
-See `LICENSE` and `NOTICE`. BRIK64 CLI public beta is proprietary
-evaluation software from BRIK64 INC. Production, commercial, hosted,
-redistribution, partner, enterprise, regulated, or certification-oriented use
-requires written commercial terms from BRIK64 INC.
+See [LICENSE](LICENSE) and [NOTICE](NOTICE). BRIK64 CLI public beta is
+proprietary evaluation software from BRIK64 INC. Production, commercial,
+hosted, redistribution, partner, enterprise, regulated, or
+certification-oriented use requires written commercial terms from BRIK64 INC.
