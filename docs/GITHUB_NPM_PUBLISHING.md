@@ -25,9 +25,14 @@ Inputs:
 
 Required GitHub configuration:
 
-- Environment: `npm-beta`.
 - Secret: `NPM_TOKEN` with publish rights for `@brik64/cli`.
-- Recommended environment protection: require human approval before publish.
+- Manual confirmation input: `confirm_public_beta` must be typed for every
+  publish run.
+
+This workflow intentionally does not attach a GitHub deployment environment.
+Publishing an npm package is a package-release operation, not a web deployment,
+so keeping the workflow environment-free avoids misleading deployment-status
+labels in the public GitHub UI.
 
 ## Workflow Checks
 
@@ -56,8 +61,9 @@ To migrate:
 3. Test one beta publish from GitHub Actions.
 4. After the trusted publisher works, restrict or revoke traditional npm tokens.
 
-Until the trusted publisher is configured on npmjs.com, keep using `NPM_TOKEN`
-in the protected `npm-beta` GitHub environment.
+Until the trusted publisher is configured on npmjs.com, keep using the
+repository or organization `NPM_TOKEN` secret with the manual confirmation
+input.
 
 ## Copy Boundary
 
