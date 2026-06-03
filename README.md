@@ -40,6 +40,36 @@ Start from the BRIK64 homepage: https://brik64.com
 For install instructions, technical context, and methodology notes, read the
 docs: https://docs.brik64.com
 
+## Official Channels
+
+- Website: https://brik64.com
+- Docs: https://docs.brik64.com
+- npmjs primary package: https://www.npmjs.com/package/@brik64/cli
+- GitHub Releases: https://github.com/brik64/brik64-cli/releases
+- GitHub Packages mirror: https://github.com/brik64/brik64-cli/pkgs/npm/cli
+- Public beta roadmap: https://github.com/orgs/brik64/projects/1
+
+## Public Interaction Policy
+
+This repository is public for package inspection, release review, install
+metadata, bounded evidence review, and issue reporting.
+
+Allowed:
+
+- Open issues for reproducible CLI beta bugs.
+- Open issues for docs, release, npm, checksum, or install metadata mismatches.
+- Report security concerns through `SECURITY.md`.
+
+Not accepted:
+
+- External pull requests.
+- External direct commits.
+- Public edits to release evidence, license text, package metadata, workflows,
+  install paths, or public claim surfaces.
+
+BRIK64 lands changes through authorized maintainers so package metadata, public
+claims, checksums, licenses, release notes, and docs remain aligned.
+
 ## Status
 
 Current beta: `0.1.0-beta.2`
@@ -71,6 +101,15 @@ brik help
 Public web surface: https://brik64.com
 
 Docs: https://docs.brik64.com/cli/install
+
+GitHub Packages mirror:
+
+```sh
+npm install -g @brik64/cli@beta --registry=https://npm.pkg.github.com
+```
+
+The npmjs package remains the primary public install path. GitHub Packages is a
+GitHub-visible mirror for release inspection and organization package inventory.
 
 ## What It Does
 

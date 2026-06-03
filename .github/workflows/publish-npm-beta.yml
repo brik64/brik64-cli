@@ -91,7 +91,10 @@ jobs:
         run: |
           set -euo pipefail
           test -s README.md
+          test -s LICENSE
           test -s NOTICE
+          test -s SECURITY.md
+          test -s CONTRIBUTING.md
           npm pack --dry-run
 
       - name: Ensure version is not already published
@@ -141,6 +144,8 @@ jobs:
           tar -tzf "$TARBALL" | grep -q '^package/README.md$'
           tar -tzf "$TARBALL" | grep -q '^package/LICENSE$'
           tar -tzf "$TARBALL" | grep -q '^package/NOTICE$'
+          tar -tzf "$TARBALL" | grep -q '^package/SECURITY.md$'
+          tar -tzf "$TARBALL" | grep -q '^package/CONTRIBUTING.md$'
           npm dist-tag ls @brik64/cli --prefer-online --registry https://registry.npmjs.org | tee /tmp/npm-dist-tags.txt
           grep -q "${{ github.event.inputs.dist_tag }}: ${{ github.event.inputs.version }}" /tmp/npm-dist-tags.txt
         env:

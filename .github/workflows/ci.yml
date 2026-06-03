@@ -44,3 +44,4 @@ jobs:
           test -s LICENSE
           test -s NOTICE
           test -s SECURITY.md
+          test -s CONTRIBUTING.md

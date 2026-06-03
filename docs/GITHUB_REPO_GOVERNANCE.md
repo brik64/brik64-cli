@@ -68,6 +68,10 @@ Repository security should include:
 - CodeQL default setup for JavaScript analysis.
 - CI smoke and package checks.
 
+Dependabot PRs should be reviewed by `brik64-cli-maintainers` and merged only
+after protected branch checks pass. Dependency update PRs are maintenance
+signals, not release promotion evidence.
+
 Do not add a custom CodeQL advanced workflow while GitHub CodeQL default setup is
 enabled for this repository. GitHub rejects SARIF from advanced configuration
 when default setup is active.
