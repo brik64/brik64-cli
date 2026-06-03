@@ -6,19 +6,22 @@ Current local platform:
 - OS: macOS / Darwin
 - Architecture: arm64
 
-Scope:
-- local CLI execution;
-- local install path checks;
-- local command-contract checks;
-- no public release authorization.
+## Scope
 
-Out of scope:
-- macOS x64 runner evidence;
-- Windows evidence;
-- universal macOS artifact claims;
-- fixpoint, N5 or release claims.
+- Local CLI execution.
+- Local install path checks.
+- Local command-contract checks.
+- Apple Silicon package smoke for the current beta lane.
 
-Required evidence before marking macOS local ready:
+## Evidence Still Needed For Broader Promotion
+
+- macOS Intel runner or host evidence.
+- Windows evidence.
+- Per-artifact checksum and release manifest binding.
+- Release authorization from the active BRIK64 evidence process.
+
+## Required Evidence Before Marking macOS Local Ready
+
 - local binary path;
 - `brik --version` output;
 - BRIK64 ASCII startup output;

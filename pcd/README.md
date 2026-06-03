@@ -1,24 +1,29 @@
-# BRIK CLI PCD Seed
+# BRIK64 CLI PCD Seeds
 
-This directory contains candidate semantic PCD seeds for the local `brik` CLI.
-They are not release artifacts and do not certify formal correctness, N5 status,
-fixpoint, or Rust independence.
+This directory contains the public beta PCD seed material for the local `brik`
+CLI. These files describe the intended command structure and composition path
+used to move the CLI toward a PCD-first BRIK64 methodology.
 
-Current status:
+## Current Role
 
-- Source of truth for executable behavior remains `src/brik.js`.
-- These PCD files define the transition contract for moving CLI iteration to a
-  PCD-first BRIK64 methodology.
-- `cli_polymer.pcd` is the candidate composition contract that binds the CLI
-  command PCD seeds before any future compile route.
-- Any future public beta claim must be backed by fresh compiler, certificate,
-  platform execution, and release-boundary reports.
+- `src/brik.js` remains the executable CLI source for the current beta.
+- `cli_core.pcd`, `cli_init_policy.pcd`, and `cli_certify_emit.pcd` describe
+  candidate command contracts.
+- `cli_polymer.pcd` describes the candidate composition contract that binds the
+  command PCD seeds before a future compile route.
+- The files in this directory are review material for beta methodology, package
+  inspection, and future compiler-aligned work.
 
-Required next methodology step:
+## Promotion Path
 
-1. Complete candidate PCD coverage for all CLI behavior.
-2. Certify candidate PCDs with the active private gate stack.
-3. Validate the polymer/composition PCD against the certified command PCDs.
+Before these seeds can support stronger public release language, BRIK64 must:
+
+1. Complete candidate PCD coverage for CLI behavior.
+2. Certify candidate PCDs with the active gate stack.
+3. Validate the polymer/composition PCD against command PCDs.
 4. Compile the CLI through the BRIK compiler path.
-5. Run macOS, Linux distro, and Windows execution reports.
-6. Promote only if the release claim boundary gate passes.
+5. Run platform execution reports for macOS, Linux distro lanes, and Windows.
+6. Publish release-boundary evidence from `brik64-prod`.
+
+`brik64-prod` remains the authority for release gates, certificate boundaries,
+compiler evidence, and public claim authorization.
