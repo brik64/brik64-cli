@@ -8,11 +8,11 @@ and aligned with BRIK64 evidence boundaries.
 ## Authority
 
 - Product surface: BRIK64 CLI.
-- Current public beta: `0.1.0-beta.3`.
+- Current candidate target: `0.1.0-beta.5`.
 - Public web surface: https://brik64.com
 - Docs: https://docs.brik64.com/cli/install
-- Package: https://www.npmjs.com/package/@brik64/cli
-- Release: https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3
+- Installer: https://brik64.com/cli/install.sh
+- Latest public release: https://github.com/brik64/brik64-cli/releases
 - Evidence authority: `brik64-prod` gates, manifests, checksums, and release
   reports.
 - Implementation surface: `brik64-cli` source, package metadata, tests, PCD seed
@@ -63,7 +63,7 @@ expansion, and docs package cards:
 ```text
 BRIK64 CLI is the public beta command-line surface for local BRIK64 project workflows. It gives developers a practical way to start working with PCD-oriented structure, local evidence review, and claim-safe project scaffolding from their own machine.
 
-The current beta is focused on macOS local CLI usage, package validation, seed PCD material, and developer-facing evidence workflows. Broader platform support, stronger certification surfaces, and deeper compiler-methodology claims are promoted only when the matching BRIK64 gates and evidence packs authorize that scope.
+The beta5 candidate is focused on local CLI usage, package validation, seed PCD material, `brik doctor`, local candidate certification, hash-bound target emission, and developer-facing evidence workflows. Broader platform support, stronger certification surfaces, and deeper compiler-methodology claims are promoted only when the matching BRIK64 gates and evidence packs authorize that scope.
 ```
 
 ## GitHub Repository Description
@@ -126,7 +126,7 @@ BRIK64 CLI - Public Beta for Local PCD and Evidence Workflows
 Meta description:
 
 ```text
-Install the BRIK64 CLI public beta for local PCD-oriented workflows, evidence review, and claim-safe project scaffolding. Current beta focused on macOS local CLI usage.
+Install the BRIK64 CLI public beta for local PCD-oriented workflows, evidence review, and claim-safe project scaffolding. Current beta5 candidate focuses on local PCD workflows and remains gated until release evidence authorizes publication.
 ```
 
 Social card title:
@@ -150,12 +150,12 @@ BRIK64 CLI is the public beta command-line surface for local BRIK64 project work
 
 ## Beta Scope
 
-This release is intended for evaluation, local workflow trials, package smoke testing, and bounded PCD/evidence review. The current public beta surface is focused on macOS local CLI usage and developer-facing evidence workflows. Broader platform support, stronger certification surfaces, and deeper compiler-methodology claims remain gated by the evidence process in `brik64-prod`.
+This release is intended for evaluation, local workflow trials, package smoke testing, and bounded PCD/evidence review. The beta5 candidate surface is focused on local CLI usage, PCD parsing, candidate certification, and developer-facing evidence workflows. Broader platform support, stronger certification surfaces, and deeper compiler-methodology claims remain gated by the evidence process in `brik64-prod`.
 
 ## Install
 
 ```sh
-npm install -g @brik64/cli@beta
+curl -fsSL https://brik64.com/cli/install.sh | bash
 brik --version
 brik help
 ```
@@ -204,9 +204,9 @@ Use this as the standard changelog text for beta releases:
 
 ### Verification
 
-- Package smoke tested with `npm pack --dry-run`.
+- Installer smoke tested with curl and platform checksum verification.
 - GitHub release assets include checksums and manifests for the beta artifact.
-- npm `beta` dist-tag points to the current beta version after publication.
+- curl installer resolves the current beta release and verifies checksums.
 
 ### Scope
 
@@ -215,7 +215,7 @@ This beta is centered on local developer workflow, macOS package validation, PCD
 
 ## README Section Order
 
-For npm and GitHub, keep README sections in this order:
+For curl, GitHub, and docs, keep README sections in this order:
 
 1. Product intro.
 2. Status.

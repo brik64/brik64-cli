@@ -5,7 +5,7 @@
 // certifiesTests: false
 // certifiesFixpoint: false
 // product = "brik64-cli"
-// cli_version = "0.1.0-beta.3"
+// cli_version = "0.1.0-beta.5"
 // composition_kind = "polymer"
 // source_units = "cli_core.pcd,cli_init_policy.pcd,cli_certify_emit.pcd"
 // compile_status = "not_compiled"
@@ -20,6 +20,8 @@
 // requires supported_emit_targets == "ts,rust,python"
 // invariant compile_requires_certified_pcd_batch == true
 // invariant compile_requires_polymer_contract == true
+// invariant public_offline_runtime == "L4+N5"
+// invariant internal_artifact_factory == "L6+N5"
 // invariant public_claim_allowed == false
 // polymer brik_cli_candidate
 // claim_boundary = "local_candidate_only"

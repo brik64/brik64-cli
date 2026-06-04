@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "brik64.cli_beta5_l6_route2_generation_report.v1",
+  "version": "0.1.0-beta.5",
+  "generatedAt": "2026-06-04T18:48:11.764Z",
+  "lane": "internal_non_claim_l6_route2",
+  "decision": "PASS_L6_ROUTE2_GENERATED",
+  "releaseEligible": false,
+  "host": "root@89.167.104.236",
+  "remoteWork": "/tmp/brik64-cli-beta5-l6-route2-1780598871768",
+  "sourcePcd": {
+    "path": "pcd/cli_beta5_route2.pcd",
+    "sha256": "e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a"
+  },
+  "fixtures": {
+    "path": "evidence/beta5-l6-route2/fixtures.json",
+    "sha256": "4d39fa6cdd66babc66b30d9e5e4a51aa457ebd0e3f306a64236e4369ba69a88c"
+  },
+  "technicalSheet": {
+    "path": "evidence/beta5-l6-route2/technical-sheet.json",
+    "sha256": "61d486e75eccb7fedf5c390eb5e3301f91c5f2b8ce6e9c9f5e8bf325182c60f6"
+  },
+  "generatedFiles": [
+    {
+      "path": "evidence/beta5-l6-route2/generated/brik_cli_beta5_route2.cert.json",
+      "sha256": "26db347cb096579f0dccab54ebb9d1bba4589c4f38d5391533fa6990a3d58620",
+      "bytes": 1023
+    },
+    {
+      "path": "evidence/beta5-l6-route2/generated/brik_cli_beta5_route2.js",
+      "sha256": "8f8e276f47f22d4c37d91476541e616360367fff458178735fd7eccbd171b75b",
+      "bytes": 420
+    },
+    {
+      "path": "evidence/beta5-l6-route2/generated/brik_cli_beta5_route2.test.js",
+      "sha256": "6667f336f95622aa02495cd84c369bdd0c209ec55012eeaf6861a783397bf878",
+      "bytes": 464
+    },
+    {
+      "path": "evidence/beta5-l6-route2/generated/brik_cli_beta5_route2.tests.manifest.json",
+      "sha256": "f8d496d26b5e56a56f9ba0d73191eedb0b3d48df9a31af48f19e67690ee32a31",
+      "bytes": 1118
+    },
+    {
+      "path": "evidence/beta5-l6-route2/generated/fixtures.json",
+      "sha256": "4d39fa6cdd66babc66b30d9e5e4a51aa457ebd0e3f306a64236e4369ba69a88c",
+      "bytes": 246
+    }
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "n5Authorized": false,
+    "certifiesTests": false
+  }
+}

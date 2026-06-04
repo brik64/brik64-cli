@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "brik64.cli_beta5_sdk_sync_gate.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_SDK_BETA5_SYNC",
+  "releaseEligible": false,
+  "marketplacePublicationAllowed": false,
+  "sdks": [
+    {
+      "id": "js_ts",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/package.json",
+          "sha256": "06b6f4d4297ef3a049a9b6e0e9e45979ee5e8190dd5e8c214a27c63e3335f332",
+          "bytes": 1036
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/package-lock.json",
+          "sha256": "8f23b6235ad87e9a88736fe448f56e7f931552eaa4ab27c458d27cd8ccb9d204",
+          "bytes": 1543
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/README.md",
+          "sha256": "c1e3a911ee983fe988c86f808a828d8265d6d44827c93e0784d429b867411fe6",
+          "bytes": 1582
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/BETA5_SYNC.md",
+          "sha256": "bf144fbbde8ba4c43f0493fd0b22f83eba74b014f67df29b2d2945db254abd7f",
+          "bytes": 365
+        }
+      ],
+      "failures": []
+    },
+    {
+      "id": "python",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/pyproject.toml",
+          "sha256": "9d98ccd1495b9498b7c42d2050d5859ea1577a9962b4a75a196a74c25a531d9c",
+          "bytes": 636
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/brik64/__init__.py",
+          "sha256": "ef797da4d290731a52172350d41010c65d8f6464c1a974430c3748012d0d9d2b",
+          "bytes": 163
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/README.md",
+          "sha256": "5e70ea2940ee8b6cdfab17423e5fdac0228deb812a409da523e623c732bf52f0",
+          "bytes": 1274
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/BETA5_SYNC.md",
+          "sha256": "21fee35e3f9a9304212f454cb48104c7c3bbe7b5b3f333d5f9c8fe2c36792db0",
+          "bytes": 341
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/brik64.egg-info/PKG-INFO",
+          "sha256": "85243c8776ad726dc5ea2df738ea9cc4febbbdb7bfc020400dfacfb5d09e297f",
+          "bytes": 1889
+        }
+      ],
+      "failures": []
+    },
+    {
+      "id": "rust",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
+          "sha256": "f2b523e8b7951df27a321b30f2521a70584c32e152880ac1df727b8c88fe8271",
+          "bytes": 719
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.lock",
+          "sha256": "01ecb6f367d68321f51a16ca78a5dae8bd9165cec539a475848431cd4856fbd2",
+          "bytes": 2830
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/README.md",
+          "sha256": "0f99b5a390063bc7a6f8dc6d12e3dd44bd8f3eb262acd4320637d2ecccdefc94",
+          "bytes": 3675
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/BETA5_SYNC.md",
+          "sha256": "3d27e010f2f67192f4c289bd0d74aeaf15cee1d49d0ad447a86c6b74176a366e",
+          "bytes": 357
+        }
+      ],
+      "failures": []
+    }
+  ],
+  "failures": [],
+  "boundary": "SDK repositories are locally version-aligned; marketplace publication remains blocked until final release authorization."
+}

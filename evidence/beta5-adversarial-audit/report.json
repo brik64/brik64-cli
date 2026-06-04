@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "brik64.cli_beta5_adversarial_audit.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT",
+  "releaseEligible": false,
+  "checks": [
+    {
+      "name": "precondition:build_chain_fresh",
+      "status": "PASS",
+      "elapsedMs": 305
+    },
+    {
+      "name": "gate:release_surface_candidate_blocks_public_release",
+      "status": "PASS",
+      "elapsedMs": 329
+    },
+    {
+      "name": "gate:publication_preflight_blocks_release",
+      "status": "PASS",
+      "elapsedMs": 244
+    },
+    {
+      "name": "gate:surface_syncs_pass",
+      "status": "PASS",
+      "elapsedMs": 484
+    },
+    {
+      "name": "cli:edge_failclosed_variation",
+      "status": "PASS",
+      "elapsedMs": 1708
+    },
+    {
+      "name": "cli:engine_bundle_hash_tamper_fails_closed",
+      "status": "PASS",
+      "elapsedMs": 272
+    },
+    {
+      "name": "gate:docs_web_missing_boundary_fails_closed",
+      "status": "PASS",
+      "elapsedMs": 259
+    }
+  ],
+  "artifactHashes": {
+    "buildChain": "3caa9bd8b8a4aefc52b73ebb56a3cba80e0f318e0301f3ef28d1a934da3e2edb",
+    "releaseSurfaceGate": "f2b091b87b111e43545910255427206b2e4d10be8f853aaad40dbc3bd10dadff",
+    "publicationPreflight": "0acb8df901f4174cb9dcefaae567c807c8da98f257a78a809149ae4d5d05e445",
+    "marketplacePackageGate": "4e238a54c910086ab251bc638fc855c5f35547419e5ae5e4bb6e67734639fa1c"
+  },
+  "boundary": "Local adversarial audit only. Public release remains blocked by GitHub Release and marketplace publication gates."
+}

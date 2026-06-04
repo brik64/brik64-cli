@@ -1,69 +1,106 @@
 # BRIK64 CLI
 
-```text
-╔══════════════════════════════════════════════════════╗
-║                                                      ║
-║   ██████╗ ██████╗  ██╗██╗  ██╗ ██████╗ ██╗  ██╗      ║
-║   ██╔══██╗██╔══██╗ ██║██║ ██╔╝██╔════╝ ██║  ██║      ║
-║   ██████╔╝██████╔╝ ██║█████╔╝ ███████╗ ███████║      ║
-║   ██╔══██╗██╔══██╗ ██║██╔═██╗ ██╔═══██╗╚════██║      ║
-║   ██████╔╝██║  ██║ ██║██║  ██╗╚██████╔╝     ██║      ║
-║   ╚═════╝ ╚═╝  ╚═╝ ╚═╝╚═╝  ╚═╝ ╚═════╝      ╚═╝      ║
-║                                                      ║
-╚══════════════════════════════════════════════════════╝
-```
-
 BRIK64 CLI is the public beta command-line surface for local BRIK64 project
 workflows. It gives developers a practical way to start working with
-PCD-oriented structure, local evidence review, and claim-safe project scaffolding
-from their own machine.
+PCD-oriented structure, local evidence review, and claim-safe project
+scaffolding from their own machine.
 
-Generated code is easy to ship. Trust is the harder part. BRIK64 CLI is built
-for teams that want software work to carry clearer structure, repeatable
-evidence, and release language that stays aligned with bounded artifacts.
+Current development target: `0.1.0-beta.5`.
 
-BRIK64 is based on Digital Circuitality: the idea that critical software should
-be shaped as inspectable, composable logic rather than treated only as text.
-In BRIK64 workflows, `.brik` project state, PCD seed material, local evidence,
-and release metadata are kept close to the code so a team can review how a
-software surface is described, packaged, and promoted.
+`0.1.0-beta.5` is not published until the PCD-generated artifact, offline
+L4+N5 engine bundle, adversarial audit, distribution hardening, checksums, and
+release manifest gates pass.
 
-PCD, or Program Circuit Description, is the structural description layer used by
-BRIK64 to model software logic as reviewable pieces. In this beta, the CLI gives
-developers an entry point into that workflow: project scaffolding, local PCD
-examples, evidence files, package metadata, and public-beta release checks.
-Stronger certification and compiler claims remain governed by the evidence gates
-maintained in `brik64-prod`.
+## Install
 
-Start from the BRIK64 homepage: https://brik64.com
+The public CLI install path is curl-only:
 
-For install instructions, technical context, and methodology notes, read the
-docs: https://docs.brik64.com
+```sh
+curl -fsSL https://brik64.com/cli/install.sh | bash
+```
+
+After installation:
+
+```sh
+brik64 --version
+brik64 help
+```
+
+The npm package `@brik64/cli` is a legacy beta channel and is no longer the
+recommended installation path. Use the curl installer and GitHub Release assets
+for the latest public CLI release. `0.1.0-beta.5` remains a candidate until its
+release manifest authorizes publication.
 
 ## Official Channels
 
 - Website: [brik64.com](https://brik64.com)
 - Docs: [docs.brik64.com](https://docs.brik64.com)
-- npmjs primary package:
-  [@brik64/cli](https://www.npmjs.com/package/@brik64/cli)
-- GitHub Releases:
-  [brik64/brik64-cli releases](https://github.com/brik64/brik64-cli/releases)
-- GitHub Packages mirror:
-  [@brik64/cli package mirror](https://github.com/brik64/brik64-cli/pkgs/npm/cli)
-- Agent skills:
-  [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
-- Public beta roadmap:
-  [BRIK64 CLI Public Roadmap](docs/PUBLIC_ROADMAP.md)
+- Installer: [brik64.com/cli/install.sh](https://brik64.com/cli/install.sh)
+- GitHub Releases: [brik64/brik64-cli releases](https://github.com/brik64/brik64-cli/releases)
+- Agent skills: [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
+- Public roadmap: [BRIK64 CLI Public Roadmap](docs/PUBLIC_ROADMAP.md)
+
+## Beta5 Candidate Scope
+
+`0.1.0-beta.5` is intended to move the CLI from scaffold behavior toward a
+functional local PCD workflow. It must remain claim-bounded until generated
+artifact, offline engine, hardening, checksum, and cross-platform gates pass.
+
+Current beta5 candidate capabilities:
+
+- `brik init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
+- `brik doctor` validates the local beta5 workspace contract and engine tier
+  boundary.
+- `brik certify <file.pcd>` parses a bounded PCD subset and writes a local
+  candidate certificate.
+- `brik emit <file.pcd>` requires a matching certificate and fails closed on
+  stale hashes.
+- `brik emit --target <ts|rust|python> --out <dir> --tests` emits hash-bound
+  candidate outputs from parsed PCD structure.
+
+Current public release availability remains defined by GitHub Releases, the
+curl installer, release manifests, checksums, and published docs.
+
+Current installable platform lanes:
+
+| Platform | Status | Evidence boundary |
+| --- | --- | --- |
+| macOS Apple Silicon (`darwin-arm64`) | Available in beta4 | Package emitted, checksumed, and smoke checked. |
+| Linux x64 (`linux-x64`) | Available in beta4 | Package emitted, checksumed, and smoke checked on Ubuntu x64. |
+| macOS Intel (`darwin-x64`) | Pending runner | Package emitted; install remains fail-closed until runner smoke passes. |
+| Linux ARM64 (`linux-arm64`) | Pending runner | Package emitted; install remains fail-closed until runner smoke passes. |
+| Windows x64 native | Not available in the current public release | No verified native executable is published. |
+
+Windows npm shim smoke exists as internal compatibility evidence only; it is not
+the public CLI distribution channel.
+
+Stronger certification, N5/L5+N5, fixpoint, self-hosting, universal Linux, and
+Windows-native compatibility claims remain gated by `brik64-prod` evidence and
+are not implied by this candidate.
+
+## SDK Boundary
+
+SDKs are distributed separately from the CLI. npm is reserved for SDK packages,
+not CLI distribution. The prior SDK beta4 install command was:
+
+```sh
+npm install @brik64/core@0.1.0-beta.4
+```
+
+Python and Rust SDKs are not public marketplace install paths unless a release
+note explicitly says otherwise. Future beta5 SDKs must be generated through the
+same L6+N5 internal artifact-factory policy and published only after their own
+package gates pass.
 
 ## Public Interaction Policy
 
-This repository is public for package inspection, release review, install
-metadata, bounded evidence review, and issue reporting.
+This repository is public for release inspection, install metadata, bounded
+evidence review, and issue reporting.
 
 Allowed:
 
 - Open issues for reproducible CLI beta bugs.
-- Open issues for docs, release, npm, checksum, or install metadata mismatches.
+- Open issues for docs, release, curl installer, checksum, or install metadata mismatches.
 - Report security concerns through `SECURITY.md`.
 
 Not accepted:
@@ -73,161 +110,43 @@ Not accepted:
 - Public edits to release evidence, license text, package metadata, workflows,
   install paths, or public claim surfaces.
 
-BRIK64 lands changes through authorized maintainers so package metadata, public
-claims, checksums, licenses, release notes, and docs remain aligned.
-
-## Status
-
-Current beta: [`0.1.0-beta.3`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3)
-
-This beta is intended for evaluation, local workflow trials, package smoke
-testing, and bounded PCD/evidence review. The current public beta surface is
-focused on macOS local CLI usage and developer-facing evidence workflows.
-Broader platform support, stronger certification surfaces, and deeper compiler
-claims remain gated by the evidence process in `brik64-prod`.
-
-`brik64-prod` remains the authority for methodology, release gates, evidence
-contracts, certification boundaries, and public claim authorization. This repo
-contains the CLI source, package metadata, local tests, PCD seed files, and
-versioned beta artifacts.
-
-## Install
-
-```sh
-npm install -g @brik64/cli@beta
-```
-
-After installation:
-
-```sh
-brik --version
-brik help
-```
-
-Public web surface: [brik64.com](https://brik64.com)
-
-Docs: [CLI install guide](https://docs.brik64.com/cli/install)
-
-GitHub Packages mirror:
-
-```sh
-npm install -g @brik64/cli@beta --registry=https://npm.pkg.github.com
-```
-
-The npmjs package remains the primary public install path. GitHub Packages is a
-GitHub-visible mirror for release inspection and organization package inventory.
+BRIK64 lands changes through authorized maintainers so public claims, checksums,
+licenses, release notes, and docs remain aligned.
 
 ## CLI And Agent Skill
 
 BRIK64 is designed for humans and AI agents working together. Use the CLI for
 local project actions and the official `brik64` skill for agent behavior,
-claim-safe reporting, `.brik` traceability, PCD 1.0 workflow, and
-`AGENTS.md` managed-instruction rules.
-
-Skill repository:
-[brik64/brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
-
-Recommended agent workflow:
-
-```text
-read docs.brik64.com -> check current skill repo -> inspect repo state
--> run brik commands -> preserve .brik traceability -> report bounded evidence
-```
-
-Install or read the official agent skill from the public skill repository before
-using BRIK64 agent workflows:
-
-```text
-https://github.com/brik64/brik64-tools-skills
-```
+claim-safe reporting, `.brik` traceability, PCD workflow, and `AGENTS.md`
+managed-instruction rules.
 
 `brik init` prepares local BRIK64 metadata. It does not create or modify
-`AGENTS.md`. The current CLI beta does not expose `brik skill` subcommands; any
-agent instruction installation must remain explicit, reviewable, and
-consent-based.
-
-## What It Does
-
-- Provides the `brik` command for the BRIK64 CLI beta.
-- Supports local PCD-oriented project scaffolding and inspection workflows.
-- Includes seed PCD examples and bounded evidence artifacts for CLI beta review.
-- Keeps evidence boundaries visible as teams move from local workflow to stronger
-  BRIK64 review.
-- Establishes the public package surface for controlled CLI evaluation and future
-  SDK alignment.
+`AGENTS.md`. Agent instruction installation must remain explicit, reviewable,
+and consent-based.
 
 ## Repository Map
 
-Use this map to understand what each public path contains before installing,
-auditing, or filing an issue.
-
 | Path | What it contains |
 | --- | --- |
-| `src/brik.js` | Executable Node.js entry point for the current public beta `brik` command. |
-| `tests/smoke.sh` | Local smoke test for version, help, init, skill install policy, status, and certify command behavior. |
-| `pcd/` | Candidate PCD seed material that describes the intended CLI command structure and composition path. |
-| `evidence/` | Public beta evidence notes and generated-review placeholders used for package inspection. |
-| `packaging/` | Platform packaging notes and local package review material for release lanes. |
-| `docs/` | Release, distribution, governance, platform, publishing, testing, and methodology documentation. |
-| `.github/` | Repository governance, CI, package publishing, CodeQL, Dependabot, issue templates, and maintainer ownership rules. |
-| `.brik/manifest.json` | BRIK64 project metadata for local traceability. It is not a certificate. |
-| `README.md` | Public entry point for installation, scope, repo map, release assets, and license summary. |
-| `LICENSE` | Proprietary beta license terms for BRIK64 CLI. |
-| `NOTICE` | Copyright and third-party notice surface. |
-| `SECURITY.md` | Security reporting policy and supported beta version scope. |
-| `CONTRIBUTING.md` | Public interaction policy: issues accepted, external pull requests not accepted. |
-| `package.json` | npm package metadata, executable mapping, scripts, package files, and beta keywords. |
+| `src/brik.js` | Node.js entry point for the public beta command behavior. |
+| `tests/smoke.sh` | Local smoke test for current beta command behavior. |
+| `pcd/` | Candidate PCD seed material for the intended command structure. |
+| `evidence/` | Public beta evidence notes and generated-review placeholders. |
+| `packaging/` | Platform packaging notes and release-lane material. |
+| `docs/` | Release, distribution, governance, platform, testing, and methodology docs. |
+| `.github/` | Repository governance, CI, issue templates, and maintainer workflows. |
+| `.brik/manifest.json` | Local traceability metadata. It is not a certificate. |
 
 For a fuller file-by-file description, read
 [`docs/REPOSITORY_MAP.md`](docs/REPOSITORY_MAP.md).
 
-## Current Scope
-
-The `0.1.0-beta.3` release is scoped to public beta evaluation. It is centered
-on local developer workflow, macOS package validation, PCD seed material, and
-release evidence review. Production certification, expanded platform support,
-and advanced compiler-methodology claims are promoted only when the matching
-BRIK64 gates and evidence packs authorize that scope.
-
-
-## Release Assets
-
-Current beta availability:
-
-| Surface | Status | Link |
-| --- | --- | --- |
-| npmjs package | Primary public beta install path | [@brik64/cli on npm](https://www.npmjs.com/package/@brik64/cli) |
-| GitHub Release | Versioned release notes and beta asset review | [v0.1.0-beta.3](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3) |
-| GitHub Packages | GitHub-visible npm mirror for organization package inventory | [@brik64/cli mirror](https://github.com/brik64/brik64-cli/pkgs/npm/cli) |
-| Docs | Install and usage documentation | [CLI install guide](https://docs.brik64.com/cli/install) |
-| Website | Public product entry point | [brik64.com](https://brik64.com) |
-
-Current platform asset:
-
-- macOS Apple Silicon package for local CLI evaluation, listed in the
-  [v0.1.0-beta.3 GitHub Release](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3).
-
-Planned release lanes:
-
-- macOS Intel package after platform-specific package and smoke gates pass.
-- Debian/Ubuntu Linux packages after distro-specific build and install gates pass.
-- Windows PC package after Windows runner validation and install smoke pass.
-- Homebrew, curl/GCP, apt-ready metadata, and GitHub Packages support the
-  platform milestones as distribution channels; they are not standalone product
-  milestones.
-
-Each platform package should ship with its own artifact, checksum, install smoke,
-and release evidence before it is promoted on npm, GitHub Releases, docs, or
-brik64.com.
-
 ## Release Evidence
 
-The public beta package is tied to versioned release artifacts, checksums, and
-operator gates. Use the GitHub release assets and checksums to review the exact
-package candidate before treating any install path as authoritative.
+Use the GitHub Release assets, release manifest, and `SHA256SUMS` to review the
+latest published package candidates. Beta5 candidate evidence in this repository
+is not a public release by itself.
 
-GitHub release:
-[v0.1.0-beta.3](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3)
+https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.4
 
 ## Copyright And License
 

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "brik64.cli_beta5_l6_factory_request.v1",
+  "version": "0.1.0-beta.5",
+  "generatedAt": "2026-06-04T20:58:08.176Z",
+  "lane": "internal_non_claim_l6_factory_bridge",
+  "releaseEligible": false,
+  "sourceRepository": "brik64/brik64-cli",
+  "sourceHead": null,
+  "manifest": {
+    "path": ".brik/manifest.json",
+    "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e",
+    "cliVersion": "0.1.0-beta.5",
+    "engineTierPolicy": {
+      "publicOfflineRuntime": "L4+N5",
+      "registeredManagedRuntime": "L5+N5",
+      "internalArtifactFactory": "L6+N5",
+      "l6DistributionAllowed": false,
+      "l5EmbeddedFreeRuntimeAllowed": false
+    }
+  },
+  "pcdInventory": {
+    "pcdCount": 5,
+    "inventorySha256": "a42cba5a2592447d09e6828168190b5d4237a560e3bf5c7b73f1874913848c29",
+    "pcds": [
+      {
+        "path": "pcd/cli_beta5_route2.pcd",
+        "semantic_pcd_sha256": "e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a",
+        "bytes": 565
+      },
+      {
+        "path": "pcd/cli_certify_emit.pcd",
+        "semantic_pcd_sha256": "1d73245ebee8592a4eeacdb4b99398baf7c5ddfa3c88c5927f924a871eee7147",
+        "bytes": 863
+      },
+      {
+        "path": "pcd/cli_core.pcd",
+        "semantic_pcd_sha256": "39ebac6eeff82c9fcf0deff7b9255b53fac7ef293e7a915263799f870c3470f0",
+        "bytes": 787
+      },
+      {
+        "path": "pcd/cli_init_policy.pcd",
+        "semantic_pcd_sha256": "fae8cf2f18ba00b337236a46ee7d212b1437c7b4eae812ca1e3506651ffdb31d",
+        "bytes": 860
+      },
+      {
+        "path": "pcd/cli_polymer.pcd",
+        "semantic_pcd_sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+        "bytes": 1740
+      }
+    ]
+  },
+  "requiredL6": {
+    "serial": "BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf",
+    "binarySha256": "1ee21aec87146322cc0136fab19b90cc0a62171ef4ad4058417fbac661bb4885",
+    "publicClaimsAllowed": false,
+    "l6plusClaimAllowed": false,
+    "n5Authorized": false,
+    "route": "bounded_route2_non_claim_emitter"
+  },
+  "requiredOutput": {
+    "artifactKind": "brik64_cli_beta5_generated_candidate",
+    "mustBind": [
+      "request_sha256",
+      "manifest_sha256",
+      "pcd_inventory_sha256",
+      "l6_serial",
+      "l6_binary_sha256",
+      "generated_artifact_sha256",
+      "hardening_output_sha256"
+    ],
+    "releaseAllowed": false
+  },
+  "requestSha256": "f65415f729b04040bc7d1e0cf551fde0487d9ba7484d4b2ec00702069fa33d7b"
+}

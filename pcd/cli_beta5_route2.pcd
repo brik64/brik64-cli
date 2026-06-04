@@ -1,0 +1,19 @@
+// brik64.pcd_file.v1
+// name: brik_cli_beta5_route2
+// status: beta5_l6_route2_generation_source
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// engine = "L6+N5"
+// generation_lane = "internal_non_claim_route2"
+// public_offline_runtime = "L4+N5"
+// claim_boundary = "local_candidate_only"
+
+PC brik_cli_beta5_route2 {
+    fn brik_cli_beta5_route2(command_id) {
+        if (command_id == 1) { return 10; }
+        if (command_id == 2) { return 20; }
+        if (command_id == 3) { return 30; }
+        return 0;
+    }
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "brik64.cli_beta5_cross_platform_smoke.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_CROSS_PLATFORM_SMOKE",
+  "releaseEligible": false,
+  "package": {
+    "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+    "sha256": "806a9c9e3f649f0cdecbdbca1a8d852f5a08dbee4b64fcded2946bbcab401c17",
+    "bytes": 29821
+  },
+  "platforms": [
+    {
+      "platform": "darwin-arm64",
+      "runner": "local",
+      "decision": "PASS",
+      "checks": [
+        "version",
+        "engine_status",
+        "doctor"
+      ]
+    },
+    {
+      "platform": "linux-x64",
+      "runner": "root@89.167.104.236",
+      "decision": "PASS",
+      "checks": [
+        "sha256",
+        "extract",
+        "version",
+        "engine-status",
+        "doctor",
+        "init",
+        "certify",
+        "emit-ts",
+        "stale-cert-fail-closed"
+      ],
+      "stdout": [
+        "x86_64",
+        "v22.22.2"
+      ]
+    }
+  ],
+  "boundary": "Cross-platform package smoke covers local macOS and one Linux x86_64 Hetzner host. It does not cover Windows or Linux ARM."
+}

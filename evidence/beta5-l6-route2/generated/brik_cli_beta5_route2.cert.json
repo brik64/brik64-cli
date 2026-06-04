@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "generator": "brikc_cli_l6plus route2 bounded emitter",
+  "issuer": "BRIK-64 L6+ internal non-claim",
+  "engine": "l6_plus",
+  "lane": "internal_adaptive",
+  "claim_authority": "non_claim",
+  "public_claim_allowed": false,
+  "source": {
+    "pc": "brik_cli_beta5_route2",
+    "function": "brik_cli_beta5_route2",
+    "hash_sha256": "e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a",
+    "language": "pcd"
+  },
+  "certification": {
+    "level": "ROUTE2_BOUNDED_INTERNAL",
+    "domain_safe": true,
+    "deterministic": true,
+    "total_statements": 4,
+    "certifies_full_repository": false
+  },
+  "target": {
+    "language": "js",
+    "file": "brik_cli_beta5_route2.js",
+    "hash_sha256": "8f8e276f47f22d4c37d91476541e616360367fff458178735fd7eccbd171b75b"
+  },
+  "non_claims": [
+    "does not certify full repository correctness",
+    "does not certify external source authority",
+    "does not certify security or deployment behavior",
+    "does not certify future changes"
+  ]
+}

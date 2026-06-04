@@ -1,0 +1,184 @@
+{
+  "schemaVersion": "brik64.cli_beta5_package_manifest.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_LOCAL_PACKAGE_CANDIDATE_BUILT",
+  "releaseEligible": false,
+  "package": {
+    "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+    "sha256": "8448215f146b017edb3e5b64d853590ccf63c4d58276c4edbd406156c8b063b6",
+    "bytes": 29850
+  },
+  "artifacts": [
+    {
+      "path": ".brik/manifest.json",
+      "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e",
+      "bytes": 1466
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "45146c8d6f553c466c63063d5b7ac2723294b801b219f0d0b23808199437ba1e",
+      "bytes": 6736
+    },
+    {
+      "path": "README.md",
+      "sha256": "b55f720c95839c517604fefdf53f66e9b0a2f31eac5c8e508c9c4bdcb4a8eabe",
+      "bytes": 6341
+    },
+    {
+      "path": "docs/BETA5_RELEASE_SURFACE_SYNC.md",
+      "sha256": "4302993b854a2ea135e632b3da8b3b159007362bcc9951f8be0a6e7f2b2f5ddc",
+      "bytes": 3534
+    },
+    {
+      "path": "engines/l4plus-n5/checksums.tsv",
+      "sha256": "11a5eadb7ec6f7d07e329c767026ae9576bdaf99c1d411781e5f88108e7d852e",
+      "bytes": 4234
+    },
+    {
+      "path": "engines/l4plus-n5/evidence/l4plus_n5_burn_in_report.json",
+      "sha256": "f08013a913983ac5f9de3684e6715b46447a5fd1ba9b2c42ed3ad7c75cadb581",
+      "bytes": 4127
+    },
+    {
+      "path": "engines/l4plus-n5/evidence/l4plus_n5_critical_artifact_lock.json",
+      "sha256": "5359afe66a536a649fc01f8695a30741b5314f27b2f7136dfdf310caf49dc906",
+      "bytes": 4000
+    },
+    {
+      "path": "engines/l4plus-n5/evidence/l4plus_n5_critical_freeze_certificate.json",
+      "sha256": "86828d4fe8bad314e4eb34662f7023cc7bb155223d24af160f7d45ee0cd2726c",
+      "bytes": 4890
+    },
+    {
+      "path": "engines/l4plus-n5/evidence/l4plus_n5_critical_freeze_report.json",
+      "sha256": "ab9f691b1f0525c8e0a1c47be87f58691e8969b34e1c0fbd9620fd96fd33fe65",
+      "bytes": 1215
+    },
+    {
+      "path": "engines/l4plus-n5/manifest/claim_boundary.json",
+      "sha256": "9f9f293ddd34a066e36fb28c703f9de810c53517a7b2e34899eb2617294a88c5",
+      "bytes": 372
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/engine.manifest.json",
+      "sha256": "470454a0ab21fb6629838d91a4b410c48d669446fd2e213090510669bcb9435c",
+      "bytes": 6066
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/engine.pcd",
+      "sha256": "8e87f92ce267f33aa1fcd3e8815502e08f887637300030cc8b565e508a7b7668",
+      "bytes": 341
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/harness.manifest.json",
+      "sha256": "adec2a5f643dc52381d08efae3fa9da791ec1af35e4e44d9a1eb3d9a9195fb63",
+      "bytes": 6061
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/harness.pcd",
+      "sha256": "b9dc97d75637ff69eef7489a2825c166d43ff2cc73d1b59a4e1bef2ee27a6c34",
+      "bytes": 558
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_engine_runtime.bir",
+      "sha256": "14645419bdfde549122d0df9537b806d8620be6953222feb66fd5134c5c6d6cf",
+      "bytes": 300
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_engine_runtime.bir.asm",
+      "sha256": "0c7d54c6f4e35ef099eb463e817606bb54f4349fcd2ada3646fa19ae76b14779",
+      "bytes": 405
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_engine_runtime.cert.json",
+      "sha256": "cb69bb34b595120b983959139204ccf6dd33cd246364e5a9d30cc206069fda71",
+      "bytes": 6611
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_harness.bir",
+      "sha256": "670d64da83a7b606d2b9d1474382df4b1ff73ae2174b74e315edd2783ae782f2",
+      "bytes": 378
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_harness.cert.json",
+      "sha256": "01f560f9e89e616031ede3db46e73e8927b6b18e3fd74702c62520d81e514365",
+      "bytes": 6604
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir",
+      "sha256": "9a92f5136cf375eefdddfd926585eca411149b2e4bc5b9653aca9004c85ddee4",
+      "bytes": 521
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.cert.json",
+      "sha256": "628b196cdef72a7c5cf8e50dc350f4f72cabfec3eea1324985e2400fd5eededb",
+      "bytes": 6628
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/runtime_adapter.manifest.json",
+      "sha256": "659cb4738f3fcaf702aa7808aca00704c82b0649714f5f289d2ef48a491ef0c3",
+      "bytes": 6085
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/runtime_adapter.pcd",
+      "sha256": "c7354811628f1c323151788f37d388c3c5baeda328de06504997eed71c82513b",
+      "bytes": 749
+    },
+    {
+      "path": "engines/l4plus-n5/runtime-bundle.manifest.json",
+      "sha256": "221774c3a8f9e1cf630521a12a2a62f265d34313cdeaf7bb30ca69f60bd3a8d8",
+      "bytes": 6862
+    },
+    {
+      "path": "engines/l4plus-n5/serial.txt",
+      "sha256": "6f2a3eff7b3cbf80debb823f1771df5364d6f1fdf2c0b6c2dab8e109c04dc757",
+      "bytes": 43
+    },
+    {
+      "path": "evidence/beta5-adversarial-audit/report.json",
+      "sha256": "a05e4f80a7c8d5876d796264c314a45a337d5c6a502ec7e4e87d838cf4c0dac6",
+      "bytes": 1528
+    },
+    {
+      "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
+      "sha256": "9d863f6b1c6471c627011abeeb8a662bbe989ef43c62f2213d7b3f95f0bdd0d3",
+      "bytes": 6387
+    },
+    {
+      "path": "evidence/beta5-publication-preflight/manifest.json",
+      "sha256": "4d87e5263b1ae9bbd109d147698f9e1025260cad5d066f823cdcbeb2f0da68c6",
+      "bytes": 2941
+    },
+    {
+      "path": "evidence/beta5-release-surface-gate/report.json",
+      "sha256": "f2b091b87b111e43545910255427206b2e4d10be8f853aaad40dbc3bd10dadff",
+      "bytes": 4991
+    },
+    {
+      "path": "package.json",
+      "sha256": "a9c4c6173974d17a4ce4ce76a0ca91840c5d72e065d7d2dcae7de0ce26c29282",
+      "bytes": 2381
+    },
+    {
+      "path": "pcd/cli_beta5_route2.pcd",
+      "sha256": "e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a",
+      "bytes": 565
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "39ebac6eeff82c9fcf0deff7b9255b53fac7ef293e7a915263799f870c3470f0",
+      "bytes": 787
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+      "bytes": 1740
+    },
+    {
+      "path": "src/brik.js",
+      "sha256": "427fada0ae2975f78499c3283360aa067b2e4ac6642b60ffd58fc069fd54421f",
+      "bytes": 16583
+    }
+  ],
+  "boundary": "Local package candidate only. This is not a signed GitHub Release artifact."
+}
