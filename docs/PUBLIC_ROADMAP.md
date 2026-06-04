@@ -6,17 +6,17 @@ understand what the public CLI is moving toward without depending on internal
 GitHub Projects or private planning boards.
 
 GitHub Projects are used for internal execution tracking. Public status is
-reported through this file, GitHub Releases, npm package metadata, docs, and
+reported through this file, GitHub Releases, curl installer metadata, docs, and
 issues when a reproducible public bug or metadata mismatch needs discussion.
 
 ## Current Public Beta
 
-Current beta: [`0.1.0-beta.3`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.3)
+Current beta: [`0.1.0-beta.4`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.4)
 
 Current public install path:
 
 ```sh
-npm install -g @brik64/cli@beta
+curl -fsSL https://brik64.com/cli/install.sh | bash
 ```
 
 The current beta supports local CLI evaluation, `.brik` project metadata,
@@ -31,17 +31,16 @@ release notes.
 
 | Platform | Public target | Status | Promotion evidence |
 | --- | --- | --- | --- |
-| macOS Apple Silicon | npm beta plus GitHub Release asset | Current beta lane | package smoke, checksum, release manifest |
-| macOS Intel | GitHub Release asset and documented install path | Planned | Intel install smoke, checksum, release manifest |
-| Debian Linux | `.deb` package and documented install path | Planned | Debian build, install smoke, checksum, release manifest |
-| Ubuntu Linux | `.deb` package and documented install path | Planned | Ubuntu build, install smoke, checksum, release manifest |
-| Windows PC | installer or zip package and documented install path | Planned | Windows runner smoke, checksum, release manifest |
+| macOS Apple Silicon | curl installer plus GitHub Release asset | Current beta lane | package smoke, checksum, release manifest |
+| Linux x64 | curl installer plus GitHub Release asset | Current beta lane | Ubuntu x64 install smoke, checksum, release manifest |
+| macOS Intel | GitHub Release asset; installer fail-closed until runner passes | Pending runner | Intel install smoke, checksum, release manifest |
+| Linux ARM64 | GitHub Release asset; installer fail-closed until runner passes | Pending runner | Linux ARM64 install smoke, checksum, release manifest |
+| Windows PC native | no beta4 public asset | Blocked | verified Windows executable, checksum, release manifest |
 
 This milestone is complete only when each listed platform has a public package
 or documented install path, a versioned release reference, and a platform-specific
-smoke result. Distribution channels such as Homebrew, curl installers, apt
-repositories, or hosted package mirrors support this milestone, but they are not
-the milestone by themselves.
+smoke result. Distribution channels such as Homebrew or hosted package mirrors
+support this milestone only after they point to the same curl/GitHub evidence.
 
 ## Milestone 2: Distribution Channel Hardening
 
@@ -50,12 +49,10 @@ weakening the beta evidence boundary.
 
 Planned lanes:
 
-- Homebrew tap formula for macOS once macOS platform packages pass install
-  smoke and checksum gates.
-- GCP-hosted curl installer only after the script verifies checksums and points
-  to versioned release artifacts.
-- GitHub Packages mirror for organization package inventory and release
-  inspection.
+- Curl installer on brik64.com as the official CLI install path.
+- Cloud Run counted download endpoint that records beta4 platform downloads and
+  redirects to verified GitHub Release assets.
+- Homebrew tap formula for macOS only after formula audit, smoke, and checksum gates.
 - brik64.com and docs.brik64.com install pages aligned to the same current beta
   version and release evidence.
 
@@ -84,10 +81,11 @@ them.
 
 Public targets:
 
-- JavaScript/TypeScript examples stay aligned with CLI candidate output behavior.
-- Python and Rust references remain marked as reference surfaces until public
-  package release notes list install commands.
-- Docs and release notes identify exact package versions before recommending
+- JavaScript/TypeScript SDK beta4 is distributed through npm as
+  `@brik64/core@0.1.0-beta.4`.
+- Python and Rust references remain marked as reference surfaces until a future
+  release explicitly opens those marketplace paths.
+- Docs and release notes identify exact SDK package versions before recommending
   install commands outside the CLI.
 
 ## Claim Boundary
@@ -97,5 +95,5 @@ packages, GitHub Releases, docs, installed CLI output, and platform-specific
 evidence. Stronger statements require matching artifacts, hashes, release notes,
 tests, and evidence gates.
 
-Use the current GitHub Release, npm package metadata, installed `brik --version`,
+Use the current GitHub Release, curl installer, installed `brik64 --version`,
 and docs.brik64.com as the public source for what is available now.
