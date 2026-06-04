@@ -1,146 +1,26 @@
-name: Publish GitHub Packages beta
+name: Deprecated - CLI GitHub Packages publish disabled
 
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Exact package.json version to publish, for example 0.1.0-beta.2"
-        required: true
-        type: string
-      dist_tag:
-        description: "GitHub Packages npm dist-tag"
-        required: true
-        default: "beta"
-        type: choice
-        options:
-          - beta
-          - latest
-      confirm_github_packages_beta:
-        description: "Type PUBLISH_BRIK64_CLI_GITHUB_PACKAGES to publish"
+      confirm_disabled_notice:
+        description: "Type ACK_CLI_GITHUB_PACKAGES_DISABLED to acknowledge this workflow is disabled"
         required: true
         type: string
 
 permissions:
   contents: read
-  packages: write
-
-concurrency:
-  group: github-packages-${{ github.event.inputs.version }}
-  cancel-in-progress: false
 
 jobs:
-  publish:
-    name: Publish @brik64/cli to GitHub Packages
+  disabled:
+    name: CLI GitHub Packages publishing is disabled
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Validate manual confirmation
+      - name: Explain disabled channel
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ github.event.inputs.confirm_github_packages_beta }}" != "PUBLISH_BRIK64_CLI_GITHUB_PACKAGES" ]; then
-            echo "Manual confirmation did not match."
-            exit 1
-          fi
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: "20"
-          registry-url: "https://npm.pkg.github.com"
-          scope: "@brik64"
-
-      - name: Install dependencies when lockfile exists
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install --ignore-scripts
-          fi
-
-      - name: Validate version and beta scope
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION="$(node -p "require('./package.json').version")"
-          NAME="$(node -p "require('./package.json').name")"
-          if [ "$NAME" != "@brik64/cli" ]; then
-            echo "Unexpected package name: $NAME"
-            exit 1
-          fi
-          if [ "$VERSION" != "${{ github.event.inputs.version }}" ]; then
-            echo "Input version ${{ github.event.inputs.version }} does not match package.json $VERSION"
-            exit 1
-          fi
-          case "$VERSION" in
-            0.1.0-beta.*) ;;
-            *) echo "Only 0.1.0-beta.* versions are accepted by this beta workflow"; exit 1 ;;
-          esac
-
-      - name: Run smoke tests
-        run: npm test
-
-      - name: Verify package contents
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm pack --dry-run
-          test -s README.md
-          test -s LICENSE
-          test -s NOTICE
-          test -s SECURITY.md
-          test -s CONTRIBUTING.md
-
-      - name: Configure GitHub Packages registry
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm pkg set publishConfig.registry=https://npm.pkg.github.com
-          npm pkg set publishConfig.tag="${{ github.event.inputs.dist_tag }}"
-
-      - name: Ensure version is not already published
-        shell: bash
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          if npm view "@brik64/cli@${{ github.event.inputs.version }}" version --registry https://npm.pkg.github.com >/tmp/github-package-version.txt 2>/tmp/github-package-version.err; then
-            echo "Version already exists on GitHub Packages: ${{ github.event.inputs.version }}"
-            cat /tmp/github-package-version.txt
-            exit 1
-          fi
-
-      - name: Publish to GitHub Packages
-        shell: bash
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          npm publish --access public --tag "${{ github.event.inputs.dist_tag }}" --registry https://npm.pkg.github.com
-
-      - name: Verify GitHub Packages publication
-        shell: bash
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          EXPECTED_VERSION: ${{ github.event.inputs.version }}
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3 4 5; do
-            if npm view "@brik64/cli@${{ github.event.inputs.version }}" --json --prefer-online --registry https://npm.pkg.github.com > /tmp/github-package-view.json; then
-              break
-            fi
-            echo "GitHub Packages metadata not propagated yet; retry $attempt/5"
-            sleep 15
-          done
-          node - <<'NODE'
-          const fs = require('fs');
-          const pkg = JSON.parse(fs.readFileSync('/tmp/github-package-view.json', 'utf8'));
-          const expected = process.env.EXPECTED_VERSION;
-          if (pkg.version !== expected) throw new Error(`version mismatch: ${pkg.version}`);
-          if (!pkg.dist?.integrity || !pkg.dist?.shasum || !pkg.dist?.tarball) throw new Error('missing dist metadata');
-          console.log(JSON.stringify({version: pkg.version, tarball: pkg.dist.tarball}, null, 2));
-          NODE
+          echo "BRIK64 CLI beta4 and later are distributed by curl installer only."
+          echo "GitHub Packages is not a CLI distribution mirror for beta4."
+          echo "npm-family registries are reserved for SDK packages."
+          exit 1

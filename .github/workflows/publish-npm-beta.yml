@@ -1,172 +1,26 @@
-name: Publish npm beta
+name: Deprecated - CLI npm publish disabled
 
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "Exact package.json version to publish, for example 0.1.0-beta.1"
-        required: true
-        type: string
-      dist_tag:
-        description: "npm dist-tag"
-        required: true
-        default: "beta"
-        type: choice
-        options:
-          - beta
-          - next
-      confirm_public_beta:
-        description: "Type PUBLISH_BRIK64_CLI_BETA to publish"
+      confirm_disabled_notice:
+        description: "Type ACK_CLI_NPM_DISABLED to acknowledge this workflow is disabled"
         required: true
         type: string
 
 permissions:
   contents: read
-  id-token: write
-
-concurrency:
-  group: npm-publish-${{ github.event.inputs.version }}
-  cancel-in-progress: false
 
 jobs:
-  publish:
-    name: Publish @brik64/cli beta
+  disabled:
+    name: CLI npm publishing is disabled
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: Validate manual confirmation
+      - name: Explain disabled channel
         shell: bash
         run: |
           set -euo pipefail
-          if [ "${{ github.event.inputs.confirm_public_beta }}" != "PUBLISH_BRIK64_CLI_BETA" ]; then
-            echo "Manual confirmation did not match."
-            exit 1
-          fi
-
-      - name: Setup Node
-        uses: actions/setup-node@v6
-        with:
-          node-version: "20"
-          registry-url: "https://registry.npmjs.org"
-
-      - name: Install dependencies when lockfile exists
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install --ignore-scripts
-          fi
-
-      - name: Validate version and beta scope
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION="$(node -p "require('./package.json').version")"
-          NAME="$(node -p "require('./package.json').name")"
-          if [ "$NAME" != "@brik64/cli" ]; then
-            echo "Unexpected package name: $NAME"
-            exit 1
-          fi
-          if [ "$VERSION" != "${{ github.event.inputs.version }}" ]; then
-            echo "Input version ${{ github.event.inputs.version }} does not match package.json $VERSION"
-            exit 1
-          fi
-          case "$VERSION" in
-            0.1.0-beta.*) ;;
-            *) echo "Only 0.1.0-beta.* versions are accepted by this beta workflow"; exit 1 ;;
-          esac
-
-      - name: Run smoke tests
-        run: npm test
-
-      - name: Verify package contents
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -s README.md
-          test -s LICENSE
-          test -s NOTICE
-          test -s SECURITY.md
-          test -s CONTRIBUTING.md
-          npm pack --dry-run
-
-      - name: Ensure version is not already published
-        shell: bash
-        run: |
-          set -euo pipefail
-          if npm view "@brik64/cli@${{ github.event.inputs.version }}" version --registry https://registry.npmjs.org >/tmp/npm-version.txt 2>/tmp/npm-version.err; then
-            echo "Version already exists on npm: ${{ github.event.inputs.version }}"
-            cat /tmp/npm-version.txt
-            exit 1
-          fi
-
-      - name: Publish to npm
-        shell: bash
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          set -euo pipefail
-          npm publish --access public --tag "${{ github.event.inputs.dist_tag }}" --registry https://registry.npmjs.org
-
-      - name: Verify npm publication
-        shell: bash
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3 4 5; do
-            if npm view "@brik64/cli@${{ github.event.inputs.version }}" --json --prefer-online --registry https://registry.npmjs.org > /tmp/npm-view.json; then
-              break
-            fi
-            echo "npm metadata not propagated yet; retry $attempt/5"
-            sleep 15
-          done
-          node - <<'NODE'
-          const fs = require('fs');
-          const pkg = JSON.parse(fs.readFileSync('/tmp/npm-view.json', 'utf8'));
-          const expected = process.env.EXPECTED_VERSION;
-          if (pkg.version !== expected) throw new Error(`version mismatch: ${pkg.version}`);
-          if (!pkg.dist?.integrity || !pkg.dist?.shasum || !pkg.dist?.tarball) throw new Error('missing dist metadata');
-          if (pkg.readmeFilename !== 'README.md') throw new Error(`unexpected readmeFilename: ${pkg.readmeFilename}`);
-          console.log(JSON.stringify({version: pkg.version, readmeFilename: pkg.readmeFilename, tarball: pkg.dist.tarball}, null, 2));
-          NODE
-          PACKAGE_DIR="$(mktemp -d)"
-          npm pack "@brik64/cli@${{ github.event.inputs.version }}" \
-            --pack-destination "$PACKAGE_DIR" \
-            --registry https://registry.npmjs.org
-          TARBALL="$(find "$PACKAGE_DIR" -name '*.tgz' -print -quit)"
-          test -n "$TARBALL"
-          tar -tzf "$TARBALL" > /tmp/npm-tarball-files.txt
-          grep -q '^package/README.md$' /tmp/npm-tarball-files.txt
-          grep -q '^package/LICENSE$' /tmp/npm-tarball-files.txt
-          grep -q '^package/NOTICE$' /tmp/npm-tarball-files.txt
-          grep -q '^package/SECURITY.md$' /tmp/npm-tarball-files.txt
-          grep -q '^package/CONTRIBUTING.md$' /tmp/npm-tarball-files.txt
-          npm dist-tag ls @brik64/cli --prefer-online --registry https://registry.npmjs.org | tee /tmp/npm-dist-tags.txt
-          grep -q "${{ github.event.inputs.dist_tag }}: ${{ github.event.inputs.version }}" /tmp/npm-dist-tags.txt
-        env:
-          EXPECTED_VERSION: ${{ github.event.inputs.version }}
-
-      - name: Dispatch docs changelog update
-        env:
-          GH_TOKEN: ${{ secrets.BRIK64_DOCS_REPO_DISPATCH_TOKEN }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -z "${GH_TOKEN:-}" ]; then
-            echo "Missing BRIK64_DOCS_REPO_DISPATCH_TOKEN secret; skipping docs changelog dispatch."
-            exit 0
-          fi
-          gh api repos/brik64-admin/brik64-docs-site/dispatches \
-            --method POST \
-            --raw-field event_type=brik64-cli-release \
-            --raw-field 'client_payload[package]=@brik64/cli' \
-            --raw-field 'client_payload[version]=${{ github.event.inputs.version }}' \
-            --raw-field 'client_payload[release_url]=https://github.com/brik64/brik64-cli/releases/tag/v${{ github.event.inputs.version }}' \
-            --raw-field 'client_payload[npm_url]=https://www.npmjs.com/package/@brik64/cli/v/${{ github.event.inputs.version }}' \
-            --raw-field 'client_payload[docs_target]=releases/changelog.mdx' \
-            --raw-field 'client_payload[source_repo]=${{ github.repository }}'
+          echo "BRIK64 CLI beta4 and later are distributed by curl installer only."
+          echo "Use https://brik64.com/cli/install.sh and GitHub Release assets."
+          echo "npm is reserved for SDK packages such as @brik64/core."
+          exit 1

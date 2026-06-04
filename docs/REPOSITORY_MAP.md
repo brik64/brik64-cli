@@ -60,9 +60,9 @@ maintainers who need to understand what each path is for.
 | `docs/REPOSITORY_MAP.md` | This file-by-file public repository map. |
 | `docs/BRIK_METHODOLOGY_TRANSITION.md` | Methodology transition plan for moving the CLI from executable beta source toward PCD-first implementation and evidence-backed promotion. |
 | `docs/PUBLIC_ROADMAP.md` | Public roadmap for CLI beta platform coverage, distribution hardening, agent workflow alignment, and SDK/language surface alignment. |
-| `docs/DISTRIBUTION_ROADMAP.md` | Distribution-channel roadmap for npm, GitHub Releases, GitHub Packages, curl/GCP, Homebrew, macOS Intel, Linux, and Windows lanes. |
-| `docs/GITHUB_NPM_PUBLISHING.md` | npm publishing workflow notes for the public beta package. |
-| `docs/GITHUB_PACKAGES_PUBLISHING.md` | GitHub Packages mirror workflow notes and verification boundary. |
+| `docs/DISTRIBUTION_ROADMAP.md` | Distribution-channel roadmap for curl, Cloud Run, GitHub Releases, SDK npm, Homebrew, macOS, Linux, and Windows lanes. |
+| `docs/GITHUB_NPM_PUBLISHING.md` | Deprecated CLI npm publishing notes and legacy cleanup boundary. |
+| `docs/GITHUB_PACKAGES_PUBLISHING.md` | Deprecated CLI GitHub Packages notes and mirror-disabled boundary. |
 | `docs/GITHUB_REPO_GOVERNANCE.md` | Repository governance policy for branch protection, maintainer ownership, issue flow, package publication, and public interaction controls. |
 | `docs/LINUX_HETZNER_TESTING.md` | Linux test plan and operator guidance for Debian/Ubuntu lanes using remote execution infrastructure. |
 | `docs/MACOS_LOCAL_TESTING.md` | macOS local test plan and operator guidance for current Apple Silicon package validation. |
@@ -81,8 +81,8 @@ maintainers who need to understand what each path is for.
 | `.github/ISSUE_TEMPLATE/` | Public issue templates for beta bugs, docs/package metadata mismatches, and security-report routing. |
 | `.github/workflows/ci.yml` | Main CI workflow for smoke tests and package-content checks. |
 | `.github/workflows/codeql.yml` | CodeQL workflow configuration where custom analysis is needed. |
-| `.github/workflows/publish-npm-beta.yml` | Manual npm beta publication workflow for authorized maintainers. |
-| `.github/workflows/publish-github-packages-beta.yml` | Manual GitHub Packages beta mirror workflow for authorized maintainers. |
+| `.github/workflows/publish-npm-beta.yml` | Disabled workflow documenting that CLI npm publishing is no longer allowed. |
+| `.github/workflows/publish-github-packages-beta.yml` | Disabled workflow documenting that CLI GitHub Packages publishing is no longer allowed. |
 
 ## BRIK64 Traceability
 
