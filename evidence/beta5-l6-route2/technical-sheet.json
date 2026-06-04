@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "sourceHash": "e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a",
+  "boundedDomains": {
+    "command_id": {
+      "kind": "integer",
+      "min": 0,
+      "max": 99
+    }
+  },
+  "normalization": {
+    "status": "already_normalized",
+    "l5CertificateInheritance": "forbidden",
+    "separatesRawAndNormalized": true
+  },
+  "monomerTrace": [
+    {
+      "id": 1,
+      "family": "control",
+      "op": "BOUNDED_BRANCH_TABLE"
+    }
+  ],
+  "externalBoundaries": [],
+  "certificationLane": "INTERNAL_COMPARISON",
+  "phi_c": 1,
+  "canonical": true,
+  "technicalSheetHash": "c8bb62d3f8b486347fe97f83f2d16af19bea52120274ee600f03690dbf8969fd"
+}

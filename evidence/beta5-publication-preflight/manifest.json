@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "brik64.cli_beta5_publication_preflight.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "BLOCKED_PUBLICATION_PREFLIGHT",
+  "releaseEligible": false,
+  "githubReleaseAllowed": false,
+  "marketplacePublicationAllowed": false,
+  "artifacts": {
+    "buildChain": {
+      "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
+      "sha256": "4abb2674e8c84a70312a7faef0cd9369ec8572c16236f2da509bc67dfc3f5e89",
+      "bytes": 6387
+    },
+    "hardenedCandidate": {
+      "path": "evidence/beta5-local-candidate/brik64-beta5.candidate.hardened.js",
+      "sha256": "ccf8c0e979fe3d4aaf34863e54718b2cca60573541741c1f6c903dd1f4e3eb24",
+      "bytes": 16696
+    },
+    "l4RuntimeBundle": {
+      "path": "engines/l4plus-n5/runtime-bundle.manifest.json",
+      "sha256": "221774c3a8f9e1cf630521a12a2a62f265d34313cdeaf7bb30ca69f60bd3a8d8",
+      "bytes": 6862
+    },
+    "sdkSync": {
+      "path": "evidence/beta5-sdk-sync/report.json",
+      "sha256": "1244e94c2ca0aaabb154616bfbf929705d79339e6658475b0651b3666e5caa00",
+      "bytes": 3781
+    },
+    "skillsSync": {
+      "path": "evidence/beta5-skills-sync/report.json",
+      "sha256": "56cd63f1f987840061c7cfcacf8d94e2923a3d5b5b41fa948bd4499b459075aa",
+      "bytes": 1953
+    },
+    "docsWebSync": {
+      "path": "evidence/beta5-docs-web-sync/report.json",
+      "sha256": "6c46c7a462637c0159bd85857a76511e34c34cd545bf607122f602fa3a429bd8",
+      "bytes": 859
+    },
+    "marketplacePackageGate": {
+      "path": "evidence/beta5-marketplace-packages/report.json",
+      "sha256": "4e238a54c910086ab251bc638fc855c5f35547419e5ae5e4bb6e67734639fa1c",
+      "bytes": 2128
+    },
+    "releaseSurfaceGate": {
+      "path": "evidence/beta5-release-surface-gate/report.json",
+      "sha256": "f2b091b87b111e43545910255427206b2e4d10be8f853aaad40dbc3bd10dadff",
+      "bytes": 4991
+    },
+    "localPackageManifest": {
+      "path": "evidence/beta5-package/package.manifest.json",
+      "sha256": "b3fca0a486bf545599d94fc3566067c3925bbd9a8e3ad256bb02083500a2af20",
+      "bytes": 6417
+    },
+    "localPackageSmoke": {
+      "path": "evidence/beta5-package-smoke/report.json",
+      "sha256": "b1f6ddb1e3a6a5eb70666f7045936d335ee22fbc39a55f6970723d725852850f",
+      "bytes": 606
+    },
+    "crossPlatformSmoke": {
+      "path": "evidence/beta5-cross-platform-smoke/report.json",
+      "sha256": "b000a4aacf8ccf3ac3b4019f6b6b2cbfb0a5adfeea2b1b3b381e9ef9122fd461",
+      "bytes": 1100
+    },
+    "signedChecksums": {
+      "path": "evidence/beta5-release-checksums/report.json",
+      "sha256": "b8662f6771a3566eb14d5458a5d893532a791fbc3882f5bae70681f3b9420327",
+      "bytes": 3112
+    }
+  },
+  "blockers": [
+    "github_release_not_created",
+    "release_tag_not_created",
+    "marketplace_publication_not_authorized"
+  ],
+  "boundary": "Candidate manifest only. No GitHub Release, signed tag, curl publication or marketplace publication is authorized by this report."
+}

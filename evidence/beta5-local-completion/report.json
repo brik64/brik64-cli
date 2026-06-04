@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "brik64.cli_beta5_local_completion_gate.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_BETA5_LOCAL_COMPLETION",
+  "confidenceLevel": "N3",
+  "releaseEligible": false,
+  "localObjectiveSatisfied": true,
+  "verification": [
+    {
+      "requirement": "CLI reports beta5 version",
+      "status": "PASS",
+      "evidence": "____  ____  ___ _  __ __   _  _ \n| __ )|  _ \\|_ _| |/ // /_ | || |\n|  _ \\| |_) || || ' /| '_ \\| || |_\n| |_) |  _ < | || . \\| (_) |__   _|\n|____/|_| \\_\\___|_|\\_\\\\___/   |_|  \nBRIK64 CLI 0.1.0-beta.5\nstatus=public_beta"
+    },
+    {
+      "requirement": "doctor passes with L4/L5/L6 policy",
+      "status": "PASS",
+      "evidence": {
+        "publicOfflineRuntime": "L4+N5",
+        "registeredManagedRuntime": "L5+N5",
+        "internalArtifactFactory": "L6+N5"
+      }
+    },
+    {
+      "requirement": "offline L4 runtime bundle validates",
+      "status": "PASS",
+      "evidence": "portable_bir_bundle"
+    },
+    {
+      "requirement": "local package smoke passes",
+      "status": "PASS_LOCAL_PACKAGE_SMOKE",
+      "evidence": "evidence/beta5-package-smoke/report.json"
+    },
+    {
+      "requirement": "cross-platform local candidate smoke passes",
+      "status": "PASS_CROSS_PLATFORM_SMOKE",
+      "evidence": "evidence/beta5-cross-platform-smoke/report.json"
+    },
+    {
+      "requirement": "adversarial audit passes",
+      "status": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT",
+      "evidence": "evidence/beta5-adversarial-audit/report.json"
+    },
+    {
+      "requirement": "SDK package artifacts are locally present and hash-bound",
+      "status": "PASS_MARKETPLACE_PACKAGE_GATE",
+      "evidence": "evidence/beta5-marketplace-packages/report.json"
+    },
+    {
+      "requirement": "release candidate checksums are signed and verified",
+      "status": "PASS_SIGNED_CHECKSUMS",
+      "evidence": "evidence/beta5-release-checksums/report.json"
+    },
+    {
+      "requirement": "remaining blockers are publication-only",
+      "status": "BLOCKED_PUBLICATION_PREFLIGHT",
+      "evidence": [
+        "github_release_not_created",
+        "release_tag_not_created",
+        "marketplace_publication_not_authorized"
+      ]
+    }
+  ],
+  "artifacts": {
+    "packageSmoke": {
+      "path": "evidence/beta5-package-smoke/report.json",
+      "sha256": "b1f6ddb1e3a6a5eb70666f7045936d335ee22fbc39a55f6970723d725852850f"
+    },
+    "crossPlatformSmoke": {
+      "path": "evidence/beta5-cross-platform-smoke/report.json",
+      "sha256": "b000a4aacf8ccf3ac3b4019f6b6b2cbfb0a5adfeea2b1b3b381e9ef9122fd461"
+    },
+    "adversarialAudit": {
+      "path": "evidence/beta5-adversarial-audit/report.json",
+      "sha256": "8a6499ae280680340ba00ca9eddde667a5c353effe9b429a31aaabaf10c40467"
+    },
+    "marketplacePackages": {
+      "path": "evidence/beta5-marketplace-packages/report.json",
+      "sha256": "4e238a54c910086ab251bc638fc855c5f35547419e5ae5e4bb6e67734639fa1c"
+    },
+    "signedChecksums": {
+      "path": "evidence/beta5-release-checksums/report.json",
+      "sha256": "b8662f6771a3566eb14d5458a5d893532a791fbc3882f5bae70681f3b9420327"
+    },
+    "buildChain": {
+      "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
+      "sha256": "924505155eff33cac7c668a418dc10749a9c6aea04ff8e087c024b9a46335a63"
+    },
+    "publicationPreflight": {
+      "path": "evidence/beta5-publication-preflight/manifest.json",
+      "sha256": "9e66c3c636a548c4e82fc4355348b5550d19df71a1c3f9c912206743d9f408dd"
+    },
+    "releaseSurface": {
+      "path": "evidence/beta5-release-surface-gate/report.json",
+      "sha256": "197db287958897e4bea8627bf609bdccc2140d9b54e182ee582dc999490af22f"
+    }
+  },
+  "remainingPublicReleaseBlockers": [
+    "github_release_not_created",
+    "release_tag_not_created",
+    "marketplace_publication_not_authorized"
+  ],
+  "failures": [],
+  "boundary": "This gate proves the local beta5 functional/adversarial objective. It intentionally does not create a GitHub Release, release tag, curl publication, or marketplace publication."
+}

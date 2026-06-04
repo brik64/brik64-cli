@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "brik64.cli_beta5_package_smoke.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_LOCAL_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "package": {
+    "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+    "sha256": "806a9c9e3f649f0cdecbdbca1a8d852f5a08dbee4b64fcded2946bbcab401c17",
+    "bytes": 29821
+  },
+  "checks": [
+    "extract",
+    "version",
+    "engine-status",
+    "doctor",
+    "init",
+    "certify",
+    "emit-ts",
+    "stale-cert-fail-closed"
+  ],
+  "boundary": "Local package smoke only. Cross-platform release smoke remains separate."
+}

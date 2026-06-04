@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "brik64.l4plus_n5_critical_freeze_report.v1",
+  "generatedAt": "2026-05-25T09:54:51Z",
+  "iter_id": "L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z",
+  "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
+  "decision": "PASS",
+  "fail_phase": null,
+  "fail_reason": null,
+  "certificate": {
+    "path": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/cert/l4plus_n5_critical_freeze_certificate.json",
+    "sha256": "sha256:86828d4fe8bad314e4eb34662f7023cc7bb155223d24af160f7d45ee0cd2726c"
+  },
+  "artifactLock": {
+    "path": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/l4plus_n5_critical_artifact_lock.json",
+    "sha256": "sha256:5359afe66a536a649fc01f8695a30741b5314f27b2f7136dfdf310caf49dc906"
+  },
+  "claim_boundary": {
+    "public_claims_allowed": true,
+    "n5_authorized": true,
+    "r99_9_claim_allowed": true,
+    "r99_99_claim_allowed": false,
+    "r99_999_claim_allowed": false,
+    "r99_999999_claim_allowed": false,
+    "universal_correctness_claim_allowed": false,
+    "platform_can_issue_certification": false
+  },
+  "blockers": [],
+  "next_action": "install exact serial on Hetzner for burn-in; keep GCP production blocked until burn-in PASS"
+}

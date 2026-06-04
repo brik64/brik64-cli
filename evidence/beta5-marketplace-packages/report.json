@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "brik64.cli_beta5_marketplace_package_gate.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_MARKETPLACE_PACKAGE_GATE",
+  "releaseEligible": false,
+  "marketplacePublicationAllowed": false,
+  "packages": {
+    "npm": {
+      "repository": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+      "packageName": "@brik64/core",
+      "version": "0.1.0-beta.5",
+      "artifact": {
+        "path": "evidence-beta5-pack/brik64-core-0.1.0-beta.5.tgz",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta5-pack/brik64-core-0.1.0-beta.5.tgz",
+        "sha256": "b91b9211b6aac10989503b870ef78ebe540a76df62998d8fec22652b7f6bc5bd",
+        "bytes": 20571
+      }
+    },
+    "pypi": {
+      "repository": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+      "packageName": "brik64",
+      "version": "0.1.0b5",
+      "wheel": {
+        "path": "dist/brik64-0.1.0b5-py3-none-any.whl",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5-py3-none-any.whl",
+        "sha256": "292c06abca1252e92954dd6df736d44d2bea3f8fb8173bb78ddd00ca18f6cf66",
+        "bytes": 10016
+      },
+      "sdist": {
+        "path": "dist/brik64-0.1.0b5.tar.gz",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5.tar.gz",
+        "sha256": "0bd39229ae3d9790026637df1703a38b7ede5146e40e3f9733d2bdb01d07a436",
+        "bytes": 7425
+      }
+    },
+    "cargo": {
+      "repository": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+      "crateName": "brik64-core",
+      "version": "0.1.0-beta.5",
+      "artifact": {
+        "path": "target/package/brik64-core-0.1.0-beta.5.crate",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/target/package/brik64-core-0.1.0-beta.5.crate",
+        "sha256": "2a8e2b6fb44d11c5a87c34beb7e0f9d05fba14eab153d688dcf72f52a3f8e62a",
+        "bytes": 14799
+      }
+    }
+  },
+  "failures": [],
+  "boundary": "Package artifacts are local beta5 candidates only. This gate does not authorize npm, PyPI or Cargo publication."
+}

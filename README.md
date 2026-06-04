@@ -5,7 +5,11 @@ workflows. It gives developers a practical way to start working with
 PCD-oriented structure, local evidence review, and claim-safe project
 scaffolding from their own machine.
 
-Current public beta: [`0.1.0-beta.4`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.4)
+Current development target: `0.1.0-beta.5`.
+
+`0.1.0-beta.5` is not published until the PCD-generated artifact, offline
+L4+N5 engine bundle, adversarial audit, distribution hardening, checksums, and
+release manifest gates pass.
 
 ## Install
 
@@ -24,7 +28,8 @@ brik64 help
 
 The npm package `@brik64/cli` is a legacy beta channel and is no longer the
 recommended installation path. Use the curl installer and GitHub Release assets
-for beta4.
+for the latest public CLI release. `0.1.0-beta.5` remains a candidate until its
+release manifest authorizes publication.
 
 ## Official Channels
 
@@ -35,10 +40,26 @@ for beta4.
 - Agent skills: [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
 - Public roadmap: [BRIK64 CLI Public Roadmap](docs/PUBLIC_ROADMAP.md)
 
-## Beta4 Scope
+## Beta5 Candidate Scope
 
-This beta is intended for evaluation, local workflow trials, platform package
-smoke testing, and bounded PCD/evidence review.
+`0.1.0-beta.5` is intended to move the CLI from scaffold behavior toward a
+functional local PCD workflow. It must remain claim-bounded until generated
+artifact, offline engine, hardening, checksum, and cross-platform gates pass.
+
+Current beta5 candidate capabilities:
+
+- `brik init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
+- `brik doctor` validates the local beta5 workspace contract and engine tier
+  boundary.
+- `brik certify <file.pcd>` parses a bounded PCD subset and writes a local
+  candidate certificate.
+- `brik emit <file.pcd>` requires a matching certificate and fails closed on
+  stale hashes.
+- `brik emit --target <ts|rust|python> --out <dir> --tests` emits hash-bound
+  candidate outputs from parsed PCD structure.
+
+Current public release availability remains defined by GitHub Releases, the
+curl installer, release manifests, checksums, and published docs.
 
 Current installable platform lanes:
 
@@ -48,26 +69,28 @@ Current installable platform lanes:
 | Linux x64 (`linux-x64`) | Available in beta4 | Package emitted, checksumed, and smoke checked on Ubuntu x64. |
 | macOS Intel (`darwin-x64`) | Pending runner | Package emitted; install remains fail-closed until runner smoke passes. |
 | Linux ARM64 (`linux-arm64`) | Pending runner | Package emitted; install remains fail-closed until runner smoke passes. |
-| Windows x64 native | Not available in beta4 | No verified native executable is published. |
+| Windows x64 native | Not available in the current public release | No verified native executable is published. |
 
 Windows npm shim smoke exists as internal compatibility evidence only; it is not
 the public CLI distribution channel.
 
 Stronger certification, N5/L5+N5, fixpoint, self-hosting, universal Linux, and
 Windows-native compatibility claims remain gated by `brik64-prod` evidence and
-are not implied by this public beta.
+are not implied by this candidate.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. For beta4, npm is reserved for the
-JavaScript/TypeScript SDK:
+SDKs are distributed separately from the CLI. npm is reserved for SDK packages,
+not CLI distribution. The prior SDK beta4 install command was:
 
 ```sh
 npm install @brik64/core@0.1.0-beta.4
 ```
 
-Python and Rust SDKs are not public beta4 marketplace install paths unless a
-release note explicitly says otherwise.
+Python and Rust SDKs are not public marketplace install paths unless a release
+note explicitly says otherwise. Future beta5 SDKs must be generated through the
+same L6+N5 internal artifact-factory policy and published only after their own
+package gates pass.
 
 ## Public Interaction Policy
 
@@ -120,7 +143,8 @@ For a fuller file-by-file description, read
 ## Release Evidence
 
 Use the GitHub Release assets, release manifest, and `SHA256SUMS` to review the
-exact beta4 package candidates:
+latest published package candidates. Beta5 candidate evidence in this repository
+is not a public release by itself.
 
 https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.4
 

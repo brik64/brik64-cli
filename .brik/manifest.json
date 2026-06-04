@@ -1,14 +1,23 @@
 {
   "schema": "brik64.cli_project_manifest.v1",
+  "schemaVersion": "brik64.cli_project_manifest.v1",
   "project": "brik64-cli",
-  "cliVersion": "0.1.0-beta.0",
+  "cliVersion": "0.1.0-beta.5",
   "semanticSourceStatus": "candidate_pcd_seed",
   "semanticSourceRoot": "pcd/",
   "compositionPcd": "pcd/cli_polymer.pcd",
   "bootstrapEntrypoint": "src/brik.js",
   "publicBinaryName": "brik",
+  "engineTierPolicy": {
+    "publicOfflineRuntime": "L4+N5",
+    "registeredManagedRuntime": "L5+N5",
+    "internalArtifactFactory": "L6+N5",
+    "l6DistributionAllowed": false,
+    "l5EmbeddedFreeRuntimeAllowed": false
+  },
   "claimBoundary": {
     "releaseAuthorized": false,
+    "releaseAllowed": false,
     "fixpointClaimAuthorized": false,
     "n5ClaimAuthorized": false,
     "formalCertificationAuthorized": false,

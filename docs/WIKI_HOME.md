@@ -33,7 +33,7 @@ BRIK64 lands changes through authorized maintainers.
 
 ## Current Beta
 
-Current beta: `0.1.0-beta.4`
+Current candidate target: `0.1.0-beta.5`
 
 Install:
 
@@ -42,6 +42,9 @@ curl -fsSL https://brik64.com/cli/install.sh | bash
 brik64 --version
 brik64 help
 ```
+
+The published installable version is defined by the curl installer, GitHub
+Releases, checksums, and release manifests.
 
 ## Evidence Boundary
 

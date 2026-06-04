@@ -8,11 +8,11 @@ milestones by themselves.
 ## Current Public Channels
 
 - brik64.com curl installer: primary public CLI install path.
-- Cloud Run counted download endpoint: records beta4 platform requests and
+- Cloud Run counted download endpoint: records beta platform requests and
   redirects to verified release assets.
 - GitHub Releases: release notes, source archive, and platform assets.
 - npmjs: SDK registry only; `@brik64/cli` is a legacy CLI channel and is not the
-  beta4 install path.
+  beta install path.
 
 ## Required Next Channels
 
@@ -22,16 +22,37 @@ milestones by themselves.
 | Linux x64 | curl, GitHub release asset | Current beta lane | Ubuntu x64 smoke, checksum, release manifest |
 | macOS Intel | GitHub release asset, curl fail-closed, Homebrew later | Pending runner | Intel runner/install smoke, checksum, release manifest |
 | Linux ARM64 | GitHub release asset, curl fail-closed | Pending runner | ARM64 runner/install smoke, checksum, release manifest |
-| Windows PC native | no beta4 public asset | Blocked | verified executable, checksum, release manifest |
+| Windows PC native | no public asset | Blocked | verified executable, checksum, release manifest |
 | Homebrew | tap formula | Planned | formula audit, install smoke, checksum binding |
-| npm SDK | `@brik64/core@0.1.0-beta.4` | Required for beta4 SDK | npm pack, install smoke, registry verification |
+| npm SDK | SDK packages only | Required for beta5 SDKs | L6+N5 generation evidence, npm pack, install smoke, registry verification |
 
 ## Automation Boundary
 
 Each channel must publish only after platform-specific package, install,
 checksum, and release-evidence gates pass. Docs, GitHub Releases, Cloud Run,
 curl, SDK npm metadata, Homebrew, and brik64.com should reference the same
-version and artifact evidence. npm is not a CLI distribution channel in beta4.
+version and artifact evidence. npm is not a CLI distribution channel.
+
+## Mandatory Adversarial Audit Boundary
+
+Every new CLI version, beta, release candidate, or public release must pass the
+clean-room adversarial audit in
+[`BETA5_ADVERSARIAL_RELEASE_AUDIT.md`](BETA5_ADVERSARIAL_RELEASE_AUDIT.md)
+before publication.
+
+Publication must fail closed if any of these are missing or stale:
+
+- local completion gate;
+- local adversarial audit;
+- package smoke from the distributable artifact;
+- cross-platform smoke for claimed platforms;
+- signed checksums;
+- release surface sync gate;
+- publication preflight.
+
+The only blockers allowed to remain immediately before owner authorization are
+external publication actions: release tag, GitHub Release and marketplace
+authorization. Technical blockers must be closed before public deployment.
 
 ## Internal Tracking Boundary
 

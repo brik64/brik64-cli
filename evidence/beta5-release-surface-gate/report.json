@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "brik64.cli_beta5_release_surface_gate.v1",
+  "version": "0.1.0-beta.5",
+  "releaseMode": false,
+  "decision": "BLOCKED_PUBLIC_RELEASE_NOT_READY",
+  "releaseEligible": false,
+  "changelog": {
+    "path": "CHANGELOG.md",
+    "sha256": "45146c8d6f553c466c63063d5b7ac2723294b801b219f0d0b23808199437ba1e"
+  },
+  "adversarialMethodology": {
+    "path": "docs/BETA5_ADVERSARIAL_RELEASE_AUDIT.md",
+    "sha256": "0dc4c6ad941ec5397195ed798b33ac942ab8b9f267b8789a1b2d600f3b42b1b0"
+  },
+  "matrix": {
+    "path": "docs/BETA5_RELEASE_SURFACE_SYNC.md",
+    "sha256": "4302993b854a2ea135e632b3da8b3b159007362bcc9951f8be0a6e7f2b2f5ddc",
+    "surfaces": [
+      {
+        "surface": "CLI repo",
+        "status": "updated",
+        "evidence": "`package.json`, `src/brik.js`, `.brik/manifest.json`, `pcd/`, `tests/smoke.sh`",
+        "notes": "Local beta5 candidate only."
+      },
+      {
+        "surface": "CLI changelog",
+        "status": "updated",
+        "evidence": "`CHANGELOG.md`",
+        "notes": "Required for every beta; beta5 entry is candidate/non-release."
+      },
+      {
+        "surface": "Adversarial release audit methodology",
+        "status": "updated",
+        "evidence": "`docs/BETA5_ADVERSARIAL_RELEASE_AUDIT.md`",
+        "notes": "Mandatory clean-room audit before any beta5+ public publication."
+      },
+      {
+        "surface": "Release surface gate",
+        "status": "updated",
+        "evidence": "`evidence/beta5-release-surface-gate/report.json`",
+        "notes": "Enforces changelog/matrix binding and blocks release while required surfaces are blocked."
+      },
+      {
+        "surface": "L6 factory bridge",
+        "status": "updated",
+        "evidence": "`evidence/beta5-l6-factory-bridge/preflight-report.json`",
+        "notes": "Live preflight validates L6 serial/hash/boundary/route2."
+      },
+      {
+        "surface": "L6 route-2 generation",
+        "status": "updated",
+        "evidence": "`evidence/beta5-l6-route2/generation-report.json`",
+        "notes": "Bounded route-2 artifact generated; full CLI/polymer not generated yet."
+      },
+      {
+        "surface": "L4 offline runtime",
+        "status": "updated",
+        "evidence": "`engines/l4plus-n5/runtime-bundle.manifest.json`, `brik engine status`",
+        "notes": "Portable PCD/BIR bundle packaged and hash-verified; native executable not included."
+      },
+      {
+        "surface": "JavaScript/TypeScript SDK",
+        "status": "updated",
+        "evidence": "`evidence/beta5-sdk-sync/report.json`, `brik64-lib-js/BETA5_SYNC.md`",
+        "notes": "Local repo aligned to beta5; npm publication still blocked."
+      },
+      {
+        "surface": "Python SDK",
+        "status": "updated",
+        "evidence": "`evidence/beta5-sdk-sync/report.json`, `brik64-lib-python/BETA5_SYNC.md`",
+        "notes": "Local repo aligned to beta5; PyPI publication still blocked."
+      },
+      {
+        "surface": "Rust SDK",
+        "status": "updated",
+        "evidence": "`evidence/beta5-sdk-sync/report.json`, `brik64-lib-rust/BETA5_SYNC.md`",
+        "notes": "Local repo aligned to beta5; crates.io publication still blocked."
+      },
+      {
+        "surface": "Public skills",
+        "status": "updated",
+        "evidence": "`evidence/beta5-skills-sync/report.json`, `brik64-tools-skills/skills/brik64/SKILL.md`",
+        "notes": "Public skills aligned to beta5 candidate and scanned for private nomenclature."
+      },
+      {
+        "surface": "Local methodology skill",
+        "status": "updated",
+        "evidence": "`/Users/carlosjperez/.codex/skills/brik64-compiler-methodology/SKILL.md`",
+        "notes": "Release sync/changelog rule added."
+      },
+      {
+        "surface": "Docs site",
+        "status": "updated",
+        "evidence": "`evidence/beta5-docs-web-sync/report.json`, `brik64-docs-site/BETA5_SYNC.md`",
+        "notes": "Docs source has beta5 candidate sync; production deploy still blocked."
+      },
+      {
+        "surface": "Web/curl surface",
+        "status": "updated",
+        "evidence": "`evidence/beta5-docs-web-sync/report.json`, `brik64.com/docs/BRIK64_CLI_BETA5_SURFACE_SYNC.md`",
+        "notes": "Web source has beta5 candidate sync; curl publication still blocked."
+      },
+      {
+        "surface": "GitHub Release",
+        "status": "blocked",
+        "evidence": "no beta5 release manifest/signature/checksums",
+        "notes": "Required before publication."
+      },
+      {
+        "surface": "Marketplace publishing",
+        "status": "blocked",
+        "evidence": "no npm/PyPI/Cargo beta5 package evidence",
+        "notes": "SDK-only marketplaces; CLI remains curl/GitHub."
+      }
+    ]
+  },
+  "buildChain": {
+    "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
+    "changelogBound": true,
+    "matrixBound": true,
+    "adversarialMethodologyBound": true
+  },
+  "blockers": [
+    "GitHub Release",
+    "Marketplace publishing"
+  ],
+  "failures": [],
+  "warnings": []
+}

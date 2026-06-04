@@ -1,0 +1,10 @@
+PC l4plus_engine_runtime {
+    let engine = "l4_plus";
+    let runner = "/opt/brik64/engines/l4plus/l4plus-engine-runner.sh";
+    let binary = "/opt/brik64/engines/l4plus/bir_runtime";
+    let policy = "/opt/brik64/engines/l4plus/software/spec/lane_policy.yaml";
+    OUTPUT engine;
+    OUTPUT runner;
+    OUTPUT binary;
+    OUTPUT policy;
+}

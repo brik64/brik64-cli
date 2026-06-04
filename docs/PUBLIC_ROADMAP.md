@@ -11,7 +11,10 @@ issues when a reproducible public bug or metadata mismatch needs discussion.
 
 ## Current Public Beta
 
-Current beta: [`0.1.0-beta.4`](https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.4)
+Current candidate target: `0.1.0-beta.5`.
+
+The latest public release remains defined by the curl installer, GitHub
+Releases, checksums, and release manifests.
 
 Current public install path:
 
@@ -19,9 +22,10 @@ Current public install path:
 curl -fsSL https://brik64.com/cli/install.sh | bash
 ```
 
-The current beta supports local CLI evaluation, `.brik` project metadata,
-PCD-oriented local evidence, and candidate output generation for targets shown
-by the installed `brik help` output.
+The beta5 candidate targets local CLI evaluation, `.brik` project metadata,
+PCD-oriented local evidence, `brik doctor`, local candidate certification, and
+hash-bound candidate output generation for targets shown by the installed
+`brik help` output.
 
 ## Milestone 1: Platform CLI Beta Coverage
 
@@ -35,7 +39,7 @@ release notes.
 | Linux x64 | curl installer plus GitHub Release asset | Current beta lane | Ubuntu x64 install smoke, checksum, release manifest |
 | macOS Intel | GitHub Release asset; installer fail-closed until runner passes | Pending runner | Intel install smoke, checksum, release manifest |
 | Linux ARM64 | GitHub Release asset; installer fail-closed until runner passes | Pending runner | Linux ARM64 install smoke, checksum, release manifest |
-| Windows PC native | no beta4 public asset | Blocked | verified Windows executable, checksum, release manifest |
+| Windows PC native | no public asset | Blocked | verified Windows executable, checksum, release manifest |
 
 This milestone is complete only when each listed platform has a public package
 or documented install path, a versioned release reference, and a platform-specific
@@ -50,7 +54,7 @@ weakening the beta evidence boundary.
 Planned lanes:
 
 - Curl installer on brik64.com as the official CLI install path.
-- Cloud Run counted download endpoint that records beta4 platform downloads and
+- Cloud Run counted download endpoint that records beta platform downloads and
   redirects to verified GitHub Release assets.
 - Homebrew tap formula for macOS only after formula audit, smoke, and checksum gates.
 - brik64.com and docs.brik64.com install pages aligned to the same current beta
@@ -81,8 +85,10 @@ them.
 
 Public targets:
 
-- JavaScript/TypeScript SDK beta4 is distributed through npm as
+- JavaScript/TypeScript SDK beta4 was distributed through npm as
   `@brik64/core@0.1.0-beta.4`.
+- Beta5 SDKs must be regenerated through the L6+N5 internal artifact-factory
+  policy before marketplace publication.
 - Python and Rust references remain marked as reference surfaces until a future
   release explicitly opens those marketplace paths.
 - Docs and release notes identify exact SDK package versions before recommending

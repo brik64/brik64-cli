@@ -1,0 +1,19 @@
+  🧪 L6+ route-2 generated tests: /tmp/brik64-cli-beta5-l6-route2-1780598871768/out/brik_cli_beta5_route2.test.js
+  📄 L6+ route-2 test manifest: /tmp/brik64-cli-beta5-l6-route2-1780598871768/out/brik_cli_beta5_route2.tests.manifest.json
+L6PLUS_ROUTE2_BUILD target=js output=/tmp/brik64-cli-beta5-l6-route2-1780598871768/out/brik_cli_beta5_route2.js
+TAP version 13
+# Subtest: l6plus route2 fixture cases
+ok 1 - l6plus route2 fixture cases
+  ---
+  duration_ms: 1.565628
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14.441519
