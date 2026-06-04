@@ -5,10 +5,12 @@
 // certifiesTests: false
 // certifiesFixpoint: false
 // product = "brik64-cli"
-// cli_version = "0.1.0-beta.3"
+// cli_version = "0.1.0-beta.5"
 // public_binary = "brik"
 // execution_status = "public_beta"
 // ascii_banner = "BRIK64"
+// public_offline_runtime = "L4+N5"
+// internal_artifact_factory = "L6+N5"
 // claim_boundary = "local_candidate_only"
 
 PC brik_cli_core {

@@ -1,78 +1,32 @@
-# GitHub To npm Publishing Runbook
+# Deprecated CLI npm Publishing Runbook
 
-BRIK64 CLI beta releases should be published from GitHub Actions after the
-package metadata, README, NOTICE, release evidence, and claim-safe copy have
-been reviewed.
+BRIK64 CLI beta4 and later are not published through npm. The public CLI
+install path is:
 
-## Recommended Path
-
-Use the manual workflow:
-
-```text
-.github/workflows/publish-npm-beta.yml
+```sh
+curl -fsSL https://brik64.com/cli/install.sh | bash
 ```
 
-This publishes to npmjs. It does not publish to GitHub Packages. Use
-`docs/GITHUB_PACKAGES_PUBLISHING.md` and
-`.github/workflows/publish-github-packages-beta.yml` for the separate GitHub
-Packages mirror.
+The historical npm package `@brik64/cli` is a legacy channel and must not be
+used as the beta install authority. If registry policy permits, legacy CLI npm
+versions should be removed. If removal is not permitted, deprecate them with a
+message that points users to the curl installer.
 
-Inputs:
+## Current Boundary
 
-- `version`: exact `package.json` version, for example `0.1.0-beta.1`.
-- `dist_tag`: normally `beta`.
-- `confirm_public_beta`: must equal `PUBLISH_BRIK64_CLI_BETA`.
+- npm is reserved for SDK packages. Beta5 SDK packages must be regenerated
+  through the L6+N5 internal artifact-factory policy before publication.
+- GitHub Releases remain the public CLI asset and checksum record.
+- Cloud Run counts CLI downloads and redirects to verified release assets.
+- Docs and brik64.com must not recommend npm for CLI installation.
 
-Required GitHub configuration:
+## Required Verification
 
-- Secret: `NPM_TOKEN` with publish rights for `@brik64/cli`.
-- Manual confirmation input: `confirm_public_beta` must be typed for every
-  publish run.
+After any cleanup of legacy npm CLI metadata:
 
-This workflow intentionally does not attach a GitHub deployment environment.
-Publishing an npm package is a package-release operation, not a web deployment,
-so keeping the workflow environment-free avoids misleading deployment-status
-labels in the public GitHub UI.
+```sh
+npm view @brik64/cli dist-tags versions --json
+```
 
-## Workflow Checks
-
-The workflow:
-
-- validates package name and exact version;
-- restricts this lane to `0.1.0-beta.*` versions;
-- runs `npm test`;
-- runs `npm pack --dry-run`;
-- requires `README.md` and `NOTICE`;
-- fails if the version already exists on npm;
-- publishes with public access and the selected dist-tag;
-- verifies npm version metadata, README filename/content metadata, tarball metadata, and dist-tag after publish. The workflow retries metadata reads because npm propagation can lag immediately after a successful publish.
-
-## Trusted Publishing Upgrade
-
-npm supports Trusted Publishing from GitHub Actions using OIDC. That path reduces
-long-lived token exposure and can generate npm provenance automatically for a
-public package published from a public GitHub repository.
-
-To migrate:
-
-1. In npm package settings, add GitHub Actions as a trusted publisher for
-   organization `brik64`, repository `brik64-cli`, and this workflow.
-2. Keep `permissions.id-token: write` in the workflow.
-3. Test one beta publish from GitHub Actions.
-4. After the trusted publisher works, restrict or revoke traditional npm tokens.
-
-Until the trusted publisher is configured on npmjs.com, keep using the
-repository or organization `NPM_TOKEN` secret with the manual confirmation
-input.
-
-## Copy Boundary
-
-Release copy should describe beta scope positively:
-
-- local PCD workflows;
-- bounded evidence review;
-- claim-safe project scaffolding;
-- macOS local CLI usage for the current beta;
-- stronger scopes promoted only after matching BRIK64 gates authorize them.
-
-Use `docs/RELEASE_COPY_MANUAL.md` before publishing a new npm beta.
+Record whether each legacy version was removed, deprecated, or blocked by npm
+registry policy.

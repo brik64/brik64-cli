@@ -1,7 +1,7 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.3",
-  "private": false,
+  "version": "0.1.0-beta.5",
+  "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
   "repository": {
@@ -16,7 +16,25 @@
     "brik": "src/brik.js"
   },
   "scripts": {
-    "test": "bash tests/smoke.sh"
+    "test": "bash tests/smoke.sh",
+    "build:beta5:candidate": "node scripts/build-beta5-candidate.js",
+    "gate:beta5:release-surface": "node scripts/beta5-release-surface-gate.js",
+    "gate:beta5:release-surface:release": "node scripts/beta5-release-surface-gate.js --release",
+    "gate:beta5:sdk-sync": "node scripts/beta5-sdk-sync-gate.js",
+    "gate:beta5:skills-sync": "node scripts/beta5-skills-sync-gate.js",
+    "gate:beta5:docs-web-sync": "node scripts/beta5-docs-web-sync-gate.js",
+    "gate:beta5:marketplace-packages": "node scripts/beta5-marketplace-package-gate.js",
+    "preflight:beta5:publication": "node scripts/beta5-publication-preflight.js",
+    "audit:beta5:adversarial": "node scripts/beta5-adversarial-audit.js",
+    "gate:beta5:local-completion": "node scripts/beta5-local-completion-gate.js",
+    "smoke:beta5:cross-platform": "node scripts/beta5-cross-platform-smoke.js",
+    "sign:beta5:checksums": "node scripts/beta5-release-checksums.js",
+    "package:beta5:local": "node scripts/build-beta5-package.js",
+    "smoke:beta5:package": "node scripts/beta5-package-smoke.js",
+    "package:beta5:l4-runtime": "node scripts/package-l4-runtime.js",
+    "preflight:beta5:l6": "node scripts/beta5-l6-factory-bridge.js",
+    "preflight:beta5:l6:live": "node scripts/beta5-l6-factory-bridge.js --live",
+    "generate:beta5:l6-route2": "node scripts/beta5-l6-route2-generate.js"
   },
   "author": {
     "name": "BRIK64 INC",
@@ -34,11 +52,6 @@
   ],
   "engines": {
     "node": ">=20"
-  },
-  "publishConfig": {
-    "access": "public",
-    "tag": "beta",
-    "registry": "https://registry.npmjs.org/"
   },
   "files": [
     "src",

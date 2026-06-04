@@ -1,0 +1,8 @@
+{
+  "cases": [
+    { "name": "init", "inputs": [1], "expected": 10 },
+    { "name": "certify", "inputs": [2], "expected": 20 },
+    { "name": "emit", "inputs": [3], "expected": 30 },
+    { "name": "unknown", "inputs": [99], "expected": 0 }
+  ]
+}

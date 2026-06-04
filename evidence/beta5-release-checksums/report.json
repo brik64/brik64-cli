@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "brik64.cli_beta5_release_checksums.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_SIGNED_CHECKSUMS",
+  "releaseEligible": false,
+  "signer": "admin@brik64.dev",
+  "namespace": "brik64-cli-release",
+  "checksums": {
+    "path": "evidence/beta5-release-checksums/SHA256SUMS",
+    "sha256": "d8653d37a2491a0ecec5a2109ac3f6c8d4e3813e51b8fa2f66be30cc65db4383",
+    "entries": [
+      {
+        "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+        "sha256": "806a9c9e3f649f0cdecbdbca1a8d852f5a08dbee4b64fcded2946bbcab401c17",
+        "bytes": 29821
+      },
+      {
+        "path": "evidence/beta5-package/package.manifest.json",
+        "sha256": "b3fca0a486bf545599d94fc3566067c3925bbd9a8e3ad256bb02083500a2af20",
+        "bytes": 6417
+      },
+      {
+        "path": "evidence/beta5-package-smoke/report.json",
+        "sha256": "b1f6ddb1e3a6a5eb70666f7045936d335ee22fbc39a55f6970723d725852850f",
+        "bytes": 606
+      },
+      {
+        "path": "evidence/beta5-cross-platform-smoke/report.json",
+        "sha256": "b000a4aacf8ccf3ac3b4019f6b6b2cbfb0a5adfeea2b1b3b381e9ef9122fd461",
+        "bytes": 1100
+      },
+      {
+        "path": "evidence/beta5-marketplace-packages/report.json",
+        "sha256": "4e238a54c910086ab251bc638fc855c5f35547419e5ae5e4bb6e67734639fa1c",
+        "bytes": 2128
+      },
+      {
+        "path": "evidence/beta5-publication-preflight/manifest.json",
+        "sha256": "626a302f4339ab8ea8face6d2286ef9c4a17cb37ac19535be99dd202a094798f",
+        "bytes": 2941
+      },
+      {
+        "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
+        "sha256": "4abb2674e8c84a70312a7faef0cd9369ec8572c16236f2da509bc67dfc3f5e89",
+        "bytes": 6387
+      },
+      {
+        "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta5-pack/brik64-core-0.1.0-beta.5.tgz",
+        "sha256": "b91b9211b6aac10989503b870ef78ebe540a76df62998d8fec22652b7f6bc5bd",
+        "bytes": 20571
+      },
+      {
+        "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5-py3-none-any.whl",
+        "sha256": "292c06abca1252e92954dd6df736d44d2bea3f8fb8173bb78ddd00ca18f6cf66",
+        "bytes": 10016
+      },
+      {
+        "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5.tar.gz",
+        "sha256": "0bd39229ae3d9790026637df1703a38b7ede5146e40e3f9733d2bdb01d07a436",
+        "bytes": 7425
+      },
+      {
+        "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/target/package/brik64-core-0.1.0-beta.5.crate",
+        "sha256": "2a8e2b6fb44d11c5a87c34beb7e0f9d05fba14eab153d688dcf72f52a3f8e62a",
+        "bytes": 14799
+      }
+    ]
+  },
+  "signature": {
+    "path": "evidence/beta5-release-checksums/SHA256SUMS.sig",
+    "sha256": "5fad37db8dd976cdf7285e31e443d41ebbcee3b01c0329c3377ae83829fe6259",
+    "verifiedWith": "/Users/carlosjperez/.ssh/brik64-allowed-signers"
+  },
+  "boundary": "Signed local beta5 checksums only. This does not create a Git tag, GitHub Release, curl publication or marketplace publication."
+}

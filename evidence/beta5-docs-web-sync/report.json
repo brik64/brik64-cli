@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "brik64.cli_beta5_docs_web_sync_gate.v1",
+  "version": "0.1.0-beta.5",
+  "decision": "PASS_DOCS_WEB_BETA5_SYNC",
+  "releaseEligible": false,
+  "deployAllowed": false,
+  "artifacts": [
+    {
+      "id": "docs_site",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/BETA5_SYNC.md",
+      "sha256": "8f442e1ef16c892d8f8d570b4c83ce997a83f9b9dcb0eef8f1e217e8018583b4",
+      "bytes": 826
+    },
+    {
+      "id": "web_curl_surface",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/docs/BRIK64_CLI_BETA5_SURFACE_SYNC.md",
+      "sha256": "d7b7805fafc8152ab9306dbe4c9db1c2da65540d74d03b2aa6aacfc3c63e4c1f",
+      "bytes": 772
+    }
+  ],
+  "failures": [],
+  "boundary": "Docs and web source are beta5-candidate synchronized; production deploy and curl publication remain blocked until release authorization."
+}
