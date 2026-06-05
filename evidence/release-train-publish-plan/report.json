@@ -81,6 +81,8 @@
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
   "failures": [],
-  "warnings": [],
+  "warnings": [
+    "manifest_source_commit_not_ancestor:e8e72cd:8aaa006"
+  ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
 }

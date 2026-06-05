@@ -25,7 +25,11 @@ function fetchText(url, redirects = 0) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
       headers: {
-        'user-agent': 'brik64-release-train-live-verify/1.0'
+        'user-agent': 'Mozilla/5.0 (compatible; brik64-release-train-live-verify/1.0; +https://brik64.com)',
+        'accept': 'text/html,application/json,text/plain,*/*;q=0.8',
+        'accept-language': 'en-US,en;q=0.9',
+        'cache-control': 'no-cache',
+        'pragma': 'no-cache'
       },
       timeout: 15000
     }, (res) => {

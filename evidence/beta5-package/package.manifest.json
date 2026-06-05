@@ -5,8 +5,8 @@
   "releaseEligible": false,
   "package": {
     "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
-    "sha256": "d95415035b8567ec7db4a6a1acc597003574ad8a5ae51ba21b31cae8d70708c1",
-    "bytes": 28665
+    "sha256": "234932b60b5da0a792a8c899b0894925ee7e0b8f3f12c51c2fffed5fc2868ce0",
+    "bytes": 28594
   },
   "artifacts": [
     {
@@ -141,12 +141,12 @@
     },
     {
       "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
-      "sha256": "d9ab55d5aee360632e34e0b3750eccdb27a0795b0598edad0f8011084473554c",
+      "sha256": "ccba3b21e75cd69dce88342442276e61c818f8d85426f15a43bb32fe7048eccc",
       "bytes": 6387
     },
     {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "bd1d48e63c9160392039abcd5ed6606b2811da2fcf0988867068657a11468c2d",
+      "sha256": "7de486f64f8d089af272df832f6ee68bff0bbf042521b62e8a838a512cc2dcfb",
       "bytes": 2941
     },
     {
