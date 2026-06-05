@@ -33,7 +33,7 @@
     {
       "name": "sdk_pypi",
       "description": "Publish the Python SDK package with twine.",
-      "command": "python -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5*",
+      "command": "python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5*",
       "mutatesPublicSurface": true
     },
     {

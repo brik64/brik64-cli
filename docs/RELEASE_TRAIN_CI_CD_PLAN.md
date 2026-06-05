@@ -1,6 +1,7 @@
 # BRIK64 Release Train CI/CD Plan
 
-Status: implementation plan, not an active automation contract yet.
+Status: partially implemented on `codex/release-train-ci`; pending merge to
+`main` and mutation-capable publication execution.
 
 Date: 2026-06-05
 
@@ -22,25 +23,32 @@ The train covers:
 
 ## Current State
 
-- beta5 was aligned manually across public surfaces.
-- GitHub Actions currently contains partial publishing and documentation
-  workflows, but no single fail-closed orchestrator owns the entire train.
-- The release train needs a versioned manifest before adding destructive or
-  public publishing steps.
+- beta5 has a committed release manifest at `release/manifest.json`.
+- Dry-run, sync-payload generation, publication-plan generation, and live
+  verification scripts exist and are wired to GitHub Actions.
+- The publish workflow is intentionally fail-closed: it can validate the release
+  train and generate a mutation-ready plan, but it does not yet mutate public
+  channels directly.
+- The automation is not operational until this branch is merged into the active
+  release branch and the required repository/environment secrets are configured.
 
 ## Release Train Checklist
 
 - [x] Document required release surfaces and failure policy.
 - [x] Define release manifest as the single source of truth.
 - [x] Define conservative worktree consolidation rules.
-- [ ] Add manifest validation command.
-- [ ] Add dry-run orchestration workflow.
-- [ ] Add publication workflow gated by dry-run evidence.
-- [ ] Add docs and web sync workflow consumers.
-- [ ] Add SDK marketplace publication consumers.
-- [ ] Add live verification workflow.
-- [ ] Add rollback and supersede playbooks.
-- [ ] Run the full train for the next beta candidate.
+- [x] Add manifest validation command.
+- [x] Add dry-run orchestration workflow.
+- [x] Add publication workflow gated by dry-run evidence.
+- [x] Add sync-payload generation for docs, web, changelog, and skills.
+- [x] Add publication-plan preflight with explicit secret and confirmation gates.
+- [x] Add live verification workflow.
+- [x] Add rollback and supersede guidance to the publication plan report.
+- [ ] Merge the workflow branch into the active release branch.
+- [ ] Configure required publication secrets in GitHub environments.
+- [ ] Add mutation-capable channel executors for GitHub Release, GCP curl
+  surface, SDK marketplaces, docs, web, and skills.
+- [ ] Run the full train for the next beta candidate from the active branch.
 
 ## Architecture
 
@@ -98,6 +106,17 @@ No public endpoint is modified by this workflow.
 ### 3. `release-train-publish`
 
 Runs only after a successful dry run for the same manifest digest.
+
+Current implementation:
+
+- validates manifest, dry-run, live public surfaces, and sync payloads;
+- requires an operator-supplied manifest digest;
+- requires exact confirmation text before publication preflight can pass;
+- checks required secret names without exposing values;
+- writes a mutation-ready publication plan and rollback guidance;
+- does not mutate public channels directly yet.
+
+Target implementation:
 
 The workflow must publish in a controlled order:
 
@@ -197,4 +216,3 @@ The CI/CD train is acceptable when:
 - the live verifier can independently prove the public version from public URLs
   and marketplace APIs.
 - rollback or supersede instructions exist for every public channel.
-

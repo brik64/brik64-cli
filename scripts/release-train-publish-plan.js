@@ -98,7 +98,7 @@ function main() {
     command(
       'sdk_pypi',
       'Publish the Python SDK package with twine.',
-      `python -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}*`,
+      `python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}*`,
       true
     ),
     command(

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.cli_beta5_l6_factory_bridge_preflight.v1",
   "version": "0.1.0-beta.5",
-  "generatedAt": "2026-06-05T09:27:07.133Z",
+  "generatedAt": "2026-06-05T09:41:50.033Z",
   "lane": "internal_non_claim_l6_factory_bridge",
   "decision": "BLOCKED_L6_FACTORY_BRIDGE",
   "releaseEligible": false,
   "request": {
     "path": "evidence/beta5-l6-factory-bridge/factory-request.json",
-    "sha256": "ff3fed1e2c5b994040fe6738a814a4414aca54fe38ccdc1ee041902d6677cd10"
+    "sha256": "b2e12aea35819ce9ea4154f38da215f81aa57b22d6bd2b811d78b02eea2757fb"
   },
   "checks": {
     "offlineContract": true,

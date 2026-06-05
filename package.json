@@ -39,7 +39,8 @@
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
     "release:train:live-verify": "node scripts/release-train-live-verify.js",
     "release:train:sync-surfaces": "node scripts/release-train-sync-surfaces.js",
-    "release:train:publish-plan": "node scripts/release-train-publish-plan.js"
+    "release:train:publish-plan": "node scripts/release-train-publish-plan.js",
+    "release:train:publish-execute": "node scripts/release-train-publish-execute.js"
   },
   "author": {
     "name": "BRIK64 INC",

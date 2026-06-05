@@ -73,7 +73,8 @@ function main() {
     run('release_surface_gate', ['node', 'scripts/beta5-release-surface-gate.js']),
     run('publication_preflight', ['node', 'scripts/beta5-publication-preflight.js']),
     run('sync_surfaces', ['node', 'scripts/release-train-sync-surfaces.js']),
-    run('publish_plan', ['node', 'scripts/release-train-publish-plan.js'])
+    run('publish_plan', ['node', 'scripts/release-train-publish-plan.js']),
+    run('publish_execute_dry_run', ['node', 'scripts/release-train-publish-execute.js'])
   ];
 
   for (const command of commands) {

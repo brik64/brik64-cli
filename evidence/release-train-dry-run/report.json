@@ -8,29 +8,49 @@
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [],
+  "initialDirtyFiles": [
+    ".github/workflows/release-train-publish.yml",
+    "docs/RELEASE_TRAIN_CI_CD_PLAN.md",
+    "evidence/beta5-l6-factory-bridge/factory-request.json",
+    "evidence/beta5-l6-factory-bridge/preflight-report.json",
+    "evidence/beta5-local-candidate/SHA256SUMS",
+    "evidence/beta5-local-candidate/build-chain.manifest.json",
+    "evidence/beta5-package-smoke/report.json",
+    "evidence/beta5-package/SHA256SUMS",
+    "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+    "evidence/beta5-package/package.manifest.json",
+    "evidence/beta5-publication-preflight/manifest.json",
+    "evidence/release-train-publish-plan/report.json",
+    "package.json",
+    "scripts/release-train-dry-run.js",
+    "scripts/release-train-publish-plan.js",
+    "docs/RELEASE_TRAIN_IMPLEMENTATION_STATUS.md",
+    "evidence/release-train-publish-execute/",
+    "scripts/release-train-publish-execute.js",
+    "scripts/release/"
+  ],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 777,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:1\n",
+      "elapsedMs": 251,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:19\n",
       "stderr": ""
     },
     {
       "name": "smoke_tests",
       "command": "npm test",
       "rc": 0,
-      "elapsedMs": 21907,
-      "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
+      "elapsedMs": 8921,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.5 test\n> bash tests/smoke.sh\n\ncreated=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
       "stderr": ""
     },
     {
       "name": "release_surface_gate",
       "command": "node scripts/beta5-release-surface-gate.js",
       "rc": 0,
-      "elapsedMs": 314,
+      "elapsedMs": 111,
       "stdout": "decision=PASS_RELEASE_SURFACE_GATE\nreleaseEligible=true\n",
       "stderr": ""
     },
@@ -38,7 +58,7 @@
       "name": "publication_preflight",
       "command": "node scripts/beta5-publication-preflight.js",
       "rc": 0,
-      "elapsedMs": 398,
+      "elapsedMs": 105,
       "stdout": "decision=BLOCKED_PUBLICATION_PREFLIGHT\ngithubReleaseAllowed=false\nmarketplacePublicationAllowed=false\nblockers=github_release_not_created,release_tag_not_created,marketplace_publication_not_authorized\n",
       "stderr": ""
     },
@@ -46,7 +66,7 @@
       "name": "sync_surfaces",
       "command": "node scripts/release-train-sync-surfaces.js",
       "rc": 0,
-      "elapsedMs": 259,
+      "elapsedMs": 104,
       "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
       "stderr": ""
     },
@@ -54,8 +74,16 @@
       "name": "publish_plan",
       "command": "node scripts/release-train-publish-plan.js",
       "rc": 0,
-      "elapsedMs": 490,
+      "elapsedMs": 239,
       "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\n",
+      "stderr": ""
+    },
+    {
+      "name": "publish_execute_dry_run",
+      "command": "node scripts/release-train-publish-execute.js",
+      "rc": 0,
+      "elapsedMs": 306,
+      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:21\n",
       "stderr": ""
     }
   ],
