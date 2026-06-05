@@ -68,12 +68,12 @@
   "l6FactoryBridge": {
     "request": {
       "path": "evidence/beta5-l6-factory-bridge/factory-request.json",
-      "sha256": "f5fa01bcfe4d291adb43f7aa4bfb04dc9af0772322b17e01dfadf4f19e9ba547",
+      "sha256": "8c25f4248e3d8bd1a23d8a4a5ab4b8f3d9858a2de566bec3b54251c0628fc6c2",
       "bytes": 2468
     },
     "preflightReport": {
       "path": "evidence/beta5-l6-factory-bridge/preflight-report.json",
-      "sha256": "90fc76b753c119269613b0c2cefa03caa48306e70cf8f594023adbe24fdd2707",
+      "sha256": "da808a38dc35367954e1c2acf4cdd83364b0ea568144cc6e5666269e76117611",
       "bytes": 717
     },
     "route2GenerationReport": {
@@ -104,8 +104,8 @@
     },
     "gateReport": {
       "path": "evidence/beta5-release-surface-gate/report.json",
-      "sha256": "9eb127d1641d2ca33f89ae54e616fc534b190943e717f531890d485beb90788b",
-      "bytes": 4964
+      "sha256": "be048b3ad1b6d836bb0d1b1bf8efac2293d55f689119187b6351a72ccdc5aabb",
+      "bytes": 4963
     },
     "sdkSyncReport": {
       "path": "evidence/beta5-sdk-sync/report.json",
@@ -129,7 +129,7 @@
     },
     "publicationPreflight": {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "07aac90ca2ff8e3d7c626abce70fc23a501d728e0ea7fb5a4f667fb9143360b3",
+      "sha256": "1579834c7b331c8b8308353d92561d61ef9782ebcc81ca67ba4eecaa69ae20ed",
       "bytes": 2941
     },
     "adversarialAudit": {
@@ -139,12 +139,12 @@
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "65f6c649687dea0bbd6a8a9b54d62c672af350aef80bd41635be219e2f0718d5",
+      "sha256": "e784494498be6b82978676fc2937e35a53b3b6c5befb84f41609d32d2ffab264",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "6779aa56d3b06212c93e70409eff89bc384be773642afb5b09c46670987ef7e7",
+      "sha256": "5f5b27ea9b849007cdc0dd39084e32817210df299a0efa0fd1761ae4d6f3a43a",
       "bytes": 606
     },
     "crossPlatformSmoke": {

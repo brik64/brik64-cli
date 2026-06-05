@@ -24,6 +24,10 @@ Branch: `codex/release-train-ci`
 - `scripts/release-train-dry-run.js` runs manifest validation, smoke tests,
   release-surface checks, publication preflight, sync payload generation, and
   publication-plan generation without public mutation.
+- `tests/smoke.sh` keeps sibling-repository SDK/docs/web/skills checks enabled
+  for local release stations and skips those absolute-path checks on GitHub
+  Actions, where the committed evidence reports and live verifier are the
+  portable authority.
 - `scripts/release-train-live-verify.js` observes public installer, channel
   manifest, GitHub Release, docs, web, SDK marketplaces, and public skill state.
 - `scripts/release-train-sync-surfaces.js` generates public changelog markdown

@@ -16,10 +16,12 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  node "$ROOT_DIR/scripts/beta5-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA5_SYNC"
-  node "$ROOT_DIR/scripts/beta5-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA5_SYNC"
-  node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
-  node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
+  if [ "${GITHUB_ACTIONS:-false}" != "true" ]; then
+    node "$ROOT_DIR/scripts/beta5-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA5_SYNC"
+    node "$ROOT_DIR/scripts/beta5-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA5_SYNC"
+    node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
+    node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
+  fi
   node "$ROOT_DIR/scripts/build-beta5-package.js" | grep -q "PASS_LOCAL_PACKAGE_CANDIDATE_BUILT"
   node "$ROOT_DIR/scripts/beta5-package-smoke.js" | grep -q "decision=PASS_LOCAL_PACKAGE_SMOKE"
   node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"
