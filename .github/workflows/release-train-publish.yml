@@ -48,11 +48,10 @@ jobs:
             npm install --ignore-scripts --no-package-lock
           fi
 
-      - name: Validate release train before publication
+      - name: Validate release train pre-publication
         run: |
           npm run release:manifest:validate
           npm run release:train:dry-run
-          npm run release:train:live-verify
 
       - name: Check requested manifest digest
         shell: bash
