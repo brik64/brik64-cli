@@ -1,73 +1,68 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.5",
-  "state": "public",
-  "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "version": "0.1.0-beta.6",
+  "state": "draft",
+  "manifestDigest": "8d121dbc5d6a747b1458b033a0764eedd3496907ddfdf1af54aa40349535b308",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": true,
+  "releaseEligible": false,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
-      "bytes": 4000
+      "sha256": "8d121dbc5d6a747b1458b033a0764eedd3496907ddfdf1af54aa40349535b308",
+      "bytes": 3943
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.5"
+      "version": "0.1.0-beta.6"
     },
     "evidence": [
       {
-        "id": "adversarialAudit",
-        "path": "evidence/beta5-adversarial-audit/report.json",
-        "expectedDecision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT",
-        "actualDecision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT",
-        "sha256": "a05e4f80a7c8d5876d796264c314a45a337d5c6a502ec7e4e87d838cf4c0dac6"
+        "id": "l6HetznerGeneration",
+        "path": "evidence/beta6-l6-hetzner-generation/report.json",
+        "expectedDecision": "PASS_L6_FULL_CLI_GENERATION_READY",
+        "actualDecision": "PASS_L6_FULL_CLI_GENERATION_READY",
+        "sha256": "9ae83aaded65ebe1108c875751377d7c92334d90c1e5e38a5a34fe1e6d7ea307"
       },
       {
-        "id": "crossPlatformSmoke",
-        "path": "evidence/beta5-cross-platform-smoke/report.json",
-        "expectedDecision": "PASS_CROSS_PLATFORM_SMOKE",
-        "actualDecision": "PASS_CROSS_PLATFORM_SMOKE",
-        "sha256": "b000a4aacf8ccf3ac3b4019f6b6b2cbfb0a5adfeea2b1b3b381e9ef9122fd461"
+        "id": "l6FullGenerationContract",
+        "path": "evidence/beta6-l6-full-generation-contract/report.json",
+        "expectedDecision": "PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED",
+        "actualDecision": "PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED",
+        "sha256": "efccd7f5731c5111f433a375427668889f27a8ff8bf3d80683b75f3d6dd79746"
       },
       {
-        "id": "marketplacePackages",
-        "path": "evidence/beta5-marketplace-packages/report.json",
-        "expectedDecision": "PASS_MARKETPLACE_PACKAGE_GATE",
-        "actualDecision": "PASS_MARKETPLACE_PACKAGE_GATE",
-        "sha256": "4e238a54c910086ab251bc638fc855c5f35547419e5ae5e4bb6e67734639fa1c"
+        "id": "l6HarnessMaterialization",
+        "path": "evidence/beta6-l6-full-materialization-attempt/report.json",
+        "expectedDecision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED",
+        "actualDecision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED",
+        "sha256": "ed0aec0931d43f86ad71158bf96e587e2e17407ce896b889524f9a5d4fb69757"
       },
       {
-        "id": "docsWebSync",
-        "path": "evidence/beta5-docs-web-sync/report.json",
-        "expectedDecision": "PASS_DOCS_WEB_BETA5_SYNC",
-        "actualDecision": "PASS_DOCS_WEB_BETA5_SYNC",
-        "sha256": "6c46c7a462637c0159bd85857a76511e34c34cd545bf607122f602fa3a429bd8"
+        "id": "packageHarness",
+        "path": "evidence/beta6-package-harness/report.json",
+        "expectedDecision": "PASS_BETA6_PACKAGE_HARNESS_GENERATED_FROM_PCD",
+        "actualDecision": "PASS_BETA6_PACKAGE_HARNESS_GENERATED_FROM_PCD",
+        "sha256": "4e6bd3dde4117d13bb945676e0da2c80e72081039a64cebbcc9efe8ccf2b305a"
       },
       {
-        "id": "skillsSync",
-        "path": "evidence/beta5-skills-sync/report.json",
-        "expectedDecision": "PASS_SKILLS_BETA5_SYNC",
-        "actualDecision": "PASS_SKILLS_BETA5_SYNC",
-        "sha256": "0d6ff512191265d93d4242b9739f412b58971a8143eb1324ba32ba37e19d9f5b"
+        "id": "localPackage",
+        "path": "evidence/beta6-package/package.manifest.json",
+        "expectedDecision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT",
+        "actualDecision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT",
+        "sha256": "bc08fa0725184de160d765036e4f14934dbdd86251ae954ab6b4f32f6513d863"
       },
       {
-        "id": "signedChecksums",
-        "path": "evidence/beta5-release-checksums/report.json",
-        "expectedDecision": "PASS_SIGNED_CHECKSUMS",
-        "actualDecision": "PASS_SIGNED_CHECKSUMS",
-        "sha256": "b8662f6771a3566eb14d5458a5d893532a791fbc3882f5bae70681f3b9420327"
-      },
-      {
-        "id": "localCompletion",
-        "path": "evidence/beta5-local-completion/report.json",
-        "expectedDecision": "PASS_BETA5_LOCAL_COMPLETION",
-        "actualDecision": "PASS_BETA5_LOCAL_COMPLETION",
-        "sha256": "5620f85b1a24825ba2fea2fbf4cd3141ad123872d66765f80af81b41664ef83f"
+        "id": "localPackageSmoke",
+        "path": "evidence/beta6-package-smoke/report.json",
+        "expectedDecision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE",
+        "actualDecision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE",
+        "sha256": "fe66b2dc10f6d1a2f724a88eb994face4d2ec487457c07a51965db03fa6a1b44"
       }
     ]
   },
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "worktree_dirty_allowed:26"
+  ]
 }

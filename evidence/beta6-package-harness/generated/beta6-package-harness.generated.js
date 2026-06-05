@@ -3,7 +3,7 @@
 // product_artifact=BRIK64 CLI 0.1.0-beta.6
 // harness_role=internal generator for BRIK64 CLI beta6 package/release manifests
 // pcd_sha256=692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b
-// contract_sha256=42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420
+// contract_sha256=182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d
 // releaseEligible=false
 const fs = require('fs');
 const path = require('path');
@@ -50,7 +50,7 @@ function build(rootDir) {
     harnessRole: 'internal generator for BRIK64 CLI beta6 package/release manifests',
     generatedFrom: 'pcd/beta6_package_harness.pcd',
     pcdSha256: '692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b',
-    fullGenerationContractSha256: '42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420',
+    fullGenerationContractSha256: '182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d',
     releaseEligible,
     decision: releaseEligible ? 'PASS_BETA6_PACKAGE_HARNESS_READY' : 'BLOCKED_BETA6_PACKAGE_HARNESS_L6_NOT_READY',
     inputs,

@@ -96,7 +96,11 @@ function validate() {
   add(manifest.releaseId === `brik64-${manifest.version}`, failures, 'release_id_version_drift');
   add(['draft', 'dry_run_passed', 'publishing', 'public', 'failed', 'superseded'].includes(manifest.state), failures, 'state_invalid');
   add(packageJson.version === manifest.version, failures, `package_version_drift:${packageJson.version}`);
-  add(readme.includes(`Current public beta: \`${manifest.version}\``), failures, 'readme_current_version_drift');
+  if (manifest.state === 'public') {
+    add(readme.includes(`Current public beta: \`${manifest.version}\``), failures, 'readme_current_version_drift');
+  } else {
+    add(readme.includes(`Current beta candidate: \`${manifest.version}\``), failures, 'readme_candidate_version_drift');
+  }
   add(changelog.includes(`## ${manifest.version}`), failures, 'changelog_version_missing');
   add(changelogSection.length > 0, failures, 'changelog_section_missing');
   add(!/candidate_non_release|^## .+ - Candidate/im.test(changelogSection), failures, 'changelog_candidate_boundary_stale');

@@ -3,11 +3,12 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BRIK="$ROOT_DIR/src/brik.js"
+PACKAGE_VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("package.json","utf8")).version)')"
 tmpdir="$(mktemp -d)"
 cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.5"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.6"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" doctor | grep -q '"status": "PASS"'
@@ -23,25 +24,29 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
     node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
     node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
   fi
-  node "$ROOT_DIR/scripts/build-beta5-package.js" | grep -q "PASS_LOCAL_PACKAGE_CANDIDATE_BUILT"
-  node "$ROOT_DIR/scripts/beta5-package-smoke.js" | grep -q "decision=PASS_LOCAL_PACKAGE_SMOKE"
-  node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"
-  node "$ROOT_DIR/scripts/beta5-publication-preflight.js" | grep -q "decision=BLOCKED_PUBLICATION_PREFLIGHT"
-  if node "$ROOT_DIR/scripts/beta5-publication-preflight.js" --release >/tmp/brik-publication-preflight.out 2>/tmp/brik-publication-preflight.err; then
-    echo "publication preflight should fail closed in release mode" >&2
-    exit 1
+  node "$ROOT_DIR/scripts/build-beta6-package.js" | grep -q "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT"
+  node "$ROOT_DIR/scripts/beta6-package-smoke.js" | grep -q "decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE"
+  if [ "$PACKAGE_VERSION" != "0.1.0-beta.6" ]; then
+    node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"
+    node "$ROOT_DIR/scripts/beta5-publication-preflight.js" | grep -q "decision=BLOCKED_PUBLICATION_PREFLIGHT"
+    if node "$ROOT_DIR/scripts/beta5-publication-preflight.js" --release >/tmp/brik-publication-preflight.out 2>/tmp/brik-publication-preflight.err; then
+      echo "publication preflight should fail closed in release mode" >&2
+      exit 1
+    fi
+    grep -q "githubReleaseAllowed=false" /tmp/brik-publication-preflight.out
+    node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
+    node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-release-surface-gate/report.json","utf8")); if (r.releaseEligible !== true || !r.buildChain.changelogBound || !r.buildChain.matrixBound) process.exit(1)'
+    node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" --release | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
   fi
-  grep -q "githubReleaseAllowed=false" /tmp/brik-publication-preflight.out
-  node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-release-surface-gate/report.json","utf8")); if (r.releaseEligible !== true || !r.buildChain.changelogBound || !r.buildChain.matrixBound) process.exit(1)'
-  node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" --release | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
   node "$ROOT_DIR/scripts/release-manifest-validate.js" --allow-dirty | grep -q "decision=PASS_RELEASE_MANIFEST_VALIDATE"
-  if node "$ROOT_DIR/scripts/beta5-l6-factory-bridge.js" >/tmp/brik-l6-preflight.out 2>/tmp/brik-l6-preflight.err; then
-    echo "offline L6 preflight should block without live route2 probe" >&2
-    exit 1
+  if [ "$PACKAGE_VERSION" != "0.1.0-beta.6" ]; then
+    if node "$ROOT_DIR/scripts/beta5-l6-factory-bridge.js" >/tmp/brik-l6-preflight.out 2>/tmp/brik-l6-preflight.err; then
+      echo "offline L6 preflight should block without live route2 probe" >&2
+      exit 1
+    fi
+    grep -q "decision=BLOCKED_L6_FACTORY_BRIDGE" /tmp/brik-l6-preflight.out
+    node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-l6-factory-bridge/preflight-report.json","utf8")); if (r.checks.offlineContract !== true || r.releaseEligible !== false) process.exit(1)'
   fi
-  grep -q "decision=BLOCKED_L6_FACTORY_BRIDGE" /tmp/brik-l6-preflight.out
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-l6-factory-bridge/preflight-report.json","utf8")); if (r.checks.offlineContract !== true || r.releaseEligible !== false) process.exit(1)'
 fi
 
 (

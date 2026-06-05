@@ -8,15 +8,7 @@ const outDir = path.join(root, 'evidence', 'beta6-l6-full-generation-contract');
 const contractPath = path.join(root, 'pcd', 'l6_full_cli_generation_factory.pcd');
 const manifestPath = path.join(root, '.brik', 'manifest.json');
 const hetznerReportPath = path.join(root, 'evidence', 'beta6-l6-hetzner-generation', 'report.json');
-const host = process.env.BRIK64_L6_HOST || 'root@89.167.104.236';
-const remoteHarness = {
-  pcdPath: '/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/harness.pcd',
-  pcdSha256: 'c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc',
-  manifestPath: '/opt/brik64/engines/l6plus-n5/current/artifacts/manifests/harness.manifest.json',
-  manifestSha256: 'c8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563',
-  generatedTestsPcdPath: '/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/generated_tests_harness.pcd',
-  generatedTestsPcdSha256: '5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144'
-};
+const materializationReportPath = path.join(root, 'evidence', 'beta6-l6-full-materialization-attempt', 'report.json');
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -39,22 +31,6 @@ function writeJson(file, value) {
   fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function run(command, args) {
-  return require('child_process').execFileSync(command, args, {
-    encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe']
-  });
-}
-
-function ssh(script) {
-  return run('ssh', [
-    '-o', 'BatchMode=yes',
-    '-o', 'ConnectTimeout=8',
-    host,
-    script
-  ]);
-}
-
 function includesAll(text, patterns) {
   return patterns.map((pattern) => ({
     pattern,
@@ -70,16 +46,16 @@ function main() {
     'engine = "L6+N5"',
     'cli_version = "0.1.0-beta.6"',
     'hetzner_instance_id = "125157982"',
-    'required_serial = "BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf"',
+    'required_serial = "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957"',
     'requires pcd_inventory_hash_bound == true',
     'requires cli_polymer_hash_bound == true',
-    'requires harness_source_pcd_hash_bound == true',
-    'requires harness_manifest_hash_bound == true',
-    'requires generated_tests_harness_pcd_hash_bound == true',
+    'requires beta6_package_harness_pcd_hash_bound == true',
+    'requires full_materialization_report_hash_bound == true',
     'requires technical_sheet_present == true',
     'requires full_cli_compile_supported == true',
     'requires route2_bounded_only == false',
     'requires generated_artifact_hash_bound == true',
+    'requires emitted_harness_artifact_hash_bound == true',
     'requires package_manifest_hash_bound == true',
     'requires release_manifest_hash_bound == true',
     'invariant source_to_artifact_chain_hash_bound == true',
@@ -93,40 +69,16 @@ function main() {
   if (!fs.existsSync(contractPath)) blockers.push('contract_pcd_missing');
   if (!fs.existsSync(manifestPath)) blockers.push('manifest_missing');
   if (!fs.existsSync(hetznerReportPath)) blockers.push('hetzner_generation_report_missing');
+  if (!fs.existsSync(materializationReportPath)) blockers.push('materialization_report_missing');
 
   let contract = '';
   let manifest = {};
   let hetznerReport = {};
+  let materializationReport = {};
   if (fs.existsSync(contractPath)) contract = fs.readFileSync(contractPath, 'utf8');
   if (fs.existsSync(manifestPath)) manifest = readJson(manifestPath);
   if (fs.existsSync(hetznerReportPath)) hetznerReport = readJson(hetznerReportPath);
-
-  let remoteHarnessEvidence = {
-    host,
-    expected: remoteHarness,
-    observed: {},
-    error: null
-  };
-  try {
-    const output = ssh([
-      'set -e',
-      `sha256sum ${remoteHarness.pcdPath}`,
-      `sha256sum ${remoteHarness.manifestPath}`,
-      `sha256sum ${remoteHarness.generatedTestsPcdPath}`,
-      `node -e "const fs=require('fs'); const m=JSON.parse(fs.readFileSync('${remoteHarness.manifestPath}','utf8')); console.log('MANIFEST_SOURCE_PCD_SHA256='+m.source_pcd.sha256); console.log('MANIFEST_PUBLIC_CLAIMS_ALLOWED='+m.public_claims_allowed); console.log('MANIFEST_CLAIM_AUTHORITY='+m.claim_authority);"`
-    ].join('\n'));
-    const lines = output.split('\n').map((line) => line.trim()).filter(Boolean);
-    remoteHarnessEvidence.raw = output;
-    remoteHarnessEvidence.observed.pcdSha256 = (lines.find((line) => line.endsWith(remoteHarness.pcdPath)) || '').split(/\s+/)[0] || '';
-    remoteHarnessEvidence.observed.manifestSha256 = (lines.find((line) => line.endsWith(remoteHarness.manifestPath)) || '').split(/\s+/)[0] || '';
-    remoteHarnessEvidence.observed.generatedTestsPcdSha256 = (lines.find((line) => line.endsWith(remoteHarness.generatedTestsPcdPath)) || '').split(/\s+/)[0] || '';
-    for (const line of lines) {
-      const match = /^(MANIFEST_[A-Z0-9_]+)=(.*)$/.exec(line);
-      if (match) remoteHarnessEvidence.observed[match[1]] = match[2];
-    }
-  } catch (error) {
-    remoteHarnessEvidence.error = String(error.message).split('\n')[0];
-  }
+  if (fs.existsSync(materializationReportPath)) materializationReport = readJson(materializationReportPath);
 
   const patternChecks = includesAll(contract, requiredPatterns);
   const missingPatterns = patternChecks.filter((item) => !item.present).map((item) => item.pattern);
@@ -136,26 +88,23 @@ function main() {
   checks.hetznerIdentityVerified = hetznerReport.checks?.hetznerInstanceMatches === true
     && hetznerReport.checks?.publicIpv4Matches === true
     && hetznerReport.checks?.availabilityZoneMatches === true;
-  checks.hetznerFullCompileBlocked = hetznerReport.checks?.fullCliCompileSupported === false
-    && hetznerReport.checks?.route2Only === true;
-  checks.remoteHarnessPcdHashMatches = remoteHarnessEvidence.observed.pcdSha256 === remoteHarness.pcdSha256;
-  checks.remoteHarnessManifestHashMatches = remoteHarnessEvidence.observed.manifestSha256 === remoteHarness.manifestSha256;
-  checks.remoteGeneratedTestsHarnessPcdHashMatches = remoteHarnessEvidence.observed.generatedTestsPcdSha256 === remoteHarness.generatedTestsPcdSha256;
-  checks.remoteHarnessManifestBindsSourcePcd = remoteHarnessEvidence.observed.MANIFEST_SOURCE_PCD_SHA256 === remoteHarness.pcdSha256;
-  checks.remoteHarnessClaimBoundaryClosed = remoteHarnessEvidence.observed.MANIFEST_PUBLIC_CLAIMS_ALLOWED === 'false'
-    && remoteHarnessEvidence.observed.MANIFEST_CLAIM_AUTHORITY === 'internal_non_claim';
+  checks.hetznerFullCompileReady = hetznerReport.decision === 'PASS_L6_FULL_CLI_GENERATION_READY'
+    && hetznerReport.checks?.fullCliCompileSupported === true
+    && hetznerReport.checks?.route2Only === false;
+  checks.materializationPass = materializationReport.decision === 'PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED'
+    && materializationReport.remote?.rc === 0
+    && Array.isArray(materializationReport.remote?.outFiles)
+    && materializationReport.remote.outFiles.length > 0;
+  checks.materializationNonRelease = materializationReport.releaseEligible === false;
   checks.contractReleaseEligible = false;
 
   if (!checks.contractPatternsPresent) blockers.push('contract_required_pattern_missing');
   if (!checks.manifestL6Factory) blockers.push('manifest_internal_factory_not_l6n5');
   if (!checks.manifestL6DistributionClosed) blockers.push('manifest_l6_distribution_not_closed');
   if (!checks.hetznerIdentityVerified) blockers.push('hetzner_identity_not_verified');
-  if (!checks.hetznerFullCompileBlocked) blockers.push('hetzner_route2_blocker_not_recorded');
-  if (!checks.remoteHarnessPcdHashMatches) blockers.push('remote_harness_pcd_hash_mismatch');
-  if (!checks.remoteHarnessManifestHashMatches) blockers.push('remote_harness_manifest_hash_mismatch');
-  if (!checks.remoteGeneratedTestsHarnessPcdHashMatches) blockers.push('remote_generated_tests_harness_pcd_hash_mismatch');
-  if (!checks.remoteHarnessManifestBindsSourcePcd) blockers.push('remote_harness_manifest_source_pcd_not_bound');
-  if (!checks.remoteHarnessClaimBoundaryClosed) blockers.push('remote_harness_claim_boundary_not_closed');
+  if (!checks.hetznerFullCompileReady) blockers.push('hetzner_full_compile_not_ready');
+  if (!checks.materializationPass) blockers.push('beta6_l6_materialization_not_pass');
+  if (!checks.materializationNonRelease) blockers.push('beta6_l6_materialization_release_boundary_open');
 
   const decision = blockers.length === 0
     ? 'PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED'
@@ -183,10 +132,17 @@ function main() {
       decision: hetznerReport.decision,
       blockers: hetznerReport.blockers || []
     } : null,
-    remoteHarnessEvidence,
+    materializationReport: fs.existsSync(materializationReportPath) ? {
+      path: rel(materializationReportPath),
+      sha256: sha256(read(materializationReportPath)),
+      decision: materializationReport.decision,
+      outFiles: materializationReport.remote?.outFiles || []
+    } : null,
     checks,
     blockers,
-    requiredNextAction: 'Implement or deploy an L6+N5 harness that satisfies pcd/l6_full_cli_generation_factory.pcd and turns the beta6 Hetzner generation gate into PASS_L6_FULL_CLI_GENERATION_READY.'
+    requiredNextAction: decision === 'PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED'
+      ? 'Bind emitted harness artifact into package/release manifest and continue beta6 artifact generation.'
+      : 'Repair beta6 L6 contract/materialization evidence before package/release manifest binding.'
   };
 
   writeJson(path.join(outDir, 'report.json'), report);
