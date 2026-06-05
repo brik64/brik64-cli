@@ -52,6 +52,11 @@ Branch: `main`
   `brik64-admin/brik64-lib-python`, and `brik64-admin/brik64-lib-rust`.
 - `release-train-publish.yml` supports keyless GCP authentication through
   Google Cloud Workload Identity Federation.
+- `scripts/release/configure-gcp-wif.js` codifies the remaining keyless GCP
+  setup. It validates that `admin@brik64.com` is the active refreshed account,
+  creates or reuses the Workload Identity Pool/provider, binds the release
+  publisher service account, and writes the two non-secret GitHub repository
+  secret values required by the publication workflow when run with `--apply`.
 
 ## Not Yet Implemented
 
@@ -74,8 +79,9 @@ Branch: `main`
 
 ## Next Closure Patch
 
-Reauthenticate `admin@brik64.com`, create the GCP Workload Identity
-Pool/provider with the impersonated commands documented in
-`docs/BETA5_PUBLIC_RELEASE_COMPLETION_PLAN.md`, configure the two GCP repository
-secrets, and run `release-train-publish` from `main` in mutation mode using the
-exact `PUBLISH <version> <manifest_digest>` confirmation string.
+Reauthenticate `admin@brik64.com`, run
+`npm run release:train:gcp-wif -- --apply`, configure any resulting missing
+secret state reported by GitHub, and run `release-train-publish` from `main` in
+mutation mode using the exact `PUBLISH <version> <manifest_digest>`
+confirmation string. The raw impersonated commands remain documented in
+`docs/BETA5_PUBLIC_RELEASE_COMPLETION_PLAN.md` for operator review.

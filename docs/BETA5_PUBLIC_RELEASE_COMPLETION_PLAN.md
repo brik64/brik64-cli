@@ -122,6 +122,12 @@ gcloud config set account admin@brik64.com
 Then create the pool/provider through the release publisher service account:
 
 ```bash
+npm run release:train:gcp-wif -- --apply
+```
+
+The underlying commands are:
+
+```bash
 PROJECT=brik64-platform-mvp
 PROJECT_NUMBER=897764825865
 POOL=brik64-github-actions
