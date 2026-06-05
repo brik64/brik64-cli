@@ -8,21 +8,29 @@
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [],
+  "initialDirtyFiles": [
+    "package.json",
+    "scripts/release-train-dry-run.js",
+    ".github/workflows/release-train-publish.yml",
+    "evidence/release-train-publish-plan/",
+    "evidence/release-train-sync/",
+    "scripts/release-train-publish-plan.js",
+    "scripts/release-train-sync-surfaces.js"
+  ],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 101,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:1\n",
+      "elapsedMs": 98,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:8\n",
       "stderr": ""
     },
     {
       "name": "smoke_tests",
       "command": "npm test",
       "rc": 0,
-      "elapsedMs": 4894,
+      "elapsedMs": 4901,
       "stdout": "\n> @brik64/cli@0.1.0-beta.5 test\n> bash tests/smoke.sh\n\ncreated=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
       "stderr": ""
     },
@@ -30,7 +38,7 @@
       "name": "release_surface_gate",
       "command": "node scripts/beta5-release-surface-gate.js",
       "rc": 0,
-      "elapsedMs": 99,
+      "elapsedMs": 80,
       "stdout": "decision=PASS_RELEASE_SURFACE_GATE\nreleaseEligible=true\n",
       "stderr": ""
     },
@@ -38,8 +46,24 @@
       "name": "publication_preflight",
       "command": "node scripts/beta5-publication-preflight.js",
       "rc": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 97,
       "stdout": "decision=BLOCKED_PUBLICATION_PREFLIGHT\ngithubReleaseAllowed=false\nmarketplacePublicationAllowed=false\nblockers=github_release_not_created,release_tag_not_created,marketplace_publication_not_authorized\n",
+      "stderr": ""
+    },
+    {
+      "name": "sync_surfaces",
+      "command": "node scripts/release-train-sync-surfaces.js",
+      "rc": 0,
+      "elapsedMs": 105,
+      "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
+      "stderr": ""
+    },
+    {
+      "name": "publish_plan",
+      "command": "node scripts/release-train-publish-plan.js",
+      "rc": 0,
+      "elapsedMs": 125,
+      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\n",
       "stderr": ""
     }
   ],

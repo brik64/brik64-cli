@@ -25,8 +25,8 @@
       "id": "github_release",
       "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5",
       "statusCode": 200,
-      "sha256": "d30ab35c1cd6f069867b871fd2448aaf8a09edced8b97f091d1ac242608bb4f5",
-      "bytes": 213436
+      "sha256": "adeddb1c678a7eb1998ab2d1b5421f6446a1a1ed6e18c2e7b3b6d8b09c8547c0",
+      "bytes": 213437
     },
     {
       "id": "docs_install",
@@ -39,14 +39,14 @@
       "id": "web_home",
       "url": "https://brik64.com/",
       "statusCode": 200,
-      "sha256": "0023ff94a143d348bfa01baa5f3d9534183be6523a0e71403cc69ca00016b7c1",
+      "sha256": "e9a21a255c7653cbeddd6939095adbd3896944caabe6c47cf7959d61a332ad7d",
       "bytes": 303995
     },
     {
       "id": "web_changelog",
       "url": "https://brik64.com/changelog",
       "statusCode": 200,
-      "sha256": "1364a0371ea045107805aba689affb5d6403ff2d27aec26dad44da2a7712f77a",
+      "sha256": "6d53cfacf4516a9ada92d5e2fefb826b6b40e9edd1dcb8602bdd80b806f3d2d3",
       "bytes": 69193
     },
     {
@@ -67,7 +67,7 @@
       "id": "crates_sdk",
       "url": "https://crates.io/api/v1/crates/brik64-core",
       "statusCode": 200,
-      "sha256": "73d3e59b53dcbb2b68e3ba00856bac4e7468a5c8d31fbc09047f56051466f89b",
+      "sha256": "62975220d07f148e97df7aeac3c1b3052608a1f35f1eadca39cc14410aabb88b",
       "bytes": 13157
     },
     {

@@ -71,7 +71,9 @@ function main() {
     run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
     run('smoke_tests', ['npm', 'test']),
     run('release_surface_gate', ['node', 'scripts/beta5-release-surface-gate.js']),
-    run('publication_preflight', ['node', 'scripts/beta5-publication-preflight.js'])
+    run('publication_preflight', ['node', 'scripts/beta5-publication-preflight.js']),
+    run('sync_surfaces', ['node', 'scripts/release-train-sync-surfaces.js']),
+    run('publish_plan', ['node', 'scripts/release-train-publish-plan.js'])
   ];
 
   for (const command of commands) {
