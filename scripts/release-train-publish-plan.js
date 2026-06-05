@@ -38,12 +38,19 @@ function command(name, description, commandLine, mutatesPublicSurface) {
   return { name, description, command: commandLine, mutatesPublicSurface };
 }
 
+function betaLabel(version) {
+  const match = String(version).match(/-beta\.(\d+)$/);
+  if (!match) throw new Error(`unsupported_beta_version:${version}`);
+  return `beta${match[1]}`;
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const manifestText = readText(manifestPath);
   const manifest = JSON.parse(manifestText);
   const dryRun = readJson(path.join(root, 'evidence', 'release-train-dry-run', 'report.json'));
-  const liveVerify = readJson(path.join(root, 'evidence', 'release-train-live-verify', 'report.json'));
+  const liveVerifyPath = path.join(root, 'evidence', 'release-train-live-verify', 'report.json');
+  const liveVerify = fs.existsSync(liveVerifyPath) ? readJson(liveVerifyPath) : null;
   const manifestDigest = sha256(manifestText);
   const failures = [];
   const warnings = [];
@@ -51,13 +58,22 @@ function main() {
   const releaseTag = manifest.publicSurfaces.githubRelease.tag;
   const expectedConfirm = `PUBLISH ${manifest.version} ${manifestDigest}`;
   const dryRunInProgress = process.env.BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS === '1';
+  const label = betaLabel(manifest.version);
+  const packageDir = `evidence/${label}-package`;
+  const packageManifest = readJson(path.join(root, packageDir, 'package.manifest.json'));
+  const packagePath = packageManifest.package.path;
+  const jsSdkPackDir = `evidence-${label}-pack`;
+  const pythonSdkVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version;
 
   if (manifest.state !== 'public') failures.push(`manifest_state_not_public:${manifest.state}`);
   if (!dryRunInProgress && dryRun.decision !== 'PASS_RELEASE_TRAIN_DRY_RUN') failures.push(`dry_run_not_green:${dryRun.decision}`);
   if (!dryRunInProgress && dryRun.manifestDigest !== manifestDigest) failures.push('dry_run_manifest_digest_drift');
   if (dryRunInProgress) warnings.push('dry_run_report_currently_being_generated');
-  if (liveVerify.decision !== 'PASS_RELEASE_TRAIN_LIVE_VERIFY') failures.push(`live_verify_not_green:${liveVerify.decision}`);
-  if (liveVerify.manifestDigest !== manifestDigest) failures.push('live_verify_manifest_digest_drift');
+  if (liveVerify && liveVerify.decision === 'PASS_RELEASE_TRAIN_LIVE_VERIFY') {
+    if (liveVerify.manifestDigest !== manifestDigest) warnings.push('pre_publish_live_verify_manifest_digest_drift');
+  } else {
+    warnings.push(liveVerify ? `pre_publish_live_verify_not_green:${liveVerify.decision}` : 'pre_publish_live_verify_missing');
+  }
 
   const currentHead = gitOutput(['rev-parse', '--short', 'HEAD']);
   if (manifest.source.commit !== currentHead && gitStatus(['merge-base', '--is-ancestor', manifest.source.commit, 'HEAD']) !== 0) {
@@ -93,22 +109,22 @@ function main() {
   const commands = [
     command(
       'github_release',
-      'Create or update the GitHub Release from the manifest version and committed assets.',
-      `gh release view ${releaseTag} --repo brik64/brik64-cli || gh release create ${releaseTag} --repo brik64/brik64-cli --title "BRIK64 CLI ${manifest.version}" --notes-file CHANGELOG.md`,
+      'Create or update the GitHub Release from the manifest version and upload committed assets.',
+      `gh release view ${releaseTag} --repo brik64/brik64-cli || gh release create ${releaseTag} --repo brik64/brik64-cli --title "BRIK64 CLI ${manifest.version}" --notes-file CHANGELOG.md && gh release upload ${releaseTag} --repo brik64/brik64-cli --clobber ${packagePath} ${packageDir}/package.manifest.json ${packageDir}/SHA256SUMS`,
       true
     ),
     command(
       'sdk_npm',
       'Publish the TypeScript SDK package with the manifest beta version.',
-      `npm view @brik64/core@${manifest.version} version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta5-pack/brik64-core-${manifest.version}.tgz`,
+      `npm view @brik64/core@${manifest.version} version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/${jsSdkPackDir}/brik64-core-${manifest.version}.tgz`,
       true
     ),
     command(
       'sdk_pypi',
       'Publish the Python SDK package with twine.',
-      `python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}*
+      `python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-${pythonSdkVersion}*
 import urllib.request
-urllib.request.urlopen('https://pypi.org/pypi/brik64/${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}/json', timeout=20).close()
+urllib.request.urlopen('https://pypi.org/pypi/brik64/${pythonSdkVersion}/json', timeout=20).close()
 PY`,
       true
     ),

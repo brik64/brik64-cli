@@ -57,6 +57,33 @@ function gitDirtyFiles() {
     ].includes(file));
 }
 
+function committedSurfaceReportCommand() {
+  const script = `
+const fs = require('fs');
+const required = [
+  ['evidence/beta6-sdk-sync/report.json', 'PASS_SDK_BETA6_SYNC'],
+  ['evidence/beta6-marketplace-packages/report.json', 'PASS_MARKETPLACE_PACKAGE_GATE'],
+  ['evidence/beta6-skills-sync/report.json', 'PASS_SKILLS_BETA6_SYNC'],
+  ['evidence/beta6-docs-web-sync/report.json', 'PASS_DOCS_WEB_BETA6_SYNC']
+];
+const failures = [];
+for (const [file, decision] of required) {
+  if (!fs.existsSync(file)) {
+    failures.push('missing:' + file);
+    continue;
+  }
+  const report = JSON.parse(fs.readFileSync(file, 'utf8'));
+  if (report.decision !== decision) failures.push(file + ':' + (report.decision || 'missing'));
+}
+if (failures.length) {
+  console.error(failures.join(','));
+  process.exit(1);
+}
+console.log('decision=PASS_BETA6_COMMITTED_SURFACE_REPORTS');
+`;
+  return run('beta6_committed_surface_reports', ['node', '-e', script]);
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const manifestText = readText(manifestPath);
@@ -67,8 +94,10 @@ function main() {
   const initialDirtyFiles = gitDirtyFiles();
   if (initialDirtyFiles.length > 0 && !allowDirty) failures.push(`initial_worktree_dirty:${initialDirtyFiles.length}`);
 
-  const beta6Draft = manifest.version === '0.1.0-beta.6' && manifest.state === 'draft';
+  const beta6 = manifest.version === '0.1.0-beta.6';
+  const beta6Draft = beta6 && manifest.state === 'draft';
   const runLiveL6Gate = process.env.GITHUB_ACTIONS !== 'true' || process.env.BRIK64_L6_LIVE_GATES === '1';
+  const canAccessSiblingRepos = process.env.GITHUB_ACTIONS !== 'true';
   const commands = [
     run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
     ...(manifest.version === '0.1.0-beta.6' && runLiveL6Gate
@@ -78,10 +107,24 @@ function main() {
       stdoutLimit: 12000,
       stderrLimit: 12000
     }),
-    ...(beta6Draft
+    ...(beta6
       ? [
           run('beta6_local_package', ['node', 'scripts/build-beta6-package.js']),
-          run('beta6_package_smoke', ['node', 'scripts/beta6-package-smoke.js'])
+          run('beta6_package_smoke', ['node', 'scripts/beta6-package-smoke.js']),
+          ...(canAccessSiblingRepos
+            ? [
+                run('beta6_sdk_sync', ['node', 'scripts/beta6-sdk-sync-gate.js']),
+                run('beta6_marketplace_packages', ['node', 'scripts/beta6-marketplace-package-gate.js'])
+              ]
+            : [committedSurfaceReportCommand()]),
+          ...(beta6Draft
+            ? []
+            : canAccessSiblingRepos
+              ? [
+                run('beta6_skills_sync', ['node', 'scripts/beta6-skills-sync-gate.js']),
+                run('beta6_docs_web_sync', ['node', 'scripts/beta6-docs-web-sync-gate.js'])
+              ]
+              : [])
         ]
       : [
           run('release_surface_gate', ['node', 'scripts/beta5-release-surface-gate.js']),

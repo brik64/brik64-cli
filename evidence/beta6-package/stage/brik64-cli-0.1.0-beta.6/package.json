@@ -40,6 +40,8 @@
     "gate:beta6:l6-full-contract": "node scripts/beta6-l6-full-generation-contract-gate.js",
     "generate:beta6:package-harness": "node scripts/beta6-generate-package-harness-from-pcd.js",
     "attempt:beta6:l6-full-materialization": "node scripts/beta6-l6-full-materialization-attempt.js",
+    "gate:beta6:sdk-sync": "node scripts/beta6-sdk-sync-gate.js",
+    "gate:beta6:marketplace-packages": "node scripts/beta6-marketplace-package-gate.js",
     "package:beta6:local": "node scripts/build-beta6-package.js",
     "smoke:beta6:package": "node scripts/beta6-package-smoke.js",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",

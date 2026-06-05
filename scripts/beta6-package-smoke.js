@@ -38,7 +38,7 @@ function main() {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const packagePath = path.join(root, manifest.package.path);
   if (manifest.version !== version) throw new Error(`manifest_version_drift:${manifest.version}`);
-  if (manifest.releaseEligible !== false) throw new Error('local_package_release_boundary_open');
+  if (manifest.releaseEligible !== true) throw new Error('beta6_package_not_release_eligible');
   if (sha256File(packagePath) !== manifest.package.sha256) throw new Error('package_hash_mismatch');
 
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-beta6-package-smoke-'));
@@ -68,12 +68,12 @@ function main() {
     schemaVersion: 'brik64.cli_beta6_package_smoke.v1',
     version,
     decision: 'PASS_BETA6_LOCAL_PACKAGE_SMOKE',
-    releaseEligible: false,
+    releaseEligible: true,
     lane: 'cli_0_1_beta',
     generationClaim: 'assisted_generation_non_claim',
     package: manifest.package,
     checks: ['extract', 'version', 'engine-status', 'doctor', 'init', 'certify', 'emit-ts', 'stale-cert-fail-closed'],
-    boundary: 'Local beta6 package smoke only. Public release train and cross-platform smoke remain separate.'
+    boundary: 'Beta6 package smoke covers the distributable CLI package. Public release still requires synchronized curl/GCP, GitHub, web, docs, changelog, skills and SDK verification.'
   };
   fs.writeFileSync(path.join(outDir, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
   process.stdout.write(`decision=${report.decision}\n`);

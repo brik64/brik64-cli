@@ -23,11 +23,18 @@ need_file() {
 need_file "$MANIFEST_PATH"
 
 VERSION="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); process.stdout.write(m.version)' "$MANIFEST_PATH")"
-PACKAGE_PATH="$ROOT/evidence/beta5-package/brik64-cli-${VERSION}-local-candidate.tgz"
-PACKAGE_MANIFEST="$ROOT/evidence/beta5-package/package.manifest.json"
-CHECKSUMS="$ROOT/evidence/beta5-release-checksums/SHA256SUMS"
-need_file "$PACKAGE_PATH"
+BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$VERSION")"
+PACKAGE_DIR="$ROOT/evidence/beta${BETA_NUMBER}-package"
+CHECKSUM_DIR="$ROOT/evidence/beta${BETA_NUMBER}-release-checksums"
+PACKAGE_MANIFEST="$PACKAGE_DIR/package.manifest.json"
 need_file "$PACKAGE_MANIFEST"
+PACKAGE_RELATIVE_PATH="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); process.stdout.write(m.package.path)' "$PACKAGE_MANIFEST")"
+PACKAGE_PATH="$ROOT/$PACKAGE_RELATIVE_PATH"
+CHECKSUMS="$CHECKSUM_DIR/SHA256SUMS"
+if [ ! -f "$CHECKSUMS" ]; then
+  CHECKSUMS="$PACKAGE_DIR/SHA256SUMS"
+fi
+need_file "$PACKAGE_PATH"
 need_file "$CHECKSUMS"
 
 PACKAGE_SHA="$(shasum -a 256 "$PACKAGE_PATH" | awk '{print $1}')"

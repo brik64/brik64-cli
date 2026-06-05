@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.beta6_l6_hetzner_generation_gate.v1",
   "version": "0.1.0-beta.6",
-  "generatedAt": "2026-06-05T18:12:05.793Z",
+  "generatedAt": "2026-06-05T19:02:36.195Z",
   "lane": "beta6_l6_hetzner_generation_gate",
   "decision": "PASS_L6_FULL_CLI_GENERATION_READY",
   "releaseEligible": true,
   "request": {
     "path": "evidence/beta6-l6-hetzner-generation/generation-request.json",
-    "sha256": "acbf1784f8c7c462381db627376e79aad9a06eab9752546f14a4ce4ba81f9b5d"
+    "sha256": "22e8b30112d6c50d9dd9b51c008fb847526c510ed39237178d9cfbea93f41cc2"
   },
   "checks": {
     "sshReachable": true,

@@ -3,78 +3,77 @@
   "releaseId": "brik64-0.1.0-beta.6",
   "version": "0.1.0-beta.6",
   "channel": "beta",
-  "state": "draft",
-  "manifestDigest": "8d121dbc5d6a747b1458b033a0764eedd3496907ddfdf1af54aa40349535b308",
+  "state": "public",
+  "manifestDigest": "b6050bb0953e456d917205881b2f797079805b2f5006f1e6ffc468a5e715bed3",
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
   "initialDirtyFiles": [
-    "CHANGELOG.md",
-    "README.md",
-    "evidence/beta5-l6-factory-bridge/factory-request.json",
-    "evidence/beta5-l6-factory-bridge/preflight-report.json",
-    "evidence/beta6-l6-hetzner-generation/generation-request.json",
-    "evidence/beta6-l6-hetzner-generation/report.json",
-    "evidence/beta6-package-smoke/report.json",
-    "evidence/beta6-package/SHA256SUMS",
-    "evidence/beta6-package/brik64-cli-0.1.0-beta.6-local-candidate.tgz",
-    "evidence/beta6-package/package.manifest.json",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/CHANGELOG.md",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/README.md",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/evidence/beta6-l6-full-generation-contract/report.json",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/evidence/beta6-l6-full-materialization-attempt/report.json",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/evidence/beta6-l6-hetzner-generation/report.json",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/evidence/beta6-package-harness/generated/package-harness.manifest.json",
-    "evidence/beta6-package/stage/brik64-cli-0.1.0-beta.6/evidence/beta6-package-harness/report.json",
-    "evidence/release-train-publish-execute/report.json",
-    "evidence/release-train-publish-plan/report.json",
-    "evidence/release-train-sync/changelog.md",
-    "evidence/release-train-sync/report.json",
-    "evidence/release-train-sync/sync-payload.json",
-    "release/manifest.json",
-    "scripts/release-manifest-validate.js",
-    "scripts/release-train-dry-run.js",
-    "tests/smoke.sh"
+    "scripts/release-train-publish-plan.js"
   ],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 152,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.6\nwarnings=worktree_dirty_allowed:26\n",
-      "stderr": ""
-    },
-    {
-      "name": "beta6_l6_hetzner_generation_gate",
-      "command": "node scripts/beta6-l6-hetzner-generation-gate.js",
-      "rc": 0,
-      "elapsedMs": 1997,
-      "stdout": "decision=PASS_L6_FULL_CLI_GENERATION_READY\nreport=evidence/beta6-l6-hetzner-generation/report.json\n",
+      "elapsedMs": 101,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.6\nwarnings=worktree_dirty_allowed:1\n",
       "stderr": ""
     },
     {
       "name": "smoke_tests",
       "command": "bash -lc BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh",
       "rc": 0,
-      "elapsedMs": 4352,
+      "elapsedMs": 2934,
       "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
-      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/Users/carlosjperez/Documents/GitHub/brik64-cli\n+ BRIK=/Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.6\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o\n+ trap cleanup EXIT\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.6'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (!s.includes(\"█████████████\") || !s.includes(\"▒▒▒▒▒▒▒▒▒▒▒▒\")) process.exit(1); });'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q status=public_beta\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q '\"status\": \"PASS\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q '\"publicOfflineRuntime\": \"L4+N5\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q '\"internalArtifactFactory\": \"L6+N5\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"runtimeMode\": \"portable_bir_bundle\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n+ '[' false '!=' true ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta5-sdk-sync-gate.js\n+ grep -q decision=PASS_SDK_BETA5_SYNC\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta5-skills-sync-gate.js\n+ grep -q decision=PASS_SKILLS_BETA5_SYNC\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta5-docs-web-sync-gate.js\n+ grep -q decision=PASS_DOCS_WEB_BETA5_SYNC\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta5-marketplace-package-gate.js\n+ grep -q decision=PASS_MARKETPLACE_PACKAGE_GATE\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/build-beta6-package.js\n+ grep -q PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta6-package-smoke.js\n+ grep -q decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE\n+ '[' 0.1.0-beta.6 '!=' 0.1.0-beta.6 ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/release-manifest-validate.js --allow-dirty\n+ grep -q decision=PASS_RELEASE_MANIFEST_VALIDATE\n+ '[' 0.1.0-beta.6 '!=' 0.1.0-beta.6 ']'\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ test -f .brik/manifest.json\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.registeredManagedRuntime !== \"L5+N5\") process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ for target in ts rust python\n+ out=out-ts\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/out-ts/program.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/out-ts/program.test.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/out-rust/program.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/out-rust/program_test.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/out-python/program.py\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/out-python/test_program.py\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target go --out out-go --tests\n+ grep -q unsupported_target /tmp/brik-emit-go.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out ../escaped-out --tests\n+ grep -q path_outside_workspace /tmp/brik-out-traversal.err\n+ test '!' -e /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o/escaped-out/program.ts\n+ mkdir readonly\n+ chmod 500 readonly\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out readonly/child --tests\n+ chmod 700 readonly\n+ grep -q filesystem_mkdir_error /tmp/brik-readonly.err\n+ grep -q 'at Object\\.mkdirSync\\|Node\\.js' /tmp/brik-readonly.err\n+ cp program.pcd stale.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify stale.pcd\n+ printf '\\n        return 3;\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit stale.pcd\n+ grep -q certificate_hash_mismatch /tmp/brik-stale.err\n+ touch empty.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify empty.pcd\n+ grep -q pcd_empty /tmp/brik-empty.err\n+ printf 'not a pcd\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify corrupt.pcd\n+ grep -q pcd_parse_error /tmp/brik-corrupt.err\n+ cat\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify variant.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit variant.pcd --target ts --out out-variant --tests\n+ cmp -s out-ts/program.ts out-variant/program.ts\n+ printf '{ corrupted_json\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ grep -q manifest_parse_error /tmp/brik-bad-manifest.err\n+ rm .brik/manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(\".brik/manifest.json\", JSON.stringify(m,null,2)+\"\\n\")'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q engine_tier_policy_l6_distribution_open /tmp/brik-bad-tier.err\n+ echo 'brik64-cli bootstrap smoke: PASS'\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.Fs9ckITn3o\n"
+      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/Users/carlosjperez/Documents/GitHub/brik64-cli\n+ BRIK=/Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.6\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2\n+ trap cleanup EXIT\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.6'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (!s.includes(\"█████████████\") || !s.includes(\"▒▒▒▒▒▒▒▒▒▒▒▒\")) process.exit(1); });'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q status=public_beta\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q '\"status\": \"PASS\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q '\"publicOfflineRuntime\": \"L4+N5\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q '\"internalArtifactFactory\": \"L6+N5\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"runtimeMode\": \"portable_bir_bundle\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n+ '[' true '!=' true ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/build-beta6-package.js\n+ grep -q PASS_BETA6_PACKAGE_BUILT\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta6-package-smoke.js\n+ grep -q decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE\n+ '[' 0.1.0-beta.6 '!=' 0.1.0-beta.6 ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/release-manifest-validate.js --allow-dirty\n+ grep -q decision=PASS_RELEASE_MANIFEST_VALIDATE\n+ '[' 0.1.0-beta.6 '!=' 0.1.0-beta.6 ']'\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ test -f .brik/manifest.json\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.registeredManagedRuntime !== \"L5+N5\") process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ for target in ts rust python\n+ out=out-ts\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/out-ts/program.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/out-ts/program.test.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/out-rust/program.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/out-rust/program_test.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/out-python/program.py\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/out-python/test_program.py\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target go --out out-go --tests\n+ grep -q unsupported_target /tmp/brik-emit-go.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out ../escaped-out --tests\n+ grep -q path_outside_workspace /tmp/brik-out-traversal.err\n+ test '!' -e /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2/escaped-out/program.ts\n+ mkdir readonly\n+ chmod 500 readonly\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out readonly/child --tests\n+ chmod 700 readonly\n+ grep -q filesystem_mkdir_error /tmp/brik-readonly.err\n+ grep -q 'at Object\\.mkdirSync\\|Node\\.js' /tmp/brik-readonly.err\n+ cp program.pcd stale.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify stale.pcd\n+ printf '\\n        return 3;\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit stale.pcd\n+ grep -q certificate_hash_mismatch /tmp/brik-stale.err\n+ touch empty.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify empty.pcd\n+ grep -q pcd_empty /tmp/brik-empty.err\n+ printf 'not a pcd\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify corrupt.pcd\n+ grep -q pcd_parse_error /tmp/brik-corrupt.err\n+ cat\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify variant.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit variant.pcd --target ts --out out-variant --tests\n+ cmp -s out-ts/program.ts out-variant/program.ts\n+ printf '{ corrupted_json\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ grep -q manifest_parse_error /tmp/brik-bad-manifest.err\n+ rm .brik/manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(\".brik/manifest.json\", JSON.stringify(m,null,2)+\"\\n\")'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q engine_tier_policy_l6_distribution_open /tmp/brik-bad-tier.err\n+ echo 'brik64-cli bootstrap smoke: PASS'\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.EE4OgITvJ2\n"
     },
     {
       "name": "beta6_local_package",
       "command": "node scripts/build-beta6-package.js",
       "rc": 0,
-      "elapsedMs": 155,
-      "stdout": "decision=PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT\npackage=evidence/beta6-package/brik64-cli-0.1.0-beta.6-local-candidate.tgz\nsha256=85681d423adadb0a4f24f9c0fa0a6d85bff3658b44a269889477ffb853e227d8\n",
+      "elapsedMs": 128,
+      "stdout": "decision=PASS_BETA6_PACKAGE_BUILT\npackage=evidence/beta6-package/brik64-cli-0.1.0-beta.6.tgz\nsha256=17129537af89f3ac1f8c21f411fe2fe9bf1f41537e5d9373efccd317c6fee434\n",
       "stderr": ""
     },
     {
       "name": "beta6_package_smoke",
       "command": "node scripts/beta6-package-smoke.js",
       "rc": 0,
-      "elapsedMs": 637,
+      "elapsedMs": 550,
       "stdout": "decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE\nchecks=8\n",
+      "stderr": ""
+    },
+    {
+      "name": "beta6_committed_surface_reports",
+      "command": "node -e \nconst fs = require('fs');\nconst required = [\n  ['evidence/beta6-sdk-sync/report.json', 'PASS_SDK_BETA6_SYNC'],\n  ['evidence/beta6-marketplace-packages/report.json', 'PASS_MARKETPLACE_PACKAGE_GATE'],\n  ['evidence/beta6-skills-sync/report.json', 'PASS_SKILLS_BETA6_SYNC'],\n  ['evidence/beta6-docs-web-sync/report.json', 'PASS_DOCS_WEB_BETA6_SYNC']\n];\nconst failures = [];\nfor (const [file, decision] of required) {\n  if (!fs.existsSync(file)) {\n    failures.push('missing:' + file);\n    continue;\n  }\n  const report = JSON.parse(fs.readFileSync(file, 'utf8'));\n  if (report.decision !== decision) failures.push(file + ':' + (report.decision || 'missing'));\n}\nif (failures.length) {\n  console.error(failures.join(','));\n  process.exit(1);\n}\nconsole.log('decision=PASS_BETA6_COMMITTED_SURFACE_REPORTS');\n",
+      "rc": 0,
+      "elapsedMs": 64,
+      "stdout": "decision=PASS_BETA6_COMMITTED_SURFACE_REPORTS\n",
+      "stderr": ""
+    },
+    {
+      "name": "sync_surfaces",
+      "command": "node scripts/release-train-sync-surfaces.js",
+      "rc": 0,
+      "elapsedMs": 65,
+      "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
+      "stderr": ""
+    },
+    {
+      "name": "publish_plan",
+      "command": "bash -lc BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js",
+      "rc": 0,
+      "elapsedMs": 128,
+      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift\n",
+      "stderr": ""
+    },
+    {
+      "name": "publish_execute_dry_run",
+      "command": "node scripts/release-train-publish-execute.js",
+      "rc": 0,
+      "elapsedMs": 151,
+      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:1\n",
       "stderr": ""
     }
   ],
@@ -110,8 +109,8 @@
     {
       "id": "localPackage",
       "path": "evidence/beta6-package/package.manifest.json",
-      "expectedDecision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT",
-      "actualDecision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT",
+      "expectedDecision": "PASS_BETA6_PACKAGE_BUILT",
+      "actualDecision": "PASS_BETA6_PACKAGE_BUILT",
       "pass": true
     },
     {

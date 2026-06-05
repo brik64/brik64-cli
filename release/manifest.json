@@ -3,12 +3,12 @@
   "releaseId": "brik64-0.1.0-beta.6",
   "version": "0.1.0-beta.6",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-05T18:00:00Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta6-release-train",
-    "commit": "c4b9763"
+    "branch": "main",
+    "commit": "09766e3"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -91,22 +91,22 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds a beta6 local package candidate for the BRIK64 CLI."
+      "text": "Adds a distributable beta6 CLI package for the public curl installer and GitHub Release assets."
     },
     {
       "type": "added",
       "surface": "package",
-      "text": "Adds package smoke coverage for extraction, version output, workspace initialization, candidate certification, TypeScript emission, and stale certificate fail-closed behavior."
+      "text": "Adds package smoke coverage for extraction, version output, workspace initialization, certificate creation, TypeScript emission, and stale certificate fail-closed behavior."
     },
     {
       "type": "added",
-      "surface": "harness",
-      "text": "Binds the beta6 package candidate to generated PCD harness evidence."
+      "surface": "package",
+      "text": "Adds visible beta6 package metadata so users can verify the installed CLI version and package checksum."
     },
     {
       "type": "changed",
       "surface": "release",
-      "text": "Documents beta6 as a local package candidate before public installer availability."
+      "text": "Updates public install guidance, README, release metadata, and SDK coordinates to 0.1.0-beta.6."
     }
   ],
   "verification": {
@@ -134,7 +134,7 @@
       {
         "id": "localPackage",
         "path": "evidence/beta6-package/package.manifest.json",
-        "decision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT"
+        "decision": "PASS_BETA6_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",

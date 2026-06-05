@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "brik64.cli_beta6_skills_sync_gate.v1",
+  "version": "0.1.0-beta.6",
+  "decision": "PASS_SKILLS_BETA6_SYNC",
+  "releaseEligible": true,
+  "publicSkillPublicationAllowed": true,
+  "skillsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+  "artifacts": [
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/README.md",
+      "sha256": "175389d3b914f3553f8ebe5d2e73731758d53066a6164ebda6e1ad032d7ba40c",
+      "bytes": 5825
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64/SKILL.md",
+      "sha256": "b0725310c098d09f1afbdc77117bea8582906ad37626267c8501643bc7007573",
+      "bytes": 8011
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-javascript/SKILL.md",
+      "sha256": "8e449f5ce70d750d962d4946c07020b96e7ac3a37a5af0f6f194e725bcd08186",
+      "bytes": 8750
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-python/SKILL.md",
+      "sha256": "d41464b31dad2dafdd0dc383d917ace33c9a43975cb9386a23107cefe102ea87",
+      "bytes": 7673
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-rust/SKILL.md",
+      "sha256": "5a81d13c7275a95dffef506ca3b3eb7380d0e9541963ea0ab9062109b76c0300",
+      "bytes": 8809
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/pcd-system/SKILL.md",
+      "sha256": "e449c672e6b70c5220644c0bc192ccde64902221b3d4e2bd92fe84e14d2151c0",
+      "bytes": 4572
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/digital-circuitality/SKILL.md",
+      "sha256": "268c8f4b7b0293a681ca01b7ba2adc4a61554581dedf2ee1638256d77c78b4bf",
+      "bytes": 13259
+    }
+  ],
+  "failures": [],
+  "boundary": "Public skills are beta6 aligned and must not expose private release or engine nomenclature."
+}

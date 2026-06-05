@@ -2,15 +2,15 @@
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.6",
-  "state": "draft",
-  "manifestDigest": "8d121dbc5d6a747b1458b033a0764eedd3496907ddfdf1af54aa40349535b308",
+  "state": "public",
+  "manifestDigest": "b6050bb0953e456d917205881b2f797079805b2f5006f1e6ffc468a5e715bed3",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "8d121dbc5d6a747b1458b033a0764eedd3496907ddfdf1af54aa40349535b308",
-      "bytes": 3943
+      "sha256": "b6050bb0953e456d917205881b2f797079805b2f5006f1e6ffc468a5e715bed3",
+      "bytes": 3991
     },
     "packageJson": {
       "path": "package.json",
@@ -22,7 +22,7 @@
         "path": "evidence/beta6-l6-hetzner-generation/report.json",
         "expectedDecision": "PASS_L6_FULL_CLI_GENERATION_READY",
         "actualDecision": "PASS_L6_FULL_CLI_GENERATION_READY",
-        "sha256": "9ae83aaded65ebe1108c875751377d7c92334d90c1e5e38a5a34fe1e6d7ea307"
+        "sha256": "36237e676bd298e58f7d1ff719d903df6732339510b03161b659eb5973058eb3"
       },
       {
         "id": "l6FullGenerationContract",
@@ -48,21 +48,21 @@
       {
         "id": "localPackage",
         "path": "evidence/beta6-package/package.manifest.json",
-        "expectedDecision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT",
-        "actualDecision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT",
-        "sha256": "bc08fa0725184de160d765036e4f14934dbdd86251ae954ab6b4f32f6513d863"
+        "expectedDecision": "PASS_BETA6_PACKAGE_BUILT",
+        "actualDecision": "PASS_BETA6_PACKAGE_BUILT",
+        "sha256": "5209d6217d58e42253be895596d47c8611586bc56399c8033612199153abdec5"
       },
       {
         "id": "localPackageSmoke",
         "path": "evidence/beta6-package-smoke/report.json",
         "expectedDecision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE",
         "actualDecision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE",
-        "sha256": "fe66b2dc10f6d1a2f724a88eb994face4d2ec487457c07a51965db03fa6a1b44"
+        "sha256": "b6720d6c895bb79df19f4ff38ac88ae9a80a89e29a01a93f56a2fc591e3e4e00"
       }
     ]
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:26"
+    "worktree_dirty_allowed:5"
   ]
 }

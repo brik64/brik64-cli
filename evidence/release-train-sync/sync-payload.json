@@ -1,50 +1,50 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.5",
-  "version": "0.1.0-beta.5",
+  "releaseId": "brik64-0.1.0-beta.6",
+  "version": "0.1.0-beta.6",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "manifestDigest": "b6050bb0953e456d917205881b2f797079805b2f5006f1e6ffc468a5e715bed3",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.6",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.5"
+      "version": "0.1.0-beta.6"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b5"
+      "version": "0.1.0b6"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.5"
+      "version": "0.1.0-beta.6"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.5\n\n### Added\n\n- Adds local workspace checks, project initialization, PCD certification, and hash-bound candidate output generation.\n- Publishes the beta CLI through the curl installer and GitHub Release assets for macOS and Linux users with Node.js 20 or newer.\n- Publishes matching beta SDK packages for TypeScript, Python, and Rust.\n\n### Changed\n\n- Updates public install guidance, release notes, skills, and SDK references to the beta5 version.\n",
+  "changelogMarkdown": "## 0.1.0-beta.6\n\n### Added\n\n- Adds a distributable beta6 CLI package for the public curl installer and GitHub Release assets.\n- Adds package smoke coverage for extraction, version output, workspace initialization, certificate creation, TypeScript emission, and stale certificate fail-closed behavior.\n- Adds visible beta6 package metadata so users can verify the installed CLI version and package checksum.\n\n### Changed\n\n- Updates public install guidance, README, release metadata, and SDK coordinates to 0.1.0-beta.6.\n",
   "releaseNotes": [
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds local workspace checks, project initialization, PCD certification, and hash-bound candidate output generation."
+      "text": "Adds a distributable beta6 CLI package for the public curl installer and GitHub Release assets."
     },
     {
       "type": "added",
-      "surface": "installer",
-      "text": "Publishes the beta CLI through the curl installer and GitHub Release assets for macOS and Linux users with Node.js 20 or newer."
+      "surface": "package",
+      "text": "Adds package smoke coverage for extraction, version output, workspace initialization, certificate creation, TypeScript emission, and stale certificate fail-closed behavior."
     },
     {
       "type": "added",
-      "surface": "sdk",
-      "text": "Publishes matching beta SDK packages for TypeScript, Python, and Rust."
+      "surface": "package",
+      "text": "Adds visible beta6 package metadata so users can verify the installed CLI version and package checksum."
     },
     {
       "type": "changed",
-      "surface": "docs",
-      "text": "Updates public install guidance, release notes, skills, and SDK references to the beta5 version."
+      "surface": "release",
+      "text": "Updates public install guidance, README, release metadata, and SDK coordinates to 0.1.0-beta.6."
     }
   ]
 }
