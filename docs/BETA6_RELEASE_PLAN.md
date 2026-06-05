@@ -324,7 +324,7 @@ Required automatic path:
 Beta6 is releasable only when all items below are true:
 
 - [x] beta5 carryover live-verifier blocker closed.
-- [ ] CLI visual identity patch passes smoke and is documented as beta6
+- [x] CLI visual identity patch passes smoke and is documented as beta6
       candidate work.
 - [ ] all beta6 command contracts have tests.
 - [ ] fresh adversarial audit passes from a clean scratch workspace.
