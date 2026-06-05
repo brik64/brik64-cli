@@ -1,7 +1,6 @@
 # BRIK64 Release Train CI/CD Plan
 
-Status: partially implemented on `codex/release-train-ci`; pending merge to
-`main` and mutation-capable publication execution.
+Status: implemented on `main` for the beta5 public release train.
 
 Date: 2026-06-05
 
@@ -26,11 +25,14 @@ The train covers:
 - beta5 has a committed release manifest at `release/manifest.json`.
 - Dry-run, sync-payload generation, publication-plan generation, and live
   verification scripts exist and are wired to GitHub Actions.
-- The publish workflow is intentionally fail-closed: it can validate the release
-  train and generate a mutation-ready plan, but it does not yet mutate public
-  channels directly.
-- The automation is not operational until this branch is merged into the active
-  release branch and the required repository/environment secrets are configured.
+- The publish workflow is fail-closed and mutation-capable when invoked with the
+  exact manifest digest, confirmation string, and `execute_publication=true`.
+- The beta5 train has published GitHub Release, curl/GCP installer, npm, PyPI,
+  crates.io, docs, web, changelog, and public skill surfaces.
+- `repository_dispatch` consumers exist for docs, web, and public skills.
+- Final beta5 live verification passed on GitHub Actions run `27021364994`
+  with decision `PASS_RELEASE_TRAIN_LIVE_VERIFY` and `failures: []`.
+- Operational runbook: `docs/RELEASE_TRAIN_RUNBOOK.md`.
 
 ## Release Train Checklist
 
@@ -44,11 +46,14 @@ The train covers:
 - [x] Add publication-plan preflight with explicit secret and confirmation gates.
 - [x] Add live verification workflow.
 - [x] Add rollback and supersede guidance to the publication plan report.
-- [ ] Merge the workflow branch into the active release branch.
-- [ ] Configure required publication secrets in GitHub environments.
-- [ ] Add mutation-capable channel executors for GitHub Release, GCP curl
+- [x] Merge the workflow branch into the active release branch.
+- [x] Configure required publication secrets in GitHub environments.
+- [x] Add mutation-capable channel executors for GitHub Release, GCP curl
   surface, SDK marketplaces, docs, web, and skills.
-- [ ] Run the full train for the next beta candidate from the active branch.
+- [x] Add manifest consumers for docs, web, and public skills.
+- [x] Run the full train for beta5 from the active branch.
+- [x] Deploy web after beta5 source alignment.
+- [x] Run post-deploy live verification for beta5.
 
 ## Architecture
 
@@ -113,10 +118,13 @@ Current implementation:
 - requires an operator-supplied manifest digest;
 - requires exact confirmation text before publication preflight can pass;
 - checks required secret names without exposing values;
-- writes a mutation-ready publication plan and rollback guidance;
-- does not mutate public channels directly yet.
-
-Target implementation:
+- writes a publication plan and rollback guidance;
+- prepares SDK workspaces;
+- publishes or confirms GitHub Release;
+- publishes or confirms npm, PyPI, and crates.io SDK packages;
+- uploads the curl/GCP installer and channel manifest;
+- dispatches docs, web, and skills consumers;
+- runs post-publish live verification.
 
 The workflow must publish in a controlled order:
 
@@ -144,6 +152,20 @@ Checks:
 - web changelog shows only public functional changes.
 - SDK marketplaces expose the same beta tag or documented equivalent.
 - skills contain no private development nomenclature and are version-aware.
+
+### 5. `repository_dispatch` consumers
+
+Docs, web, and skills must consume `brik64-release-manifest` and either update
+or verify their public surfaces.
+
+Current consumers:
+
+- `brik64-admin/brik64-docs-site`: `Update CLI release docs`.
+- `brik64-admin/brik64.com`: `Consume BRIK64 release manifest`.
+- `brik64/brik64-tools-skills`: `Consume BRIK64 release manifest`.
+
+Dispatch success is not enough. Each consumer run must complete successfully,
+and the final release verifier must pass against public URLs.
 
 ## Atomicity Rule
 
@@ -216,3 +238,23 @@ The CI/CD train is acceptable when:
 - the live verifier can independently prove the public version from public URLs
   and marketplace APIs.
 - rollback or supersede instructions exist for every public channel.
+
+## Beta5 Closure Evidence
+
+- `brik64/brik64-cli` release train live verifier:
+  - run: `27021364994`;
+  - version: `0.1.0-beta.5`;
+  - manifest digest:
+    `058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95`;
+  - decision: `PASS_RELEASE_TRAIN_LIVE_VERIFY`;
+  - failures: `[]`.
+- Web consumer: `brik64-admin/brik64.com` run `27021224604`, success.
+- Skills consumer: `brik64/brik64-tools-skills` run `27021224890`, success.
+- Docs consumer: `brik64-admin/brik64-docs-site` run `27021224066`, success.
+- Web deployment: Cloudflare Pages deployment
+  `https://9108ce89.brik64-web-brik64com.pages.dev`.
+- Additional live routes verified after deploy:
+  - `https://brik64.com/sdks`;
+  - `https://brik64.com/download`;
+  - `https://brik64.com/presskit`;
+  - `https://brik64.com/home-cli/agent.json`.
