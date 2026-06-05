@@ -7,20 +7,19 @@ every beta, release candidate, or public release train.
 
 ### Added
 
-- Adds a distributable beta6 CLI package for the public curl installer and
-  GitHub Release assets.
-- Adds package smoke coverage for extraction, version output, workspace
-  initialization, certificate creation, TypeScript emission, and stale
-  certificate fail-closed behavior.
-- Adds visible beta6 package metadata so users can verify the installed CLI
-  version and package checksum.
+- Adds a portable `brik64` CLI package installable through the public curl
+  installer on supported macOS and Linux environments.
+- Adds local workspace initialization, certificate creation, TypeScript output,
+  and stale-certificate protection to the distributed beta package.
+- Adds visible package metadata so users can verify the installed CLI version
+  and SHA-256 checksum.
 
 ### Changed
 
-- Updates `brik64 --version`, README, release metadata, and install guidance to
+- Updates `brik64 --version`, README, and install guidance to
   `0.1.0-beta.6`.
-- Keeps the public CLI install path curl-only while SDK packages remain on their
-  language registries.
+- Clarifies that the CLI is installed with curl, while SDKs are installed with
+  the package manager for each language.
 
 ### Compatibility
 
