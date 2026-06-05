@@ -25,7 +25,7 @@
       "id": "github_release",
       "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5",
       "statusCode": 200,
-      "sha256": "adeddb1c678a7eb1998ab2d1b5421f6446a1a1ed6e18c2e7b3b6d8b09c8547c0",
+      "sha256": "962d83210cbb3ac282525e3269009cff313d3cfe586220a80c8df7a2c7b5c01d",
       "bytes": 213437
     },
     {
@@ -39,14 +39,14 @@
       "id": "web_home",
       "url": "https://brik64.com/",
       "statusCode": 200,
-      "sha256": "e9a21a255c7653cbeddd6939095adbd3896944caabe6c47cf7959d61a332ad7d",
+      "sha256": "19464d89ab4edb987fe7f25f1b3df0fdd3824f1c98e5188e64ff5df22e1ee886",
       "bytes": 303995
     },
     {
       "id": "web_changelog",
       "url": "https://brik64.com/changelog",
       "statusCode": 200,
-      "sha256": "6d53cfacf4516a9ada92d5e2fefb826b6b40e9edd1dcb8602bdd80b806f3d2d3",
+      "sha256": "83c534371e5ab508ed41ec661acfd72a9849e7feeae4f09c3c63d361d3eb4c6e",
       "bytes": 69193
     },
     {
