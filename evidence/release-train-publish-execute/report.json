@@ -3,16 +3,13 @@
   "releaseId": "brik64-0.1.0-beta.5",
   "version": "0.1.0-beta.5",
   "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
-  "sourceHead": "5362a1f",
+  "sourceHead": "5eed3c9",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "github/workflows/ci.yml",
-    ".github/workflows/release-train-dry-run.yml",
-    ".github/workflows/release-train-publish.yml",
-    "evidence/beta5-l6-factory-bridge/factory-request.json",
+    "vidence/beta5-l6-factory-bridge/factory-request.json",
     "evidence/beta5-l6-factory-bridge/preflight-report.json",
     "evidence/beta5-local-candidate/SHA256SUMS",
     "evidence/beta5-local-candidate/build-chain.manifest.json",
@@ -22,8 +19,7 @@
     "evidence/beta5-package/package.manifest.json",
     "evidence/beta5-publication-preflight/manifest.json",
     "evidence/release-manifest-validate/report.json",
-    "scripts/release-train-dry-run.js",
-    "tests/smoke.sh"
+    "scripts/release-train-dry-run.js"
   ],
   "commandPreflight": [
     {
@@ -85,6 +81,6 @@
   "blockers": [],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:15"
+    "worktree_dirty_dry_run:11"
   ]
 }

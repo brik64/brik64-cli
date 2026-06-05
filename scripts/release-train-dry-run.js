@@ -69,7 +69,10 @@ function main() {
 
   const commands = [
     run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
-    run('smoke_tests', ['bash', '-lc', 'BRIK64_RELEASE_GATES=1 npm test']),
+    run('smoke_tests', ['bash', '-lc', 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
+      stdoutLimit: 12000,
+      stderrLimit: 12000
+    }),
     run('release_surface_gate', ['node', 'scripts/beta5-release-surface-gate.js']),
     run('publication_preflight', ['node', 'scripts/beta5-publication-preflight.js']),
     run('sync_surfaces', ['node', 'scripts/release-train-sync-surfaces.js']),
@@ -123,6 +126,11 @@ function main() {
   process.stdout.write(`decision=${report.decision}\n`);
   process.stdout.write('publicationAllowed=false\n');
   if (failures.length > 0) process.stdout.write(`failures=${failures.join(',')}\n`);
+  for (const command of commands.filter((item) => item.rc !== 0)) {
+    process.stdout.write(`failed_command=${command.name}\n`);
+    if (command.stdout) process.stdout.write(`stdout:\n${command.stdout}\n`);
+    if (command.stderr) process.stdout.write(`stderr:\n${command.stderr}\n`);
+  }
   if (failures.length > 0) process.exit(1);
 }
 

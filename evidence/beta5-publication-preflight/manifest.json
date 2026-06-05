@@ -8,7 +8,7 @@
   "artifacts": {
     "buildChain": {
       "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
-      "sha256": "bcf3ef093d957d055d5ca9277580f65252a92793baa03b62469a4fd3d014e86b",
+      "sha256": "008e677f6aa7ca372440407bc56a76f9936372b10fff7505b7be722c5773061f",
       "bytes": 6387
     },
     "hardenedCandidate": {
@@ -48,12 +48,12 @@
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "37a708eef01df54a41031073c8fe804cf5060aee7a8792f7067ff2936cb29597",
+      "sha256": "65f6c649687dea0bbd6a8a9b54d62c672af350aef80bd41635be219e2f0718d5",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "cd94123c8fa343355ad9659b922eaea203eed1ce75fd3d7f04a15605bdd0e93f",
+      "sha256": "6779aa56d3b06212c93e70409eff89bc384be773642afb5b09c46670987ef7e7",
       "bytes": 606
     },
     "crossPlatformSmoke": {
