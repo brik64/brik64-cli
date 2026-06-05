@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "brik64.cli_portable_runtime_bundle.v1",
+  "decision": "PASS_PORTABLE_RUNTIME_BUNDLE_PACKAGED",
+  "releaseEligible": false,
+  "runtimeMode": "portable_bir_bundle",
+  "nativeExecutableIncluded": false,
+  "cliVersion": "0.1.0-beta.7",
+  "runtime": "local_runtime",
+  "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
+  "artifacts": [
+    {
+      "path": "engines/l4plus-n5/serial.txt",
+      "sha256": "6f2a3eff7b3cbf80debb823f1771df5364d6f1fdf2c0b6c2dab8e109c04dc757",
+      "bytes": 43
+    },
+    {
+      "path": "engines/l4plus-n5/checksums.tsv",
+      "sha256": "11a5eadb7ec6f7d07e329c767026ae9576bdaf99c1d411781e5f88108e7d852e",
+      "bytes": 4234
+    }
+  ],
+  "limitations": [
+    "This bundle packages portable local runtime metadata for CLI inspection.",
+    "It does not include a native executable runtime.",
+    "It does not authorize universal correctness claims."
+  ]
+}

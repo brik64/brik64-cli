@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "brik64.cli_beta7_skills_sync_gate.v1",
+  "version": "0.1.0-beta.7",
+  "decision": "PASS_SKILLS_BETA7_SYNC",
+  "releaseEligible": true,
+  "publicSkillPublicationAllowed": true,
+  "skillsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+  "artifacts": [
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/README.md",
+      "sha256": "b459d4ecc7550ff46df56914ac1e6497e930e11387fa9bd11cbe4b4df9c41766",
+      "bytes": 5825
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/BETA7_SYNC.md",
+      "sha256": "cffaffc7a8c924812c5729b76e7381880443eb005101f0fe89307503dcb7da51",
+      "bytes": 438
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64/SKILL.md",
+      "sha256": "491e4536d4024ffb737afe27d55286130e934246f03e68631bca89b47e1025f8",
+      "bytes": 7969
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-javascript/SKILL.md",
+      "sha256": "6de24102c217f9c6b32ac80703b76db20d8b7664e37edb3d6b62319742d87729",
+      "bytes": 8750
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-python/SKILL.md",
+      "sha256": "352756a27750523fba7d59d23fbcd0aaef1c12918b5bd5f6aff52875ba9df9ae",
+      "bytes": 7687
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-rust/SKILL.md",
+      "sha256": "d1627a8b60acabd35d66e65288c169ed979c8032043472af746562466c57e348",
+      "bytes": 8767
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/pcd-system/SKILL.md",
+      "sha256": "c899a7c3a2dd55f466e70275f99f6e8b2507809a72d641a6d42e0954e9a340bf",
+      "bytes": 4672
+    },
+    {
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/digital-circuitality/SKILL.md",
+      "sha256": "268c8f4b7b0293a681ca01b7ba2adc4a61554581dedf2ee1638256d77c78b4bf",
+      "bytes": 13259
+    }
+  ],
+  "failures": [],
+  "boundary": "Public skills are beta7 aligned and must not expose private release or engine nomenclature."
+}

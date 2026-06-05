@@ -1,0 +1,30 @@
+// brik64.pcd_file.v1
+// name: brik_cli_verify
+// status: candidate_pcd_seed
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// command = "verify"
+// local_mode = "certificate_ast_hash_coherence"
+// managed_mode = "entitlement_required"
+// claim_boundary = "local_candidate_only"
+
+PC brik_cli_verify {
+    fn brik_cli_verify(pcd_present, certificate_present, hash_match, cloud_requested, entitlement_present) {
+        if (pcd_present == 0) {
+            return 64;
+        }
+        if (certificate_present == 0) {
+            return 67;
+        }
+        if (hash_match == 0) {
+            return 68;
+        }
+        if (cloud_requested == 1) {
+            if (entitlement_present == 0) {
+                return 67;
+            }
+        }
+        return 0;
+    }
+}

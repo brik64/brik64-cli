@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "brik64.cli_beta7_package_manifest.v1",
+  "version": "0.1.0-beta.7",
+  "decision": "PASS_BETA7_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "assisted_generation_non_claim",
+  "package": {
+    "path": "evidence/beta7-package/brik64-cli-0.1.0-beta.7.tgz",
+    "sha256": "7d6aaa8029faedf547298cd5ddefbfe2fccfccfb228ccd067135c5ffe8b768f1",
+    "bytes": 17100
+  },
+  "artifacts": [
+    {
+      "path": ".brik/manifest.json",
+      "sha256": "641a6d8c9c979909fb281da698b1a1cfe3f11a5b6dc70a4204c48847354d1844",
+      "bytes": 1722
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "787a17b106f046384ae3ee0f749e6fec216a11dd106f045ac3f01e930dcf66b0",
+      "bytes": 4010
+    },
+    {
+      "path": "README.md",
+      "sha256": "cb8087b364258bdae8def2e4be9e1e8cf99bb153033a8b64d170dce537e2ea55",
+      "bytes": 4269
+    },
+    {
+      "path": "engines/l4plus-n5/checksums.tsv",
+      "sha256": "11a5eadb7ec6f7d07e329c767026ae9576bdaf99c1d411781e5f88108e7d852e",
+      "bytes": 4234
+    },
+    {
+      "path": "engines/l4plus-n5/serial.txt",
+      "sha256": "6f2a3eff7b3cbf80debb823f1771df5364d6f1fdf2c0b6c2dab8e109c04dc757",
+      "bytes": 43
+    },
+    {
+      "path": "evidence/beta7-feature-parity/report.json",
+      "sha256": "ebd385cd2e0eebe4054fc49a245c8fe75f6e990e3d3175d848056b8e8c6ac8bc",
+      "bytes": 1134
+    },
+    {
+      "path": "pcd/cli_account_session.pcd",
+      "sha256": "2a629b0c88a96c81a42f3e5949900798fe25886aec7ac203855ba7540cd3b36c",
+      "bytes": 843
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_migrate.pcd",
+      "sha256": "3ea78bd6e28c15b409318be8107590e2a833ca6bea98df8a974f4ac7e0beb6ed",
+      "bytes": 739
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "4813a13cecb6e9644e22c7736fb46acacc5a381bf4f444e74ef3301a20dafcde",
+      "bytes": 2009
+    },
+    {
+      "path": "pcd/cli_polymerize.pcd",
+      "sha256": "eeada3bbe77fc19a4387acbf4fced480b06acd1776b8d1587d69ec8e855c0e24",
+      "bytes": 798
+    },
+    {
+      "path": "pcd/cli_verify.pcd",
+      "sha256": "6987959306e52657f53de2ac6e1d35c8389d4ce1e571db381e978dcf650e96ad",
+      "bytes": 812
+    },
+    {
+      "path": "src/brik.js",
+      "sha256": "5f82e972a58b534e0a62f25536fcaaa01f0321ef2e1f7c612b9acb87e6fd6dcf",
+      "bytes": 29414
+    },
+    {
+      "path": "engines/l4plus-n5/runtime-bundle.manifest.json",
+      "sha256": "59e5527406041724d5687ab1ea74bc2bb6659407350202dad7aea924ec5337a8",
+      "bytes": 909,
+      "source": "sanitized_distribution_metadata"
+    },
+    {
+      "path": "package.json",
+      "sha256": "5625e2e35b6c5a549fb97e840cf6ccf9505a53f8706689f5b1da492f462101bb",
+      "bytes": 209,
+      "source": "sanitized_distribution_metadata"
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "curl_gcp_installer_beta7",
+    "github_release_beta7",
+    "web_docs_changelog_beta7",
+    "skills_beta7",
+    "sdk_no_change_or_beta7_publication_evidence",
+    "cross_platform_smoke_supported_targets"
+  ],
+  "boundary": "Beta7 local package candidate only. Public release remains blocked until curl/GCP, GitHub, web, docs, changelog, skills, SDK and supported-platform smoke evidence are synchronized."
+}
