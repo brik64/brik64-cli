@@ -98,19 +98,22 @@ function main() {
     command(
       'sdk_npm',
       'Publish the TypeScript SDK package with the manifest beta version.',
-      `npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta5-pack/brik64-core-${manifest.version}.tgz`,
+      `npm view @brik64/core@${manifest.version} version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta5-pack/brik64-core-${manifest.version}.tgz`,
       true
     ),
     command(
       'sdk_pypi',
       'Publish the Python SDK package with twine.',
-      `python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}*`,
+      `python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}*
+import urllib.request
+urllib.request.urlopen('https://pypi.org/pypi/brik64/${manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version}/json', timeout=20).close()
+PY`,
       true
     ),
     command(
       'sdk_crates',
       'Publish the Rust SDK crate.',
-      'cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml --token "$BRIK64_CRATES_TOKEN"',
+      `cargo info brik64-core@${manifest.version} >/dev/null 2>&1 || cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml --token "$BRIK64_CRATES_TOKEN"`,
       true
     ),
     command(
