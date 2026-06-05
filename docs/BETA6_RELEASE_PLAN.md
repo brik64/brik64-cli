@@ -4,13 +4,14 @@ Date: 2026-06-05
 
 Target version: `0.1.0-beta.6`
 
-Status: planning from beta5 adversarial audit intake
+Status: beta6 candidate planning from beta5 adversarial audit intake
 
 ## Executive Checklist
 
-- 🟥 25% | 🟩 ⬜ ⬜ ⬜ | Beta5 audit intake converted into release requirements.
-- ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Beta5 release-train CI live verifier unblocked from GitHub Actions.
-- ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Beta6 command contract implemented behind fresh tests.
+- 🟩 100% | 🟩 🟩 🟩 🟩 | Beta5 release-train CI live verifier unblocked and verified from GitHub Actions.
+- 🟩 100% | 🟩 🟩 🟩 🟩 | Beta5 audit and beta6 proposal converted into release requirements.
+- 🟥 25% | 🟥 ⬜ ⬜ ⬜ | Beta6 first candidate patch: CLI visual identity and release-plan alignment.
+- ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Beta6 command contracts implemented behind fresh tests.
 - ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Beta6 package, checksum, docs, web, skills, SDK, and installer train verified live.
 
 ## Source Inputs
@@ -27,23 +28,48 @@ release-train gates before it can support a public beta6 claim.
 
 ## Beta5 Carryover Gate
 
-Beta6 work must not normalize a broken publication train. Before beta6 can be
-called public, the current release automation must prove the active public
-surface from GitHub Actions, not only from a local operator machine.
+Beta6 work must not normalize a broken publication train. This carryover gate is
+closed for beta5.
 
-Current carryover blocker:
+Closure evidence:
 
-- `release-train-live-verify` receives HTTP 403 from Cloudflare when executed
-  from GitHub Actions against `https://brik64.com/`, `/changelog`,
-  `/cli/install.sh`, and `/cli/beta.json`.
-- Local public verification returns HTTP 200 and shows `0.1.0-beta.5`.
+- `brik64/brik64-cli` live verifier run `27021364994`: success.
+- Decision: `PASS_RELEASE_TRAIN_LIVE_VERIFY`.
+- Version: `0.1.0-beta.5`.
+- Manifest digest:
+  `058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95`.
+- Failures: `[]`.
+- Docs, web, and skills repository-dispatch consumers passed:
+  - docs run `27021224066`;
+  - web run `27021224604`;
+  - skills run `27021224890`.
 
-Closure criteria:
+Beta6 must preserve this gate: no partial public release may be considered
+complete without a post-publish live verifier passing from GitHub Actions.
 
-- GitHub Actions live verifier passes for the active manifest digest.
-- Publication plan dry mode passes on the same digest.
-- The WAF or bot-control rule that allows the verifier is documented in the
-  infrastructure repo and does not weaken probe blocking for secret paths.
+## Beta6 First Candidate Patch
+
+### CLI Visual Identity
+
+Goal: replace the compact beta5 ASCII banner with the wide BRIK64 ANSI logo
+provided for beta6 while preserving scriptability of `--version`, `help`, and
+existing smoke tests.
+
+Required behavior:
+
+- `brik64 --version` prints the wide logo and `BRIK64 CLI <version>`.
+- `brik64 help` prints the same banner before the command list.
+- ANSI color codes may decorate the logo, but tests must strip ANSI before
+  asserting logo content.
+- The version remains `0.1.0-beta.5` until the full beta6 release manifest,
+  package metadata, docs, web, skills, SDK references, and installer train are
+  updated together.
+
+Evidence required:
+
+- smoke test strips ANSI and verifies the wide logo renders;
+- existing `--version`, `help`, `doctor`, `engine status`, `certify`, and
+  `emit` smoke coverage continues to pass.
 
 ## Beta6 Scope
 
@@ -72,6 +98,13 @@ Evidence required:
   branch-count metadata, and changed AST metadata;
 - adversarial package-smoke case from the built package;
 - docs update for `certify` and `emit`.
+
+Implementation note from beta5 audit:
+
+- beta5 already fails closed on stale PCD hash and AST hash mismatch.
+- beta6 must additionally reject certificate metadata tampering that does not
+  affect the current beta5 `ast_sha256` comparison, including metadata fields
+  that agents may rely on during emission or reporting.
 
 ### 2. Workspace Doctor Diagnostics
 
@@ -265,11 +298,34 @@ It must not describe:
 - WAF, secret, or maintainer-token operations;
 - unsupported formal proof or mathematical guarantee claims.
 
+## Automatic Deployment Gate
+
+Beta6 must use the beta5 release train as the default publication path. Manual
+publication to an individual channel is forbidden unless it is part of an
+incident rollback or supersede plan.
+
+Required automatic path:
+
+1. update `release/manifest.json` to beta6;
+2. run manifest validation and dry-run;
+3. build/package CLI and affected SDKs;
+4. run fresh adversarial audit against the built package;
+5. run cross-platform smoke according to the platform matrix;
+6. execute `release-train-publish.yml` with exact digest confirmation and
+   `execute_publication=true`;
+7. dispatch docs, web, and skills consumers;
+8. deploy web if source surfaces changed;
+9. run `release-train-live-verify.yml` from GitHub Actions;
+10. close only when every required public surface verifies the same manifest
+    digest.
+
 ## Beta6 Completion Gate
 
 Beta6 is releasable only when all items below are true:
 
-- [ ] beta5 carryover live-verifier blocker closed.
+- [x] beta5 carryover live-verifier blocker closed.
+- [ ] CLI visual identity patch passes smoke and is documented as beta6
+      candidate work.
 - [ ] all beta6 command contracts have tests.
 - [ ] fresh adversarial audit passes from a clean scratch workspace.
 - [ ] package smoke passes from the built artifact.
@@ -279,4 +335,3 @@ Beta6 is releasable only when all items below are true:
 - [ ] download observability either ships or is explicitly deferred in the
       release manifest.
 - [ ] publication plan and live verification pass from GitHub Actions.
-

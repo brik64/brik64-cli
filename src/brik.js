@@ -9,13 +9,30 @@ process.stdout.on('error', (error) => {
 });
 
 const version = '0.1.0-beta.5';
-const ascii = [
-  ' ____  ____  ___ _  __ __   _  _ ',
-  '| __ )|  _ \\|_ _| |/ // /_ | || |',
-  "|  _ \\| |_) || || ' /| '_ \\| || |_",
-  '| |_) |  _ < | || . \\| (_) |__   _|',
-  '|____/|_| \\_\\___|_|\\_\\\\___/   |_|  ',
-].join('\n');
+const RESET = '\x1b[0m';
+const BRIK = '\x1b[38;2;180;180;180m';
+const CYAN = '\x1b[38;2;25;167;195m';
+
+const LOGO_80 = String.raw`
+█████████████  ███████████████ ████  ████    ██████ ▒▒▒▒▒▒▒▒▒▒▒▒▒ ▒▒▒▒         ▒
+██████████████ ███████████████ ████  ████  ██████  ▒▒▒▒▒▒▒▒▒▒▒▒   ▒▒▒▒       ▒▒▒
+████     █████ █████     █████ ██ █  ██████████   ▒▒▒▒▒           ▒▒▒▒      ▒▒▒▒
+████ █████████ █████    ██████  ███  ████████     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+████ █████████ █████  ██████   ████  ████████     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒▒▒▒
+████      ████ █████ ██████    ████  ██████████   ▒▒▒▒▒      ▒▒▒▒           ▒▒▒▒
+██████████████ █████  ██████   ████  ████  ██████  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒           ▒▒▒▒
+██████████████ █████    ██████ ████  ████    ██████ ▒▒▒▒▒▒▒▒▒▒▒▒            ▒▒▒▒
+`;
+
+function colorizeLogo(raw) {
+  return raw
+    .replaceAll('█', `${BRIK}█${RESET}`)
+    .replaceAll('▒', `${CYAN}▒${RESET}`);
+}
+
+function printBrik64Logo() {
+  process.stdout.write(`${colorizeLogo(LOGO_80.trimEnd())}\n`);
+}
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -55,7 +72,7 @@ function mkdirControlled(dir) {
 }
 
 function printBanner() {
-  process.stdout.write(`${ascii}\n`);
+  printBrik64Logo();
   process.stdout.write(`BRIK64 CLI ${version}\n`);
   process.stdout.write('status=public_beta\n');
 }
