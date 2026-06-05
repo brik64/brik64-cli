@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta6_l6_hetzner_generation_request.v1",
   "version": "0.1.0-beta.6",
-  "generatedAt": "2026-06-05T18:07:24.247Z",
+  "generatedAt": "2026-06-05T18:12:03.937Z",
   "host": "root@89.167.104.236",
   "requiredEngine": "L6+N5",
   "semanticSource": {
@@ -67,5 +67,5 @@
     "healthcheckPath": "/opt/brik64/engines/l6plus-n5/bin/healthcheck",
     "auditPath": "/opt/brik64/engines/l6plus-n5/bin/audit"
   },
-  "requestSha256": "130ce887d1ba46ad6308404a0f2da6426e9cd46ae74db4a08096cd8a3a4a2388"
+  "requestSha256": "f04e5f56420e3e73b399c540a1820a70674178787dff4855faa7af8b9cf53ae2"
 }

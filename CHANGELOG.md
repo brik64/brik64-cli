@@ -3,6 +3,23 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release train.
 
+## 0.1.0-beta.6
+
+### Added
+
+- Adds a beta6 local package candidate for the BRIK64 CLI.
+- Adds beta6 package smoke coverage for extraction, version output, workspace
+  initialization, candidate certification, TypeScript emission, and stale
+  certificate fail-closed behavior.
+- Adds a beta6 package harness manifest that binds the local package candidate
+  to generated PCD harness evidence.
+
+### Changed
+
+- Updates the local candidate CLI version to `0.1.0-beta.6`.
+- Documents beta6 as a local package candidate before public installer
+  availability.
+
 ## 0.1.0-beta.5
 
 ### Added

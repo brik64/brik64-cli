@@ -7,8 +7,8 @@
   "generationClaim": "assisted_generation_non_claim",
   "package": {
     "path": "evidence/beta6-package/brik64-cli-0.1.0-beta.6-local-candidate.tgz",
-    "sha256": "30d5041e2a304fcb7071b5d779d504d83159813b917f4194368762583b322de1",
-    "bytes": 28950
+    "sha256": "85681d423adadb0a4f24f9c0fa0a6d85bff3658b44a269889477ffb853e227d8",
+    "bytes": 29264
   },
   "artifacts": [
     {
@@ -18,13 +18,13 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "b8f1889261d3159f0a6a6b15bdc755828ac239b2e350fe62f076cee08e3c7a1f",
-      "bytes": 1891
+      "sha256": "d142021d0838c3d61177024d8f1ae3d99aebd51e641bcfca54e5ae93b604d27a",
+      "bytes": 2445
     },
     {
       "path": "README.md",
-      "sha256": "d501678c49b970c04461283bf7cf6686838a0e85530d2e342a524d025fd6b429",
-      "bytes": 5792
+      "sha256": "7e17c45c9f7395356e8901a829072bb86ca28fd9fc572c230908cd8bbd926d35",
+      "bytes": 6628
     },
     {
       "path": "engines/l4plus-n5/checksums.tsv",
@@ -133,28 +133,28 @@
     },
     {
       "path": "evidence/beta6-l6-full-generation-contract/report.json",
-      "sha256": "cdd3c40b76c9e44b22c7490c8fa245abdfd3fb2148dfcf30ab1a24281b5ef9bf",
+      "sha256": "efccd7f5731c5111f433a375427668889f27a8ff8bf3d80683b75f3d6dd79746",
       "bytes": 1802
     },
     {
       "path": "evidence/beta6-l6-full-materialization-attempt/report.json",
-      "sha256": "a7acec06c36f44e59f786aee7eff63346a48ece8916d22756f5e2c1250b7a7ac",
+      "sha256": "ed0aec0931d43f86ad71158bf96e587e2e17407ce896b889524f9a5d4fb69757",
       "bytes": 2280
     },
     {
       "path": "evidence/beta6-l6-hetzner-generation/report.json",
-      "sha256": "7ae349ffc23f6f3a3c454210f33b6a784146879736c5929c797de63be23dc203",
+      "sha256": "9ae83aaded65ebe1108c875751377d7c92334d90c1e5e38a5a34fe1e6d7ea307",
       "bytes": 5347
     },
     {
       "path": "evidence/beta6-package-harness/generated/package-harness.manifest.json",
-      "sha256": "dff457ad330284974bb86d75481c94bb2241fd958f6a1890e1924c83987ec486",
+      "sha256": "931860680b159f11cee23bee46587815cf12de8e6f008e579f88b07e3f302331",
       "bytes": 1722
     },
     {
       "path": "evidence/beta6-package-harness/report.json",
-      "sha256": "1f6f9142ba9c8f42a03156b1004c88db14ef4df23a66b839543ab144acb7757f",
-      "bytes": 5448
+      "sha256": "4e6bd3dde4117d13bb945676e0da2c80e72081039a64cebbcc9efe8ccf2b305a",
+      "bytes": 5447
     },
     {
       "path": "package.json",

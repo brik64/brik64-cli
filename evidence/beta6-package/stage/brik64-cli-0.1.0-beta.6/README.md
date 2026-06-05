@@ -6,10 +6,15 @@ PCD-oriented structure, local evidence review, and claim-safe project
 scaffolding from their own machine.
 
 Current public beta: `0.1.0-beta.5`.
+Current beta candidate: `0.1.0-beta.6`.
 
 `0.1.0-beta.5` is published through the curl installer, GitHub Release assets,
 public docs, public skills, and beta SDK package surfaces. Use the installer and
 release manifests to verify the active public version.
+
+`0.1.0-beta.6` is currently staged as a local package candidate. It is not yet
+published through the curl installer, GitHub Release assets, docs, skills, SDKs,
+or public web surfaces.
 
 ## Install
 
@@ -37,6 +42,20 @@ installer and GitHub Release assets for the latest public CLI release.
 - GitHub Releases: [brik64/brik64-cli releases](https://github.com/brik64/brik64-cli/releases)
 - Agent skills: [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
 - Public roadmap: [BRIK64 CLI Public Roadmap](docs/PUBLIC_ROADMAP.md)
+
+## Beta6 Candidate Scope
+
+`0.1.0-beta.6` keeps the beta5 local PCD workflow and adds a package candidate
+bound to the beta6 generation harness evidence. The public release remains
+blocked until the full release train is synchronized and verified.
+
+Candidate beta6 capabilities:
+
+- `brik64 --version` reports `0.1.0-beta.6` in the package candidate.
+- The local package candidate includes beta6 PCD/harness generation evidence.
+- The local package smoke verifies extraction, version output, workspace
+  initialization, candidate certification, TypeScript emission, and stale
+  certificate fail-closed behavior.
 
 ## Beta5 Public Scope
 

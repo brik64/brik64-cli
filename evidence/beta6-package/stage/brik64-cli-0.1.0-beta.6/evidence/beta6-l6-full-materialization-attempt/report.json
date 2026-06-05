@@ -2,10 +2,10 @@
   "schemaVersion": "brik64.beta6_l6_full_materialization_attempt.v1",
   "version": "0.1.0-beta.6",
   "productArtifact": "BRIK64 CLI 0.1.0-beta.6",
-  "generatedAt": "2026-06-05T17:56:04.241Z",
+  "generatedAt": "2026-06-05T18:07:40.608Z",
   "lane": "l6_full_generation_attempt_non_claim",
   "host": "root@89.167.104.236",
-  "remoteWork": "/tmp/brik64-cli-beta6-full-materialize-1780682150940",
+  "remoteWork": "/tmp/brik64-cli-beta6-full-materialize-1780682847483",
   "decision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED",
   "releaseEligible": false,
   "inputs": [
@@ -21,12 +21,12 @@
     },
     {
       "path": "evidence/beta6-l6-full-generation-contract/report.json",
-      "sha256": "e0b9a80ef16a93cdcb2a6135e5625ed347d1b0318b86fbd56165960319a06038",
-      "bytes": 2762
+      "sha256": "cdd3c40b76c9e44b22c7490c8fa245abdfd3fb2148dfcf30ab1a24281b5ef9bf",
+      "bytes": 1802
     },
     {
       "path": "evidence/beta6-l6-hetzner-generation/report.json",
-      "sha256": "7ae349ffc23f6f3a3c454210f33b6a784146879736c5929c797de63be23dc203",
+      "sha256": "07babe656eb77c2a93b52960093c301ef83b9ae2535d6dbc666183a6e569bd08",
       "bytes": 5347
     }
   ],
@@ -37,15 +37,15 @@
   "remote": {
     "rc": 0,
     "stdout": "evidence/beta6-l6-full-materialization-attempt/remote-stdout.txt",
-    "stdoutSha256": "d5c9baec4c407f9fcff9edffffe9e226d2d091185cd40020433cccbb6e1dc35a",
+    "stdoutSha256": "81b41c0efbea7e701580a075a6537e54884e120368a223e2f465d8cfc6714625",
     "stderr": "evidence/beta6-l6-full-materialization-attempt/remote-stderr.txt",
     "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "outFiles": [
-      "/tmp/brik64-cli-beta6-full-materialize-1780682150940/out/brik64_cli_beta6_package_harness.cert.json",
-      "/tmp/brik64-cli-beta6-full-materialize-1780682150940/out/brik64_cli_beta6_package_harness.js"
+      "/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.cert.json",
+      "/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.js"
     ],
     "checksums": "evidence/beta6-l6-full-materialization-attempt/remote-SHA256SUMS",
-    "checksumsSha256": "36d170eefc3e464a558f26c77c04dcc12baea0688212cdd6df69ebd1b0d1c406"
+    "checksumsSha256": "f32339f8dc948c3c9a889d663ce60cb9d092c8baea2cde2064dceab1fb4ed3e1"
   },
   "blockers": [],
   "requiredNextAction": "Bind emitted harness artifact into package/release manifest and continue beta6 artifact generation."

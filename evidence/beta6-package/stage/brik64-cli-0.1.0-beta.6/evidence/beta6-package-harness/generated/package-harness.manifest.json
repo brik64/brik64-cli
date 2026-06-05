@@ -11,12 +11,12 @@
   "inputs": [
     {
       "path": ".brik/manifest.json",
-      "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e",
+      "sha256": "f7972db53bd7ddd6afbabeab3b78a627bd25260783a4267e168a224d3b9e092a",
       "bytes": 1466
     },
     {
       "path": "pcd/cli_polymer.pcd",
-      "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+      "sha256": "5ce3226cde7fd3cbfce726ee6cc628a997d03f5cfa612b2d5ff23f017e7775d8",
       "bytes": 1740
     },
     {
@@ -31,12 +31,12 @@
     },
     {
       "path": "evidence/beta6-l6-full-generation-contract/report.json",
-      "sha256": "cdd3c40b76c9e44b22c7490c8fa245abdfd3fb2148dfcf30ab1a24281b5ef9bf",
+      "sha256": "efccd7f5731c5111f433a375427668889f27a8ff8bf3d80683b75f3d6dd79746",
       "bytes": 1802
     },
     {
       "path": "evidence/beta6-l6-hetzner-generation/report.json",
-      "sha256": "7ae349ffc23f6f3a3c454210f33b6a784146879736c5929c797de63be23dc203",
+      "sha256": "07babe656eb77c2a93b52960093c301ef83b9ae2535d6dbc666183a6e569bd08",
       "bytes": 5347
     }
   ],

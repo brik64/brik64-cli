@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.5",
-  "version": "0.1.0-beta.5",
+  "releaseId": "brik64-0.1.0-beta.6",
+  "version": "0.1.0-beta.6",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-05T00:00:00Z",
+  "state": "draft",
+  "createdAt": "2026-06-05T18:00:00Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/release-train-ci",
-    "commit": "e8e72cd"
+    "branch": "codex/beta6-release-train",
+    "commit": "c4b9763"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -37,29 +37,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.5",
+      "version": "0.1.0-beta.6",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b5",
+      "version": "0.1.0b6",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.5",
+      "version": "0.1.0-beta.6",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.5",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5"
+      "tag": "v0.1.0-beta.6",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.6"
     },
     "curlInstaller": {
       "required": true,
@@ -91,60 +91,55 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds local workspace checks, project initialization, PCD certification, and hash-bound candidate output generation."
+      "text": "Adds a beta6 local package candidate for the BRIK64 CLI."
     },
     {
       "type": "added",
-      "surface": "installer",
-      "text": "Publishes the beta CLI through the curl installer and GitHub Release assets for macOS and Linux users with Node.js 20 or newer."
+      "surface": "package",
+      "text": "Adds package smoke coverage for extraction, version output, workspace initialization, candidate certification, TypeScript emission, and stale certificate fail-closed behavior."
     },
     {
       "type": "added",
-      "surface": "sdk",
-      "text": "Publishes matching beta SDK packages for TypeScript, Python, and Rust."
+      "surface": "harness",
+      "text": "Binds the beta6 package candidate to generated PCD harness evidence."
     },
     {
       "type": "changed",
-      "surface": "docs",
-      "text": "Updates public install guidance, release notes, skills, and SDK references to the beta5 version."
+      "surface": "release",
+      "text": "Documents beta6 as a local package candidate before public installer availability."
     }
   ],
   "verification": {
     "requiredEvidence": [
       {
-        "id": "adversarialAudit",
-        "path": "evidence/beta5-adversarial-audit/report.json",
-        "decision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT"
+        "id": "l6HetznerGeneration",
+        "path": "evidence/beta6-l6-hetzner-generation/report.json",
+        "decision": "PASS_L6_FULL_CLI_GENERATION_READY"
       },
       {
-        "id": "crossPlatformSmoke",
-        "path": "evidence/beta5-cross-platform-smoke/report.json",
-        "decision": "PASS_CROSS_PLATFORM_SMOKE"
+        "id": "l6FullGenerationContract",
+        "path": "evidence/beta6-l6-full-generation-contract/report.json",
+        "decision": "PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED"
       },
       {
-        "id": "marketplacePackages",
-        "path": "evidence/beta5-marketplace-packages/report.json",
-        "decision": "PASS_MARKETPLACE_PACKAGE_GATE"
+        "id": "l6HarnessMaterialization",
+        "path": "evidence/beta6-l6-full-materialization-attempt/report.json",
+        "decision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED"
       },
       {
-        "id": "docsWebSync",
-        "path": "evidence/beta5-docs-web-sync/report.json",
-        "decision": "PASS_DOCS_WEB_BETA5_SYNC"
+        "id": "packageHarness",
+        "path": "evidence/beta6-package-harness/report.json",
+        "decision": "PASS_BETA6_PACKAGE_HARNESS_GENERATED_FROM_PCD"
       },
       {
-        "id": "skillsSync",
-        "path": "evidence/beta5-skills-sync/report.json",
-        "decision": "PASS_SKILLS_BETA5_SYNC"
+        "id": "localPackage",
+        "path": "evidence/beta6-package/package.manifest.json",
+        "decision": "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT"
       },
       {
-        "id": "signedChecksums",
-        "path": "evidence/beta5-release-checksums/report.json",
-        "decision": "PASS_SIGNED_CHECKSUMS"
-      },
-      {
-        "id": "localCompletion",
-        "path": "evidence/beta5-local-completion/report.json",
-        "decision": "PASS_BETA5_LOCAL_COMPLETION"
+        "id": "localPackageSmoke",
+        "path": "evidence/beta6-package-smoke/report.json",
+        "decision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }
