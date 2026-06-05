@@ -52,6 +52,7 @@
     "gate:beta7:docs-web-sync": "node scripts/beta7-docs-web-sync-gate.js",
     "gate:beta7:skills-sync": "node scripts/beta7-skills-sync-gate.js",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
+    "release:flow:audit": "node scripts/release-flow-audit.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
     "release:train:live-verify": "node scripts/release-train-live-verify.js",
     "release:train:sync-surfaces": "node scripts/release-train-sync-surfaces.js",

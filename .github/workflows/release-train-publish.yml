@@ -51,6 +51,7 @@ jobs:
       - name: Validate release train pre-publication
         run: |
           npm run release:manifest:validate
+          npm run release:flow:audit
           npm run release:train:dry-run
 
       - name: Check requested manifest digest
