@@ -45,7 +45,7 @@ function releaseNotesMarkdown(manifest) {
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const manifestText = fs.readFileSync(manifestPath, 'utf8');
-  const manifest = JSON.parse(manifestText);
+  const manifest = readJson(manifestPath);
   const failures = [];
 
   const markdown = releaseNotesMarkdown(manifest);
