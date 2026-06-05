@@ -125,19 +125,19 @@ PY`,
     command(
       'docs_dispatch',
       'Dispatch docs update using the manifest payload.',
-      `jq -c '{event_type:"brik64-release-manifest",client_payload:.}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -`,
+      `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -`,
       true
     ),
     command(
       'web_dispatch',
       'Dispatch web/CMS update using the manifest payload.',
-      `jq -c '{event_type:"brik64-release-manifest",client_payload:.}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64.com/dispatches --method POST --input -`,
+      `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64.com/dispatches --method POST --input -`,
       true
     ),
     command(
       'skills_dispatch',
       'Dispatch public skills metadata refresh.',
-      `jq -c '{event_type:"brik64-release-manifest",client_payload:.}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64/brik64-tools-skills/dispatches --method POST --input -`,
+      `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64/brik64-tools-skills/dispatches --method POST --input -`,
       true
     ),
     command(
