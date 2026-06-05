@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "brik64.beta6_l6_compatible_polymer_generation_report.v1",
+  "version": "0.1.0-beta.6",
+  "generatedAt": "2026-06-05T15:31:48.071Z",
+  "lane": "internal_non_claim_l6_compatible_polymer",
+  "decision": "PASS_L6_COMPATIBLE_POLYMER_GENERATED",
+  "releaseEligible": false,
+  "host": "root@89.167.104.236",
+  "remoteWork": "/tmp/brik64-cli-beta6-l6-compatible-1780673487986",
+  "canonicalSource": {
+    "path": "pcd/cli_polymer.pcd",
+    "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f"
+  },
+  "compatibleSource": {
+    "path": "evidence/beta6-l6-compatible-polymer/brik_cli_beta6_l6_compatible_polymer.pcd",
+    "sha256": "a69c4040de8d14f8c73a1ecb9c2c9437a0063a9eb8d88872fa65088bd1cb98c0",
+    "encoding": "command_code*1000 + workspace_readable*100 + certificate_present*10 + target_code"
+  },
+  "fixtures": {
+    "path": "evidence/beta6-l6-compatible-polymer/fixtures.json",
+    "sha256": "8efc1a5530d2cc33f59562a07310e829db53c4e5109022bb3d2d012a9b1bb475",
+    "parityCases": 100
+  },
+  "technicalSheet": {
+    "path": "evidence/beta6-l6-compatible-polymer/technical-sheet.json",
+    "sha256": "8c702f5cbc0b6e736c6f4a0020880cbf1e9ffbe9ce7ceaccde37954e5f76bdc0"
+  },
+  "generatedFiles": [
+    {
+      "path": "evidence/beta6-l6-compatible-polymer/generated/brik_cli_beta6_l6_compatible_polymer.cert.json",
+      "sha256": "8900806231ef8bb53682214e9997db8ac7aa44efee224cc880d47e12809fb6bf",
+      "bytes": 1070
+    },
+    {
+      "path": "evidence/beta6-l6-compatible-polymer/generated/brik_cli_beta6_l6_compatible_polymer.js",
+      "sha256": "16aee411fe97276eadfb6d0eb12f5f58365a8314727be1fa8c0c3cdb186fbb4c",
+      "bytes": 4420
+    },
+    {
+      "path": "evidence/beta6-l6-compatible-polymer/generated/brik_cli_beta6_l6_compatible_polymer.test.js",
+      "sha256": "47acb4bcd9b20ae03efbbf655246519cdcf8628c9f43bada18cc506cc82c6fbd",
+      "bytes": 509
+    },
+    {
+      "path": "evidence/beta6-l6-compatible-polymer/generated/brik_cli_beta6_l6_compatible_polymer.tests.manifest.json",
+      "sha256": "a34c51271557f0b5bf8ae84b78519ff0bfe96877a1a0ba411e92e629f4cbb419",
+      "bytes": 1150
+    },
+    {
+      "path": "evidence/beta6-l6-compatible-polymer/generated/fixtures.json",
+      "sha256": "8efc1a5530d2cc33f59562a07310e829db53c4e5109022bb3d2d012a9b1bb475",
+      "bytes": 25172
+    }
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "releaseAllowed": false,
+    "n5Authorized": false,
+    "certifiesTests": false,
+    "fullCliDistributionArtifact": false
+  },
+  "nextRequiredGate": "Bind this L6-compatible generated artifact to package/release only after canonical polymer parity and target package smoke are expanded beyond finite route2 compatibility."
+}
