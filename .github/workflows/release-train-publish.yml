@@ -96,7 +96,7 @@ jobs:
           npm pack --pack-destination "$PACK_DIR"
 
           cd "$SDK_ROOT/brik64-lib-python"
-          python3 -m pip install --upgrade build
+          python3 -m pip install --upgrade build twine
           python3 -m build
 
           cd "$SDK_ROOT/brik64-lib-rust"
