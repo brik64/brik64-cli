@@ -7,12 +7,14 @@ Branch: `main`
 ## Executive Checklist
 
 - 🟩 100% | 🟩 🟩 🟩 🟩 | Manifest contract, validator, dry-run gate, sync payload, live verifier, and publication-plan preflight are merged to `main`.
-- 🟨 75% | 🟩 🟩 🟩 ⬜ | GitHub Actions release train activation.
-  - Dry-run passes on `main`; live verification still receives Cloudflare HTTP 403 from GitHub Actions.
-- 🟥 50% | 🟩 🟩 🟥 ⬜ | Mutation-capable public publication.
-  - The executor and GCP upload script exist and are fail-closed, but external channel secrets, downstream consumers, and live verifier reachability must be closed before mutation mode can pass.
-- ⬜ 25% | 🟩 ⬜ ⬜ ⬜ | First end-to-end release run from the active branch.
-  - Depends on GitHub Actions live verification and mutation executor configuration.
+- 🟩 100% | 🟩 🟩 🟩 🟩 | GitHub Actions release train activation.
+  - Cloudflare Bot Fight Mode blocker is closed; live verification passes from GitHub Actions.
+- 🟩 100% | 🟩 🟩 🟩 🟩 | SDK artifact preparation in the publication runner.
+  - The publish workflow clones private SDK repos and builds/packages JS, Python, and Rust SDK artifacts inside the runner.
+- 🟨 75% | 🟩 🟩 🟩 ⬜ | Mutation-capable public publication.
+  - Dry-run command preflight is clean. Real mutation is blocked only by missing GCP Workload Identity repository secrets.
+- ⛔ 75% | 🟩 🟩 🟩 ⛔ | First end-to-end mutation run from `main`.
+  - Blocked until GCP Workload Identity Pool/provider is created by an account with `iam.workloadIdentityPools.create`.
 
 ## Implemented
 
@@ -43,11 +45,15 @@ Branch: `main`
   GCP bucket when publication mode is explicitly enabled.
 - GitHub Actions workflows exist for dry-run, live verification, and
   publication-plan generation plus fail-closed publication execution.
+- `release-train-publish.yml` prepares SDK publication workspaces on GitHub
+  Actions runners by cloning `brik64-admin/brik64-lib-js`,
+  `brik64-admin/brik64-lib-python`, and `brik64-admin/brik64-lib-rust`.
+- `release-train-publish.yml` supports keyless GCP authentication through
+  Google Cloud Workload Identity Federation.
 
 ## Not Yet Implemented
 
-- Cloudflare or edge-access policy that lets GitHub Actions verify the public
-  release routes without weakening probe blocking.
+- GCP Workload Identity Pool/provider for `brik64/brik64-cli` on `main`.
 - Concrete channel implementations for:
   - docs dispatch consumer.
   - web or CMS dispatch consumer.
@@ -59,6 +65,7 @@ Branch: `main`
 
 ## Next Closure Patch
 
-Close the GitHub Actions live-verifier Cloudflare 403 first. Then wire docs,
-web, and skills dispatch consumers in their own repositories and run the
-publication workflow from `main` with repository/environment secrets configured.
+Create the GCP Workload Identity Pool/provider documented in
+`docs/BETA5_PUBLIC_RELEASE_COMPLETION_PLAN.md`, configure the two GCP repository
+secrets, and run `release-train-publish` from `main` in mutation mode using the
+exact `PUBLISH <version> <manifest_digest>` confirmation string.
