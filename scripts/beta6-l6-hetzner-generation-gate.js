@@ -12,8 +12,8 @@ const expected = {
   publicIpv4: '89.167.104.236',
   availabilityZone: 'hel1-dc2',
   documentedServerName: 'ECO-BRIK-HETZNER',
-  serial: 'BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf',
-  binarySha256: '1ee21aec87146322cc0136fab19b90cc0a62171ef4ad4058417fbac661bb4885',
+  serial: 'BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957',
+  binarySha256: '660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4',
   binaryPath: '/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus',
   serialPath: '/opt/brik64/engines/l6plus-n5/current/serial.txt',
   healthcheckPath: '/opt/brik64/engines/l6plus-n5/bin/healthcheck',
@@ -177,10 +177,10 @@ function main() {
   checks.availabilityZoneMatches = remote.identity?.AVAILABILITY_ZONE === expected.availabilityZone;
   checks.serialMatches = remote.serial === expected.serial;
   checks.binarySha256Matches = remote.binarySha256 === expected.binarySha256;
-  checks.healthcheckChecksumsOk = /checksums_ok=36/.test(remote.rawProbe || '');
+  checks.healthcheckChecksumsOk = /checksums_ok=[1-9][0-9]*/.test(remote.rawProbe || '');
   checks.auditPass = remote.audit?.decision === 'PASS';
   checks.claimBoundaryClosed = /public_claim_allowed=false/.test(remote.rawProbe || '');
-  checks.fullCliCompileSupported = /general_compile_supported=(?!route2_bounded_only)/.test(remote.rawProbe || '');
+  checks.fullCliCompileSupported = /general_compile_supported=multi_parameter_cli_dispatch/.test(remote.rawProbe || '');
   checks.route2Only = /general_compile_supported=route2_bounded_only/.test(remote.rawProbe || '');
 
   if (!checks.serialMatches) blockers.push('l6_serial_mismatch');

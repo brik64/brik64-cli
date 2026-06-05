@@ -7,7 +7,7 @@ tmpdir="$(mktemp -d)"
 cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.5"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.6"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" doctor | grep -q '"status": "PASS"'
@@ -23,8 +23,8 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
     node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
     node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
   fi
-  node "$ROOT_DIR/scripts/build-beta5-package.js" | grep -q "PASS_LOCAL_PACKAGE_CANDIDATE_BUILT"
-  node "$ROOT_DIR/scripts/beta5-package-smoke.js" | grep -q "decision=PASS_LOCAL_PACKAGE_SMOKE"
+  node "$ROOT_DIR/scripts/build-beta6-package.js" | grep -q "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT"
+  node "$ROOT_DIR/scripts/beta6-package-smoke.js" | grep -q "decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE"
   node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"
   node "$ROOT_DIR/scripts/beta5-publication-preflight.js" | grep -q "decision=BLOCKED_PUBLICATION_PREFLIGHT"
   if node "$ROOT_DIR/scripts/beta5-publication-preflight.js" --release >/tmp/brik-publication-preflight.out 2>/tmp/brik-publication-preflight.err; then

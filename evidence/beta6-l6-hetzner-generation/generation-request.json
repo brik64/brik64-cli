@@ -1,22 +1,27 @@
 {
   "schemaVersion": "brik64.beta6_l6_hetzner_generation_request.v1",
   "version": "0.1.0-beta.6",
-  "generatedAt": "2026-06-05T15:31:27.994Z",
+  "generatedAt": "2026-06-05T18:07:24.247Z",
   "host": "root@89.167.104.236",
   "requiredEngine": "L6+N5",
   "semanticSource": {
     "manifest": {
       "path": ".brik/manifest.json",
-      "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e"
+      "sha256": "f7972db53bd7ddd6afbabeab3b78a627bd25260783a4267e168a224d3b9e092a"
     },
     "polymer": {
       "path": "pcd/cli_polymer.pcd",
-      "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f"
+      "sha256": "5ce3226cde7fd3cbfce726ee6cc628a997d03f5cfa612b2d5ff23f017e7775d8"
     },
     "pcdInventory": {
-      "count": 5,
-      "sha256": "c8fc57e21a3e932a0f98878a1815755616f9579338a4e2bb093a6252079a700b",
+      "count": 7,
+      "sha256": "93aef7cdbb64e8be845324ba33c80ab1c0dabb3dd7e56e1f37d7d1be6cbd0be5",
       "files": [
+        {
+          "path": "pcd/beta6_package_harness.pcd",
+          "sha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+          "bytes": 2254
+        },
         {
           "path": "pcd/cli_beta5_route2.pcd",
           "sha256": "e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a",
@@ -29,7 +34,7 @@
         },
         {
           "path": "pcd/cli_core.pcd",
-          "sha256": "39ebac6eeff82c9fcf0deff7b9255b53fac7ef293e7a915263799f870c3470f0",
+          "sha256": "2982c59979dbfcaf33ae15444ee817aa1d92472220c76d871ae2ca0767959448",
           "bytes": 787
         },
         {
@@ -39,8 +44,13 @@
         },
         {
           "path": "pcd/cli_polymer.pcd",
-          "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+          "sha256": "5ce3226cde7fd3cbfce726ee6cc628a997d03f5cfa612b2d5ff23f017e7775d8",
           "bytes": 1740
+        },
+        {
+          "path": "pcd/l6_full_cli_generation_factory.pcd",
+          "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+          "bytes": 2722
         }
       ]
     }
@@ -50,12 +60,12 @@
     "publicIpv4": "89.167.104.236",
     "availabilityZone": "hel1-dc2",
     "documentedServerName": "ECO-BRIK-HETZNER",
-    "serial": "BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf",
-    "binarySha256": "1ee21aec87146322cc0136fab19b90cc0a62171ef4ad4058417fbac661bb4885",
+    "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+    "binarySha256": "660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4",
     "binaryPath": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus",
     "serialPath": "/opt/brik64/engines/l6plus-n5/current/serial.txt",
     "healthcheckPath": "/opt/brik64/engines/l6plus-n5/bin/healthcheck",
     "auditPath": "/opt/brik64/engines/l6plus-n5/bin/audit"
   },
-  "requestSha256": "d0c28302f6e9fa7e011b5b59c62eed238c2018dbd6592ae2c4850e106304fa11"
+  "requestSha256": "130ce887d1ba46ad6308404a0f2da6426e9cd46ae74db4a08096cd8a3a4a2388"
 }

@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "brik64.beta6_package_harness_generation_report.v1",
+  "version": "0.1.0-beta.6",
+  "generatedAt": "2026-06-05T17:56:42.938Z",
+  "lane": "prototype_non_claim_until_l6_materialized",
+  "decision": "PASS_BETA6_PACKAGE_HARNESS_GENERATED_FROM_PCD",
+  "releaseEligible": false,
+  "generatorBoundary": "bootstrap_non_claim_generator; final harness must be materialized by serialized L6+N5",
+  "sourcePcd": {
+    "path": "pcd/beta6_package_harness.pcd",
+    "sha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+    "bytes": 2254
+  },
+  "fullGenerationContract": {
+    "path": "pcd/l6_full_cli_generation_factory.pcd",
+    "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+    "bytes": 2722
+  },
+  "metadata": {
+    "metadata": {
+      "product": "brik64-cli",
+      "cli_version": "0.1.0-beta.6",
+      "product_artifact": "BRIK64 CLI 0.1.0-beta.6",
+      "harness_role": "internal generator for BRIK64 CLI beta6 package/release manifests",
+      "target": "js_node",
+      "generation_lane": "prototype_non_claim_until_l6_materialized",
+      "engine_required_for_release": "L6+N5",
+      "source_contract": "pcd/l6_full_cli_generation_factory.pcd",
+      "claim_boundary": "prototype_non_claim_harness_source"
+    },
+    "reads": [
+      ".brik/manifest.json",
+      "pcd/cli_polymer.pcd",
+      "pcd/l6_full_cli_generation_factory.pcd",
+      "evidence/beta6-l6-full-generation-contract/report.json",
+      "evidence/beta6-l6-hetzner-generation/report.json"
+    ],
+    "writes": [
+      "generated/beta6-package-harness.generated.js",
+      "generated/beta6-package-harness.test.js",
+      "generated/package-harness.manifest.json"
+    ],
+    "requires": [
+      "pcd_source_hash_bound == true",
+      "cli_polymer_hash_bound == true",
+      "full_generation_contract_hash_bound == true",
+      "l6_serial_recorded == true",
+      "l6_full_generation_ready == true",
+      "package_manifest_hash_bound == true",
+      "release_manifest_hash_bound == true"
+    ],
+    "invariants": [
+      "generated_harness_must_not_edit_source_cli == true",
+      "generated_harness_must_emit_hashes == true",
+      "generated_harness_must_fail_closed_on_missing_inputs == true",
+      "generated_harness_must_remain_non_release_until_l6_materialized == true",
+      "public_claim_allowed == false"
+    ],
+    "failures": [
+      "beta6_package_harness_input_missing",
+      "beta6_package_harness_l6_not_ready",
+      "beta6_package_harness_hash_binding_missing"
+    ]
+  },
+  "generatedArtifacts": [
+    {
+      "path": "evidence/beta6-package-harness/generated/beta6-package-harness.generated.js",
+      "sha256": "f9b348eebb631289b0b9cdb2ee25b0e32bc0613eb9e676408b045c6292795b1d",
+      "bytes": 2804
+    },
+    {
+      "path": "evidence/beta6-package-harness/generated/beta6-package-harness.test.js",
+      "sha256": "8da358af887348ace530fa53d0ca9ee7a0d9b8ee51a0b9a344a685ca2f0f5808",
+      "bytes": 751
+    },
+    {
+      "path": "evidence/beta6-package-harness/generated/package-harness.manifest.json",
+      "sha256": "dff457ad330284974bb86d75481c94bb2241fd958f6a1890e1924c83987ec486",
+      "bytes": 1722
+    }
+  ],
+  "generatedOutput": {
+    "schemaVersion": "brik64.beta6_package_harness_output.v1",
+    "version": "0.1.0-beta.6",
+    "productArtifact": "BRIK64 CLI 0.1.0-beta.6",
+    "harnessRole": "internal generator for BRIK64 CLI beta6 package/release manifests",
+    "generatedFrom": "pcd/beta6_package_harness.pcd",
+    "pcdSha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+    "fullGenerationContractSha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+    "releaseEligible": true,
+    "decision": "PASS_BETA6_PACKAGE_HARNESS_READY",
+    "inputs": [
+      {
+        "path": ".brik/manifest.json",
+        "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e",
+        "bytes": 1466
+      },
+      {
+        "path": "pcd/cli_polymer.pcd",
+        "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+        "bytes": 1740
+      },
+      {
+        "path": "pcd/l6_full_cli_generation_factory.pcd",
+        "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+        "bytes": 2722
+      },
+      {
+        "path": "pcd/beta6_package_harness.pcd",
+        "sha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+        "bytes": 2254
+      },
+      {
+        "path": "evidence/beta6-l6-full-generation-contract/report.json",
+        "sha256": "cdd3c40b76c9e44b22c7490c8fa245abdfd3fb2148dfcf30ab1a24281b5ef9bf",
+        "bytes": 1802
+      },
+      {
+        "path": "evidence/beta6-l6-hetzner-generation/report.json",
+        "sha256": "7ae349ffc23f6f3a3c454210f33b6a784146879736c5929c797de63be23dc203",
+        "bytes": 5347
+      }
+    ],
+    "blockers": [],
+    "boundary": "Generated harness output only. Public release requires L6+N5 full generation PASS and signed release manifest."
+  },
+  "test": {
+    "status": 0,
+    "stdout": "✔ beta6 package harness is ready once L6 full generation gates pass (2.823542ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 6.914541\n",
+    "stderr": ""
+  },
+  "requiredNextAction": "Materialize this harness through the L6+N5 full generation endpoint and bind artifact/package/release hashes before beta6 publication."
+}

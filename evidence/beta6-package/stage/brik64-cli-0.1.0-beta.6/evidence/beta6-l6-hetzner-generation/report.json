@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "brik64.beta6_l6_hetzner_generation_gate.v1",
+  "version": "0.1.0-beta.6",
+  "generatedAt": "2026-06-05T17:55:50.491Z",
+  "lane": "beta6_l6_hetzner_generation_gate",
+  "decision": "PASS_L6_FULL_CLI_GENERATION_READY",
+  "releaseEligible": true,
+  "request": {
+    "path": "evidence/beta6-l6-hetzner-generation/generation-request.json",
+    "sha256": "cfb0f126ca7bf95b2279e6775c5b5d072a2bf28ac520ae91018a4b4f0ef2657d"
+  },
+  "checks": {
+    "sshReachable": true,
+    "hetznerInstanceMatches": true,
+    "publicIpv4Matches": true,
+    "availabilityZoneMatches": true,
+    "serialMatches": true,
+    "binarySha256Matches": true,
+    "healthcheckChecksumsOk": true,
+    "auditPass": true,
+    "claimBoundaryClosed": true,
+    "fullCliCompileSupported": true,
+    "route2Only": false
+  },
+  "remote": {
+    "rawProbe": "HOSTNAME=ubuntu-16gb-hel1-1\nINSTANCE_ID=125157982\nPUBLIC_IPV4=89.167.104.236\nAVAILABILITY_ZONE=hel1-dc2\nBRIK64-L6PLUS-N5-20260605-BETA6MP-660de957\n660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4  /opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus\nchecksums_ok=5\nserial=BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;certifies_tests=false;numeric_domain_profile_hash_required=true;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=multi_parameter_cli_dispatch;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;\n{\n  \"decision\": \"PASS\",\n  \"report\": \"/var/lib/brik64/l6plus-n5/audit-report.json\",\n  \"checks\": {\n    \"serial_expected\": true,\n    \"binary_executable\": true,\n    \"checksums_ok\": true,\n    \"claim_boundary_closed\": true,\n    \"version_rc_ok\": true,\n    \"version_declares_l6_plus\": true,\n    \"version_declares_non_claim\": true,\n    \"invalid_compile_fails_closed\": true,\n    \"systemd_service_enabled\": true,\n    \"systemd_timer_enabled\": true,\n    \"systemd_service_active_or_exited\": true\n  }\n}\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0\nengine=l6_plus\nengine_tier=internal_generation\nlane=internal_adaptive\nclaim_authority=non_claim\npublic_claim_allowed=false\ncertifies_tests=false\nnumeric_domain_profile_hash_required=true\ndelegated_baseline=false\nbounded_bpcb_v2_emitter=true\ngeneral_compile_delegation=false\ngeneral_compile_supported=multi_parameter_cli_dispatch\nroute2_bounded_compile_supported=true\nquality_10_claim_allowed=false\n",
+    "identity": {
+      "HOSTNAME": "ubuntu-16gb-hel1-1",
+      "INSTANCE_ID": "125157982",
+      "PUBLIC_IPV4": "89.167.104.236",
+      "AVAILABILITY_ZONE": "hel1-dc2"
+    },
+    "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+    "binarySha256": "660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4",
+    "versionOutput": [
+      "brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;certifies_tests=false;numeric_domain_profile_hash_required=true;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=multi_parameter_cli_dispatch;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;",
+      "brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0",
+      "engine=l6_plus",
+      "lane=internal_adaptive",
+      "claim_authority=non_claim",
+      "public_claim_allowed=false",
+      "general_compile_delegation=false",
+      "general_compile_supported=multi_parameter_cli_dispatch",
+      "route2_bounded_compile_supported=true",
+      "quality_10_claim_allowed=false"
+    ],
+    "audit": {
+      "decision": "PASS",
+      "report": "/var/lib/brik64/l6plus-n5/audit-report.json",
+      "checks": {
+        "serial_expected": true,
+        "binary_executable": true,
+        "checksums_ok": true,
+        "claim_boundary_closed": true,
+        "version_rc_ok": true,
+        "version_declares_l6_plus": true,
+        "version_declares_non_claim": true,
+        "invalid_compile_fails_closed": true,
+        "systemd_service_enabled": true,
+        "systemd_timer_enabled": true,
+        "systemd_service_active_or_exited": true
+      }
+    }
+  },
+  "compatibleRoute2Evidence": {
+    "present": true,
+    "path": "evidence/beta6-l6-compatible-polymer/report.json",
+    "sha256": "312fc1d4967db279a67fa012ddaa3d31b5f70759a901104a8d0dabb659e63448",
+    "decision": "PASS_L6_COMPATIBLE_POLYMER_GENERATED",
+    "releaseEligible": false,
+    "parityCases": 100,
+    "compatibleSource": {
+      "path": "evidence/beta6-l6-compatible-polymer/brik_cli_beta6_l6_compatible_polymer.pcd",
+      "sha256": "a69c4040de8d14f8c73a1ecb9c2c9437a0063a9eb8d88872fa65088bd1cb98c0",
+      "encoding": "command_code*1000 + workspace_readable*100 + certificate_present*10 + target_code"
+    },
+    "claimBoundary": {
+      "publicClaimsAllowed": false,
+      "releaseAllowed": false,
+      "n5Authorized": false,
+      "certifiesTests": false,
+      "fullCliDistributionArtifact": false
+    }
+  },
+  "blockers": [],
+  "requiredNextAction": "Run L6 generation and bind generated artifact/package/release hashes."
+}

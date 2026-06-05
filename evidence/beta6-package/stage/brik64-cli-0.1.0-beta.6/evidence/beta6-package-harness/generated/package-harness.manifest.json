@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "brik64.beta6_package_harness_output.v1",
+  "version": "0.1.0-beta.6",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.6",
+  "harnessRole": "internal generator for BRIK64 CLI beta6 package/release manifests",
+  "generatedFrom": "pcd/beta6_package_harness.pcd",
+  "pcdSha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+  "fullGenerationContractSha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+  "releaseEligible": true,
+  "decision": "PASS_BETA6_PACKAGE_HARNESS_READY",
+  "inputs": [
+    {
+      "path": ".brik/manifest.json",
+      "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e",
+      "bytes": 1466
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+      "bytes": 1740
+    },
+    {
+      "path": "pcd/l6_full_cli_generation_factory.pcd",
+      "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+      "bytes": 2722
+    },
+    {
+      "path": "pcd/beta6_package_harness.pcd",
+      "sha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+      "bytes": 2254
+    },
+    {
+      "path": "evidence/beta6-l6-full-generation-contract/report.json",
+      "sha256": "cdd3c40b76c9e44b22c7490c8fa245abdfd3fb2148dfcf30ab1a24281b5ef9bf",
+      "bytes": 1802
+    },
+    {
+      "path": "evidence/beta6-l6-hetzner-generation/report.json",
+      "sha256": "7ae349ffc23f6f3a3c454210f33b6a784146879736c5929c797de63be23dc203",
+      "bytes": 5347
+    }
+  ],
+  "blockers": [],
+  "boundary": "Generated harness output only. Public release requires L6+N5 full generation PASS and signed release manifest."
+}

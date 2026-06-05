@@ -1,0 +1,56 @@
+// brik64.pcd_file.v1
+// name: brik64_cli_beta6_package_harness
+// status: beta6_harness_generation_source
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// product = "brik64-cli"
+// cli_version = "0.1.0-beta.6"
+// product_artifact = "BRIK64 CLI 0.1.0-beta.6"
+// harness_role = "internal generator for BRIK64 CLI beta6 package/release manifests"
+// target = "js_node"
+// generation_lane = "prototype_non_claim_until_l6_materialized"
+// engine_required_for_release = "L6+N5"
+// source_contract = "pcd/l6_full_cli_generation_factory.pcd"
+// reads ".brik/manifest.json"
+// reads "pcd/cli_polymer.pcd"
+// reads "pcd/l6_full_cli_generation_factory.pcd"
+// reads "evidence/beta6-l6-full-generation-contract/report.json"
+// reads "evidence/beta6-l6-hetzner-generation/report.json"
+// writes "generated/beta6-package-harness.generated.js"
+// writes "generated/beta6-package-harness.test.js"
+// writes "generated/package-harness.manifest.json"
+// requires pcd_source_hash_bound == true
+// requires cli_polymer_hash_bound == true
+// requires full_generation_contract_hash_bound == true
+// requires l6_serial_recorded == true
+// requires l6_full_generation_ready == true
+// requires package_manifest_hash_bound == true
+// requires release_manifest_hash_bound == true
+// invariant generated_harness_must_not_edit_source_cli == true
+// invariant generated_harness_must_emit_hashes == true
+// invariant generated_harness_must_fail_closed_on_missing_inputs == true
+// invariant generated_harness_must_remain_non_release_until_l6_materialized == true
+// invariant public_claim_allowed == false
+// failure beta6_package_harness_input_missing
+// failure beta6_package_harness_l6_not_ready
+// failure beta6_package_harness_hash_binding_missing
+// claim_boundary = "prototype_non_claim_harness_source"
+
+PC brik64_cli_beta6_package_harness {
+    fn brik64_cli_beta6_package_harness(inputs_present, l6_ready, hashes_bound, manifests_bound) {
+        if (inputs_present == 0) {
+            return 64;
+        }
+        if (hashes_bound == 0) {
+            return 69;
+        }
+        if (manifests_bound == 0) {
+            return 69;
+        }
+        if (l6_ready == 0) {
+            return 68;
+        }
+        return 1;
+    }
+}

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "brik64.beta6_l6_full_materialization_attempt.v1",
+  "version": "0.1.0-beta.6",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.6",
+  "generatedAt": "2026-06-05T17:56:04.241Z",
+  "lane": "l6_full_generation_attempt_non_claim",
+  "host": "root@89.167.104.236",
+  "remoteWork": "/tmp/brik64-cli-beta6-full-materialize-1780682150940",
+  "decision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED",
+  "releaseEligible": false,
+  "inputs": [
+    {
+      "path": "pcd/beta6_package_harness.pcd",
+      "sha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
+      "bytes": 2254
+    },
+    {
+      "path": "pcd/l6_full_cli_generation_factory.pcd",
+      "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+      "bytes": 2722
+    },
+    {
+      "path": "evidence/beta6-l6-full-generation-contract/report.json",
+      "sha256": "e0b9a80ef16a93cdcb2a6135e5625ed347d1b0318b86fbd56165960319a06038",
+      "bytes": 2762
+    },
+    {
+      "path": "evidence/beta6-l6-hetzner-generation/report.json",
+      "sha256": "7ae349ffc23f6f3a3c454210f33b6a784146879736c5929c797de63be23dc203",
+      "bytes": 5347
+    }
+  ],
+  "technicalSheet": {
+    "path": "evidence/beta6-l6-full-materialization-attempt/technical-sheet.json",
+    "sha256": "e2ffd3b098bafe796e805c4beb64a0a72cde2d6642717ca5c75c655de53b50a3"
+  },
+  "remote": {
+    "rc": 0,
+    "stdout": "evidence/beta6-l6-full-materialization-attempt/remote-stdout.txt",
+    "stdoutSha256": "d5c9baec4c407f9fcff9edffffe9e226d2d091185cd40020433cccbb6e1dc35a",
+    "stderr": "evidence/beta6-l6-full-materialization-attempt/remote-stderr.txt",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outFiles": [
+      "/tmp/brik64-cli-beta6-full-materialize-1780682150940/out/brik64_cli_beta6_package_harness.cert.json",
+      "/tmp/brik64-cli-beta6-full-materialize-1780682150940/out/brik64_cli_beta6_package_harness.js"
+    ],
+    "checksums": "evidence/beta6-l6-full-materialization-attempt/remote-SHA256SUMS",
+    "checksumsSha256": "36d170eefc3e464a558f26c77c04dcc12baea0688212cdd6df69ebd1b0d1c406"
+  },
+  "blockers": [],
+  "requiredNextAction": "Bind emitted harness artifact into package/release manifest and continue beta6 artifact generation."
+}

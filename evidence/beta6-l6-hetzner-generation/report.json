@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.beta6_l6_hetzner_generation_gate.v1",
   "version": "0.1.0-beta.6",
-  "generatedAt": "2026-06-05T15:31:29.855Z",
+  "generatedAt": "2026-06-05T18:07:26.394Z",
   "lane": "beta6_l6_hetzner_generation_gate",
-  "decision": "BLOCKED_L6_FULL_CLI_GENERATION_UNAVAILABLE",
-  "releaseEligible": false,
+  "decision": "PASS_L6_FULL_CLI_GENERATION_READY",
+  "releaseEligible": true,
   "request": {
     "path": "evidence/beta6-l6-hetzner-generation/generation-request.json",
-    "sha256": "d51d9b37d6fa40ec01cd33dc27daca0508e8267251b48e6906dbe1a69a98660b"
+    "sha256": "adb9eab89b2cb3f9f9e0493c99cfde54ce943484c445a607e9e8545d0feb1ab7"
   },
   "checks": {
     "sshReachable": true,
@@ -19,28 +19,28 @@
     "healthcheckChecksumsOk": true,
     "auditPass": true,
     "claimBoundaryClosed": true,
-    "fullCliCompileSupported": false,
-    "route2Only": true
+    "fullCliCompileSupported": true,
+    "route2Only": false
   },
   "remote": {
-    "rawProbe": "HOSTNAME=ubuntu-16gb-hel1-1\nINSTANCE_ID=125157982\nPUBLIC_IPV4=89.167.104.236\nAVAILABILITY_ZONE=hel1-dc2\nBRIK64-L6PLUS-N5-20260601-ee53196434bd17cf\n1ee21aec87146322cc0136fab19b90cc0a62171ef4ad4058417fbac661bb4885  /opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus\nchecksums_ok=36\nserial=BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=route2_bounded_only;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;\n{\n  \"decision\": \"PASS\",\n  \"report\": \"/var/lib/brik64/l6plus-n5/audit-report.json\",\n  \"checks\": {\n    \"serial_expected\": true,\n    \"binary_executable\": true,\n    \"checksums_ok\": true,\n    \"claim_boundary_closed\": true,\n    \"version_rc_ok\": true,\n    \"version_declares_l6_plus\": true,\n    \"version_declares_non_claim\": true,\n    \"invalid_compile_fails_closed\": true,\n    \"systemd_service_enabled\": true,\n    \"systemd_timer_enabled\": true,\n    \"systemd_service_active_or_exited\": true\n  }\n}\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0\nengine=l6_plus\nlane=internal_adaptive\nclaim_authority=non_claim\npublic_claim_allowed=false\ndelegated_baseline=false\nbounded_bpcb_v2_emitter=true\ngeneral_compile_delegation=false\ngeneral_compile_supported=route2_bounded_only\nroute2_bounded_compile_supported=true\nquality_10_claim_allowed=false\n",
+    "rawProbe": "HOSTNAME=ubuntu-16gb-hel1-1\nINSTANCE_ID=125157982\nPUBLIC_IPV4=89.167.104.236\nAVAILABILITY_ZONE=hel1-dc2\nBRIK64-L6PLUS-N5-20260605-BETA6MP-660de957\n660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4  /opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus\nchecksums_ok=5\nserial=BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;certifies_tests=false;numeric_domain_profile_hash_required=true;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=multi_parameter_cli_dispatch;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;\n{\n  \"decision\": \"PASS\",\n  \"report\": \"/var/lib/brik64/l6plus-n5/audit-report.json\",\n  \"checks\": {\n    \"serial_expected\": true,\n    \"binary_executable\": true,\n    \"checksums_ok\": true,\n    \"claim_boundary_closed\": true,\n    \"version_rc_ok\": true,\n    \"version_declares_l6_plus\": true,\n    \"version_declares_non_claim\": true,\n    \"invalid_compile_fails_closed\": true,\n    \"systemd_service_enabled\": true,\n    \"systemd_timer_enabled\": true,\n    \"systemd_service_active_or_exited\": true\n  }\n}\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0\nengine=l6_plus\nengine_tier=internal_generation\nlane=internal_adaptive\nclaim_authority=non_claim\npublic_claim_allowed=false\ncertifies_tests=false\nnumeric_domain_profile_hash_required=true\ndelegated_baseline=false\nbounded_bpcb_v2_emitter=true\ngeneral_compile_delegation=false\ngeneral_compile_supported=multi_parameter_cli_dispatch\nroute2_bounded_compile_supported=true\nquality_10_claim_allowed=false\n",
     "identity": {
       "HOSTNAME": "ubuntu-16gb-hel1-1",
       "INSTANCE_ID": "125157982",
       "PUBLIC_IPV4": "89.167.104.236",
       "AVAILABILITY_ZONE": "hel1-dc2"
     },
-    "serial": "BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf",
-    "binarySha256": "1ee21aec87146322cc0136fab19b90cc0a62171ef4ad4058417fbac661bb4885",
+    "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+    "binarySha256": "660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4",
     "versionOutput": [
-      "brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=route2_bounded_only;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;",
+      "brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;certifies_tests=false;numeric_domain_profile_hash_required=true;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=multi_parameter_cli_dispatch;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;",
       "brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0",
       "engine=l6_plus",
       "lane=internal_adaptive",
       "claim_authority=non_claim",
       "public_claim_allowed=false",
       "general_compile_delegation=false",
-      "general_compile_supported=route2_bounded_only",
+      "general_compile_supported=multi_parameter_cli_dispatch",
       "route2_bounded_compile_supported=true",
       "quality_10_claim_allowed=false"
     ],
@@ -65,7 +65,7 @@
   "compatibleRoute2Evidence": {
     "present": true,
     "path": "evidence/beta6-l6-compatible-polymer/report.json",
-    "sha256": "687c0d0ab8dfd84a1435ae7865b9fe1a36870069d59f9d2bf3380f6f40ba9420",
+    "sha256": "312fc1d4967db279a67fa012ddaa3d31b5f70759a901104a8d0dabb659e63448",
     "decision": "PASS_L6_COMPATIBLE_POLYMER_GENERATED",
     "releaseEligible": false,
     "parityCases": 100,
@@ -82,9 +82,6 @@
       "fullCliDistributionArtifact": false
     }
   },
-  "blockers": [
-    "l6_full_cli_generation_endpoint_missing",
-    "l6_general_compile_route2_bounded_only"
-  ],
-  "requiredNextAction": "Expose or install the full CLI PCD/polymer generation harness on Hetzner before beta6 publication."
+  "blockers": [],
+  "requiredNextAction": "Run L6 generation and bind generated artifact/package/release hashes."
 }

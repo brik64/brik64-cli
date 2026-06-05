@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.cli_beta6_package_smoke.v1",
+  "version": "0.1.0-beta.6",
+  "decision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "assisted_generation_non_claim",
+  "package": {
+    "path": "evidence/beta6-package/brik64-cli-0.1.0-beta.6-local-candidate.tgz",
+    "sha256": "30d5041e2a304fcb7071b5d779d504d83159813b917f4194368762583b322de1",
+    "bytes": 28950
+  },
+  "checks": [
+    "extract",
+    "version",
+    "engine-status",
+    "doctor",
+    "init",
+    "certify",
+    "emit-ts",
+    "stale-cert-fail-closed"
+  ],
+  "boundary": "Local beta6 package smoke only. Public release train and cross-platform smoke remain separate."
+}

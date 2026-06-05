@@ -1,0 +1,2 @@
+/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.cert.json
+/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.js

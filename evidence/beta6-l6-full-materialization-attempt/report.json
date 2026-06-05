@@ -2,11 +2,11 @@
   "schemaVersion": "brik64.beta6_l6_full_materialization_attempt.v1",
   "version": "0.1.0-beta.6",
   "productArtifact": "BRIK64 CLI 0.1.0-beta.6",
-  "generatedAt": "2026-06-05T16:07:35.905Z",
+  "generatedAt": "2026-06-05T18:07:40.608Z",
   "lane": "l6_full_generation_attempt_non_claim",
   "host": "root@89.167.104.236",
-  "remoteWork": "/tmp/brik64-cli-beta6-full-materialize-1780675642455",
-  "decision": "BLOCKED_BETA6_L6_FULL_HARNESS_MATERIALIZATION",
+  "remoteWork": "/tmp/brik64-cli-beta6-full-materialize-1780682847483",
+  "decision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED",
   "releaseEligible": false,
   "inputs": [
     {
@@ -16,18 +16,18 @@
     },
     {
       "path": "pcd/l6_full_cli_generation_factory.pcd",
-      "sha256": "42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420",
-      "bytes": 2874
+      "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+      "bytes": 2722
     },
     {
       "path": "evidence/beta6-l6-full-generation-contract/report.json",
-      "sha256": "5c3a86409aa0c0662126ef1fc643a5a705c0326909c6b70eb48bc3c92e34d825",
-      "bytes": 3494
+      "sha256": "cdd3c40b76c9e44b22c7490c8fa245abdfd3fb2148dfcf30ab1a24281b5ef9bf",
+      "bytes": 1802
     },
     {
       "path": "evidence/beta6-l6-hetzner-generation/report.json",
-      "sha256": "ab6f9f50865e13b4c7084be2dbc31b5fd62278ce22939fedb58dcbe515bc7586",
-      "bytes": 5155
+      "sha256": "07babe656eb77c2a93b52960093c301ef83b9ae2535d6dbc666183a6e569bd08",
+      "bytes": 5347
     }
   ],
   "technicalSheet": {
@@ -35,19 +35,18 @@
     "sha256": "e2ffd3b098bafe796e805c4beb64a0a72cde2d6642717ca5c75c655de53b50a3"
   },
   "remote": {
-    "rc": 69,
+    "rc": 0,
     "stdout": "evidence/beta6-l6-full-materialization-attempt/remote-stdout.txt",
-    "stdoutSha256": "47225051628069118a4eef325d4931d0100f12249923d43d35b8a0af76695370",
+    "stdoutSha256": "81b41c0efbea7e701580a075a6537e54884e120368a223e2f465d8cfc6714625",
     "stderr": "evidence/beta6-l6-full-materialization-attempt/remote-stderr.txt",
-    "stderrSha256": "d9deb500721b65efdcea5f9a0607dbaa198ae867668817a39f96137011235060",
-    "outFiles": [],
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outFiles": [
+      "/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.cert.json",
+      "/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.js"
+    ],
     "checksums": "evidence/beta6-l6-full-materialization-attempt/remote-SHA256SUMS",
-    "checksumsSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    "checksumsSha256": "f32339f8dc948c3c9a889d663ce60cb9d092c8baea2cde2064dceab1fb4ed3e1"
   },
-  "blockers": [
-    "l6_full_cli_harness_materialization_failed",
-    "l6_general_compile_route2_bounded_only",
-    "l6_full_cli_harness_no_artifact_emitted"
-  ],
-  "requiredNextAction": "Upgrade or deploy the serialized L6+N5 full-generation path so it can materialize multi-parameter BRIK64 CLI beta6 harness PCDs."
+  "blockers": [],
+  "requiredNextAction": "Bind emitted harness artifact into package/release manifest and continue beta6 artifact generation."
 }

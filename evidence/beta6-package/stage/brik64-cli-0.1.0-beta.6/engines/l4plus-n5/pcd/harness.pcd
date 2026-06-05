@@ -1,0 +1,18 @@
+PC l4plus_n5_harness {
+    let engine = "l4_plus";
+    let engine_tier = "free_default";
+    let lane = "canonical_public_candidate";
+    let claim_authority = "non_claim_inventory";
+    let certifies_tests = "false";
+    let generated_tests = "required";
+    let test_manifest = "required";
+    let fail_closed_on_missing_artifact = "true";
+    OUTPUT engine;
+    OUTPUT engine_tier;
+    OUTPUT lane;
+    OUTPUT claim_authority;
+    OUTPUT certifies_tests;
+    OUTPUT generated_tests;
+    OUTPUT test_manifest;
+    OUTPUT fail_closed_on_missing_artifact;
+}

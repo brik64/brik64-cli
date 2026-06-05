@@ -1,62 +1,44 @@
 {
   "schemaVersion": "brik64.beta6_l6_full_generation_contract_gate.v1",
   "version": "0.1.0-beta.6",
-  "generatedAt": "2026-06-05T15:49:09.053Z",
+  "generatedAt": "2026-06-05T18:07:41.596Z",
   "lane": "beta6_l6_full_generation_contract",
   "decision": "PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED",
   "releaseEligible": false,
   "contract": {
     "path": "pcd/l6_full_cli_generation_factory.pcd",
-    "sha256": "42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420",
+    "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
     "missingPatterns": []
   },
   "manifest": {
     "path": ".brik/manifest.json",
-    "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e"
+    "sha256": "f7972db53bd7ddd6afbabeab3b78a627bd25260783a4267e168a224d3b9e092a"
   },
   "hetznerGenerationReport": {
     "path": "evidence/beta6-l6-hetzner-generation/report.json",
-    "sha256": "ab6f9f50865e13b4c7084be2dbc31b5fd62278ce22939fedb58dcbe515bc7586",
-    "decision": "BLOCKED_L6_FULL_CLI_GENERATION_UNAVAILABLE",
-    "blockers": [
-      "l6_full_cli_generation_endpoint_missing",
-      "l6_general_compile_route2_bounded_only"
-    ]
+    "sha256": "07babe656eb77c2a93b52960093c301ef83b9ae2535d6dbc666183a6e569bd08",
+    "decision": "PASS_L6_FULL_CLI_GENERATION_READY",
+    "blockers": []
   },
-  "remoteHarnessEvidence": {
-    "host": "root@89.167.104.236",
-    "expected": {
-      "pcdPath": "/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/harness.pcd",
-      "pcdSha256": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc",
-      "manifestPath": "/opt/brik64/engines/l6plus-n5/current/artifacts/manifests/harness.manifest.json",
-      "manifestSha256": "c8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563",
-      "generatedTestsPcdPath": "/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/generated_tests_harness.pcd",
-      "generatedTestsPcdSha256": "5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144"
-    },
-    "observed": {
-      "pcdSha256": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc",
-      "manifestSha256": "c8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563",
-      "generatedTestsPcdSha256": "5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144",
-      "MANIFEST_SOURCE_PCD_SHA256": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc",
-      "MANIFEST_PUBLIC_CLAIMS_ALLOWED": "false",
-      "MANIFEST_CLAIM_AUTHORITY": "internal_non_claim"
-    },
-    "error": null,
-    "raw": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc  /opt/brik64/engines/l6plus-n5/current/artifacts/pcd/harness.pcd\nc8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563  /opt/brik64/engines/l6plus-n5/current/artifacts/manifests/harness.manifest.json\n5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144  /opt/brik64/engines/l6plus-n5/current/artifacts/pcd/generated_tests_harness.pcd\nMANIFEST_SOURCE_PCD_SHA256=c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc\nMANIFEST_PUBLIC_CLAIMS_ALLOWED=false\nMANIFEST_CLAIM_AUTHORITY=internal_non_claim\n"
+  "materializationReport": {
+    "path": "evidence/beta6-l6-full-materialization-attempt/report.json",
+    "sha256": "ed0aec0931d43f86ad71158bf96e587e2e17407ce896b889524f9a5d4fb69757",
+    "decision": "PASS_BETA6_L6_FULL_HARNESS_MATERIALIZED",
+    "outFiles": [
+      "/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.cert.json",
+      "/tmp/brik64-cli-beta6-full-materialize-1780682847483/out/brik64_cli_beta6_package_harness.js"
+    ]
   },
   "checks": {
     "contractPatternsPresent": true,
     "manifestL6Factory": true,
     "manifestL6DistributionClosed": true,
     "hetznerIdentityVerified": true,
-    "hetznerFullCompileBlocked": true,
-    "remoteHarnessPcdHashMatches": true,
-    "remoteHarnessManifestHashMatches": true,
-    "remoteGeneratedTestsHarnessPcdHashMatches": true,
-    "remoteHarnessManifestBindsSourcePcd": true,
-    "remoteHarnessClaimBoundaryClosed": true,
+    "hetznerFullCompileReady": true,
+    "materializationPass": true,
+    "materializationNonRelease": true,
     "contractReleaseEligible": false
   },
   "blockers": [],
-  "requiredNextAction": "Implement or deploy an L6+N5 harness that satisfies pcd/l6_full_cli_generation_factory.pcd and turns the beta6 Hetzner generation gate into PASS_L6_FULL_CLI_GENERATION_READY."
+  "requiredNextAction": "Bind emitted harness artifact into package/release manifest and continue beta6 artifact generation."
 }

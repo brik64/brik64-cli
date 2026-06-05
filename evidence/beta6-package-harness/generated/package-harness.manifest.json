@@ -5,24 +5,24 @@
   "harnessRole": "internal generator for BRIK64 CLI beta6 package/release manifests",
   "generatedFrom": "pcd/beta6_package_harness.pcd",
   "pcdSha256": "692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b",
-  "fullGenerationContractSha256": "42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420",
-  "releaseEligible": false,
-  "decision": "BLOCKED_BETA6_PACKAGE_HARNESS_L6_NOT_READY",
+  "fullGenerationContractSha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+  "releaseEligible": true,
+  "decision": "PASS_BETA6_PACKAGE_HARNESS_READY",
   "inputs": [
     {
       "path": ".brik/manifest.json",
-      "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e",
+      "sha256": "f7972db53bd7ddd6afbabeab3b78a627bd25260783a4267e168a224d3b9e092a",
       "bytes": 1466
     },
     {
       "path": "pcd/cli_polymer.pcd",
-      "sha256": "e186099a5de27dca36c424d98e4da31e148105e61e1b0c7091ecf71e1712cb5f",
+      "sha256": "5ce3226cde7fd3cbfce726ee6cc628a997d03f5cfa612b2d5ff23f017e7775d8",
       "bytes": 1740
     },
     {
       "path": "pcd/l6_full_cli_generation_factory.pcd",
-      "sha256": "42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420",
-      "bytes": 2874
+      "sha256": "182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d",
+      "bytes": 2722
     },
     {
       "path": "pcd/beta6_package_harness.pcd",
@@ -31,17 +31,15 @@
     },
     {
       "path": "evidence/beta6-l6-full-generation-contract/report.json",
-      "sha256": "5c3a86409aa0c0662126ef1fc643a5a705c0326909c6b70eb48bc3c92e34d825",
-      "bytes": 3494
+      "sha256": "efccd7f5731c5111f433a375427668889f27a8ff8bf3d80683b75f3d6dd79746",
+      "bytes": 1802
     },
     {
       "path": "evidence/beta6-l6-hetzner-generation/report.json",
-      "sha256": "ab6f9f50865e13b4c7084be2dbc31b5fd62278ce22939fedb58dcbe515bc7586",
-      "bytes": 5155
+      "sha256": "07babe656eb77c2a93b52960093c301ef83b9ae2535d6dbc666183a6e569bd08",
+      "bytes": 5347
     }
   ],
-  "blockers": [
-    "l6_full_cli_generation_endpoint_missing"
-  ],
+  "blockers": [],
   "boundary": "Generated harness output only. Public release requires L6+N5 full generation PASS and signed release manifest."
 }
