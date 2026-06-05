@@ -1,0 +1,2 @@
+REMOTE_HOST=ubuntu-16gb-hel1-1
+REMOTE_L6_VERSION=brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=route2_bounded_only;route2_bounded_compile_supported=true;quality_10_claim_allowed=false;
