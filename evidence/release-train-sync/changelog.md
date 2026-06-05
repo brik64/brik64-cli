@@ -1,11 +1,11 @@
-## 0.1.0-beta.5
+## 0.1.0-beta.6
 
 ### Added
 
-- Adds local workspace checks, project initialization, PCD certification, and hash-bound candidate output generation.
-- Publishes the beta CLI through the curl installer and GitHub Release assets for macOS and Linux users with Node.js 20 or newer.
-- Publishes matching beta SDK packages for TypeScript, Python, and Rust.
+- Adds a distributable beta6 CLI package for the public curl installer and GitHub Release assets.
+- Adds package smoke coverage for extraction, version output, workspace initialization, certificate creation, TypeScript emission, and stale certificate fail-closed behavior.
+- Adds visible beta6 package metadata so users can verify the installed CLI version and package checksum.
 
 ### Changed
 
-- Updates public install guidance, release notes, skills, and SDK references to the beta5 version.
+- Updates public install guidance, README, release metadata, and SDK coordinates to 0.1.0-beta.6.

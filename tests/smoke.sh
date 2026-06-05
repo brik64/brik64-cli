@@ -19,12 +19,12 @@ node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   if [ "${GITHUB_ACTIONS:-false}" != "true" ]; then
-    node "$ROOT_DIR/scripts/beta5-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA5_SYNC"
-    node "$ROOT_DIR/scripts/beta5-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA5_SYNC"
-    node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
-    node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
+    node "$ROOT_DIR/scripts/beta6-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA6_SYNC"
+    node "$ROOT_DIR/scripts/beta6-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA6_SYNC"
+    node "$ROOT_DIR/scripts/beta6-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA6_SYNC"
+    node "$ROOT_DIR/scripts/beta6-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
   fi
-  node "$ROOT_DIR/scripts/build-beta6-package.js" | grep -q "PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT"
+  node "$ROOT_DIR/scripts/build-beta6-package.js" | grep -q "PASS_BETA6_PACKAGE_BUILT"
   node "$ROOT_DIR/scripts/beta6-package-smoke.js" | grep -q "decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE"
   if [ "$PACKAGE_VERSION" != "0.1.0-beta.6" ]; then
     node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"

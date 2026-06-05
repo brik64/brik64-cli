@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "brik64.cli_beta6_docs_web_sync_gate.v1",
+  "version": "0.1.0-beta.6",
+  "decision": "PASS_DOCS_WEB_BETA6_SYNC",
+  "releaseEligible": true,
+  "deployAllowed": true,
+  "artifacts": [
+    {
+      "id": "docs_sync",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/BETA6_SYNC.md",
+      "sha256": "9cb17c84e3affe3bc9af00267cc28e1377a9a0cc752896f38b4fdc2ee5010127",
+      "bytes": 685
+    },
+    {
+      "id": "docs_install",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/cli/install.mdx",
+      "sha256": "25f7ee61c4baf4022b9f16cd3880ac238e526d45be0c68ef2a54936029aabe2d",
+      "bytes": 1994
+    },
+    {
+      "id": "web_sync",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/docs/BRIK64_CLI_BETA6_SURFACE_SYNC.md",
+      "sha256": "a44c401dd7261342130db16220e5b73be6453cc4c535cf89575a53bfa5b12f3d",
+      "bytes": 632
+    },
+    {
+      "id": "web_channel_manifest",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/public/cli/beta.json",
+      "sha256": "3f5a874f2fafffbf85f7bb4b097e1e9e265390703e84fb7e4daeffbc93257329",
+      "bytes": 355
+    },
+    {
+      "id": "web_release_manifest",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/public/cli/releases/0.1.0-beta.6.json",
+      "sha256": "fb423a905c6681788f2ffbf6a732569e31cb85d6879d8e373e2a3eaa40ab61dd",
+      "bytes": 1437
+    }
+  ],
+  "failures": [],
+  "boundary": "Docs and web source are beta6 aligned. Historical beta5 release manifest is allowed only as a versioned archive."
+}

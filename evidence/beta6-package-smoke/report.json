@@ -2,13 +2,13 @@
   "schemaVersion": "brik64.cli_beta6_package_smoke.v1",
   "version": "0.1.0-beta.6",
   "decision": "PASS_BETA6_LOCAL_PACKAGE_SMOKE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "lane": "cli_0_1_beta",
   "generationClaim": "assisted_generation_non_claim",
   "package": {
-    "path": "evidence/beta6-package/brik64-cli-0.1.0-beta.6-local-candidate.tgz",
-    "sha256": "85681d423adadb0a4f24f9c0fa0a6d85bff3658b44a269889477ffb853e227d8",
-    "bytes": 29264
+    "path": "evidence/beta6-package/brik64-cli-0.1.0-beta.6.tgz",
+    "sha256": "d7b9ff63e5776a0519e56f589c19f7d450ba9c1028690e69181ea17206a32430",
+    "bytes": 29169
   },
   "checks": [
     "extract",
@@ -20,5 +20,5 @@
     "emit-ts",
     "stale-cert-fail-closed"
   ],
-  "boundary": "Local beta6 package smoke only. Public release train and cross-platform smoke remain separate."
+  "boundary": "Beta6 package smoke covers the distributable CLI package. Public release still requires synchronized curl/GCP, GitHub, web, docs, changelog, skills and SDK verification."
 }

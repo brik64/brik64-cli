@@ -7,18 +7,28 @@ every beta, release candidate, or public release train.
 
 ### Added
 
-- Adds a beta6 local package candidate for the BRIK64 CLI.
-- Adds beta6 package smoke coverage for extraction, version output, workspace
-  initialization, candidate certification, TypeScript emission, and stale
+- Adds a distributable beta6 CLI package for the public curl installer and
+  GitHub Release assets.
+- Adds package smoke coverage for extraction, version output, workspace
+  initialization, certificate creation, TypeScript emission, and stale
   certificate fail-closed behavior.
-- Adds a beta6 package harness manifest that binds the local package candidate
-  to generated PCD harness evidence.
+- Adds visible beta6 package metadata so users can verify the installed CLI
+  version and package checksum.
 
 ### Changed
 
-- Updates the local candidate CLI version to `0.1.0-beta.6`.
-- Documents beta6 as a local package candidate before public installer
-  availability.
+- Updates `brik64 --version`, README, release metadata, and install guidance to
+  `0.1.0-beta.6`.
+- Keeps the public CLI install path curl-only while SDK packages remain on their
+  language registries.
+
+### Compatibility
+
+- macOS and Linux use the portable Node.js CLI package and require Node.js 20 or
+  newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim self-hosting, fixpoint, or independence from
+  bootstrap tooling.
 
 ## 0.1.0-beta.5
 

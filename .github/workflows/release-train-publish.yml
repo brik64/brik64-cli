@@ -90,8 +90,11 @@ jobs:
           cd "$SDK_ROOT/brik64-lib-js"
           if [ -f package-lock.json ]; then npm ci; else npm install --ignore-scripts --no-package-lock; fi
           npm run build
-          mkdir -p evidence-beta5-pack
-          npm pack --pack-destination evidence-beta5-pack
+          VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("package.json","utf8")).version)')"
+          BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$VERSION")"
+          PACK_DIR="evidence-beta${BETA_NUMBER}-pack"
+          mkdir -p "$PACK_DIR"
+          npm pack --pack-destination "$PACK_DIR"
 
           cd "$SDK_ROOT/brik64-lib-python"
           python3 -m pip install --upgrade build

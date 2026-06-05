@@ -5,16 +5,11 @@ workflows. It gives developers a practical way to start working with
 PCD-oriented structure, local evidence review, and claim-safe project
 scaffolding from their own machine.
 
-Current public beta: `0.1.0-beta.5`.
-Current beta candidate: `0.1.0-beta.6`.
+Current public beta: `0.1.0-beta.6`.
 
-`0.1.0-beta.5` is published through the curl installer, GitHub Release assets,
+`0.1.0-beta.6` is distributed through the curl installer, GitHub Release assets,
 public docs, public skills, and beta SDK package surfaces. Use the installer and
 release manifests to verify the active public version.
-
-`0.1.0-beta.6` is currently staged as a local package candidate. It is not yet
-published through the curl installer, GitHub Release assets, docs, skills, SDKs,
-or public web surfaces.
 
 ## Install
 
@@ -43,29 +38,18 @@ installer and GitHub Release assets for the latest public CLI release.
 - Agent skills: [brik64-tools-skills](https://github.com/brik64/brik64-tools-skills)
 - Public roadmap: [BRIK64 CLI Public Roadmap](docs/PUBLIC_ROADMAP.md)
 
-## Beta6 Candidate Scope
+## Beta6 Public Scope
 
-`0.1.0-beta.6` keeps the beta5 local PCD workflow and adds a package candidate
-bound to the beta6 generation harness evidence. The public release remains
-blocked until the full release train is synchronized and verified.
+`0.1.0-beta.6` keeps the local PCD workflow and improves distribution readiness
+for the public beta package.
 
-Candidate beta6 capabilities:
-
-- `brik64 --version` reports `0.1.0-beta.6` in the package candidate.
-- The local package candidate includes beta6 PCD/harness generation evidence.
-- The local package smoke verifies extraction, version output, workspace
+- `brik64 --version` reports `0.1.0-beta.6`.
+- The package includes PCD/harness generation evidence for beta6.
+- Package smoke verifies extraction, version output, workspace
   initialization, candidate certification, TypeScript emission, and stale
   certificate fail-closed behavior.
-
-## Beta5 Public Scope
-
-`0.1.0-beta.5` provides a local PCD workflow for project metadata, workspace
-inspection, local candidate certificates, and generated candidate outputs.
-
-Current beta5 capabilities:
-
 - `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
-- `brik64 doctor` validates the local beta5 workspace contract.
+- `brik64 doctor` validates the local workspace contract.
 - `brik64 engine status` inspects the packaged offline runtime bundle.
 - `brik64 certify <file.pcd>` parses a bounded PCD subset and writes a local
   candidate certificate.
@@ -82,15 +66,13 @@ Current installable platform lanes:
 
 | Platform | Status | Evidence boundary |
 | --- | --- | --- |
-| macOS | Available in beta5 | Portable Node.js CLI package; requires Node.js 20 or newer. |
-| Linux | Available in beta5 | Portable Node.js CLI package; requires Node.js 20 or newer. |
+| macOS | Available in beta6 | Portable Node.js CLI package; requires Node.js 20 or newer. |
+| Linux | Available in beta6 | Portable Node.js CLI package; requires Node.js 20 or newer. |
 | Windows x64 native | Not available in the current public beta | No Windows executable is published. |
 
-The public installer verifies the beta5 package SHA-256 before activation:
-
-```text
-8448215f146b017edb3e5b64d853590ccf63c4d58276c4edbd406156c8b063b6
-```
+The public installer verifies the beta6 package SHA-256 before activation. The
+authoritative checksum is published with the release assets in
+`package.manifest.json` and `SHA256SUMS`.
 
 Formal certification, self-hosting, fixpoint, universal platform support, and
 Windows-native compatibility are not implied by this beta.
@@ -98,12 +80,12 @@ Windows-native compatibility are not implied by this beta.
 ## SDK Boundary
 
 SDKs are distributed separately from the CLI. npm is reserved for SDK packages,
-not CLI distribution. Current beta5 SDK package coordinates:
+not CLI distribution. Current beta6 SDK package coordinates:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.5
-pip install brik64==0.1.0b5
-cargo add brik64-core@0.1.0-beta.5
+npm install @brik64/core@0.1.0-beta.6
+pip install brik64==0.1.0b6
+cargo add brik64-core@0.1.0-beta.6
 ```
 
 SDK packages are language libraries. They do not install the CLI and do not
@@ -162,7 +144,7 @@ For a fuller file-by-file description, read
 Use the GitHub Release assets, release manifest, and `SHA256SUMS` to review the
 latest published package.
 
-https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5
+https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.6
 
 ## Copyright And License
 

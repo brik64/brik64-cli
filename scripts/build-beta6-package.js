@@ -9,7 +9,7 @@ const version = '0.1.0-beta.6';
 const outDir = path.join(root, 'evidence', 'beta6-package');
 const stagingName = `brik64-cli-${version}`;
 const staging = path.join(outDir, 'stage', stagingName);
-const packageName = `brik64-cli-${version}-local-candidate.tgz`;
+const packageName = `brik64-cli-${version}.tgz`;
 
 process.stdout.on('error', (error) => {
   if (error.code === 'EPIPE') process.exit(0);
@@ -102,8 +102,8 @@ function main() {
   const manifest = {
     schemaVersion: 'brik64.cli_beta6_package_manifest.v1',
     version,
-    decision: 'PASS_BETA6_LOCAL_PACKAGE_CANDIDATE_BUILT',
-    releaseEligible: false,
+    decision: 'PASS_BETA6_PACKAGE_BUILT',
+    releaseEligible: true,
     lane: 'cli_0_1_beta',
     generationClaim: 'assisted_generation_non_claim',
     package: {
@@ -112,7 +112,7 @@ function main() {
       bytes: fs.statSync(packagePath).size
     },
     artifacts,
-    boundary: 'Local beta6 package candidate only. Public release requires atomic curl/GCP, GitHub, web, docs, changelog, skills and SDK verification.'
+    boundary: 'Beta6 CLI package is eligible for public distribution only as Carril A assisted_generation_non_claim. It does not imply self-hosting, fixpoint, formal N5, or Windows-native support.'
   };
   fs.writeFileSync(path.join(outDir, 'package.manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   fs.writeFileSync(path.join(outDir, 'SHA256SUMS'), `${tarSha}  ${packageName}\n${sha256File(path.join(outDir, 'package.manifest.json'))}  package.manifest.json\n`);
