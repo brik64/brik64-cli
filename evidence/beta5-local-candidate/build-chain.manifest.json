@@ -68,12 +68,12 @@
   "l6FactoryBridge": {
     "request": {
       "path": "evidence/beta5-l6-factory-bridge/factory-request.json",
-      "sha256": "a1b27495150e020f7e4da0fd8519627ae8e3c89c3016719b88c256a6cc3bf7e7",
+      "sha256": "6ca5c8d9f7bf99f169a48c8d67a413ec33dc7ba374984a54edaa0adf54587b9f",
       "bytes": 2468
     },
     "preflightReport": {
       "path": "evidence/beta5-l6-factory-bridge/preflight-report.json",
-      "sha256": "853db469a81a7320bf7e3085a7393219cdf1e32050ddad24d44f5bb3e3a72d8f",
+      "sha256": "c955ca997e572e1ed48c36ab9b1cc8f27f3f2ef7214aa3f8c9b007f271f35cae",
       "bytes": 717
     },
     "route2GenerationReport": {
@@ -104,8 +104,8 @@
     },
     "gateReport": {
       "path": "evidence/beta5-release-surface-gate/report.json",
-      "sha256": "197db287958897e4bea8627bf609bdccc2140d9b54e182ee582dc999490af22f",
-      "bytes": 4992
+      "sha256": "f2b091b87b111e43545910255427206b2e4d10be8f853aaad40dbc3bd10dadff",
+      "bytes": 4991
     },
     "sdkSyncReport": {
       "path": "evidence/beta5-sdk-sync/report.json",
@@ -129,7 +129,7 @@
     },
     "publicationPreflight": {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "9e66c3c636a548c4e82fc4355348b5550d19df71a1c3f9c912206743d9f408dd",
+      "sha256": "67bc5420ab8ea1d34593f5207c17b510197333554f971677f61ae2d8a7bc74fb",
       "bytes": 2941
     },
     "adversarialAudit": {
@@ -139,12 +139,12 @@
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "b3fca0a486bf545599d94fc3566067c3925bbd9a8e3ad256bb02083500a2af20",
+      "sha256": "4eb3e9443ffa5b7122c6e8456339c2c73670685c6b616837ca1a822569ca48d7",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "b1f6ddb1e3a6a5eb70666f7045936d335ee22fbc39a55f6970723d725852850f",
+      "sha256": "41fe98bb20b4a4ff17441bdb2a754e0e8adb78797663b9cd92d443fe973d5e9f",
       "bytes": 606
     },
     "crossPlatformSmoke": {
@@ -159,7 +159,7 @@
     },
     "localCompletion": {
       "path": "evidence/beta5-local-completion/report.json",
-      "sha256": "778c2d4aeec7a6af326ca4c15bfc39959aa834031234a72d0ac4c90a866862c6",
+      "sha256": "6dfe41385e4c122b75ae320d1af990065cd0f3740fb75f345d842716d82388e0",
       "bytes": 4039
     },
     "requiredBeforeRelease": [

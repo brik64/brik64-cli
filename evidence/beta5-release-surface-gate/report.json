@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta5_release_surface_gate.v1",
   "version": "0.1.0-beta.5",
-  "releaseMode": false,
+  "releaseMode": true,
   "decision": "BLOCKED_PUBLIC_RELEASE_NOT_READY",
   "releaseEligible": false,
   "changelog": {

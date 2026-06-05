@@ -63,7 +63,7 @@
   "artifacts": {
     "packageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "b1f6ddb1e3a6a5eb70666f7045936d335ee22fbc39a55f6970723d725852850f"
+      "sha256": "41fe98bb20b4a4ff17441bdb2a754e0e8adb78797663b9cd92d443fe973d5e9f"
     },
     "crossPlatformSmoke": {
       "path": "evidence/beta5-cross-platform-smoke/report.json",
@@ -71,7 +71,7 @@
     },
     "adversarialAudit": {
       "path": "evidence/beta5-adversarial-audit/report.json",
-      "sha256": "8a6499ae280680340ba00ca9eddde667a5c353effe9b429a31aaabaf10c40467"
+      "sha256": "a05e4f80a7c8d5876d796264c314a45a337d5c6a502ec7e4e87d838cf4c0dac6"
     },
     "marketplacePackages": {
       "path": "evidence/beta5-marketplace-packages/report.json",
@@ -83,15 +83,15 @@
     },
     "buildChain": {
       "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
-      "sha256": "924505155eff33cac7c668a418dc10749a9c6aea04ff8e087c024b9a46335a63"
+      "sha256": "9d863f6b1c6471c627011abeeb8a662bbe989ef43c62f2213d7b3f95f0bdd0d3"
     },
     "publicationPreflight": {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "9e66c3c636a548c4e82fc4355348b5550d19df71a1c3f9c912206743d9f408dd"
+      "sha256": "4d87e5263b1ae9bbd109d147698f9e1025260cad5d066f823cdcbeb2f0da68c6"
     },
     "releaseSurface": {
       "path": "evidence/beta5-release-surface-gate/report.json",
-      "sha256": "197db287958897e4bea8627bf609bdccc2140d9b54e182ee582dc999490af22f"
+      "sha256": "f2b091b87b111e43545910255427206b2e4d10be8f853aaad40dbc3bd10dadff"
     }
   },
   "remainingPublicReleaseBlockers": [
