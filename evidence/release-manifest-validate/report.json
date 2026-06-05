@@ -69,7 +69,5 @@
     ]
   },
   "failures": [],
-  "warnings": [
-    "worktree_dirty_allowed:9"
-  ]
+  "warnings": []
 }

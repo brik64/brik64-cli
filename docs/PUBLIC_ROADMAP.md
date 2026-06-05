@@ -11,7 +11,7 @@ issues when a reproducible public bug or metadata mismatch needs discussion.
 
 ## Current Public Beta
 
-Current candidate target: `0.1.0-beta.5`.
+Current public beta: `0.1.0-beta.5`.
 
 The latest public release remains defined by the curl installer, GitHub
 Releases, checksums, and release manifests.
@@ -22,10 +22,12 @@ Current public install path:
 curl -fsSL https://brik64.com/cli/install.sh | bash
 ```
 
-The beta5 candidate targets local CLI evaluation, `.brik` project metadata,
+The beta5 release targets local CLI evaluation, `.brik` project metadata,
 PCD-oriented local evidence, `brik doctor`, local candidate certification, and
 hash-bound candidate output generation for targets shown by the installed
 `brik help` output.
+
+Next planning target: `0.1.0-beta.6`. See `docs/BETA6_RELEASE_PLAN.md`.
 
 ## Milestone 1: Platform CLI Beta Coverage
 

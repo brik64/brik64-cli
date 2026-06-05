@@ -2,17 +2,17 @@
 
 Date: 2026-06-05
 
-Branch: `codex/release-train-ci`
+Branch: `main`
 
 ## Executive Checklist
 
-- 🟩 100% | 🟩 🟩 🟩 🟩 | Manifest contract, validator, dry-run gate, sync payload, live verifier, and publication-plan preflight exist on the branch.
-- 🟥 50% | 🟩 🟩 🟥 ⬜ | GitHub Actions release train branch publication.
-  - The branch is pushed but must be reviewed and merged before workflows are active on the operational release branch.
-- 🟥 75% | 🟩 🟩 🟩 ⬜ | Mutation-capable public publication.
-  - The executor and GCP upload script exist and are fail-closed, but external channel secrets and downstream consumers still need to be configured before mutation mode can pass.
+- 🟩 100% | 🟩 🟩 🟩 🟩 | Manifest contract, validator, dry-run gate, sync payload, live verifier, and publication-plan preflight are merged to `main`.
+- 🟨 75% | 🟩 🟩 🟩 ⬜ | GitHub Actions release train activation.
+  - Dry-run passes on `main`; live verification still receives Cloudflare HTTP 403 from GitHub Actions.
+- 🟥 50% | 🟩 🟩 🟥 ⬜ | Mutation-capable public publication.
+  - The executor and GCP upload script exist and are fail-closed, but external channel secrets, downstream consumers, and live verifier reachability must be closed before mutation mode can pass.
 - ⬜ 25% | 🟩 ⬜ ⬜ ⬜ | First end-to-end release run from the active branch.
-  - Depends on the merge and mutation executor work above.
+  - Depends on GitHub Actions live verification and mutation executor configuration.
 
 ## Implemented
 
@@ -46,6 +46,8 @@ Branch: `codex/release-train-ci`
 
 ## Not Yet Implemented
 
+- Cloudflare or edge-access policy that lets GitHub Actions verify the public
+  release routes without weakening probe blocking.
 - Concrete channel implementations for:
   - docs dispatch consumer.
   - web or CMS dispatch consumer.
@@ -57,6 +59,6 @@ Branch: `codex/release-train-ci`
 
 ## Next Closure Patch
 
-Wire docs, web, and skills dispatch consumers in their own repositories, then
-run the publication workflow from the active branch with repository/environment
-secrets configured.
+Close the GitHub Actions live-verifier Cloudflare 403 first. Then wire docs,
+web, and skills dispatch consumers in their own repositories and run the
+publication workflow from `main` with repository/environment secrets configured.
