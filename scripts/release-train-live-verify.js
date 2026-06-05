@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const https = require('https');
+const { spawnSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..');
 const manifestPath = path.join(root, 'release', 'manifest.json');
@@ -21,23 +22,77 @@ function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
-function fetchText(url, redirects = 0) {
+const verifierHeaders = {
+  'user-agent': 'Mozilla/5.0 (compatible; brik64-release-train-live-verify/1.0; +https://brik64.com)',
+  'accept': 'text/html,application/json,text/plain,*/*;q=0.8',
+  'accept-language': 'en-US,en;q=0.9',
+  'cache-control': 'no-cache',
+  'pragma': 'no-cache'
+};
+
+function fetchTextWithCurl(url) {
+  const tmpDir = fs.mkdtempSync(path.join(require('os').tmpdir(), 'brik64-live-verify-'));
+  const headerFile = path.join(tmpDir, 'headers.txt');
+  const bodyFile = path.join(tmpDir, 'body.txt');
+  const args = [
+    '--fail-with-body',
+    '--location',
+    '--silent',
+    '--show-error',
+    '--max-time',
+    '20',
+    '--dump-header',
+    headerFile,
+    '--output',
+    bodyFile
+  ];
+  for (const [name, value] of Object.entries(verifierHeaders)) {
+    args.push('--header', `${name}: ${value}`);
+  }
+  args.push(url);
+
+  const result = spawnSync('curl', args, {
+    encoding: 'utf8',
+    maxBuffer: 8 * 1024 * 1024
+  });
+  try {
+    const headerText = fs.existsSync(headerFile) ? fs.readFileSync(headerFile, 'utf8') : '';
+    const body = fs.existsSync(bodyFile) ? fs.readFileSync(bodyFile, 'utf8') : '';
+    const headerSections = headerText.trim().split(/\r?\n\r?\n/).filter(Boolean);
+    const finalHeaderText = headerSections[headerSections.length - 1] || '';
+    const statusMatches = [...headerText.matchAll(/^HTTP\/\S+\s+(\d+)/gmi)];
+    const statusCode = statusMatches.length > 0 ? Number(statusMatches[statusMatches.length - 1][1]) : (result.status === 0 ? 200 : 0);
+    const headers = {};
+    for (const line of finalHeaderText.split(/\r?\n/)) {
+      const separator = line.indexOf(':');
+      if (separator > 0) headers[line.slice(0, separator).toLowerCase()] = line.slice(separator + 1).trim();
+    }
+    return {
+      url,
+      statusCode,
+      headers,
+      body,
+      transport: 'curl',
+      transportStatus: result.status,
+      transportError: result.error?.message || null,
+      stderr: result.stderr || ''
+    };
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+}
+
+function fetchTextWithNode(url, redirects = 0) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
-      headers: {
-        'user-agent': 'Mozilla/5.0 (compatible; brik64-release-train-live-verify/1.0; +https://brik64.com)',
-        'accept': 'text/html,application/json,text/plain,*/*;q=0.8',
-        'accept-language': 'en-US,en;q=0.9',
-        'cache-control': 'no-cache',
-        'pragma': 'no-cache'
-      },
+      headers: verifierHeaders,
       timeout: 15000
     }, (res) => {
       const location = res.headers.location;
       if (res.statusCode >= 300 && res.statusCode < 400 && location && redirects < 5) {
         res.resume();
         const next = new URL(location, url).toString();
-        fetchText(next, redirects + 1).then(resolve, reject);
+        fetchTextWithNode(next, redirects + 1).then(resolve, reject);
         return;
       }
       const chunks = [];
@@ -47,7 +102,8 @@ function fetchText(url, redirects = 0) {
           url,
           statusCode: res.statusCode,
           headers: res.headers,
-          body: Buffer.concat(chunks).toString('utf8')
+          body: Buffer.concat(chunks).toString('utf8'),
+          transport: 'node:https'
         });
       });
     });
@@ -56,6 +112,19 @@ function fetchText(url, redirects = 0) {
     });
     req.on('error', reject);
   });
+}
+
+async function fetchText(url) {
+  if (process.env.BRIK64_LIVE_VERIFY_TRANSPORT !== 'node') {
+    try {
+      const response = fetchTextWithCurl(url);
+      if (response.transportError) throw new Error(response.transportError);
+      return response;
+    } catch (error) {
+      if (process.env.BRIK64_LIVE_VERIFY_TRANSPORT === 'curl') throw error;
+    }
+  }
+  return fetchTextWithNode(url);
 }
 
 function requireText(surface, body, needle, failures) {
@@ -77,9 +146,19 @@ async function main() {
         id,
         url,
         statusCode: response.statusCode,
+        transport: response.transport,
         sha256: sha256(response.body),
         bytes: Buffer.byteLength(response.body, 'utf8')
       };
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        record.responseHeaders = {
+          server: response.headers.server || null,
+          'cf-ray': response.headers['cf-ray'] || null,
+          'cf-cache-status': response.headers['cf-cache-status'] || null,
+          'content-type': response.headers['content-type'] || null
+        };
+        record.bodyExcerpt = response.body.slice(0, 500);
+      }
       observations.push(record);
       if (response.statusCode < 200 || response.statusCode >= 300) failures.push(`${id}_http_status:${response.statusCode}`);
       checker(response.body, response, record);
