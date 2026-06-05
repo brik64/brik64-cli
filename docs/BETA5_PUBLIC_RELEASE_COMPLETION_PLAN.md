@@ -63,6 +63,8 @@ The release is complete only when the same manifest digest is proven across:
     `constraints/iam.disableServiceAccountKeyCreation`.
   - Workload Identity Pool creation is blocked for local available accounts by:
     `iam.workloadIdentityPools.create`.
+  - IAM role self-grant is blocked by org policy:
+    `constraints/iam.allowedPolicyMemberDomains`.
 
 - ⬜ 25% | 🟩 ⬜ ⬜ ⬜ | Real publication execution
   - Blocked until GCP Workload Identity provider and service account secrets
@@ -70,8 +72,41 @@ The release is complete only when the same manifest digest is proven across:
 
 ## Required GCP Workload Identity Closure
 
-An operator with permission `iam.workloadIdentityPools.create` on project
-`brik64-platform-mvp` must create the GitHub Actions OIDC binding below.
+An operator in the allowed Google Workspace customer with permission
+`iam.workloadIdentityPools.create` on project `brik64-platform-mvp` must create
+the GitHub Actions OIDC binding below.
+
+Authoritative GCP policy facts observed on 2026-06-05:
+
+```text
+project: brik64-platform-mvp
+project_number: 897764825865
+organization: organizations/862363253041
+organization_display_name: brik64.com
+allowed_policy_member_domain_customer: C02zrapel
+iam.allowedPolicyMemberDomains: allowedValues=["C02zrapel"]
+iam.disableServiceAccountKeyCreation: enforce=true
+```
+
+Failed self-service attempts that must not be repeated as-is:
+
+```text
+brik64admin@gmail.com -> roles/iam.workloadIdentityPoolAdmin
+result: blocked by constraints/iam.allowedPolicyMemberDomains
+reason: user is not in permitted organization
+
+carlosjperez@brik64.com -> roles/iam.workloadIdentityPoolAdmin
+result: blocked by constraints/iam.allowedPolicyMemberDomains
+reason: user is not in permitted organization
+
+service account JSON key creation
+result: blocked by constraints/iam.disableServiceAccountKeyCreation
+```
+
+Therefore the remaining closure must be performed by a Google Workspace identity
+that is a member of customer `C02zrapel` and already has, or can be granted by an
+authorized admin, `roles/iam.workloadIdentityPoolAdmin` or equivalent custom
+permissions.
 
 ```bash
 PROJECT=brik64-platform-mvp
@@ -173,4 +208,3 @@ If publication starts and a public channel fails after any mutation:
 - ⬜ Live `beta.json` points to `0.1.0-beta.5`.
 - ⬜ npm, PyPI, and crates.io expose beta5 SDKs.
 - ⬜ docs, web changelog, and public skill surfaces match the manifest.
-

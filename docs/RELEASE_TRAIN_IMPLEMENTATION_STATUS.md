@@ -14,7 +14,7 @@ Branch: `main`
 - 🟨 75% | 🟩 🟩 🟩 ⬜ | Mutation-capable public publication.
   - Dry-run command preflight is clean. Real mutation is blocked only by missing GCP Workload Identity repository secrets.
 - ⛔ 75% | 🟩 🟩 🟩 ⛔ | First end-to-end mutation run from `main`.
-  - Blocked until GCP Workload Identity Pool/provider is created by an account with `iam.workloadIdentityPools.create`.
+  - Blocked until GCP Workload Identity Pool/provider is created by an account with `iam.workloadIdentityPools.create` inside allowed customer `C02zrapel`.
 
 ## Implemented
 
@@ -54,6 +54,10 @@ Branch: `main`
 ## Not Yet Implemented
 
 - GCP Workload Identity Pool/provider for `brik64/brik64-cli` on `main`.
+  - Org policy `constraints/iam.allowedPolicyMemberDomains` allows only
+    customer `C02zrapel`.
+  - Org policy `constraints/iam.disableServiceAccountKeyCreation` blocks
+    JSON service account keys.
 - Concrete channel implementations for:
   - docs dispatch consumer.
   - web or CMS dispatch consumer.
