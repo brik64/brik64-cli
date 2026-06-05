@@ -11,6 +11,9 @@ used to move the CLI toward a PCD-first BRIK64 methodology.
   candidate command contracts.
 - `cli_polymer.pcd` describes the candidate composition contract that binds the
   command PCD seeds before a future compile route.
+- `l6_full_cli_generation_factory.pcd` describes the beta6 internal factory
+  contract that the serialized L6+N5 Hetzner engine must satisfy before a
+  public beta6 artifact can be generated from the CLI polymer.
 - The files in this directory are review material for beta methodology, package
   inspection, and future compiler-aligned work.
 
@@ -21,9 +24,11 @@ Before these seeds can support stronger public release language, BRIK64 must:
 1. Complete candidate PCD coverage for CLI behavior.
 2. Certify candidate PCDs with the active gate stack.
 3. Validate the polymer/composition PCD against command PCDs.
-4. Compile the CLI through the BRIK compiler path.
-5. Run platform execution reports for macOS, Linux distro lanes, and Windows.
-6. Publish release-boundary evidence from `brik64-prod`.
+4. Satisfy `l6_full_cli_generation_factory.pcd` through the serialized L6+N5
+   factory, including source, artifact, package and release manifest hashes.
+5. Compile the CLI through the BRIK compiler path.
+6. Run platform execution reports for macOS, Linux distro lanes, and Windows.
+7. Publish release-boundary evidence from `brik64-prod`.
 
 `brik64-prod` remains the authority for release gates, certificate boundaries,
 compiler evidence, and public claim authorization.

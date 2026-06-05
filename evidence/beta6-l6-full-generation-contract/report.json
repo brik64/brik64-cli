@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "brik64.beta6_l6_full_generation_contract_gate.v1",
+  "version": "0.1.0-beta.6",
+  "generatedAt": "2026-06-05T15:41:27.042Z",
+  "lane": "beta6_l6_full_generation_contract",
+  "decision": "PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED",
+  "releaseEligible": false,
+  "contract": {
+    "path": "pcd/l6_full_cli_generation_factory.pcd",
+    "sha256": "1f63cde47a135c105f769ce013b851ba7d567f8bee8da949801b0465eed54848",
+    "missingPatterns": []
+  },
+  "manifest": {
+    "path": ".brik/manifest.json",
+    "sha256": "c7967cbd2f8690b01f8ccc6ce226a08ee6fcbdf9546ad60f7f719866e117738e"
+  },
+  "hetznerGenerationReport": {
+    "path": "evidence/beta6-l6-hetzner-generation/report.json",
+    "sha256": "ab6f9f50865e13b4c7084be2dbc31b5fd62278ce22939fedb58dcbe515bc7586",
+    "decision": "BLOCKED_L6_FULL_CLI_GENERATION_UNAVAILABLE",
+    "blockers": [
+      "l6_full_cli_generation_endpoint_missing",
+      "l6_general_compile_route2_bounded_only"
+    ]
+  },
+  "checks": {
+    "contractPatternsPresent": true,
+    "manifestL6Factory": true,
+    "manifestL6DistributionClosed": true,
+    "hetznerIdentityVerified": true,
+    "hetznerFullCompileBlocked": true,
+    "contractReleaseEligible": false
+  },
+  "blockers": [],
+  "requiredNextAction": "Implement or deploy an L6+N5 harness that satisfies pcd/l6_full_cli_generation_factory.pcd and turns the beta6 Hetzner generation gate into PASS_L6_FULL_CLI_GENERATION_READY."
+}
