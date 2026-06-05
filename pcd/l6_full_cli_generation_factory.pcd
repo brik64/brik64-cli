@@ -17,8 +17,14 @@
 // reads "pcd/cli_init_policy.pcd"
 // reads "pcd/cli_certify_emit.pcd"
 // reads "pcd/cli_polymer.pcd"
+// reads "remote:/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/harness.pcd"
+// reads "remote:/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/generated_tests_harness.pcd"
+// reads "remote:/opt/brik64/engines/l6plus-n5/current/artifacts/manifests/harness.manifest.json"
 // requires pcd_inventory_hash_bound == true
 // requires cli_polymer_hash_bound == true
+// requires harness_source_pcd_hash_bound == true
+// requires harness_manifest_hash_bound == true
+// requires generated_tests_harness_pcd_hash_bound == true
 // requires technical_sheet_present == true
 // requires l6_serial_verified == true
 // requires l6_binary_hash_verified == true
@@ -30,16 +36,18 @@
 // requires package_manifest_hash_bound == true
 // requires release_manifest_hash_bound == true
 // invariant source_to_artifact_chain_hash_bound == true
+// invariant harness_code_must_be_generated_from_pcd == true
 // invariant public_offline_runtime == "L4+N5"
 // invariant internal_artifact_factory == "L6+N5"
 // invariant public_claim_allowed == false
 // failure l6_full_cli_generation_endpoint_missing
 // failure l6_general_compile_route2_bounded_only
 // failure brik64_pcd_generation_gate_missing
+// failure harness_pcd_generation_gate_missing
 // claim_boundary = "internal_factory_contract_only"
 
 PC brik_l6_full_cli_generation_factory {
-    fn brik_l6_full_cli_generation_factory(serial_ok, binary_hash_ok, health_ok, audit_ok, full_compile_supported, package_hash_bound) {
+    fn brik_l6_full_cli_generation_factory(serial_ok, binary_hash_ok, health_ok, audit_ok, harness_pcd_bound, full_compile_supported, package_hash_bound) {
         if (serial_ok == 0) {
             return 64;
         }
@@ -51,6 +59,9 @@ PC brik_l6_full_cli_generation_factory {
         }
         if (audit_ok == 0) {
             return 64;
+        }
+        if (harness_pcd_bound == 0) {
+            return 70;
         }
         if (full_compile_supported == 0) {
             return 68;

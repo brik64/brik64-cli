@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.beta6_l6_full_generation_contract_gate.v1",
   "version": "0.1.0-beta.6",
-  "generatedAt": "2026-06-05T15:41:27.042Z",
+  "generatedAt": "2026-06-05T15:49:09.053Z",
   "lane": "beta6_l6_full_generation_contract",
   "decision": "PASS_BETA6_L6_FULL_GENERATION_CONTRACT_RECORDED",
   "releaseEligible": false,
   "contract": {
     "path": "pcd/l6_full_cli_generation_factory.pcd",
-    "sha256": "1f63cde47a135c105f769ce013b851ba7d567f8bee8da949801b0465eed54848",
+    "sha256": "42a41e720a48a4a80aad939e363363e278779a38c149098d3552bd9ce5d27420",
     "missingPatterns": []
   },
   "manifest": {
@@ -23,12 +23,38 @@
       "l6_general_compile_route2_bounded_only"
     ]
   },
+  "remoteHarnessEvidence": {
+    "host": "root@89.167.104.236",
+    "expected": {
+      "pcdPath": "/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/harness.pcd",
+      "pcdSha256": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc",
+      "manifestPath": "/opt/brik64/engines/l6plus-n5/current/artifacts/manifests/harness.manifest.json",
+      "manifestSha256": "c8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563",
+      "generatedTestsPcdPath": "/opt/brik64/engines/l6plus-n5/current/artifacts/pcd/generated_tests_harness.pcd",
+      "generatedTestsPcdSha256": "5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144"
+    },
+    "observed": {
+      "pcdSha256": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc",
+      "manifestSha256": "c8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563",
+      "generatedTestsPcdSha256": "5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144",
+      "MANIFEST_SOURCE_PCD_SHA256": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc",
+      "MANIFEST_PUBLIC_CLAIMS_ALLOWED": "false",
+      "MANIFEST_CLAIM_AUTHORITY": "internal_non_claim"
+    },
+    "error": null,
+    "raw": "c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc  /opt/brik64/engines/l6plus-n5/current/artifacts/pcd/harness.pcd\nc8c74df9b9c69f8694d7dad4455198d9d58e2c411df4428c9f6d79f03e83a563  /opt/brik64/engines/l6plus-n5/current/artifacts/manifests/harness.manifest.json\n5bfa989196b09a9e3b15a1e8037829874e00813c71c75892c96e3d7272f28144  /opt/brik64/engines/l6plus-n5/current/artifacts/pcd/generated_tests_harness.pcd\nMANIFEST_SOURCE_PCD_SHA256=c6d457d7eed390410d26f7dbdc7f1f1e0b39b7a8d056b80779da2ecd110ee7cc\nMANIFEST_PUBLIC_CLAIMS_ALLOWED=false\nMANIFEST_CLAIM_AUTHORITY=internal_non_claim\n"
+  },
   "checks": {
     "contractPatternsPresent": true,
     "manifestL6Factory": true,
     "manifestL6DistributionClosed": true,
     "hetznerIdentityVerified": true,
     "hetznerFullCompileBlocked": true,
+    "remoteHarnessPcdHashMatches": true,
+    "remoteHarnessManifestHashMatches": true,
+    "remoteGeneratedTestsHarnessPcdHashMatches": true,
+    "remoteHarnessManifestBindsSourcePcd": true,
+    "remoteHarnessClaimBoundaryClosed": true,
     "contractReleaseEligible": false
   },
   "blockers": [],
