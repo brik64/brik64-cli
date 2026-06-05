@@ -1,0 +1,1304 @@
+{
+  "cases": [
+    {
+      "name": "c0_w0_cert0_t0",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        0
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert0_t1",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        1
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert0_t2",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        2
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert0_t3",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        3
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert0_t4",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        4
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert1_t0",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        10
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert1_t1",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        11
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert1_t2",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        12
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert1_t3",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        13
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w0_cert1_t4",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        14
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c0_w1_cert0_t0",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        100
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert0_t1",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        101
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert0_t2",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        102
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert0_t3",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        103
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert0_t4",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        104
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert1_t0",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        110
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert1_t1",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        111
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert1_t2",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        112
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert1_t3",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        113
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c0_w1_cert1_t4",
+      "canonical": {
+        "commandCode": 0,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        114
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w0_cert0_t0",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        1000
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert0_t1",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        1001
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert0_t2",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        1002
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert0_t3",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        1003
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert0_t4",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        1004
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert1_t0",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        1010
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert1_t1",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        1011
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert1_t2",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        1012
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert1_t3",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        1013
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w0_cert1_t4",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        1014
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c1_w1_cert0_t0",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        1100
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert0_t1",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        1101
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert0_t2",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        1102
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert0_t3",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        1103
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert0_t4",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        1104
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert1_t0",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        1110
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert1_t1",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        1111
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert1_t2",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        1112
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert1_t3",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        1113
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c1_w1_cert1_t4",
+      "canonical": {
+        "commandCode": 1,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        1114
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c2_w0_cert0_t0",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        2000
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert0_t1",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        2001
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert0_t2",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        2002
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert0_t3",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        2003
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert0_t4",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        2004
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert1_t0",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        2010
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert1_t1",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        2011
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert1_t2",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        2012
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert1_t3",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        2013
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w0_cert1_t4",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        2014
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c2_w1_cert0_t0",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        2100
+      ],
+      "expected": 67
+    },
+    {
+      "name": "c2_w1_cert0_t1",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        2101
+      ],
+      "expected": 67
+    },
+    {
+      "name": "c2_w1_cert0_t2",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        2102
+      ],
+      "expected": 67
+    },
+    {
+      "name": "c2_w1_cert0_t3",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        2103
+      ],
+      "expected": 67
+    },
+    {
+      "name": "c2_w1_cert0_t4",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        2104
+      ],
+      "expected": 67
+    },
+    {
+      "name": "c2_w1_cert1_t0",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        2110
+      ],
+      "expected": 65
+    },
+    {
+      "name": "c2_w1_cert1_t1",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        2111
+      ],
+      "expected": 1
+    },
+    {
+      "name": "c2_w1_cert1_t2",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        2112
+      ],
+      "expected": 1
+    },
+    {
+      "name": "c2_w1_cert1_t3",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        2113
+      ],
+      "expected": 1
+    },
+    {
+      "name": "c2_w1_cert1_t4",
+      "canonical": {
+        "commandCode": 2,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        2114
+      ],
+      "expected": 65
+    },
+    {
+      "name": "c64_w0_cert0_t0",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        64000
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert0_t1",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        64001
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert0_t2",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        64002
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert0_t3",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        64003
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert0_t4",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        64004
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert1_t0",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        64010
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert1_t1",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        64011
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert1_t2",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        64012
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert1_t3",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        64013
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w0_cert1_t4",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        64014
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert0_t0",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        64100
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert0_t1",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        64101
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert0_t2",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        64102
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert0_t3",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        64103
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert0_t4",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        64104
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert1_t0",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        64110
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert1_t1",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        64111
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert1_t2",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        64112
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert1_t3",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        64113
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c64_w1_cert1_t4",
+      "canonical": {
+        "commandCode": 64,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        64114
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert0_t0",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        99000
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert0_t1",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        99001
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert0_t2",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        99002
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert0_t3",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        99003
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert0_t4",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        99004
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert1_t0",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        99010
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert1_t1",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        99011
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert1_t2",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        99012
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert1_t3",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        99013
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w0_cert1_t4",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 0,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        99014
+      ],
+      "expected": 64
+    },
+    {
+      "name": "c99_w1_cert0_t0",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 0
+      },
+      "inputs": [
+        99100
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert0_t1",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 1
+      },
+      "inputs": [
+        99101
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert0_t2",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 2
+      },
+      "inputs": [
+        99102
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert0_t3",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 3
+      },
+      "inputs": [
+        99103
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert0_t4",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 0,
+        "targetCode": 4
+      },
+      "inputs": [
+        99104
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert1_t0",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 0
+      },
+      "inputs": [
+        99110
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert1_t1",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 1
+      },
+      "inputs": [
+        99111
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert1_t2",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 2
+      },
+      "inputs": [
+        99112
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert1_t3",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 3
+      },
+      "inputs": [
+        99113
+      ],
+      "expected": 0
+    },
+    {
+      "name": "c99_w1_cert1_t4",
+      "canonical": {
+        "commandCode": 99,
+        "workspaceReadable": 1,
+        "certificatePresent": 1,
+        "targetCode": 4
+      },
+      "inputs": [
+        99114
+      ],
+      "expected": 0
+    }
+  ]
+}

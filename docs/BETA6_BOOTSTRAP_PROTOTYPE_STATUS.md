@@ -33,6 +33,31 @@ The remote L6+N5 host passes identity, checksum, health and audit checks, but
 currently reports `general_compile_supported=route2_bounded_only`. That means
 public beta6 cannot be generated from the full CLI polymer yet.
 
+The host identity check must match the permanent Hetzner instance:
+
+```text
+instance-id=125157982
+public-ipv4=89.167.104.236
+availability-zone=hel1-dc2
+```
+
+The live OS hostname may differ from the documented server name. If those three
+metadata fields match, treat the server as the intended Hetzner host and treat
+the blocker as a capability gap, not a wrong-host diagnosis.
+
+## Route2-Compatible Candidate
+
+The command below generates a non-release candidate that fits the current
+route2-bounded L6+N5 capability:
+
+```sh
+npm run generate:beta6:l6-compatible
+```
+
+It encodes the CLI polymer state into one finite-domain parameter and verifies a
+bounded parity set. This is useful evidence for the transition path, but it is
+not the beta6 public artifact and must keep `releaseEligible=false`.
+
 ## Promotion Requirement
 
 A beta6 implementation may be promoted only when

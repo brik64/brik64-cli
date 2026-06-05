@@ -12,6 +12,13 @@ the internal L6+N5 factory hosted on Hetzner.
 Entry point:
 
 - host: `root@89.167.104.236`;
+- Hetzner instance id: `125157982`;
+- expected public IPv4: `89.167.104.236`;
+- expected availability zone: `hel1-dc2`;
+- documented server name: `ECO-BRIK-HETZNER`;
+- observed OS hostname may still be `ubuntu-16gb-hel1-1`; this does not by
+  itself mean the wrong server is being used if the instance id, IP and zone
+  match;
 - engine root: `/opt/brik64/engines/l6plus-n5/current`;
 - wrapper: `/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5`;
 - healthcheck: `/opt/brik64/engines/l6plus-n5/bin/healthcheck`;
@@ -41,6 +48,26 @@ This means SSH, serial, binary hash, healthcheck, audit and claim boundary are
 valid, but the remote motor currently exposes only bounded route2 compile. That
 is not sufficient for public beta6 generation from `pcd/cli_polymer.pcd`.
 
+## Compatible Route2 Evidence
+
+While the full generation endpoint is blocked, beta6 may keep a separate
+non-release evidence lane:
+
+```sh
+npm run generate:beta6:l6-compatible
+```
+
+This emits:
+
+```text
+evidence/beta6-l6-compatible-polymer/report.json
+```
+
+That report proves only that an encoded one-parameter candidate can be compiled
+by the currently deployed route2-bounded L6+N5 motor and checked against a
+finite parity set. It must remain `releaseEligible=false` and cannot satisfy the
+public beta6 gate.
+
 ## Required Endpoint Contract
 
 The Hetzner factory must expose a non-public command or harness that accepts:
@@ -55,6 +82,8 @@ The Hetzner factory must expose a non-public command or harness that accepts:
 
 Minimum fail-closed checks:
 
+- Hetzner instance id, public IPv4 and availability zone match the documented
+  permanent host;
 - serial and binary hash match expected values;
 - healthcheck and audit pass before generation;
 - PCD inventory hash matches the request;

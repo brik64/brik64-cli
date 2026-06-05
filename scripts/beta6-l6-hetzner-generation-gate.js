@@ -8,6 +8,10 @@ const root = path.resolve(__dirname, '..');
 const outDir = path.join(root, 'evidence', 'beta6-l6-hetzner-generation');
 const host = process.env.BRIK64_L6_HOST || 'root@89.167.104.236';
 const expected = {
+  instanceId: '125157982',
+  publicIpv4: '89.167.104.236',
+  availabilityZone: 'hel1-dc2',
+  documentedServerName: 'ECO-BRIK-HETZNER',
   serial: 'BRIK64-L6PLUS-N5-20260601-ee53196434bd17cf',
   binarySha256: '1ee21aec87146322cc0136fab19b90cc0a62171ef4ad4058417fbac661bb4885',
   binaryPath: '/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus',
@@ -65,6 +69,45 @@ function pcdInventory() {
     });
 }
 
+function parseKeyValueLines(output) {
+  const values = {};
+  for (const line of output.split('\n')) {
+    const match = /^([A-Z0-9_]+)=(.*)$/.exec(line.trim());
+    if (match) values[match[1]] = match[2];
+  }
+  return values;
+}
+
+function loadCompatibleEvidence() {
+  const reportFile = path.join(root, 'evidence', 'beta6-l6-compatible-polymer', 'report.json');
+  if (!fs.existsSync(reportFile)) {
+    return {
+      present: false,
+      releaseEligible: false
+    };
+  }
+
+  try {
+    const report = JSON.parse(read(reportFile));
+    return {
+      present: true,
+      path: rel(reportFile),
+      sha256: sha256(read(reportFile)),
+      decision: report.decision,
+      releaseEligible: report.releaseEligible === true,
+      parityCases: report.fixtures?.parityCases ?? 0,
+      compatibleSource: report.compatibleSource,
+      claimBoundary: report.claimBoundary
+    };
+  } catch (error) {
+    return {
+      present: true,
+      parseError: String(error.message),
+      releaseEligible: false
+    };
+  }
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const blockers = [];
@@ -103,6 +146,10 @@ function main() {
   try {
     const probe = ssh([
       'set -e',
+      'echo HOSTNAME=$(hostname)',
+      'echo INSTANCE_ID=$(curl -s --max-time 2 http://169.254.169.254/hetzner/v1/metadata/instance-id || true)',
+      'echo PUBLIC_IPV4=$(curl -s --max-time 2 http://169.254.169.254/hetzner/v1/metadata/public-ipv4 || true)',
+      'echo AVAILABILITY_ZONE=$(curl -s --max-time 2 http://169.254.169.254/hetzner/v1/metadata/availability-zone || true)',
       `cat ${expected.serialPath}`,
       `sha256sum ${expected.binaryPath}`,
       `${expected.healthcheckPath}`,
@@ -111,6 +158,7 @@ function main() {
     ].join('\n'));
     remote.rawProbe = probe;
     const lines = probe.split('\n').map((line) => line.trim()).filter(Boolean);
+    remote.identity = parseKeyValueLines(probe);
     remote.serial = lines.find((line) => line.startsWith('BRIK64-L6PLUS-N5-')) || '';
     remote.binarySha256 = (lines.find((line) => line.includes(expected.binaryPath)) || '').split(/\s+/)[0] || '';
     remote.versionOutput = lines.filter((line) => /^(brikc_cli_l6plus|engine=|lane=|claim_authority=|public_claim_allowed=|general_compile_|route2_|quality_)/.test(line));
@@ -124,6 +172,9 @@ function main() {
   }
 
   checks.sshReachable = blockers.length === 0;
+  checks.hetznerInstanceMatches = remote.identity?.INSTANCE_ID === expected.instanceId;
+  checks.publicIpv4Matches = remote.identity?.PUBLIC_IPV4 === expected.publicIpv4;
+  checks.availabilityZoneMatches = remote.identity?.AVAILABILITY_ZONE === expected.availabilityZone;
   checks.serialMatches = remote.serial === expected.serial;
   checks.binarySha256Matches = remote.binarySha256 === expected.binarySha256;
   checks.healthcheckChecksumsOk = /checksums_ok=36/.test(remote.rawProbe || '');
@@ -133,6 +184,9 @@ function main() {
   checks.route2Only = /general_compile_supported=route2_bounded_only/.test(remote.rawProbe || '');
 
   if (!checks.serialMatches) blockers.push('l6_serial_mismatch');
+  if (!checks.hetznerInstanceMatches) blockers.push('hetzner_instance_id_mismatch');
+  if (!checks.publicIpv4Matches) blockers.push('hetzner_public_ipv4_mismatch');
+  if (!checks.availabilityZoneMatches) blockers.push('hetzner_availability_zone_mismatch');
   if (!checks.binarySha256Matches) blockers.push('l6_binary_sha256_mismatch');
   if (!checks.healthcheckChecksumsOk) blockers.push('l6_healthcheck_missing_checksums_ok');
   if (!checks.auditPass) blockers.push('l6_audit_not_pass');
@@ -156,6 +210,7 @@ function main() {
     },
     checks,
     remote,
+    compatibleRoute2Evidence: loadCompatibleEvidence(),
     blockers,
     requiredNextAction: decision === 'PASS_L6_FULL_CLI_GENERATION_READY'
       ? 'Run L6 generation and bind generated artifact/package/release hashes.'
