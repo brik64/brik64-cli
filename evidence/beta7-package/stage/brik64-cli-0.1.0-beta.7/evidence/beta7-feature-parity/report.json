@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "brik64.cli_beta7_feature_parity_gate.v1",
+  "version": "0.1.0-beta.7",
+  "decision": "PASS_BETA7_FEATURE_PARITY_GATE",
+  "lane": "cli_0_1_beta",
+  "generationClaim": "assisted_generation_non_claim",
+  "checks": [
+    "version",
+    "help-polymerize",
+    "init",
+    "doctor-human",
+    "doctor-json",
+    "account-status",
+    "cloud-verify-no-entitlement",
+    "cloud-polymerize-no-entitlement",
+    "certify",
+    "verify-local",
+    "emit-ts",
+    "polymerize-local",
+    "certify-polymer",
+    "legacy-certify-suggests-migrate",
+    "migrate-legacy",
+    "certify-migrated",
+    "polymer-manifest-hash"
+  ],
+  "localRuntime": {
+    "parsesPcd": true,
+    "certifiesCandidate": true,
+    "emitsTargets": [
+      "ts"
+    ],
+    "polymerizes": true,
+    "verifiesLocal": true,
+    "migratesLegacy": true
+  },
+  "managedRuntimeBoundary": {
+    "cloudVerifyWithoutEntitlement": "fail_closed",
+    "cloudPolymerizeWithoutEntitlement": "fail_closed",
+    "endpointImplemented": false
+  },
+  "releaseBoundary": {
+    "universalCorrectnessClaimAllowed": false,
+    "independentToolchainClosureAllowed": false
+  }
+}

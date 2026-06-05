@@ -1,50 +1,55 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.6",
-  "version": "0.1.0-beta.6",
+  "releaseId": "brik64-0.1.0-beta.7",
+  "version": "0.1.0-beta.7",
   "channel": "beta",
-  "state": "public",
-  "manifestDigest": "b6050bb0953e456d917205881b2f797079805b2f5006f1e6ffc468a5e715bed3",
+  "state": "draft",
+  "manifestDigest": "b045f5ce5e424b118f498115b525e935d94fbcaeaf69e1761806a1e4c2d4f17e",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.6",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.7",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.6"
+      "version": "0.1.0-beta.7"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b6"
+      "version": "0.1.0b7"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.6"
+      "version": "0.1.0-beta.7"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.6\n\n### Added\n\n- Adds a distributable beta6 CLI package for the public curl installer and GitHub Release assets.\n- Adds package smoke coverage for extraction, version output, workspace initialization, certificate creation, TypeScript emission, and stale certificate fail-closed behavior.\n- Adds visible beta6 package metadata so users can verify the installed CLI version and package checksum.\n\n### Changed\n\n- Updates public install guidance, README, release metadata, and SDK coordinates to 0.1.0-beta.6.\n",
+  "changelogMarkdown": "## 0.1.0-beta.7\n\n### Added\n\n- Adds local PCD polymerization so users can combine multiple PCD files into a deterministic polymer file and manifest.\n- Adds local verification for certificate presence, source hash agreement, and AST hash agreement before generated outputs are trusted.\n- Adds migration support for legacy lowercase PCD syntax with actionable parser guidance.\n- Adds account status, login, and logout commands for future platform-connected workflows while keeping local workflows available by default.\n\n### Changed\n\n- Keeps human-readable doctor output as the default and moves machine-readable reports behind an explicit JSON flag.\n",
   "releaseNotes": [
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds a distributable beta6 CLI package for the public curl installer and GitHub Release assets."
+      "text": "Adds local PCD polymerization so users can combine multiple PCD files into a deterministic polymer file and manifest."
     },
     {
       "type": "added",
-      "surface": "package",
-      "text": "Adds package smoke coverage for extraction, version output, workspace initialization, certificate creation, TypeScript emission, and stale certificate fail-closed behavior."
+      "surface": "cli",
+      "text": "Adds local verification for certificate presence, source hash agreement, and AST hash agreement before generated outputs are trusted."
     },
     {
       "type": "added",
-      "surface": "package",
-      "text": "Adds visible beta6 package metadata so users can verify the installed CLI version and package checksum."
+      "surface": "cli",
+      "text": "Adds migration support for legacy lowercase PCD syntax with actionable parser guidance."
+    },
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Adds account status, login, and logout commands for future platform-connected workflows while keeping local workflows available by default."
     },
     {
       "type": "changed",
-      "surface": "release",
-      "text": "Updates public install guidance, README, release metadata, and SDK coordinates to 0.1.0-beta.6."
+      "surface": "cli",
+      "text": "Keeps human-readable doctor output as the default and moves machine-readable reports behind an explicit JSON flag."
     }
   ]
 }

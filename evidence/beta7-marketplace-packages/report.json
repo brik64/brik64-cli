@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "brik64.cli_beta7_marketplace_package_gate.v1",
+  "version": "0.1.0-beta.7",
+  "decision": "PASS_MARKETPLACE_PACKAGE_GATE",
+  "releaseEligible": true,
+  "marketplacePublicationAllowed": true,
+  "packages": {
+    "npm": {
+      "repository": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+      "packageName": "@brik64/core",
+      "version": "0.1.0-beta.7",
+      "artifact": {
+        "path": "evidence-beta7-pack/brik64-core-0.1.0-beta.7.tgz",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta7-pack/brik64-core-0.1.0-beta.7.tgz",
+        "sha256": "a79c701aa9bb7cf4078aec7b8a2a038b94b1b305af1b64c474db97399b2b0a49",
+        "bytes": 20734
+      }
+    },
+    "pypi": {
+      "repository": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+      "packageName": "brik64",
+      "version": "0.1.0b7",
+      "wheel": {
+        "path": "dist/brik64-0.1.0b7-py3-none-any.whl",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b7-py3-none-any.whl",
+        "sha256": "4055aac40d11616cd24acb82068b1a11c7212220b3a8b80bf36dd113fc7d7beb",
+        "bytes": 10052
+      },
+      "sdist": {
+        "path": "dist/brik64-0.1.0b7.tar.gz",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b7.tar.gz",
+        "sha256": "ae74de78a2be0661485f735a3df4009aa4f018017c0c9c19529c3b9bb6b0a172",
+        "bytes": 7527
+      }
+    },
+    "cargo": {
+      "repository": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+      "crateName": "brik64-core",
+      "version": "0.1.0-beta.7",
+      "artifact": {
+        "path": "target/package/brik64-core-0.1.0-beta.7.crate",
+        "absolutePath": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/target/package/brik64-core-0.1.0-beta.7.crate",
+        "sha256": "328c794278e173e9f2c6ce4dc41f6173512ee5dd0ca374869c76794cf17b5995",
+        "bytes": 15032
+      }
+    }
+  },
+  "failures": [],
+  "boundary": "Package artifacts are locally built beta7 publication inputs. This gate verifies readiness but does not mutate npm, PyPI or Cargo."
+}

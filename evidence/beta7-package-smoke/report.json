@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "brik64.cli_beta7_package_smoke.v1",
+  "version": "0.1.0-beta.7",
+  "decision": "PASS_BETA7_LOCAL_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "assisted_generation_non_claim",
+  "package": {
+    "path": "evidence/beta7-package/brik64-cli-0.1.0-beta.7.tgz",
+    "sha256": "7d6aaa8029faedf547298cd5ddefbfe2fccfccfb228ccd067135c5ffe8b768f1",
+    "bytes": 17100
+  },
+  "checks": [
+    "extract",
+    "version",
+    "help",
+    "engine-status",
+    "init",
+    "doctor-human",
+    "doctor-json",
+    "account-status",
+    "certify",
+    "verify",
+    "polymerize",
+    "migrate",
+    "cloud-verify-no-entitlement"
+  ],
+  "boundary": "Beta7 package smoke covers the local distributable candidate. It is not public release evidence until public surfaces and SDK/skill/docs gates pass together."
+}

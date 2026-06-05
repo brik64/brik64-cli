@@ -8,45 +8,25 @@ tmpdir="$(mktemp -d)"
 cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.6"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.7"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
-node "$BRIK" doctor | grep -q '"status": "PASS"'
-node "$BRIK" doctor | grep -q '"publicOfflineRuntime": "L4+N5"'
-node "$BRIK" doctor | grep -q '"internalArtifactFactory": "L6+N5"'
+node "$BRIK" --help | grep -q "polymerize <files>"
+node "$BRIK" --help | grep -q "verify <file.pcd>"
+node "$BRIK" --help | grep -q "migrate <file.pcd>"
+node "$BRIK" doctor | grep -q "BRIK64 workspace doctor"
+node "$BRIK" doctor --json | grep -q '"status": "PASS"'
+node "$BRIK" doctor --json | grep -q '"localRuntime": "available"'
+node "$BRIK" doctor --json | grep -q '"internalArtifactFactory": "private"'
 node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  if [ "${GITHUB_ACTIONS:-false}" != "true" ]; then
-    node "$ROOT_DIR/scripts/beta6-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA6_SYNC"
-    node "$ROOT_DIR/scripts/beta6-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA6_SYNC"
-    node "$ROOT_DIR/scripts/beta6-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA6_SYNC"
-    node "$ROOT_DIR/scripts/beta6-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
-  fi
-  node "$ROOT_DIR/scripts/build-beta6-package.js" | grep -q "PASS_BETA6_PACKAGE_BUILT"
-  node "$ROOT_DIR/scripts/beta6-package-smoke.js" | grep -q "decision=PASS_BETA6_LOCAL_PACKAGE_SMOKE"
-  if [ "$PACKAGE_VERSION" != "0.1.0-beta.6" ]; then
-    node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"
-    node "$ROOT_DIR/scripts/beta5-publication-preflight.js" | grep -q "decision=BLOCKED_PUBLICATION_PREFLIGHT"
-    if node "$ROOT_DIR/scripts/beta5-publication-preflight.js" --release >/tmp/brik-publication-preflight.out 2>/tmp/brik-publication-preflight.err; then
-      echo "publication preflight should fail closed in release mode" >&2
-      exit 1
-    fi
-    grep -q "githubReleaseAllowed=false" /tmp/brik-publication-preflight.out
-    node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
-    node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-release-surface-gate/report.json","utf8")); if (r.releaseEligible !== true || !r.buildChain.changelogBound || !r.buildChain.matrixBound) process.exit(1)'
-    node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" --release | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
-  fi
+  node "$ROOT_DIR/scripts/beta7-feature-parity-gate.js" | grep -q "decision=PASS_BETA7_FEATURE_PARITY_GATE"
+  node "$ROOT_DIR/scripts/build-beta7-package.js" | grep -q "PASS_BETA7_PACKAGE_BUILT"
+  node "$ROOT_DIR/scripts/beta7-package-smoke.js" | grep -q "decision=PASS_BETA7_LOCAL_PACKAGE_SMOKE"
+  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta7-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta7")) process.exit(1)'
   node "$ROOT_DIR/scripts/release-manifest-validate.js" --allow-dirty | grep -q "decision=PASS_RELEASE_MANIFEST_VALIDATE"
-  if [ "$PACKAGE_VERSION" != "0.1.0-beta.6" ]; then
-    if node "$ROOT_DIR/scripts/beta5-l6-factory-bridge.js" >/tmp/brik-l6-preflight.out 2>/tmp/brik-l6-preflight.err; then
-      echo "offline L6 preflight should block without live route2 probe" >&2
-      exit 1
-    fi
-    grep -q "decision=BLOCKED_L6_FACTORY_BRIDGE" /tmp/brik-l6-preflight.out
-    node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-l6-factory-bridge/preflight-report.json","utf8")); if (r.checks.offlineContract !== true || r.releaseEligible !== false) process.exit(1)'
-  fi
 fi
 
 (
@@ -54,7 +34,14 @@ fi
   node "$BRIK" init
   test -f .brik/manifest.json
   test ! -f AGENTS.md
-  node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.engineTierPolicy.registeredManagedRuntime !== "L5+N5") process.exit(1)'
+  node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.engineTierPolicy.registeredManagedRuntime !== "managed_platform") process.exit(1)'
+  node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.preferred_engine !== "auto" || m.polymer_strategy !== "local_ast" || m.managed_platform.routing !== "local_default") process.exit(1)'
+  node "$BRIK" account status | grep -q "tier: free"
+  if node "$BRIK" login --token-env BRIK64_MISSING_TOKEN >/tmp/brik-login.out 2>/tmp/brik-login.err; then
+    echo "login should require token env" >&2
+    exit 1
+  fi
+  grep -q "login_token_env_missing" /tmp/brik-login.err
   if node "$BRIK" doctor >/tmp/brik-empty-doctor.out 2>/tmp/brik-empty-doctor.err; then
     echo "doctor should require PCD inventory" >&2
     exit 1
@@ -85,6 +72,23 @@ grep -q "certificate_required" /tmp/brik-emit.err
 
 node "$BRIK" certify program.pcd
 node "$BRIK" emit program.pcd | grep -q "pcd_sha256="
+node "$BRIK" verify program.pcd | grep -q "verification=PASS"
+node "$BRIK" verify program.pcd --json | grep -q '"schemaVersion": "brik64.cli_local_verify_report.v1"'
+if node "$BRIK" verify program.pcd --cloud >/tmp/brik-verify-cloud.out 2>/tmp/brik-verify-cloud.err; then
+  echo "cloud verify should require managed entitlement" >&2
+  exit 1
+fi
+grep -q "managed_entitlement_required" /tmp/brik-verify-cloud.err
+
+node "$BRIK" polymerize program.pcd --out polymer.pcd --json | grep -q '"schemaVersion": "brik64.cli_polymer_manifest.v1"'
+test -f polymer.pcd
+test -f polymer.pcd.manifest.json
+node "$BRIK" certify polymer.pcd
+if node "$BRIK" polymerize program.pcd --cloud >/tmp/brik-poly-cloud.out 2>/tmp/brik-poly-cloud.err; then
+  echo "cloud polymerize should require managed entitlement" >&2
+  exit 1
+fi
+grep -q "managed_entitlement_required" /tmp/brik-poly-cloud.err
 
 for target in ts rust python; do
   out="out-$target"
@@ -149,6 +153,21 @@ if node "$BRIK" certify corrupt.pcd >/tmp/brik-corrupt.out 2>/tmp/brik-corrupt.e
   exit 1
 fi
 grep -q "pcd_parse_error" /tmp/brik-corrupt.err
+
+cat >legacy.pcd <<'PCD'
+pc legacy {
+    fn legacy(input) {
+        return 5;
+    }
+}
+PCD
+if node "$BRIK" certify legacy.pcd >/tmp/brik-legacy-cert.out 2>/tmp/brik-legacy-cert.err; then
+  echo "legacy PCD should require migration before certify" >&2
+  exit 1
+fi
+grep -q "brik64 migrate" /tmp/brik-legacy-cert.err
+node "$BRIK" migrate legacy.pcd --out legacy.beta7.pcd --json | grep -q '"detectedSyntax": "legacy_lowercase_pc"'
+node "$BRIK" certify legacy.beta7.pcd
 
 cat >variant.pcd <<'PCD'
 PC variant {
