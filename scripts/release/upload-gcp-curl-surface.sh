@@ -23,7 +23,7 @@ need_file() {
 need_file "$MANIFEST_PATH"
 
 VERSION="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); process.stdout.write(m.version)' "$MANIFEST_PATH")"
-BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$VERSION")"
+BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)$/); if (!m) { console.error(`unsupported beta version: ${v}`); process.exit(1); } process.stdout.write(m[1])' "$VERSION")"
 PACKAGE_DIR="$ROOT/evidence/beta${BETA_NUMBER}-package"
 CHECKSUM_DIR="$ROOT/evidence/beta${BETA_NUMBER}-release-checksums"
 PACKAGE_MANIFEST="$PACKAGE_DIR/package.manifest.json"
