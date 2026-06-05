@@ -38,6 +38,7 @@
     "gate:beta6:l6-hetzner": "node scripts/beta6-l6-hetzner-generation-gate.js",
     "generate:beta6:l6-compatible": "node scripts/beta6-l6-compatible-polymer-generate.js",
     "gate:beta6:l6-full-contract": "node scripts/beta6-l6-full-generation-contract-gate.js",
+    "generate:beta6:package-harness": "node scripts/beta6-generate-package-harness-from-pcd.js",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
     "release:train:live-verify": "node scripts/release-train-live-verify.js",
