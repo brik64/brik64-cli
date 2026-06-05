@@ -7,8 +7,8 @@
   "generationClaim": "assisted_generation_non_claim",
   "package": {
     "path": "evidence/beta7-package/brik64-cli-0.1.0-beta.7.tgz",
-    "sha256": "7d6aaa8029faedf547298cd5ddefbfe2fccfccfb228ccd067135c5ffe8b768f1",
-    "bytes": 17100
+    "sha256": "498ad2d5a0c54567f8f45f9c8649f483d7c4e030c9e4652d8782903b0fd3718c",
+    "bytes": 17075
   },
   "checks": [
     "extract",
