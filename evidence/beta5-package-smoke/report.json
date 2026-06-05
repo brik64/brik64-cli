@@ -5,8 +5,8 @@
   "releaseEligible": false,
   "package": {
     "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
-    "sha256": "2aa5f8891b92472b045f8794bc32f45b31b5eaa56afec5ca7fcfdba43e807fe4",
-    "bytes": 28549
+    "sha256": "53c1037c64bed6ca92e1a31a109684d261d1a94e7023473431253d78b47a11c6",
+    "bytes": 28558
   },
   "checks": [
     "extract",

@@ -13,15 +13,15 @@
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 229,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:23\n",
+      "elapsedMs": 166,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:10\n",
       "stderr": ""
     },
     {
       "name": "smoke_tests",
       "command": "npm test",
       "rc": 0,
-      "elapsedMs": 6324,
+      "elapsedMs": 7386,
       "stdout": "\n> @brik64/cli@0.1.0-beta.5 test\n> bash tests/smoke.sh\n\ncreated=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
       "stderr": ""
     },
@@ -29,7 +29,7 @@
       "name": "release_surface_gate",
       "command": "node scripts/beta5-release-surface-gate.js",
       "rc": 0,
-      "elapsedMs": 110,
+      "elapsedMs": 134,
       "stdout": "decision=PASS_RELEASE_SURFACE_GATE\nreleaseEligible=true\n",
       "stderr": ""
     },
@@ -37,7 +37,7 @@
       "name": "publication_preflight",
       "command": "node scripts/beta5-publication-preflight.js",
       "rc": 0,
-      "elapsedMs": 95,
+      "elapsedMs": 152,
       "stdout": "decision=BLOCKED_PUBLICATION_PREFLIGHT\ngithubReleaseAllowed=false\nmarketplacePublicationAllowed=false\nblockers=github_release_not_created,release_tag_not_created,marketplace_publication_not_authorized\n",
       "stderr": ""
     }

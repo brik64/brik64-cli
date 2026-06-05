@@ -147,7 +147,11 @@ function validate() {
   const dirtyFiles = status
     .split('\n')
     .filter(Boolean)
-    .map((line) => line.slice(3));
+    .map((line) => line.slice(3))
+    .filter((file) => ![
+      'evidence/release-manifest-validate/report.json',
+      'evidence/release-train-dry-run/report.json'
+    ].includes(file));
   const allowDirty = process.argv.includes('--allow-dirty');
   if (dirtyFiles.length > 0 && !allowDirty) failures.push(`worktree_dirty:${dirtyFiles.length}`);
   if (dirtyFiles.length > 0 && allowDirty) warnings.push(`worktree_dirty_allowed:${dirtyFiles.length}`);
