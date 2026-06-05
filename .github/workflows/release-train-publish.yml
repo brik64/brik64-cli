@@ -19,11 +19,15 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   publish-plan:
     name: Build fail-closed publication plan
     runs-on: ubuntu-latest
+    env:
+      BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      BRIK64_GCP_SERVICE_ACCOUNT: ${{ secrets.BRIK64_GCP_SERVICE_ACCOUNT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -59,11 +63,60 @@ jobs:
       - name: Generate sync payload
         run: npm run release:train:sync-surfaces
 
+      - name: Prepare SDK publication workspaces
+        env:
+          BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="/Users/carlosjperez/Documents/GitHub"
+          sudo mkdir -p "$SDK_ROOT"
+          sudo chown -R "$USER:$USER" /Users/carlosjperez
+          clone_or_update() {
+            local repo="$1"
+            local dir="$2"
+            if [ -d "$dir/.git" ]; then
+              git -C "$dir" fetch --depth=1 origin main
+              git -C "$dir" checkout -f origin/main
+            else
+              git clone --depth=1 "https://x-access-token:${BRIK64_GITHUB_RELEASE_TOKEN}@github.com/brik64-admin/${repo}.git" "$dir"
+            fi
+          }
+          clone_or_update brik64-lib-js "$SDK_ROOT/brik64-lib-js"
+          clone_or_update brik64-lib-python "$SDK_ROOT/brik64-lib-python"
+          clone_or_update brik64-lib-rust "$SDK_ROOT/brik64-lib-rust"
+
+          cd "$SDK_ROOT/brik64-lib-js"
+          if [ -f package-lock.json ]; then npm ci; else npm install --ignore-scripts --no-package-lock; fi
+          npm run build
+          mkdir -p evidence-beta5-pack
+          npm pack --pack-destination evidence-beta5-pack
+
+          cd "$SDK_ROOT/brik64-lib-python"
+          python3 -m pip install --upgrade build
+          python3 -m build
+
+          cd "$SDK_ROOT/brik64-lib-rust"
+          cargo package --allow-dirty
+
+      - name: Authenticate to Google Cloud
+        if: ${{ inputs.execute_publication == true && env.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER != '' && env.BRIK64_GCP_SERVICE_ACCOUNT != '' }}
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ env.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.BRIK64_GCP_SERVICE_ACCOUNT }}
+
+      - name: Setup Google Cloud SDK
+        if: ${{ inputs.execute_publication == true && env.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER != '' && env.BRIK64_GCP_SERVICE_ACCOUNT != '' }}
+        uses: google-github-actions/setup-gcloud@v3
+
       - name: Generate publication plan
         env:
           BRIK64_RELEASE_CONFIRM: ${{ inputs.confirm }}
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
+          BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          BRIK64_GCP_SERVICE_ACCOUNT: ${{ secrets.BRIK64_GCP_SERVICE_ACCOUNT }}
           BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
           BRIK64_CRATES_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
@@ -82,6 +135,8 @@ jobs:
           BRIK64_RELEASE_MANIFEST_DIGEST: ${{ inputs.manifest_digest }}
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
+          BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          BRIK64_GCP_SERVICE_ACCOUNT: ${{ secrets.BRIK64_GCP_SERVICE_ACCOUNT }}
           BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
           BRIK64_CRATES_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}

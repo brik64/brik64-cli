@@ -9,13 +9,15 @@
   "expectedConfirm": "PUBLISH 0.1.0-beta.5 058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
-    "BRIK64_GCP_RELEASE_CREDENTIALS": false,
     "BRIK64_NPM_TOKEN": false,
     "BRIK64_PYPI_TOKEN": false,
     "BRIK64_CRATES_TOKEN": false,
     "BRIK64_DOCS_DISPATCH_TOKEN": false,
     "BRIK64_WEB_DEPLOY_TOKEN": false,
-    "BRIK64_SKILLS_REPO_TOKEN": false
+    "BRIK64_SKILLS_REPO_TOKEN": false,
+    "BRIK64_GCP_RELEASE_CREDENTIALS": false,
+    "BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER": false,
+    "BRIK64_GCP_SERVICE_ACCOUNT": false
   },
   "commands": [
     {
@@ -82,7 +84,7 @@
   ],
   "failures": [],
   "warnings": [
-    "manifest_source_commit_not_ancestor:e8e72cd:8aaa006"
+    "manifest_source_commit_not_ancestor:e8e72cd:b44a6ae"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
 }
