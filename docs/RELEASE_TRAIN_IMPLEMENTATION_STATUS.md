@@ -14,7 +14,9 @@ Branch: `main`
 - 🟨 75% | 🟩 🟩 🟩 ⬜ | Mutation-capable public publication.
   - Dry-run command preflight is clean. Real mutation is blocked only by missing GCP Workload Identity repository secrets.
 - ⛔ 75% | 🟩 🟩 🟩 ⛔ | First end-to-end mutation run from `main`.
-  - Blocked until GCP Workload Identity Pool/provider is created by an account with `iam.workloadIdentityPools.create` inside allowed customer `C02zrapel`.
+  - The release publisher service account now has `roles/iam.workloadIdentityPoolAdmin`.
+  - `admin@brik64.com` now has `roles/iam.serviceAccountTokenCreator` on that service account.
+  - Blocked until `admin@brik64.com` is reauthenticated locally, or another allowed Google Workspace operator runs the documented impersonated WIF commands.
 
 ## Implemented
 
@@ -58,6 +60,9 @@ Branch: `main`
     customer `C02zrapel`.
   - Org policy `constraints/iam.disableServiceAccountKeyCreation` blocks
     JSON service account keys.
+  - The prepared keyless route is now service account impersonation through
+    `brik64-cli-release-publisher@brik64-platform-mvp.iam.gserviceaccount.com`
+    by `admin@brik64.com`.
 - Concrete channel implementations for:
   - docs dispatch consumer.
   - web or CMS dispatch consumer.
@@ -69,7 +74,8 @@ Branch: `main`
 
 ## Next Closure Patch
 
-Create the GCP Workload Identity Pool/provider documented in
+Reauthenticate `admin@brik64.com`, create the GCP Workload Identity
+Pool/provider with the impersonated commands documented in
 `docs/BETA5_PUBLIC_RELEASE_COMPLETION_PLAN.md`, configure the two GCP repository
 secrets, and run `release-train-publish` from `main` in mutation mode using the
 exact `PUBLISH <version> <manifest_digest>` confirmation string.

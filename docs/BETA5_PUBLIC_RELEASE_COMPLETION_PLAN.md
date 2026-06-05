@@ -4,7 +4,7 @@ Date: 2026-06-05
 
 Source branch: `main`
 
-Current source SHA: `a3c3416`
+Current source SHA: `20fdb94`
 
 Release: `0.1.0-beta.5`
 
@@ -59,12 +59,19 @@ The release is complete only when the same manifest digest is proven across:
     `brik64-cli-release-publisher@brik64-platform-mvp.iam.gserviceaccount.com`.
   - Bucket binding exists:
     `roles/storage.objectAdmin` on `gs://brik64-cli-releases`.
+  - Project binding exists:
+    `roles/iam.workloadIdentityPoolAdmin` for
+    `serviceAccount:brik64-cli-release-publisher@brik64-platform-mvp.iam.gserviceaccount.com`.
+  - Service account impersonation binding exists:
+    `roles/iam.serviceAccountTokenCreator` for `user:admin@brik64.com`.
   - JSON key creation is blocked by org policy:
     `constraints/iam.disableServiceAccountKeyCreation`.
-  - Workload Identity Pool creation is blocked for local available accounts by:
-    `iam.workloadIdentityPools.create`.
-  - IAM role self-grant is blocked by org policy:
-    `constraints/iam.allowedPolicyMemberDomains`.
+  - Direct Workload Identity Pool creation is blocked for
+    `carlosjperez@brik64.com` by: `iam.workloadIdentityPools.create`.
+  - Impersonation self-grant for `carlosjperez@brik64.com` is blocked by org
+    policy: `constraints/iam.allowedPolicyMemberDomains`.
+  - Local `admin@brik64.com` gcloud credentials require interactive
+    reauthentication before the prepared impersonation route can be used.
 
 - ⬜ 25% | 🟩 ⬜ ⬜ ⬜ | Real publication execution
   - Blocked until GCP Workload Identity provider and service account secrets
@@ -103,10 +110,16 @@ service account JSON key creation
 result: blocked by constraints/iam.disableServiceAccountKeyCreation
 ```
 
-Therefore the remaining closure must be performed by a Google Workspace identity
-that is a member of customer `C02zrapel` and already has, or can be granted by an
-authorized admin, `roles/iam.workloadIdentityPoolAdmin` or equivalent custom
-permissions.
+The preferred remaining closure is to reauthenticate `admin@brik64.com` and use
+the prepared service account impersonation route. This avoids JSON keys and
+keeps the GitHub Actions path on Workload Identity Federation.
+
+```bash
+gcloud auth login admin@brik64.com
+gcloud config set account admin@brik64.com
+```
+
+Then create the pool/provider through the release publisher service account:
 
 ```bash
 PROJECT=brik64-platform-mvp
@@ -118,7 +131,8 @@ SA=brik64-cli-release-publisher@$PROJECT.iam.gserviceaccount.com
 gcloud iam workload-identity-pools create "$POOL" \
   --project "$PROJECT" \
   --location global \
-  --display-name="BRIK64 GitHub Actions"
+  --display-name="BRIK64 GitHub Actions" \
+  --impersonate-service-account "$SA"
 
 gcloud iam workload-identity-pools providers create-oidc "$PROVIDER" \
   --project "$PROJECT" \
@@ -127,7 +141,8 @@ gcloud iam workload-identity-pools providers create-oidc "$PROVIDER" \
   --display-name="BRIK64 CLI main" \
   --issuer-uri="https://token.actions.githubusercontent.com" \
   --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository,attribute.ref=assertion.ref" \
-  --attribute-condition="assertion.repository=='brik64/brik64-cli' && assertion.ref=='refs/heads/main'"
+  --attribute-condition="assertion.repository=='brik64/brik64-cli' && assertion.ref=='refs/heads/main'" \
+  --impersonate-service-account "$SA"
 
 gcloud iam service-accounts add-iam-policy-binding "$SA" \
   --project "$PROJECT" \
@@ -142,8 +157,8 @@ BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER=projects/897764825865/locations/global/wor
 BRIK64_GCP_SERVICE_ACCOUNT=brik64-cli-release-publisher@brik64-platform-mvp.iam.gserviceaccount.com
 ```
 
-Do not create a long-lived JSON key unless org security policy is explicitly
-changed and the release process is updated to accept that risk.
+Do not create a long-lived JSON key. The org policy blocks key creation and the
+release process is now prepared for keyless Workload Identity Federation.
 
 ## Publication Command
 
@@ -197,7 +212,9 @@ If publication starts and a public channel fails after any mutation:
 
 ## Final Completion Checklist
 
-- ⬜ GCP Workload Identity Pool exists.
+- ⛔ GCP Workload Identity Pool exists.
+  - Blocked only until `admin@brik64.com` is reauthenticated locally or another
+    allowed Google Workspace operator runs the impersonated commands above.
 - ⬜ GCP provider is scoped to `brik64/brik64-cli` and `refs/heads/main`.
 - ⬜ Service account has `roles/iam.workloadIdentityUser` for the provider.
 - ⬜ `BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER` secret exists.
