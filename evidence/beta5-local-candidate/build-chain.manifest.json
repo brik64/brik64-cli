@@ -68,12 +68,12 @@
   "l6FactoryBridge": {
     "request": {
       "path": "evidence/beta5-l6-factory-bridge/factory-request.json",
-      "sha256": "38d7914d80da860b6e2892d025bb342d7bc9ecdedc261ed83d010fa6b4900655",
+      "sha256": "b6720084041d91e0dd2175d52ac1cc6031d8a08c9591d1d9732cbc0dd45531ad",
       "bytes": 2468
     },
     "preflightReport": {
       "path": "evidence/beta5-l6-factory-bridge/preflight-report.json",
-      "sha256": "fc8bce6b9f4bfd53e1a46dc42af73dfb6c9fddc79b32b80a733367e624e88439",
+      "sha256": "742405a04f9476935c9ad219f100e7cf8b6f203818537a7bbc1c3ea1f3ef1107",
       "bytes": 717
     },
     "route2GenerationReport": {
@@ -129,7 +129,7 @@
     },
     "publicationPreflight": {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "53944437be3a710b709ffcdc033d041c05a4bd81e60f1b0e58d7c3e20d3a5e7f",
+      "sha256": "4ac388a04c7e8994630fca2f97d1dcbebee53bba36d856e04d775fe70843ef62",
       "bytes": 2941
     },
     "adversarialAudit": {
@@ -139,12 +139,12 @@
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "6d6000a0ef112d9915faf5268e1ccc9155b5fd01f24124939457a498bc7b5c93",
+      "sha256": "262842b24b9b3be60119b6efeed957e50d2d1ef83fb259da1c70310823496785",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "e0464cb2ec29e144abc962b2ca3db9f98fa9483c5c9ffd3809ed4957de96fe97",
+      "sha256": "db952850f8844686a0cf0bd275eefad93754dc3c88bcf0119d0c0e9b35547ccd",
       "bytes": 606
     },
     "crossPlatformSmoke": {

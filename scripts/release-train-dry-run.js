@@ -42,6 +42,21 @@ function run(name, args, options = {}) {
   };
 }
 
+function gitDirtyFiles() {
+  const status = childProcess.execFileSync('git', ['status', '--porcelain'], {
+    cwd: root,
+    encoding: 'utf8'
+  });
+  return status
+    .split('\n')
+    .filter(Boolean)
+    .map((line) => line.slice(3))
+    .filter((file) => ![
+      'evidence/release-manifest-validate/report.json',
+      'evidence/release-train-dry-run/report.json'
+    ].includes(file));
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const manifestText = readText(manifestPath);
@@ -49,9 +64,11 @@ function main() {
   const manifestDigest = sha256(manifestText);
   const allowDirty = process.argv.includes('--allow-dirty');
   const failures = [];
+  const initialDirtyFiles = gitDirtyFiles();
+  if (initialDirtyFiles.length > 0 && !allowDirty) failures.push(`initial_worktree_dirty:${initialDirtyFiles.length}`);
 
   const commands = [
-    run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', ...(allowDirty ? ['--allow-dirty'] : [])]),
+    run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
     run('smoke_tests', ['npm', 'test']),
     run('release_surface_gate', ['node', 'scripts/beta5-release-surface-gate.js']),
     run('publication_preflight', ['node', 'scripts/beta5-publication-preflight.js'])
@@ -93,6 +110,7 @@ function main() {
     decision: failures.length === 0 ? 'PASS_RELEASE_TRAIN_DRY_RUN' : 'FAIL_RELEASE_TRAIN_DRY_RUN',
     publicationAllowed: false,
     boundary: 'Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.',
+    initialDirtyFiles,
     commands,
     requiredEvidence,
     failures

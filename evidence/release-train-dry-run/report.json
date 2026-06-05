@@ -8,12 +8,24 @@
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
+  "initialDirtyFiles": [
+    "evidence/beta5-l6-factory-bridge/factory-request.json",
+    "evidence/beta5-l6-factory-bridge/preflight-report.json",
+    "evidence/beta5-local-candidate/SHA256SUMS",
+    "evidence/beta5-local-candidate/build-chain.manifest.json",
+    "evidence/beta5-package-smoke/report.json",
+    "evidence/beta5-package/SHA256SUMS",
+    "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+    "evidence/beta5-package/package.manifest.json",
+    "evidence/beta5-publication-preflight/manifest.json",
+    "scripts/release-train-dry-run.js"
+  ],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 166,
+      "elapsedMs": 125,
       "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.5\nwarnings=worktree_dirty_allowed:10\n",
       "stderr": ""
     },
@@ -21,7 +33,7 @@
       "name": "smoke_tests",
       "command": "npm test",
       "rc": 0,
-      "elapsedMs": 7386,
+      "elapsedMs": 5866,
       "stdout": "\n> @brik64/cli@0.1.0-beta.5 test\n> bash tests/smoke.sh\n\ncreated=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
       "stderr": ""
     },
@@ -29,7 +41,7 @@
       "name": "release_surface_gate",
       "command": "node scripts/beta5-release-surface-gate.js",
       "rc": 0,
-      "elapsedMs": 134,
+      "elapsedMs": 110,
       "stdout": "decision=PASS_RELEASE_SURFACE_GATE\nreleaseEligible=true\n",
       "stderr": ""
     },
@@ -37,7 +49,7 @@
       "name": "publication_preflight",
       "command": "node scripts/beta5-publication-preflight.js",
       "rc": 0,
-      "elapsedMs": 152,
+      "elapsedMs": 89,
       "stdout": "decision=BLOCKED_PUBLICATION_PREFLIGHT\ngithubReleaseAllowed=false\nmarketplacePublicationAllowed=false\nblockers=github_release_not_created,release_tag_not_created,marketplace_publication_not_authorized\n",
       "stderr": ""
     }
