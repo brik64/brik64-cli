@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.7`
+Current public beta: `0.1.0-beta.7`
 
 ## Install
 

@@ -2,15 +2,15 @@
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.7",
-  "state": "draft",
-  "manifestDigest": "b045f5ce5e424b118f498115b525e935d94fbcaeaf69e1761806a1e4c2d4f17e",
+  "state": "public",
+  "manifestDigest": "7f786abdfa7e098778d1a141ea393da386e22144b9d213836e1bd8747acbbcb8",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "b045f5ce5e424b118f498115b525e935d94fbcaeaf69e1761806a1e4c2d4f17e",
-      "bytes": 3605
+      "sha256": "7f786abdfa7e098778d1a141ea393da386e22144b9d213836e1bd8747acbbcb8",
+      "bytes": 3584
     },
     "packageJson": {
       "path": "package.json",
@@ -29,19 +29,19 @@
         "path": "evidence/beta7-package/package.manifest.json",
         "expectedDecision": "PASS_BETA7_PACKAGE_BUILT",
         "actualDecision": "PASS_BETA7_PACKAGE_BUILT",
-        "sha256": "c2d0b8a6e88a17fd1ee68cf258f34ade97f5968829bcf45f3c058af70ca34174"
+        "sha256": "85c751817ddedca8a6934f3a92912adda4c950f05e96f9d1898a6eedd4fa6af4"
       },
       {
         "id": "localPackageSmoke",
         "path": "evidence/beta7-package-smoke/report.json",
         "expectedDecision": "PASS_BETA7_LOCAL_PACKAGE_SMOKE",
         "actualDecision": "PASS_BETA7_LOCAL_PACKAGE_SMOKE",
-        "sha256": "0c6b08bfff44ead9cc957cba3bf8a9ef695216168878ed1e5aa95513f7337a58"
+        "sha256": "d1b6f33235ddd99c594c2b6107e0e1dd99be862d0c7b95b5ea93c0bea0e20050"
       }
     ]
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:33"
+    "worktree_dirty_allowed:9"
   ]
 }

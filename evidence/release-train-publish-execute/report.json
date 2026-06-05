@@ -1,15 +1,16 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.6",
-  "version": "0.1.0-beta.6",
-  "manifestDigest": "b6050bb0953e456d917205881b2f797079805b2f5006f1e6ffc468a5e715bed3",
-  "sourceHead": "4807c95",
+  "releaseId": "brik64-0.1.0-beta.7",
+  "version": "0.1.0-beta.7",
+  "manifestDigest": "7f786abdfa7e098778d1a141ea393da386e22144b9d213836e1bd8747acbbcb8",
+  "sourceHead": "67c89a5",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "scripts/release-train-publish-plan.js"
+    "README.md",
+    "release/manifest.json"
   ],
   "commandPreflight": [
     {
@@ -71,6 +72,6 @@
   "blockers": [],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:1"
+    "worktree_dirty_dry_run:2"
   ]
 }

@@ -3,12 +3,12 @@
   "releaseId": "brik64-0.1.0-beta.7",
   "version": "0.1.0-beta.7",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-05T20:45:00Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta7-feature-parity",
-    "commit": "24dd99f"
+    "branch": "main",
+    "commit": "67c89a5"
   },
   "cli": {
     "packageName": "@brik64/cli",
