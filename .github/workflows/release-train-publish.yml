@@ -36,6 +36,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies when lockfile exists
         shell: bash
@@ -112,6 +113,12 @@ jobs:
 
       - name: Generate publication plan
         env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.BRIK64_PYPI_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
           BRIK64_RELEASE_CONFIRM: ${{ inputs.confirm }}
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
@@ -132,6 +139,12 @@ jobs:
 
       - name: Execute publication train
         env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.BRIK64_PYPI_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
           BRIK64_RELEASE_MANIFEST_DIGEST: ${{ inputs.manifest_digest }}
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
