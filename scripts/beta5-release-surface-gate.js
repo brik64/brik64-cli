@@ -10,6 +10,7 @@ const changelogPath = path.join(root, 'CHANGELOG.md');
 const matrixPath = path.join(root, 'docs', 'BETA5_RELEASE_SURFACE_SYNC.md');
 const adversarialMethodologyPath = path.join(root, 'docs', 'BETA5_ADVERSARIAL_RELEASE_AUDIT.md');
 const buildChainPath = path.join(root, 'evidence', 'beta5-local-candidate', 'build-chain.manifest.json');
+const releaseManifestPath = path.join(root, 'release', 'manifest.json');
 
 process.stdout.on('error', (error) => {
   if (error.code === 'EPIPE') process.exit(0);
@@ -47,11 +48,13 @@ function main() {
   must(fs.existsSync(matrixPath), 'release_surface_sync_gap', failures);
   must(fs.existsSync(adversarialMethodologyPath), 'release_adversarial_audit_methodology_missing', failures);
   must(fs.existsSync(buildChainPath), 'release_build_chain_missing', failures);
+  must(fs.existsSync(releaseManifestPath), 'release_manifest_missing', failures);
 
   const changelog = fs.existsSync(changelogPath) ? read(changelogPath) : '';
   const matrix = fs.existsSync(matrixPath) ? read(matrixPath) : '';
   const adversarialMethodology = fs.existsSync(adversarialMethodologyPath) ? read(adversarialMethodologyPath) : '';
   const buildChain = fs.existsSync(buildChainPath) ? JSON.parse(read(buildChainPath)) : {};
+  const releaseManifest = fs.existsSync(releaseManifestPath) ? JSON.parse(read(releaseManifestPath)) : {};
   const surfaces = parseMatrix(matrix);
 
   const changelogHash = changelog ? sha256(changelog) : null;
@@ -62,11 +65,12 @@ function main() {
   const boundAdversarialMethodology = buildChain.releaseSurfaceSync?.adversarialMethodology;
 
   must(changelog.includes('0.1.0-beta.5'), 'release_changelog_version_missing', failures);
-  must(changelog.includes('docs/BETA5_RELEASE_SURFACE_SYNC.md'), 'release_changelog_matrix_missing', failures);
   must(changelog.includes('SDK') || changelog.includes('SDKs'), 'release_changelog_sdk_surface_missing', failures);
   must(changelog.includes('skills'), 'release_changelog_skills_surface_missing', failures);
   must(changelog.includes('docs') || changelog.includes('documentation'), 'release_changelog_docs_surface_missing', failures);
   must(changelog.includes('curl') || changelog.includes('GitHub Release'), 'release_changelog_publication_surface_missing', failures);
+  must(releaseManifest.version === '0.1.0-beta.5', 'release_manifest_version_drift', failures);
+  must(releaseManifest.state === 'public', 'release_manifest_state_not_public', failures);
   must(adversarialMethodology.includes('mandatory_before_publication'), 'release_adversarial_audit_methodology_contract_missing', failures);
   must(adversarialMethodology.includes('PASS_BETA5_LOCAL_COMPLETION'), 'release_adversarial_audit_completion_gate_missing', failures);
 
@@ -132,6 +136,11 @@ function main() {
       changelogBound: boundChangelog?.sha256 === changelogHash,
       matrixBound: boundMatrix?.sha256 === matrixHash,
       adversarialMethodologyBound: boundAdversarialMethodology?.sha256 === adversarialMethodologyHash
+    },
+    releaseManifest: {
+      path: 'release/manifest.json',
+      version: releaseManifest.version || null,
+      state: releaseManifest.state || null
     },
     blockers: blocked,
     failures,

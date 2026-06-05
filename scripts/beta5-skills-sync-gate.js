@@ -45,7 +45,7 @@ function main() {
   }
   const brik64 = fs.readFileSync(path.join(skillsRoot, 'skills/brik64/SKILL.md'), 'utf8');
   if (!brik64.includes('version: 0.1.0-beta.5')) failures.push('brik64_skill_beta5_version_missing');
-  if (!brik64.includes('current candidate surface')) failures.push('brik64_skill_candidate_boundary_missing');
+  if (!brik64.includes('Public CLI version: `0.1.0-beta.5`')) failures.push('brik64_skill_public_version_boundary_missing');
 
   const report = {
     schemaVersion: 'brik64.cli_beta5_skills_sync_gate.v1',

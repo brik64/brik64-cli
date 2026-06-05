@@ -5,8 +5,8 @@
   "releaseEligible": false,
   "package": {
     "path": "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
-    "sha256": "f4bf18bb59e22121e6976423e942b0f37fa978e63e38fd056311028e560c81b3",
-    "bytes": 29946
+    "sha256": "2aa5f8891b92472b045f8794bc32f45b31b5eaa56afec5ca7fcfdba43e807fe4",
+    "bytes": 28549
   },
   "artifacts": [
     {
@@ -16,18 +16,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "45146c8d6f553c466c63063d5b7ac2723294b801b219f0d0b23808199437ba1e",
-      "bytes": 6736
+      "sha256": "b8f1889261d3159f0a6a6b15bdc755828ac239b2e350fe62f076cee08e3c7a1f",
+      "bytes": 1891
     },
     {
       "path": "README.md",
-      "sha256": "b55f720c95839c517604fefdf53f66e9b0a2f31eac5c8e508c9c4bdcb4a8eabe",
-      "bytes": 6341
+      "sha256": "d501678c49b970c04461283bf7cf6686838a0e85530d2e342a524d025fd6b429",
+      "bytes": 5792
     },
     {
       "path": "docs/BETA5_RELEASE_SURFACE_SYNC.md",
-      "sha256": "4302993b854a2ea135e632b3da8b3b159007362bcc9951f8be0a6e7f2b2f5ddc",
-      "bytes": 3534
+      "sha256": "c7005ec764d7ab5d87e986394349febf659ce46cb9a61750ae4ef8597c646971",
+      "bytes": 3291
     },
     {
       "path": "engines/l4plus-n5/checksums.tsv",
@@ -136,28 +136,28 @@
     },
     {
       "path": "evidence/beta5-adversarial-audit/report.json",
-      "sha256": "8a6499ae280680340ba00ca9eddde667a5c353effe9b429a31aaabaf10c40467",
+      "sha256": "a05e4f80a7c8d5876d796264c314a45a337d5c6a502ec7e4e87d838cf4c0dac6",
       "bytes": 1528
     },
     {
       "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
-      "sha256": "924505155eff33cac7c668a418dc10749a9c6aea04ff8e087c024b9a46335a63",
+      "sha256": "19d131e0b7f1de0e946d153f2dd9e19899ef684d9d237636e327ba29a27fa4d1",
       "bytes": 6387
     },
     {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "9e66c3c636a548c4e82fc4355348b5550d19df71a1c3f9c912206743d9f408dd",
+      "sha256": "5e429fc57d55e9ced68e4c918189019ac2604d7e514978d46342999d8e639b50",
       "bytes": 2941
     },
     {
       "path": "evidence/beta5-release-surface-gate/report.json",
-      "sha256": "197db287958897e4bea8627bf609bdccc2140d9b54e182ee582dc999490af22f",
-      "bytes": 4992
+      "sha256": "be048b3ad1b6d836bb0d1b1bf8efac2293d55f689119187b6351a72ccdc5aabb",
+      "bytes": 4963
     },
     {
       "path": "package.json",
-      "sha256": "a9c4c6173974d17a4ce4ce76a0ca91840c5d72e065d7d2dcae7de0ce26c29282",
-      "bytes": 2381
+      "sha256": "5999977292568ce12aaed2f696e3e89d0522c1af4a29fd6cfbff3c6cc8bfb988",
+      "bytes": 2529
     },
     {
       "path": "pcd/cli_beta5_route2.pcd",

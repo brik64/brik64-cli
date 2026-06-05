@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "brik64.release_manifest_validation_report.v1",
+  "manifestPath": "release/manifest.json",
+  "version": "0.1.0-beta.5",
+  "state": "public",
+  "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
+  "releaseEligible": true,
+  "artifacts": {
+    "manifest": {
+      "path": "release/manifest.json",
+      "sha256": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+      "bytes": 4000
+    },
+    "packageJson": {
+      "path": "package.json",
+      "version": "0.1.0-beta.5"
+    },
+    "evidence": [
+      {
+        "id": "adversarialAudit",
+        "path": "evidence/beta5-adversarial-audit/report.json",
+        "expectedDecision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT",
+        "actualDecision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT",
+        "sha256": "a05e4f80a7c8d5876d796264c314a45a337d5c6a502ec7e4e87d838cf4c0dac6"
+      },
+      {
+        "id": "crossPlatformSmoke",
+        "path": "evidence/beta5-cross-platform-smoke/report.json",
+        "expectedDecision": "PASS_CROSS_PLATFORM_SMOKE",
+        "actualDecision": "PASS_CROSS_PLATFORM_SMOKE",
+        "sha256": "b000a4aacf8ccf3ac3b4019f6b6b2cbfb0a5adfeea2b1b3b381e9ef9122fd461"
+      },
+      {
+        "id": "marketplacePackages",
+        "path": "evidence/beta5-marketplace-packages/report.json",
+        "expectedDecision": "PASS_MARKETPLACE_PACKAGE_GATE",
+        "actualDecision": "PASS_MARKETPLACE_PACKAGE_GATE",
+        "sha256": "4e238a54c910086ab251bc638fc855c5f35547419e5ae5e4bb6e67734639fa1c"
+      },
+      {
+        "id": "docsWebSync",
+        "path": "evidence/beta5-docs-web-sync/report.json",
+        "expectedDecision": "PASS_DOCS_WEB_BETA5_SYNC",
+        "actualDecision": "PASS_DOCS_WEB_BETA5_SYNC",
+        "sha256": "6c46c7a462637c0159bd85857a76511e34c34cd545bf607122f602fa3a429bd8"
+      },
+      {
+        "id": "skillsSync",
+        "path": "evidence/beta5-skills-sync/report.json",
+        "expectedDecision": "PASS_SKILLS_BETA5_SYNC",
+        "actualDecision": "PASS_SKILLS_BETA5_SYNC",
+        "sha256": "0d6ff512191265d93d4242b9739f412b58971a8143eb1324ba32ba37e19d9f5b"
+      },
+      {
+        "id": "signedChecksums",
+        "path": "evidence/beta5-release-checksums/report.json",
+        "expectedDecision": "PASS_SIGNED_CHECKSUMS",
+        "actualDecision": "PASS_SIGNED_CHECKSUMS",
+        "sha256": "b8662f6771a3566eb14d5458a5d893532a791fbc3882f5bae70681f3b9420327"
+      },
+      {
+        "id": "localCompletion",
+        "path": "evidence/beta5-local-completion/report.json",
+        "expectedDecision": "PASS_BETA5_LOCAL_COMPLETION",
+        "actualDecision": "PASS_BETA5_LOCAL_COMPLETION",
+        "sha256": "5620f85b1a24825ba2fea2fbf4cd3141ad123872d66765f80af81b41664ef83f"
+      }
+    ]
+  },
+  "failures": [],
+  "warnings": [
+    "worktree_dirty_allowed:23"
+  ]
+}
