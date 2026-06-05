@@ -208,9 +208,9 @@ async function main() {
     if (!parsed.versions?.[version]) failures.push(`npm_sdk_version_missing:${version}`);
   });
 
-  await observe('pypi_sdk', 'https://pypi.org/pypi/brik64/json', (body) => {
+  await observe('pypi_sdk', `https://pypi.org/pypi/brik64/${pypiVersion}/json`, (body) => {
     const parsed = JSON.parse(body);
-    if (!parsed.releases?.[pypiVersion]) failures.push(`pypi_sdk_version_missing:${pypiVersion}`);
+    if (parsed.info?.version !== pypiVersion) failures.push(`pypi_sdk_version_missing:${pypiVersion}`);
   });
 
   await observe('crates_sdk', 'https://crates.io/api/v1/crates/brik64-core', (body) => {
