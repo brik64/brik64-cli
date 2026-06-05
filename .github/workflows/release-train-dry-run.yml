@@ -1,0 +1,51 @@
+name: Release train dry run
+
+on:
+  pull_request:
+    paths:
+      - "release/manifest.json"
+      - "scripts/release-*.js"
+      - ".github/workflows/release-train-dry-run.yml"
+      - "package.json"
+      - "CHANGELOG.md"
+      - "README.md"
+      - "evidence/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dry-run:
+    name: Validate manifest and release train
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Install dependencies when lockfile exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --ignore-scripts --no-package-lock
+          fi
+
+      - name: Release train dry run
+        run: npm run release:train:dry-run
+
+      - name: Upload dry-run evidence
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: release-train-dry-run
+          path: |
+            evidence/release-manifest-validate/report.json
+            evidence/release-train-dry-run/report.json

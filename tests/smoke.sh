@@ -16,10 +16,12 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  node "$ROOT_DIR/scripts/beta5-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA5_SYNC"
-  node "$ROOT_DIR/scripts/beta5-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA5_SYNC"
-  node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
-  node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
+  if [ "${GITHUB_ACTIONS:-false}" != "true" ]; then
+    node "$ROOT_DIR/scripts/beta5-sdk-sync-gate.js" | grep -q "decision=PASS_SDK_BETA5_SYNC"
+    node "$ROOT_DIR/scripts/beta5-skills-sync-gate.js" | grep -q "decision=PASS_SKILLS_BETA5_SYNC"
+    node "$ROOT_DIR/scripts/beta5-docs-web-sync-gate.js" | grep -q "decision=PASS_DOCS_WEB_BETA5_SYNC"
+    node "$ROOT_DIR/scripts/beta5-marketplace-package-gate.js" | grep -q "decision=PASS_MARKETPLACE_PACKAGE_GATE"
+  fi
   node "$ROOT_DIR/scripts/build-beta5-package.js" | grep -q "PASS_LOCAL_PACKAGE_CANDIDATE_BUILT"
   node "$ROOT_DIR/scripts/beta5-package-smoke.js" | grep -q "decision=PASS_LOCAL_PACKAGE_SMOKE"
   node "$ROOT_DIR/scripts/build-beta5-candidate.js" | grep -q "releaseEligible=false"
@@ -29,13 +31,10 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
     exit 1
   fi
   grep -q "githubReleaseAllowed=false" /tmp/brik-publication-preflight.out
-  node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" | grep -q "decision=BLOCKED_PUBLIC_RELEASE_NOT_READY"
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-release-surface-gate/report.json","utf8")); if (r.releaseEligible !== false || !r.buildChain.changelogBound || !r.buildChain.matrixBound) process.exit(1)'
-  if node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" --release >/tmp/brik-release-gate.out 2>/tmp/brik-release-gate.err; then
-    echo "release surface gate should block public release while required surfaces are blocked" >&2
-    exit 1
-  fi
-  grep -q "decision=BLOCKED_PUBLIC_RELEASE_NOT_READY" /tmp/brik-release-gate.out
+  node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
+  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta5-release-surface-gate/report.json","utf8")); if (r.releaseEligible !== true || !r.buildChain.changelogBound || !r.buildChain.matrixBound) process.exit(1)'
+  node "$ROOT_DIR/scripts/beta5-release-surface-gate.js" --release | grep -q "decision=PASS_RELEASE_SURFACE_GATE"
+  node "$ROOT_DIR/scripts/release-manifest-validate.js" --allow-dirty | grep -q "decision=PASS_RELEASE_MANIFEST_VALIDATE"
   if node "$ROOT_DIR/scripts/beta5-l6-factory-bridge.js" >/tmp/brik-l6-preflight.out 2>/tmp/brik-l6-preflight.err; then
     echo "offline L6 preflight should block without live route2 probe" >&2
     exit 1

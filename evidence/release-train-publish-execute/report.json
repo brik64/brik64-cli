@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "brik64.release_train_publish_execute_report.v1",
+  "releaseId": "brik64-0.1.0-beta.5",
+  "version": "0.1.0-beta.5",
+  "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "sourceHead": "7109c7e",
+  "publishRequested": false,
+  "publicationMutated": false,
+  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
+  "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
+  "dirtyFiles": [
+    "vidence/beta5-l6-factory-bridge/factory-request.json",
+    "evidence/beta5-l6-factory-bridge/preflight-report.json",
+    "evidence/beta5-local-candidate/SHA256SUMS",
+    "evidence/beta5-local-candidate/build-chain.manifest.json",
+    "evidence/beta5-package-smoke/report.json",
+    "evidence/beta5-package/SHA256SUMS",
+    "evidence/beta5-package/brik64-cli-0.1.0-beta.5-local-candidate.tgz",
+    "evidence/beta5-package/package.manifest.json",
+    "evidence/beta5-publication-preflight/manifest.json",
+    "evidence/release-manifest-validate/report.json",
+    "scripts/release-train-sync-surfaces.js"
+  ],
+  "commandPreflight": [
+    {
+      "name": "github_release",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "sdk_npm",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "sdk_pypi",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "sdk_crates",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "gcp_curl",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "docs_dispatch",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "web_dispatch",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "skills_dispatch",
+      "mutatesPublicSurface": true,
+      "pass": true,
+      "failures": []
+    },
+    {
+      "name": "post_publish_live_verify",
+      "mutatesPublicSurface": false,
+      "pass": true,
+      "failures": []
+    }
+  ],
+  "executed": [],
+  "blockers": [],
+  "failures": [],
+  "warnings": [
+    "worktree_dirty_dry_run:11"
+  ]
+}

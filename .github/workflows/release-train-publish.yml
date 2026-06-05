@@ -1,0 +1,108 @@
+name: Release train publish plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      manifest_digest:
+        description: "Expected release manifest SHA-256"
+        required: true
+        type: string
+      confirm:
+        description: "Type PUBLISH <version> <manifest_digest> to pass publication preflight"
+        required: true
+        type: string
+      execute_publication:
+        description: "Execute publication after preflight. False keeps the workflow in dry-run mode."
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  publish-plan:
+    name: Build fail-closed publication plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+
+      - name: Install dependencies when lockfile exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --ignore-scripts --no-package-lock
+          fi
+
+      - name: Validate release train before publication
+        run: |
+          npm run release:manifest:validate
+          npm run release:train:dry-run
+          npm run release:train:live-verify
+
+      - name: Check requested manifest digest
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTUAL="$(node -e 'const fs=require("fs"),crypto=require("crypto"); process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync("release/manifest.json","utf8")).digest("hex"))')"
+          test "$ACTUAL" = "${{ inputs.manifest_digest }}"
+
+      - name: Generate sync payload
+        run: npm run release:train:sync-surfaces
+
+      - name: Generate publication plan
+        env:
+          BRIK64_RELEASE_CONFIRM: ${{ inputs.confirm }}
+          BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
+          BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
+          BRIK64_CRATES_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
+          BRIK64_DOCS_DISPATCH_TOKEN: ${{ secrets.BRIK64_DOCS_DISPATCH_TOKEN }}
+          BRIK64_WEB_DEPLOY_TOKEN: ${{ secrets.BRIK64_WEB_DEPLOY_TOKEN }}
+          BRIK64_SKILLS_REPO_TOKEN: ${{ secrets.BRIK64_SKILLS_REPO_TOKEN }}
+        run: |
+          if [ "${{ inputs.execute_publication }}" = "true" ]; then
+            npm run release:train:publish-plan -- --publish
+          else
+            npm run release:train:publish-plan
+          fi
+
+      - name: Execute publication train
+        env:
+          BRIK64_RELEASE_MANIFEST_DIGEST: ${{ inputs.manifest_digest }}
+          BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
+          BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
+          BRIK64_CRATES_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
+          BRIK64_DOCS_DISPATCH_TOKEN: ${{ secrets.BRIK64_DOCS_DISPATCH_TOKEN }}
+          BRIK64_WEB_DEPLOY_TOKEN: ${{ secrets.BRIK64_WEB_DEPLOY_TOKEN }}
+          BRIK64_SKILLS_REPO_TOKEN: ${{ secrets.BRIK64_SKILLS_REPO_TOKEN }}
+        run: |
+          if [ "${{ inputs.execute_publication }}" = "true" ]; then
+            npm run release:train:publish-execute -- --publish
+          else
+            npm run release:train:publish-execute
+          fi
+
+      - name: Upload publication planning evidence
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: release-train-publish-plan
+          path: |
+            evidence/release-train-sync/changelog.md
+            evidence/release-train-sync/sync-payload.json
+            evidence/release-train-sync/report.json
+            evidence/release-train-publish-plan/report.json
+            evidence/release-train-publish-execute/report.json

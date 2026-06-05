@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta5_l6_factory_request.v1",
   "version": "0.1.0-beta.5",
-  "generatedAt": "2026-06-04T20:58:08.176Z",
+  "generatedAt": "2026-06-05T10:11:54.986Z",
   "lane": "internal_non_claim_l6_factory_bridge",
   "releaseEligible": false,
   "sourceRepository": "brik64/brik64-cli",
@@ -70,5 +70,5 @@
     ],
     "releaseAllowed": false
   },
-  "requestSha256": "f65415f729b04040bc7d1e0cf551fde0487d9ba7484d4b2ec00702069fa33d7b"
+  "requestSha256": "9645d588b23086ed74c793fc14250dae6afca0d22e98738f7a84394b5b6758cd"
 }

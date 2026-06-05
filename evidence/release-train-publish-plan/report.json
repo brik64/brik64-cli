@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "brik64.release_train_publish_plan.v1",
+  "releaseId": "brik64-0.1.0-beta.5",
+  "version": "0.1.0-beta.5",
+  "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
+  "publishRequested": false,
+  "publicationAllowed": false,
+  "expectedConfirm": "PUBLISH 0.1.0-beta.5 058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "secretAvailability": {
+    "BRIK64_GITHUB_RELEASE_TOKEN": false,
+    "BRIK64_GCP_RELEASE_CREDENTIALS": false,
+    "BRIK64_NPM_TOKEN": false,
+    "BRIK64_PYPI_TOKEN": false,
+    "BRIK64_CRATES_TOKEN": false,
+    "BRIK64_DOCS_DISPATCH_TOKEN": false,
+    "BRIK64_WEB_DEPLOY_TOKEN": false,
+    "BRIK64_SKILLS_REPO_TOKEN": false
+  },
+  "commands": [
+    {
+      "name": "github_release",
+      "description": "Create or update the GitHub Release from the manifest version and committed assets.",
+      "command": "gh release view v0.1.0-beta.5 --repo brik64/brik64-cli || gh release create v0.1.0-beta.5 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.5\" --notes-file CHANGELOG.md",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "sdk_npm",
+      "description": "Publish the TypeScript SDK package with the manifest beta version.",
+      "command": "npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta5-pack/brik64-core-0.1.0-beta.5.tgz",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "sdk_pypi",
+      "description": "Publish the Python SDK package with twine.",
+      "command": "python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b5*",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "sdk_crates",
+      "description": "Publish the Rust SDK crate.",
+      "command": "cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml --token \"$BRIK64_CRATES_TOKEN\"",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "gcp_curl",
+      "description": "Upload CLI installer metadata and package artifacts to the curl/GCP public surface.",
+      "command": "scripts/release/upload-gcp-curl-surface.sh release/manifest.json",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "docs_dispatch",
+      "description": "Dispatch docs update using the manifest payload.",
+      "command": "gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --raw-field event_type=brik64-release-manifest --input evidence/release-train-sync/sync-payload.json",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "web_dispatch",
+      "description": "Dispatch web/CMS update using the manifest payload.",
+      "command": "gh api repos/brik64-admin/brik64.com/dispatches --method POST --raw-field event_type=brik64-release-manifest --input evidence/release-train-sync/sync-payload.json",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "skills_dispatch",
+      "description": "Dispatch public skills metadata refresh.",
+      "command": "gh api repos/brik64/brik64-tools-skills/dispatches --method POST --raw-field event_type=brik64-release-manifest --input evidence/release-train-sync/sync-payload.json",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "post_publish_live_verify",
+      "description": "Re-run public live verification after publication.",
+      "command": "node scripts/release-train-live-verify.js",
+      "mutatesPublicSurface": false
+    }
+  ],
+  "rollback": [
+    "Do not delete historical release artifacts.",
+    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.5.",
+    "Restore curl/GCP channel manifest to the previous known-good manifest object.",
+    "Create a GitHub Release note amendment that points to the superseding manifest.",
+    "Run release-train-live-verify and keep the failed report as evidence."
+  ],
+  "failures": [],
+  "warnings": [],
+  "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
+}

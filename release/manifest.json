@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "brik64.release_manifest.v1",
+  "releaseId": "brik64-0.1.0-beta.5",
+  "version": "0.1.0-beta.5",
+  "channel": "beta",
+  "state": "public",
+  "createdAt": "2026-06-05T00:00:00Z",
+  "source": {
+    "repo": "brik64/brik64-cli",
+    "branch": "codex/release-train-ci",
+    "commit": "e8e72cd"
+  },
+  "cli": {
+    "packageName": "@brik64/cli",
+    "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
+    "verifyCommand": "brik64 --version",
+    "targets": [
+      {
+        "platform": "darwin",
+        "required": true,
+        "runtime": "node>=20"
+      },
+      {
+        "platform": "linux",
+        "required": true,
+        "runtime": "node>=20"
+      },
+      {
+        "platform": "windows-x64-native",
+        "required": false,
+        "status": "not_published"
+      }
+    ]
+  },
+  "sdks": [
+    {
+      "language": "typescript",
+      "package": "@brik64/core",
+      "marketplace": "npm",
+      "version": "0.1.0-beta.5",
+      "required": true
+    },
+    {
+      "language": "python",
+      "package": "brik64",
+      "marketplace": "pypi",
+      "version": "0.1.0b5",
+      "required": true
+    },
+    {
+      "language": "rust",
+      "package": "brik64-core",
+      "marketplace": "crates.io",
+      "version": "0.1.0-beta.5",
+      "required": true
+    }
+  ],
+  "publicSurfaces": {
+    "githubRelease": {
+      "required": true,
+      "tag": "v0.1.0-beta.5",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5"
+    },
+    "curlInstaller": {
+      "required": true,
+      "url": "https://brik64.com/cli/install.sh"
+    },
+    "channelManifest": {
+      "required": true,
+      "url": "https://brik64.com/cli/beta.json"
+    },
+    "web": {
+      "required": true,
+      "urls": [
+        "https://brik64.com/",
+        "https://brik64.com/changelog"
+      ]
+    },
+    "docs": {
+      "required": true,
+      "urls": [
+        "https://docs.brik64.com/cli/install.md"
+      ]
+    },
+    "skills": {
+      "required": true,
+      "repo": "brik64/brik64-tools-skills"
+    }
+  },
+  "releaseNotes": [
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Adds local workspace checks, project initialization, PCD certification, and hash-bound candidate output generation."
+    },
+    {
+      "type": "added",
+      "surface": "installer",
+      "text": "Publishes the beta CLI through the curl installer and GitHub Release assets for macOS and Linux users with Node.js 20 or newer."
+    },
+    {
+      "type": "added",
+      "surface": "sdk",
+      "text": "Publishes matching beta SDK packages for TypeScript, Python, and Rust."
+    },
+    {
+      "type": "changed",
+      "surface": "docs",
+      "text": "Updates public install guidance, release notes, skills, and SDK references to the beta5 version."
+    }
+  ],
+  "verification": {
+    "requiredEvidence": [
+      {
+        "id": "adversarialAudit",
+        "path": "evidence/beta5-adversarial-audit/report.json",
+        "decision": "PASS_BETA5_LOCAL_ADVERSARIAL_AUDIT"
+      },
+      {
+        "id": "crossPlatformSmoke",
+        "path": "evidence/beta5-cross-platform-smoke/report.json",
+        "decision": "PASS_CROSS_PLATFORM_SMOKE"
+      },
+      {
+        "id": "marketplacePackages",
+        "path": "evidence/beta5-marketplace-packages/report.json",
+        "decision": "PASS_MARKETPLACE_PACKAGE_GATE"
+      },
+      {
+        "id": "docsWebSync",
+        "path": "evidence/beta5-docs-web-sync/report.json",
+        "decision": "PASS_DOCS_WEB_BETA5_SYNC"
+      },
+      {
+        "id": "skillsSync",
+        "path": "evidence/beta5-skills-sync/report.json",
+        "decision": "PASS_SKILLS_BETA5_SYNC"
+      },
+      {
+        "id": "signedChecksums",
+        "path": "evidence/beta5-release-checksums/report.json",
+        "decision": "PASS_SIGNED_CHECKSUMS"
+      },
+      {
+        "id": "localCompletion",
+        "path": "evidence/beta5-local-completion/report.json",
+        "decision": "PASS_BETA5_LOCAL_COMPLETION"
+      }
+    ]
+  }
+}

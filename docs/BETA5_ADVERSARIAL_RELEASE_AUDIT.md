@@ -227,23 +227,6 @@ Every audit run must produce a report with:
 
 The release manager must treat missing report fields as `BLOCKED_AUDIT_SCHEMA`.
 
-## CI Boundary
-
-`npm test` runs the portable CLI smoke by default so GitHub Actions can verify
-the public command surface without sibling private/local repositories.
-
-Release-local gates that depend on sibling SDK repos, local signed checksums,
-Hetzner smoke, docs/web source checkouts or marketplace package artifacts must
-run with:
-
-```bash
-BRIK64_RELEASE_GATES=1 npm test
-```
-
-Public CI passing is necessary but not sufficient for release. A release manager
-must also attach the clean-room adversarial report and release-local gate
-outputs before publishing.
-
 ## Current Beta5 Agent Assignment
 
 An adversarial execution worker has been assigned to run this methodology in:

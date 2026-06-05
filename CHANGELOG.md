@@ -1,60 +1,51 @@
 # Changelog
 
-All notable public BRIK64 CLI changes are recorded here.
+All notable BRIK64 CLI changes are recorded here. This file is required for
+every beta, release candidate, or public release train.
 
-## 0.1.0-beta.5 - Public Beta
+## 0.1.0-beta.5
 
 ### Added
 
-- Added `brik doctor` to inspect a local `.brik` workspace and report whether
-  the beta workspace contract is valid.
-- Added `brik engine status` to show the packaged offline `L4+N5` runtime
-  bundle, artifact count, runtime mode and public claim boundary.
-- Added local PCD certification with `brik certify <file.pcd>`.
-- Added local code emission with `brik emit <file.pcd> --target ts|rust|python
-  --out <dir> --tests`.
-- Added generated test files for TypeScript, Rust and Python emission targets.
-- Added a packaged beta5 CLI artifact with SHA-256 checksums and signature
-  files for release distribution.
-- Added public beta documentation for the beta5 release surface and
-  distribution readiness.
+- Added local workspace validation with `brik64 doctor`.
+- Added `brik64 engine status` so users can inspect the packaged offline
+  runtime bundle installed with the CLI.
+- Added hash-bound candidate output generation for TypeScript, Rust, and
+  Python through `brik64 emit --target <ts|rust|python>`.
+- Added package checksums and local install smoke coverage for the public beta
+  package.
+- Added matching beta SDK package coordinates for TypeScript, Python, and Rust.
+- Added public release-train validation so CLI, SDK, docs, web, skills,
+  release notes, and installer metadata can be checked from one manifest.
 
 ### Changed
 
-- Updated the CLI version and project metadata to `0.1.0-beta.5`.
-- Updated beta install and distribution documentation to keep curl/GitHub as
-  the CLI distribution path.
-- Updated SDK alignment references for JS/TS, Python and Rust beta5 packages.
-- Updated public skills and docs references so beta5 surfaces use consistent
-  command names and candidate boundaries.
-- Improved emitted TypeScript, Rust and Python files so outputs include the
-  source PCD hash and local beta claim boundary.
+- Updates public install guidance from beta4 to beta5.
+- Clarifies that npm is used for SDK packages, while the CLI install path is
+  the curl installer and GitHub Release assets.
+- Improves failure boundaries for stale certificates, tampered runtime metadata,
+  and mismatched generated outputs.
+- Aligns public docs, website install surfaces, skills, SDK references, and
+  release notes to beta5.
 
 ### Fixed
 
-- `brik emit` now fails closed when the source PCD changes after certification.
-- `brik emit` now rejects unsupported targets instead of generating placeholder
-  output.
-- `brik emit --out` now rejects output directories that resolve outside the
-  current workspace.
-- Expected filesystem errors during output generation now return controlled CLI
-  errors instead of Node.js stack traces.
-- Empty, corrupt, binary and over-limit PCD inputs now fail closed with explicit
-  errors.
-- Corrupt or policy-invalid `.brik/manifest.json` files now fail closed before
-  certification or emission.
+- Fixes stale beta references in local seed metadata and public install
+  surfaces.
+- Fixes release notes that previously mixed public functionality with internal
+  operating details.
+- Fixes docs and skills drift where older beta package coordinates could remain
+  visible.
 
-### Public Boundary
+### Compatibility
 
-- The beta5 CLI supports local workspace inspection, PCD certification and
-  local emission for TypeScript, Rust and Python.
-- The packaged runtime is an offline portable `L4+N5` bundle. It is not a
-  native executable runtime.
-- GitHub/curl are the CLI distribution channels. npm/PyPI/Cargo are reserved
-  for SDK packages.
-- Windows and Linux ARM distribution are not included in this beta5 public
-  package.
+- macOS and Linux are the current installable CLI lanes for beta5.
+- Node.js 20 or newer is required.
+- Windows native executables are not published in this beta.
 
-## 0.1.0-beta.4 - Published Beta
+## 0.1.0-beta.4 - Published Beta Reference
 
-- Published curl/GitHub distribution for the previous public beta line.
+Status: latest prior public release reference.
+
+Use GitHub Releases, curl installer metadata and published docs as the authority
+for what beta4 made publicly installable.

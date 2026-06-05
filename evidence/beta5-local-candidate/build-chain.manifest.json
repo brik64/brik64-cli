@@ -68,12 +68,12 @@
   "l6FactoryBridge": {
     "request": {
       "path": "evidence/beta5-l6-factory-bridge/factory-request.json",
-      "sha256": "b388a57913d5227a3656bc09e51003c2cf07b1d4799811cfb00a8c9cd3682737",
+      "sha256": "42dc8c50de312c4d7cc7edd8617b15988bee411790a66a9b6ed7a28f83c9a0c4",
       "bytes": 2468
     },
     "preflightReport": {
       "path": "evidence/beta5-l6-factory-bridge/preflight-report.json",
-      "sha256": "7ecbbff6e932efcbe52635e167dfb43e3385e9988cbfca86305c94989aef1c9f",
+      "sha256": "1d3fa7e50d3f11c6141e2c295b13b0abb5de325cdbca56f87c7403dbf87632c7",
       "bytes": 717
     },
     "route2GenerationReport": {
@@ -89,23 +89,23 @@
   "releaseSurfaceSync": {
     "changelog": {
       "path": "CHANGELOG.md",
-      "sha256": "ea223a4ded09b86ecd62b97f256bddefdffb3cabc358fb603d4e285a5286fd29",
-      "bytes": 2468
+      "sha256": "b8f1889261d3159f0a6a6b15bdc755828ac239b2e350fe62f076cee08e3c7a1f",
+      "bytes": 1891
     },
     "matrix": {
       "path": "docs/BETA5_RELEASE_SURFACE_SYNC.md",
-      "sha256": "4302993b854a2ea135e632b3da8b3b159007362bcc9951f8be0a6e7f2b2f5ddc",
-      "bytes": 3534
+      "sha256": "c7005ec764d7ab5d87e986394349febf659ce46cb9a61750ae4ef8597c646971",
+      "bytes": 3291
     },
     "adversarialMethodology": {
       "path": "docs/BETA5_ADVERSARIAL_RELEASE_AUDIT.md",
-      "sha256": "49a5fe3820f4222852cb20868b94796a867fcb77b15c1a98354bb0904b6836f8",
-      "bytes": 7813
+      "sha256": "0dc4c6ad941ec5397195ed798b33ac942ab8b9f267b8789a1b2d600f3b42b1b0",
+      "bytes": 7250
     },
     "gateReport": {
       "path": "evidence/beta5-release-surface-gate/report.json",
-      "sha256": "6a07e19da3a772dbf33bb7cf2864217f0a7280a2084b7dbf7ad3eb30be18c3bf",
-      "bytes": 4991
+      "sha256": "9eb127d1641d2ca33f89ae54e616fc534b190943e717f531890d485beb90788b",
+      "bytes": 4964
     },
     "sdkSyncReport": {
       "path": "evidence/beta5-sdk-sync/report.json",
@@ -114,7 +114,7 @@
     },
     "skillsSyncReport": {
       "path": "evidence/beta5-skills-sync/report.json",
-      "sha256": "56cd63f1f987840061c7cfcacf8d94e2923a3d5b5b41fa948bd4499b459075aa",
+      "sha256": "0d6ff512191265d93d4242b9739f412b58971a8143eb1324ba32ba37e19d9f5b",
       "bytes": 1953
     },
     "docsWebSyncReport": {
@@ -129,22 +129,22 @@
     },
     "publicationPreflight": {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "7177cfd75011d6fe223532df06faa15d8e98b8bb6c616699095af82248cc2a24",
+      "sha256": "bd1d48e63c9160392039abcd5ed6606b2811da2fcf0988867068657a11468c2d",
       "bytes": 2941
     },
     "adversarialAudit": {
       "path": "evidence/beta5-adversarial-audit/report.json",
-      "sha256": "fad67c2e82bfa730d4973f095d2f1e2a6eb6b493407b1a759f468642786a1d6b",
+      "sha256": "a05e4f80a7c8d5876d796264c314a45a337d5c6a502ec7e4e87d838cf4c0dac6",
       "bytes": 1528
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "8f5fe36c7ac6b152f14a9d8ff8b22e83b6455958c364d41d9278e51f78580924",
+      "sha256": "9c3926f9dde85217040b04f1e3a3729e2194263209b915d493338012937c6100",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "fa365cb3088e51e83e4029ac66e4ca5b50469e0bd40fee516989004b80132dd0",
+      "sha256": "13e7fda3abbade1e787172cc4d1b304c4fb62f2d915408fa7b37d28066d0edb4",
       "bytes": 606
     },
     "crossPlatformSmoke": {
@@ -159,7 +159,7 @@
     },
     "localCompletion": {
       "path": "evidence/beta5-local-completion/report.json",
-      "sha256": "59d58e76dd7c2e3021efc3f8ede2abe4dca0ac39893cc7bb4cda7611bdb4a0f3",
+      "sha256": "5620f85b1a24825ba2fea2fbf4cd3141ad123872d66765f80af81b41664ef83f",
       "bytes": 4039
     },
     "requiredBeforeRelease": [
