@@ -35,6 +35,7 @@
     "preflight:beta5:l6": "node scripts/beta5-l6-factory-bridge.js",
     "preflight:beta5:l6:live": "node scripts/beta5-l6-factory-bridge.js --live",
     "generate:beta5:l6-route2": "node scripts/beta5-l6-route2-generate.js",
+    "gate:beta6:l6-hetzner": "node scripts/beta6-l6-hetzner-generation-gate.js",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
     "release:train:live-verify": "node scripts/release-train-live-verify.js",

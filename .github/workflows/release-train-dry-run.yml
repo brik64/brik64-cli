@@ -5,10 +5,13 @@ on:
     paths:
       - "release/manifest.json"
       - "scripts/release-*.js"
+      - "scripts/beta6-l6-hetzner-generation-gate.js"
       - ".github/workflows/release-train-dry-run.yml"
       - "package.json"
       - "CHANGELOG.md"
       - "README.md"
+      - "docs/BETA6_RELEASE_PLAN.md"
+      - "docs/BETA6_L6_HETZNER_GENERATION_ENDPOINT.md"
       - "evidence/**"
   workflow_dispatch:
 
