@@ -68,9 +68,10 @@ function main() {
   if (initialDirtyFiles.length > 0 && !allowDirty) failures.push(`initial_worktree_dirty:${initialDirtyFiles.length}`);
 
   const beta6Draft = manifest.version === '0.1.0-beta.6' && manifest.state === 'draft';
+  const runLiveL6Gate = process.env.GITHUB_ACTIONS !== 'true' || process.env.BRIK64_L6_LIVE_GATES === '1';
   const commands = [
     run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
-    ...(manifest.version === '0.1.0-beta.6'
+    ...(manifest.version === '0.1.0-beta.6' && runLiveL6Gate
       ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
       : []),
     run('smoke_tests', ['bash', '-lc', 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
