@@ -69,7 +69,7 @@ function main() {
 
   const commands = [
     run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
-    run('smoke_tests', ['npm', 'test']),
+    run('smoke_tests', ['bash', '-lc', 'BRIK64_RELEASE_GATES=1 npm test']),
     run('release_surface_gate', ['node', 'scripts/beta5-release-surface-gate.js']),
     run('publication_preflight', ['node', 'scripts/beta5-publication-preflight.js']),
     run('sync_surfaces', ['node', 'scripts/release-train-sync-surfaces.js']),

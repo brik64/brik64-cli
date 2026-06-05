@@ -40,7 +40,7 @@ jobs:
           if [ -f package-lock.json ]; then
             npm ci
           else
-            npm install --ignore-scripts
+            npm install --ignore-scripts --no-package-lock
           fi
 
       - name: Validate release train before publication
