@@ -67,7 +67,6 @@ function main() {
 
   const requiredSecrets = [
     'BRIK64_GITHUB_RELEASE_TOKEN',
-    'BRIK64_GCP_RELEASE_CREDENTIALS',
     'BRIK64_NPM_TOKEN',
     'BRIK64_PYPI_TOKEN',
     'BRIK64_CRATES_TOKEN',
@@ -76,10 +75,17 @@ function main() {
     'BRIK64_SKILLS_REPO_TOKEN'
   ];
   const secretAvailability = Object.fromEntries(requiredSecrets.map((name) => [name, Boolean(process.env[name])]));
+  secretAvailability.BRIK64_GCP_RELEASE_CREDENTIALS = Boolean(process.env.BRIK64_GCP_RELEASE_CREDENTIALS);
+  secretAvailability.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER = Boolean(process.env.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER);
+  secretAvailability.BRIK64_GCP_SERVICE_ACCOUNT = Boolean(process.env.BRIK64_GCP_SERVICE_ACCOUNT);
+  const gcpAuthAvailable = secretAvailability.BRIK64_GCP_RELEASE_CREDENTIALS
+    || (secretAvailability.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER && secretAvailability.BRIK64_GCP_SERVICE_ACCOUNT);
   if (publishRequested) {
     for (const [name, present] of Object.entries(secretAvailability)) {
+      if (name.startsWith('BRIK64_GCP_')) continue;
       if (!present) failures.push(`required_secret_missing:${name}`);
     }
+    if (!gcpAuthAvailable) failures.push('required_gcp_auth_missing:BRIK64_GCP_RELEASE_CREDENTIALS_or_WORKLOAD_IDENTITY');
   }
 
   const commands = [
