@@ -8,13 +8,13 @@
   "artifacts": {
     "buildChain": {
       "path": "evidence/beta5-local-candidate/build-chain.manifest.json",
-      "sha256": "7c42db4bc03ec712291265541c0372155dc82796a71518f495e40389d209284e",
+      "sha256": "cbf1c36173ed814e3e1c6fcd85dabeae8ef86038dd1606cd4dc7e55d2007dd3a",
       "bytes": 6387
     },
     "hardenedCandidate": {
       "path": "evidence/beta5-local-candidate/brik64-beta5.candidate.hardened.js",
-      "sha256": "ccf8c0e979fe3d4aaf34863e54718b2cca60573541741c1f6c903dd1f4e3eb24",
-      "bytes": 16696
+      "sha256": "2fe7744a33afaa873d70a2f8d917c41be71068de2f1dfbc24e7cf97eb9c3a46f",
+      "bytes": 28064
     },
     "l4RuntimeBundle": {
       "path": "engines/l4plus-n5/runtime-bundle.manifest.json",
@@ -48,12 +48,12 @@
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "49817b3028102d180dd06982a97d44b60a054837e569e90d35530dd1962bb282",
+      "sha256": "a22c7c386e6b71882126bfdbcdffdb19e889258c7de26ce67839875d7e687e2e",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "63f34fefa85dc8f6f46b9581a5d6be58454f7805f3f8dddbfda95aafa0c7ac26",
+      "sha256": "146d5e5dc12beaa1ecc219984167f367c891de4ab5dc234c429a43fc2373f73d",
       "bytes": 606
     },
     "crossPlatformSmoke": {

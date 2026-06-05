@@ -12,8 +12,8 @@
   ],
   "chain": {
     "pcd_inventory_sha256": "cfd6b2ac0a0cb43957b547f792f3e7e060a9cc16db901998721800d5066fc509",
-    "bootstrap_source_sha256": "427fada0ae2975f78499c3283360aa067b2e4ac6642b60ffd58fc069fd54421f",
-    "hardened_artifact_sha256": "ccf8c0e979fe3d4aaf34863e54718b2cca60573541741c1f6c903dd1f4e3eb24"
+    "bootstrap_source_sha256": "00fa2405c4d34d2f31a03f85cef6df9df11552cddaa65395848abe5c8a7faed7",
+    "hardened_artifact_sha256": "2fe7744a33afaa873d70a2f8d917c41be71068de2f1dfbc24e7cf97eb9c3a46f"
   },
   "pcds": [
     {
@@ -68,12 +68,12 @@
   "l6FactoryBridge": {
     "request": {
       "path": "evidence/beta5-l6-factory-bridge/factory-request.json",
-      "sha256": "e95a10a372c86b4505642d00907c5c27f63d68685b107f0253cc46b728c31b45",
+      "sha256": "bbd88fed25bcbd05acef146f20ef6fe95b1c57adeeb926822a7486ac8e593705",
       "bytes": 2468
     },
     "preflightReport": {
       "path": "evidence/beta5-l6-factory-bridge/preflight-report.json",
-      "sha256": "2c12c431a2f22cdaf49a9599228eabdb6c3f52462f3a7a3e038362af7091be62",
+      "sha256": "cd9fa1909f7d60e11a7258e5fc9de7269de45921648a994577d429b2bce6c23d",
       "bytes": 717
     },
     "route2GenerationReport": {
@@ -129,7 +129,7 @@
     },
     "publicationPreflight": {
       "path": "evidence/beta5-publication-preflight/manifest.json",
-      "sha256": "7de486f64f8d089af272df832f6ee68bff0bbf042521b62e8a838a512cc2dcfb",
+      "sha256": "c612a3c03a94788fab6f2a6e1c4533721763144c3930396a953ab70cd77ac30d",
       "bytes": 2941
     },
     "adversarialAudit": {
@@ -139,12 +139,12 @@
     },
     "localPackageManifest": {
       "path": "evidence/beta5-package/package.manifest.json",
-      "sha256": "49817b3028102d180dd06982a97d44b60a054837e569e90d35530dd1962bb282",
+      "sha256": "a22c7c386e6b71882126bfdbcdffdb19e889258c7de26ce67839875d7e687e2e",
       "bytes": 6417
     },
     "localPackageSmoke": {
       "path": "evidence/beta5-package-smoke/report.json",
-      "sha256": "63f34fefa85dc8f6f46b9581a5d6be58454f7805f3f8dddbfda95aafa0c7ac26",
+      "sha256": "146d5e5dc12beaa1ecc219984167f367c891de4ab5dc234c429a43fc2373f73d",
       "bytes": 606
     },
     "crossPlatformSmoke": {
