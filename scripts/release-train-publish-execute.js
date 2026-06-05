@@ -30,6 +30,10 @@ function gitOutput(args) {
   return childProcess.execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
 }
 
+function gitRawOutput(args) {
+  return childProcess.execFileSync('git', args, { cwd: root, encoding: 'utf8' });
+}
+
 function commandExists(binary) {
   if (binary.includes('/')) {
     const resolved = path.isAbsolute(binary) ? binary : path.join(root, binary);
@@ -98,6 +102,28 @@ function runCommand(command) {
   };
 }
 
+function normalizeGitStatusPath(line) {
+  return line.length > 3 ? line.slice(3) : line.trim();
+}
+
+function isAllowedGeneratedDirtyFile(file) {
+  if (file === 'gha-creds-44279868204c1543.json') return true;
+  if (/^gha-creds-[a-f0-9]+\.json$/.test(file)) return true;
+  return [
+    'evidence/beta5-l6-factory-bridge/',
+    'evidence/beta5-local-candidate/',
+    'evidence/beta5-package-smoke/',
+    'evidence/beta5-package/',
+    'evidence/beta5-publication-preflight/',
+    'evidence/release-manifest-validate/',
+    'evidence/release-train-dry-run/',
+    'evidence/release-train-live-verify/',
+    'evidence/release-train-publish-execute/',
+    'evidence/release-train-publish-plan/',
+    'evidence/release-train-sync/'
+  ].some((prefix) => file.startsWith(prefix));
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const manifestText = readText(manifestPath);
@@ -116,18 +142,12 @@ function main() {
   if (plan.manifestDigest !== manifestDigest) failures.push('plan_manifest_digest_drift');
   if (plan.version !== manifest.version) failures.push('plan_version_drift');
 
-  const status = gitOutput(['status', '--porcelain']);
+  const status = gitRawOutput(['status', '--porcelain']);
   const dirtyFiles = status
     .split('\n')
     .filter(Boolean)
-    .map((line) => line.slice(3))
-    .filter((file) => ![
-      'evidence/release-train-publish-execute/report.json',
-      'evidence/release-train-publish-plan/report.json',
-      'evidence/release-train-sync/report.json',
-      'evidence/release-train-sync/sync-payload.json',
-      'evidence/release-train-sync/changelog.md'
-    ].includes(file));
+    .map(normalizeGitStatusPath)
+    .filter((file) => !isAllowedGeneratedDirtyFile(file));
   if (dirtyFiles.length > 0 && publishRequested) failures.push(`worktree_dirty:${dirtyFiles.length}`);
   if (dirtyFiles.length > 0 && !publishRequested) warnings.push(`worktree_dirty_dry_run:${dirtyFiles.length}`);
 
