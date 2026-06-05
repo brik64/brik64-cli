@@ -50,10 +50,12 @@ function main() {
   const confirm = process.env.BRIK64_RELEASE_CONFIRM || '';
   const releaseTag = manifest.publicSurfaces.githubRelease.tag;
   const expectedConfirm = `PUBLISH ${manifest.version} ${manifestDigest}`;
+  const dryRunInProgress = process.env.BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS === '1';
 
   if (manifest.state !== 'public') failures.push(`manifest_state_not_public:${manifest.state}`);
-  if (dryRun.decision !== 'PASS_RELEASE_TRAIN_DRY_RUN') failures.push(`dry_run_not_green:${dryRun.decision}`);
-  if (dryRun.manifestDigest !== manifestDigest) failures.push('dry_run_manifest_digest_drift');
+  if (!dryRunInProgress && dryRun.decision !== 'PASS_RELEASE_TRAIN_DRY_RUN') failures.push(`dry_run_not_green:${dryRun.decision}`);
+  if (!dryRunInProgress && dryRun.manifestDigest !== manifestDigest) failures.push('dry_run_manifest_digest_drift');
+  if (dryRunInProgress) warnings.push('dry_run_report_currently_being_generated');
   if (liveVerify.decision !== 'PASS_RELEASE_TRAIN_LIVE_VERIFY') failures.push(`live_verify_not_green:${liveVerify.decision}`);
   if (liveVerify.manifestDigest !== manifestDigest) failures.push('live_verify_manifest_digest_drift');
 
@@ -166,6 +168,7 @@ PY`,
         ? 'PASS_PUBLISH_PREFLIGHT_READY_TO_MUTATE'
         : 'PASS_PUBLISH_PLAN_DRY_RUN'
       : 'FAIL_PUBLISH_PREFLIGHT',
+    dryRunInProgress,
     publishRequested,
     publicationAllowed: publishRequested && failures.length === 0,
     expectedConfirm,
