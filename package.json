@@ -63,6 +63,7 @@
     "release:train:sync-surfaces": "node scripts/release-train-sync-surfaces.js",
     "release:train:publish-plan": "node scripts/release-train-publish-plan.js",
     "release:train:publish-execute": "node scripts/release-train-publish-execute.js",
+    "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",
     "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js"
   },
   "author": {
