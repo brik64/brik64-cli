@@ -63,7 +63,17 @@ The public key fingerprint must match:
 SHA256:OEJJTFqu5VlYv7mAH3iGhTpIVhQLYbMaSzZ9Y+MLwFo
 ```
 
-Preferred API path after scopes are authorized:
+Preferred repo command after scopes are authorized:
+
+```bash
+npm run release:github-signing-key:register -- --execute
+```
+
+The command is idempotent. It lists existing GitHub SSH signing keys, compares
+public fingerprints, and only submits the public key when no matching key
+exists.
+
+Equivalent API path:
 
 ```bash
 gh api user/ssh_signing_keys \
