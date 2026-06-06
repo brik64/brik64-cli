@@ -14,7 +14,17 @@ process.stdout.on('error', (error) => {
 });
 
 function readJson(file) {
-  return JSON.parse(fs.readFileSync(file, 'utf8'));
+  let text = '';
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    text = fs.readFileSync(file, 'utf8');
+    if (text.trim().length > 0) break;
+    childProcess.spawnSync('node', ['-e', 'Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100)']);
+  }
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`json_parse_failed:${path.relative(root, file)}:${error.message}`);
+  }
 }
 
 function readText(file) {

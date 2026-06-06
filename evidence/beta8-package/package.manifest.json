@@ -7,8 +7,8 @@
   "generationClaim": "internal_generation_non_claim",
   "package": {
     "path": "evidence/beta8-package/brik64-cli-0.1.0-beta.8.tgz",
-    "sha256": "06798d5ab53b224be48a84782faec351ca2e32bcd08063bd4098f8c27b019084",
-    "bytes": 24491
+    "sha256": "32e043439fa9aac798782487094d72fd31005431ced26fb2c2fb18c1ee6b52d3",
+    "bytes": 24497
   },
   "inputGates": [
     "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
