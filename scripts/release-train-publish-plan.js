@@ -66,6 +66,8 @@ function main() {
   const pythonSdkVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version;
   const signatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
   const signatureReport = fs.existsSync(signatureReportPath) ? readJson(signatureReportPath) : null;
+  const currentHead = gitOutput(['rev-parse', '--short', 'HEAD']);
+  const currentHeadFull = gitOutput(['rev-parse', 'HEAD']);
 
   if (manifest.state !== 'public') failures.push(`manifest_state_not_public:${manifest.state}`);
   if (label === 'beta8') {
@@ -75,6 +77,8 @@ function main() {
       failures.push(`beta8_github_verified_signature_not_pass:${signatureReport.decision}`);
     } else if (signatureReport.boundary?.publicReleaseAllowed !== true) {
       failures.push('beta8_github_verified_signature_public_release_not_allowed');
+    } else if (signatureReport.commit !== currentHeadFull) {
+      failures.push(`beta8_github_verified_signature_commit_drift:${signatureReport.commit}:${currentHeadFull}`);
     }
   }
   if (!dryRunInProgress && dryRun.decision !== 'PASS_RELEASE_TRAIN_DRY_RUN') failures.push(`dry_run_not_green:${dryRun.decision}`);
@@ -86,7 +90,6 @@ function main() {
     warnings.push(liveVerify ? `pre_publish_live_verify_not_green:${liveVerify.decision}` : 'pre_publish_live_verify_missing');
   }
 
-  const currentHead = gitOutput(['rev-parse', '--short', 'HEAD']);
   if (manifest.source.commit !== currentHead && gitStatus(['merge-base', '--is-ancestor', manifest.source.commit, 'HEAD']) !== 0) {
     warnings.push(`manifest_source_commit_not_ancestor:${manifest.source.commit}:${currentHead}`);
   }
