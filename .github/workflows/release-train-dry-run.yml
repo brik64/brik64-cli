@@ -16,6 +16,7 @@ on:
       - "CHANGELOG.md"
       - "README.md"
       - "docs/BETA8_RELEASE_PLAN.md"
+      - "docs/GITHUB_SIGNING_KEY_RUNBOOK.md"
       - "pcd/**"
       - "engines/l4plus-n5/**"
       - "docs/BETA7_RELEASE_PLAN.md"
