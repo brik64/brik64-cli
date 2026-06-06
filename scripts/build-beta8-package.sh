@@ -23,6 +23,7 @@ need_cmd tar
 need_cmd shasum
 
 sha256_file() { shasum -a 256 "$1" | awk '{print $1}'; }
+file_size() { wc -c < "$1" | tr -d '[:space:]'; }
 
 read_json_field() {
   local file="$1"
@@ -122,7 +123,7 @@ jq -n \
   --arg version "$VERSION" \
   --arg packagePath "evidence/beta8-package/$PACKAGE_NAME" \
   --arg packageSha "$package_sha" \
-  --argjson packageBytes "$(stat -f '%z' "$PACKAGE_PATH")" \
+  --argjson packageBytes "$(file_size "$PACKAGE_PATH")" \
   '{
     schemaVersion:"brik64.cli_beta8_package_manifest.v1",
     version:$version,
