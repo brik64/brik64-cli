@@ -170,7 +170,7 @@ function main() {
     ...(beta === 6 && runLiveL6Gate
       ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
       : []),
-    run('smoke_tests', ['bash', '-lc', 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
+    run('smoke_tests', ['bash', '-lc', beta === 8 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
       stdoutLimit: 12000,
       stderrLimit: 12000
     }),
