@@ -106,7 +106,7 @@ PCD
   for target in ts rust python; do
     pass "emit_edge_$target" node "$BRIK" emit pcd/edge_precedence.pcd --target "$target" --out "edge-$target" --tests
   done
-  pass ts_edge node edge-ts/program.test.ts
+  pass ts_edge node edge-ts/program.test.mjs
   pass rust_compile_edge rustc edge-rust/program_test.rs -o edge-rust/program_test
   pass rust_edge ./edge-rust/program_test
   pass python_edge env PYTHONPATH=edge-python python3 edge-python/test_program.py

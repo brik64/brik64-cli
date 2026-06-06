@@ -881,21 +881,21 @@ function targetSpec(target, ast) {
   const pythonStatements = renderStatements(ast.body, 'python', 1);
   const specs = {
     ts: {
-      program: 'program.ts',
-      test: 'program.test.ts',
+      program: 'program.mjs',
+      test: 'program.test.mjs',
       code: (hash) => [
         '// BRIK64 beta8 functional emission candidate',
         '// claim: local candidate evidence only',
         `export const pcdSha256 = "${hash}";`,
-        `export const pcdAst = ${astJson} as const;`,
-        `export function run(${param} = 0): number {`,
+        `export const pcdAst = ${astJson};`,
+        `export function run(${param} = 0) {`,
         ...tsStatements,
         '  throw new Error("pcd execution reached non-returning path");',
         '}',
         '',
       ].join('\n'),
       testCode: (hash) => [
-        'import { pcdSha256, run } from "./program.ts";',
+        'import { pcdSha256, run } from "./program.mjs";',
         '',
         'if (pcdSha256 !== "' + hash + '") throw new Error("pcd hash mismatch");',
         `const cases = ${JSON.stringify(cases)};`,

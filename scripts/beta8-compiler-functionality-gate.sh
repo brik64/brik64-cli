@@ -91,7 +91,7 @@ PCD
     node "$BRIK" emit pcd/branch_math.pcd --target "$target" --out "out-$target" --tests >"/tmp/beta8-emit-$target.out"
   done
 
-  node out-ts/program.test.ts >"$TMP_DIR/ts.stdout" 2>"$TMP_DIR/ts.stderr" || block "ts_generated_test_failed"
+  node out-ts/program.test.mjs >"$TMP_DIR/ts.stdout" 2>"$TMP_DIR/ts.stderr" || block "ts_generated_test_failed"
   rustc out-rust/program_test.rs -o out-rust/program_test >"$TMP_DIR/rustc.stdout" 2>"$TMP_DIR/rustc.stderr" \
     && ./out-rust/program_test >"$TMP_DIR/rust.stdout" 2>"$TMP_DIR/rust.stderr" \
     || block "rust_generated_test_failed"
@@ -118,7 +118,7 @@ if grep -q "Node.js\\|at .*src/brik" "$TMP_DIR"/*.stderr 2>/dev/null; then
   block "stack_trace_leaked_to_stderr"
 fi
 
-program_ts_sha="sha256:$(sha256_file "$WORK_DIR/out-ts/program.ts")"
+program_ts_sha="sha256:$(sha256_file "$WORK_DIR/out-ts/program.mjs")"
 program_rust_sha="sha256:$(sha256_file "$WORK_DIR/out-rust/program.rs")"
 program_python_sha="sha256:$(sha256_file "$WORK_DIR/out-python/program.py")"
 pcd_sha="sha256:$(sha256_file "$WORK_DIR/pcd/branch_math.pcd")"
@@ -161,7 +161,7 @@ jq -n \
     cliSha256:$cli_sha,
     fixture:{path:"pcd/branch_math.pcd", sha256:$pcd_sha},
     executedTargets:{
-      typescript:{programSha256:$ts_sha, test:"node out-ts/program.test.ts", passed:($decision=="PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY")},
+      typescript:{programSha256:$ts_sha, test:"node out-ts/program.test.mjs", passed:($decision=="PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY")},
       rust:{programSha256:$rust_sha, test:"rustc out-rust/program_test.rs && ./out-rust/program_test", passed:($decision=="PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY")},
       python:{programSha256:$python_sha, test:"PYTHONPATH=out-python python3 out-python/test_program.py", passed:($decision=="PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY")}
     },

@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta8_adversarial_gate.v1",
-  "generatedAt": "2026-06-06T02:16:50Z",
+  "generatedAt": "2026-06-06T02:21:07Z",
   "iter_id": "BRIK64-CLI-BETA8-ADVERSARIAL-20260606-R1",
   "lane": "cli_0_1_beta8",
   "decision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:5867b88389d4f8a73bfeaf6794684ea8195ee40efced85922c08d121e00ad8ee",
+  "cliSha256": "sha256:63f28a941626edb18cee7b794e9f3c05acdc29db94e8387e02809ed402a7f8ed",
   "executableEdgeFixture": {
     "path": "pcd/edge_precedence.pcd",
     "sha256": "sha256:de6c384a4f4146f78e1ea040176206b49aed6725a35db10b447a8d42fe75bf63"

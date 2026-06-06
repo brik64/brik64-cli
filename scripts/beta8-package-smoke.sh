@@ -106,7 +106,7 @@ pushd "$WORK_DIR" >/dev/null
   for target in ts rust python; do
     run_pass "emit_$target" "generated=" env BRIK64_CONFIG_HOME="$CONFIG_HOME" node "$BRIK" emit program.pcd --target "$target" --out "out-$target" --tests
   done
-  run_pass ts_generated "brik64 generated ts test: PASS" node out-ts/program.test.ts
+  run_pass ts_generated "brik64 generated ts test: PASS" node out-ts/program.test.mjs
   run_pass rust_compile "" rustc out-rust/program_test.rs -o out-rust/program_test
   run_pass rust_generated "brik64 generated rust test: PASS" ./out-rust/program_test
   run_pass python_generated "brik64 generated python test: PASS" env PYTHONPATH=out-python python3 out-python/test_program.py
