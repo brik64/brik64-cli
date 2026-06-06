@@ -53,6 +53,7 @@
     "gate:beta7:skills-sync": "node scripts/beta7-skills-sync-gate.js",
     "gate:beta8:compiler-functionality": "bash scripts/beta8-compiler-functionality-gate.sh",
     "gate:beta8:adversarial": "bash scripts/beta8-adversarial-gate.sh",
+    "gate:beta8:github-verified-signature": "node scripts/beta8-github-verified-signature-gate.js",
     "package:beta8:local": "bash scripts/build-beta8-package.sh",
     "smoke:beta8:package": "bash scripts/beta8-package-smoke.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",

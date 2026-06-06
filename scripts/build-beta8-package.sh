@@ -138,6 +138,7 @@ jq -n \
     ],
     requiredPublicReleaseGates:[
       "beta8_package_smoke",
+      "beta8_github_verified_signature",
       "platform_smoke",
       "curl_gcp_installer_beta8",
       "github_release_beta8",

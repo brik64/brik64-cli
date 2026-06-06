@@ -135,11 +135,15 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
   }
 
   if (betaNumber(manifest.version) === 8) {
+    const enforceSignature = manifest.state !== 'draft' || process.env.BRIK64_REQUIRE_GITHUB_VERIFIED_SIGNATURE === '1';
     return [
       run('beta8_compiler_functionality', ['bash', 'scripts/beta8-compiler-functionality-gate.sh']),
       run('beta8_adversarial', ['bash', 'scripts/beta8-adversarial-gate.sh']),
       run('beta8_local_package', ['bash', 'scripts/build-beta8-package.sh']),
       run('beta8_package_smoke', ['bash', 'scripts/beta8-package-smoke.sh']),
+      ...(enforceSignature
+        ? [run('beta8_github_verified_signature', ['node', 'scripts/beta8-github-verified-signature-gate.js'])]
+        : []),
       ...(canAccessSiblingRepos
         ? []
         : [])

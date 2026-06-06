@@ -64,8 +64,19 @@ function main() {
   const packagePath = packageManifest.package.path;
   const jsSdkPackDir = `evidence-${label}-pack`;
   const pythonSdkVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version;
+  const signatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
+  const signatureReport = fs.existsSync(signatureReportPath) ? readJson(signatureReportPath) : null;
 
   if (manifest.state !== 'public') failures.push(`manifest_state_not_public:${manifest.state}`);
+  if (label === 'beta8') {
+    if (!signatureReport) {
+      failures.push('beta8_github_verified_signature_report_missing');
+    } else if (signatureReport.decision !== 'PASS_BETA8_GITHUB_VERIFIED_SIGNATURE') {
+      failures.push(`beta8_github_verified_signature_not_pass:${signatureReport.decision}`);
+    } else if (signatureReport.boundary?.publicReleaseAllowed !== true) {
+      failures.push('beta8_github_verified_signature_public_release_not_allowed');
+    }
+  }
   if (!dryRunInProgress && dryRun.decision !== 'PASS_RELEASE_TRAIN_DRY_RUN') failures.push(`dry_run_not_green:${dryRun.decision}`);
   if (!dryRunInProgress && dryRun.manifestDigest !== manifestDigest) failures.push('dry_run_manifest_digest_drift');
   if (dryRunInProgress) warnings.push('dry_run_report_currently_being_generated');
@@ -189,6 +200,15 @@ PY`,
     publicationAllowed: publishRequested && failures.length === 0,
     expectedConfirm,
     secretAvailability,
+    signatureReport: signatureReport
+      ? {
+          path: path.relative(root, signatureReportPath),
+          decision: signatureReport.decision,
+          commit: signatureReport.commit,
+          verified: signatureReport.verification?.verified === true,
+          reason: signatureReport.verification?.reason || ''
+        }
+      : null,
     commands,
     rollback,
     failures,
