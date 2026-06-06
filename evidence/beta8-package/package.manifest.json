@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "brik64.cli_beta8_package_manifest.v1",
+  "version": "0.1.0-beta.8",
+  "decision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta8",
+  "generationClaim": "internal_generation_non_claim",
+  "package": {
+    "path": "evidence/beta8-package/brik64-cli-0.1.0-beta.8.tgz",
+    "sha256": "49aba57ce02a706f5fb4ead64e420a2f636847a637916f2ec75e9240df7dfdca",
+    "bytes": 24217
+  },
+  "inputGates": [
+    "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
+    "PASS_BRIK64_CLI_BETA8_ADVERSARIAL"
+  ],
+  "requiredPublicReleaseGates": [
+    "beta8_package_smoke",
+    "platform_smoke",
+    "curl_gcp_installer_beta8",
+    "github_release_beta8",
+    "web_docs_changelog_beta8",
+    "skills_beta8",
+    "sdk_beta8_or_no_change_evidence",
+    "public_claim_scan"
+  ],
+  "boundary": "Beta8 local package candidate only. Public release remains blocked until package, platform, installer, GitHub, SDK, docs, web, changelog, skills and public-claim gates pass together."
+}

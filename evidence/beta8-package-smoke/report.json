@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "brik64.cli_beta8_package_smoke.v1",
+  "version": "0.1.0-beta.8",
+  "decision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta8",
+  "package": {
+    "path": "evidence/beta8-package/brik64-cli-0.1.0-beta.8.tgz",
+    "sha256": "49aba57ce02a706f5fb4ead64e420a2f636847a637916f2ec75e9240df7dfdca"
+  },
+  "checks": [
+    "extract",
+    "version",
+    "help",
+    "init",
+    "certify",
+    "emit_ts",
+    "emit_rust",
+    "emit_python",
+    "generated_ts_exec",
+    "generated_rust_exec",
+    "generated_python_exec",
+    "verify",
+    "cloud_verify_no_entitlement"
+  ],
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "local_package_smoke_passed": true,
+    "fixpoint_claim_allowed": false,
+    "n5_formal_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  },
+  "next_action": "run platform smoke, sync gates and public release train"
+}
