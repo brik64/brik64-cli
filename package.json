@@ -52,6 +52,7 @@
     "gate:beta7:docs-web-sync": "node scripts/beta7-docs-web-sync-gate.js",
     "gate:beta7:skills-sync": "node scripts/beta7-skills-sync-gate.js",
     "gate:beta8:compiler-functionality": "bash scripts/beta8-compiler-functionality-gate.sh",
+    "gate:beta8:adversarial": "bash scripts/beta8-adversarial-gate.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:flow:audit": "node scripts/release-flow-audit.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
