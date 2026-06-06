@@ -2,7 +2,7 @@
   "schema": "brik64.cli_project_manifest.v1",
   "schemaVersion": "brik64.cli_project_manifest.v1",
   "project": "brik64-cli",
-  "cliVersion": "0.1.0-beta.7",
+  "cliVersion": "0.1.0-beta.8",
   "lane": "cli_0_1_beta",
   "generationClaim": "assisted_generation_non_claim",
   "preferred_engine": "auto",

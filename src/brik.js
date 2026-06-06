@@ -8,7 +8,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.7';
+const version = '0.1.0-beta.8';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const RESET = '\x1b[0m';
 const BRIK = '\x1b[38;2;180;180;180m';
@@ -182,6 +182,218 @@ function stripPcdComments(source) {
     .join('\n');
 }
 
+function findMatchingBrace(source, openIndex) {
+  let depth = 0;
+  for (let index = openIndex; index < source.length; index += 1) {
+    const char = source[index];
+    if (char === '{') depth += 1;
+    if (char === '}') {
+      depth -= 1;
+      if (depth === 0) return index;
+    }
+  }
+  return -1;
+}
+
+function tokenizeExpression(source) {
+  const tokens = [];
+  let index = 0;
+  while (index < source.length) {
+    const char = source[index];
+    if (/\s/.test(char)) {
+      index += 1;
+      continue;
+    }
+    const two = source.slice(index, index + 2);
+    if (['>=', '<=', '==', '!=', '&&', '||'].includes(two)) {
+      tokens.push({ type: 'op', value: two });
+      index += 2;
+      continue;
+    }
+    if ('()+-*/%<>'.includes(char)) {
+      tokens.push({ type: char === '(' || char === ')' ? 'paren' : 'op', value: char });
+      index += 1;
+      continue;
+    }
+    const number = source.slice(index).match(/^\d+/);
+    if (number) {
+      tokens.push({ type: 'number', value: Number(number[0]) });
+      index += number[0].length;
+      continue;
+    }
+    const ident = source.slice(index).match(/^[A-Za-z_][A-Za-z0-9_]*/);
+    if (ident) {
+      tokens.push({ type: 'identifier', value: ident[0] });
+      index += ident[0].length;
+      continue;
+    }
+    fail(65, 'pcd_parse_error:unsupported_expression_token');
+  }
+  return tokens;
+}
+
+function parseExpression(source, params) {
+  const tokens = tokenizeExpression(source);
+  let index = 0;
+  const precedence = {
+    '||': 1,
+    '&&': 2,
+    '==': 3,
+    '!=': 3,
+    '>': 4,
+    '<': 4,
+    '>=': 4,
+    '<=': 4,
+    '+': 5,
+    '-': 5,
+    '*': 6,
+    '/': 6,
+    '%': 6,
+  };
+
+  function peek() {
+    return tokens[index];
+  }
+
+  function consume(value) {
+    const token = tokens[index];
+    if (!token || (value && token.value !== value)) {
+      fail(65, 'pcd_parse_error:malformed_expression');
+    }
+    index += 1;
+    return token;
+  }
+
+  function parsePrimary() {
+    const token = peek();
+    if (!token) fail(65, 'pcd_parse_error:malformed_expression');
+    if (token.type === 'number') {
+      consume();
+      return { type: 'NumberLiteral', value: token.value };
+    }
+    if (token.type === 'identifier') {
+      consume();
+      if (!params.includes(token.value)) {
+        fail(65, `pcd_parse_error:unknown_identifier:${token.value}`);
+      }
+      return { type: 'Identifier', name: token.value };
+    }
+    if (token.value === '-') {
+      consume('-');
+      return { type: 'UnaryExpression', operator: '-', argument: parsePrimary() };
+    }
+    if (token.value === '(') {
+      consume('(');
+      const expression = parseBinary(1);
+      consume(')');
+      return expression;
+    }
+    fail(65, 'pcd_parse_error:malformed_expression');
+  }
+
+  function parseBinary(minPrecedence) {
+    let left = parsePrimary();
+    while (peek() && peek().type === 'op' && precedence[peek().value] >= minPrecedence) {
+      const operator = consume().value;
+      const operatorPrecedence = precedence[operator];
+      const right = parseBinary(operatorPrecedence + 1);
+      left = { type: 'BinaryExpression', operator, left, right };
+    }
+    return left;
+  }
+
+  const expression = parseBinary(1);
+  if (index !== tokens.length) {
+    fail(65, 'pcd_parse_error:malformed_expression');
+  }
+  return expression;
+}
+
+function parseStatements(body, params) {
+  const statements = [];
+  let index = 0;
+
+  function skipWhitespace() {
+    while (index < body.length && /\s/.test(body[index])) index += 1;
+  }
+
+  function readBalanced(openChar, closeChar) {
+    if (body[index] !== openChar) fail(65, 'pcd_parse_error:malformed_block');
+    let depth = 0;
+    const start = index;
+    for (; index < body.length; index += 1) {
+      if (body[index] === openChar) depth += 1;
+      if (body[index] === closeChar) {
+        depth -= 1;
+        if (depth === 0) {
+          const content = body.slice(start + 1, index);
+          index += 1;
+          return content;
+        }
+      }
+    }
+    fail(65, 'pcd_parse_error:unclosed_block');
+  }
+
+  while (index < body.length) {
+    skipWhitespace();
+    if (index >= body.length) break;
+    if (body.slice(index).startsWith('return')) {
+      index += 'return'.length;
+      const semi = body.indexOf(';', index);
+      if (semi === -1) fail(65, 'pcd_parse_error:missing_return_semicolon');
+      const value = body.slice(index, semi).trim();
+      if (!value) fail(65, 'pcd_parse_error:missing_return_value');
+      statements.push({ type: 'ReturnStatement', argument: parseExpression(value, params) });
+      index = semi + 1;
+      continue;
+    }
+    if (body.slice(index).startsWith('if')) {
+      index += 'if'.length;
+      skipWhitespace();
+      const condition = readBalanced('(', ')').trim();
+      skipWhitespace();
+      const consequentBody = readBalanced('{', '}');
+      skipWhitespace();
+      let alternate = [];
+      if (body.slice(index).startsWith('else')) {
+        index += 'else'.length;
+        skipWhitespace();
+        alternate = parseStatements(readBalanced('{', '}'), params);
+      }
+      statements.push({
+        type: 'IfStatement',
+        condition: parseExpression(condition, params),
+        consequent: parseStatements(consequentBody, params),
+        alternate,
+      });
+      continue;
+    }
+    fail(65, 'pcd_parse_error:unsupported_statement');
+  }
+  return statements;
+}
+
+function collectReturns(statements, values = []) {
+  for (const statement of statements) {
+    if (statement.type === 'ReturnStatement') {
+      values.push(statement.argument);
+    }
+    if (statement.type === 'IfStatement') {
+      collectReturns(statement.consequent, values);
+      collectReturns(statement.alternate, values);
+    }
+  }
+  return values;
+}
+
+function countBranches(statements) {
+  return statements.reduce((count, statement) => {
+    if (statement.type !== 'IfStatement') return count;
+    return count + 1 + countBranches(statement.consequent) + countBranches(statement.alternate);
+  }, 0);
+}
+
 function parsePcd(source) {
   if (source.length === 0 || source.trim().length === 0) {
     fail(65, 'pcd_empty');
@@ -202,34 +414,50 @@ function parsePcd(source) {
     }
     fail(65, 'pcd_parse_error:missing_pc_block');
   }
-  const [, pcName, pcBody] = pcMatch;
-  const fnMatch = pcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\{([\s\S]*)\}\s*$/m);
+  const pcStart = stripped.search(/\bPC\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m);
+  const pcOpen = stripped.indexOf('{', pcStart);
+  const pcClose = findMatchingBrace(stripped, pcOpen);
+  if (pcClose === -1 || stripped.slice(pcClose + 1).trim().length > 0) {
+    fail(65, 'pcd_parse_error:malformed_pc_block');
+  }
+  const pcName = pcMatch[1];
+  const pcBody = stripped.slice(pcOpen + 1, pcClose);
+  const fnMatch = pcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\{/m);
   if (!fnMatch) {
     fail(65, 'pcd_parse_error:missing_fn_block');
   }
-  const [, fnName, paramsRaw, fnBody] = fnMatch;
+  const fnStart = fnMatch.index;
+  const fnOpen = pcBody.indexOf('{', fnStart);
+  const fnClose = findMatchingBrace(pcBody, fnOpen);
+  if (fnClose === -1 || pcBody.slice(fnClose + 1).trim().length > 0) {
+    fail(65, 'pcd_parse_error:malformed_fn_block');
+  }
+  const [, fnName, paramsRaw] = fnMatch;
+  const fnBody = pcBody.slice(fnOpen + 1, fnClose);
   const params = paramsRaw
     .split(',')
     .map((param) => param.trim())
     .filter(Boolean);
-  const returns = [...fnBody.matchAll(/\breturn\s+(-?\d+)\s*;/g)].map((match) => Number(match[1]));
+  if (params.length > 1) {
+    fail(65, 'pcd_parse_error:too_many_params_beta8');
+  }
+  if (params.some((param) => !/^[A-Za-z_][A-Za-z0-9_]*$/.test(param))) {
+    fail(65, 'pcd_parse_error:invalid_param');
+  }
+  const body = parseStatements(fnBody, params);
+  const returns = collectReturns(body);
   if (returns.length === 0) {
     fail(65, 'pcd_parse_error:missing_return');
-  }
-  const unsupported = fnBody
-    .replace(/\bif\s*\([^)]*\)\s*\{/g, '')
-    .replace(/\breturn\s+-?\d+\s*;/g, '')
-    .replace(/[{}\s;]/g, '');
-  if (unsupported.length > 0) {
-    fail(65, 'pcd_parse_error:unsupported_tokens');
   }
   return {
     schemaVersion: 'brik64.cli_ast.v1',
     pcName,
     fnName,
     params,
-    returnValues: returns,
-    branchCount: (fnBody.match(/\bif\s*\(/g) || []).length,
+    body,
+    returnValues: returns.map((expression) => (expression.type === 'NumberLiteral' ? expression.value : null)),
+    branchCount: countBranches(body),
+    expressionDialect: 'brik64.cli_expr.v1',
   };
 }
 
@@ -443,7 +671,7 @@ function login(args = []) {
   const parsed = parseArgs(args, { '--token-env': 'value' });
   const envName = parsed['--token-env'];
   if (!envName) {
-    fail(64, 'login_requires_token_env_for_beta7');
+    fail(64, 'login_requires_token_env_for_beta8');
   }
   const token = process.env[envName];
   if (!token) {
@@ -507,27 +735,176 @@ function encodedAst(ast) {
   return JSON.stringify(ast);
 }
 
+function renderExpression(expression, target) {
+  if (expression.type === 'NumberLiteral') return String(expression.value);
+  if (expression.type === 'Identifier') return expression.name;
+  if (expression.type === 'UnaryExpression') return `(-${renderExpression(expression.argument, target)})`;
+  if (expression.type === 'BinaryExpression') {
+    const left = renderExpression(expression.left, target);
+    const right = renderExpression(expression.right, target);
+    let operator = expression.operator;
+    if (target === 'ts' && operator === '==') operator = '===';
+    if (target === 'ts' && operator === '!=') operator = '!==';
+    if (target === 'python' && operator === '&&') operator = 'and';
+    if (target === 'python' && operator === '||') operator = 'or';
+    return `(${left} ${operator} ${right})`;
+  }
+  fail(70, 'internal_codegen_error:unknown_expression');
+}
+
+function renderStatements(statements, target, indentLevel) {
+  const unit = target === 'python' ? '    ' : '  ';
+  const indent = unit.repeat(indentLevel);
+  const lines = [];
+  for (const statement of statements) {
+    if (statement.type === 'ReturnStatement') {
+      lines.push(`${indent}return ${renderExpression(statement.argument, target)}${target === 'python' ? '' : ';'}`);
+      continue;
+    }
+    if (statement.type === 'IfStatement') {
+      const condition = renderExpression(statement.condition, target);
+      if (target === 'python') {
+        lines.push(`${indent}if ${condition}:`);
+        lines.push(...renderStatements(statement.consequent, target, indentLevel + 1));
+        if (statement.alternate.length > 0) {
+          lines.push(`${indent}else:`);
+          lines.push(...renderStatements(statement.alternate, target, indentLevel + 1));
+        }
+      } else {
+        lines.push(`${indent}if ${condition} {`);
+        lines.push(...renderStatements(statement.consequent, target, indentLevel + 1));
+        if (statement.alternate.length > 0) {
+          lines.push(`${indent}} else {`);
+          lines.push(...renderStatements(statement.alternate, target, indentLevel + 1));
+        }
+        lines.push(`${indent}}`);
+      }
+      continue;
+    }
+    fail(70, 'internal_codegen_error:unknown_statement');
+  }
+  return lines;
+}
+
+function evaluateExpression(expression, env) {
+  if (expression.type === 'NumberLiteral') return expression.value;
+  if (expression.type === 'Identifier') return env[expression.name] ?? 0;
+  if (expression.type === 'UnaryExpression') return -evaluateExpression(expression.argument, env);
+  if (expression.type === 'BinaryExpression') {
+    const left = evaluateExpression(expression.left, env);
+    if (expression.operator === '&&') return Boolean(left) && Boolean(evaluateExpression(expression.right, env));
+    if (expression.operator === '||') return Boolean(left) || Boolean(evaluateExpression(expression.right, env));
+    const right = evaluateExpression(expression.right, env);
+    if (expression.operator === '+') return left + right;
+    if (expression.operator === '-') return left - right;
+    if (expression.operator === '*') return left * right;
+    if (expression.operator === '/') return Math.trunc(left / right);
+    if (expression.operator === '%') return left % right;
+    if (expression.operator === '==') return left === right;
+    if (expression.operator === '!=') return left !== right;
+    if (expression.operator === '>') return left > right;
+    if (expression.operator === '<') return left < right;
+    if (expression.operator === '>=') return left >= right;
+    if (expression.operator === '<=') return left <= right;
+  }
+  fail(70, 'internal_eval_error:unknown_expression');
+}
+
+function evaluateStatements(statements, env) {
+  for (const statement of statements) {
+    if (statement.type === 'ReturnStatement') {
+      return evaluateExpression(statement.argument, env);
+    }
+    if (statement.type === 'IfStatement') {
+      if (evaluateExpression(statement.condition, env)) {
+        const consequent = evaluateStatements(statement.consequent, env);
+        if (consequent !== undefined) return consequent;
+      } else {
+        const alternate = evaluateStatements(statement.alternate, env);
+        if (alternate !== undefined) return alternate;
+      }
+    }
+  }
+  return undefined;
+}
+
+function collectConditionValues(expression, values = new Set([0, 1, 2, 10])) {
+  if (expression.type === 'NumberLiteral') {
+    values.add(expression.value);
+    values.add(expression.value + 1);
+    values.add(expression.value - 1);
+  }
+  if (expression.type === 'UnaryExpression') collectConditionValues(expression.argument, values);
+  if (expression.type === 'BinaryExpression') {
+    collectConditionValues(expression.left, values);
+    collectConditionValues(expression.right, values);
+  }
+  return values;
+}
+
+function collectStatementValues(statements, values = new Set([0, 1, 2, 10])) {
+  for (const statement of statements) {
+    if (statement.type === 'IfStatement') {
+      collectConditionValues(statement.condition, values);
+      collectStatementValues(statement.consequent, values);
+      collectStatementValues(statement.alternate, values);
+    }
+  }
+  return values;
+}
+
+function generatedCases(ast) {
+  const param = ast.params[0] || 'input';
+  const inputs = [...collectStatementValues(ast.body)]
+    .filter((value) => Number.isInteger(value) && Math.abs(value) < 100000)
+    .slice(0, 12);
+  return inputs
+    .map((input) => ({ input, expected: evaluateStatements(ast.body, { [param]: input }) }))
+    .filter((testCase) => testCase.expected !== undefined)
+    .slice(0, 8);
+}
+
+function ensureExecutable(ast) {
+  const cases = generatedCases(ast);
+  if (cases.length === 0) {
+    fail(65, 'pcd_parse_error:no_executable_return_path');
+  }
+  return cases;
+}
+
 function targetSpec(target, ast) {
   const astJson = encodedAst(ast);
+  const cases = ensureExecutable(ast);
+  const param = ast.params[0] || 'input';
+  const tsStatements = renderStatements(ast.body, 'ts', 1);
+  const rustStatements = renderStatements(ast.body, 'rust', 1);
+  const pythonStatements = renderStatements(ast.body, 'python', 1);
   const specs = {
     ts: {
       program: 'program.ts',
       test: 'program.test.ts',
       code: (hash) => [
-        '// BRIK64 beta7 functional emission candidate',
+        '// BRIK64 beta8 functional emission candidate',
         '// claim: local candidate evidence only',
         `export const pcdSha256 = "${hash}";`,
         `export const pcdAst = ${astJson} as const;`,
-        'export function run(input = 0): string {',
-        '  return `brik:${pcdAst.pcName}:${pcdAst.fnName}:${pcdAst.returnValues.join(",")}:${input}:${pcdSha256}`;',
+        `export function run(${param} = 0): number {`,
+        ...tsStatements,
+        '  throw new Error("pcd execution reached non-returning path");',
         '}',
         '',
       ].join('\n'),
       testCode: (hash) => [
-        'import { pcdAst, pcdSha256, run } from "./program";',
+        'import { pcdSha256, run } from "./program.ts";',
         '',
         'if (pcdSha256 !== "' + hash + '") throw new Error("pcd hash mismatch");',
-        'if (!run().includes(pcdAst.pcName)) throw new Error("run mismatch");',
+        `const cases = ${JSON.stringify(cases)};`,
+        'for (const testCase of cases) {',
+        '  const actual = run(testCase.input);',
+        '  if (actual !== testCase.expected) {',
+        '    throw new Error(`case ${testCase.input} expected ${testCase.expected} got ${actual}`);',
+        '  }',
+        '}',
         'console.log("brik64 generated ts test: PASS");',
         '',
       ].join('\n'),
@@ -536,25 +913,28 @@ function targetSpec(target, ast) {
       program: 'program.rs',
       test: 'program_test.rs',
       code: (hash) => [
-        '// BRIK64 beta7 functional emission candidate',
+        '// BRIK64 beta8 functional emission candidate',
         '// claim: local candidate evidence only',
         `pub const PCD_SHA256: &str = "${hash}";`,
         `pub const PCD_AST_JSON: &str = r#"${astJson}"#;`,
-        'pub fn run() -> String {',
-        '    format!("brik:{}:{}", PCD_AST_JSON, PCD_SHA256)',
+        `pub fn run(${param}: i64) -> i64 {`,
+        ...rustStatements.map((line) => line.replace(/^  /, '    ')),
+        '    panic!("pcd execution reached non-returning path");',
         '}',
         '',
       ].join('\n'),
       testCode: (hash) => [
         `const PCD_SHA256: &str = "${hash}";`,
         `const PCD_AST_JSON: &str = r#"${astJson}"#;`,
-        'fn run() -> String {',
-        '    format!("brik:{}:{}", PCD_AST_JSON, PCD_SHA256)',
+        `fn run(${param}: i64) -> i64 {`,
+        ...rustStatements.map((line) => line.replace(/^  /, '    ')),
+        '    panic!("pcd execution reached non-returning path");',
         '}',
         '',
         'fn main() {',
         `    assert_eq!(PCD_SHA256, "${hash}");`,
-        '    assert!(run().contains(PCD_AST_JSON));',
+        '    assert!(PCD_AST_JSON.contains("body"));',
+        ...cases.map((testCase) => `    assert_eq!(run(${testCase.input}), ${testCase.expected});`),
         '    println!("brik64 generated rust test: PASS");',
         '}',
         '',
@@ -564,20 +944,24 @@ function targetSpec(target, ast) {
       program: 'program.py',
       test: 'test_program.py',
       code: (hash) => [
-        '# BRIK64 beta7 functional emission candidate',
+        '# BRIK64 beta8 functional emission candidate',
         '# claim: local candidate evidence only',
         `PCD_SHA256 = "${hash}"`,
-        `PCD_AST = ${astJson}`,
+        `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
         '',
-        'def run(input=0):',
-        '    return f"brik:{PCD_AST[\'pcName\']}:{PCD_AST[\'fnName\']}:{PCD_AST[\'returnValues\']}:{input}:{PCD_SHA256}"',
+        `def run(${param}=0):`,
+        ...pythonStatements,
+        '    raise RuntimeError("pcd execution reached non-returning path")',
         '',
       ].join('\n'),
       testCode: (hash) => [
-        'from program import PCD_AST, PCD_SHA256, run',
+        'from program import PCD_SHA256, run',
         '',
         `assert PCD_SHA256 == "${hash}"`,
-        'assert PCD_AST["pcName"] in run()',
+        `cases = ${JSON.stringify(cases)}`,
+        'for case in cases:',
+        '    actual = run(case["input"])',
+        '    assert actual == case["expected"], f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
         'print("brik64 generated python test: PASS")',
         '',
       ].join('\n'),
@@ -652,7 +1036,7 @@ function emit(file, args = []) {
     if (options.tests) process.stdout.write(`tests=${path.relative(process.cwd(), testPath)}\n`);
     return;
   }
-  process.stdout.write('// BRIK64 beta7 functional emission candidate\n');
+  process.stdout.write('// BRIK64 beta8 functional emission candidate\n');
   process.stdout.write('// claim: local candidate evidence only\n');
   process.stdout.write(`// pcd_sha256=${cert.semantic_pcd_sha256}\n`);
   process.stdout.write(`// ast_sha256=${cert.ast_sha256}\n`);
@@ -666,7 +1050,7 @@ function verify(file, args = []) {
   }
   requireLocalOrEntitled(parsed);
   if (parsed['--cloud']) {
-    fail(69, 'managed_verify_endpoint_unavailable_beta7');
+    fail(69, 'managed_verify_endpoint_unavailable_beta8');
   }
   const source = readFileRequired(file);
   const ast = parsePcd(source);
@@ -714,7 +1098,7 @@ function polymerize(rawArgs = []) {
   }
   requireLocalOrEntitled(parsed);
   if (parsed['--cloud']) {
-    fail(69, 'managed_polymerize_endpoint_unavailable_beta7');
+    fail(69, 'managed_polymerize_endpoint_unavailable_beta8');
   }
   const files = parsed._;
   if (files.length === 0) {
@@ -743,7 +1127,7 @@ function polymerize(rawArgs = []) {
   const polymerName = 'brik64_polymer';
   const content = [
     '// brik64.pcd_file.v1',
-    '// generated_by: brik64-cli beta7 polymerize local',
+    '// generated_by: brik64-cli beta8 polymerize local',
     '// claim_boundary: local_candidate_only',
     ...sourceLines,
     '',
@@ -781,7 +1165,7 @@ function migrate(file, args = []) {
   const source = readFileRequired(file);
   const oldHash = sha256(source);
   let migrated = source;
-  let syntax = 'beta7';
+  let syntax = 'beta8';
   if (/\bcircuit\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m.test(source)) {
     migrated = migrated.replace(/\bcircuit\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{/m, 'PC $1 {');
     syntax = 'legacy_circuit';
@@ -799,7 +1183,7 @@ function migrate(file, args = []) {
     }
     outPath = inputPath;
   } else {
-    outPath = workspacePath(parsed['--out'] || `${file.replace(/\.pcd$/, '')}.beta7.pcd`);
+    outPath = workspacePath(parsed['--out'] || `${file.replace(/\.pcd$/, '')}.beta8.pcd`);
     if (fs.existsSync(outPath)) {
       fail(73, `output_exists:${path.relative(process.cwd(), outPath)}`);
     }
