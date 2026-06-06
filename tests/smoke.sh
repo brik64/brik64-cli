@@ -9,7 +9,7 @@ cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.7"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.8"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" --help | grep -q "polymerize <files>"
@@ -23,10 +23,15 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  node "$ROOT_DIR/scripts/beta7-feature-parity-gate.js" | grep -q "decision=PASS_BETA7_FEATURE_PARITY_GATE"
-  node "$ROOT_DIR/scripts/build-beta7-package.js" | grep -q "PASS_BETA7_PACKAGE_BUILT"
-  node "$ROOT_DIR/scripts/beta7-package-smoke.js" | grep -q "decision=PASS_BETA7_LOCAL_PACKAGE_SMOKE"
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta7-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta7")) process.exit(1)'
+  beta8_functionality_out="$(bash "$ROOT_DIR/scripts/beta8-compiler-functionality-gate.sh")"
+  grep -q "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY" <<<"$beta8_functionality_out"
+  beta8_adversarial_out="$(bash "$ROOT_DIR/scripts/beta8-adversarial-gate.sh")"
+  grep -q "PASS_BRIK64_CLI_BETA8_ADVERSARIAL" <<<"$beta8_adversarial_out"
+  beta8_package_out="$(bash "$ROOT_DIR/scripts/build-beta8-package.sh")"
+  grep -q "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT" <<<"$beta8_package_out"
+  beta8_package_smoke_out="$(bash "$ROOT_DIR/scripts/beta8-package-smoke.sh")"
+  grep -q "decision=PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE" <<<"$beta8_package_smoke_out"
+  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta8-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta8")) process.exit(1)'
   node "$ROOT_DIR/scripts/release-manifest-validate.js" --allow-dirty | grep -q "decision=PASS_RELEASE_MANIFEST_VALIDATE"
 fi
 
@@ -98,8 +103,8 @@ for target in ts rust python; do
   grep -q "tests=" "/tmp/brik-emit-$target.out"
 done
 
-test -f "$tmpdir/out-ts/program.ts"
-test -f "$tmpdir/out-ts/program.test.ts"
+test -f "$tmpdir/out-ts/program.mjs"
+test -f "$tmpdir/out-ts/program.test.mjs"
 test -f "$tmpdir/out-rust/program.rs"
 test -f "$tmpdir/out-rust/program_test.rs"
 test -f "$tmpdir/out-python/program.py"
@@ -116,7 +121,7 @@ if node "$BRIK" emit program.pcd --target ts --out ../escaped-out --tests >/tmp/
   exit 1
 fi
 grep -q "path_outside_workspace" /tmp/brik-out-traversal.err
-test ! -e "$tmpdir/escaped-out/program.ts"
+test ! -e "$tmpdir/escaped-out/program.mjs"
 
 mkdir readonly
 chmod 500 readonly
@@ -134,7 +139,7 @@ fi
 
 cp program.pcd stale.pcd
 node "$BRIK" certify stale.pcd
-printf '\n        return 3;\n' >> stale.pcd
+perl -0pi -e 's/return 2;/return 3;/' stale.pcd
 if node "$BRIK" emit stale.pcd >/tmp/brik-stale.out 2>/tmp/brik-stale.err; then
   echo "stale certificate should fail closed" >&2
   exit 1
@@ -182,7 +187,7 @@ PC variant {
 PCD
 node "$BRIK" certify variant.pcd
 node "$BRIK" emit variant.pcd --target ts --out out-variant --tests >/tmp/brik-emit-variant.out
-if cmp -s out-ts/program.ts out-variant/program.ts; then
+if cmp -s out-ts/program.mjs out-variant/program.mjs; then
   echo "different valid PCDs should emit different outputs" >&2
   exit 1
 fi
