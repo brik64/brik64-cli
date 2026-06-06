@@ -23,10 +23,11 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  node "$ROOT_DIR/scripts/beta7-feature-parity-gate.js" | grep -q "decision=PASS_BETA7_FEATURE_PARITY_GATE"
-  node "$ROOT_DIR/scripts/build-beta7-package.js" | grep -q "PASS_BETA7_PACKAGE_BUILT"
-  node "$ROOT_DIR/scripts/beta7-package-smoke.js" | grep -q "decision=PASS_BETA7_LOCAL_PACKAGE_SMOKE"
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta7-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta7")) process.exit(1)'
+  bash "$ROOT_DIR/scripts/beta8-compiler-functionality-gate.sh" | grep -q "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY"
+  bash "$ROOT_DIR/scripts/beta8-adversarial-gate.sh" | grep -q "PASS_BRIK64_CLI_BETA8_ADVERSARIAL"
+  bash "$ROOT_DIR/scripts/build-beta8-package.sh" | grep -q "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT"
+  bash "$ROOT_DIR/scripts/beta8-package-smoke.sh" | grep -q "decision=PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE"
+  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta8-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta8")) process.exit(1)'
   node "$ROOT_DIR/scripts/release-manifest-validate.js" --allow-dirty | grep -q "decision=PASS_RELEASE_MANIFEST_VALIDATE"
 fi
 

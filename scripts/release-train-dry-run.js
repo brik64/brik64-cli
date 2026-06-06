@@ -124,6 +124,18 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
 
+  if (betaNumber(manifest.version) === 8) {
+    return [
+      run('beta8_compiler_functionality', ['bash', 'scripts/beta8-compiler-functionality-gate.sh']),
+      run('beta8_adversarial', ['bash', 'scripts/beta8-adversarial-gate.sh']),
+      run('beta8_local_package', ['bash', 'scripts/build-beta8-package.sh']),
+      run('beta8_package_smoke', ['bash', 'scripts/beta8-package-smoke.sh']),
+      ...(canAccessSiblingRepos
+        ? []
+        : [])
+    ];
+  }
+
   return [
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),
     run(`${label}_local_package`, ['node', `scripts/build-${label}-package.js`]),

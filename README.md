@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.7`
+Current beta candidate: `0.1.0-beta.8`
 
 ## Install
 
@@ -24,10 +24,10 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta7 Command Surface
+## Beta8 Command Surface
 
-`0.1.0-beta.7` focuses on local/managed workflow parity and clearer terminal
-behavior.
+`0.1.0-beta.8` focuses on making PCD emission executable for the supported
+beta syntax while keeping local/managed workflow boundaries intact.
 
 - `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
 - `brik64 doctor` prints a human-readable workspace summary.
@@ -40,7 +40,8 @@ behavior.
 - `brik64 certify <file.pcd>` writes a local candidate certificate.
 - `brik64 verify <file.pcd>` checks local certificate and AST/hash coherence.
 - `brik64 emit <file.pcd> --target <ts|rust|python> --out <dir> --tests`
-  emits supported target files and generated tests.
+  emits executable target files and generated tests for supported beta PCD
+  expressions and branches.
 - `brik64 polymerize <files.pcd...> --out polymer.pcd` combines compatible PCD
   files into a deterministic local polymer candidate.
 - `brik64 migrate <file.pcd>` converts supported legacy PCD syntax into the
@@ -67,9 +68,9 @@ SDKs are distributed separately from the CLI. Current beta SDK package
 coordinates:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.7
-pip install brik64==0.1.0b7
-cargo add brik64-core@0.1.0-beta.7
+npm install @brik64/core@0.1.0-beta.8
+pip install brik64==0.1.0b8
+cargo add brik64-core@0.1.0-beta.8
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed

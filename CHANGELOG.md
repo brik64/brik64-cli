@@ -3,6 +3,35 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release train.
 
+## 0.1.0-beta.8
+
+### Added
+
+- Adds bounded source-to-source PCD emission for executable TypeScript, Rust,
+  and Python programs.
+- Adds generated target tests that execute emitted programs and check expected
+  behavior across supported target languages.
+- Adds parser support for arithmetic expressions, comparisons, boolean
+  conditions, nested branches, and expression returns.
+- Adds adversarial parser coverage for malformed input, binary data, oversized
+  PCD files, unsupported statements, and path traversal attempts.
+- Adds a local package smoke check that extracts the beta8 tarball and runs the
+  packaged CLI outside the repository checkout.
+
+### Changed
+
+- Updates `brik64 emit` from static candidate output toward executable output
+  for the supported beta PCD syntax.
+- Keeps unsupported syntax fail-closed with actionable parser errors.
+
+### Compatibility
+
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim formal certification for arbitrary user code,
+  universal correctness, or independent toolchain closure.
+
 ## 0.1.0-beta.7
 
 ### Added

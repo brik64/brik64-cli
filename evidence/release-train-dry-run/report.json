@@ -1,141 +1,97 @@
 {
   "schemaVersion": "brik64.release_train_dry_run_report.v1",
-  "releaseId": "brik64-0.1.0-beta.7",
-  "version": "0.1.0-beta.7",
+  "releaseId": "brik64-0.1.0-beta.8",
+  "version": "0.1.0-beta.8",
   "channel": "beta",
-  "state": "public",
-  "manifestDigest": "7f786abdfa7e098778d1a141ea393da386e22144b9d213836e1bd8747acbbcb8",
+  "state": "draft",
+  "manifestDigest": "959a0c50560613529b80d12534d2c8ef1f5ce47a52449cc906f0c687edf9a585",
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
   "initialDirtyFiles": [
+    "CHANGELOG.md",
     "README.md",
-    "evidence/beta7-package-smoke/report.json",
-    "evidence/beta7-package/SHA256SUMS",
-    "evidence/beta7-package/brik64-cli-0.1.0-beta.7.tgz",
-    "evidence/beta7-package/package.manifest.json",
-    "evidence/release-train-sync/report.json",
-    "evidence/release-train-sync/sync-payload.json",
-    "release/manifest.json"
+    "release/manifest.json",
+    "scripts/release-train-dry-run.js",
+    "tests/smoke.sh"
   ],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 115,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.7\nwarnings=worktree_dirty_allowed:8\n",
+      "elapsedMs": 198,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.8\nwarnings=worktree_dirty_allowed:5\n",
       "stderr": ""
     },
     {
       "name": "smoke_tests",
       "command": "bash -lc BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh",
       "rc": 0,
-      "elapsedMs": 7421,
+      "elapsedMs": 17200,
       "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=polymer.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=legacy.beta7.pcd.cert.json\ncertificate=variant.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
-      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/Users/carlosjperez/Documents/GitHub/brik64-cli\n+ BRIK=/Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.7\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR\n+ trap cleanup EXIT\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.7'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (!s.includes(\"█████████████\") || !s.includes(\"▒▒▒▒▒▒▒▒▒▒▒▒\")) process.exit(1); });'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q status=public_beta\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q 'polymerize <files>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q 'verify <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q 'migrate <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q 'BRIK64 workspace doctor'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor --json\n+ grep -q '\"status\": \"PASS\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor --json\n+ grep -q '\"localRuntime\": \"available\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor --json\n+ grep -q '\"internalArtifactFactory\": \"private\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"runtimeMode\": \"portable_bir_bundle\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta7-feature-parity-gate.js\n+ grep -q decision=PASS_BETA7_FEATURE_PARITY_GATE\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/build-beta7-package.js\n+ grep -q PASS_BETA7_PACKAGE_BUILT\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta7-package-smoke.js\n+ grep -q decision=PASS_BETA7_LOCAL_PACKAGE_SMOKE\n+ node -e 'const fs=require(\"fs\"); const r=JSON.parse(fs.readFileSync(\"evidence/beta7-package/package.manifest.json\",\"utf8\")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes(\"curl_gcp_installer_beta7\")) process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/release-manifest-validate.js --allow-dirty\n+ grep -q decision=PASS_RELEASE_MANIFEST_VALIDATE\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ test -f .brik/manifest.json\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.registeredManagedRuntime !== \"managed_platform\") process.exit(1)'\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.preferred_engine !== \"auto\" || m.polymer_strategy !== \"local_ast\" || m.managed_platform.routing !== \"local_default\") process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js account status\n+ grep -q 'tier: free'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js login --token-env BRIK64_MISSING_TOKEN\n+ grep -q login_token_env_missing /tmp/brik-login.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js verify program.pcd\n+ grep -q verification=PASS\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js verify program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_local_verify_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js verify program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-verify-cloud.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js polymerize program.pcd --out polymer.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_polymer_manifest.v1\"'\n+ test -f polymer.pcd\n+ test -f polymer.pcd.manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify polymer.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js polymerize program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-poly-cloud.err\n+ for target in ts rust python\n+ out=out-ts\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/out-ts/program.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/out-ts/program.test.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/out-rust/program.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/out-rust/program_test.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/out-python/program.py\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/out-python/test_program.py\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target go --out out-go --tests\n+ grep -q unsupported_target /tmp/brik-emit-go.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out ../escaped-out --tests\n+ grep -q path_outside_workspace /tmp/brik-out-traversal.err\n+ test '!' -e /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR/escaped-out/program.ts\n+ mkdir readonly\n+ chmod 500 readonly\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out readonly/child --tests\n+ chmod 700 readonly\n+ grep -q filesystem_mkdir_error /tmp/brik-readonly.err\n+ grep -q 'at Object\\.mkdirSync\\|Node\\.js' /tmp/brik-readonly.err\n+ cp program.pcd stale.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify stale.pcd\n+ printf '\\n        return 3;\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit stale.pcd\n+ grep -q certificate_hash_mismatch /tmp/brik-stale.err\n+ touch empty.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify empty.pcd\n+ grep -q pcd_empty /tmp/brik-empty.err\n+ printf 'not a pcd\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify corrupt.pcd\n+ grep -q pcd_parse_error /tmp/brik-corrupt.err\n+ cat\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify legacy.pcd\n+ grep -q 'brik64 migrate' /tmp/brik-legacy-cert.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js migrate legacy.pcd --out legacy.beta7.pcd --json\n+ grep -q '\"detectedSyntax\": \"legacy_lowercase_pc\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify legacy.beta7.pcd\n+ cat\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify variant.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit variant.pcd --target ts --out out-variant --tests\n+ cmp -s out-ts/program.ts out-variant/program.ts\n+ printf '{ corrupted_json\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ grep -q manifest_parse_error /tmp/brik-bad-manifest.err\n+ rm .brik/manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(\".brik/manifest.json\", JSON.stringify(m,null,2)+\"\\n\")'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q engine_tier_policy_l6_distribution_open /tmp/brik-bad-tier.err\n+ echo 'brik64-cli bootstrap smoke: PASS'\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.SaJ0jkGdbR\n"
+      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/Users/carlosjperez/Documents/GitHub/brik64-cli\n+ BRIK=/Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.8\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/config\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.8'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (!s.includes(\"█████████████\") || !s.includes(\"▒▒▒▒▒▒▒▒▒▒▒▒\")) process.exit(1); });'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q status=public_beta\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q 'polymerize <files>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q 'verify <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js --help\n+ grep -q 'migrate <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q 'BRIK64 workspace doctor'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor --json\n+ grep -q '\"status\": \"PASS\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor --json\n+ grep -q '\"localRuntime\": \"available\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor --json\n+ grep -q '\"internalArtifactFactory\": \"private\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"runtimeMode\": \"portable_bir_bundle\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n+ bash /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta8-compiler-functionality-gate.sh\n+ grep -q PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY\n+ bash /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta8-adversarial-gate.sh\n+ grep -q PASS_BRIK64_CLI_BETA8_ADVERSARIAL\n+ bash /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/build-beta8-package.sh\n+ grep -q PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT\n+ bash /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/beta8-package-smoke.sh\n+ grep -q decision=PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE\n+ node -e 'const fs=require(\"fs\"); const r=JSON.parse(fs.readFileSync(\"evidence/beta8-package/package.manifest.json\",\"utf8\")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes(\"curl_gcp_installer_beta8\")) process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/scripts/release-manifest-validate.js --allow-dirty\n+ grep -q decision=PASS_RELEASE_MANIFEST_VALIDATE\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ test -f .brik/manifest.json\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.registeredManagedRuntime !== \"managed_platform\") process.exit(1)'\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.preferred_engine !== \"auto\" || m.polymer_strategy !== \"local_ast\" || m.managed_platform.routing !== \"local_default\") process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js account status\n+ grep -q 'tier: free'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js login --token-env BRIK64_MISSING_TOKEN\n+ grep -q login_token_env_missing /tmp/brik-login.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js verify program.pcd\n+ grep -q verification=PASS\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js verify program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_local_verify_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js verify program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-verify-cloud.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js polymerize program.pcd --out polymer.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_polymer_manifest.v1\"'\n+ test -f polymer.pcd\n+ test -f polymer.pcd.manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify polymer.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js polymerize program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-poly-cloud.err\n+ for target in ts rust python\n+ out=out-ts\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/out-ts/program.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/out-ts/program.test.ts\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/out-rust/program.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/out-rust/program_test.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/out-python/program.py\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/out-python/test_program.py\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target go --out out-go --tests\n+ grep -q unsupported_target /tmp/brik-emit-go.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out ../escaped-out --tests\n+ grep -q path_outside_workspace /tmp/brik-out-traversal.err\n+ test '!' -e /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S/escaped-out/program.ts\n+ mkdir readonly\n+ chmod 500 readonly\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit program.pcd --target ts --out readonly/child --tests\n+ chmod 700 readonly\n+ grep -q filesystem_mkdir_error /tmp/brik-readonly.err\n+ grep -q 'at Object\\.mkdirSync\\|Node\\.js' /tmp/brik-readonly.err\n+ cp program.pcd stale.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify stale.pcd\n+ perl -0pi -e 's/return 2;/return 3;/' stale.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit stale.pcd\n+ grep -q certificate_hash_mismatch /tmp/brik-stale.err\n+ touch empty.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify empty.pcd\n+ grep -q pcd_empty /tmp/brik-empty.err\n+ printf 'not a pcd\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify corrupt.pcd\n+ grep -q pcd_parse_error /tmp/brik-corrupt.err\n+ cat\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify legacy.pcd\n+ grep -q 'brik64 migrate' /tmp/brik-legacy-cert.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js migrate legacy.pcd --out legacy.beta7.pcd --json\n+ grep -q '\"detectedSyntax\": \"legacy_lowercase_pc\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify legacy.beta7.pcd\n+ cat\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify variant.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js emit variant.pcd --target ts --out out-variant --tests\n+ cmp -s out-ts/program.ts out-variant/program.ts\n+ printf '{ corrupted_json\\n'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js certify program.pcd\n+ grep -q manifest_parse_error /tmp/brik-bad-manifest.err\n+ rm .brik/manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js init\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(\".brik/manifest.json\", JSON.stringify(m,null,2)+\"\\n\")'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli/src/brik.js doctor\n+ grep -q engine_tier_policy_l6_distribution_open /tmp/brik-bad-tier.err\n+ echo 'brik64-cli bootstrap smoke: PASS'\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.TUEc0Hcu4S\n"
     },
     {
-      "name": "beta7_feature_parity",
-      "command": "node scripts/beta7-feature-parity-gate.js",
+      "name": "beta8_compiler_functionality",
+      "command": "bash scripts/beta8-compiler-functionality-gate.sh",
       "rc": 0,
-      "elapsedMs": 1639,
-      "stdout": "decision=PASS_BETA7_FEATURE_PARITY_GATE\nchecks=17\n",
+      "elapsedMs": 2312,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_beta8_compiler_functionality_gate.v1\",\n  \"generatedAt\": \"2026-06-06T02:16:47Z\",\n  \"iter_id\": \"BRIK64-CLI-BETA8-COMPILER-FUNCTIONALITY-20260606-R1\",\n  \"lane\": \"cli_0_1_beta8\",\n  \"decision\": \"PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY\",\n  \"rc\": 0,\n  \"cliVersion\": \"0.1.0-beta.8\",\n  \"cliSha256\": \"sha256:5867b88389d4f8a73bfeaf6794684ea8195ee40efced85922c08d121e00ad8ee\",\n  \"fixture\": {\n    \"path\": \"pcd/branch_math.pcd\",\n    \"sha256\": \"sha256:09742f0ef4d80b4f465da256d8d44b4c587306c07015ecb77cada308c1d70404\"\n  },\n  \"executedTargets\": {\n    \"typescript\": {\n      \"programSha256\": \"sha256:22a0904178aaba0faa8a5392a1750e636fd6d42537e69ecf166596e8269cae98\",\n      \"test\": \"node out-ts/program.test.ts\",\n      \"passed\": true\n    },\n    \"rust\": {\n      \"programSha256\": \"sha256:bbe9b972902349fdb4b5884858e840b2c004c2173eb24f605958a913d6075e5d\",\n      \"test\": \"rustc out-rust/program_test.rs && ./out-rust/program_test\",\n      \"passed\": true\n    },\n    \"python\": {\n      \"programSha256\": \"sha256:ca5c353fdd06e4b65b9b6366deea679b2816544af1843932ecdb59d471a742b6\",\n      \"test\": \"PYTHONPATH=out-python python3 out-python/test_program.py\",\n      \"passed\": true\n    }\n  },\n  \"adversarial\": {\n    \"unknown_identifier_fail_closed\": true,\n    \"unsupported_target_fail_closed\": true,\n    \"path_traversal_fail_closed\": true,\n    \"stack_trace_leaked\": false\n  },\n  \"claim_boundary\": {\n    \"public_claims_allowed\": false,\n    \"public_release_allowed\": false,\n    \"compiler_functionality_claim_allowed\": true,\n    \"compiler_functionality_scope\": \"supported_beta8_pcd_subset_only\",\n    \"fixpoint_claim_allowed\": false,\n    \"n5_formal_claim_allowed\": false,\n    \"rust_independence_claim_allowed\": false\n  },\n  \"blockers\": [],\n  \"warnings\": [],\n  \"next_action\": \"run beta8 adversarial gate and package smoke before public release train\"\n}\n",
       "stderr": ""
     },
     {
-      "name": "beta7_local_package",
-      "command": "node scripts/build-beta7-package.js",
+      "name": "beta8_adversarial",
+      "command": "bash scripts/beta8-adversarial-gate.sh",
       "rc": 0,
-      "elapsedMs": 138,
-      "stdout": "decision=PASS_BETA7_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta7-package/brik64-cli-0.1.0-beta.7.tgz\nsha256=498ad2d5a0c54567f8f45f9c8649f483d7c4e030c9e4652d8782903b0fd3718c\n",
+      "elapsedMs": 2787,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_beta8_adversarial_gate.v1\",\n  \"generatedAt\": \"2026-06-06T02:16:50Z\",\n  \"iter_id\": \"BRIK64-CLI-BETA8-ADVERSARIAL-20260606-R1\",\n  \"lane\": \"cli_0_1_beta8\",\n  \"decision\": \"PASS_BRIK64_CLI_BETA8_ADVERSARIAL\",\n  \"rc\": 0,\n  \"cliVersion\": \"0.1.0-beta.8\",\n  \"cliSha256\": \"sha256:5867b88389d4f8a73bfeaf6794684ea8195ee40efced85922c08d121e00ad8ee\",\n  \"executableEdgeFixture\": {\n    \"path\": \"pcd/edge_precedence.pcd\",\n    \"sha256\": \"sha256:de6c384a4f4146f78e1ea040176206b49aed6725a35db10b447a8d42fe75bf63\"\n  },\n  \"passChecks\": 9,\n  \"failClosedChecks\": 12,\n  \"generatedTargetExecution\": {\n    \"typescript\": true,\n    \"rust\": true,\n    \"python\": true\n  },\n  \"failClosedSurface\": [\n    \"empty_pcd\",\n    \"binary_input\",\n    \"too_large_input\",\n    \"legacy_syntax\",\n    \"missing_fn\",\n    \"too_many_params\",\n    \"invalid_param\",\n    \"missing_return\",\n    \"unsupported_statement\",\n    \"unsupported_expression_token\",\n    \"malformed_expression\",\n    \"unclosed_block\"\n  ],\n  \"claim_boundary\": {\n    \"public_claims_allowed\": false,\n    \"public_release_allowed\": false,\n    \"adversarial_gate_passed\": true,\n    \"compiler_functionality_scope\": \"supported_beta8_pcd_subset_only\",\n    \"fixpoint_claim_allowed\": false,\n    \"n5_formal_claim_allowed\": false,\n    \"rust_independence_claim_allowed\": false\n  },\n  \"blockers\": [],\n  \"warnings\": [],\n  \"next_action\": \"run beta8 package smoke and release-train sync gates\"\n}\n",
       "stderr": ""
     },
     {
-      "name": "beta7_package_smoke",
-      "command": "node scripts/beta7-package-smoke.js",
+      "name": "beta8_local_package",
+      "command": "bash scripts/build-beta8-package.sh",
       "rc": 0,
-      "elapsedMs": 1241,
-      "stdout": "decision=PASS_BETA7_LOCAL_PACKAGE_SMOKE\nchecks=13\n",
+      "elapsedMs": 762,
+      "stdout": "decision=PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta8-package/brik64-cli-0.1.0-beta.8.tgz\nsha256=5abb43d602f65e255b76f8e6baca4988a7f1d2cbd0946cda049b41afb343b962\n",
       "stderr": ""
     },
     {
-      "name": "beta7_sdk_sync",
-      "command": "node scripts/beta7-sdk-sync-gate.js",
+      "name": "beta8_package_smoke",
+      "command": "bash scripts/beta8-package-smoke.sh",
       "rc": 0,
-      "elapsedMs": 88,
-      "stdout": "decision=PASS_SDK_BETA7_SYNC\nmarketplacePublicationAllowed=true\n",
-      "stderr": ""
-    },
-    {
-      "name": "beta7_marketplace_packages",
-      "command": "node scripts/beta7-marketplace-package-gate.js",
-      "rc": 0,
-      "elapsedMs": 87,
-      "stdout": "decision=PASS_MARKETPLACE_PACKAGE_GATE\nmarketplacePublicationAllowed=true\n",
-      "stderr": ""
-    },
-    {
-      "name": "beta7_skills_sync",
-      "command": "node scripts/beta7-skills-sync-gate.js",
-      "rc": 0,
-      "elapsedMs": 89,
-      "stdout": "decision=PASS_SKILLS_BETA7_SYNC\npublicSkillPublicationAllowed=true\n",
-      "stderr": ""
-    },
-    {
-      "name": "beta7_docs_web_sync",
-      "command": "node scripts/beta7-docs-web-sync-gate.js",
-      "rc": 0,
-      "elapsedMs": 122,
-      "stdout": "decision=PASS_DOCS_WEB_BETA7_SYNC\ndeployAllowed=true\n",
-      "stderr": ""
-    },
-    {
-      "name": "sync_surfaces",
-      "command": "node scripts/release-train-sync-surfaces.js",
-      "rc": 0,
-      "elapsedMs": 96,
-      "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
-      "stderr": ""
-    },
-    {
-      "name": "publish_plan",
-      "command": "bash -lc BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js",
-      "rc": 0,
-      "elapsedMs": 123,
-      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift\n",
-      "stderr": ""
-    },
-    {
-      "name": "publish_execute_dry_run",
-      "command": "node scripts/release-train-publish-execute.js",
-      "rc": 0,
-      "elapsedMs": 194,
-      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:2\n",
+      "elapsedMs": 2507,
+      "stdout": "decision=PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE\nchecks=13\n",
       "stderr": ""
     }
   ],
   "requiredEvidence": [
     {
-      "id": "featureParity",
-      "path": "evidence/beta7-feature-parity/report.json",
-      "expectedDecision": "PASS_BETA7_FEATURE_PARITY_GATE",
-      "actualDecision": "PASS_BETA7_FEATURE_PARITY_GATE",
+      "id": "compilerFunctionality",
+      "path": "evidence/beta8-compiler-functionality/report.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
+      "actualDecision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
+      "pass": true
+    },
+    {
+      "id": "adversarial",
+      "path": "evidence/beta8-adversarial/report.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
+      "actualDecision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
       "pass": true
     },
     {
       "id": "localPackage",
-      "path": "evidence/beta7-package/package.manifest.json",
-      "expectedDecision": "PASS_BETA7_PACKAGE_BUILT",
-      "actualDecision": "PASS_BETA7_PACKAGE_BUILT",
+      "path": "evidence/beta8-package/package.manifest.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
+      "actualDecision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
       "pass": true
     },
     {
       "id": "localPackageSmoke",
-      "path": "evidence/beta7-package-smoke/report.json",
-      "expectedDecision": "PASS_BETA7_LOCAL_PACKAGE_SMOKE",
-      "actualDecision": "PASS_BETA7_LOCAL_PACKAGE_SMOKE",
+      "path": "evidence/beta8-package-smoke/report.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
+      "actualDecision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
       "pass": true
     }
   ],
