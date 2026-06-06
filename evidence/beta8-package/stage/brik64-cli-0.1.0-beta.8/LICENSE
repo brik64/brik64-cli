@@ -1,0 +1,71 @@
+BRIK64 CLI PUBLIC BETA EVALUATION LICENSE
+
+Copyright (c) 2026 BRIK64 INC. All rights reserved.
+
+This package, including the BRIK64 CLI source, bundled PCD seed material,
+examples, package metadata, documentation, evidence artifacts, and release
+materials, is proprietary software and confidential know-how of BRIK64 INC
+except where a file explicitly states otherwise.
+
+1. Evaluation Permission
+
+BRIK64 INC grants you a limited, revocable, non-exclusive, non-transferable
+permission to download, install, and run this public beta release only for
+internal evaluation, local workflow testing, compatibility review, and feedback
+to BRIK64.
+
+2. Reserved Rights
+
+BRIK64 INC reserves all rights not expressly granted in this license. This
+license does not grant any ownership interest, patent license, trademark license,
+commercial distribution right, sublicensing right, hosted service right, resale
+right, or right to create derivative works for public or commercial use.
+
+3. Restrictions
+
+Without prior written permission from BRIK64 INC, you may not:
+
+- redistribute, mirror, sell, sublicense, rent, lease, or commercially exploit
+  this software;
+- publish modified versions or derivative works;
+- remove copyright, trademark, provenance, release, checksum, or evidence
+  notices;
+- use BRIK64 names, logos, marks, or release artifacts to imply endorsement or
+  certification;
+- use the beta in regulated, safety-critical, mission-critical, or production
+  systems as a certification authority.
+
+4. Beta Scope
+
+This public beta is provided for evaluation of local BRIK64 CLI workflows,
+PCD-oriented project structure, package validation, and bounded evidence review.
+Expanded platform support, production certification surfaces, and advanced
+compiler-methodology scopes are governed by BRIK64 release gates and written
+commercial terms.
+
+5. Feedback
+
+If you provide feedback, bug reports, ideas, or suggestions to BRIK64, you grant
+BRIK64 INC a perpetual, irrevocable, worldwide, royalty-free right to use that
+feedback to improve BRIK64 products and services without obligation to you.
+
+6. No Warranty
+
+This beta is provided as-is for evaluation. BRIK64 INC disclaims all warranties,
+express or implied, including merchantability, fitness for a particular purpose,
+non-infringement, and uninterrupted or error-free operation.
+
+7. Limitation Of Liability
+
+To the maximum extent permitted by law, BRIK64 INC is not liable for indirect,
+incidental, special, consequential, exemplary, punitive, or business interruption
+damages arising from this beta, even if advised of the possibility of such
+damages.
+
+8. Commercial Licensing
+
+For production, commercial, hosted, redistribution, partner, enterprise,
+regulated, or certification-oriented use, contact BRIK64 INC through the public
+company channels listed at https://brik64.com.
+
+This is not an open source license.
