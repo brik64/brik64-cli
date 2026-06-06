@@ -5,6 +5,7 @@ node_modules/
 *.log
 .DS_Store
 evidence/tmp/
+evidence/beta8-github-verified-signature/
 evidence/beta5-package/stage/
 runner-env.local.sh
 *.secret
