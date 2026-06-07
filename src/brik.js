@@ -800,48 +800,101 @@ function pcdInventory() {
     });
 }
 
-function doctor() {
-  const args = parseArgs(process.argv.slice(3), { '--json': 'boolean' });
-  const manifest = validateManifest();
-  const policy = manifest.engineTierPolicy || {};
-  if (manifest.cliVersion !== version) {
-    fail(65, 'manifest_cli_version_mismatch');
+function doctorManifestDiagnostics() {
+  const manifestPath = path.resolve('.brik', 'manifest.json');
+  const errors = [];
+  const actions = [];
+  if (!fs.existsSync(manifestPath)) {
+    errors.push('manifest_missing:.brik/manifest.json');
+    actions.push('Run `brik64 init` in the workspace root.');
+    return { manifest: null, errors, actions };
   }
-  if (policy.publicOfflineRuntime !== 'local_runtime') {
-    fail(65, 'engine_tier_policy_missing_local_runtime');
+  let manifest;
+  try {
+    manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  } catch (_) {
+    errors.push('manifest_parse_error');
+    actions.push('Fix .brik/manifest.json or rerun `brik64 init` after backing up local state.');
+    return { manifest: null, errors, actions };
   }
-  if (policy.registeredManagedRuntime !== 'managed_platform') {
-    fail(65, 'engine_tier_policy_missing_managed_platform');
+  const schema = manifest.schema || manifest.schemaVersion;
+  if (schema !== 'brik64.cli_project_manifest.v1') {
+    errors.push('manifest_schema_unsupported');
+    actions.push('Regenerate the workspace manifest with a supported BRIK64 CLI.');
   }
-  if (policy.internalArtifactFactory !== 'private_factory') {
-    fail(65, 'engine_tier_policy_missing_private_factory');
+  if (!manifest.cliVersion || typeof manifest.cliVersion !== 'string') {
+    errors.push('manifest_cli_version_missing');
+    actions.push('Regenerate the workspace manifest with `brik64 init`.');
   }
-  if (policy.l6DistributionAllowed !== false) {
-    fail(65, 'engine_tier_policy_l6_distribution_open');
+  const boundary = manifest.claimBoundary;
+  if (!boundary || typeof boundary !== 'object') {
+    errors.push('manifest_claim_boundary_missing');
+    actions.push('Restore the claimBoundary block in .brik/manifest.json.');
+  } else {
+    const releaseAllowed = boundary.releaseAllowed ?? boundary.releaseAuthorized;
+    if (releaseAllowed !== false) {
+      errors.push('manifest_release_policy_invalid');
+      actions.push('Set claimBoundary.releaseAllowed to false for local candidate workspaces.');
+    }
   }
-  if (policy.l5EmbeddedFreeRuntimeAllowed !== false) {
-    fail(65, 'engine_tier_policy_l5_free_embedding_open');
+  return { manifest, errors, actions };
+}
+
+function buildDoctorReport() {
+  const { manifest, errors, actions } = doctorManifestDiagnostics();
+  const warnings = [];
+  if (manifest) {
+    const policy = manifest.engineTierPolicy || {};
+    if (manifest.cliVersion !== version) {
+      errors.push('manifest_cli_version_mismatch');
+      actions.push('Reinitialize or migrate the workspace manifest for this CLI version.');
+    }
+    if (policy.publicOfflineRuntime !== 'local_runtime') {
+      errors.push('engine_tier_policy_missing_local_runtime');
+      actions.push('Restore engineTierPolicy.publicOfflineRuntime to local_runtime.');
+    }
+    if (policy.registeredManagedRuntime !== 'managed_platform') {
+      errors.push('engine_tier_policy_missing_managed_platform');
+      actions.push('Restore engineTierPolicy.registeredManagedRuntime to managed_platform.');
+    }
+    if (policy.internalArtifactFactory !== 'private_factory') {
+      errors.push('engine_tier_policy_missing_private_factory');
+      actions.push('Restore engineTierPolicy.internalArtifactFactory to private_factory.');
+    }
+    if (policy.l6DistributionAllowed !== false) {
+      errors.push('engine_tier_policy_l6_distribution_open');
+      actions.push('Set engineTierPolicy.l6DistributionAllowed to false.');
+    }
+    if (policy.l5EmbeddedFreeRuntimeAllowed !== false) {
+      errors.push('engine_tier_policy_l5_free_embedding_open');
+      actions.push('Set engineTierPolicy.l5EmbeddedFreeRuntimeAllowed to false.');
+    }
   }
   const pcds = pcdInventory();
   if (pcds.length === 0) {
-    fail(65, 'pcd_inventory_empty');
+    errors.push('pcd_inventory_empty');
+    actions.push('Add at least one .pcd file under ./pcd or run a command that creates seed PCD material.');
   }
-  const report = {
+  return {
     schemaVersion: 'brik64.cli_doctor_report.v1',
     cliVersion: version,
-    status: 'PASS',
+    status: errors.length === 0 ? 'PASS' : 'FAIL',
     releaseEligible: false,
     localRuntime: 'available',
     managedRuntime: hasManagedSession() ? 'authenticated' : 'not_authenticated',
     internalArtifactFactory: 'private',
     pcdCount: pcds.length,
     pcdInventorySha256: sha256(JSON.stringify(pcds)),
-    releaseScope: 'local_candidate_only'
+    releaseScope: 'local_candidate_only',
+    diagnostics: {
+      errors,
+      warnings,
+      actions: [...new Set(actions)]
+    }
   };
-  if (args['--json']) {
-    process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
-    return;
-  }
+}
+
+function printDoctorHuman(report) {
   process.stdout.write(`BRIK64 workspace doctor\n`);
   process.stdout.write(`status: ${report.status}\n`);
   process.stdout.write(`cli: ${report.cliVersion}\n`);
@@ -849,6 +902,45 @@ function doctor() {
   process.stdout.write(`pcd files: ${report.pcdCount}\n`);
   process.stdout.write(`release eligible: no\n`);
   process.stdout.write(`release scope: local candidate only\n`);
+  process.stdout.write(`\nDiagnostics\n`);
+  if (report.diagnostics.errors.length === 0) {
+    process.stdout.write(`errors: none\n`);
+  } else {
+    process.stdout.write(`Errors:\n`);
+    for (const error of report.diagnostics.errors) {
+      process.stdout.write(`- ${error}\n`);
+    }
+  }
+  if (report.diagnostics.warnings.length === 0) {
+    process.stdout.write(`warnings: none\n`);
+  } else {
+    process.stdout.write(`Warnings:\n`);
+    for (const warning of report.diagnostics.warnings) {
+      process.stdout.write(`- ${warning}\n`);
+    }
+  }
+  if (report.diagnostics.actions.length === 0) {
+    process.stdout.write(`actions: none\n`);
+  } else {
+    process.stdout.write(`Actions:\n`);
+    for (const action of report.diagnostics.actions) {
+      process.stdout.write(`- ${action}\n`);
+    }
+  }
+}
+
+function doctor() {
+  const args = parseArgs(process.argv.slice(3), { '--json': 'boolean' });
+  const report = buildDoctorReport();
+  if (args['--json']) {
+    process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  } else {
+    printDoctorHuman(report);
+  }
+  if (report.status !== 'PASS') {
+    process.stderr.write(`${report.diagnostics.errors.join('\n')}\n`);
+    process.exit(65);
+  }
 }
 
 function repoRoot() {

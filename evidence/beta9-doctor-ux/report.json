@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "brik64.cli_beta9_doctor_ux_gate.v1",
+  "generatedAt": "2026-06-07T12:37:00Z",
+  "iter_id": "BRIK64-CLI-BETA9-DOCTOR-UX-20260607-R1",
+  "lane": "cli_0_1_beta9",
+  "decision": "PASS_BRIK64_CLI_BETA9_DOCTOR_UX",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.8",
+  "cliSha256": "sha256:9957ebf3a58fbe63c967f1e50eaf7ba1ac7ef351d2f2059ebc7895195ca8b88a",
+  "fixture": {
+    "path": "pcd/doctor_ok.pcd",
+    "sha256": "sha256:519b0f26670af46402445ff5c610ce905e1fc918a672aaf9c1fa0f75901e55d2"
+  },
+  "checks": {
+    "pass_checks": 5,
+    "fail_closed_checks": 4,
+    "human_default": true,
+    "json_ci_stable": true,
+    "actionable_diagnostics": true
+  },
+  "adversarial": {
+    "missing_manifest_rejected": true,
+    "malformed_manifest_rejected": true,
+    "empty_inventory_rejected": true,
+    "l6_distribution_open_rejected": true,
+    "stack_trace_leaked": false
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "formal_n5_claim_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "compiler_functionality_scope": "supported_beta9_doctor_ux_only"
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "continue beta9 release-train materialization gates"
+}
