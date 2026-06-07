@@ -2,12 +2,12 @@
   "schemaVersion": "brik64.release_train_publish_plan.v1",
   "releaseId": "brik64-0.1.0-beta.9",
   "version": "0.1.0-beta.9",
-  "manifestDigest": "0a1b029b979736e90645f5526bdb3db8238406f24f6fce90e5c5133896f349e1",
+  "manifestDigest": "df24d8720ff445f7ffd7c15aecf5284ed1d4cf3c6bbca2b69d9c6b3540fea742",
   "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
   "dryRunInProgress": true,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.9 0a1b029b979736e90645f5526bdb3db8238406f24f6fce90e5c5133896f349e1",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.9 df24d8720ff445f7ffd7c15aecf5284ed1d4cf3c6bbca2b69d9c6b3540fea742",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
     "BRIK64_NPM_TOKEN": false,
@@ -37,7 +37,7 @@
     {
       "name": "github_release",
       "description": "Create or update the GitHub Release from the manifest version and upload committed assets.",
-      "command": "gh release view v0.1.0-beta.9 --repo brik64/brik64-cli || gh release create v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md; gh release upload v0.1.0-beta.9 --repo brik64/brik64-cli --clobber evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz evidence/beta9-package/package.manifest.json evidence/beta9-package/release-manifest.candidate.json evidence/beta9-package/SHA256SUMS; gh release edit v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md --prerelease --draft=false",
+      "command": "git tag -f v0.1.0-beta.9 HEAD && git push origin refs/tags/v0.1.0-beta.9 --force-with-lease; gh release view v0.1.0-beta.9 --repo brik64/brik64-cli || gh release create v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md; gh release upload v0.1.0-beta.9 --repo brik64/brik64-cli --clobber evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz evidence/beta9-package/package.manifest.json evidence/beta9-package/release-manifest.candidate.json evidence/beta9-package/SHA256SUMS; gh release edit v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md --prerelease --draft=false",
       "mutatesPublicSurface": true
     },
     {
