@@ -49,6 +49,18 @@ function rg(cwd, args) {
   return (result.stdout || '').split('\n').filter(Boolean);
 }
 
+function commandJson(command, args) {
+  const result = spawnSync(command, args, { encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 });
+  if (result.status !== 0) {
+    return { ok: false, error: (result.stderr || result.stdout || `rc_${result.status}`).slice(0, 500) };
+  }
+  try {
+    return { ok: true, value: JSON.parse(result.stdout) };
+  } catch (error) {
+    return { ok: false, error: `json_parse_error:${error.message}` };
+  }
+}
+
 function checkText(id, file, required, forbidden, failures, artifacts) {
   artifacts.push({ id, ...artifact(file) });
   if (!existsFile(file)) {
@@ -133,27 +145,56 @@ function sdkMarketplaces() {
   const failures = [];
   const observations = [];
   const localPackage = JSON.parse(read(path.join(root, 'evidence/beta9-package/package.manifest.json')));
-  const expected = [
-    { id: 'npm', package: '@brik64/core', version },
-    { id: 'pypi', package: 'brik64', version: pyVersion },
-    { id: 'crates', package: 'brik64-core', version }
-  ];
-  for (const item of expected) {
-    observations.push({ ...item, status: 'not_live_verified_in_this_gate' });
-    failures.push(`marketplace_publication_evidence_missing:${item.id}:${item.package}@${item.version}`);
+  const expected = {
+    npm: { package: '@brik64/core', version },
+    pypi: { package: 'brik64', version: pyVersion },
+    crates: { package: 'brik64-core', version }
+  };
+
+  const npm = commandJson('npm', ['view', '@brik64/core', 'versions', '--json']);
+  if (!npm.ok) {
+    observations.push({ id: 'npm', ...expected.npm, ok: false, error: npm.error });
+    failures.push('marketplace_live_query_failed:npm');
+  } else {
+    const versions = Array.isArray(npm.value) ? npm.value : [];
+    observations.push({ id: 'npm', ...expected.npm, ok: true, latestObserved: versions[versions.length - 1] || null, versions });
+    if (!versions.includes(version)) failures.push(`marketplace_version_missing:npm:${expected.npm.package}@${version}`);
   }
+
+  const pypi = commandJson('python3', ['-c', "import json,urllib.request;print(json.dumps(json.load(urllib.request.urlopen('https://pypi.org/pypi/brik64/json', timeout=10))))"]);
+  if (!pypi.ok) {
+    observations.push({ id: 'pypi', ...expected.pypi, ok: false, error: pypi.error });
+    failures.push('marketplace_live_query_failed:pypi');
+  } else {
+    const versions = Object.keys(pypi.value.releases || {}).sort();
+    observations.push({ id: 'pypi', ...expected.pypi, ok: true, latestObserved: pypi.value.info?.version || null, versions });
+    if (!versions.includes(pyVersion)) failures.push(`marketplace_version_missing:pypi:${expected.pypi.package}@${pyVersion}`);
+  }
+
+  const crates = commandJson('python3', ['-c', "import json,urllib.request;print(json.dumps(json.load(urllib.request.urlopen('https://crates.io/api/v1/crates/brik64-core', timeout=10))))"]);
+  if (!crates.ok) {
+    observations.push({ id: 'crates', ...expected.crates, ok: false, error: crates.error });
+    failures.push('marketplace_live_query_failed:crates');
+  } else {
+    const versions = (crates.value.versions || []).map((item) => item.num);
+    observations.push({ id: 'crates', ...expected.crates, ok: true, latestObserved: versions[0] || null, versions });
+    if (!versions.includes(version)) failures.push(`marketplace_version_missing:crates:${expected.crates.package}@${version}`);
+  }
+
   writeReport('sdk-marketplaces', {
     schemaVersion: 'brik64.beta9_sdk_marketplaces_surface.v1',
     generatedAt: new Date().toISOString(),
-    decision: 'BLOCKED_BETA9_SDK_MARKETPLACES',
+    decision: failures.length === 0 ? 'PASS_BETA9_SDK_MARKETPLACES' : 'BLOCKED_BETA9_SDK_MARKETPLACES',
     version,
-    publicSurfacePassed: false,
-    releaseEligible: false,
+    publicSurfacePassed: failures.length === 0,
+    releaseEligible: failures.length === 0,
     localCliPackage: localPackage.package,
     expected,
     observations,
     failures,
-    requiredNextAction: 'Publish and verify npm, PyPI and crates.io SDK packages for beta9, or record explicit no-change-required evidence accepted by the release gate.'
+    requiredNextAction: failures.length === 0
+      ? 'Keep SDK package versions pinned in docs/web and include marketplace evidence in the final release train.'
+      : 'Publish and verify npm, PyPI and crates.io SDK packages for beta9, or record explicit no-change-required evidence accepted by the release gate.'
   });
 }
 
