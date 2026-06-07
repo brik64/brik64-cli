@@ -19,15 +19,21 @@
 // requires doctor_human_default == true
 // requires doctor_json_ci_stable == true
 // requires github_verification_token_isolation == true
+// requires beta9_l6_materialization_report == "evidence/beta9-l6-materialization/report.json"
+// requires beta9_l6_materialization_decision == "PASS_BETA9_PCD_L6_MATERIALIZATION"
+// requires manual_surfaces_promoted == false
 // invariant unsupported_dynamic_behavior_fails_closed == true
 // invariant unbounded_loop_fails_closed == true
 // invariant unknown_identifier_fails_closed == true
 // invariant path_traversal_fails_closed == true
+// invariant pcd_inventory_hash_bound == true
+// invariant cli_polymer_hash_bound == true
+// invariant generated_artifact_hash_bound == true
 // invariant public_claim_allowed == false
 // claim_boundary = "beta9_product_iteration_only"
 
 PC brik_cli_beta9_transpiler_contract {
-    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok) {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized) {
         if (collections_ok == 0) {
             return 65;
         }
@@ -45,6 +51,9 @@ PC brik_cli_beta9_transpiler_contract {
         }
         if (gate_env_ok == 0) {
             return 68;
+        }
+        if (l6_materialized == 0) {
+            return 69;
         }
         return 0;
     }

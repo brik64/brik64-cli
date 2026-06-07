@@ -59,6 +59,7 @@
     "gate:beta8:marketplace-packages": "node scripts/beta8-marketplace-package-gate.js",
     "gate:beta8:docs-web-sync": "node scripts/beta8-docs-web-sync-gate.js",
     "gate:beta8:skills-sync": "node scripts/beta8-skills-sync-gate.js",
+    "gate:beta9:pcd-l6-materialization": "node scripts/beta9-pcd-l6-materialization-gate.js",
     "package:beta8:local": "bash scripts/build-beta8-package.sh",
     "smoke:beta8:package": "bash scripts/beta8-package-smoke.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
@@ -71,7 +72,8 @@
     "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",
     "release:github-signing-key:register": "node scripts/release/register-github-signing-key.js",
     "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js",
-    "test:github-token-isolation": "bash scripts/tests/test_github_verified_signature_token_isolation.sh"
+    "test:github-token-isolation": "bash scripts/tests/test_github_verified_signature_token_isolation.sh",
+    "test:beta9-pcd-l6-materialization": "bash scripts/tests/test_beta9_pcd_l6_materialization_gate.sh"
   },
   "author": {
     "name": "BRIK64 INC",

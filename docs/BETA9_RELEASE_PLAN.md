@@ -59,7 +59,26 @@ At minimum:
 - package and release reports bind PCD/polymer hashes to generated artifacts.
 
 Manual code changes are allowed only as implementation work toward the beta9
-contract. They are not by themselves factory-generation or formal evidence.
+contract. They are `prototype_non_claim` until a beta9 L6+N5 materialization
+report proves that the distributed artifact was generated from the PCD/polymer
+inputs through the internal factory.
+
+Promotion is blocked unless `evidence/beta9-l6-materialization/report.json`
+exists and records:
+
+- `decision: PASS_BETA9_PCD_L6_MATERIALIZATION`;
+- beta9 version `0.1.0-beta.9`;
+- lane `cli_0_1_beta`;
+- generation claim `assisted_generation_non_claim`;
+- PCD inventory hash;
+- `pcd/cli_polymer.pcd` hash;
+- `pcd/cli_beta9_transpiler_contract.pcd` hash;
+- factory serial and Stage1 hash;
+- generated artifact/package/release-manifest hashes;
+- closed public claim boundary.
+
+If that report is missing or stale, the state is
+`manual_surface_pending_pcd_generation`, not a releasable beta9.
 
 ## Required Gates
 
@@ -67,6 +86,7 @@ Before publication:
 
 - beta9 compiler functionality gate;
 - beta9 adversarial gate with edge, fail-closed and variation cases;
+- beta9 PCD/L6+N5 materialization gate;
 - token-contamination gate for GitHub verification;
 - package smoke from extracted tarball;
 - release manifest validation;
