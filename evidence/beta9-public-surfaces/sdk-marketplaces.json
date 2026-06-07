@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_sdk_marketplaces_surface.v1",
-  "generatedAt": "2026-06-07T13:38:26.596Z",
+  "generatedAt": "2026-06-07T13:40:21.015Z",
   "decision": "BLOCKED_BETA9_SDK_MARKETPLACES",
   "version": "0.1.0-beta.9",
   "publicSurfacePassed": false,
@@ -50,7 +50,7 @@
   "authPreflight": {
     "attempted": true,
     "decision": "BLOCKED_SDK_MARKETPLACE_AUTH_PREFLIGHT",
-    "blocker": "npm_token_unauthorized_e401"
+    "blocker": "npm_all_stored_token_candidates_unauthorized_e401"
   },
   "expected": {
     "npm": {
