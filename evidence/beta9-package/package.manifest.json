@@ -7,16 +7,16 @@
   "generationClaim": "assisted_generation_non_claim",
   "package": {
     "path": "evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz",
-    "sha256": "ddf847055fc8de9c866dde770092a60e4d568d8574b58c398e9d6694c22c6e10",
-    "bytes": 36050
+    "sha256": "cf67d0029662ae520b65efb17e6f26d422dc938f534c722b014675b5c1285b8b",
+    "bytes": 36161
   },
   "l6Materialization": {
-    "generatedArtifactHash": "sha256:cf1403b243893f369c7904e2b65670dd037b2a15c7cb33f06e4540d8cb1a14e9",
+    "generatedArtifactHash": "sha256:4b7108ccdfa1e35199c38231504112a0720f407fdfd2999e6f6beba5556f147e",
     "report": "evidence/beta9-l6-materialization/report.json"
   },
   "releaseManifest": {
     "path": "evidence/beta9-package/release-manifest.candidate.json",
-    "sha256": "83451affc3f9cdb21088464f69799304a12187afab423ce769413747b049c661"
+    "sha256": "02e28a96dea8a1462f7150d1a245baf87746addb9a129fc07fea2b25e64e824c"
   },
   "inputGates": [
     "PASS_BRIK64_CLI_BETA9_TYPED_INTERFACE",

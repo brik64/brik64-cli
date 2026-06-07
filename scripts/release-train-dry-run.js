@@ -113,7 +113,6 @@ function allowedStagedBlockers(version) {
     return new Set([
       'github_release_decision_invalid:STAGED_BETA9_GITHUB_RELEASE_DRAFT',
       'curl_gcp_installer_decision_invalid:STAGED_BETA9_CURL_GCP_INSTALLER',
-      'sdk_marketplaces_decision_invalid:BLOCKED_BETA9_SDK_MARKETPLACES',
       'manifest_alignment_decision_invalid:PASS_BETA9_MANIFEST_STAGED_BLOCKED_ALIGNMENT',
       'live_verify_decision_invalid:BLOCKED_BETA9_LIVE_VERIFY'
     ]);

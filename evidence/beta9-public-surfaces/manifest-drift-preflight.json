@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.beta9_manifest_drift_preflight.v1",
-  "generatedAt": "2026-06-07T14:26:06.198Z",
+  "generatedAt": "2026-06-07T15:01:28.832Z",
   "version": "0.1.0-beta.9",
-  "sourceHead": "1319911007bdf2e43d16b5f109a0034e6bccd084",
+  "sourceHead": "267f0f15fab0e5f3f9369dc798edfb729656d621",
   "activeManifest": {
     "path": "release/manifest.json",
     "sha256": "sha256:99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
@@ -12,7 +12,7 @@
   },
   "beta9Candidate": {
     "path": "evidence/beta9-package/release-manifest.candidate.json",
-    "sha256": "sha256:f7fd5328eeeb06e94c38fbf6d30fd7a3e85b9fe2d98c0ba67f2c9b3d6ee172fd",
+    "sha256": "sha256:02e28a96dea8a1462f7150d1a245baf87746addb9a129fc07fea2b25e64e824c",
     "releaseId": "brik64-0.1.0-beta.9",
     "version": "0.1.0-beta.9",
     "state": "draft"
@@ -20,12 +20,12 @@
   "publicSurfaceDecisions": {
     "githubRelease": "STAGED_BETA9_GITHUB_RELEASE_DRAFT",
     "curlGcpInstaller": "STAGED_BETA9_CURL_GCP_INSTALLER",
-    "sdkMarketplaces": "BLOCKED_BETA9_SDK_MARKETPLACES",
+    "sdkMarketplaces": "PASS_BETA9_SDK_MARKETPLACES",
     "liveVerify": "BLOCKED_BETA9_LIVE_VERIFY"
   },
   "sdkPublication": {
     "path": "evidence/beta9-public-surfaces/sdk-marketplace-publish.json",
-    "decision": "PASS_BETA9_SDK_MARKETPLACE_PUBLISH_DRY_RUN",
+    "decision": "PASS_BETA9_SDK_MARKETPLACE_PUBLISH",
     "publicationMutated": false,
     "failures": []
   },
