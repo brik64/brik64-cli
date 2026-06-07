@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.9",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "sourceHash": "3ca76e88c425117fa21ad3e00ea91cc4ee63abb3ba949562580afd514936e3c5",
+  "target": "js_node",
+  "boundedDomains": {
+    "collections_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "loops_bounded": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "types_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "imports_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "scaffolds_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "gate_env_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "l6_materialized": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "typed_interface_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "list_subset_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "map_subset_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "repeat_subset_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "target_scaffolds_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "local_imports_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "doctor_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "release_readiness_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "normalization": {
+    "status": "finite_boolean_domains",
+    "l5CertificateInheritance": "forbidden",
+    "separatesRawAndNormalized": true
+  },
+  "monomerTrace": [
+    {
+      "id": 1,
+      "family": "control",
+      "op": "FAIL_CLOSED_BRANCH_CHAIN"
+    }
+  ],
+  "certificationLane": "INTERNAL_BETA9_GENERATION_ATTEMPT",
+  "releaseEligible": false,
+  "technicalSheetHash": "cfb4ee476cf754cfa3867d2023c807eceb60f870b9c01c92386b9b047d93f03e"
+}
