@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_live_verify_surface.v1",
-  "generatedAt": "2026-06-07T13:15:00.069Z",
+  "generatedAt": "2026-06-07T13:20:26.921Z",
   "decision": "BLOCKED_BETA9_LIVE_VERIFY",
   "version": "0.1.0-beta.9",
   "publicSurfacePassed": false,

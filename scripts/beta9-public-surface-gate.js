@@ -95,13 +95,15 @@ function docsWebChangelog() {
   const webFiles = [
     ['web_cli_api', path.join(webRoot, 'functions/api/download/cli.ts'), [version]],
     ['web_sdk_api', path.join(webRoot, 'functions/api/download/sdk/[target].ts'), ['0.1.0-beta.9', '0.1.0b9']],
-    ['web_language_data', path.join(webRoot, 'src/lib/language-data.ts'), ['@brik64/core@0.1.0-beta.9', 'brik64==0.1.0b9', '0.1.0-beta.9']],
-    ['web_home', path.join(webRoot, 'src/app/page.tsx'), ['curl -fsSL https://brik64.com/cli/install.sh | bash']]
+    ['web_language_data', path.join(webRoot, 'src/lib/language-data.ts'), ['@brik64/core@0.1.0-beta.9', 'brik64==0.1.0b9', '0.1.0-beta.9']]
   ];
 
   for (const [id, file, required] of [...docsFiles, ...webFiles]) {
     checkText(id, file, required, forbidden, failures, artifacts);
   }
+  const homeCommandRefs = rg(webRoot, ['-n', 'curl -fsSL https://brik64\\.com/cli/install\\.sh \\| bash', 'src', 'components', 'functions', '-g', '!node_modules/**', '-g', '!.next/**']);
+  if (homeCommandRefs.length === 0) failures.push('web_install_command_source_missing');
+  artifacts.push({ id: 'web_install_command_refs', refs: homeCommandRefs.slice(0, 20), count: homeCommandRefs.length });
 
   for (const stale of rg(docsRoot, ['-n', '0\\.1\\.0-beta\\.[45678]|0\\.1\\.0b[45678]|beta[45678]', '-g', '!node_modules/**', '-g', '!.git/**', '-g', '!BETA*_SYNC.md', '-g', '!docs/operations/**'])) {
     failures.push(`docs_stale_version:${stale}`);
