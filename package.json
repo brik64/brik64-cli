@@ -70,7 +70,8 @@
     "release:train:publish-execute": "node scripts/release-train-publish-execute.js",
     "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",
     "release:github-signing-key:register": "node scripts/release/register-github-signing-key.js",
-    "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js"
+    "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js",
+    "test:github-token-isolation": "bash scripts/tests/test_github_verified_signature_token_isolation.sh"
   },
   "author": {
     "name": "BRIK64 INC",

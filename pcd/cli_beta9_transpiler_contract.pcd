@@ -1,0 +1,51 @@
+// brik64.pcd_file.v1
+// name: brik_cli_beta9_transpiler_contract
+// status: beta9_candidate_contract
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// cli_version = "0.1.0-beta.9"
+// lane = "cli_0_1_beta"
+// generation_claim = "assisted_generation_non_claim"
+// internal_artifact_factory = "L6+N5 non-claim"
+// supported_emit_targets = "ts,rust,python"
+// requires arrays_lists_supported == true
+// requires maps_dictionaries_supported == true
+// requires bounded_for_loops_supported == true
+// requires bounded_while_loops_supported == true
+// requires strict_type_validation == true
+// requires local_pcd_imports_supported == true
+// requires target_scaffolds == "typescript_package,rust_cargo,python_pyproject"
+// requires doctor_human_default == true
+// requires doctor_json_ci_stable == true
+// requires github_verification_token_isolation == true
+// invariant unsupported_dynamic_behavior_fails_closed == true
+// invariant unbounded_loop_fails_closed == true
+// invariant unknown_identifier_fails_closed == true
+// invariant path_traversal_fails_closed == true
+// invariant public_claim_allowed == false
+// claim_boundary = "beta9_product_iteration_only"
+
+PC brik_cli_beta9_transpiler_contract {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok) {
+        if (collections_ok == 0) {
+            return 65;
+        }
+        if (loops_bounded == 0) {
+            return 65;
+        }
+        if (types_ok == 0) {
+            return 65;
+        }
+        if (imports_ok == 0) {
+            return 65;
+        }
+        if (scaffolds_ok == 0) {
+            return 65;
+        }
+        if (gate_env_ok == 0) {
+            return 68;
+        }
+        return 0;
+    }
+}
