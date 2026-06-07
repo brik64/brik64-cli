@@ -217,6 +217,27 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
 
+  if (betaNumber(manifest.version) === 9) {
+    return [
+      run('beta9_typed_interface', ['npm', 'run', 'gate:beta9:typed-interface']),
+      run('beta9_collections', ['npm', 'run', 'gate:beta9:collections']),
+      run('beta9_maps', ['npm', 'run', 'gate:beta9:maps']),
+      run('beta9_bounded_loops', ['npm', 'run', 'gate:beta9:bounded-loops']),
+      run('beta9_scaffolds', ['npm', 'run', 'gate:beta9:scaffolds']),
+      run('beta9_local_imports', ['npm', 'run', 'gate:beta9:local-imports']),
+      run('beta9_doctor_ux', ['npm', 'run', 'gate:beta9:doctor-ux']),
+      run('beta9_pcd_l6_materialization', ['npm', 'run', 'gate:beta9:pcd-l6-materialization']),
+      run('beta9_package_smoke', ['npm', 'run', 'smoke:beta9:package']),
+      ...(canAccessSiblingRepos
+        ? [
+            run('beta9_sdk_marketplaces', ['npm', 'run', 'gate:beta9:sdk-marketplaces']),
+            run('beta9_skills_sync', ['npm', 'run', 'gate:beta9:skills-sync']),
+            run('beta9_docs_web_changelog', ['npm', 'run', 'gate:beta9:docs-web-changelog'])
+          ]
+        : [])
+    ];
+  }
+
   return [
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),
     run(`${label}_local_package`, ['node', `scripts/build-${label}-package.js`]),
@@ -255,7 +276,7 @@ function main() {
         ...(beta === 6 && runLiveL6Gate
           ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
           : []),
-        run('smoke_tests', ['bash', '-lc', beta === 8 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
+        run('smoke_tests', ['bash', '-lc', beta === 8 || beta === 9 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
           stdoutLimit: 12000,
           stderrLimit: 12000
         }),

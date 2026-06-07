@@ -1,52 +1,96 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.8",
+  "version": "0.1.0-beta.9",
   "state": "public",
-  "manifestDigest": "99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
+  "manifestDigest": "263b971c87ef26a49c48ab076c7c13844c72dd275ae4785c49a0069345428512",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
-      "bytes": 3863
+      "sha256": "263b971c87ef26a49c48ab076c7c13844c72dd275ae4785c49a0069345428512",
+      "bytes": 5353
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.8"
+      "version": "0.1.0-beta.9"
     },
     "evidence": [
       {
-        "id": "compilerFunctionality",
-        "path": "evidence/beta8-compiler-functionality/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
-        "actualDecision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
-        "sha256": "4e1d3351a93514a1cdf3bde360f8bbfe2e8a8285f94921efee9e4708c9ae5aa5"
+        "id": "typedInterface",
+        "path": "evidence/beta9-typed-interface/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_TYPED_INTERFACE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_TYPED_INTERFACE",
+        "sha256": "0e517a444f5734ff655df2f33ad1182adc5dea2ace751d4c239f549d782b47f5"
       },
       {
-        "id": "adversarial",
-        "path": "evidence/beta8-adversarial/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
-        "actualDecision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
-        "sha256": "cc96725570711586495d8cb96fa71a53887cc0933be7a18cc7f6a7a096d6863d"
+        "id": "collections",
+        "path": "evidence/beta9-collections/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_COLLECTIONS",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_COLLECTIONS",
+        "sha256": "fd40c6425c693b3728afe59c097154bae429a07a5ef7bb1e3c760db453fe53bd"
+      },
+      {
+        "id": "maps",
+        "path": "evidence/beta9-maps/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_MAPS",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_MAPS",
+        "sha256": "a46e30d66247f6c5cefa10098239c81ce9b6e28446d9cfe16150f97f442e628d"
+      },
+      {
+        "id": "boundedLoops",
+        "path": "evidence/beta9-bounded-loops/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS",
+        "sha256": "45fa07cd1607037a44ec7eb19a556621d19244cb11e9269433ca2b15b80b220c"
+      },
+      {
+        "id": "scaffolds",
+        "path": "evidence/beta9-scaffolds/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_SCAFFOLDS",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_SCAFFOLDS",
+        "sha256": "a3a46780b2322bc3ef1b9c9572d6edd0ed107becccee2112b360e194addf6b04"
+      },
+      {
+        "id": "localImports",
+        "path": "evidence/beta9-local-imports/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_LOCAL_IMPORTS",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_LOCAL_IMPORTS",
+        "sha256": "55ec6efeacbe7bc09df1457b2388be07f4cfe6da5314e8e81b30a71b3824b433"
+      },
+      {
+        "id": "doctorUx",
+        "path": "evidence/beta9-doctor-ux/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_DOCTOR_UX",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_DOCTOR_UX",
+        "sha256": "3ab1ea51f24207655e0a53e6e44e20b43e09dcf2b078d821aaf9a48a9353606a"
+      },
+      {
+        "id": "pcdL6Materialization",
+        "path": "evidence/beta9-l6-materialization/gate-report.json",
+        "expectedDecision": "PASS_BETA9_PCD_L6_MATERIALIZATION_GATE",
+        "actualDecision": "PASS_BETA9_PCD_L6_MATERIALIZATION_GATE",
+        "sha256": "d7713ea5264e2146f9c48607a718fa0e7d720ac3342f7c4ed561b11689ad6d06"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta8-package/package.manifest.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
-        "actualDecision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
-        "sha256": "eec112132996ffc66ddee990293107cf66e2737fc69c2e06c7e602934ec6144b"
+        "path": "evidence/beta9-package/package.manifest.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_PACKAGE_BUILT",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_PACKAGE_BUILT",
+        "sha256": "133cd329ed62ec41283e7cf79b4be20b7a9894da5de109c4cddea272906a53c2"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta8-package-smoke/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
-        "sha256": "e6fac13ec2b65387ede1ed7949b9253a50cf0bdba1fa471735151daa0f192121"
+        "path": "evidence/beta9-package-smoke/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA9_LOCAL_PACKAGE_SMOKE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA9_LOCAL_PACKAGE_SMOKE",
+        "sha256": "ec722b4054dfada96a98b5694b3fa75861bc19a0eb47d90ece9260884a7fc1aa"
       }
     ]
   },
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "worktree_dirty_allowed:42"
+  ]
 }

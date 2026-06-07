@@ -52,6 +52,11 @@
 // requires marketplace_publish_reports_redact_command_tokens == true
 // requires marketplace_existing_version_publish_is_idempotent == true
 // requires staged_release_train_accepts_sdk_marketplaces_pass == true
+// requires release_train_github_signature_gate_version_aware == true
+// requires release_train_beta9_manifest_mode_uses_real_beta9_gates == true
+// requires release_train_dry_run_does_not_rebuild_beta9_package == true
+// requires release_train_signature_gate_runs_in_publish_workflow_not_pr_dry_run == true
+// requires publish_plan_signature_failures_are_warnings_during_release_train_dry_run == true
 // requires beta9_l6_materialization_report == "evidence/beta9-l6-materialization/report.json"
 // requires beta9_l6_materialization_decision == "PASS_BETA9_PCD_L6_MATERIALIZATION"
 // requires manual_surfaces_promoted == false
