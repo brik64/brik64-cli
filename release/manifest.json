@@ -3,7 +3,7 @@
   "releaseId": "brik64-0.1.0-beta.8",
   "version": "0.1.0-beta.8",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-06T02:15:00Z",
   "source": {
     "repo": "brik64/brik64-cli",
