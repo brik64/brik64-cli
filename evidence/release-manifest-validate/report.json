@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.8",
   "state": "draft",
-  "manifestDigest": "ce9f53e08bf87bef835ace633ba504d11e9f74471920d97f1f7d7e4acd680b86",
+  "manifestDigest": "47a8d26b8707eb3c61434ac8c6cef88c5dbd85411ab868892931a5b5f02816f9",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": false,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "ce9f53e08bf87bef835ace633ba504d11e9f74471920d97f1f7d7e4acd680b86",
-      "bytes": 3829
+      "sha256": "47a8d26b8707eb3c61434ac8c6cef88c5dbd85411ab868892931a5b5f02816f9",
+      "bytes": 3862
     },
     "packageJson": {
       "path": "package.json",
@@ -22,33 +22,31 @@
         "path": "evidence/beta8-compiler-functionality/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
         "actualDecision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
-        "sha256": "d2d05e4eddf12b59d5baa972e547babe7a837195c6c761e454e079c18876c718"
+        "sha256": "4e1d3351a93514a1cdf3bde360f8bbfe2e8a8285f94921efee9e4708c9ae5aa5"
       },
       {
         "id": "adversarial",
         "path": "evidence/beta8-adversarial/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
         "actualDecision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
-        "sha256": "b38f032b387043c461773b5232d6ba2925d5d58b96e73ae35d3123d9144c05d2"
+        "sha256": "cc96725570711586495d8cb96fa71a53887cc0933be7a18cc7f6a7a096d6863d"
       },
       {
         "id": "localPackage",
         "path": "evidence/beta8-package/package.manifest.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
         "actualDecision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT",
-        "sha256": "c57928c3bee2e1fa9a03e44c2012fb006d4a31bc33be931be512bcfee464bbb6"
+        "sha256": "eec112132996ffc66ddee990293107cf66e2737fc69c2e06c7e602934ec6144b"
       },
       {
         "id": "localPackageSmoke",
         "path": "evidence/beta8-package-smoke/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
         "actualDecision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE",
-        "sha256": "82e977a924640f4ddc58351f084ff878848ac39e8fd409687b85f6c30eb72168"
+        "sha256": "e6fac13ec2b65387ede1ed7949b9253a50cf0bdba1fa471735151daa0f192121"
       }
     ]
   },
   "failures": [],
-  "warnings": [
-    "worktree_dirty_allowed:21"
-  ]
+  "warnings": []
 }
