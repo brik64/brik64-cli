@@ -8,18 +8,20 @@ Current blocker:
 - PR: https://github.com/brik64/brik64-cli/pull/65
 - State: approved, checks green, merge blocked
 - GitHub verification reason: `unknown_key`
-- Expected public key fingerprint:
-  `SHA256:OEJJTFqu5VlYv7mAH3iGhTpIVhQLYbMaSzZ9Y+MLwFo`
+- Commit signing account: `carlosjperez`
+- Public key fingerprint for this release lane:
+  `SHA256:Ua933KXYBhzgl5+852YF5GYMwOab/RGZwevZyImNfZ8`
 
 Do not use admin merge override. The release train must pass with GitHub
 recognizing the exact release commit as verified.
 
 ## Preflight
 
-Run:
+Run with the public key that belongs to the commit signing account:
 
 ```bash
-npm run preflight:github-signing-key
+npm run preflight:github-signing-key -- \
+  --public-key "$HOME/.ssh/brik64-carlosjperez-release-signing.pub"
 ```
 
 Expected blocked state before authorization:
@@ -46,27 +48,33 @@ Complete the browser device-flow approval. After approval, verify scopes:
 gh auth status -h github.com
 ```
 
-The active account used to register the key must be the account that will own
-the verified signing key for the beta8 commit identity.
+The active account used to register the key must be the account that owns the
+beta8 commit identity. A GitHub SSH signing key cannot be reused across
+accounts. If the key is already registered to another account, create a
+separate signing key for the actual committing account.
 
 ## Register The Public Signing Key
 
-Never print or upload the private key. Register only:
+Never print or upload the private key. Register only the public key for the
+committing account:
 
 ```bash
-~/.ssh/brik64-admin-signing.pub
+~/.ssh/brik64-carlosjperez-release-signing.pub
 ```
 
 The public key fingerprint must match:
 
 ```text
-SHA256:OEJJTFqu5VlYv7mAH3iGhTpIVhQLYbMaSzZ9Y+MLwFo
+SHA256:Ua933KXYBhzgl5+852YF5GYMwOab/RGZwevZyImNfZ8
 ```
 
 Preferred repo command after scopes are authorized:
 
 ```bash
-npm run release:github-signing-key:register -- --execute
+npm run release:github-signing-key:register -- \
+  --execute \
+  --public-key "$HOME/.ssh/brik64-carlosjperez-release-signing.pub" \
+  --title "BRIK64 beta8 release signing key carlosjperez"
 ```
 
 The command is idempotent. It lists existing GitHub SSH signing keys, compares
@@ -79,7 +87,7 @@ Equivalent API path:
 gh api user/ssh_signing_keys \
   --method POST \
   --field title="BRIK64 beta8 release signing key" \
-  --field key="$(cat ~/.ssh/brik64-admin-signing.pub)"
+  --field key="$(cat ~/.ssh/brik64-carlosjperez-release-signing.pub)"
 ```
 
 If GitHub reports the key already exists, continue to validation.
@@ -89,7 +97,8 @@ If GitHub reports the key already exists, continue to validation.
 Run:
 
 ```bash
-npm run preflight:github-signing-key
+npm run preflight:github-signing-key -- \
+  --public-key "$HOME/.ssh/brik64-carlosjperez-release-signing.pub"
 ```
 
 Required result:
