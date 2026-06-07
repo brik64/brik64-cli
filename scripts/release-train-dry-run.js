@@ -165,6 +165,14 @@ function candidateBranchCommands(version) {
       runBeta9StagedReadiness()
     ];
   }
+  if (version === '0.1.0-beta.10') {
+    return [
+      run('beta10_local_gate', ['npm', 'run', 'gate:beta10:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
@@ -326,6 +334,18 @@ function main() {
         if (details.unexpected.length > 0) failures.push(`candidate_unexpected_blockers:${details.unexpected.join('|')}`);
         if (details.missing.length > 0) failures.push(`candidate_missing_expected_blockers:${details.missing.join('|')}`);
       }
+    } else if (currentPackageVersion === '0.1.0-beta.10') {
+      const beta10Path = path.join(root, 'evidence', 'beta10-local-gate', 'report.json');
+      const beta10 = fs.existsSync(beta10Path) ? readJson(beta10Path) : null;
+      requiredEvidence.push({
+        id: 'beta10_local_gate',
+        path: 'evidence/beta10-local-gate/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA10_LOCAL_GATE',
+        actualDecision: beta10?.decision || null,
+        pass: beta10?.decision === 'PASS_BRIK64_CLI_BETA10_LOCAL_GATE'
+      });
+      if (!beta10) failures.push('candidate_readiness_missing:beta10_local_gate');
+      else if (beta10.decision !== 'PASS_BRIK64_CLI_BETA10_LOCAL_GATE') failures.push(`candidate_beta10_local_gate_invalid:${beta10.decision}`);
     }
   } else {
     for (const item of manifest.verification.requiredEvidence) {
