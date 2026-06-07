@@ -49,12 +49,6 @@ function ghJson(args, input = '') {
   }
 }
 
-function redact(text) {
-  return String(text || '')
-    .replace(/gho_[A-Za-z0-9_]+/g, 'gho_***')
-    .replace(/github_pat_[A-Za-z0-9_]+/g, 'github_pat_***');
-}
-
 function fingerprintForKeyText(keyText, id) {
   const tmp = path.join(outDir, `candidate-${id || 'key'}.pub`);
   fs.writeFileSync(tmp, `${String(keyText).trim()}\n`);
