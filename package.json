@@ -64,6 +64,7 @@
     "gate:beta9:collections": "bash scripts/beta9-collections-gate.sh",
     "gate:beta9:maps": "bash scripts/beta9-maps-gate.sh",
     "gate:beta9:bounded-loops": "bash scripts/beta9-bounded-loops-gate.sh",
+    "gate:beta9:scaffolds": "bash scripts/beta9-scaffolds-gate.sh",
     "package:beta8:local": "bash scripts/build-beta8-package.sh",
     "smoke:beta8:package": "bash scripts/beta8-package-smoke.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
@@ -81,7 +82,8 @@
     "test:beta9-typed-interface": "bash scripts/beta9-typed-interface-gate.sh",
     "test:beta9-collections": "bash scripts/beta9-collections-gate.sh",
     "test:beta9-maps": "bash scripts/beta9-maps-gate.sh",
-    "test:beta9-bounded-loops": "bash scripts/beta9-bounded-loops-gate.sh"
+    "test:beta9-bounded-loops": "bash scripts/beta9-bounded-loops-gate.sh",
+    "test:beta9-scaffolds": "bash scripts/beta9-scaffolds-gate.sh"
   },
   "author": {
     "name": "BRIK64 INC",

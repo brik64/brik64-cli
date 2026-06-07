@@ -1213,92 +1213,165 @@ function targetSpec(target, ast) {
   const tsStatements = renderStatements(ast.body, 'ts', 1);
   const rustStatements = renderStatements(ast.body, 'rust', 1);
   const pythonStatements = renderStatements(ast.body, 'python', 1);
+  const safeName = ast.fnName.replace(/[^A-Za-z0-9_]/g, '_');
+  const tsProgram = (hash) => [
+    '// BRIK64 beta9 functional emission candidate',
+    '// claim: local candidate evidence only',
+    `export const pcdSha256 = "${hash}";`,
+    `export const pcdAst = ${astJson};`,
+    `export function run(${tsParams}) {`,
+    ...tsStatements,
+    '  throw new Error("pcd execution reached non-returning path");',
+    '}',
+    '',
+  ].join('\n');
+  const tsTest = (hash, importPath = './program.mjs') => [
+    `import { pcdSha256, run } from "${importPath}";`,
+    '',
+    'if (pcdSha256 !== "' + hash + '") throw new Error("pcd hash mismatch");',
+    `const cases = ${JSON.stringify(cases)};`,
+    'for (const testCase of cases) {',
+    `  const actual = run(${params.map((param) => `testCase.args.${param}`).join(', ')});`,
+    '  if (actual !== testCase.expected) {',
+    '    throw new Error(`case ${testCase.input} expected ${testCase.expected} got ${actual}`);',
+    '  }',
+    '}',
+    'console.log("brik64 generated ts test: PASS");',
+    '',
+  ].join('\n');
+  const rustProgram = (hash) => [
+    '// BRIK64 beta9 functional emission candidate',
+    '// claim: local candidate evidence only',
+    `pub const PCD_SHA256: &str = "${hash}";`,
+    `pub const PCD_AST_JSON: &str = r#"${astJson}"#;`,
+    `pub fn run(${rustParams}) -> i64 {`,
+    ...rustStatements.map((line) => line.replace(/^  /, '    ')),
+    '    panic!("pcd execution reached non-returning path");',
+    '}',
+    '',
+  ].join('\n');
+  const rustTestMain = (hash) => [
+    `const PCD_SHA256: &str = "${hash}";`,
+    `const PCD_AST_JSON: &str = r#"${astJson}"#;`,
+    `fn run(${rustParams}) -> i64 {`,
+    ...rustStatements.map((line) => line.replace(/^  /, '    ')),
+    '    panic!("pcd execution reached non-returning path");',
+    '}',
+    '',
+    'fn main() {',
+    `    assert_eq!(PCD_SHA256, "${hash}");`,
+    '    assert!(PCD_AST_JSON.contains("body"));',
+    ...cases.map((testCase) => `    assert_eq!(run(${params.map((param) => testCase.args[param]).join(', ')}), ${testCase.expected});`),
+    '    println!("brik64 generated rust test: PASS");',
+    '}',
+    '',
+  ].join('\n');
+  const rustLib = (hash) => [
+    ...rustProgram(hash).trimEnd().split('\n'),
+    '',
+    '#[cfg(test)]',
+    'mod tests {',
+    '    use super::*;',
+    '',
+    '    #[test]',
+    '    fn generated_cases_pass() {',
+    `        assert_eq!(PCD_SHA256, "${hash}");`,
+    '        assert!(PCD_AST_JSON.contains("body"));',
+    ...cases.map((testCase) => `        assert_eq!(run(${params.map((param) => testCase.args[param]).join(', ')}), ${testCase.expected});`),
+    '    }',
+    '}',
+    '',
+  ].join('\n');
+  const pythonProgram = (hash) => [
+    '# BRIK64 beta9 functional emission candidate',
+    '# claim: local candidate evidence only',
+    `PCD_SHA256 = "${hash}"`,
+    `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
+    '',
+    `def run(${pythonParams}):`,
+    ...pythonStatements,
+    '    raise RuntimeError("pcd execution reached non-returning path")',
+    '',
+  ].join('\n');
+  const pythonTest = (hash, importLine = 'from program import PCD_SHA256, run') => [
+    importLine,
+    '',
+    `assert PCD_SHA256 == "${hash}"`,
+    `cases = ${JSON.stringify(cases)}`,
+    'for case in cases:',
+    `    actual = run(${params.map((param) => `case["args"]["${param}"]`).join(', ')})`,
+    '    assert actual == case["expected"], f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
+    'print("brik64 generated python test: PASS")',
+    '',
+  ].join('\n');
   const specs = {
     ts: {
       program: 'program.mjs',
       test: 'program.test.mjs',
-      code: (hash) => [
-        '// BRIK64 beta8 functional emission candidate',
-        '// claim: local candidate evidence only',
-        `export const pcdSha256 = "${hash}";`,
-        `export const pcdAst = ${astJson};`,
-        `export function run(${tsParams}) {`,
-        ...tsStatements,
-        '  throw new Error("pcd execution reached non-returning path");',
-        '}',
-        '',
-      ].join('\n'),
-      testCode: (hash) => [
-        'import { pcdSha256, run } from "./program.mjs";',
-        '',
-        'if (pcdSha256 !== "' + hash + '") throw new Error("pcd hash mismatch");',
-        `const cases = ${JSON.stringify(cases)};`,
-        'for (const testCase of cases) {',
-        `  const actual = run(${params.map((param) => `testCase.args.${param}`).join(', ')});`,
-        '  if (actual !== testCase.expected) {',
-        '    throw new Error(`case ${testCase.input} expected ${testCase.expected} got ${actual}`);',
-        '  }',
-        '}',
-        'console.log("brik64 generated ts test: PASS");',
-        '',
-      ].join('\n'),
+      code: tsProgram,
+      testCode: (hash) => tsTest(hash),
+      scaffoldFiles: (hash) => ({
+        'package.json': JSON.stringify({
+          name: `brik64-generated-${safeName}`,
+          version: '0.0.0-beta9-local',
+          private: true,
+          type: 'module',
+          scripts: { test: 'node program.test.mjs' }
+        }, null, 2) + '\n',
+        'tsconfig.json': JSON.stringify({
+          compilerOptions: {
+            target: 'ES2022',
+            module: 'ES2022',
+            moduleResolution: 'Bundler',
+            strict: true,
+            noEmit: true
+          },
+          include: ['program.mjs', 'program.test.mjs', 'src/**/*.mjs']
+        }, null, 2) + '\n',
+        'src/program.mjs': tsProgram(hash),
+        'src/program.test.mjs': tsTest(hash, './program.mjs')
+      })
     },
     rust: {
       program: 'program.rs',
       test: 'program_test.rs',
-      code: (hash) => [
-        '// BRIK64 beta8 functional emission candidate',
-        '// claim: local candidate evidence only',
-        `pub const PCD_SHA256: &str = "${hash}";`,
-        `pub const PCD_AST_JSON: &str = r#"${astJson}"#;`,
-        `pub fn run(${rustParams}) -> i64 {`,
-        ...rustStatements.map((line) => line.replace(/^  /, '    ')),
-        '    panic!("pcd execution reached non-returning path");',
-        '}',
-        '',
-      ].join('\n'),
-      testCode: (hash) => [
-        `const PCD_SHA256: &str = "${hash}";`,
-        `const PCD_AST_JSON: &str = r#"${astJson}"#;`,
-        `fn run(${rustParams}) -> i64 {`,
-        ...rustStatements.map((line) => line.replace(/^  /, '    ')),
-        '    panic!("pcd execution reached non-returning path");',
-        '}',
-        '',
-        'fn main() {',
-        `    assert_eq!(PCD_SHA256, "${hash}");`,
-        '    assert!(PCD_AST_JSON.contains("body"));',
-        ...cases.map((testCase) => `    assert_eq!(run(${params.map((param) => testCase.args[param]).join(', ')}), ${testCase.expected});`),
-        '    println!("brik64 generated rust test: PASS");',
-        '}',
-        '',
-      ].join('\n'),
+      code: rustProgram,
+      testCode: rustTestMain,
+      scaffoldFiles: (hash) => ({
+        'Cargo.toml': [
+          '[package]',
+          `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
+          'version = "0.0.0-beta9-local"',
+          'edition = "2021"',
+          'publish = false',
+          '',
+          '[lib]',
+          'path = "src/lib.rs"',
+          '',
+        ].join('\n'),
+        'src/lib.rs': rustLib(hash)
+      })
     },
     python: {
       program: 'program.py',
       test: 'test_program.py',
-      code: (hash) => [
-        '# BRIK64 beta8 functional emission candidate',
-        '# claim: local candidate evidence only',
-        `PCD_SHA256 = "${hash}"`,
-        `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
-        '',
-        `def run(${pythonParams}):`,
-        ...pythonStatements,
-        '    raise RuntimeError("pcd execution reached non-returning path")',
-        '',
-      ].join('\n'),
-      testCode: (hash) => [
-        'from program import PCD_SHA256, run',
-        '',
-        `assert PCD_SHA256 == "${hash}"`,
-        `cases = ${JSON.stringify(cases)}`,
-        'for case in cases:',
-        `    actual = run(${params.map((param) => `case["args"]["${param}"]`).join(', ')})`,
-        '    assert actual == case["expected"], f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
-        'print("brik64 generated python test: PASS")',
-        '',
-      ].join('\n'),
+      code: pythonProgram,
+      testCode: (hash) => pythonTest(hash),
+      scaffoldFiles: (hash) => ({
+        'pyproject.toml': [
+          '[project]',
+          `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
+          'version = "0.0.0-beta9-local"',
+          'requires-python = ">=3.10"',
+          '',
+          '[tool.brik64]',
+          'claim_boundary = "local_candidate_only"',
+          '',
+        ].join('\n'),
+        'brik64_generated/__init__.py': 'from .program import PCD_SHA256, PCD_AST_JSON, run\n',
+        'brik64_generated/program.py': pythonProgram(hash),
+        'tests/test_program.py': pythonTest(hash, 'from brik64_generated.program import PCD_SHA256, run')
+      })
     },
   };
   return specs[target] || null;
@@ -1365,6 +1438,12 @@ function emit(file, args = []) {
     writeFileControlled(programPath, spec.code(cert.semantic_pcd_sha256));
     if (options.tests) {
       writeFileControlled(testPath, spec.testCode(cert.semantic_pcd_sha256));
+      const scaffoldFiles = spec.scaffoldFiles ? spec.scaffoldFiles(cert.semantic_pcd_sha256) : {};
+      for (const [relativePath, content] of Object.entries(scaffoldFiles)) {
+        const scaffoldPath = path.join(outDir, relativePath);
+        mkdirControlled(path.dirname(scaffoldPath));
+        writeFileControlled(scaffoldPath, content);
+      }
     }
     process.stdout.write(`generated=${path.relative(process.cwd(), programPath)}\n`);
     if (options.tests) process.stdout.write(`tests=${path.relative(process.cwd(), testPath)}\n`);
