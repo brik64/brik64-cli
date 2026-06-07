@@ -19,20 +19,12 @@ function sha256Text(value) {
   return `sha256:${crypto.createHash('sha256').update(value).digest('hex')}`;
 }
 
-function sha256File(file) {
-  return sha256Text(fs.readFileSync(file));
-}
-
 function read(file) {
   return fs.readFileSync(file, 'utf8');
 }
 
 function existsFile(file) {
   return fs.existsSync(file) && fs.statSync(file).isFile();
-}
-
-function relOrAbs(file) {
-  return path.isAbsolute(file) ? file : path.join(root, file);
 }
 
 function artifact(file) {
