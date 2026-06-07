@@ -26,6 +26,9 @@
 // requires typed_i64_return_supported == true
 // requires multi_param_emit_supported == true
 // requires local_pcd_imports_supported == true
+// requires local_use_import_supported == true
+// requires import_call_supported == true
+// requires nested_imports_supported == false
 // requires target_scaffolds == "typescript_package,rust_cargo,python_pyproject"
 // requires typescript_package_json == true
 // requires typescript_tsconfig == true
@@ -50,7 +53,7 @@
 // claim_boundary = "beta9_product_iteration_only"
 
 PC brik_cli_beta9_transpiler_contract {
-    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok, map_subset_ok, repeat_subset_ok, target_scaffolds_ok) {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok, map_subset_ok, repeat_subset_ok, target_scaffolds_ok, local_imports_ok) {
         if (collections_ok == 0) {
             return 65;
         }
@@ -85,6 +88,9 @@ PC brik_cli_beta9_transpiler_contract {
             return 65;
         }
         if (target_scaffolds_ok == 0) {
+            return 65;
+        }
+        if (local_imports_ok == 0) {
             return 65;
         }
         return 0;

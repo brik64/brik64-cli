@@ -232,7 +232,7 @@ function tokenizeExpression(source) {
   return tokens;
 }
 
-function parseExpression(source, params) {
+function parseExpression(source, params, imports = {}) {
   const tokens = tokenizeExpression(source);
   let index = 0;
   const precedence = {
@@ -288,6 +288,30 @@ function parseExpression(source, params) {
         }
         consume(')');
         expression = { type: 'HasExpression', object, key: keyToken.value };
+      } else if (imports[token.value] && peek() && peek().value === '(') {
+        const callee = token.value;
+        consume('(');
+        const args = [];
+        if (peek() && peek().value !== ')') {
+          while (true) {
+            args.push(parseBinary(1));
+            if (peek() && peek().value === ',') {
+              consume(',');
+              if (peek() && peek().value === ')') {
+                fail(65, 'pcd_parse_error:trailing_call_comma');
+              }
+              continue;
+            }
+            break;
+          }
+        }
+        consume(')');
+        if (args.length !== imports[callee].params.length) {
+          fail(65, `pcd_parse_error:import_call_arity_mismatch:${callee}`);
+        }
+        expression = { type: 'CallExpression', callee, args };
+      } else if (peek() && peek().value === '(') {
+        fail(65, `pcd_parse_error:unknown_callable:${token.value}`);
       } else if (!params.some((param) => param.name === token.value)) {
         fail(65, `pcd_parse_error:unknown_identifier:${token.value}`);
       } else {
@@ -391,7 +415,7 @@ function parseExpression(source, params) {
   return expression;
 }
 
-function parseStatements(body, params) {
+function parseStatements(body, params, imports = {}) {
   const statements = [];
   let index = 0;
 
@@ -426,7 +450,7 @@ function parseStatements(body, params) {
       if (semi === -1) fail(65, 'pcd_parse_error:missing_return_semicolon');
       const value = body.slice(index, semi).trim();
       if (!value) fail(65, 'pcd_parse_error:missing_return_value');
-      statements.push({ type: 'ReturnStatement', argument: parseExpression(value, params) });
+      statements.push({ type: 'ReturnStatement', argument: parseExpression(value, params, imports) });
       index = semi + 1;
       continue;
     }
@@ -441,12 +465,12 @@ function parseStatements(body, params) {
       if (body.slice(index).startsWith('else')) {
         index += 'else'.length;
         skipWhitespace();
-        alternate = parseStatements(readBalanced('{', '}'), params);
+        alternate = parseStatements(readBalanced('{', '}'), params, imports);
       }
       statements.push({
         type: 'IfStatement',
-        condition: parseExpression(condition, params),
-        consequent: parseStatements(consequentBody, params),
+        condition: parseExpression(condition, params, imports),
+        consequent: parseStatements(consequentBody, params, imports),
         alternate,
       });
       continue;
@@ -463,7 +487,7 @@ function parseStatements(body, params) {
       index += countMatch[1].length;
       skipWhitespace();
       const loopBody = readBalanced('{', '}');
-      const bodyStatements = parseStatements(loopBody, params);
+      const bodyStatements = parseStatements(loopBody, params, imports);
       if (bodyStatements.length === 0) {
         fail(65, 'pcd_parse_error:repeat_empty_body');
       }
@@ -536,6 +560,14 @@ function inferExpressionType(expression, paramTypes) {
     if (objectType !== 'map_i64') fail(65, 'pcd_parse_error:has_requires_map');
     return 'i64';
   }
+  if (expression.type === 'CallExpression') {
+    for (const argument of expression.args) {
+      if (inferExpressionType(argument, paramTypes) !== 'i64') {
+        fail(65, `pcd_parse_error:import_call_requires_i64_args:${expression.callee}`);
+      }
+    }
+    return 'i64';
+  }
   if (expression.type === 'BinaryExpression') {
     const leftType = inferExpressionType(expression.left, paramTypes);
     const rightType = inferExpressionType(expression.right, paramTypes);
@@ -606,7 +638,7 @@ function countBranches(statements) {
   }, 0);
 }
 
-function parsePcd(source) {
+function parsePcd(source, context = {}) {
   if (source.length === 0 || source.trim().length === 0) {
     fail(65, 'pcd_empty');
   }
@@ -616,24 +648,54 @@ function parsePcd(source) {
   if (Buffer.byteLength(source, 'utf8') > 1024 * 1024) {
     fail(65, 'pcd_too_large');
   }
+  const baseDir = context.baseDir || process.cwd();
+  const importStack = context.importStack || [];
   const stripped = stripPcdComments(source);
-  const pcMatch = stripped.match(/\bPC\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{([\s\S]*)\}\s*$/m);
+  const imports = {};
+  let pcdSource = stripped.trimStart();
+  while (pcdSource.startsWith('use ')) {
+    const importMatch = pcdSource.match(/^use\s+([A-Za-z_][A-Za-z0-9_]*)\s*;\s*/);
+    if (!importMatch) {
+      fail(65, 'pcd_parse_error:malformed_import');
+    }
+    const importName = importMatch[1];
+    const importPath = path.resolve(baseDir, `${importName}.pcd`);
+    if (path.dirname(importPath) !== path.resolve(baseDir)) {
+      fail(65, 'pcd_parse_error:import_path_outside_directory');
+    }
+    if (importStack.includes(importPath)) {
+      fail(65, `pcd_parse_error:import_cycle:${importName}`);
+    }
+    if (!fs.existsSync(importPath)) {
+      fail(66, `pcd_import_not_found:${importName}`);
+    }
+    const importedAst = parsePcd(fs.readFileSync(importPath, 'utf8'), {
+      baseDir,
+      importStack: [...importStack, importPath]
+    });
+    if (Object.keys(importedAst.imports || {}).length > 0) {
+      fail(65, `pcd_parse_error:nested_imports_unsupported:${importName}`);
+    }
+    imports[importName] = importedAst;
+    pcdSource = pcdSource.slice(importMatch[0].length).trimStart();
+  }
+  const pcMatch = pcdSource.match(/\bPC\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{([\s\S]*)\}\s*$/m);
   if (!pcMatch) {
-    const legacyHint = /\bpc\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m.test(stripped)
-      || /\bcircuit\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m.test(stripped);
+    const legacyHint = /\bpc\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m.test(pcdSource)
+      || /\bcircuit\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m.test(pcdSource);
     if (legacyHint) {
       fail(65, 'pcd_parse_error:missing_pc_block; legacy syntax detected; run `brik64 migrate <file>`');
     }
     fail(65, 'pcd_parse_error:missing_pc_block');
   }
-  const pcStart = stripped.search(/\bPC\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m);
-  const pcOpen = stripped.indexOf('{', pcStart);
-  const pcClose = findMatchingBrace(stripped, pcOpen);
-  if (pcClose === -1 || stripped.slice(pcClose + 1).trim().length > 0) {
+  const pcStart = pcdSource.search(/\bPC\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m);
+  const pcOpen = pcdSource.indexOf('{', pcStart);
+  const pcClose = findMatchingBrace(pcdSource, pcOpen);
+  if (pcClose === -1 || pcdSource.slice(pcClose + 1).trim().length > 0) {
     fail(65, 'pcd_parse_error:malformed_pc_block');
   }
   const pcName = pcMatch[1];
-  const pcBody = stripped.slice(pcOpen + 1, pcClose);
+  const pcBody = pcdSource.slice(pcOpen + 1, pcClose);
   const fnMatch = pcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*(?:->\s*([A-Za-z0-9_]+)\s*)?\{/m);
   if (!fnMatch) {
     fail(65, 'pcd_parse_error:missing_fn_block');
@@ -661,7 +723,7 @@ function parsePcd(source) {
     }
     seenParams.add(param.name);
   }
-  const body = parseStatements(fnBody, params);
+  const body = parseStatements(fnBody, params, imports);
   const paramTypes = Object.fromEntries(params.map((param) => [param.name, param.type]));
   validateStatementTypes(body, paramTypes, returnType);
   const returns = collectReturns(body);
@@ -675,6 +737,7 @@ function parsePcd(source) {
     params: params.map((param) => param.name),
     paramTypes,
     returnType,
+    imports,
     body,
     returnValues: returns.map((expression) => (expression.type === 'NumberLiteral' ? expression.value : null)),
     branchCount: countBranches(body),
@@ -956,6 +1019,10 @@ function encodedAst(ast) {
   return JSON.stringify(ast);
 }
 
+function importedFunctionName(name) {
+  return `__brik_import_${name}`;
+}
+
 function renderExpression(expression, target) {
   if (expression.type === 'NumberLiteral') return String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
@@ -1002,6 +1069,10 @@ function renderExpression(expression, target) {
     if (target === 'python') return `(1 if ${JSON.stringify(expression.key)} in ${object} else 0)`;
     if (target === 'rust') fail(70, 'internal_codegen_error:rust_dynamic_map_has_unsupported');
     return `(Object.prototype.hasOwnProperty.call(${object}, ${JSON.stringify(expression.key)}) ? 1 : 0)`;
+  }
+  if (expression.type === 'CallExpression') {
+    const args = expression.args.map((argument) => renderExpression(argument, target)).join(', ');
+    return `${importedFunctionName(expression.callee)}(${args})`;
   }
   if (expression.type === 'BinaryExpression') {
     const left = renderExpression(expression.left, target);
@@ -1065,6 +1136,35 @@ function renderStatements(statements, target, indentLevel) {
   return lines;
 }
 
+function renderImportedFunctions(imports, target) {
+  const lines = [];
+  for (const [name, importedAst] of Object.entries(imports || {})) {
+    const params = importedAst.params.length > 0 ? importedAst.params : ['input'];
+    const fnName = importedFunctionName(name);
+    if (target === 'python') {
+      lines.push(`def ${fnName}(${params.map((param) => `${param}=0`).join(', ')}):`);
+      lines.push(...renderStatements(importedAst.body, target, 1));
+      lines.push('    raise RuntimeError("pcd import reached non-returning path")');
+      lines.push('');
+      continue;
+    }
+    if (target === 'rust') {
+      lines.push(`fn ${fnName}(${params.map((param) => `${param}: i64`).join(', ')}) -> i64 {`);
+      lines.push(...renderStatements(importedAst.body, target, 1).map((line) => line.replace(/^  /, '    ')));
+      lines.push('    panic!("pcd import reached non-returning path");');
+      lines.push('}');
+      lines.push('');
+      continue;
+    }
+    lines.push(`function ${fnName}(${params.map((param) => `${param} = 0`).join(', ')}) {`);
+    lines.push(...renderStatements(importedAst.body, target, 1));
+    lines.push('  throw new Error("pcd import reached non-returning path");');
+    lines.push('}');
+    lines.push('');
+  }
+  return lines;
+}
+
 function evaluateExpression(expression, env) {
   if (expression.type === 'NumberLiteral') return expression.value;
   if (expression.type === 'Identifier') return env[expression.name] ?? 0;
@@ -1095,6 +1195,17 @@ function evaluateExpression(expression, env) {
   if (expression.type === 'HasExpression') {
     const object = evaluateExpression(expression.object, env);
     return object && !Array.isArray(object) && typeof object === 'object' && expression.key in object ? 1 : 0;
+  }
+  if (expression.type === 'CallExpression') {
+    const imports = env.__imports || {};
+    const importedAst = imports[expression.callee];
+    if (!importedAst) return undefined;
+    const args = expression.args.map((argument) => evaluateExpression(argument, env));
+    const importedEnv = { __imports: importedAst.imports || {} };
+    importedAst.params.forEach((param, index) => {
+      importedEnv[param] = args[index];
+    });
+    return evaluateStatements(importedAst.body, importedEnv);
   }
   if (expression.type === 'BinaryExpression') {
     const left = evaluateExpression(expression.left, env);
@@ -1160,6 +1271,9 @@ function collectConditionValues(expression, values = new Set([0, 1, 2, 10])) {
   if (expression.type === 'LenExpression') collectConditionValues(expression.argument, values);
   if (expression.type === 'MemberExpression') collectConditionValues(expression.object, values);
   if (expression.type === 'HasExpression') collectConditionValues(expression.object, values);
+  if (expression.type === 'CallExpression') {
+    for (const argument of expression.args) collectConditionValues(argument, values);
+  }
   if (expression.type === 'BinaryExpression') {
     collectConditionValues(expression.left, values);
     collectConditionValues(expression.right, values);
@@ -1189,7 +1303,7 @@ function generatedCases(ast) {
   return inputs
     .map((input) => {
       const args = Object.fromEntries(params.map((param, index) => [param, index === 0 ? input : 1]));
-      return { input, args, expected: evaluateStatements(ast.body, args) };
+      return { input, args, expected: evaluateStatements(ast.body, { ...args, __imports: ast.imports || {} }) };
     })
     .filter((testCase) => testCase.expected !== undefined)
     .slice(0, 8);
@@ -1213,12 +1327,16 @@ function targetSpec(target, ast) {
   const tsStatements = renderStatements(ast.body, 'ts', 1);
   const rustStatements = renderStatements(ast.body, 'rust', 1);
   const pythonStatements = renderStatements(ast.body, 'python', 1);
+  const tsImports = renderImportedFunctions(ast.imports, 'ts');
+  const rustImports = renderImportedFunctions(ast.imports, 'rust');
+  const pythonImports = renderImportedFunctions(ast.imports, 'python');
   const safeName = ast.fnName.replace(/[^A-Za-z0-9_]/g, '_');
   const tsProgram = (hash) => [
     '// BRIK64 beta9 functional emission candidate',
     '// claim: local candidate evidence only',
     `export const pcdSha256 = "${hash}";`,
     `export const pcdAst = ${astJson};`,
+    ...tsImports,
     `export function run(${tsParams}) {`,
     ...tsStatements,
     '  throw new Error("pcd execution reached non-returning path");',
@@ -1244,6 +1362,7 @@ function targetSpec(target, ast) {
     '// claim: local candidate evidence only',
     `pub const PCD_SHA256: &str = "${hash}";`,
     `pub const PCD_AST_JSON: &str = r#"${astJson}"#;`,
+    ...rustImports,
     `pub fn run(${rustParams}) -> i64 {`,
     ...rustStatements.map((line) => line.replace(/^  /, '    ')),
     '    panic!("pcd execution reached non-returning path");',
@@ -1253,6 +1372,7 @@ function targetSpec(target, ast) {
   const rustTestMain = (hash) => [
     `const PCD_SHA256: &str = "${hash}";`,
     `const PCD_AST_JSON: &str = r#"${astJson}"#;`,
+    ...rustImports,
     `fn run(${rustParams}) -> i64 {`,
     ...rustStatements.map((line) => line.replace(/^  /, '    ')),
     '    panic!("pcd execution reached non-returning path");',
@@ -1288,6 +1408,7 @@ function targetSpec(target, ast) {
     `PCD_SHA256 = "${hash}"`,
     `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
     '',
+    ...pythonImports,
     `def run(${pythonParams}):`,
     ...pythonStatements,
     '    raise RuntimeError("pcd execution reached non-returning path")',
@@ -1379,8 +1500,9 @@ function targetSpec(target, ast) {
 
 function certify(file) {
   validateManifest();
+  const resolvedFile = workspacePath(file);
   const source = readFileRequired(file);
-  const ast = parsePcd(source);
+  const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
   const cert = {
     schemaVersion: 'brik64.cli_local_candidate_certificate.v1',
     cliVersion: version,
@@ -1419,8 +1541,9 @@ function certificateFor(file, source, ast) {
 
 function emit(file, args = []) {
   validateManifest();
+  const resolvedFile = workspacePath(file);
   const source = readFileRequired(file);
-  const ast = parsePcd(source);
+  const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
   const cert = certificateFor(file, source, ast);
   const options = parseEmitOptions(args);
   if (options.target || options.outDir || options.tests) {
@@ -1465,8 +1588,9 @@ function verify(file, args = []) {
   if (parsed['--cloud']) {
     fail(69, 'managed_verify_endpoint_unavailable_beta8');
   }
+  const resolvedFile = workspacePath(file);
   const source = readFileRequired(file);
-  const ast = parsePcd(source);
+  const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
   const cert = certificateFor(file, source, ast);
   const report = {
     schemaVersion: 'brik64.cli_local_verify_report.v1',
@@ -1518,8 +1642,9 @@ function polymerize(rawArgs = []) {
     fail(64, 'missing_polymerize_inputs');
   }
   const units = files.map((file) => {
+    const resolvedFile = workspacePath(file);
     const source = readFileRequired(file);
-    const ast = parsePcd(source);
+    const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
     return {
       file,
       semantic_pcd_sha256: sha256(source),
@@ -1576,6 +1701,7 @@ function migrate(file, args = []) {
     fail(64, 'migrate_output_mode_conflict');
   }
   const source = readFileRequired(file);
+  const resolvedFile = workspacePath(file);
   const oldHash = sha256(source);
   let migrated = source;
   let syntax = 'beta8';
@@ -1586,8 +1712,8 @@ function migrate(file, args = []) {
     migrated = migrated.replace(/\bpc\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{/m, 'PC $1 {');
     syntax = 'legacy_lowercase_pc';
   }
-  parsePcd(migrated);
-  const inputPath = workspacePath(file);
+  parsePcd(migrated, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
+  const inputPath = resolvedFile;
   let outPath;
   if (parsed['--in-place']) {
     const backupPath = `${inputPath}.bak`;

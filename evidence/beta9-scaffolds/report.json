@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta9_scaffolds_gate.v1",
-  "generatedAt": "2026-06-07T12:21:07Z",
+  "generatedAt": "2026-06-07T12:29:24Z",
   "iter_id": "BRIK64-CLI-BETA9-SCAFFOLDS-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_SCAFFOLDS",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:d015694886acdebccf2ea4e98e8319a07633d5cc4d7d0067dec88f79cba157ed",
+  "cliSha256": "sha256:da02792b062039ada0441298999cbdb2ec746aab06eab08f6b07486da67b0737",
   "fixture": {
     "path": "pcd/scaffold_score.pcd",
     "sha256": "sha256:1249fd8af8a67c25929baabe04977e451e2d087ffd49a9ea2680a57a62691db9"

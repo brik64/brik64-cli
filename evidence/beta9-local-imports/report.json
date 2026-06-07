@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "brik64.cli_beta9_local_imports_gate.v1",
+  "generatedAt": "2026-06-07T12:31:46Z",
+  "iter_id": "BRIK64-CLI-BETA9-LOCAL-IMPORTS-20260607-R1",
+  "lane": "cli_0_1_beta9",
+  "decision": "PASS_BRIK64_CLI_BETA9_LOCAL_IMPORTS",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.8",
+  "cliSha256": "sha256:da02792b062039ada0441298999cbdb2ec746aab06eab08f6b07486da67b0737",
+  "fixture": {
+    "path": "pcd/import_score.pcd",
+    "sha256": "sha256:c08429bceebbfe1d64cb451b0531221a0fe91899ab3b1430ad0518d435a42563"
+  },
+  "helper": {
+    "path": "pcd/helper.pcd",
+    "sha256": "sha256:fce00a05c16fbe25afbe8db946e7e5c71883a5a76c0bb086fd5b2f5d2349d685"
+  },
+  "checks": {
+    "pass_checks": 10,
+    "fail_closed_checks": 4,
+    "local_use_import": true,
+    "import_call": true,
+    "nested_imports": false
+  },
+  "adversarial": {
+    "missing_import_rejected": true,
+    "import_arity_rejected": true,
+    "unknown_callable_rejected": true,
+    "nested_import_rejected": true,
+    "stack_trace_leaked": false
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "formal_n5_claim_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "compiler_functionality_scope": "supported_beta9_direct_local_import_subset_only"
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "continue beta9 doctor UX and release-train materialization gates"
+}

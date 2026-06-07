@@ -1,29 +1,29 @@
 {
   "schemaVersion": "brik64.cli_beta8_compiler_functionality_gate.v1",
-  "generatedAt": "2026-06-07T12:21:32Z",
+  "generatedAt": "2026-06-07T12:29:37Z",
   "iter_id": "BRIK64-CLI-BETA8-COMPILER-FUNCTIONALITY-20260606-R1",
   "lane": "cli_0_1_beta8",
   "decision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:d015694886acdebccf2ea4e98e8319a07633d5cc4d7d0067dec88f79cba157ed",
+  "cliSha256": "sha256:da02792b062039ada0441298999cbdb2ec746aab06eab08f6b07486da67b0737",
   "fixture": {
     "path": "pcd/branch_math.pcd",
     "sha256": "sha256:09742f0ef4d80b4f465da256d8d44b4c587306c07015ecb77cada308c1d70404"
   },
   "executedTargets": {
     "typescript": {
-      "programSha256": "sha256:ae319e37d1f8903e7e2f166c65713b8c2ad9ccdb10447f63f6d7c9038495ea0c",
+      "programSha256": "sha256:bc8c4e7670c23703463707ec554d91a4045865d77c0f68a2365ee411c7f4240e",
       "test": "node out-ts/program.test.mjs",
       "passed": true
     },
     "rust": {
-      "programSha256": "sha256:221c293884eb3cee1d64e8e46310481a57adbf6c54c74eec8af0b096ac9c46da",
+      "programSha256": "sha256:91ca0800023e1df86e40f2b75aff64094a26d029852d02699278708c40275f86",
       "test": "rustc out-rust/program_test.rs && ./out-rust/program_test",
       "passed": true
     },
     "python": {
-      "programSha256": "sha256:384b5c56c8d80a2c3c335b6e5ff62a61b08aa055ede6a96a9b8a45ff2853665f",
+      "programSha256": "sha256:104ff407cce699655478271f10a33a90b481ec8456ef0b65d33437d236671f78",
       "test": "PYTHONPATH=out-python python3 out-python/test_program.py",
       "passed": true
     }

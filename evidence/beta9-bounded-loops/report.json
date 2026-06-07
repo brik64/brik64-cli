@@ -1,27 +1,27 @@
 {
   "schemaVersion": "brik64.cli_beta9_bounded_loops_gate.v1",
-  "generatedAt": "2026-06-07T12:21:07Z",
+  "generatedAt": "2026-06-07T12:29:23Z",
   "iter_id": "BRIK64-CLI-BETA9-BOUNDED-LOOPS-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:d015694886acdebccf2ea4e98e8319a07633d5cc4d7d0067dec88f79cba157ed",
+  "cliSha256": "sha256:da02792b062039ada0441298999cbdb2ec746aab06eab08f6b07486da67b0737",
   "fixture": {
     "path": "pcd/repeat_score.pcd",
     "sha256": "sha256:0e337eaffe2a470f57e10b14fb88e59c82fa6de7fa1deaa94740dfa0eed6fc79"
   },
   "executedTargets": {
     "typescript": {
-      "programSha256": "sha256:28b03d6e2fd08b012237da407058c8d457e4c679949dc378e2634bdd013bab08",
+      "programSha256": "sha256:25c90028e1fbf4e4f0fa346f8a3031bdfe6d3809a4ab965e77341333a1655c09",
       "passed": true
     },
     "rust": {
-      "programSha256": "sha256:e4c7c9195dcfd7490efeb3eb70268a422a3bf7c121993ecb1d217ec51195221b",
+      "programSha256": "sha256:155d0045a63fc2ce102fe315480f1676f191d574147f92c2387a5902a9778a25",
       "passed": true
     },
     "python": {
-      "programSha256": "sha256:2e5dfbcb4db2e5063929eaea373bff028dfa330f7ae2eb972ec7bdaa225ed5b1",
+      "programSha256": "sha256:126a32f7029007f3b4ab0db71cbc978eecfb74684c586fca879564e299a6a0ea",
       "passed": true
     }
   },
