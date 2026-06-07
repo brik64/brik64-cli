@@ -3,6 +3,35 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release train.
 
+## 0.1.0-beta.10
+
+### Added
+
+- Adds local import DAG support for PCD files that use transitive same-directory
+  imports.
+- Adds literal `i64` compile-time constants for supported PCD programs,
+  including bounded `repeat` counts.
+- Adds `brik64 explain <file.pcd>` with human and JSON diagnostics for parser,
+  import, constant, and type checks.
+- Adds `brik64 lock` to write `brik64.lock.json` with local PCD, AST, import
+  graph, and constant hashes.
+- Adds local telemetry status/explain commands. Telemetry remains disabled by
+  default.
+- Adds feedback dry-run and redacted local error-report inspection commands.
+
+### Changed
+
+- Improves local diagnostics for import cycles, invalid constants, and local
+  error capture without sending raw source or PCD content.
+
+### Compatibility
+
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim formal certification for arbitrary user code,
+  universal correctness, or independent toolchain closure.
+
 ## 0.1.0-beta.9
 
 ### Added

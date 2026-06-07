@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.9",
+  "version": "0.1.0-beta.10",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -107,7 +107,9 @@
     "test:beta9-manifest-drift": "node scripts/beta9-manifest-drift-preflight.js",
     "test:beta9-skills-sync": "node scripts/beta9-public-surface-gate.js skills-sync",
     "test:beta9-live-verify": "node scripts/beta9-public-surface-gate.js live-verify",
-    "test:beta9-package-smoke": "bash scripts/beta9-package-smoke.sh"
+    "test:beta9-package-smoke": "bash scripts/beta9-package-smoke.sh",
+    "gate:beta10:local": "bash scripts/beta10-local-gate.sh",
+    "test:beta10-local": "bash scripts/beta10-local-gate.sh"
   },
   "author": {
     "name": "BRIK64 INC",

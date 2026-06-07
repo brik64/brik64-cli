@@ -8,8 +8,10 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.9';
+const version = '0.1.0-beta.10';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
+const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
+const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
 const RESET = '\x1b[0m';
 const BRIK = '\x1b[38;2;180;180;180m';
 const CYAN = '\x1b[38;2;25;167;195m';
@@ -39,7 +41,40 @@ function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
+function redactValue(value) {
+  return String(value || '')
+    .replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '[redacted_email]')
+    .replace(/(token|secret|key|password)=([^&\s]+)/gi, '$1=[redacted]')
+    .replace(new RegExp(process.cwd().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), '[workspace]');
+}
+
+function writeLastErrorReport(message) {
+  try {
+    const brikDir = path.resolve('.brik');
+    if (!fs.existsSync(brikDir)) return;
+    const reportDir = path.join(brikDir, 'error-reports');
+    fs.mkdirSync(reportDir, { recursive: true });
+    const command = process.argv.slice(2, 4).filter(Boolean).join(' ') || 'unknown';
+    const report = {
+      schemaVersion: ERROR_REPORT_SCHEMA,
+      cliVersion: version,
+      capturedAt: new Date().toISOString(),
+      command,
+      normalizedErrorCode: redactValue(String(message).split(/[;:\s]/)[0] || 'unknown_error'),
+      redactedMessage: redactValue(message),
+      rawSourceIncluded: false,
+      rawPcdIncluded: false,
+      absolutePathIncluded: false,
+      networkSent: false
+    };
+    fs.writeFileSync(path.join(reportDir, 'last.json'), JSON.stringify(report, null, 2) + '\n');
+  } catch (_) {
+    // Error capture is best-effort and must never mask the original failure.
+  }
+}
+
 function fail(code, message) {
+  writeLastErrorReport(message);
   process.stderr.write(`${message}\n`);
   process.exit(code);
 }
@@ -115,6 +150,10 @@ function help() {
   process.stdout.write('  logout               remove managed platform session\n');
   process.stdout.write('  migrate <file.pcd>   convert supported legacy PCD syntax\n');
   process.stdout.write('       --out <file> | --in-place\n');
+  process.stdout.write('  explain <file.pcd>   explain parser/type/import diagnostics\n');
+  process.stdout.write('       --json\n');
+  process.stdout.write('  lock                 write brik64.lock.json for local hashes\n');
+  process.stdout.write('       --json\n');
   process.stdout.write('  certify <file.pcd>   write local candidate certificate\n');
   process.stdout.write('  emit <file.pcd>      emit only when local certificate exists\n');
   process.stdout.write('       --target <ts|rust|python> --out <dir> --tests\n');
@@ -122,6 +161,12 @@ function help() {
   process.stdout.write('       --local | --cloud --out <file> --json\n');
   process.stdout.write('  verify <file.pcd>    verify local certificate/workspace coherence\n');
   process.stdout.write('       --local | --cloud | --json\n');
+  process.stdout.write('  telemetry status     inspect local opt-in telemetry status\n');
+  process.stdout.write('  telemetry explain    explain privacy boundaries\n');
+  process.stdout.write('  feedback --dry-run   write redacted local feedback preview\n');
+  process.stdout.write('       --category <bug|docs|feature|install|compiler|sdk> --message <text>\n');
+  process.stdout.write('  errors status        inspect local error-report status\n');
+  process.stdout.write('  errors explain-last  print last redacted local error report\n');
   process.stdout.write('  --version            print version\n');
   process.stdout.write('\nreferences:\n');
   process.stdout.write('  docs                 https://docs.brik64.com/cli/install\n');
@@ -232,7 +277,7 @@ function tokenizeExpression(source) {
   return tokens;
 }
 
-function parseExpression(source, params, imports = {}) {
+function parseExpression(source, params, imports = {}, constants = {}) {
   const tokens = tokenizeExpression(source);
   let index = 0;
   const precedence = {
@@ -312,6 +357,8 @@ function parseExpression(source, params, imports = {}) {
         expression = { type: 'CallExpression', callee, args };
       } else if (peek() && peek().value === '(') {
         fail(65, `pcd_parse_error:unknown_callable:${token.value}`);
+      } else if (Object.prototype.hasOwnProperty.call(constants, token.value)) {
+        expression = { type: 'ConstLiteral', name: token.value, value: constants[token.value] };
       } else if (!params.some((param) => param.name === token.value)) {
         fail(65, `pcd_parse_error:unknown_identifier:${token.value}`);
       } else {
@@ -415,7 +462,7 @@ function parseExpression(source, params, imports = {}) {
   return expression;
 }
 
-function parseStatements(body, params, imports = {}) {
+function parseStatements(body, params, imports = {}, constants = {}) {
   const statements = [];
   let index = 0;
 
@@ -450,7 +497,7 @@ function parseStatements(body, params, imports = {}) {
       if (semi === -1) fail(65, 'pcd_parse_error:missing_return_semicolon');
       const value = body.slice(index, semi).trim();
       if (!value) fail(65, 'pcd_parse_error:missing_return_value');
-      statements.push({ type: 'ReturnStatement', argument: parseExpression(value, params, imports) });
+      statements.push({ type: 'ReturnStatement', argument: parseExpression(value, params, imports, constants) });
       index = semi + 1;
       continue;
     }
@@ -465,12 +512,12 @@ function parseStatements(body, params, imports = {}) {
       if (body.slice(index).startsWith('else')) {
         index += 'else'.length;
         skipWhitespace();
-        alternate = parseStatements(readBalanced('{', '}'), params, imports);
+      alternate = parseStatements(readBalanced('{', '}'), params, imports, constants);
       }
       statements.push({
         type: 'IfStatement',
-        condition: parseExpression(condition, params, imports),
-        consequent: parseStatements(consequentBody, params, imports),
+        condition: parseExpression(condition, params, imports, constants),
+        consequent: parseStatements(consequentBody, params, imports, constants),
         alternate,
       });
       continue;
@@ -478,16 +525,18 @@ function parseStatements(body, params, imports = {}) {
     if (body.slice(index).startsWith('repeat')) {
       index += 'repeat'.length;
       skipWhitespace();
-      const countMatch = body.slice(index).match(/^(\d+)/);
+      const countMatch = body.slice(index).match(/^([A-Za-z_][A-Za-z0-9_]*|\d+)/);
       if (!countMatch) fail(65, 'pcd_parse_error:repeat_requires_literal_bound');
-      const count = Number(countMatch[1]);
+      const countToken = countMatch[1];
+      const count = /^\d+$/.test(countToken) ? Number(countToken) : constants[countToken];
+      if (count === undefined) fail(65, `pcd_parse_error:const_unknown:${countToken}`);
       if (!Number.isInteger(count) || count < 1 || count > 64) {
         fail(65, 'pcd_parse_error:repeat_bound_out_of_range');
       }
-      index += countMatch[1].length;
+      index += countToken.length;
       skipWhitespace();
       const loopBody = readBalanced('{', '}');
-      const bodyStatements = parseStatements(loopBody, params, imports);
+      const bodyStatements = parseStatements(loopBody, params, imports, constants);
       if (bodyStatements.length === 0) {
         fail(65, 'pcd_parse_error:repeat_empty_body');
       }
@@ -513,6 +562,7 @@ function parseParam(raw) {
 
 function inferExpressionType(expression, paramTypes) {
   if (expression.type === 'NumberLiteral') return 'i64';
+  if (expression.type === 'ConstLiteral') return 'i64';
   if (expression.type === 'Identifier') return paramTypes[expression.name] || 'unknown';
   if (expression.type === 'UnaryExpression') {
     const argumentType = inferExpressionType(expression.argument, paramTypes);
@@ -652,6 +702,7 @@ function parsePcd(source, context = {}) {
   const importStack = context.importStack || [];
   const stripped = stripPcdComments(source);
   const imports = {};
+  const importGraph = {};
   let pcdSource = stripped.trimStart();
   while (pcdSource.startsWith('use ')) {
     const importMatch = pcdSource.match(/^use\s+([A-Za-z_][A-Za-z0-9_]*)\s*;\s*/);
@@ -669,14 +720,17 @@ function parsePcd(source, context = {}) {
     if (!fs.existsSync(importPath)) {
       fail(66, `pcd_import_not_found:${importName}`);
     }
-    const importedAst = parsePcd(fs.readFileSync(importPath, 'utf8'), {
+    const importedSource = fs.readFileSync(importPath, 'utf8');
+    const importedAst = parsePcd(importedSource, {
       baseDir,
       importStack: [...importStack, importPath]
     });
-    if (Object.keys(importedAst.imports || {}).length > 0) {
-      fail(65, `pcd_parse_error:nested_imports_unsupported:${importName}`);
-    }
     imports[importName] = importedAst;
+    importGraph[importName] = {
+      file: path.relative(baseDir, importPath),
+      semantic_pcd_sha256: sha256(importedSource),
+      imports: Object.keys(importedAst.imports || {}).sort()
+    };
     pcdSource = pcdSource.slice(importMatch[0].length).trimStart();
   }
   const pcMatch = pcdSource.match(/\bPC\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{([\s\S]*)\}\s*$/m);
@@ -696,21 +750,38 @@ function parsePcd(source, context = {}) {
   }
   const pcName = pcMatch[1];
   const pcBody = pcdSource.slice(pcOpen + 1, pcClose);
-  const fnMatch = pcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*(?:->\s*([A-Za-z0-9_]+)\s*)?\{/m);
+  const constants = {};
+  let executablePcBody = pcBody;
+  const constPattern = /^\s*const\s+([A-Za-z_][A-Za-z0-9_]*)\s*:\s*i64\s*=\s*(-?\d+)\s*;\s*/m;
+  while (true) {
+    const constMatch = executablePcBody.match(constPattern);
+    if (!constMatch) break;
+    const [, name, literal] = constMatch;
+    if (Object.prototype.hasOwnProperty.call(constants, name)) fail(65, `pcd_parse_error:const_duplicate:${name}`);
+    if (Object.keys(constants).length >= 64) fail(65, 'pcd_parse_error:const_table_too_large');
+    const value = Number(literal);
+    if (!Number.isSafeInteger(value)) fail(65, `pcd_parse_error:const_out_of_bounds:${name}`);
+    constants[name] = value;
+    executablePcBody = `${executablePcBody.slice(0, constMatch.index)}${executablePcBody.slice(constMatch.index + constMatch[0].length)}`;
+  }
+  if (/\bconst\s+[A-Za-z_][A-Za-z0-9_]*\b/.test(executablePcBody)) {
+    fail(65, 'pcd_parse_error:const_not_literal_or_wrong_scope');
+  }
+  const fnMatch = executablePcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*(?:->\s*([A-Za-z0-9_]+)\s*)?\{/m);
   if (!fnMatch) {
     fail(65, 'pcd_parse_error:missing_fn_block');
   }
   const fnStart = fnMatch.index;
-  const fnOpen = pcBody.indexOf('{', fnStart);
-  const fnClose = findMatchingBrace(pcBody, fnOpen);
-  if (fnClose === -1 || pcBody.slice(fnClose + 1).trim().length > 0) {
+  const fnOpen = executablePcBody.indexOf('{', fnStart);
+  const fnClose = findMatchingBrace(executablePcBody, fnOpen);
+  if (fnClose === -1 || executablePcBody.slice(fnClose + 1).trim().length > 0) {
     fail(65, 'pcd_parse_error:malformed_fn_block');
   }
   const [, fnName, paramsRaw, returnType = 'i64'] = fnMatch;
   if (returnType !== 'i64') {
     fail(65, `pcd_parse_error:unsupported_return_type:${returnType}`);
   }
-  const fnBody = pcBody.slice(fnOpen + 1, fnClose);
+  const fnBody = executablePcBody.slice(fnOpen + 1, fnClose);
   const params = paramsRaw
     .split(',')
     .map((param) => param.trim())
@@ -723,7 +794,7 @@ function parsePcd(source, context = {}) {
     }
     seenParams.add(param.name);
   }
-  const body = parseStatements(fnBody, params, imports);
+  const body = parseStatements(fnBody, params, imports, constants);
   const paramTypes = Object.fromEntries(params.map((param) => [param.name, param.type]));
   validateStatementTypes(body, paramTypes, returnType);
   const returns = collectReturns(body);
@@ -738,6 +809,8 @@ function parsePcd(source, context = {}) {
     paramTypes,
     returnType,
     imports,
+    importGraph,
+    constants,
     body,
     returnValues: returns.map((expression) => (expression.type === 'NumberLiteral' ? expression.value : null)),
     branchCount: countBranches(body),
@@ -1047,7 +1120,7 @@ function login(args = []) {
   const parsed = parseArgs(args, { '--token-env': 'value' });
   const envName = parsed['--token-env'];
   if (!envName) {
-    fail(64, 'login_requires_token_env_for_beta9');
+    fail(64, 'login_requires_token_env_for_beta10');
   }
   const token = process.env[envName];
   if (!token) {
@@ -1117,6 +1190,7 @@ function importedFunctionName(name) {
 
 function renderExpression(expression, target) {
   if (expression.type === 'NumberLiteral') return String(expression.value);
+  if (expression.type === 'ConstLiteral') return String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
   if (expression.type === 'UnaryExpression') return `(-${renderExpression(expression.argument, target)})`;
   if (expression.type === 'ListLiteral') {
@@ -1228,9 +1302,12 @@ function renderStatements(statements, target, indentLevel) {
   return lines;
 }
 
-function renderImportedFunctions(imports, target) {
+function renderImportedFunctions(imports, target, seen = new Set()) {
   const lines = [];
   for (const [name, importedAst] of Object.entries(imports || {})) {
+    if (seen.has(name)) continue;
+    seen.add(name);
+    lines.push(...renderImportedFunctions(importedAst.imports || {}, target, seen));
     const params = importedAst.params.length > 0 ? importedAst.params : ['input'];
     const fnName = importedFunctionName(name);
     if (target === 'python') {
@@ -1259,6 +1336,7 @@ function renderImportedFunctions(imports, target) {
 
 function evaluateExpression(expression, env) {
   if (expression.type === 'NumberLiteral') return expression.value;
+  if (expression.type === 'ConstLiteral') return expression.value;
   if (expression.type === 'Identifier') return env[expression.name] ?? 0;
   if (expression.type === 'UnaryExpression') return -evaluateExpression(expression.argument, env);
   if (expression.type === 'ListLiteral') return expression.elements.map((element) => evaluateExpression(element, env));
@@ -1349,6 +1427,11 @@ function collectConditionValues(expression, values = new Set([0, 1, 2, 10])) {
     values.add(expression.value + 1);
     values.add(expression.value - 1);
   }
+  if (expression.type === 'ConstLiteral') {
+    values.add(expression.value);
+    values.add(expression.value + 1);
+    values.add(expression.value - 1);
+  }
   if (expression.type === 'UnaryExpression') collectConditionValues(expression.argument, values);
   if (expression.type === 'ListLiteral') {
     for (const element of expression.elements) collectConditionValues(element, values);
@@ -1424,7 +1507,7 @@ function targetSpec(target, ast) {
   const pythonImports = renderImportedFunctions(ast.imports, 'python');
   const safeName = ast.fnName.replace(/[^A-Za-z0-9_]/g, '_');
   const tsProgram = (hash) => [
-    '// BRIK64 beta9 functional emission candidate',
+    '// BRIK64 beta10 functional emission candidate',
     '// claim: local candidate evidence only',
     `export const pcdSha256 = "${hash}";`,
     `export const pcdAst = ${astJson};`,
@@ -1450,7 +1533,7 @@ function targetSpec(target, ast) {
     '',
   ].join('\n');
   const rustProgram = (hash) => [
-    '// BRIK64 beta9 functional emission candidate',
+    '// BRIK64 beta10 functional emission candidate',
     '// claim: local candidate evidence only',
     `pub const PCD_SHA256: &str = "${hash}";`,
     `pub const PCD_AST_JSON: &str = r#"${astJson}"#;`,
@@ -1495,7 +1578,7 @@ function targetSpec(target, ast) {
     '',
   ].join('\n');
   const pythonProgram = (hash) => [
-    '# BRIK64 beta9 functional emission candidate',
+    '# BRIK64 beta10 functional emission candidate',
     '# claim: local candidate evidence only',
     `PCD_SHA256 = "${hash}"`,
     `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
@@ -1526,7 +1609,7 @@ function targetSpec(target, ast) {
       scaffoldFiles: (hash) => ({
         'package.json': JSON.stringify({
           name: `brik64-generated-${safeName}`,
-          version: '0.0.0-beta9-local',
+          version: '0.0.0-beta10-local',
           private: true,
           type: 'module',
           scripts: { test: 'node program.test.mjs' }
@@ -1554,7 +1637,7 @@ function targetSpec(target, ast) {
         'Cargo.toml': [
           '[package]',
           `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
-          'version = "0.0.0-beta9-local"',
+          'version = "0.0.0-beta10-local"',
           'edition = "2021"',
           'publish = false',
           '',
@@ -1574,7 +1657,7 @@ function targetSpec(target, ast) {
         'pyproject.toml': [
           '[project]',
           `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
-          'version = "0.0.0-beta9-local"',
+          'version = "0.0.0-beta10-local"',
           'requires-python = ">=3.10"',
           '',
           '[tool.brik64]',
@@ -1664,7 +1747,7 @@ function emit(file, args = []) {
     if (options.tests) process.stdout.write(`tests=${path.relative(process.cwd(), testPath)}\n`);
     return;
   }
-  process.stdout.write('// BRIK64 beta9 functional emission candidate\n');
+  process.stdout.write('// BRIK64 beta10 functional emission candidate\n');
   process.stdout.write('// claim: local candidate evidence only\n');
   process.stdout.write(`// pcd_sha256=${cert.semantic_pcd_sha256}\n`);
   process.stdout.write(`// ast_sha256=${cert.ast_sha256}\n`);
@@ -1678,7 +1761,7 @@ function verify(file, args = []) {
   }
   requireLocalOrEntitled(parsed);
   if (parsed['--cloud']) {
-    fail(69, 'managed_verify_endpoint_unavailable_beta9');
+    fail(69, 'managed_verify_endpoint_unavailable_beta10');
   }
   const resolvedFile = workspacePath(file);
   const source = readFileRequired(file);
@@ -1727,7 +1810,7 @@ function polymerize(rawArgs = []) {
   }
   requireLocalOrEntitled(parsed);
   if (parsed['--cloud']) {
-    fail(69, 'managed_polymerize_endpoint_unavailable_beta9');
+    fail(69, 'managed_polymerize_endpoint_unavailable_beta10');
   }
   const files = parsed._;
   if (files.length === 0) {
@@ -1757,7 +1840,7 @@ function polymerize(rawArgs = []) {
   const polymerName = 'brik64_polymer';
   const content = [
     '// brik64.pcd_file.v1',
-    '// generated_by: brik64-cli beta9 polymerize local',
+    '// generated_by: brik64-cli beta10 polymerize local',
     '// claim_boundary: local_candidate_only',
     ...sourceLines,
     '',
@@ -1796,7 +1879,7 @@ function migrate(file, args = []) {
   const resolvedFile = workspacePath(file);
   const oldHash = sha256(source);
   let migrated = source;
-  let syntax = 'beta9';
+  let syntax = 'beta10';
   if (/\bcircuit\s+[A-Za-z_][A-Za-z0-9_]*\s*\{/m.test(source)) {
     migrated = migrated.replace(/\bcircuit\s+([A-Za-z_][A-Za-z0-9_]*)\s*\{/m, 'PC $1 {');
     syntax = 'legacy_circuit';
@@ -1814,7 +1897,7 @@ function migrate(file, args = []) {
     }
     outPath = inputPath;
   } else {
-    outPath = workspacePath(parsed['--out'] || `${file.replace(/\.pcd$/, '')}.beta9.pcd`);
+    outPath = workspacePath(parsed['--out'] || `${file.replace(/\.pcd$/, '')}.beta10.pcd`);
     if (fs.existsSync(outPath)) {
       fail(73, `output_exists:${path.relative(process.cwd(), outPath)}`);
     }
@@ -1838,6 +1921,170 @@ function migrate(file, args = []) {
   process.stdout.write(`new_sha256=${report.new_sha256}\n`);
 }
 
+function buildExplainReport(file) {
+  const resolvedFile = workspacePath(file);
+  const source = readFileRequired(file);
+  try {
+    const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
+    return {
+      schemaVersion: 'brik64.cli_explain_report.v1',
+      cliVersion: version,
+      status: 'PASS',
+      file,
+      semantic_pcd_sha256: sha256(source),
+      pcName: ast.pcName,
+      fnName: ast.fnName,
+      constants: ast.constants,
+      importGraph: ast.importGraph,
+      branchCount: ast.branchCount,
+      diagnostics: {
+        errors: [],
+        warnings: [],
+        actions: ['PCD parsed successfully. Run `brik64 certify <file.pcd>` to create local candidate evidence.']
+      },
+      claimBoundary: 'local_candidate_only'
+    };
+  } catch (error) {
+    return {
+      schemaVersion: 'brik64.cli_explain_report.v1',
+      cliVersion: version,
+      status: 'FAIL',
+      file,
+      semantic_pcd_sha256: sha256(source),
+      diagnostics: {
+        errors: [redactValue(error && error.message ? error.message : 'pcd_parse_error')],
+        warnings: [],
+        actions: ['Review the reported parser/type/import rule. If legacy syntax is detected, run `brik64 migrate <file.pcd>`.']
+      },
+      claimBoundary: 'local_candidate_only'
+    };
+  }
+}
+
+function explain(file, args = []) {
+  const parsed = parseArgs(args, { '--json': 'boolean' });
+  const report = buildExplainReport(file);
+  if (parsed['--json']) {
+    process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  } else {
+    process.stdout.write(`BRIK64 explain\n`);
+    process.stdout.write(`status: ${report.status}\n`);
+    process.stdout.write(`file: ${file}\n`);
+    if (report.status === 'PASS') {
+      process.stdout.write(`pc: ${report.pcName}\n`);
+      process.stdout.write(`fn: ${report.fnName}\n`);
+      process.stdout.write(`constants: ${Object.keys(report.constants || {}).length}\n`);
+      process.stdout.write(`imports: ${Object.keys(report.importGraph || {}).length}\n`);
+    }
+    for (const error of report.diagnostics.errors) process.stdout.write(`error: ${error}\n`);
+    for (const action of report.diagnostics.actions) process.stdout.write(`action: ${action}\n`);
+  }
+  if (report.status !== 'PASS') process.exit(65);
+}
+
+function lock(args = []) {
+  validateManifest();
+  const parsed = parseArgs(args, { '--json': 'boolean' });
+  const pcds = pcdInventory();
+  const entries = pcds.map((item) => {
+    const filePath = path.resolve(item.file);
+    const source = fs.readFileSync(filePath, 'utf8');
+    const ast = parsePcd(source, { baseDir: path.dirname(filePath), importStack: [filePath] });
+    return {
+      file: item.file,
+      semantic_pcd_sha256: item.semantic_pcd_sha256,
+      ast_sha256: sha256(JSON.stringify(ast)),
+      importGraph: ast.importGraph,
+      constants: ast.constants
+    };
+  });
+  const lockFile = {
+    schemaVersion: 'brik64.cli_lockfile.v1',
+    cliVersion: version,
+    generatedAt: new Date().toISOString(),
+    releaseEligible: false,
+    pcds: entries,
+    lock_sha256: sha256(JSON.stringify(entries)),
+    claimBoundary: 'local_candidate_only'
+  };
+  writeFileControlled(path.resolve('brik64.lock.json'), JSON.stringify(lockFile, null, 2) + '\n');
+  if (parsed['--json']) {
+    process.stdout.write(`${JSON.stringify(lockFile, null, 2)}\n`);
+    return;
+  }
+  process.stdout.write('lock=brik64.lock.json\n');
+  process.stdout.write(`pcd_count=${entries.length}\n`);
+  process.stdout.write(`lock_sha256=${lockFile.lock_sha256}\n`);
+}
+
+function telemetry(args = []) {
+  const sub = args[0];
+  if (sub === 'status') {
+    const report = {
+      schemaVersion: TELEMETRY_SCHEMA,
+      cliVersion: version,
+      enabled: false,
+      transport: 'disabled',
+      localQueue: '.brik/telemetry-queue.jsonl',
+      networkSent: false,
+      collectedFieldsWhenEnabled: ['cliVersion', 'os', 'arch', 'command', 'target', 'normalizedErrorCode', 'durationBucket', 'success'],
+      forbiddenFields: ['rawSource', 'pcdSource', 'absolutePath', 'repoName', 'email', 'token', 'rawStdout', 'rawStderr']
+    };
+    process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+    return;
+  }
+  if (sub === 'explain') {
+    process.stdout.write('BRIK64 telemetry is disabled by default in beta10.\n');
+    process.stdout.write('When enabled in a future transport release it must be opt-in, redacted, exportable, and purgeable.\n');
+    process.stdout.write('beta10 networkSent=false\n');
+    return;
+  }
+  fail(64, 'unknown_telemetry_command');
+}
+
+function feedback(args = []) {
+  const parsed = parseArgs(args, { '--dry-run': 'boolean', '--category': 'value', '--message': 'value' });
+  if (!parsed['--dry-run']) fail(64, 'feedback_requires_dry_run_in_beta10');
+  const allowed = new Set(['bug', 'docs', 'feature', 'install', 'compiler', 'sdk']);
+  const category = parsed['--category'] || 'bug';
+  if (!allowed.has(category)) fail(64, `feedback_category_unsupported:${category}`);
+  const message = redactValue(parsed['--message'] || '');
+  const brikDir = path.resolve('.brik');
+  mkdirControlled(brikDir);
+  const report = {
+    schemaVersion: 'brik64.cli_feedback_dry_run.v1',
+    cliVersion: version,
+    category,
+    redactedMessage: message,
+    networkSent: false,
+    rawSourceIncluded: false,
+    rawPcdIncluded: false
+  };
+  writeFileControlled(path.join(brikDir, 'feedback-preview.json'), JSON.stringify(report, null, 2) + '\n');
+  process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+}
+
+function errorsCommand(args = []) {
+  const sub = args[0];
+  const reportPath = path.resolve('.brik', 'error-reports', 'last.json');
+  if (sub === 'status') {
+    process.stdout.write(`${JSON.stringify({
+      schemaVersion: 'brik64.cli_error_report_status.v1',
+      cliVersion: version,
+      lastReportPresent: fs.existsSync(reportPath),
+      networkSent: false,
+      reportPath: '.brik/error-reports/last.json'
+    }, null, 2)}\n`);
+    return;
+  }
+  if (sub === 'explain-last') {
+    if (!fs.existsSync(reportPath)) fail(66, 'error_report_last_missing');
+    process.stdout.write(fs.readFileSync(reportPath, 'utf8'));
+    return;
+  }
+  fail(64, 'unknown_errors_command');
+}
+
 function main() {
   const [cmd, file, ...args] = process.argv.slice(2);
   if (!cmd || cmd === '--help' || cmd === 'help') return help();
@@ -1852,6 +2099,11 @@ function main() {
   if (cmd === 'login') return login([file, ...args].filter(Boolean));
   if (cmd === 'logout') return logout();
   if (cmd === 'migrate') return migrate(file, args);
+  if (cmd === 'explain') return explain(file, args);
+  if (cmd === 'lock') return lock([file, ...args].filter(Boolean));
+  if (cmd === 'telemetry') return telemetry([file, ...args].filter(Boolean));
+  if (cmd === 'feedback') return feedback([file, ...args].filter(Boolean));
+  if (cmd === 'errors') return errorsCommand([file, ...args].filter(Boolean));
   if (cmd === 'certify') return certify(file);
   if (cmd === 'emit') return emit(file, args);
   if (cmd === 'verify') return verify(file, args);
