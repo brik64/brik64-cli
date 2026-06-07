@@ -104,6 +104,74 @@ function betaLabel(version) {
   return Number.isInteger(number) ? `beta${number}` : null;
 }
 
+function packageVersion() {
+  return readJson(path.join(root, 'package.json')).version;
+}
+
+function allowedStagedBlockers(version) {
+  if (version === '0.1.0-beta.9') {
+    return new Set([
+      'github_release_decision_invalid:STAGED_BETA9_GITHUB_RELEASE_DRAFT',
+      'curl_gcp_installer_decision_invalid:STAGED_BETA9_CURL_GCP_INSTALLER',
+      'sdk_marketplaces_decision_invalid:BLOCKED_BETA9_SDK_MARKETPLACES',
+      'manifest_alignment_decision_invalid:PASS_BETA9_MANIFEST_STAGED_BLOCKED_ALIGNMENT',
+      'live_verify_decision_invalid:BLOCKED_BETA9_LIVE_VERIFY'
+    ]);
+  }
+  return new Set();
+}
+
+function stagedReadinessDetails(version, readiness) {
+  const allowed = allowedStagedBlockers(version);
+  const blockers = readiness?.blockers || [];
+  const unexpected = blockers.filter((item) => !allowed.has(item));
+  const missing = [...allowed].filter((item) => !blockers.includes(item));
+  return {
+    allowed,
+    blockers,
+    unexpected,
+    missing,
+    pass: Boolean(readiness)
+      && readiness.decision === 'BLOCKED_BRIK64_CLI_BETA9_RELEASE_READINESS'
+      && readiness.functionalGatesPassed === true
+      && readiness.packageCandidateReady === true
+      && unexpected.length === 0
+      && missing.length === 0
+  };
+}
+
+function runBeta9StagedReadiness() {
+  const command = run('beta9_release_readiness', ['node', 'scripts/beta9-release-readiness-gate.js'], {
+    stdoutLimit: 12000,
+    stderrLimit: 12000
+  });
+  const readinessPath = path.join(root, 'evidence', 'beta9-release-readiness', 'report.json');
+  const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
+  const details = stagedReadinessDetails('0.1.0-beta.9', readiness);
+  return {
+    ...command,
+    rc: details.pass ? 0 : command.rc,
+    stagedBlockedAccepted: details.pass,
+    expectedStagedBlockers: [...details.allowed],
+    actualBlockers: details.blockers,
+    unexpectedBlockers: details.unexpected,
+    missingBlockers: details.missing
+  };
+}
+
+function candidateBranchCommands(version) {
+  if (version === '0.1.0-beta.9') {
+    return [
+      run('beta9_manifest_drift', ['node', 'scripts/beta9-manifest-drift-preflight.js']),
+      runBeta9StagedReadiness()
+    ];
+  }
+  const label = betaLabel(version);
+  return label
+    ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
+    : [run('candidate_version_unsupported', ['bash', '-lc', `echo "unsupported candidate version ${version}" >&2; exit 2`])];
+}
+
 function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
   const label = betaLabel(manifest.version);
   if (!label) {
@@ -170,6 +238,8 @@ function main() {
   const manifestText = readText(manifestPath);
   const manifest = JSON.parse(manifestText);
   const manifestDigest = sha256(manifestText);
+  const currentPackageVersion = packageVersion();
+  const candidateBranchMode = currentPackageVersion !== manifest.version;
   const allowDirty = process.argv.includes('--allow-dirty');
   const failures = [];
   const initialDirtyFiles = gitDirtyFiles();
@@ -179,24 +249,26 @@ function main() {
   const draft = manifest.state === 'draft';
   const runLiveL6Gate = process.env.GITHUB_ACTIONS !== 'true' || process.env.BRIK64_L6_LIVE_GATES === '1';
   const canAccessSiblingRepos = process.env.GITHUB_ACTIONS !== 'true';
-  const commands = [
-    run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
-    ...(beta === 6 && runLiveL6Gate
-      ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
-      : []),
-    run('smoke_tests', ['bash', '-lc', beta === 8 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
-      stdoutLimit: 12000,
-      stderrLimit: 12000
-    }),
-    ...manifestDrivenBetaCommands(manifest, canAccessSiblingRepos),
-    ...(draft
-      ? []
-      : [
-          run('sync_surfaces', ['node', 'scripts/release-train-sync-surfaces.js']),
-          run('publish_plan', ['bash', '-lc', 'BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js']),
-          run('publish_execute_dry_run', ['node', 'scripts/release-train-publish-execute.js'])
-        ])
-  ];
+  const commands = candidateBranchMode
+    ? candidateBranchCommands(currentPackageVersion)
+    : [
+        run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
+        ...(beta === 6 && runLiveL6Gate
+          ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
+          : []),
+        run('smoke_tests', ['bash', '-lc', beta === 8 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
+          stdoutLimit: 12000,
+          stderrLimit: 12000
+        }),
+        ...manifestDrivenBetaCommands(manifest, canAccessSiblingRepos),
+        ...(draft
+          ? []
+          : [
+              run('sync_surfaces', ['node', 'scripts/release-train-sync-surfaces.js']),
+              run('publish_plan', ['bash', '-lc', 'BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js']),
+              run('publish_execute_dry_run', ['node', 'scripts/release-train-publish-execute.js'])
+            ])
+      ];
 
   for (const command of commands) {
     if (command.rc !== 0) failures.push(`command_failed:${command.name}:${command.rc}`);
@@ -204,30 +276,62 @@ function main() {
 
   const validationReportPath = path.join(root, 'evidence', 'release-manifest-validate', 'report.json');
   const validationReport = fs.existsSync(validationReportPath) ? readJson(validationReportPath) : null;
-  if (!validationReport || validationReport.manifestDigest !== manifestDigest) failures.push('manifest_validation_digest_missing_or_drift');
+  if (!candidateBranchMode && (!validationReport || validationReport.manifestDigest !== manifestDigest)) {
+    failures.push('manifest_validation_digest_missing_or_drift');
+  }
 
   const requiredEvidence = [];
-  for (const item of manifest.verification.requiredEvidence) {
-    const evidencePath = path.join(root, item.path);
-    if (!fs.existsSync(evidencePath)) {
-      failures.push(`evidence_missing:${item.id}`);
-      continue;
+  if (candidateBranchMode) {
+    const readinessPath = path.join(root, 'evidence', 'beta9-release-readiness', 'report.json');
+    const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
+    if (currentPackageVersion === '0.1.0-beta.9') {
+      if (!readiness) {
+        failures.push('candidate_readiness_missing:beta9');
+      } else {
+        const details = stagedReadinessDetails(currentPackageVersion, readiness);
+        requiredEvidence.push({
+          id: 'beta9_staged_readiness',
+          path: 'evidence/beta9-release-readiness/report.json',
+          expectedDecision: 'BLOCKED_BRIK64_CLI_BETA9_RELEASE_READINESS',
+          actualDecision: readiness.decision,
+          pass: details.pass,
+          expectedStagedBlockers: [...details.allowed],
+          actualBlockers: details.blockers,
+          unexpectedBlockers: details.unexpected,
+          missingBlockers: details.missing
+        });
+        if (readiness.decision !== 'BLOCKED_BRIK64_CLI_BETA9_RELEASE_READINESS') failures.push(`candidate_readiness_decision_invalid:${readiness.decision}`);
+        if (readiness.functionalGatesPassed !== true) failures.push('candidate_functional_gates_not_passed');
+        if (readiness.packageCandidateReady !== true) failures.push('candidate_package_not_ready');
+        if (details.unexpected.length > 0) failures.push(`candidate_unexpected_blockers:${details.unexpected.join('|')}`);
+        if (details.missing.length > 0) failures.push(`candidate_missing_expected_blockers:${details.missing.join('|')}`);
+      }
     }
-    const evidence = readJson(evidencePath);
-    requiredEvidence.push({
-      id: item.id,
-      path: item.path,
-      expectedDecision: item.decision,
-      actualDecision: evidence.decision,
-      pass: evidence.decision === item.decision
-    });
-    if (evidence.decision !== item.decision) failures.push(`evidence_decision_drift:${item.id}`);
+  } else {
+    for (const item of manifest.verification.requiredEvidence) {
+      const evidencePath = path.join(root, item.path);
+      if (!fs.existsSync(evidencePath)) {
+        failures.push(`evidence_missing:${item.id}`);
+        continue;
+      }
+      const evidence = readJson(evidencePath);
+      requiredEvidence.push({
+        id: item.id,
+        path: item.path,
+        expectedDecision: item.decision,
+        actualDecision: evidence.decision,
+        pass: evidence.decision === item.decision
+      });
+      if (evidence.decision !== item.decision) failures.push(`evidence_decision_drift:${item.id}`);
+    }
   }
 
   const report = {
     schemaVersion: 'brik64.release_train_dry_run_report.v1',
     releaseId: manifest.releaseId,
     version: manifest.version,
+    packageVersion: currentPackageVersion,
+    candidateBranchMode,
     channel: manifest.channel,
     state: manifest.state,
     manifestDigest,
