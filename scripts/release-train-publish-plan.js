@@ -157,7 +157,7 @@ PY`,
     command(
       'sdk_crates',
       'Publish the Rust SDK crate.',
-      `cargo info brik64-core@${manifest.version} >/dev/null 2>&1 || cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml --token "$BRIK64_CRATES_TOKEN"`,
+      `cargo info brik64-core@${manifest.version} >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN="$BRIK64_CRATES_TOKEN" cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml`,
       true
     ),
     command(
