@@ -112,6 +112,7 @@ function isAllowedGeneratedDirtyFile(file) {
   if (/^evidence\/beta9-(bounded-loops|collections|doctor-ux|local-imports|maps|scaffolds|typed-interface)\/report\.json$/.test(file)) {
     return true;
   }
+  if (file === 'evidence/beta9-l6-materialization/gate-report.json') return true;
   if (/^evidence\/beta\d+-(adversarial|compiler-functionality|github-verified-signature|l6-factory-bridge|local-candidate|package-smoke|package|publication-preflight|release-checksums)\//.test(file)) {
     return true;
   }

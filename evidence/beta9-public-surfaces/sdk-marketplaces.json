@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.beta9_sdk_marketplaces_surface.v1",
-  "generatedAt": "2026-06-07T15:34:22.076Z",
+  "generatedAt": "2026-06-07T15:42:32.279Z",
   "decision": "PASS_BETA9_SDK_MARKETPLACES",
   "version": "0.1.0-beta.9",
   "publicSurfacePassed": true,
   "releaseEligible": true,
   "localCliPackage": {
     "path": "evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz",
-    "sha256": "9d1aad8561c1f03cc292e1446e727f2f141fad27dc09fa8e335ea623b3de62ab",
-    "bytes": 36294
+    "sha256": "84ddcadf3beeb9914539b9234d6b4e9c13ea1a2f04d91d617a28f8638a91a06b",
+    "bytes": 36319
   },
   "sourceRepos": [
     {

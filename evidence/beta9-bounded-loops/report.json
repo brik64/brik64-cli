@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_beta9_bounded_loops_gate.v1",
-  "generatedAt": "2026-06-07T15:34:12Z",
+  "generatedAt": "2026-06-07T15:42:17Z",
   "iter_id": "BRIK64-CLI-BETA9-BOUNDED-LOOPS-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS",
