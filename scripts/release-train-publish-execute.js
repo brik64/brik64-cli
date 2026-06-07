@@ -109,6 +109,9 @@ function normalizeGitStatusPath(line) {
 function isAllowedGeneratedDirtyFile(file) {
   if (file === 'gha-creds-44279868204c1543.json') return true;
   if (/^gha-creds-[a-f0-9]+\.json$/.test(file)) return true;
+  if (/^evidence\/beta9-(bounded-loops|collections|doctor-ux|local-imports|maps|scaffolds|typed-interface)\/report\.json$/.test(file)) {
+    return true;
+  }
   if (/^evidence\/beta\d+-(adversarial|compiler-functionality|github-verified-signature|l6-factory-bridge|local-candidate|package-smoke|package|publication-preflight|release-checksums)\//.test(file)) {
     return true;
   }
