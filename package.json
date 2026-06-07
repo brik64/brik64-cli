@@ -61,6 +61,7 @@
     "gate:beta8:skills-sync": "node scripts/beta8-skills-sync-gate.js",
     "gate:beta9:pcd-l6-materialization": "node scripts/beta9-pcd-l6-materialization-gate.js",
     "gate:beta9:typed-interface": "bash scripts/beta9-typed-interface-gate.sh",
+    "gate:beta9:collections": "bash scripts/beta9-collections-gate.sh",
     "package:beta8:local": "bash scripts/build-beta8-package.sh",
     "smoke:beta8:package": "bash scripts/beta8-package-smoke.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
@@ -75,7 +76,8 @@
     "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js",
     "test:github-token-isolation": "bash scripts/tests/test_github_verified_signature_token_isolation.sh",
     "test:beta9-pcd-l6-materialization": "bash scripts/tests/test_beta9_pcd_l6_materialization_gate.sh",
-    "test:beta9-typed-interface": "bash scripts/beta9-typed-interface-gate.sh"
+    "test:beta9-typed-interface": "bash scripts/beta9-typed-interface-gate.sh",
+    "test:beta9-collections": "bash scripts/beta9-collections-gate.sh"
   },
   "author": {
     "name": "BRIK64 INC",

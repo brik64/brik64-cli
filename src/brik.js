@@ -210,8 +210,8 @@ function tokenizeExpression(source) {
       index += 2;
       continue;
     }
-    if ('()+-*/%<>'.includes(char)) {
-      tokens.push({ type: char === '(' || char === ')' ? 'paren' : 'op', value: char });
+    if ('()+-*/%<>[],'.includes(char)) {
+      tokens.push({ type: ['(', ')', '[', ']'].includes(char) ? 'paren' : (char === ',' ? 'comma' : 'op'), value: char });
       index += 1;
       continue;
     }
@@ -267,28 +267,60 @@ function parseExpression(source, params) {
   function parsePrimary() {
     const token = peek();
     if (!token) fail(65, 'pcd_parse_error:malformed_expression');
+    let expression;
     if (token.type === 'number') {
       consume();
-      return { type: 'NumberLiteral', value: token.value };
-    }
-    if (token.type === 'identifier') {
+      expression = { type: 'NumberLiteral', value: token.value };
+    } else if (token.type === 'identifier') {
       consume();
-      if (!params.some((param) => param.name === token.value)) {
+      if (token.value === 'len' && peek() && peek().value === '(') {
+        consume('(');
+        const argument = parseBinary(1);
+        consume(')');
+        expression = { type: 'LenExpression', argument };
+      } else if (!params.some((param) => param.name === token.value)) {
         fail(65, `pcd_parse_error:unknown_identifier:${token.value}`);
+      } else {
+        expression = { type: 'Identifier', name: token.value };
       }
-      return { type: 'Identifier', name: token.value };
-    }
-    if (token.value === '-') {
+    } else if (token.value === '-') {
       consume('-');
-      return { type: 'UnaryExpression', operator: '-', argument: parsePrimary() };
-    }
-    if (token.value === '(') {
+      expression = { type: 'UnaryExpression', operator: '-', argument: parsePrimary() };
+    } else if (token.value === '(') {
       consume('(');
-      const expression = parseBinary(1);
+      expression = parseBinary(1);
       consume(')');
-      return expression;
+    } else if (token.value === '[') {
+      consume('[');
+      const elements = [];
+      if (peek() && peek().value !== ']') {
+        while (true) {
+          elements.push(parseBinary(1));
+          if (elements.length > 64) {
+            fail(65, 'pcd_parse_error:list_literal_too_large');
+          }
+          if (peek() && peek().value === ',') {
+            consume(',');
+            if (peek() && peek().value === ']') {
+              fail(65, 'pcd_parse_error:trailing_list_comma');
+            }
+            continue;
+          }
+          break;
+        }
+      }
+      consume(']');
+      expression = { type: 'ListLiteral', elements };
+    } else {
+      fail(65, 'pcd_parse_error:malformed_expression');
     }
-    fail(65, 'pcd_parse_error:malformed_expression');
+    while (peek() && peek().value === '[') {
+      consume('[');
+      const indexExpression = parseBinary(1);
+      consume(']');
+      expression = { type: 'IndexExpression', object: expression, index: indexExpression };
+    }
+    return expression;
   }
 
   function parseBinary(minPrecedence) {
@@ -386,6 +418,76 @@ function parseParam(raw) {
   return { name, type };
 }
 
+function inferExpressionType(expression, paramTypes) {
+  if (expression.type === 'NumberLiteral') return 'i64';
+  if (expression.type === 'Identifier') return paramTypes[expression.name] || 'unknown';
+  if (expression.type === 'UnaryExpression') {
+    const argumentType = inferExpressionType(expression.argument, paramTypes);
+    if (argumentType !== 'i64') fail(65, 'pcd_parse_error:unary_requires_i64');
+    return 'i64';
+  }
+  if (expression.type === 'ListLiteral') {
+    for (const element of expression.elements) {
+      if (inferExpressionType(element, paramTypes) !== 'i64') {
+        fail(65, 'pcd_parse_error:list_literal_requires_i64_elements');
+      }
+    }
+    return 'list_i64';
+  }
+  if (expression.type === 'IndexExpression') {
+    const objectType = inferExpressionType(expression.object, paramTypes);
+    const indexType = inferExpressionType(expression.index, paramTypes);
+    if (objectType !== 'list_i64') fail(65, 'pcd_parse_error:index_requires_list');
+    if (indexType !== 'i64') fail(65, 'pcd_parse_error:index_requires_i64');
+    return 'i64';
+  }
+  if (expression.type === 'LenExpression') {
+    const argumentType = inferExpressionType(expression.argument, paramTypes);
+    if (argumentType !== 'list_i64') fail(65, 'pcd_parse_error:len_requires_list');
+    return 'i64';
+  }
+  if (expression.type === 'BinaryExpression') {
+    const leftType = inferExpressionType(expression.left, paramTypes);
+    const rightType = inferExpressionType(expression.right, paramTypes);
+    if (['&&', '||'].includes(expression.operator)) {
+      if (!['i64', 'bool'].includes(leftType) || !['i64', 'bool'].includes(rightType)) {
+        fail(65, `pcd_parse_error:logical_requires_scalar:${expression.operator}`);
+      }
+      return 'bool';
+    }
+    if (['==', '!=', '>', '<', '>=', '<='].includes(expression.operator)) {
+      if (leftType !== 'i64' || rightType !== 'i64') {
+        fail(65, `pcd_parse_error:comparison_requires_i64:${expression.operator}`);
+      }
+      return 'bool';
+    }
+    if (leftType !== 'i64' || rightType !== 'i64') {
+      fail(65, `pcd_parse_error:binary_requires_i64:${expression.operator}`);
+    }
+    return 'i64';
+  }
+  fail(65, 'pcd_parse_error:unknown_expression_type');
+}
+
+function validateStatementTypes(statements, paramTypes, returnType) {
+  for (const statement of statements) {
+    if (statement.type === 'ReturnStatement') {
+      const actualType = inferExpressionType(statement.argument, paramTypes);
+      if (actualType !== returnType) {
+        fail(65, `pcd_parse_error:return_type_mismatch:${actualType}_to_${returnType}`);
+      }
+      continue;
+    }
+    if (statement.type === 'IfStatement') {
+      inferExpressionType(statement.condition, paramTypes);
+      validateStatementTypes(statement.consequent, paramTypes, returnType);
+      validateStatementTypes(statement.alternate, paramTypes, returnType);
+      continue;
+    }
+    fail(65, 'pcd_parse_error:unknown_statement_type');
+  }
+}
+
 function collectReturns(statements, values = []) {
   for (const statement of statements) {
     if (statement.type === 'ReturnStatement') {
@@ -462,6 +564,8 @@ function parsePcd(source) {
     seenParams.add(param.name);
   }
   const body = parseStatements(fnBody, params);
+  const paramTypes = Object.fromEntries(params.map((param) => [param.name, param.type]));
+  validateStatementTypes(body, paramTypes, returnType);
   const returns = collectReturns(body);
   if (returns.length === 0) {
     fail(65, 'pcd_parse_error:missing_return');
@@ -471,7 +575,7 @@ function parsePcd(source) {
     pcName,
     fnName,
     params: params.map((param) => param.name),
-    paramTypes: Object.fromEntries(params.map((param) => [param.name, param.type])),
+    paramTypes,
     returnType,
     body,
     returnValues: returns.map((expression) => (expression.type === 'NumberLiteral' ? expression.value : null)),
@@ -758,6 +862,21 @@ function renderExpression(expression, target) {
   if (expression.type === 'NumberLiteral') return String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
   if (expression.type === 'UnaryExpression') return `(-${renderExpression(expression.argument, target)})`;
+  if (expression.type === 'ListLiteral') {
+    return `[${expression.elements.map((element) => renderExpression(element, target)).join(', ')}]`;
+  }
+  if (expression.type === 'IndexExpression') {
+    const object = renderExpression(expression.object, target);
+    const index = renderExpression(expression.index, target);
+    if (target === 'rust') return `(${object})[(${index}) as usize]`;
+    return `(${object})[${index}]`;
+  }
+  if (expression.type === 'LenExpression') {
+    const argument = renderExpression(expression.argument, target);
+    if (target === 'python') return `len(${argument})`;
+    if (target === 'rust') return `(${argument}).len() as i64`;
+    return `(${argument}).length`;
+  }
   if (expression.type === 'BinaryExpression') {
     const left = renderExpression(expression.left, target);
     const right = renderExpression(expression.right, target);
@@ -809,6 +928,19 @@ function evaluateExpression(expression, env) {
   if (expression.type === 'NumberLiteral') return expression.value;
   if (expression.type === 'Identifier') return env[expression.name] ?? 0;
   if (expression.type === 'UnaryExpression') return -evaluateExpression(expression.argument, env);
+  if (expression.type === 'ListLiteral') return expression.elements.map((element) => evaluateExpression(element, env));
+  if (expression.type === 'IndexExpression') {
+    const object = evaluateExpression(expression.object, env);
+    const index = evaluateExpression(expression.index, env);
+    if (!Array.isArray(object) || !Number.isInteger(index) || index < 0 || index >= object.length) {
+      return undefined;
+    }
+    return object[index];
+  }
+  if (expression.type === 'LenExpression') {
+    const argument = evaluateExpression(expression.argument, env);
+    return Array.isArray(argument) ? argument.length : undefined;
+  }
   if (expression.type === 'BinaryExpression') {
     const left = evaluateExpression(expression.left, env);
     if (expression.operator === '&&') return Boolean(left) && Boolean(evaluateExpression(expression.right, env));
@@ -854,6 +986,14 @@ function collectConditionValues(expression, values = new Set([0, 1, 2, 10])) {
     values.add(expression.value - 1);
   }
   if (expression.type === 'UnaryExpression') collectConditionValues(expression.argument, values);
+  if (expression.type === 'ListLiteral') {
+    for (const element of expression.elements) collectConditionValues(element, values);
+  }
+  if (expression.type === 'IndexExpression') {
+    collectConditionValues(expression.object, values);
+    collectConditionValues(expression.index, values);
+  }
+  if (expression.type === 'LenExpression') collectConditionValues(expression.argument, values);
   if (expression.type === 'BinaryExpression') {
     collectConditionValues(expression.left, values);
     collectConditionValues(expression.right, values);

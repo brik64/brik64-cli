@@ -10,6 +10,9 @@
 // internal_artifact_factory = "L6+N5 non-claim"
 // supported_emit_targets = "ts,rust,python"
 // requires arrays_lists_supported == true
+// requires list_literals_supported == true
+// requires list_index_supported == true
+// requires list_len_supported == true
 // requires maps_dictionaries_supported == true
 // requires bounded_for_loops_supported == true
 // requires bounded_while_loops_supported == true
@@ -36,7 +39,7 @@
 // claim_boundary = "beta9_product_iteration_only"
 
 PC brik_cli_beta9_transpiler_contract {
-    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok) {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok) {
         if (collections_ok == 0) {
             return 65;
         }
@@ -59,6 +62,9 @@ PC brik_cli_beta9_transpiler_contract {
             return 69;
         }
         if (typed_interface_ok == 0) {
+            return 65;
+        }
+        if (list_subset_ok == 0) {
             return 65;
         }
         return 0;

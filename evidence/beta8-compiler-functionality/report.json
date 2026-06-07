@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta8_compiler_functionality_gate.v1",
-  "generatedAt": "2026-06-07T12:00:55Z",
+  "generatedAt": "2026-06-07T12:06:08Z",
   "iter_id": "BRIK64-CLI-BETA8-COMPILER-FUNCTIONALITY-20260606-R1",
   "lane": "cli_0_1_beta8",
   "decision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:b37bd3a73071ef65a32e58a008823cbf2a00ac6a6e10c991f8026324477f4c08",
+  "cliSha256": "sha256:f356fda3f02d91eb0d3a18b03d0eac523adeaa272ace34d9caa97819fb19fed8",
   "fixture": {
     "path": "pcd/branch_math.pcd",
     "sha256": "sha256:09742f0ef4d80b4f465da256d8d44b4c587306c07015ecb77cada308c1d70404"
