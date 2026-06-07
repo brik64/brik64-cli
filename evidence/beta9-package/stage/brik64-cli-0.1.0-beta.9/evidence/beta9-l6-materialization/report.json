@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_pcd_l6_materialization_report.v1",
-  "generatedAt": "2026-06-07T15:15:49.000Z",
+  "generatedAt": "2026-06-07T15:22:03.723Z",
   "decision": "BLOCKED_BETA9_PCD_L6_MATERIALIZATION",
   "version": "0.1.0-beta.9",
   "productArtifact": "BRIK64 CLI 0.1.0-beta.9",
@@ -8,16 +8,16 @@
   "generationClaim": "assisted_generation_non_claim",
   "releaseEligible": false,
   "host": "root@89.167.104.236",
-  "remoteWork": "/tmp/brik64-cli-beta9-materialize-1780845331030",
+  "remoteWork": "/tmp/brik64-cli-beta9-materialize-1780845705828",
   "factory": {
     "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
     "stage1Hash": "sha256:660de957ccd0ace57ce2a34eb4c0b60baf1912993f2f814eb91ce28978a72ea4"
   },
   "hashes": {
-    "pcdInventoryHash": "sha256:97ad530fc2c027442fc835f6239882c50d0b148e2676bcab856d32c3b05a63be",
+    "pcdInventoryHash": "sha256:368dc959f4ad46566bac02c82963f240067400d5ea0ec305c12689d619bf6e1b",
     "cliPolymerHash": "sha256:14d4f2a0926eb48734890c054d0be15bc46eadf234feecc52a52afa3950ac16a",
-    "beta9ContractHash": "sha256:6d8866365965da2eb3c9a0bd5c5f04af573aae2764729c6e8464aff6125659b9",
-    "generatedArtifactHash": "sha256:8decf1965a81b630d37b2423e40d6add1296ed59a17ccebdc9a576262dae1c1c",
+    "beta9ContractHash": "sha256:690f8a51902342e8c88a6c385c504aae3115db46d413065a85b3bb52d664a7b0",
+    "generatedArtifactHash": "sha256:7a0c1978d372e4c226edd83af2409153cddb4cb07a3eee61e94e9c0373fad21e",
     "packageHash": null,
     "releaseManifestHash": null
   },
@@ -37,7 +37,7 @@
       },
       {
         "path": "pcd/cli_beta9_transpiler_contract.pcd",
-        "sha256": "sha256:6d8866365965da2eb3c9a0bd5c5f04af573aae2764729c6e8464aff6125659b9"
+        "sha256": "sha256:690f8a51902342e8c88a6c385c504aae3115db46d413065a85b3bb52d664a7b0"
       },
       {
         "path": "pcd/cli_certify_emit.pcd",
@@ -74,7 +74,7 @@
     ],
     "sourcePcd": {
       "path": "pcd/cli_beta9_transpiler_contract.pcd",
-      "sha256": "sha256:6d8866365965da2eb3c9a0bd5c5f04af573aae2764729c6e8464aff6125659b9"
+      "sha256": "sha256:690f8a51902342e8c88a6c385c504aae3115db46d413065a85b3bb52d664a7b0"
     },
     "cliPolymer": {
       "path": "pcd/cli_polymer.pcd",
@@ -82,17 +82,17 @@
     },
     "technicalSheet": {
       "path": "evidence/beta9-l6-materialization/technical-sheet.json",
-      "sha256": "sha256:17eb8014f14064125f4a00519875ad4cb2d61deae8e3f2c27e67ebfadee759b4"
+      "sha256": "sha256:06e345faea83c3a689a7d3fd6da3db8af1fcff0724c044db979ff9758d2675ef"
     },
     "generatedFiles": [
       {
         "path": "evidence/beta9-l6-materialization/generated/brik_cli_beta9_transpiler_contract.cert.json",
-        "sha256": "sha256:077da81b79218850ab18947423112dc883d9b14a1a7486e8b79222e903c76699",
+        "sha256": "sha256:5f160bfc403dc1c6820d8c51a8cf9945e1647984adb51cc88a46eb0606b354b1",
         "bytes": 1571
       },
       {
         "path": "evidence/beta9-l6-materialization/generated/brik_cli_beta9_transpiler_contract.js",
-        "sha256": "sha256:018968f75ec68ae3a318f2a25c27a4ce929db986a148e26ce00a0fb182104bb3",
+        "sha256": "sha256:0e63309f1deca04086cc49d26f0228c077a29450ac86ec1db3228afd76ad7130",
         "bytes": 1570
       }
     ]
@@ -100,15 +100,15 @@
   "remote": {
     "rc": 0,
     "stdout": "evidence/beta9-l6-materialization/remote-stdout.txt",
-    "stdoutSha256": "sha256:d470525692175923690f0d724bf7dfc92e0a39f88a52576ba08a1a4e4d2879c1",
+    "stdoutSha256": "sha256:5ab6cb59dde2575f8e0fed9ced991527ec8211e3e38b344a45b58e9825cf39b1",
     "stderr": "evidence/beta9-l6-materialization/remote-stderr.txt",
     "stderrSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "outFiles": [
-      "/tmp/brik64-cli-beta9-materialize-1780845331030/out/brik_cli_beta9_transpiler_contract.cert.json",
-      "/tmp/brik64-cli-beta9-materialize-1780845331030/out/brik_cli_beta9_transpiler_contract.js"
+      "/tmp/brik64-cli-beta9-materialize-1780845705828/out/brik_cli_beta9_transpiler_contract.cert.json",
+      "/tmp/brik64-cli-beta9-materialize-1780845705828/out/brik_cli_beta9_transpiler_contract.js"
     ],
     "checksums": "evidence/beta9-l6-materialization/remote-SHA256SUMS",
-    "checksumsSha256": "sha256:a7b71d5420ec187d0a79e8b6100c4f6f166ece7278df44362aea1df93db0965f"
+    "checksumsSha256": "sha256:56a811517b2568c44bc3083bff125a6d34d3d3fb38da8e971ff5617917cfb75e"
   },
   "claimBoundary": {
     "publicClaimsAllowed": false,

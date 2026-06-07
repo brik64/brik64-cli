@@ -71,9 +71,12 @@ function main() {
 
   const activeIsBeta9Public = active.version === version && active.state === 'public';
   const activeIsPriorPublic = active.version !== version && active.state === 'public';
+  const publicationWorkflowInProgress = process.env.BRIK64_RELEASE_PUBLICATION_IN_PROGRESS === '1';
 
-  if (activeIsBeta9Public && !allPublicSurfacesPassed) {
+  if (activeIsBeta9Public && !allPublicSurfacesPassed && !publicationWorkflowInProgress) {
     failures.push('active_manifest_beta9_public_before_surface_pass');
+  } else if (activeIsBeta9Public && !allPublicSurfacesPassed && publicationWorkflowInProgress) {
+    warnings.push('active_manifest_beta9_public_pending_surface_pass_during_publication_workflow');
   }
   if (!activeIsBeta9Public && allPublicSurfacesPassed) {
     failures.push('all_surfaces_passed_but_active_manifest_not_promoted');

@@ -181,7 +181,7 @@ function main() {
   for (const repo of sourceRepos) {
     if (!repo.ok) failures.push(`sdk_repo_unreadable:${repo.id}`);
     if (repo.packageVersion !== repo.expectedVersion) failures.push(`sdk_repo_version_drift:${repo.id}:${repo.packageVersion}`);
-    const nonAllowedDirty = (repo.status || []).filter((line) => repo.id !== 'js' || !line.includes('evidence-beta8-pack/'));
+    const nonAllowedDirty = (repo.status || []).filter((line) => repo.id !== 'js' || !/evidence-beta\d+-pack\//.test(line));
     if (nonAllowedDirty.length > 0) failures.push(`sdk_repo_dirty:${repo.id}`);
   }
 
