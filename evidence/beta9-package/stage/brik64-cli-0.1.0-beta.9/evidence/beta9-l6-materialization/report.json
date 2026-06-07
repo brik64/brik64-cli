@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta9_pcd_l6_materialization_report.v1",
   "generatedAt": "2026-06-07T12:45:57.175Z",
-  "decision": "PASS_BETA9_PCD_L6_MATERIALIZATION",
+  "decision": "BLOCKED_BETA9_PCD_L6_MATERIALIZATION",
   "version": "0.1.0-beta.9",
   "productArtifact": "BRIK64 CLI 0.1.0-beta.9",
   "lane": "cli_0_1_beta",
@@ -18,8 +18,8 @@
     "cliPolymerHash": "sha256:14d4f2a0926eb48734890c054d0be15bc46eadf234feecc52a52afa3950ac16a",
     "beta9ContractHash": "sha256:3ca76e88c425117fa21ad3e00ea91cc4ee63abb3ba949562580afd514936e3c5",
     "generatedArtifactHash": "sha256:a92e50254e8326d08a2009035e6334c0964875171029db9d15ab2f24dcf9e8cd",
-    "packageHash": "sha256:c8fbec1865ffbaf11c482c74b97becbf526cc3a3ee66764da5b1fa01c539086b",
-    "releaseManifestHash": "sha256:17c0542abb000ab330885757b252e718f0c89c54c95e95b6f597e4975fd07afe"
+    "packageHash": null,
+    "releaseManifestHash": null
   },
   "inputs": {
     "pcdInventory": [
@@ -118,6 +118,9 @@
     "rustIndependenceClaimAllowed": false,
     "pureBrik64ChainClaimAllowed": false
   },
-  "blockers": [],
-  "requiredNextAction": "Run beta9 package smoke, release readiness and public surface sync gates before publication."
+  "blockers": [
+    "beta9_package_hash_not_bound",
+    "beta9_release_manifest_hash_not_bound"
+  ],
+  "requiredNextAction": "Upgrade/deploy L6+N5 materialization path and bind generated artifact, package and release manifest hashes before beta9 publication."
 }

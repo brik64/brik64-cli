@@ -16,7 +16,17 @@ const gates = [
   { id: 'scaffolds', command: ['npm', 'run', 'gate:beta9:scaffolds'], requiredRc: 0 },
   { id: 'local_imports', command: ['npm', 'run', 'gate:beta9:local-imports'], requiredRc: 0 },
   { id: 'doctor_ux', command: ['npm', 'run', 'gate:beta9:doctor-ux'], requiredRc: 0 },
-  { id: 'pcd_l6_materialization', command: ['npm', 'run', 'gate:beta9:pcd-l6-materialization'], requiredRc: 0 }
+  { id: 'pcd_l6_materialization', command: ['npm', 'run', 'gate:beta9:pcd-l6-materialization'], requiredRc: 0 },
+  { id: 'package_smoke', command: ['npm', 'run', 'smoke:beta9:package'], requiredRc: 0 }
+];
+
+const publicSurfaceEvidence = [
+  { id: 'github_release', path: 'evidence/beta9-public-surfaces/github-release.json', decision: 'PASS_BETA9_GITHUB_RELEASE' },
+  { id: 'curl_gcp_installer', path: 'evidence/beta9-public-surfaces/curl-gcp-installer.json', decision: 'PASS_BETA9_CURL_GCP_INSTALLER' },
+  { id: 'docs_web_changelog', path: 'evidence/beta9-public-surfaces/docs-web-changelog.json', decision: 'PASS_BETA9_DOCS_WEB_CHANGELOG' },
+  { id: 'sdk_marketplaces', path: 'evidence/beta9-public-surfaces/sdk-marketplaces.json', decision: 'PASS_BETA9_SDK_MARKETPLACES' },
+  { id: 'skills_sync', path: 'evidence/beta9-public-surfaces/skills-sync.json', decision: 'PASS_BETA9_SKILLS_SYNC' },
+  { id: 'live_verify', path: 'evidence/beta9-public-surfaces/live-verify.json', decision: 'PASS_BETA9_LIVE_VERIFY' }
 ];
 
 function runGate(gate) {
@@ -56,6 +66,22 @@ function main() {
       }
     }
   }
+  const publicSurfaces = publicSurfaceEvidence.map((item) => {
+    const file = path.join(root, item.path);
+    if (!fs.existsSync(file)) {
+      blockers.push(`${item.id}_evidence_missing`);
+      return { ...item, exists: false, passed: false };
+    }
+    try {
+      const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const passed = parsed.decision === item.decision;
+      if (!passed) blockers.push(`${item.id}_decision_invalid:${parsed.decision || 'missing'}`);
+      return { ...item, exists: true, actualDecision: parsed.decision || null, passed };
+    } catch (_) {
+      blockers.push(`${item.id}_evidence_parse_error`);
+      return { ...item, exists: true, passed: false };
+    }
+  });
   const functionalGateIds = gates
     .filter((gate) => gate.id !== 'pcd_l6_materialization')
     .map((gate) => gate.id);
@@ -63,6 +89,8 @@ function main() {
     const result = results.find((item) => item.id === id);
     return result && result.passed;
   });
+  const packageCandidateReady = results.every((result) => result.passed);
+  const publicSurfacesPassed = publicSurfaces.every((surface) => surface.passed);
   const decision = blockers.length === 0
     ? 'PASS_BRIK64_CLI_BETA9_RELEASE_READINESS'
     : 'BLOCKED_BRIK64_CLI_BETA9_RELEASE_READINESS';
@@ -73,9 +101,12 @@ function main() {
     decision,
     rc: blockers.length === 0 ? 0 : 2,
     functionalGatesPassed,
+    packageCandidateReady,
+    publicSurfacesPassed,
     blockers,
     gates: results,
-    releaseTrainAllowed: blockers.length === 0,
+    publicSurfaces,
+    releaseTrainAllowed: blockers.length === 0 && publicSurfacesPassed,
     claimBoundary: {
       publicClaimsAllowed: false,
       formalN5ClaimAllowed: false,
@@ -86,7 +117,7 @@ function main() {
     },
     nextAction: blockers.length === 0
       ? 'Proceed to beta9 package, surface sync, live verifier and atomic publication gates.'
-      : 'Resolve blockers before beta9 public release. If only beta9_l6_materialization_not_ready remains, materialize beta9 from PCD/polymer through L6+N5 and rerun this gate.'
+      : 'Resolve blockers before beta9 public release. Package readiness is separate from public surface publication readiness.'
   };
 
   fs.mkdirSync(path.dirname(reportPath), { recursive: true });

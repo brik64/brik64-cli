@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.8",
+  "version": "0.1.0-beta.9",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -69,8 +69,8 @@
     "gate:beta9:local-imports": "bash scripts/beta9-local-imports-gate.sh",
     "gate:beta9:doctor-ux": "bash scripts/beta9-doctor-ux-gate.sh",
     "gate:beta9:release-readiness": "node scripts/beta9-release-readiness-gate.js",
-    "package:beta8:local": "bash scripts/build-beta8-package.sh",
-    "smoke:beta8:package": "bash scripts/beta8-package-smoke.sh",
+    "package:beta9:local": "bash scripts/build-beta9-package.sh",
+    "smoke:beta9:package": "bash scripts/beta9-package-smoke.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:flow:audit": "node scripts/release-flow-audit.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
@@ -91,7 +91,8 @@
     "test:beta9-scaffolds": "bash scripts/beta9-scaffolds-gate.sh",
     "test:beta9-local-imports": "bash scripts/beta9-local-imports-gate.sh",
     "test:beta9-doctor-ux": "bash scripts/beta9-doctor-ux-gate.sh",
-    "test:beta9-release-readiness": "node scripts/beta9-release-readiness-gate.js"
+    "test:beta9-release-readiness": "node scripts/beta9-release-readiness-gate.js",
+    "test:beta9-package-smoke": "bash scripts/beta9-package-smoke.sh"
   },
   "author": {
     "name": "BRIK64 INC",

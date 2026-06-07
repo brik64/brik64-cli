@@ -1,0 +1,105 @@
+// brik64.pcd_file.v1
+// name: brik_cli_beta9_transpiler_contract
+// status: beta9_candidate_contract
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// cli_version = "0.1.0-beta.9"
+// lane = "cli_0_1_beta"
+// generation_claim = "assisted_generation_non_claim"
+// internal_artifact_factory = "L6+N5 non-claim"
+// supported_emit_targets = "ts,rust,python"
+// requires arrays_lists_supported == true
+// requires list_literals_supported == true
+// requires list_index_supported == true
+// requires list_len_supported == true
+// requires maps_dictionaries_supported == true
+// requires map_literals_supported == true
+// requires map_member_access_supported == true
+// requires map_has_supported == true
+// requires bounded_for_loops_supported == true
+// requires bounded_while_loops_supported == true
+// requires bounded_repeat_literal_supported == true
+// requires repeat_bound_max == 64
+// requires strict_type_validation == true
+// requires typed_i64_params_supported == true
+// requires typed_i64_return_supported == true
+// requires multi_param_emit_supported == true
+// requires local_pcd_imports_supported == true
+// requires local_use_import_supported == true
+// requires import_call_supported == true
+// requires nested_imports_supported == false
+// requires target_scaffolds == "typescript_package,rust_cargo,python_pyproject"
+// requires typescript_package_json == true
+// requires typescript_tsconfig == true
+// requires rust_cargo_toml == true
+// requires rust_src_lib == true
+// requires python_pyproject == true
+// requires python_package_layout == true
+// requires doctor_human_default == true
+// requires doctor_json_ci_stable == true
+// requires release_readiness_gate == true
+// requires github_verification_token_isolation == true
+// requires beta9_l6_materialization_report == "evidence/beta9-l6-materialization/report.json"
+// requires beta9_l6_materialization_decision == "PASS_BETA9_PCD_L6_MATERIALIZATION"
+// requires manual_surfaces_promoted == false
+// invariant unsupported_dynamic_behavior_fails_closed == true
+// invariant unbounded_loop_fails_closed == true
+// invariant unknown_identifier_fails_closed == true
+// invariant path_traversal_fails_closed == true
+// invariant pcd_inventory_hash_bound == true
+// invariant cli_polymer_hash_bound == true
+// invariant generated_artifact_hash_bound == true
+// invariant public_claim_allowed == false
+// claim_boundary = "beta9_product_iteration_only"
+
+PC brik_cli_beta9_transpiler_contract {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok, map_subset_ok, repeat_subset_ok, target_scaffolds_ok, local_imports_ok, doctor_ok, release_readiness_ok) {
+        if (collections_ok == 0) {
+            return 65;
+        }
+        if (loops_bounded == 0) {
+            return 65;
+        }
+        if (types_ok == 0) {
+            return 65;
+        }
+        if (imports_ok == 0) {
+            return 65;
+        }
+        if (scaffolds_ok == 0) {
+            return 65;
+        }
+        if (gate_env_ok == 0) {
+            return 68;
+        }
+        if (l6_materialized == 0) {
+            return 69;
+        }
+        if (typed_interface_ok == 0) {
+            return 65;
+        }
+        if (list_subset_ok == 0) {
+            return 65;
+        }
+        if (map_subset_ok == 0) {
+            return 65;
+        }
+        if (repeat_subset_ok == 0) {
+            return 65;
+        }
+        if (target_scaffolds_ok == 0) {
+            return 65;
+        }
+        if (local_imports_ok == 0) {
+            return 65;
+        }
+        if (doctor_ok == 0) {
+            return 65;
+        }
+        if (release_readiness_ok == 0) {
+            return 65;
+        }
+        return 0;
+    }
+}

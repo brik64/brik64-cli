@@ -1,0 +1,13 @@
+{
+  "name": "@brik64/cli",
+  "version": "0.1.0-beta.9",
+  "private": true,
+  "description": "BRIK64 CLI beta9 candidate for local PCD workflows and bounded compiler emission.",
+  "bin": {
+    "brik": "src/brik.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "distribution": "curl_and_github_release_assets"
+}
