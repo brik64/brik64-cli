@@ -46,6 +46,11 @@ function artifact(file) {
   };
 }
 
+function optionalJson(file) {
+  if (!existsFile(file)) return null;
+  return JSON.parse(read(file));
+}
+
 function rg(cwd, args) {
   if (!fs.existsSync(cwd)) return [`missing_root:${cwd}`];
   const result = spawnSync('rg', args, { cwd, encoding: 'utf8' });
@@ -175,6 +180,7 @@ function sdkMarketplaces() {
     { id: 'python', expectedPackage: 'brik64', expectedVersion: pyVersion, ...gitHead(pythonSdkRoot) },
     { id: 'rust', expectedPackage: 'brik64-core', expectedVersion: version, ...gitHead(rustSdkRoot) }
   ];
+  const publishPreflight = optionalJson(path.join(outDir, 'sdk-marketplace-publish.json'));
   const authPreflightBlocker = process.env.BRIK64_SDK_AUTH_PREFLIGHT_BLOCKER || null;
   const localPackage = JSON.parse(read(path.join(root, 'evidence/beta9-package/package.manifest.json')));
   const expected = {
@@ -223,9 +229,21 @@ function sdkMarketplaces() {
     localCliPackage: localPackage.package,
     sourceRepos,
     authPreflight: {
-      attempted: Boolean(authPreflightBlocker),
-      decision: authPreflightBlocker ? 'BLOCKED_SDK_MARKETPLACE_AUTH_PREFLIGHT' : 'NOT_RECORDED',
-      blocker: authPreflightBlocker
+      attempted: Boolean(authPreflightBlocker || publishPreflight),
+      decision: publishPreflight?.decision || (authPreflightBlocker ? 'BLOCKED_SDK_MARKETPLACE_AUTH_PREFLIGHT' : 'NOT_RECORDED'),
+      blocker: authPreflightBlocker || publishPreflight?.failures?.join(',') || null,
+      evidence: publishPreflight
+        ? {
+            path: 'evidence/beta9-public-surfaces/sdk-marketplace-publish.json',
+            publicationMutated: publishPreflight.publicationMutated === true,
+            preflight: (publishPreflight.preflight || []).map((item) => ({
+              id: item.id,
+              passed: item.passed,
+              secretSource: item.secretSource || null,
+              boundary: item.boundary || null
+            }))
+          }
+        : null
     },
     expected,
     observations,

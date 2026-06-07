@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_sdk_marketplaces_surface.v1",
-  "generatedAt": "2026-06-07T13:40:21.015Z",
+  "generatedAt": "2026-06-07T13:46:15.292Z",
   "decision": "BLOCKED_BETA9_SDK_MARKETPLACES",
   "version": "0.1.0-beta.9",
   "publicSurfacePassed": false,
@@ -49,8 +49,50 @@
   ],
   "authPreflight": {
     "attempted": true,
-    "decision": "BLOCKED_SDK_MARKETPLACE_AUTH_PREFLIGHT",
-    "blocker": "npm_all_stored_token_candidates_unauthorized_e401"
+    "decision": "BLOCKED_BETA9_SDK_MARKETPLACE_PUBLISH",
+    "blocker": "npm_auth_failed_or_missing",
+    "evidence": {
+      "path": "evidence/beta9-public-surfaces/sdk-marketplace-publish.json",
+      "publicationMutated": false,
+      "preflight": [
+        {
+          "id": "npm_package_dry_run",
+          "passed": true,
+          "secretSource": null,
+          "boundary": null
+        },
+        {
+          "id": "pypi_package_build_check",
+          "passed": true,
+          "secretSource": null,
+          "boundary": null
+        },
+        {
+          "id": "crates_package_dry_run",
+          "passed": true,
+          "secretSource": null,
+          "boundary": null
+        },
+        {
+          "id": "npm_auth",
+          "passed": false,
+          "secretSource": "onepassword:BRIK64",
+          "boundary": null
+        },
+        {
+          "id": "pypi_auth_material_present",
+          "passed": true,
+          "secretSource": "onepassword:BRIK64",
+          "boundary": "PyPI upload tokens cannot be fully validated without an upload attempt; this preflight only proves token material is present and package artifacts pass twine check."
+        },
+        {
+          "id": "crates_auth",
+          "passed": true,
+          "secretSource": "onepassword:BRIK64",
+          "boundary": null
+        }
+      ]
+    }
   },
   "expected": {
     "npm": {
