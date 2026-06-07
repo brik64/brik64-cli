@@ -11,7 +11,7 @@ issues when a reproducible public bug or metadata mismatch needs discussion.
 
 ## Current Public Beta
 
-Current public beta: `0.1.0-beta.5`.
+Current public beta: `0.1.0-beta.10` after the beta10 release train closes.
 
 The latest public release remains defined by the curl installer, GitHub
 Releases, checksums, and release manifests.
@@ -22,12 +22,13 @@ Current public install path:
 curl -fsSL https://brik64.com/cli/install.sh | bash
 ```
 
-The beta5 release targets local CLI evaluation, `.brik` project metadata,
-PCD-oriented local evidence, `brik doctor`, local candidate certification, and
-hash-bound candidate output generation for targets shown by the installed
-`brik help` output.
+The beta10 release target is local CLI evaluation for modular PCD workflows:
+same-directory import DAGs, literal constants, local explanation, local
+lockfile evidence, disabled-by-default telemetry boundary commands, feedback
+dry-run, and redacted local error-report inspection.
 
-Next planning target: `0.1.0-beta.6`. See `docs/BETA6_RELEASE_PLAN.md`.
+Next planning target: `0.1.0-beta.11`. See
+`docs/BETA10_AND_BETA11_ROADMAP_CHECKLIST.md`.
 
 ## Milestone 1: Platform CLI Beta Coverage
 
@@ -87,12 +88,12 @@ them.
 
 Public targets:
 
-- JavaScript/TypeScript SDK beta4 was distributed through npm as
-  `@brik64/core@0.1.0-beta.4`.
-- Beta5 SDKs must be regenerated through the L6+N5 internal artifact-factory
-  policy before marketplace publication.
-- Python and Rust references remain marked as reference surfaces until a future
-  release explicitly opens those marketplace paths.
+- JavaScript/TypeScript SDK beta packages are distributed through npm as
+  `@brik64/core`.
+- Python and Rust SDK package lanes are promoted only when their marketplace
+  package pages and install commands are verified in the same release train.
+- beta10 SDK references must match the public CLI release version before docs
+  or web pages recommend installation.
 - Docs and release notes identify exact SDK package versions before recommending
   install commands outside the CLI.
 

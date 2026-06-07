@@ -25,6 +25,11 @@ used to move the CLI toward a PCD-first BRIK64 methodology.
   by itself; beta9 promotion also requires a materialization report proving the
   final artifact was generated from the PCD/polymer inputs through the internal
   L6+N5 factory.
+- `cli_beta10_modular_diagnostics_contract.pcd` is the beta10 source contract
+  for local import DAGs, literal constants, `explain`, `lock`, local telemetry
+  status, feedback dry-run, and redacted local error reports. It is a
+  Carril A product contract only and does not claim formal N5, self-hosting, or
+  fixpoint.
 
 ## Promotion Path
 

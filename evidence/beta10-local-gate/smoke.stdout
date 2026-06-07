@@ -1,0 +1,8 @@
+created=.brik/manifest.json
+certificate=program.pcd.cert.json
+certificate=polymer.pcd.cert.json
+certificate=stale.pcd.cert.json
+certificate=legacy.beta7.pcd.cert.json
+certificate=variant.pcd.cert.json
+certificate=root.pcd.cert.json
+brik64-cli bootstrap smoke: PASS

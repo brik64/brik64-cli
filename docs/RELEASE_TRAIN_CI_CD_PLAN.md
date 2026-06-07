@@ -1,6 +1,6 @@
 # BRIK64 Release Train CI/CD Plan
 
-Status: implemented on `main` and hardened during the beta8 release train.
+Status: implemented and being hardened for beta10/beta11 release execution.
 
 Date: 2026-06-07
 
@@ -22,16 +22,18 @@ The train covers:
 
 ## Current State
 
-- beta8 has a committed release manifest at `release/manifest.json`.
+- beta10 source alignment is active across CLI, SDK, docs, web and skills.
 - Dry-run, sync-payload generation, publication-plan generation, and live
   verification scripts exist and are wired to GitHub Actions.
 - The publish workflow is fail-closed and mutation-capable when invoked with the
   exact manifest digest, confirmation string, and `execute_publication=true`.
-- beta8 publication must be closed only by the publish workflow plus live
+- beta10 publication must be closed only by the publish workflow plus live
   verification. A green PR, GitHub Release, or one marketplace alone is not a
   release.
 - `repository_dispatch` consumers exist for docs, web, and public skills.
 - Operational runbook: `docs/RELEASE_TRAIN_RUNBOOK.md`.
+- Active closure checklist:
+  `docs/BETA10_AND_BETA11_ROADMAP_CHECKLIST.md`.
 
 ## Release Train Checklist
 

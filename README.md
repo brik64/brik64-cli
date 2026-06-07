@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.9`
+Current public beta: `0.1.0-beta.10`
 
 ## Install
 
@@ -24,12 +24,11 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta9 Command Surface
+## Beta10 Command Surface
 
-`0.1.0-beta.9` extends local PCD emission with stricter typed interfaces,
-bounded collections, bounded repeat loops, direct local PCD imports, generated
-project scaffolds, and more actionable workspace diagnostics while keeping
-local/managed workflow boundaries intact.
+`0.1.0-beta.10` extends local PCD workflows with import DAG support, literal
+compile-time constants, `explain`, `lock`, and local-only privacy diagnostics
+while keeping local/managed workflow boundaries intact.
 
 - `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
 - `brik64 doctor` prints a human-readable workspace summary with diagnostics
@@ -50,6 +49,16 @@ local/managed workflow boundaries intact.
   files into a deterministic local polymer candidate.
 - `brik64 migrate <file.pcd>` converts supported legacy PCD syntax into the
   current strict syntax.
+- `brik64 explain <file.pcd>` prints parser, import, constant and type
+  diagnostics; `--json` emits `brik64.cli_explain_report.v1`.
+- `brik64 lock` writes `brik64.lock.json` with local PCD, AST, import graph,
+  and constant hashes for review.
+- `brik64 telemetry status` and `brik64 telemetry explain` show the local
+  telemetry boundary. Telemetry is disabled by default in this beta.
+- `brik64 feedback --dry-run` creates a redacted local feedback preview without
+  sending network data.
+- `brik64 errors status` and `brik64 errors explain-last` inspect the latest
+  redacted local error report.
 
 Managed `--cloud` paths are entitlement-gated in this beta. Without a managed
 session, those paths fail closed and keep local artifacts unchanged.
@@ -72,9 +81,9 @@ SDKs are distributed separately from the CLI. Current beta SDK package
 coordinates:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.9
-pip install brik64==0.1.0b9
-cargo add brik64-core@0.1.0-beta.9
+npm install @brik64/core@0.1.0-beta.10
+pip install brik64==0.1.0b10
+cargo add brik64-core@0.1.0-beta.10
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed

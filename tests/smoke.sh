@@ -9,12 +9,14 @@ cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.9"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.10"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" --help | grep -q "polymerize <files>"
 node "$BRIK" --help | grep -q "verify <file.pcd>"
 node "$BRIK" --help | grep -q "migrate <file.pcd>"
+node "$BRIK" --help | grep -q "explain <file.pcd>"
+node "$BRIK" --help | grep -q "telemetry status"
 node "$BRIK" doctor | grep -q "BRIK64 workspace doctor"
 node "$BRIK" doctor --json | grep -q '"status": "PASS"'
 node "$BRIK" doctor --json | grep -q '"localRuntime": "available"'
@@ -45,11 +47,17 @@ fi
     exit 1
   fi
   grep -q "login_token_env_missing" /tmp/brik-login.err
+  node "$BRIK" telemetry status | grep -q '"enabled": false'
+  node "$BRIK" telemetry explain | grep -q "networkSent=false"
+  node "$BRIK" feedback --dry-run --category bug --message "token=abc carlos@example.com" | grep -q "\\[redacted"
+  test -f .brik/feedback-preview.json
   if node "$BRIK" doctor >/tmp/brik-empty-doctor.out 2>/tmp/brik-empty-doctor.err; then
     echo "doctor should require PCD inventory" >&2
     exit 1
   fi
   grep -q "pcd_inventory_empty" /tmp/brik-empty-doctor.err
+  node "$BRIK" errors status | grep -q '"lastReportPresent": true'
+  node "$BRIK" errors explain-last | grep -q '"rawPcdIncluded": false'
 )
 
 cat >"$tmpdir/program.pcd" <<'PCD'
@@ -74,6 +82,8 @@ fi
 grep -q "certificate_required" /tmp/brik-emit.err
 
 node "$BRIK" certify program.pcd
+node "$BRIK" explain program.pcd | grep -q "status: PASS"
+node "$BRIK" explain program.pcd --json | grep -q '"schemaVersion": "brik64.cli_explain_report.v1"'
 node "$BRIK" emit program.pcd | grep -q "pcd_sha256="
 node "$BRIK" verify program.pcd | grep -q "verification=PASS"
 node "$BRIK" verify program.pcd --json | grep -q '"schemaVersion": "brik64.cli_local_verify_report.v1"'
@@ -198,12 +208,87 @@ grep -q "manifest_parse_error" /tmp/brik-bad-manifest.err
 
 rm .brik/manifest.json
 node "$BRIK" init >/tmp/brik-reinit.out
+mkdir -p pcd
+cp program.pcd pcd/program.pcd
+node "$BRIK" lock | grep -q "lock=brik64.lock.json"
+test -f brik64.lock.json
+node -e 'const fs=require("fs"); const l=JSON.parse(fs.readFileSync("brik64.lock.json","utf8")); if (l.schemaVersion !== "brik64.cli_lockfile.v1" || l.releaseEligible !== false || l.pcds.length !== 1) process.exit(1)'
 node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(".brik/manifest.json", JSON.stringify(m,null,2)+"\n")'
 if node "$BRIK" doctor >/tmp/brik-bad-tier.out 2>/tmp/brik-bad-tier.err; then
   echo "doctor should fail closed on L6 distribution" >&2
   exit 1
 fi
 grep -q "engine_tier_policy_l6_distribution_open" /tmp/brik-bad-tier.err
+)
+
+cat >"$tmpdir/leaf.pcd" <<'PCD'
+PC leaf {
+    const LIMIT: i64 = 3;
+    fn leaf(input) {
+        repeat LIMIT {
+            if (input == LIMIT) {
+                return 21;
+            }
+        }
+        return 8;
+    }
+}
+PCD
+
+cat >"$tmpdir/mid.pcd" <<'PCD'
+use leaf;
+PC mid {
+    const OFFSET: i64 = 2;
+    fn mid(input) {
+        if (leaf(input) == 21) {
+            return 40 + OFFSET;
+        }
+        return 10;
+    }
+}
+PCD
+
+cat >"$tmpdir/root.pcd" <<'PCD'
+use mid;
+PC root {
+    fn root(input) {
+        return mid(input);
+    }
+}
+PCD
+
+(
+cd "$tmpdir"
+rm -rf .brik
+node "$BRIK" init >/tmp/brik-dag-init.out
+node "$BRIK" certify root.pcd
+node "$BRIK" emit root.pcd --target ts --out out-dag --tests >/tmp/brik-emit-dag.out
+node out-dag/program.test.mjs | grep -q "PASS"
+node "$BRIK" explain root.pcd --json | grep -q '"mid"'
+cat >cycle_a.pcd <<'PCD'
+use cycle_b;
+PC cycle_a { fn cycle_a(input) { return cycle_b(input); } }
+PCD
+cat >cycle_b.pcd <<'PCD'
+use cycle_a;
+PC cycle_b { fn cycle_b(input) { return cycle_a(input); } }
+PCD
+if node "$BRIK" certify cycle_a.pcd >/tmp/brik-cycle.out 2>/tmp/brik-cycle.err; then
+  echo "import cycle should fail closed" >&2
+  exit 1
+fi
+grep -q "import_cycle" /tmp/brik-cycle.err
+cat >bad_const.pcd <<'PCD'
+PC bad_const {
+    const LIMIT: i64 = input;
+    fn bad_const(input) { return 1; }
+}
+PCD
+if node "$BRIK" certify bad_const.pcd >/tmp/brik-bad-const.out 2>/tmp/brik-bad-const.err; then
+  echo "non-literal const should fail closed" >&2
+  exit 1
+fi
+grep -q "const_not_literal_or_wrong_scope" /tmp/brik-bad-const.err
 )
 
 echo "brik64-cli bootstrap smoke: PASS"
