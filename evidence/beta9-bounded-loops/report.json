@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta9_bounded_loops_gate.v1",
-  "generatedAt": "2026-06-07T12:29:23Z",
+  "generatedAt": "2026-06-07T12:40:10Z",
   "iter_id": "BRIK64-CLI-BETA9-BOUNDED-LOOPS-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:da02792b062039ada0441298999cbdb2ec746aab06eab08f6b07486da67b0737",
+  "cliSha256": "sha256:9957ebf3a58fbe63c967f1e50eaf7ba1ac7ef351d2f2059ebc7895195ca8b88a",
   "fixture": {
     "path": "pcd/repeat_score.pcd",
     "sha256": "sha256:0e337eaffe2a470f57e10b14fb88e59c82fa6de7fa1deaa94740dfa0eed6fc79"

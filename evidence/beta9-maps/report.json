@@ -1,27 +1,27 @@
 {
   "schemaVersion": "brik64.cli_beta9_maps_gate.v1",
-  "generatedAt": "2026-06-07T12:21:12Z",
+  "generatedAt": "2026-06-07T12:40:07Z",
   "iter_id": "BRIK64-CLI-BETA9-MAPS-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_MAPS",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:d015694886acdebccf2ea4e98e8319a07633d5cc4d7d0067dec88f79cba157ed",
+  "cliSha256": "sha256:9957ebf3a58fbe63c967f1e50eaf7ba1ac7ef351d2f2059ebc7895195ca8b88a",
   "fixture": {
     "path": "pcd/map_score.pcd",
     "sha256": "sha256:bcbc824661f497285b56539c1eede360f9ef802f503117a27b58b6dce4499fb0"
   },
   "executedTargets": {
     "typescript": {
-      "programSha256": "sha256:edfd81cc50c5d04f4c9fb050c6f95b8233c48cac3a1748514fde2b03036fb2c6",
+      "programSha256": "sha256:8d96389c4c8b01ff5ef857ccd95f164bfb7a50b26043f9a6a47ef08d2fff1296",
       "passed": true
     },
     "rust": {
-      "programSha256": "sha256:da9e07c31448a06c4b4beee2f1da6075cf985be37f632522581da94e68dcbde7",
+      "programSha256": "sha256:dcbce7b724840372052cbc15254248bc7db7f877623ce2609eacd0597557c85a",
       "passed": true
     },
     "python": {
-      "programSha256": "sha256:1c8a260655832f16e0e7cff2163d4868c2c63e77c8edae6b0e1fcf9c4a7b7e50",
+      "programSha256": "sha256:73ccaa7e0a0aa478d2d83c23a72e0075df6699e70acc4cc4a56be944ddbe348b",
       "passed": true
     }
   },
