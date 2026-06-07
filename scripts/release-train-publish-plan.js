@@ -138,7 +138,7 @@ function main() {
     command(
       'github_release',
       'Create or update the GitHub Release from the manifest version and upload committed assets.',
-      `gh release view ${releaseTag} --repo brik64/brik64-cli || gh release create ${releaseTag} --repo brik64/brik64-cli --title "BRIK64 CLI ${manifest.version}" --notes-file CHANGELOG.md && gh release upload ${releaseTag} --repo brik64/brik64-cli --clobber ${packagePath} ${packageDir}/package.manifest.json ${packageDir}/SHA256SUMS`,
+      `(gh release view ${releaseTag} --repo brik64/brik64-cli || gh release create ${releaseTag} --repo brik64/brik64-cli --title "BRIK64 CLI ${manifest.version}" --notes-file CHANGELOG.md) && gh release upload ${releaseTag} --repo brik64/brik64-cli --clobber ${packagePath} ${packageDir}/package.manifest.json ${packageDir}/release-manifest.candidate.json ${packageDir}/SHA256SUMS && gh release edit ${releaseTag} --repo brik64/brik64-cli --title "BRIK64 CLI ${manifest.version}" --notes-file CHANGELOG.md --prerelease --draft=false`,
       true
     ),
     command(
@@ -189,7 +189,7 @@ PY`,
     command(
       'post_publish_live_verify',
       'Re-run public live verification after publication.',
-      'node scripts/release-train-live-verify.js',
+      'node scripts/release-train-live-verify.js --wait-seconds 600 --interval-seconds 20',
       false
     )
   ];
