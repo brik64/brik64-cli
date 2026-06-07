@@ -2,14 +2,13 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.9",
   "version": "0.1.0-beta.9",
-  "manifestDigest": "80659e086db995e590d6f37bda5ab2f3f4504fad33eea2248d64ef1d14e8aba9",
-  "sourceHead": "eeafbb4",
+  "manifestDigest": "2f63b543839db9f156d24ed593be6eab2b104636ec26d783e5fedaf6776f0cf9",
+  "sourceHead": "c45a765",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    ".github/workflows/release-train-publish.yml",
     "evidence/beta9-bounded-loops/report.json",
     "evidence/beta9-collections/report.json",
     "evidence/beta9-doctor-ux/report.json",
@@ -23,16 +22,11 @@
     "evidence/beta9-l6-materialization/technical-sheet.json",
     "evidence/beta9-local-imports/report.json",
     "evidence/beta9-maps/report.json",
-    "evidence/beta9-public-surfaces/docs-web-changelog.json",
-    "evidence/beta9-public-surfaces/manifest-drift-preflight.json",
-    "evidence/beta9-public-surfaces/sdk-marketplaces.json",
-    "evidence/beta9-public-surfaces/skills-sync.json",
     "evidence/beta9-scaffolds/report.json",
     "evidence/beta9-typed-interface/report.json",
     "pcd/cli_beta9_transpiler_contract.pcd",
     "release/manifest.json",
-    "scripts/beta9-manifest-drift-preflight.js",
-    "scripts/beta9-sdk-marketplace-publish.js"
+    "scripts/release-train-publish-execute.js"
   ],
   "commandPreflight": [
     {
@@ -107,6 +101,6 @@
   ],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:24"
+    "worktree_dirty_dry_run:18"
   ]
 }

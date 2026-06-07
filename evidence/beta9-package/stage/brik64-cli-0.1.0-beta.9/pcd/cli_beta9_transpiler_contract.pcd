@@ -59,6 +59,7 @@
 // requires publish_plan_signature_failures_are_warnings_during_release_train_dry_run == true
 // requires publication_workflow_allows_beta9_public_manifest_pending_surface_pass == true
 // requires sdk_marketplace_preflight_allows_generated_beta_pack_artifacts == true
+// requires publish_execute_allows_release_workflow_generated_beta9_evidence == true
 // requires beta9_l6_materialization_report == "evidence/beta9-l6-materialization/report.json"
 // requires beta9_l6_materialization_decision == "PASS_BETA9_PCD_L6_MATERIALIZATION"
 // requires manual_surfaces_promoted == false

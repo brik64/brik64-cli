@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_docs_web_changelog_surface.v1",
-  "generatedAt": "2026-06-07T15:22:57.020Z",
+  "generatedAt": "2026-06-07T15:28:24.287Z",
   "decision": "PASS_BETA9_DOCS_WEB_CHANGELOG",
   "version": "0.1.0-beta.9",
   "publicSurfacePassed": true,
@@ -85,11 +85,6 @@
         "src/app/home-cli/page.tsx:19:    \"Installer: curl -fsSL https://brik64.com/cli/install.sh | bash\",",
         "src/app/home-cli/page.tsx:74:      \"BRIK64 CLI 0.1.0-beta.6: official command brik64, installer curl -fsSL https://brik64.com/cli/install.sh | bash, smoked on darwin-arm64 and linux-x64 Ubuntu 24.04.4 ECO1, Windows blocked.\",",
         "src/app/home-cli/page.tsx:80:      \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
-        "src/app/home-cli/agent.json/route.ts:19:    install_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
-        "src/app/home-cli/agent.json/route.ts:71:      current_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
-        "src/app/home-cli/agent.json/route.ts:78:      current_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
-        "src/app/home-cli/agent.json/route.ts:95:        \"Install: curl -fsSL https://brik64.com/cli/install.sh | bash\",",
-        "src/app/home-cli/agent.json/route.ts:99:      command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
         "src/app/download/page.tsx:22:      { label: \"Install\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Installs the current beta channel through the counted download route.\" },",
         "src/app/download/page.tsx:23:      { label: \"Version\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\", note: \"Pins the beta8 installer manifest.\" },",
         "src/app/download/page.tsx:24:      { label: \"Channel\", command: \"BRIK64_CHANNEL=beta curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Uses the beta channel explicitly.\" },",
@@ -100,7 +95,12 @@
         "src/app/download/page.tsx:55:      { label: \"Install\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Fails closed because no Windows beta8 asset is published.\" },",
         "src/app/download/page.tsx:56:      { label: \"Version\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\", note: \"No Windows claim without smoke evidence.\" },",
         "src/app/download/page.tsx:65:    command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
-        "src/app/download/page.tsx:71:    command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\","
+        "src/app/download/page.tsx:71:    command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\",",
+        "src/app/home-cli/agent.json/route.ts:19:    install_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:71:      current_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:78:      current_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:95:        \"Install: curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:99:      command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\","
       ],
       "count": 24
     }
