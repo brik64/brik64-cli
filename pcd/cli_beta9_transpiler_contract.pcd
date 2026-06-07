@@ -47,6 +47,11 @@
 // requires github_verification_token_isolation == true
 // requires npm_token_userconfig_isolation == true
 // requires npm_auth_uses_ephemeral_userconfig == true
+// requires crates_token_environment_isolation == true
+// requires release_train_crates_publish_uses_env_token == true
+// requires marketplace_publish_reports_redact_command_tokens == true
+// requires marketplace_existing_version_publish_is_idempotent == true
+// requires staged_release_train_accepts_sdk_marketplaces_pass == true
 // requires beta9_l6_materialization_report == "evidence/beta9-l6-materialization/report.json"
 // requires beta9_l6_materialization_decision == "PASS_BETA9_PCD_L6_MATERIALIZATION"
 // requires manual_surfaces_promoted == false
@@ -61,7 +66,7 @@
 // claim_boundary = "beta9_product_iteration_only"
 
 PC brik_cli_beta9_transpiler_contract {
-    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok, map_subset_ok, repeat_subset_ok, target_scaffolds_ok, local_imports_ok, doctor_ok, curl_gcp_staged, release_readiness_ok, candidate_dry_run_ok, npm_auth_isolated) {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok, map_subset_ok, repeat_subset_ok, target_scaffolds_ok, local_imports_ok, doctor_ok, curl_gcp_staged, release_readiness_ok, candidate_dry_run_ok, npm_auth_isolated, marketplace_tokens_redacted, marketplace_idempotent, staged_sdk_marketplaces_pass) {
         if (collections_ok == 0) {
             return 65;
         }
@@ -114,6 +119,15 @@ PC brik_cli_beta9_transpiler_contract {
             return 65;
         }
         if (npm_auth_isolated == 0) {
+            return 68;
+        }
+        if (marketplace_tokens_redacted == 0) {
+            return 68;
+        }
+        if (marketplace_idempotent == 0) {
+            return 68;
+        }
+        if (staged_sdk_marketplaces_pass == 0) {
             return 68;
         }
         return 0;

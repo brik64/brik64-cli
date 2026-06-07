@@ -147,6 +147,11 @@ function cratesVersionExists() {
   return (query.value.versions || []).some((item) => item.num === version);
 }
 
+function isAlreadyPublished(result) {
+  const text = `${result.stdout || ''}\n${result.stderr || ''}`;
+  return /already exists/i.test(text) || /previously published/i.test(text);
+}
+
 function main() {
   ensureOutDir();
   const failures = [];
@@ -261,10 +266,13 @@ function main() {
 
     if (failures.length === 0 && !cratesExists) {
       const args = ['publish', '--manifest-path', path.join(rustRoot, 'Cargo.toml')];
-      if (cratesSecret.present) args.push('--token', cratesSecret.value);
       const result = run('cargo', args, { cwd: rustRoot, env: cratesAuthEnv });
-      executed.push({ id: 'crates_publish', skipped: false, result });
-      if (result.rc !== 0) failures.push('crates_publish_failed');
+      if (result.rc !== 0 && isAlreadyPublished(result)) {
+        executed.push({ id: 'crates_publish', skipped: true, reason: 'version_already_exists_after_index_race', result });
+      } else {
+        executed.push({ id: 'crates_publish', skipped: false, result });
+        if (result.rc !== 0) failures.push('crates_publish_failed');
+      }
     } else if (failures.length === 0) {
       executed.push({ id: 'crates_publish', skipped: true, reason: 'version_already_exists' });
     }

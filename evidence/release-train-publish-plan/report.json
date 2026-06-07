@@ -2,12 +2,12 @@
   "schemaVersion": "brik64.release_train_publish_plan.v1",
   "releaseId": "brik64-0.1.0-beta.8",
   "version": "0.1.0-beta.8",
-  "manifestDigest": "959a0c50560613529b80d12534d2c8ef1f5ce47a52449cc906f0c687edf9a585",
+  "manifestDigest": "99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
   "decision": "FAIL_PUBLISH_PREFLIGHT",
   "dryRunInProgress": false,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.8 959a0c50560613529b80d12534d2c8ef1f5ce47a52449cc906f0c687edf9a585",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.8 99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
     "BRIK64_NPM_TOKEN": false,
@@ -22,10 +22,10 @@
   },
   "signatureReport": {
     "path": "evidence/beta8-github-verified-signature/report.json",
-    "decision": "BLOCKED_BETA8_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "5fd8fb763ead40f1cc62340ac41f148b031c0679",
-    "verified": false,
-    "reason": "unknown_key"
+    "decision": "PASS_BETA8_GITHUB_VERIFIED_SIGNATURE",
+    "commit": "0123456789abcdef0123456789abcdef01234567",
+    "verified": true,
+    "reason": "valid"
   },
   "commands": [
     {
@@ -49,7 +49,7 @@
     {
       "name": "sdk_crates",
       "description": "Publish the Rust SDK crate.",
-      "command": "cargo info brik64-core@0.1.0-beta.8 >/dev/null 2>&1 || cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml --token \"$BRIK64_CRATES_TOKEN\"",
+      "command": "cargo info brik64-core@0.1.0-beta.8 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
       "mutatesPublicSurface": true
     },
     {
@@ -91,12 +91,11 @@
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
   "failures": [
-    "manifest_state_not_public:draft",
-    "beta8_github_verified_signature_not_pass:BLOCKED_BETA8_GITHUB_VERIFIED_SIGNATURE"
+    "beta8_github_verified_signature_commit_drift:0123456789abcdef0123456789abcdef01234567:fca57222ec30ced7da99080022d75795ad58435a",
+    "dry_run_manifest_digest_drift"
   ],
   "warnings": [
-    "pre_publish_live_verify_manifest_digest_drift",
-    "manifest_source_commit_not_ancestor:2673a5b:5fd8fb7"
+    "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
 }
