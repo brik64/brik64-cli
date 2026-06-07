@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "brik64.beta9_github_release_surface.v1",
+  "generatedAt": "2026-06-07T12:59:22.594Z",
+  "decision": "STAGED_BETA9_GITHUB_RELEASE_DRAFT",
+  "releaseEligible": false,
+  "publicSurfacePassed": false,
+  "reason": "GitHub release assets are staged in a draft prerelease; atomic public release is still blocked until all public surfaces pass.",
+  "release": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/brik64/brik64-cli/releases/assets/440911842",
+        "contentType": "application/x-gtar",
+        "createdAt": "2026-06-07T12:58:42Z",
+        "digest": "sha256:c8fbec1865ffbaf11c482c74b97becbf526cc3a3ee66764da5b1fa01c539086b",
+        "downloadCount": 0,
+        "id": "RA_kwDOSvpCcs4aR8fi",
+        "label": "",
+        "name": "brik64-cli-0.1.0-beta.9.tgz",
+        "size": 35783,
+        "state": "uploaded",
+        "updatedAt": "2026-06-07T12:58:42Z",
+        "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/brik64-cli-0.1.0-beta.9.tgz"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/brik64/brik64-cli/releases/assets/440911841",
+        "contentType": "application/json",
+        "createdAt": "2026-06-07T12:58:42Z",
+        "digest": "sha256:79fe2a39562e6e486ad361dbe7846fcf5028d96705558290928dbf60339a99ef",
+        "downloadCount": 0,
+        "id": "RA_kwDOSvpCcs4aR8fh",
+        "label": "",
+        "name": "package.manifest.json",
+        "size": 1586,
+        "state": "uploaded",
+        "updatedAt": "2026-06-07T12:58:42Z",
+        "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/package.manifest.json"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/brik64/brik64-cli/releases/assets/440911843",
+        "contentType": "application/json",
+        "createdAt": "2026-06-07T12:58:42Z",
+        "digest": "sha256:17c0542abb000ab330885757b252e718f0c89c54c95e95b6f597e4975fd07afe",
+        "downloadCount": 0,
+        "id": "RA_kwDOSvpCcs4aR8fj",
+        "label": "",
+        "name": "release-manifest.candidate.json",
+        "size": 1279,
+        "state": "uploaded",
+        "updatedAt": "2026-06-07T12:58:42Z",
+        "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/release-manifest.candidate.json"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/brik64/brik64-cli/releases/assets/440911844",
+        "contentType": "application/octet-stream",
+        "createdAt": "2026-06-07T12:58:42Z",
+        "digest": "sha256:aa4eac7d48cadb81d4f3918a37c8c069053b17b051bb9e1c4080fb5be41bd130",
+        "downloadCount": 0,
+        "id": "RA_kwDOSvpCcs4aR8fk",
+        "label": "",
+        "name": "SHA256SUMS",
+        "size": 366,
+        "state": "uploaded",
+        "updatedAt": "2026-06-07T12:58:42Z",
+        "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/SHA256SUMS"
+      }
+    ],
+    "isDraft": true,
+    "isPrerelease": true,
+    "name": "BRIK64 CLI 0.1.0-beta.9",
+    "tagName": "v0.1.0-beta.9",
+    "targetCommitish": "codex/beta9-github-token-isolation",
+    "url": "https://github.com/brik64/brik64-cli/releases/tag/untagged-66c7e02506dce3d52844"
+  },
+  "expectedAssetDigests": {
+    "brik64-cli-0.1.0-beta.9.tgz": "sha256:c8fbec1865ffbaf11c482c74b97becbf526cc3a3ee66764da5b1fa01c539086b",
+    "package.manifest.json": "sha256:79fe2a39562e6e486ad361dbe7846fcf5028d96705558290928dbf60339a99ef",
+    "release-manifest.candidate.json": "sha256:17c0542abb000ab330885757b252e718f0c89c54c95e95b6f597e4975fd07afe",
+    "SHA256SUMS": "sha256:aa4eac7d48cadb81d4f3918a37c8c069053b17b051bb9e1c4080fb5be41bd130"
+  },
+  "checks": {
+    "tagName": true,
+    "draft": true,
+    "prerelease": true,
+    "target": true,
+    "assets": true,
+    "publicRelease": false
+  },
+  "requiredNextAction": "Publish the GitHub release only inside the final atomic release train after curl/GCP, docs/web/changelog, SDKs, skills and live verification are ready."
+}
