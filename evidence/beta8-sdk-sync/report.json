@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "brik64.cli_beta8_sdk_sync_gate.v1",
+  "version": "0.1.0-beta.8",
+  "pythonVersion": "0.1.0b8",
+  "decision": "PASS_SDK_BETA8_SYNC",
+  "releaseEligible": true,
+  "marketplacePublicationAllowed": true,
+  "sdks": [
+    {
+      "id": "js_ts",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/package.json",
+          "sha256": "02fddd75615d15ad071787026d6ad15fe11deb17f6393179be38f72231fb14db",
+          "bytes": 1052
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/README.md",
+          "sha256": "0f405b5b9897a1c83579b780a6e8c3ff9592bce262c9379668b3345d95e6cf63",
+          "bytes": 1982
+        }
+      ],
+      "failures": []
+    },
+    {
+      "id": "python",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/pyproject.toml",
+          "sha256": "5c945004c918442121f3706bc718bb0fe1c9705b0d86a2e9742680e7909f3211",
+          "bytes": 656
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/README.md",
+          "sha256": "ce1a42678f5a836b6dc452fa8b35393d85c85a5ef74cf1936810e48512b99ee2",
+          "bytes": 1410
+        }
+      ],
+      "failures": []
+    },
+    {
+      "id": "rust",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
+          "sha256": "45618ed6c50ba240ddb7e89162cb18045d2fbba092588218a83b57130341de35",
+          "bytes": 735
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/README.md",
+          "sha256": "2685113d34882c135086d3ccfa8ba0157b61b6485c93cd38ec6c745e5bedf994",
+          "bytes": 3752
+        }
+      ],
+      "failures": []
+    }
+  ],
+  "failures": [],
+  "boundary": "SDK repositories must be beta8 aligned before marketplace publication. This gate does not mutate npm, PyPI or crates.io."
+}

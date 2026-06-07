@@ -8,7 +8,7 @@
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "2673a5b"
+    "commit": "eb7def0"
   },
   "cli": {
     "packageName": "@brik64/cli",
