@@ -10,6 +10,9 @@ const pyVersion = '0.1.0b9';
 const docsRoot = process.env.BRIK64_DOCS_ROOT || '/Users/carlosjperez/Documents/GitHub/brik64-docs-site';
 const webRoot = process.env.BRIK64_WEB_ROOT || '/Users/carlosjperez/Documents/GitHub/brik64.com';
 const skillsRoot = process.env.BRIK64_SKILLS_ROOT || '/Users/carlosjperez/Documents/GitHub/brik64-tools-skills';
+const jsSdkRoot = process.env.BRIK64_JS_SDK_ROOT || '/Users/carlosjperez/Documents/GitHub/brik64-lib-js';
+const pythonSdkRoot = process.env.BRIK64_PYTHON_SDK_ROOT || '/Users/carlosjperez/Documents/GitHub/brik64-lib-python';
+const rustSdkRoot = process.env.BRIK64_RUST_SDK_ROOT || '/Users/carlosjperez/Documents/GitHub/brik64-lib-rust';
 const outDir = path.join(root, 'evidence', 'beta9-public-surfaces');
 
 function sha256Text(value) {
@@ -59,6 +62,29 @@ function commandJson(command, args) {
   } catch (error) {
     return { ok: false, error: `json_parse_error:${error.message}` };
   }
+}
+
+function commandText(command, args, cwd = root) {
+  const result = spawnSync(command, args, { cwd, encoding: 'utf8', maxBuffer: 1024 * 1024 });
+  if (result.status !== 0) {
+    return { ok: false, error: (result.stderr || result.stdout || `rc_${result.status}`).slice(0, 500) };
+  }
+  return { ok: true, value: (result.stdout || '').trim() };
+}
+
+function gitHead(cwd) {
+  if (!fs.existsSync(cwd)) return { ok: false, cwd, error: 'repo_missing' };
+  const head = commandText('git', ['rev-parse', 'HEAD'], cwd);
+  const branch = commandText('git', ['rev-parse', '--abbrev-ref', 'HEAD'], cwd);
+  const status = commandText('git', ['status', '--short'], cwd);
+  return {
+    ok: head.ok && branch.ok && status.ok,
+    cwd,
+    branch: branch.value || null,
+    head: head.value || null,
+    dirty: Boolean(status.value),
+    status: status.value ? status.value.split('\n') : []
+  };
 }
 
 function checkText(id, file, required, forbidden, failures, artifacts) {
@@ -144,6 +170,12 @@ function docsWebChangelog() {
 function sdkMarketplaces() {
   const failures = [];
   const observations = [];
+  const sourceRepos = [
+    { id: 'js', expectedPackage: '@brik64/core', expectedVersion: version, ...gitHead(jsSdkRoot) },
+    { id: 'python', expectedPackage: 'brik64', expectedVersion: pyVersion, ...gitHead(pythonSdkRoot) },
+    { id: 'rust', expectedPackage: 'brik64-core', expectedVersion: version, ...gitHead(rustSdkRoot) }
+  ];
+  const authPreflightBlocker = process.env.BRIK64_SDK_AUTH_PREFLIGHT_BLOCKER || null;
   const localPackage = JSON.parse(read(path.join(root, 'evidence/beta9-package/package.manifest.json')));
   const expected = {
     npm: { package: '@brik64/core', version },
@@ -189,6 +221,12 @@ function sdkMarketplaces() {
     publicSurfacePassed: failures.length === 0,
     releaseEligible: failures.length === 0,
     localCliPackage: localPackage.package,
+    sourceRepos,
+    authPreflight: {
+      attempted: Boolean(authPreflightBlocker),
+      decision: authPreflightBlocker ? 'BLOCKED_SDK_MARKETPLACE_AUTH_PREFLIGHT' : 'NOT_RECORDED',
+      blocker: authPreflightBlocker
+    },
     expected,
     observations,
     failures,
