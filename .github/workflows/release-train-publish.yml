@@ -112,6 +112,7 @@ jobs:
 
       - name: Record beta9 staged SDK preflight
         env:
+          BRIK64_RELEASE_PUBLICATION_IN_PROGRESS: "1"
           NODE_AUTH_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           TWINE_USERNAME: __token__
@@ -142,6 +143,7 @@ jobs:
 
       - name: Generate publication plan
         env:
+          BRIK64_RELEASE_PUBLICATION_IN_PROGRESS: "1"
           GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
@@ -168,6 +170,7 @@ jobs:
 
       - name: Execute publication train
         env:
+          BRIK64_RELEASE_PUBLICATION_IN_PROGRESS: "1"
           GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
