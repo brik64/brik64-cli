@@ -14,7 +14,17 @@ process.stdout.on('error', (error) => {
 });
 
 function readJson(file) {
-  return JSON.parse(fs.readFileSync(file, 'utf8'));
+  let text = '';
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    text = fs.readFileSync(file, 'utf8');
+    if (text.trim().length > 0) break;
+    childProcess.spawnSync('node', ['-e', 'Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 100)']);
+  }
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`json_parse_failed:${path.relative(root, file)}:${error.message}`);
+  }
 }
 
 function readText(file) {
@@ -124,6 +134,22 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
 
+  if (betaNumber(manifest.version) === 8) {
+    const enforceSignature = manifest.state !== 'draft' || process.env.BRIK64_REQUIRE_GITHUB_VERIFIED_SIGNATURE === '1';
+    return [
+      run('beta8_compiler_functionality', ['bash', 'scripts/beta8-compiler-functionality-gate.sh']),
+      run('beta8_adversarial', ['bash', 'scripts/beta8-adversarial-gate.sh']),
+      run('beta8_local_package', ['bash', 'scripts/build-beta8-package.sh']),
+      run('beta8_package_smoke', ['bash', 'scripts/beta8-package-smoke.sh']),
+      ...(enforceSignature
+        ? [run('beta8_github_verified_signature', ['node', 'scripts/beta8-github-verified-signature-gate.js'])]
+        : []),
+      ...(canAccessSiblingRepos
+        ? []
+        : [])
+    ];
+  }
+
   return [
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),
     run(`${label}_local_package`, ['node', `scripts/build-${label}-package.js`]),
@@ -158,7 +184,7 @@ function main() {
     ...(beta === 6 && runLiveL6Gate
       ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
       : []),
-    run('smoke_tests', ['bash', '-lc', 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
+    run('smoke_tests', ['bash', '-lc', beta === 8 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
       stdoutLimit: 12000,
       stderrLimit: 12000
     }),

@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.7",
-  "version": "0.1.0-beta.7",
+  "releaseId": "brik64-0.1.0-beta.8",
+  "version": "0.1.0-beta.8",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-05T20:45:00Z",
+  "state": "draft",
+  "createdAt": "2026-06-06T02:15:00Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "67c89a5"
+    "commit": "eb7def0"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -37,29 +37,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.7",
+      "version": "0.1.0-beta.8",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b7",
+      "version": "0.1.0b8",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.7",
+      "version": "0.1.0-beta.8",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.7",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.7"
+      "tag": "v0.1.0-beta.8",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.8"
     },
     "curlInstaller": {
       "required": true,
@@ -91,45 +91,50 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds local PCD polymerization so users can combine multiple PCD files into a deterministic polymer file and manifest."
+      "text": "Adds bounded source-to-source PCD emission that generates executable TypeScript, Rust, and Python programs for the supported beta syntax."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds local verification for certificate presence, source hash agreement, and AST hash agreement before generated outputs are trusted."
+      "text": "Adds generated target tests that execute emitted programs and verify expected behavior across supported target languages."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds migration support for legacy lowercase PCD syntax with actionable parser guidance."
+      "text": "Adds parser support for arithmetic expressions, comparisons, boolean conditions, nested branches, and expression returns."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds account status, login, and logout commands for future platform-connected workflows while keeping local workflows available by default."
+      "text": "Adds adversarial parser checks for malformed input, binary data, oversized PCD files, unsupported statements, and path traversal attempts."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Keeps human-readable doctor output as the default and moves machine-readable reports behind an explicit JSON flag."
+      "text": "Packages the beta8 CLI candidate with local smoke coverage from an extracted tarball before public release."
     }
   ],
   "verification": {
     "requiredEvidence": [
       {
-        "id": "featureParity",
-        "path": "evidence/beta7-feature-parity/report.json",
-        "decision": "PASS_BETA7_FEATURE_PARITY_GATE"
+        "id": "compilerFunctionality",
+        "path": "evidence/beta8-compiler-functionality/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY"
+      },
+      {
+        "id": "adversarial",
+        "path": "evidence/beta8-adversarial/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta7-package/package.manifest.json",
-        "decision": "PASS_BETA7_PACKAGE_BUILT"
+        "path": "evidence/beta8-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta7-package-smoke/report.json",
-        "decision": "PASS_BETA7_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta8-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }
