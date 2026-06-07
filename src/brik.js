@@ -273,7 +273,7 @@ function parseExpression(source, params) {
     }
     if (token.type === 'identifier') {
       consume();
-      if (!params.includes(token.value)) {
+      if (!params.some((param) => param.name === token.value)) {
         fail(65, `pcd_parse_error:unknown_identifier:${token.value}`);
       }
       return { type: 'Identifier', name: token.value };
@@ -374,6 +374,18 @@ function parseStatements(body, params) {
   return statements;
 }
 
+function parseParam(raw) {
+  const match = raw.trim().match(/^([A-Za-z_][A-Za-z0-9_]*)(?:\s*:\s*([A-Za-z0-9_]+))?$/);
+  if (!match) {
+    fail(65, 'pcd_parse_error:invalid_param');
+  }
+  const [, name, type = 'i64'] = match;
+  if (type !== 'i64') {
+    fail(65, `pcd_parse_error:unsupported_param_type:${type}`);
+  }
+  return { name, type };
+}
+
 function collectReturns(statements, values = []) {
   for (const statement of statements) {
     if (statement.type === 'ReturnStatement') {
@@ -422,7 +434,7 @@ function parsePcd(source) {
   }
   const pcName = pcMatch[1];
   const pcBody = stripped.slice(pcOpen + 1, pcClose);
-  const fnMatch = pcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*\{/m);
+  const fnMatch = pcBody.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*(?:->\s*([A-Za-z0-9_]+)\s*)?\{/m);
   if (!fnMatch) {
     fail(65, 'pcd_parse_error:missing_fn_block');
   }
@@ -432,17 +444,22 @@ function parsePcd(source) {
   if (fnClose === -1 || pcBody.slice(fnClose + 1).trim().length > 0) {
     fail(65, 'pcd_parse_error:malformed_fn_block');
   }
-  const [, fnName, paramsRaw] = fnMatch;
+  const [, fnName, paramsRaw, returnType = 'i64'] = fnMatch;
+  if (returnType !== 'i64') {
+    fail(65, `pcd_parse_error:unsupported_return_type:${returnType}`);
+  }
   const fnBody = pcBody.slice(fnOpen + 1, fnClose);
   const params = paramsRaw
     .split(',')
     .map((param) => param.trim())
-    .filter(Boolean);
-  if (params.length > 1) {
-    fail(65, 'pcd_parse_error:too_many_params_beta8');
-  }
-  if (params.some((param) => !/^[A-Za-z_][A-Za-z0-9_]*$/.test(param))) {
-    fail(65, 'pcd_parse_error:invalid_param');
+    .filter(Boolean)
+    .map(parseParam);
+  const seenParams = new Set();
+  for (const param of params) {
+    if (seenParams.has(param.name)) {
+      fail(65, `pcd_parse_error:duplicate_param:${param.name}`);
+    }
+    seenParams.add(param.name);
   }
   const body = parseStatements(fnBody, params);
   const returns = collectReturns(body);
@@ -453,7 +470,9 @@ function parsePcd(source) {
     schemaVersion: 'brik64.cli_ast.v1',
     pcName,
     fnName,
-    params,
+    params: params.map((param) => param.name),
+    paramTypes: Object.fromEntries(params.map((param) => [param.name, param.type])),
+    returnType,
     body,
     returnValues: returns.map((expression) => (expression.type === 'NumberLiteral' ? expression.value : null)),
     branchCount: countBranches(body),
@@ -854,12 +873,15 @@ function collectStatementValues(statements, values = new Set([0, 1, 2, 10])) {
 }
 
 function generatedCases(ast) {
-  const param = ast.params[0] || 'input';
+  const params = ast.params.length > 0 ? ast.params : ['input'];
   const inputs = [...collectStatementValues(ast.body)]
     .filter((value) => Number.isInteger(value) && Math.abs(value) < 100000)
     .slice(0, 12);
   return inputs
-    .map((input) => ({ input, expected: evaluateStatements(ast.body, { [param]: input }) }))
+    .map((input) => {
+      const args = Object.fromEntries(params.map((param, index) => [param, index === 0 ? input : 1]));
+      return { input, args, expected: evaluateStatements(ast.body, args) };
+    })
     .filter((testCase) => testCase.expected !== undefined)
     .slice(0, 8);
 }
@@ -875,7 +897,10 @@ function ensureExecutable(ast) {
 function targetSpec(target, ast) {
   const astJson = encodedAst(ast);
   const cases = ensureExecutable(ast);
-  const param = ast.params[0] || 'input';
+  const params = ast.params.length > 0 ? ast.params : ['input'];
+  const tsParams = params.map((param) => `${param} = 0`).join(', ');
+  const rustParams = params.map((param) => `${param}: i64`).join(', ');
+  const pythonParams = params.map((param) => `${param}=0`).join(', ');
   const tsStatements = renderStatements(ast.body, 'ts', 1);
   const rustStatements = renderStatements(ast.body, 'rust', 1);
   const pythonStatements = renderStatements(ast.body, 'python', 1);
@@ -888,7 +913,7 @@ function targetSpec(target, ast) {
         '// claim: local candidate evidence only',
         `export const pcdSha256 = "${hash}";`,
         `export const pcdAst = ${astJson};`,
-        `export function run(${param} = 0) {`,
+        `export function run(${tsParams}) {`,
         ...tsStatements,
         '  throw new Error("pcd execution reached non-returning path");',
         '}',
@@ -900,7 +925,7 @@ function targetSpec(target, ast) {
         'if (pcdSha256 !== "' + hash + '") throw new Error("pcd hash mismatch");',
         `const cases = ${JSON.stringify(cases)};`,
         'for (const testCase of cases) {',
-        '  const actual = run(testCase.input);',
+        `  const actual = run(${params.map((param) => `testCase.args.${param}`).join(', ')});`,
         '  if (actual !== testCase.expected) {',
         '    throw new Error(`case ${testCase.input} expected ${testCase.expected} got ${actual}`);',
         '  }',
@@ -917,7 +942,7 @@ function targetSpec(target, ast) {
         '// claim: local candidate evidence only',
         `pub const PCD_SHA256: &str = "${hash}";`,
         `pub const PCD_AST_JSON: &str = r#"${astJson}"#;`,
-        `pub fn run(${param}: i64) -> i64 {`,
+        `pub fn run(${rustParams}) -> i64 {`,
         ...rustStatements.map((line) => line.replace(/^  /, '    ')),
         '    panic!("pcd execution reached non-returning path");',
         '}',
@@ -926,7 +951,7 @@ function targetSpec(target, ast) {
       testCode: (hash) => [
         `const PCD_SHA256: &str = "${hash}";`,
         `const PCD_AST_JSON: &str = r#"${astJson}"#;`,
-        `fn run(${param}: i64) -> i64 {`,
+        `fn run(${rustParams}) -> i64 {`,
         ...rustStatements.map((line) => line.replace(/^  /, '    ')),
         '    panic!("pcd execution reached non-returning path");',
         '}',
@@ -934,7 +959,7 @@ function targetSpec(target, ast) {
         'fn main() {',
         `    assert_eq!(PCD_SHA256, "${hash}");`,
         '    assert!(PCD_AST_JSON.contains("body"));',
-        ...cases.map((testCase) => `    assert_eq!(run(${testCase.input}), ${testCase.expected});`),
+        ...cases.map((testCase) => `    assert_eq!(run(${params.map((param) => testCase.args[param]).join(', ')}), ${testCase.expected});`),
         '    println!("brik64 generated rust test: PASS");',
         '}',
         '',
@@ -949,7 +974,7 @@ function targetSpec(target, ast) {
         `PCD_SHA256 = "${hash}"`,
         `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
         '',
-        `def run(${param}=0):`,
+        `def run(${pythonParams}):`,
         ...pythonStatements,
         '    raise RuntimeError("pcd execution reached non-returning path")',
         '',
@@ -960,7 +985,7 @@ function targetSpec(target, ast) {
         `assert PCD_SHA256 == "${hash}"`,
         `cases = ${JSON.stringify(cases)}`,
         'for case in cases:',
-        '    actual = run(case["input"])',
+        `    actual = run(${params.map((param) => `case["args"]["${param}"]`).join(', ')})`,
         '    assert actual == case["expected"], f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
         'print("brik64 generated python test: PASS")',
         '',

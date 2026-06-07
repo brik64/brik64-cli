@@ -14,6 +14,9 @@
 // requires bounded_for_loops_supported == true
 // requires bounded_while_loops_supported == true
 // requires strict_type_validation == true
+// requires typed_i64_params_supported == true
+// requires typed_i64_return_supported == true
+// requires multi_param_emit_supported == true
 // requires local_pcd_imports_supported == true
 // requires target_scaffolds == "typescript_package,rust_cargo,python_pyproject"
 // requires doctor_human_default == true
@@ -33,7 +36,7 @@
 // claim_boundary = "beta9_product_iteration_only"
 
 PC brik_cli_beta9_transpiler_contract {
-    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized) {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok) {
         if (collections_ok == 0) {
             return 65;
         }
@@ -54,6 +57,9 @@ PC brik_cli_beta9_transpiler_contract {
         }
         if (l6_materialized == 0) {
             return 69;
+        }
+        if (typed_interface_ok == 0) {
+            return 65;
         }
         return 0;
     }
