@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const childProcess = require('child_process');
 
@@ -52,6 +53,26 @@ function redact(value) {
 function commandOk(command, args, options = {}) {
   const result = run(command, args, options);
   return { ok: result.rc === 0, result };
+}
+
+function withNpmTokenEnv(token, callback) {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-npm-auth-'));
+  const npmrc = path.join(tmpDir, 'npmrc');
+  try {
+    fs.writeFileSync(npmrc, [
+      'registry=https://registry.npmjs.org/',
+      '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}',
+      ''
+    ].join('\n'), { mode: 0o600 });
+    return callback({
+      ...process.env,
+      NODE_AUTH_TOKEN: token,
+      NPM_CONFIG_USERCONFIG: npmrc,
+      NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
+    });
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
 }
 
 function readJsonFromCommand(command, args, options = {}) {
@@ -181,9 +202,8 @@ function main() {
   preflight.push({ id: 'crates_package_dry_run', passed: rustChecks.every((item) => item.ok), commands: rustChecks.map((item) => item.result) });
   if (!rustChecks.every((item) => item.ok)) failures.push('crates_package_dry_run_failed');
 
-  const npmAuthEnv = { ...process.env, NODE_AUTH_TOKEN: npmSecret.value };
   const npmAuth = npmSecret.present
-    ? commandOk('npm', ['whoami'], { cwd: jsRoot, env: npmAuthEnv })
+    ? withNpmTokenEnv(npmSecret.value, (npmAuthEnv) => commandOk('npm', ['whoami'], { cwd: jsRoot, env: npmAuthEnv }))
     : { ok: false, result: { rc: 1, stdout: '', stderr: 'npm_token_missing' } };
   preflight.push({
     id: 'npm_auth',
@@ -230,7 +250,9 @@ function main() {
     }
 
     if (failures.length === 0 && !npmExists) {
-      const result = run('npm', ['publish', '--tag', 'beta', '--access', 'public'], { cwd: jsRoot, env: npmAuthEnv });
+      const result = withNpmTokenEnv(npmSecret.value, (npmAuthEnv) => (
+        run('npm', ['publish', '--tag', 'beta', '--access', 'public'], { cwd: jsRoot, env: npmAuthEnv })
+      ));
       executed.push({ id: 'npm_publish', skipped: false, result });
       if (result.rc !== 0) failures.push('npm_publish_failed');
     } else if (failures.length === 0) {
