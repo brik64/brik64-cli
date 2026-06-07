@@ -14,6 +14,9 @@
 // requires list_index_supported == true
 // requires list_len_supported == true
 // requires maps_dictionaries_supported == true
+// requires map_literals_supported == true
+// requires map_member_access_supported == true
+// requires map_has_supported == true
 // requires bounded_for_loops_supported == true
 // requires bounded_while_loops_supported == true
 // requires strict_type_validation == true
@@ -39,7 +42,7 @@
 // claim_boundary = "beta9_product_iteration_only"
 
 PC brik_cli_beta9_transpiler_contract {
-    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok) {
+    fn brik_cli_beta9_transpiler_contract(collections_ok, loops_bounded, types_ok, imports_ok, scaffolds_ok, gate_env_ok, l6_materialized, typed_interface_ok, list_subset_ok, map_subset_ok) {
         if (collections_ok == 0) {
             return 65;
         }
@@ -65,6 +68,9 @@ PC brik_cli_beta9_transpiler_contract {
             return 65;
         }
         if (list_subset_ok == 0) {
+            return 65;
+        }
+        if (map_subset_ok == 0) {
             return 65;
         }
         return 0;

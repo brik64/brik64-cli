@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta9_typed_interface_gate.v1",
-  "generatedAt": "2026-06-07T12:05:43Z",
+  "generatedAt": "2026-06-07T12:10:29Z",
   "iter_id": "BRIK64-CLI-BETA9-TYPED-INTERFACE-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_TYPED_INTERFACE",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:f356fda3f02d91eb0d3a18b03d0eac523adeaa272ace34d9caa97819fb19fed8",
+  "cliSha256": "sha256:897d110af6946f67fba42ca81c01aa3193a8fd9a3fa55acbe2f8f6c763ced904",
   "fixture": {
     "path": "pcd/typed_fee.pcd",
     "sha256": "sha256:a67183ea558d0c2363d827f7440942205601f66287afefcfa66b381abd80f3f4"

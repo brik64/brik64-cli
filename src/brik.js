@@ -210,8 +210,8 @@ function tokenizeExpression(source) {
       index += 2;
       continue;
     }
-    if ('()+-*/%<>[],'.includes(char)) {
-      tokens.push({ type: ['(', ')', '[', ']'].includes(char) ? 'paren' : (char === ',' ? 'comma' : 'op'), value: char });
+    if ('()+-*/%<>[],{}:.'.includes(char)) {
+      tokens.push({ type: ['(', ')', '[', ']', '{', '}'].includes(char) ? 'paren' : (char === ',' ? 'comma' : (char === ':' ? 'colon' : (char === '.' ? 'dot' : 'op'))), value: char });
       index += 1;
       continue;
     }
@@ -278,6 +278,16 @@ function parseExpression(source, params) {
         const argument = parseBinary(1);
         consume(')');
         expression = { type: 'LenExpression', argument };
+      } else if (token.value === 'has' && peek() && peek().value === '(') {
+        consume('(');
+        const object = parseBinary(1);
+        consume(',');
+        const keyToken = consume();
+        if (keyToken.type !== 'identifier') {
+          fail(65, 'pcd_parse_error:has_key_must_be_identifier');
+        }
+        consume(')');
+        expression = { type: 'HasExpression', object, key: keyToken.value };
       } else if (!params.some((param) => param.name === token.value)) {
         fail(65, `pcd_parse_error:unknown_identifier:${token.value}`);
       } else {
@@ -311,14 +321,54 @@ function parseExpression(source, params) {
       }
       consume(']');
       expression = { type: 'ListLiteral', elements };
+    } else if (token.value === '{') {
+      consume('{');
+      const entries = [];
+      const seenKeys = new Set();
+      if (peek() && peek().value !== '}') {
+        while (true) {
+          const keyToken = consume();
+          if (keyToken.type !== 'identifier') {
+            fail(65, 'pcd_parse_error:map_key_must_be_identifier');
+          }
+          if (seenKeys.has(keyToken.value)) {
+            fail(65, `pcd_parse_error:duplicate_map_key:${keyToken.value}`);
+          }
+          seenKeys.add(keyToken.value);
+          consume(':');
+          entries.push({ key: keyToken.value, value: parseBinary(1) });
+          if (entries.length > 64) {
+            fail(65, 'pcd_parse_error:map_literal_too_large');
+          }
+          if (peek() && peek().value === ',') {
+            consume(',');
+            if (peek() && peek().value === '}') {
+              fail(65, 'pcd_parse_error:trailing_map_comma');
+            }
+            continue;
+          }
+          break;
+        }
+      }
+      consume('}');
+      expression = { type: 'MapLiteral', entries };
     } else {
       fail(65, 'pcd_parse_error:malformed_expression');
     }
-    while (peek() && peek().value === '[') {
-      consume('[');
-      const indexExpression = parseBinary(1);
-      consume(']');
-      expression = { type: 'IndexExpression', object: expression, index: indexExpression };
+    while (peek() && ['[', '.'].includes(peek().value)) {
+      if (peek().value === '[') {
+        consume('[');
+        const indexExpression = parseBinary(1);
+        consume(']');
+        expression = { type: 'IndexExpression', object: expression, index: indexExpression };
+      } else {
+        consume('.');
+        const keyToken = consume();
+        if (keyToken.type !== 'identifier') {
+          fail(65, 'pcd_parse_error:member_key_must_be_identifier');
+        }
+        expression = { type: 'MemberExpression', object: expression, key: keyToken.value };
+      }
     }
     return expression;
   }
@@ -434,6 +484,14 @@ function inferExpressionType(expression, paramTypes) {
     }
     return 'list_i64';
   }
+  if (expression.type === 'MapLiteral') {
+    for (const entry of expression.entries) {
+      if (inferExpressionType(entry.value, paramTypes) !== 'i64') {
+        fail(65, 'pcd_parse_error:map_literal_requires_i64_values');
+      }
+    }
+    return 'map_i64';
+  }
   if (expression.type === 'IndexExpression') {
     const objectType = inferExpressionType(expression.object, paramTypes);
     const indexType = inferExpressionType(expression.index, paramTypes);
@@ -441,9 +499,22 @@ function inferExpressionType(expression, paramTypes) {
     if (indexType !== 'i64') fail(65, 'pcd_parse_error:index_requires_i64');
     return 'i64';
   }
+  if (expression.type === 'MemberExpression') {
+    const objectType = inferExpressionType(expression.object, paramTypes);
+    if (objectType !== 'map_i64') fail(65, 'pcd_parse_error:member_requires_map');
+    if (expression.object.type === 'MapLiteral' && !expression.object.entries.some((entry) => entry.key === expression.key)) {
+      fail(65, `pcd_parse_error:unknown_map_key:${expression.key}`);
+    }
+    return 'i64';
+  }
   if (expression.type === 'LenExpression') {
     const argumentType = inferExpressionType(expression.argument, paramTypes);
     if (argumentType !== 'list_i64') fail(65, 'pcd_parse_error:len_requires_list');
+    return 'i64';
+  }
+  if (expression.type === 'HasExpression') {
+    const objectType = inferExpressionType(expression.object, paramTypes);
+    if (objectType !== 'map_i64') fail(65, 'pcd_parse_error:has_requires_map');
     return 'i64';
   }
   if (expression.type === 'BinaryExpression') {
@@ -865,17 +936,45 @@ function renderExpression(expression, target) {
   if (expression.type === 'ListLiteral') {
     return `[${expression.elements.map((element) => renderExpression(element, target)).join(', ')}]`;
   }
+  if (expression.type === 'MapLiteral') {
+    if (target === 'rust') fail(70, 'internal_codegen_error:rust_map_literal_requires_member_access');
+    if (target === 'python') {
+      return `{${expression.entries.map((entry) => `${JSON.stringify(entry.key)}: ${renderExpression(entry.value, target)}`).join(', ')}}`;
+    }
+    return `({${expression.entries.map((entry) => `${entry.key}: ${renderExpression(entry.value, target)}`).join(', ')}})`;
+  }
   if (expression.type === 'IndexExpression') {
     const object = renderExpression(expression.object, target);
     const index = renderExpression(expression.index, target);
     if (target === 'rust') return `(${object})[(${index}) as usize]`;
     return `(${object})[${index}]`;
   }
+  if (expression.type === 'MemberExpression') {
+    if (expression.object.type === 'MapLiteral') {
+      const entry = expression.object.entries.find((candidate) => candidate.key === expression.key);
+      if (!entry) fail(65, `pcd_parse_error:unknown_map_key:${expression.key}`);
+      return renderExpression(entry.value, target);
+    }
+    const object = renderExpression(expression.object, target);
+    if (target === 'python') return `(${object})[${JSON.stringify(expression.key)}]`;
+    if (target === 'rust') fail(70, 'internal_codegen_error:rust_dynamic_map_member_unsupported');
+    return `(${object}).${expression.key}`;
+  }
   if (expression.type === 'LenExpression') {
     const argument = renderExpression(expression.argument, target);
     if (target === 'python') return `len(${argument})`;
     if (target === 'rust') return `(${argument}).len() as i64`;
     return `(${argument}).length`;
+  }
+  if (expression.type === 'HasExpression') {
+    if (expression.object.type === 'MapLiteral') {
+      const exists = expression.object.entries.some((entry) => entry.key === expression.key);
+      return exists ? '1' : '0';
+    }
+    const object = renderExpression(expression.object, target);
+    if (target === 'python') return `(1 if ${JSON.stringify(expression.key)} in ${object} else 0)`;
+    if (target === 'rust') fail(70, 'internal_codegen_error:rust_dynamic_map_has_unsupported');
+    return `(Object.prototype.hasOwnProperty.call(${object}, ${JSON.stringify(expression.key)}) ? 1 : 0)`;
   }
   if (expression.type === 'BinaryExpression') {
     const left = renderExpression(expression.left, target);
@@ -929,6 +1028,9 @@ function evaluateExpression(expression, env) {
   if (expression.type === 'Identifier') return env[expression.name] ?? 0;
   if (expression.type === 'UnaryExpression') return -evaluateExpression(expression.argument, env);
   if (expression.type === 'ListLiteral') return expression.elements.map((element) => evaluateExpression(element, env));
+  if (expression.type === 'MapLiteral') {
+    return Object.fromEntries(expression.entries.map((entry) => [entry.key, evaluateExpression(entry.value, env)]));
+  }
   if (expression.type === 'IndexExpression') {
     const object = evaluateExpression(expression.object, env);
     const index = evaluateExpression(expression.index, env);
@@ -940,6 +1042,17 @@ function evaluateExpression(expression, env) {
   if (expression.type === 'LenExpression') {
     const argument = evaluateExpression(expression.argument, env);
     return Array.isArray(argument) ? argument.length : undefined;
+  }
+  if (expression.type === 'MemberExpression') {
+    const object = evaluateExpression(expression.object, env);
+    if (!object || Array.isArray(object) || typeof object !== 'object' || !(expression.key in object)) {
+      return undefined;
+    }
+    return object[expression.key];
+  }
+  if (expression.type === 'HasExpression') {
+    const object = evaluateExpression(expression.object, env);
+    return object && !Array.isArray(object) && typeof object === 'object' && expression.key in object ? 1 : 0;
   }
   if (expression.type === 'BinaryExpression') {
     const left = evaluateExpression(expression.left, env);
@@ -989,11 +1102,16 @@ function collectConditionValues(expression, values = new Set([0, 1, 2, 10])) {
   if (expression.type === 'ListLiteral') {
     for (const element of expression.elements) collectConditionValues(element, values);
   }
+  if (expression.type === 'MapLiteral') {
+    for (const entry of expression.entries) collectConditionValues(entry.value, values);
+  }
   if (expression.type === 'IndexExpression') {
     collectConditionValues(expression.object, values);
     collectConditionValues(expression.index, values);
   }
   if (expression.type === 'LenExpression') collectConditionValues(expression.argument, values);
+  if (expression.type === 'MemberExpression') collectConditionValues(expression.object, values);
+  if (expression.type === 'HasExpression') collectConditionValues(expression.object, values);
   if (expression.type === 'BinaryExpression') {
     collectConditionValues(expression.left, values);
     collectConditionValues(expression.right, values);
