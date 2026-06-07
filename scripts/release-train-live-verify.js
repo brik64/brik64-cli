@@ -8,6 +8,8 @@ const { spawnSync } = require('child_process');
 const root = path.resolve(__dirname, '..');
 const manifestPath = path.join(root, 'release', 'manifest.json');
 const outDir = path.join(root, 'evidence', 'release-train-live-verify');
+const waitSeconds = numberArg('--wait-seconds', 0);
+const intervalSeconds = numberArg('--interval-seconds', 20);
 
 process.stdout.on('error', (error) => {
   if (error.code === 'EPIPE') process.exit(0);
@@ -16,6 +18,14 @@ process.stdout.on('error', (error) => {
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function numberArg(name, fallback) {
+  const index = process.argv.indexOf(name);
+  if (index === -1) return fallback;
+  const raw = process.argv[index + 1];
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
 }
 
 function sha256(value) {
@@ -127,11 +137,15 @@ async function fetchText(url) {
   return fetchTextWithNode(url);
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function requireText(surface, body, needle, failures) {
   if (!body.includes(needle)) failures.push(`${surface}_missing:${needle}`);
 }
 
-async function main() {
+async function runOnce(attempt, maxAttempts) {
   fs.mkdirSync(outDir, { recursive: true });
   const manifest = readJson(manifestPath);
   const failures = [];
@@ -232,6 +246,8 @@ async function main() {
     releaseId: manifest.releaseId,
     version,
     manifestDigest: sha256(fs.readFileSync(manifestPath, 'utf8')),
+    attempt,
+    maxAttempts,
     decision: failures.length === 0 ? 'PASS_RELEASE_TRAIN_LIVE_VERIFY' : 'FAIL_RELEASE_TRAIN_LIVE_VERIFY',
     publicationAllowed: false,
     boundary: 'Live verification only. This report observes public surfaces and does not mutate or publish.',
@@ -240,10 +256,21 @@ async function main() {
   };
 
   fs.writeFileSync(path.join(outDir, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
+  return report;
+}
+
+async function main() {
+  const maxAttempts = waitSeconds > 0 ? Math.max(1, Math.floor(waitSeconds / Math.max(1, intervalSeconds)) + 1) : 1;
+  let report = null;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    report = await runOnce(attempt, maxAttempts);
+    if (report.decision === 'PASS_RELEASE_TRAIN_LIVE_VERIFY') break;
+    if (attempt < maxAttempts) await sleep(intervalSeconds * 1000);
+  }
   process.stdout.write(`decision=${report.decision}\n`);
   process.stdout.write('publicationAllowed=false\n');
-  if (failures.length > 0) process.stdout.write(`failures=${failures.join(',')}\n`);
-  if (failures.length > 0) process.exit(1);
+  if (report.failures.length > 0) process.stdout.write(`failures=${report.failures.join(',')}\n`);
+  if (report.failures.length > 0) process.exit(1);
 }
 
 main().catch((error) => {
