@@ -98,7 +98,9 @@ Before publication:
 - package smoke from extracted tarball;
 - `npm run gate:beta9:docs-web-changelog`;
 - `npm run gate:beta9:sdk-marketplaces`;
+- `npm run gate:beta9:sdk-marketplace-publish`;
 - `npm run gate:beta9:skills-sync`;
+- `npm run gate:beta9:manifest-drift`;
 - `npm run gate:beta9:live-verify`;
 - release manifest validation;
 - release-flow audit;
@@ -107,6 +109,9 @@ Before publication:
 - skills sync gate;
 - public claim scan;
 - live verifier after publication.
+
+For the SDK marketplace blocker and exact publication sequence, use
+`docs/BETA9_SDK_MARKETPLACE_RELEASE_RUNBOOK.md`.
 
 ## Release Train
 
