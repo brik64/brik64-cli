@@ -51,6 +51,8 @@ jobs:
           fi
 
       - name: Validate release train pre-publication
+        env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
         run: npm run release:train:dry-run
 
       - name: Check requested manifest digest
