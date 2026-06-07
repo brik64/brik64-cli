@@ -71,6 +71,7 @@ function collectCommandPreflight(command) {
   const pathPatterns = [
     /\/Users\/carlosjperez\/[^\s"'`]+/g,
     /\bscripts\/release\/[^\s"'`]+/g,
+    /\bscripts\/release\/sync-web-release-surface\.js\b/g,
     /\bevidence\/release-train-sync\/[^\s"'`]+/g,
     /\brelease\/manifest\.json\b/g,
     /\bCHANGELOG\.md\b/g

@@ -1,0 +1,31 @@
+// brik64.pcd_file.v1
+// name: release_train_web_surface_sync
+// status: release_workflow_hardening_contract
+// certifiesFormalCorrectness: false
+// certifiesFixpoint: false
+// lane = "release_train_hardening"
+// generation_claim = "workflow_contract_non_claim"
+// requires release_manifest_source == true
+// requires web_static_surface_materialized_before_web_dispatch == true
+// requires web_static_surface_commit_idempotent == true
+// requires curl_installer_version_synced == true
+// requires channel_manifest_version_synced == true
+// requires web_release_manifest_written == true
+// requires changelog_entry_inserted_if_missing == true
+// requires sdk_page_versions_synced == true
+// requires download_page_versions_synced == true
+// requires no_secret_material_in_report == true
+// requires post_publish_live_verify_report_uploaded == true
+// invariant web_dispatch_without_static_materialization_fails_release_train == true
+// invariant missing_web_repo_fails_closed == true
+// invariant stale_public_version_fails_live_verify == true
+// claim_boundary = "deployment_workflow_only"
+
+PC release_train_web_surface_sync {
+    fn release_train_web_surface_sync(release_surface_ok) {
+        if (release_surface_ok == 0) {
+            return 68;
+        }
+        return 0;
+    }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "productArtifact": "BRIK64 release train web surface sync workflow",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "target": "js_node",
+  "boundedDomains": {
+    "release_surface_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "normalization": {
+    "status": "finite_boolean_domain",
+    "separatesRawAndNormalized": true,
+    "l5CertificateInheritance": "forbidden"
+  },
+  "certificationLane": "RELEASE_WORKFLOW_HARDENING_NON_CLAIM",
+  "monomerTrace": [
+    {
+      "id": 1,
+      "family": "control",
+      "op": "FAIL_CLOSED_BRANCH"
+    }
+  ],
+  "technicalSheetHash": "7200b5e1ae50b3658c8316246bc24d9a8f4d0255802aea223e2b04695001ae8e"
+}
