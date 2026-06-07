@@ -62,6 +62,7 @@
 // requires release_train_github_release_command_publishes_existing_draft == true
 // requires release_train_github_release_uploads_candidate_manifest_asset == true
 // requires release_train_github_release_anchors_remote_git_tag_before_publish == true
+// requires release_train_github_release_anchors_tag_with_release_token_api == true
 // requires release_train_live_verify_waits_for_async_public_surface_propagation == true
 // requires sdk_marketplace_preflight_allows_generated_beta_pack_artifacts == true
 // requires publish_execute_allows_release_workflow_generated_beta9_evidence == true
