@@ -15,10 +15,11 @@ that scope.
 
 ## Executive Dashboard
 
-- 🟨 75% | 🟩 🟩 🟩 ⬜ | Beta10 CLI implementation and local gates.
+- 🟨 82% | 🟩 🟩 🟩 ⬜ | Beta10 CLI implementation, package and local gates.
   - Done: local commands, import DAG, constants, explain, lock, telemetry
-    boundary, feedback dry-run, redacted error inspection, local gate and PR CI.
-  - Remaining: final package artifact, release asset, review approval and merge.
+    boundary, feedback dry-run, redacted error inspection, local gate, closed
+    package candidate, package smoke and PR CI.
+  - Remaining: release asset, review approval and merge.
 - 🟨 45% | 🟩 🟩 ⬜ ⬜ | SDK beta10 source alignment.
   - Done: JavaScript/TypeScript, Python and Rust source PRs opened and tested
     locally where supported.
@@ -55,8 +56,9 @@ that scope.
 - [x] Add `brik64 feedback --dry-run` with redacted preview.
 - [x] Add redacted local error-report inspection.
 - [x] Add local beta10 gate.
-- [ ] Build final package from a clean staging manifest with no recursive
+- [x] Build final package from a clean staging manifest with no recursive
   evidence payload.
+- [x] Run local package smoke from the staged package candidate.
 - [ ] Create GitHub Release `v0.1.0-beta.10` with final package and checksum.
 - [ ] Re-run package smoke from the published release asset.
 

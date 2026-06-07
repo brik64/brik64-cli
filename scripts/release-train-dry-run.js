@@ -170,6 +170,14 @@ function candidateBranchCommands(version) {
       run('beta10_local_gate', ['npm', 'run', 'gate:beta10:local'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
+      }),
+      run('beta10_local_package', ['npm', 'run', 'package:beta10:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta10_package_smoke', ['npm', 'run', 'smoke:beta10:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
       })
     ];
   }
@@ -337,6 +345,10 @@ function main() {
     } else if (currentPackageVersion === '0.1.0-beta.10') {
       const beta10Path = path.join(root, 'evidence', 'beta10-local-gate', 'report.json');
       const beta10 = fs.existsSync(beta10Path) ? readJson(beta10Path) : null;
+      const beta10PackagePath = path.join(root, 'evidence', 'beta10-package', 'package.manifest.json');
+      const beta10Package = fs.existsSync(beta10PackagePath) ? readJson(beta10PackagePath) : null;
+      const beta10PackageSmokePath = path.join(root, 'evidence', 'beta10-package-smoke', 'report.json');
+      const beta10PackageSmoke = fs.existsSync(beta10PackageSmokePath) ? readJson(beta10PackageSmokePath) : null;
       requiredEvidence.push({
         id: 'beta10_local_gate',
         path: 'evidence/beta10-local-gate/report.json',
@@ -344,8 +356,26 @@ function main() {
         actualDecision: beta10?.decision || null,
         pass: beta10?.decision === 'PASS_BRIK64_CLI_BETA10_LOCAL_GATE'
       });
+      requiredEvidence.push({
+        id: 'beta10_local_package',
+        path: 'evidence/beta10-package/package.manifest.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA10_PACKAGE_BUILT',
+        actualDecision: beta10Package?.decision || null,
+        pass: beta10Package?.decision === 'PASS_BRIK64_CLI_BETA10_PACKAGE_BUILT'
+      });
+      requiredEvidence.push({
+        id: 'beta10_package_smoke',
+        path: 'evidence/beta10-package-smoke/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA10_LOCAL_PACKAGE_SMOKE',
+        actualDecision: beta10PackageSmoke?.decision || null,
+        pass: beta10PackageSmoke?.decision === 'PASS_BRIK64_CLI_BETA10_LOCAL_PACKAGE_SMOKE'
+      });
       if (!beta10) failures.push('candidate_readiness_missing:beta10_local_gate');
       else if (beta10.decision !== 'PASS_BRIK64_CLI_BETA10_LOCAL_GATE') failures.push(`candidate_beta10_local_gate_invalid:${beta10.decision}`);
+      if (!beta10Package) failures.push('candidate_readiness_missing:beta10_local_package');
+      else if (beta10Package.decision !== 'PASS_BRIK64_CLI_BETA10_PACKAGE_BUILT') failures.push(`candidate_beta10_package_invalid:${beta10Package.decision}`);
+      if (!beta10PackageSmoke) failures.push('candidate_readiness_missing:beta10_package_smoke');
+      else if (beta10PackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA10_LOCAL_PACKAGE_SMOKE') failures.push(`candidate_beta10_package_smoke_invalid:${beta10PackageSmoke.decision}`);
     }
   } else {
     for (const item of manifest.verification.requiredEvidence) {
