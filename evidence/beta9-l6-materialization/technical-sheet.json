@@ -4,7 +4,7 @@
   "engine_id": "l6_plus",
   "claimAuthority": "non_claim",
   "public_claim_allowed": false,
-  "sourceHash": "3ca76e88c425117fa21ad3e00ea91cc4ee63abb3ba949562580afd514936e3c5",
+  "sourceHash": "8707c35dc37a23196df2277810d8c77d902c3babc23825fbb9d5919c7bad5c50",
   "target": "js_node",
   "boundedDomains": {
     "collections_ok": {
@@ -77,6 +77,11 @@
       "min": 0,
       "max": 1
     },
+    "curl_gcp_staged": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
     "release_readiness_ok": {
       "kind": "integer",
       "min": 0,
@@ -97,5 +102,5 @@
   ],
   "certificationLane": "INTERNAL_BETA9_GENERATION_ATTEMPT",
   "releaseEligible": false,
-  "technicalSheetHash": "cfb4ee476cf754cfa3867d2023c807eceb60f870b9c01c92386b9b047d93f03e"
+  "technicalSheetHash": "b0b2cdbcbe9bc8236802c83881890de2c07e102cac44aa48765aae84d983c217"
 }

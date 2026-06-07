@@ -71,6 +71,7 @@
     "gate:beta9:release-readiness": "node scripts/beta9-release-readiness-gate.js",
     "package:beta9:local": "bash scripts/build-beta9-package.sh",
     "smoke:beta9:package": "bash scripts/beta9-package-smoke.sh",
+    "stage:beta9:curl-gcp": "bash scripts/beta9-curl-gcp-staging.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:flow:audit": "node scripts/release-flow-audit.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",

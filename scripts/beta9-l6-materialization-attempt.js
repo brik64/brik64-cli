@@ -99,6 +99,7 @@ function technicalSheet() {
       target_scaffolds_ok: { kind: 'integer', min: 0, max: 1 },
       local_imports_ok: { kind: 'integer', min: 0, max: 1 },
       doctor_ok: { kind: 'integer', min: 0, max: 1 },
+      curl_gcp_staged: { kind: 'integer', min: 0, max: 1 },
       release_readiness_ok: { kind: 'integer', min: 0, max: 1 }
     },
     normalization: {

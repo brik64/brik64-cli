@@ -23,20 +23,20 @@
   "source": {
     "pc": "brik_cli_beta9_transpiler_contract",
     "function": "brik_cli_beta9_transpiler_contract",
-    "hash_sha256": "3ca76e88c425117fa21ad3e00ea91cc4ee63abb3ba949562580afd514936e3c5",
+    "hash_sha256": "8707c35dc37a23196df2277810d8c77d902c3babc23825fbb9d5919c7bad5c50",
     "language": "pcd"
   },
   "certification": {
     "level": "ROUTE2_BOUNDED_INTERNAL",
     "domain_safe": true,
     "deterministic": true,
-    "total_statements": 16,
+    "total_statements": 17,
     "certifies_full_repository": false
   },
   "target": {
     "language": "js",
     "file": "brik_cli_beta9_transpiler_contract.js",
-    "hash_sha256": "2ef9255d170e12ef491512b409d8ab9c64c56f3db9001398a448013885cbad41"
+    "hash_sha256": "1b0e32baf73df887452b2e08576922e29722769c4552048c5dae3b44917023af"
   },
   "non_claims": [
     "does not certify full repository correctness",

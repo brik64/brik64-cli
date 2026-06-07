@@ -54,7 +54,8 @@ contract before publication.
 At minimum:
 
 - `pcd/cli_beta9_transpiler_contract.pcd` records parser/emitter/scaffold
-  requirements.
+  requirements and staged public-surface contracts such as curl/GCP installer
+  staging.
 - `pcd/cli_polymer.pcd` is updated to reference the beta9 contract.
 - package and release reports bind PCD/polymer hashes to generated artifacts.
 
@@ -79,6 +80,12 @@ exists and records:
 
 If that report is missing or stale, the state is
 `manual_surface_pending_pcd_generation`, not a releasable beta9.
+
+Any new beta9 change after a passing materialization report invalidates the
+previous PCD inventory hash. The required response is to update the PCD/polymer
+contract first, rerun L6+N5 materialization, rebuild the package, rerun the
+package smoke, and then rerun release readiness. The previous report becomes
+baseline evidence only.
 
 ## Required Gates
 
