@@ -47,6 +47,7 @@
 // requires github_verification_token_isolation == true
 // requires npm_token_userconfig_isolation == true
 // requires npm_auth_uses_ephemeral_userconfig == true
+// requires sdk_marketplace_preflight_allows_js_node_modules_package_lock_artifact == true
 // requires crates_token_environment_isolation == true
 // requires release_train_crates_publish_uses_env_token == true
 // requires marketplace_publish_reports_redact_command_tokens == true
