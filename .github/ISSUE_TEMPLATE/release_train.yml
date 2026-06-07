@@ -1,0 +1,72 @@
+name: Release train execution
+description: Track an atomic BRIK64 CLI release train across all public surfaces.
+title: "[Release train]: "
+labels:
+  - release-train
+  - release-metadata
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this issue for coordinated CLI releases only. A release is complete only when GitHub Release, curl/GCP, docs, web, skills, SDK marketplace state and live verification agree on the same manifest or explicit deferrals.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "0.1.0-beta.10"
+    validations:
+      required: true
+  - type: input
+    id: manifest_digest
+    attributes:
+      label: Manifest digest
+      placeholder: "sha256..."
+    validations:
+      required: false
+  - type: textarea
+    id: progress
+    attributes:
+      label: Progress checklist
+      description: Use BRIK64 percentage marks.
+      value: |
+        - ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | CLI package and release asset
+        - ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | SDK marketplace state
+        - ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Docs/web/curl/skills live surfaces
+        - ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Release train dry-run and publish
+        - ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Post-publish live verifier
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link workflow runs, package SHA, PRs, marketplace pages and verifier reports.
+      value: |
+        - CLI PR:
+        - Package SHA:
+        - GitHub Release:
+        - SDK PRs/pages:
+        - Docs PR/deploy:
+        - Web PR/deploy:
+        - Skills PR:
+        - Live verifier:
+    validations:
+      required: true
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Blockers
+      description: List concrete blockers and whether they are pending or blocked.
+      value: |
+        - ⬜ Pending:
+        - ⛔ Blocked:
+    validations:
+      required: false
+  - type: textarea
+    id: claim_boundary
+    attributes:
+      label: Claim boundary
+      value: |
+        Carril A CLI beta release only. Do not claim self-hosting, fixpoint, formal N5, Rust independence or universal correctness from this release issue.
+    validations:
+      required: true

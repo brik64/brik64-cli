@@ -7,8 +7,8 @@ the same release manifest.
 
 ## Current Baseline
 
-- Active public version: `0.1.0-beta.8` once the beta8 publish workflow and
-  post-publish live verifier both pass.
+- Active candidate version: `0.1.0-beta.10` until the beta10 publish workflow
+  and post-publish live verifier both pass.
 - Active manifest: `release/manifest.json`
 - Active manifest digest: compute from `main` immediately before dispatch.
 - Active release tag format: `v<version>`
@@ -21,6 +21,14 @@ the same release manifest.
 install command, SDK marketplace versions, public URLs, and required evidence.
 Docs, web, skills, GitHub Release notes, GCP installer metadata, and SDK package
 metadata are consumers of that manifest.
+
+Use these operator notebooks with this runbook:
+
+- `docs/RELEASE_START_NOTEBOOK.md` before any mutation-capable release start.
+- `docs/RELEASE_FAILURE_NOTEBOOK.md` for partial publication, rollback or
+  supersede handling.
+- `docs/BETA10_AND_BETA11_ROADMAP_CHECKLIST.md` for current progress
+  percentages and per-surface closure.
 
 Do not publish a channel manually when another channel is still stale. If a
 single public channel diverges after mutation begins, classify the state as a

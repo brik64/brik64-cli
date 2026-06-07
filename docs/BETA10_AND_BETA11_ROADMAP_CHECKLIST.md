@@ -36,10 +36,12 @@ that scope.
   - Remaining: generic beta package builder, release manifest promotion,
     SDK marketplace gate reuse, docs/web/skills dispatch evidence and final
     live verifier evidence.
-- ⬜ 0% | ⬜ ⬜ ⬜ ⬜ | Beta11 product hardening.
+- 🟥 20% | 🟩 ⬜ ⬜ ⬜ | Beta11 product hardening.
+  - Started: release workflow notebooks/runbooks and release-train issue
+    template.
   - Planned: opt-in telemetry transport, user feedback endpoint, automatic
-    redacted error reporting, machine-readable diagnostics stability, package
-    content minimization, and release workflow notebooks/runbooks.
+    redacted error reporting, machine-readable diagnostics stability and
+    package content minimization.
 
 ## Beta10 Release Closure Checklist
 
@@ -137,11 +139,11 @@ that scope.
 
 ### 4. Workflow Notebook And Runbook Hardening
 
-- [ ] Add an operator notebook/runbook that starts with current PR status, clean
+- [x] Add an operator notebook/runbook that starts with current PR status, clean
   worktree checks, manifest digest and required approvals.
-- [ ] Add a failure notebook/runbook for partial publication rollback or
+- [x] Add a failure notebook/runbook for partial publication rollback or
   supersede.
-- [ ] Add a release issue template that stores progress percentages, blockers,
+- [x] Add a release issue template that stores progress percentages, blockers,
   final evidence and next action.
 - [ ] Add a post-release retrospective section for methodology recycling.
 

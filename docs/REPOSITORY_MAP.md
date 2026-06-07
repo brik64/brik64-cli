@@ -67,6 +67,10 @@ maintainers who need to understand what each path is for.
 | `docs/LINUX_HETZNER_TESTING.md` | Linux test plan and operator guidance for Debian/Ubuntu lanes using remote execution infrastructure. |
 | `docs/MACOS_LOCAL_TESTING.md` | macOS local test plan and operator guidance for current Apple Silicon package validation. |
 | `docs/PLATFORM_MATRIX.md` | Platform support matrix for current beta support and planned release lanes. |
+| `docs/BETA10_AND_BETA11_ROADMAP_CHECKLIST.md` | Active beta10 closure and beta11 planning checklist with progress percentages and release gates. |
+| `docs/RELEASE_START_NOTEBOOK.md` | Operator notebook for starting an atomic release train from clean evidence. |
+| `docs/RELEASE_FAILURE_NOTEBOOK.md` | Operator notebook for classifying and recovering partial publication or failed release trains. |
+| `docs/RELEASE_TRAIN_RUNBOOK.md` | Operator runbook for publishing through GitHub Release, SDKs, curl/GCP, docs, web, skills and live verification. |
 | `docs/RELEASE_COPY_MANUAL.md` | Standardized release-copy guide for npm, GitHub Releases, package descriptions, changelog entries, and public keywords. |
 | `docs/REPO_BOUNDARY.md` | Public repository boundary: what this repo owns, what `brik64-prod` owns, and what must not be claimed from this repo alone. |
 | `docs/WIKI_HOME.md` | Versioned wiki-home content while GitHub Wiki remote access remains under operational review. |
