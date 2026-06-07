@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "brik64.beta9_docs_web_changelog_surface.v1",
+  "generatedAt": "2026-06-07T13:14:59.249Z",
+  "decision": "BLOCKED_BETA9_DOCS_WEB_CHANGELOG",
+  "version": "0.1.0-beta.9",
+  "publicSurfacePassed": false,
+  "releaseEligible": false,
+  "docsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+  "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+  "artifacts": [
+    {
+      "id": "docs_install",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/cli/install.mdx",
+      "exists": true,
+      "sha256": "sha256:048710173a310d5b534c69a309de6ae0d152245e05e4a505547402ef544ccedb",
+      "bytes": 2064
+    },
+    {
+      "id": "docs_changelog",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/releases/changelog.mdx",
+      "exists": true,
+      "sha256": "sha256:c4d6deb29f53a15e32229a8f90f3d5f514f7253f2ce805a32872ba152d2c824d",
+      "bytes": 3400
+    },
+    {
+      "id": "docs_sdks",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks.mdx",
+      "exists": true,
+      "sha256": "sha256:46ca1e93fb94ab79c9bc2cbde7e16cf7121827e99e23b2c8c6de973003649049",
+      "bytes": 1461
+    },
+    {
+      "id": "docs_js_sdk",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks/javascript.mdx",
+      "exists": true,
+      "sha256": "sha256:c430ba80a724f40dc218f98b663f5be5f5a411a89187b04f2d3dfee7339a8fd1",
+      "bytes": 771
+    },
+    {
+      "id": "docs_python_sdk",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks/python.mdx",
+      "exists": true,
+      "sha256": "sha256:025fc5aeaa76efe7cc9866837207da869260b4552369b87869a8038d7b177aaf",
+      "bytes": 857
+    },
+    {
+      "id": "docs_rust_sdk",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks/rust.mdx",
+      "exists": true,
+      "sha256": "sha256:15718214a40fcc2a60aed01da68ab331869289d27bd5c817347939fe0b0aac86",
+      "bytes": 823
+    },
+    {
+      "id": "docs_llms",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/llms-full.txt",
+      "exists": true,
+      "sha256": "sha256:9d706cf587326469784d82fa7ff12c3e23b681860d1e0398d50770746f59e857",
+      "bytes": 108533
+    },
+    {
+      "id": "web_cli_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/cli.ts",
+      "exists": true,
+      "sha256": "sha256:28aa7a5369a32ef3601e003937c648b21189490e8b189c0984a56533ecae3416",
+      "bytes": 1759
+    },
+    {
+      "id": "web_sdk_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/sdk/[target].ts",
+      "exists": true,
+      "sha256": "sha256:adfc6f0d00257beee25a5eeb01af265e6d4a8d70a89779a2ee36a73386af9988",
+      "bytes": 2326
+    },
+    {
+      "id": "web_language_data",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/src/lib/language-data.ts",
+      "exists": true,
+      "sha256": "sha256:6f79e46995e2acd4db34cfc19b66557ef2795183aaa961002b9ef69667c15d23",
+      "bytes": 10647
+    },
+    {
+      "id": "web_home",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/src/app/page.tsx",
+      "exists": true,
+      "sha256": "sha256:e9764cb142f343315fc52915ffafe4f7cf77fd9a3f4e326067d1f386d1eec447",
+      "bytes": 1153
+    }
+  ],
+  "failures": [
+    "required_text_missing:docs_install:0.1.0-beta.9",
+    "required_text_missing:docs_install:v0.1.0-beta.9",
+    "required_text_missing:docs_install:brik64-cli-0.1.0-beta.9.tgz",
+    "required_text_missing:docs_changelog:0.1.0-beta.9",
+    "required_text_missing:docs_changelog:TypeScript",
+    "required_text_missing:docs_changelog:Rust",
+    "required_text_missing:docs_changelog:Python",
+    "required_text_missing:docs_sdks:@brik64/core@0.1.0-beta.9",
+    "required_text_missing:docs_sdks:brik64==0.1.0b9",
+    "required_text_missing:docs_sdks:brik64-core@0.1.0-beta.9",
+    "required_text_missing:docs_js_sdk:@brik64/core@0.1.0-beta.9",
+    "required_text_missing:docs_python_sdk:brik64==0.1.0b9",
+    "required_text_missing:docs_rust_sdk:brik64-core@0.1.0-beta.9",
+    "required_text_missing:docs_llms:0.1.0-beta.9",
+    "required_text_missing:web_cli_api:0.1.0-beta.9",
+    "required_text_missing:web_sdk_api:0.1.0-beta.9",
+    "required_text_missing:web_sdk_api:0.1.0b9",
+    "required_text_missing:web_language_data:@brik64/core@0.1.0-beta.9",
+    "required_text_missing:web_language_data:brik64==0.1.0b9",
+    "required_text_missing:web_language_data:0.1.0-beta.9",
+    "required_text_missing:web_home:curl -fsSL https://brik64.com/cli/install.sh | bash"
+  ],
+  "requiredNextAction": "Update docs/web/changelog source to beta9, remove stale beta residues, then deploy and live-verify."
+}

@@ -96,6 +96,10 @@ Before publication:
 - beta9 PCD/L6+N5 materialization gate;
 - token-contamination gate for GitHub verification;
 - package smoke from extracted tarball;
+- `npm run gate:beta9:docs-web-changelog`;
+- `npm run gate:beta9:sdk-marketplaces`;
+- `npm run gate:beta9:skills-sync`;
+- `npm run gate:beta9:live-verify`;
 - release manifest validation;
 - release-flow audit;
 - SDK sync and marketplace package gates;

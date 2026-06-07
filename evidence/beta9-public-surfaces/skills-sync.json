@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "brik64.beta9_skills_sync_surface.v1",
+  "generatedAt": "2026-06-07T13:14:59.218Z",
+  "decision": "BLOCKED_BETA9_SKILLS_SYNC",
+  "version": "0.1.0-beta.9",
+  "publicSurfacePassed": false,
+  "releaseEligible": false,
+  "skillsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+  "artifacts": [
+    {
+      "id": "README.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/README.md",
+      "exists": true,
+      "sha256": "sha256:b54eccd93d3a9653a2cdacdf81713f7ae3a273f393d37aff297a7b7993ebfe51",
+      "bytes": 5825
+    },
+    {
+      "id": "skills/brik64/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:f48aee34447a62e69e7ca92b2788cef76904caf44ec97ac4061887d601bd9ccd",
+      "bytes": 7969
+    },
+    {
+      "id": "skills/brik64-javascript/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-javascript/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:a7f9c29138af3417ae431449d2120bb9f673e7ecfacc2bfce55c296f9c13efa8",
+      "bytes": 8750
+    },
+    {
+      "id": "skills/brik64-python/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-python/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:3f4469ba884d5bf3e0904527857dd122f1e9bd43b11b12c47b18116e5dce8daa",
+      "bytes": 7687
+    },
+    {
+      "id": "skills/brik64-rust/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-rust/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:3ec3a5823919c4cc0a6eef197f5f1082292990ff03fe141722de6d3c7952308f",
+      "bytes": 8767
+    },
+    {
+      "id": "skills/pcd-system/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/pcd-system/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:27fc9d275be9e25d82fca19f0b61bbffe2229b9d99ed56c652624d697acc178a",
+      "bytes": 4672
+    }
+  ],
+  "failures": [
+    "skill_stale_version:README.md",
+    "skill_stale_version:skills/brik64/SKILL.md",
+    "skill_stale_version:skills/brik64-javascript/SKILL.md",
+    "skill_stale_version:skills/brik64-python/SKILL.md",
+    "skill_stale_version:skills/brik64-rust/SKILL.md",
+    "skill_stale_version:skills/pcd-system/SKILL.md",
+    "brik64_skill_version_missing",
+    "brik64_skill_public_version_boundary_missing"
+  ],
+  "requiredNextAction": "Update public skills to beta9 and remove stale/private language before publication."
+}
