@@ -72,6 +72,7 @@
     "gate:beta9:docs-web-changelog": "node scripts/beta9-public-surface-gate.js docs-web-changelog",
     "gate:beta9:sdk-marketplaces": "node scripts/beta9-public-surface-gate.js sdk-marketplaces",
     "gate:beta9:sdk-marketplace-publish": "node scripts/beta9-sdk-marketplace-publish.js",
+    "gate:beta9:manifest-drift": "node scripts/beta9-manifest-drift-preflight.js",
     "gate:beta9:skills-sync": "node scripts/beta9-public-surface-gate.js skills-sync",
     "gate:beta9:live-verify": "node scripts/beta9-public-surface-gate.js live-verify",
     "publish:beta9:sdk-marketplaces": "node scripts/beta9-sdk-marketplace-publish.js --publish",
@@ -102,6 +103,7 @@
     "test:beta9-docs-web-changelog": "node scripts/beta9-public-surface-gate.js docs-web-changelog",
     "test:beta9-sdk-marketplaces": "node scripts/beta9-public-surface-gate.js sdk-marketplaces",
     "test:beta9-sdk-marketplace-publish": "node scripts/beta9-sdk-marketplace-publish.js",
+    "test:beta9-manifest-drift": "node scripts/beta9-manifest-drift-preflight.js",
     "test:beta9-skills-sync": "node scripts/beta9-public-surface-gate.js skills-sync",
     "test:beta9-live-verify": "node scripts/beta9-public-surface-gate.js live-verify",
     "test:beta9-package-smoke": "bash scripts/beta9-package-smoke.sh"

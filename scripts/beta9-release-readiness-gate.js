@@ -26,6 +26,7 @@ const publicSurfaceEvidence = [
   { id: 'docs_web_changelog', path: 'evidence/beta9-public-surfaces/docs-web-changelog.json', decision: 'PASS_BETA9_DOCS_WEB_CHANGELOG' },
   { id: 'sdk_marketplaces', path: 'evidence/beta9-public-surfaces/sdk-marketplaces.json', decision: 'PASS_BETA9_SDK_MARKETPLACES' },
   { id: 'skills_sync', path: 'evidence/beta9-public-surfaces/skills-sync.json', decision: 'PASS_BETA9_SKILLS_SYNC' },
+  { id: 'manifest_alignment', path: 'evidence/beta9-public-surfaces/manifest-drift-preflight.json', decision: 'PASS_BETA9_MANIFEST_PUBLIC_ALIGNMENT' },
   { id: 'live_verify', path: 'evidence/beta9-public-surfaces/live-verify.json', decision: 'PASS_BETA9_LIVE_VERIFY' }
 ];
 
