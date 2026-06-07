@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_pcd_l6_materialization_gate.v1",
-  "generatedAt": "2026-06-07T15:01:47.243Z",
+  "generatedAt": "2026-06-07T15:02:47.738Z",
   "decision": "PASS_BETA9_PCD_L6_MATERIALIZATION_GATE",
   "blockers": [],
   "expected": {
