@@ -1,8 +1,8 @@
 # BRIK64 Release Train CI/CD Plan
 
-Status: implemented on `main` for the beta5 public release train.
+Status: implemented on `main` and hardened during the beta8 release train.
 
-Date: 2026-06-05
+Date: 2026-06-07
 
 ## Goal
 
@@ -22,16 +22,15 @@ The train covers:
 
 ## Current State
 
-- beta5 has a committed release manifest at `release/manifest.json`.
+- beta8 has a committed release manifest at `release/manifest.json`.
 - Dry-run, sync-payload generation, publication-plan generation, and live
   verification scripts exist and are wired to GitHub Actions.
 - The publish workflow is fail-closed and mutation-capable when invoked with the
   exact manifest digest, confirmation string, and `execute_publication=true`.
-- The beta5 train has published GitHub Release, curl/GCP installer, npm, PyPI,
-  crates.io, docs, web, changelog, and public skill surfaces.
+- beta8 publication must be closed only by the publish workflow plus live
+  verification. A green PR, GitHub Release, or one marketplace alone is not a
+  release.
 - `repository_dispatch` consumers exist for docs, web, and public skills.
-- Final beta5 live verification passed on GitHub Actions run `27021364994`
-  with decision `PASS_RELEASE_TRAIN_LIVE_VERIFY` and `failures: []`.
 - Operational runbook: `docs/RELEASE_TRAIN_RUNBOOK.md`.
 
 ## Release Train Checklist
@@ -108,6 +107,15 @@ Checks:
 
 No public endpoint is modified by this workflow.
 
+Implementation requirements discovered during beta8:
+
+- checkout must use `fetch-depth: 0` so source-commit ancestry checks are real;
+- the workflow must provide `GH_TOKEN` so the GitHub verified-signature gate can
+  query commit verification;
+- the dry-run command must start from a clean worktree;
+- standalone report writers must not run immediately before dry-run in the same
+  job because they intentionally modify evidence reports.
+
 ### 3. `release-train-publish`
 
 Runs only after a successful dry run for the same manifest digest.
@@ -134,6 +142,17 @@ The workflow must publish in a controlled order:
 4. Docs and web content sync.
 5. Public skills sync.
 6. Live verification.
+
+Implementation requirements discovered during beta8:
+
+- the publish workflow must also use `fetch-depth: 0`;
+- pre-publication validation should call `npm run release:train:dry-run`
+  directly from a clean checkout, not run report writers first;
+- `release/manifest.json.state` must be `public` before mutation-capable
+  publish preflight can pass;
+- the manifest digest used in workflow inputs must be recomputed from `main`
+  after every merge that changes manifest, workflow, README, or release
+  evidence.
 
 If any step fails before public traffic changes, the workflow aborts. If a step
 fails after public traffic changes, the workflow must create a failed-release
@@ -183,6 +202,35 @@ Allowed states:
 - `superseded`: replaced by a newer manifest.
 
 Any other state is invalid.
+
+State transitions are gates, not labels:
+
+- `draft`: acceptable for PR candidate work and dry-run evidence.
+- `public`: required for mutation-capable publication.
+- `failed` or `superseded`: required if any public channel mutates and the
+  train cannot close.
+
+Do not set `public` to make a check pass unless all required release surfaces
+are ready to publish and the public wording has been updated from candidate to
+public language.
+
+## Protected Branch Rule
+
+The `main` branch protection is part of the release system. Future release PRs
+must be shaped so the author/pusher and approver are different code owners.
+
+Required pattern:
+
+- PR opened/pushed by one maintainer account.
+- Code owner approval by the other maintainer account.
+- all review threads resolved or made outdated by a real fix;
+- no admin override used as release evidence;
+- squash merge is acceptable when GitHub signs the merge commit and branch
+  protection reports `CLEAN`.
+
+If GitHub reports `REVIEW_REQUIRED` despite a visible approval, inspect branch
+protection and the protected-branch rejection message. The usual cause is
+`require_last_push_approval` or an unresolved review thread.
 
 ## Changelog Policy
 

@@ -15,6 +15,11 @@ Current blocker:
 Do not use admin merge override. The release train must pass with GitHub
 recognizing the exact release commit as verified.
 
+GitHub SSH signing keys are account-scoped. A public key already registered to
+one GitHub account cannot be reused as a signing key for another account. If
+the API returns `key is already in use`, create or select a separate signing key
+for the actual commit-signing account and register that public key instead.
+
 ## Preflight
 
 Run with the public key that belongs to the commit signing account:
@@ -132,6 +137,28 @@ Required release-ready state:
 - `reviewDecision=APPROVED`
 - every required check is `SUCCESS`
 - `mergeStateStatus` is no longer blocked by signature verification
+
+If `reviewDecision=APPROVED` but `mergeStateStatus=BLOCKED`, inspect branch
+protection before changing code. During beta8, the remaining causes were:
+
+- `require_code_owner_reviews`: approval must come from
+  `@brik64/brik64-cli-maintainers`;
+- `require_last_push_approval`: approval must come from someone other than the
+  last pusher;
+- unresolved review threads: even a small code-quality thread blocks protected
+  branch update;
+- disabled auto-merge or unsupported merge method: use the merge method allowed
+  by repo settings and verify GitHub signs the resulting merge commit.
+
+Recommended PR geometry for future release fixes:
+
+1. The PR branch is pushed by one maintainer account.
+2. The other maintainer account approves as code owner.
+3. After any new push, re-approve from the non-pusher account.
+4. Do not rely on switching `gh auth` alone for `git push`; credential helpers
+   may still use the previous HTTPS token. If exact pusher identity matters,
+   verify it through GitHub's branch-protection rejection or use an explicit
+   token-scoped push.
 
 ## Resume Release Train
 

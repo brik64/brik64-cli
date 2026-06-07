@@ -7,13 +7,13 @@ the same release manifest.
 
 ## Current Baseline
 
-- Active public version: `0.1.0-beta.5`
+- Active public version: `0.1.0-beta.8` once the beta8 publish workflow and
+  post-publish live verifier both pass.
 - Active manifest: `release/manifest.json`
-- Active manifest digest:
-  `058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95`
-- Active release tag: `v0.1.0-beta.5`
-- Publish confirmation string:
-  `PUBLISH 0.1.0-beta.5 058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95`
+- Active manifest digest: compute from `main` immediately before dispatch.
+- Active release tag format: `v<version>`
+- Publish confirmation string format:
+  `PUBLISH <version> <manifest-sha256>`
 
 ## Source Of Truth
 
@@ -63,6 +63,30 @@ Expected result:
 - the working tree is clean or only contains expected regenerated evidence that
   will be committed before publication.
 
+Do not run standalone report-writing commands immediately before
+`release:train:dry-run` in the same clean-worktree gate. The dry-run command
+already runs manifest validation with controlled dirty-state handling. Running
+report writers first can make the dry-run fail correctly with
+`initial_worktree_dirty`.
+
+GitHub Actions release dry-runs must checkout full history and provide a
+GitHub token:
+
+```yaml
+- uses: actions/checkout@v6
+  with:
+    fetch-depth: 0
+
+- name: Release train dry run
+  env:
+    GH_TOKEN: ${{ github.token }}
+  run: npm run release:train:dry-run
+```
+
+`fetch-depth: 0` is required because the release-flow audit proves that
+`release/manifest.json.source.commit` is an ancestor of `HEAD`. Shallow
+checkouts can make valid ancestry look invalid.
+
 ## Publication
 
 Use the GitHub Actions workflow from `main`:
@@ -87,6 +111,12 @@ The workflow must:
 7. upload the curl installer and channel manifest to GCP;
 8. dispatch docs, web, and skills consumers;
 9. run post-publish live verification.
+
+`release/manifest.json.state` must remain `draft` while a release candidate is
+being assembled. Move it to `public` only after the candidate gates, public
+copy, SDK/docs/web/skills sync gates, and signed commit requirements are ready
+for actual publication. When the manifest is promoted to `public`, README
+wording must also change from candidate language to public-release language.
 
 The workflow is idempotent for already-published SDK versions. Re-running after
 a transient marketplace/network failure should confirm existing packages rather
@@ -151,6 +181,28 @@ Do not put internal release decisions, evidence mechanics, approval flow,
 cross-repo coordination, rollback planning, or unpublished engineering names in
 public changelog copy. Those belong in manifests, internal reports, and evidence
 artifacts.
+
+## GitHub Protection Geometry
+
+The `main` branch requires signed commits, code owner review, last-push approval
+from someone other than the last pusher, linear history, and resolved review
+threads.
+
+For release-fix PRs, use this geometry:
+
+1. The account that opens and pushes the PR must be different from the account
+   that approves it.
+2. The approving account must be in `@brik64/brik64-cli-maintainers`.
+3. If GitHub says "New changes require approval from someone other than X",
+   do not retry the same approval. Change the PR/push geometry or use the other
+   maintainer account.
+4. Resolve or obsolete all review threads before merge. A single unresolved
+   code-quality comment blocks protected branch update.
+5. Do not use admin override as release evidence.
+
+If a PR is a single commit and branch protection still blocks a CLI merge, check
+the exact protected-branch rejection by attempting a non-mutating/expected-fail
+push to `main` and reading the GitHub error. Treat that message as authoritative.
 
 ## Partial-Publication Incident
 
