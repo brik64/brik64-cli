@@ -120,7 +120,19 @@ function main() {
     if (!gcpAuthAvailable) failures.push('required_gcp_auth_missing:BRIK64_GCP_RELEASE_CREDENTIALS_or_WORKLOAD_IDENTITY');
   }
 
+  const sdkMarketplaceGuardCommands = label === 'beta9'
+    ? [
+        command(
+          'sdk_marketplace_publish_guard',
+          'Run beta9 SDK marketplace package and authentication preflight before any public mutation.',
+          'npm run gate:beta9:sdk-marketplace-publish',
+          true
+        )
+      ]
+    : [];
+
   const commands = [
+    ...sdkMarketplaceGuardCommands,
     command(
       'github_release',
       'Create or update the GitHub Release from the manifest version and upload committed assets.',

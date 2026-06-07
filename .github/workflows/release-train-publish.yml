@@ -182,6 +182,7 @@ jobs:
             evidence/release-train-sync/changelog.md
             evidence/release-train-sync/sync-payload.json
             evidence/release-train-sync/report.json
+            evidence/beta9-public-surfaces/sdk-marketplace-publish.json
             evidence/beta8-github-verified-signature/report.json
             evidence/release-train-publish-plan/report.json
             evidence/release-train-publish-execute/report.json
