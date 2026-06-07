@@ -21,6 +21,7 @@ need_cmd() {
 need_cmd node
 need_cmd jq
 need_cmd tar
+need_cmd gzip
 need_cmd shasum
 
 sha256_file() { shasum -a 256 "$1" | awk '{print $1}'; }
@@ -88,7 +89,6 @@ inputs=(
   "engines/l4plus-n5/serial.txt"
   "engines/l4plus-n5/checksums.tsv"
   "engines/l4plus-n5/runtime-bundle.manifest.json"
-  "evidence/beta10-local-gate/report.json"
 )
 
 for input in "${inputs[@]}"; do
@@ -108,12 +108,20 @@ jq -n \
   }' > "$STAGE_DIR/package.json"
 chmod 755 "$STAGE_DIR/src/brik.js"
 
-if find "$STAGE_DIR/evidence" -type f ! -path "$STAGE_DIR/evidence/beta10-local-gate/report.json" | grep -q .; then
-  echo "package_contains_unapproved_evidence_payload" >&2
+if [[ -e "$STAGE_DIR/evidence" ]]; then
+  echo "package_contains_evidence_payload" >&2
   exit 1
 fi
 
-tar -czf "$PACKAGE_PATH" -C "$STAGE_ROOT" "$STAGE_NAME"
+find "$STAGE_DIR" -type d -exec chmod 755 {} +
+find "$STAGE_DIR" -type f -exec chmod 644 {} +
+chmod 755 "$STAGE_DIR/src/brik.js"
+find "$STAGE_DIR" -exec touch -t 202606070000 {} +
+
+(
+  cd "$STAGE_ROOT"
+  find "$STAGE_NAME" -type f | LC_ALL=C sort | COPYFILE_DISABLE=1 tar --format ustar -cf - -T -
+) | gzip -n > "$PACKAGE_PATH"
 package_sha="$(sha256_file "$PACKAGE_PATH")"
 
 find "$STAGE_DIR" -type f | sort | while read -r file; do
@@ -134,7 +142,11 @@ jq -n \
     lane:"cli_0_1_beta10",
     generationClaim:"assisted_generation_non_claim",
     package:{path:$packagePath, sha256:$packageSha, bytes:$packageBytes},
-    inputGates:["PASS_BRIK64_CLI_BETA10_LOCAL_GATE"],
+    inputGates:[{
+      decision:"PASS_BRIK64_CLI_BETA10_LOCAL_GATE",
+      report:"evidence/beta10-local-gate/report.json",
+      packaged:false
+    }],
     requiredPublicReleaseGates:[
       "beta10_package_smoke",
       "beta10_github_release",
