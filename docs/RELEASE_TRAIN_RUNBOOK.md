@@ -55,6 +55,21 @@ npm run release:train:dry-run
 npm run release:train:live-verify
 ```
 
+For beta9, run the staged SDK and manifest guards before attempting public
+mutation:
+
+```bash
+npm run gate:beta9:sdk-marketplace-publish
+npm run gate:beta9:sdk-marketplaces
+npm run gate:beta9:manifest-drift
+npm run gate:beta9:release-readiness
+```
+
+If `gate:beta9:sdk-marketplace-publish` reports
+`npm_auth_failed_or_missing`, follow
+`docs/BETA9_SDK_MARKETPLACE_RELEASE_RUNBOOK.md` and do not publish PyPI or
+crates.io independently.
+
 Expected result:
 
 - manifest validation has no failures;

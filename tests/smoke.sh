@@ -9,7 +9,7 @@ cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.8"
+node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.9"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" --help | grep -q "polymerize <files>"
@@ -23,16 +23,13 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  beta8_functionality_out="$(bash "$ROOT_DIR/scripts/beta8-compiler-functionality-gate.sh")"
-  grep -q "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY" <<<"$beta8_functionality_out"
-  beta8_adversarial_out="$(bash "$ROOT_DIR/scripts/beta8-adversarial-gate.sh")"
-  grep -q "PASS_BRIK64_CLI_BETA8_ADVERSARIAL" <<<"$beta8_adversarial_out"
-  beta8_package_out="$(bash "$ROOT_DIR/scripts/build-beta8-package.sh")"
-  grep -q "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT" <<<"$beta8_package_out"
-  beta8_package_smoke_out="$(bash "$ROOT_DIR/scripts/beta8-package-smoke.sh")"
-  grep -q "decision=PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE" <<<"$beta8_package_smoke_out"
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta8-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta8")) process.exit(1)'
-  node "$ROOT_DIR/scripts/release-manifest-validate.js" --allow-dirty | grep -q "decision=PASS_RELEASE_MANIFEST_VALIDATE"
+  beta9_package_out="$(bash "$ROOT_DIR/scripts/build-beta9-package.sh")"
+  grep -q "PASS_BRIK64_CLI_BETA9_PACKAGE_BUILT" <<<"$beta9_package_out"
+  beta9_package_smoke_out="$(bash "$ROOT_DIR/scripts/beta9-package-smoke.sh")"
+  grep -q "decision=PASS_BRIK64_CLI_BETA9_LOCAL_PACKAGE_SMOKE" <<<"$beta9_package_smoke_out"
+  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
+  beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
+  grep -q "PASS_BRIK64_CLI_BETA9_RELEASE_READINESS" <<<"$beta9_readiness_out"
 fi
 
 (

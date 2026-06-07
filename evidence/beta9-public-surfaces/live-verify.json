@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "brik64.beta9_live_verify_surface.v1",
+  "generatedAt": "2026-06-07T13:20:26.921Z",
+  "decision": "BLOCKED_BETA9_LIVE_VERIFY",
+  "version": "0.1.0-beta.9",
+  "publicSurfacePassed": false,
+  "releaseEligible": false,
+  "artifacts": [
+    {
+      "id": "release_manifest",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-cli-beta9/release/manifest.json",
+      "exists": true,
+      "sha256": "sha256:99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
+      "bytes": 3863
+    }
+  ],
+  "failures": [
+    "release_manifest_version_drift:0.1.0-beta.8",
+    "live_public_verification_not_run_for_beta9"
+  ],
+  "requiredNextAction": "After atomic publication, update release/manifest.json to beta9 and run scripts/release-train-live-verify.js against live public URLs."
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "brik64.cli_beta9_scaffolds_gate.v1",
+  "generatedAt": "2026-06-07T14:26:18Z",
+  "iter_id": "BRIK64-CLI-BETA9-SCAFFOLDS-20260607-R1",
+  "lane": "cli_0_1_beta9",
+  "decision": "PASS_BRIK64_CLI_BETA9_SCAFFOLDS",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.9",
+  "cliSha256": "sha256:c3abbbe85ad5d9d9d0390c2278e4f1fafc9f32ee83156785e9d4a81baa7ef83b",
+  "fixture": {
+    "path": "pcd/scaffold_score.pcd",
+    "sha256": "sha256:1249fd8af8a67c25929baabe04977e451e2d087ffd49a9ea2680a57a62691db9"
+  },
+  "scaffoldHashes": {
+    "typescriptPackageJson": "sha256:d4bd8b4b377c68856374bcee7388891c5f4e6269f49804fc7a1fcb4770e4bd4b",
+    "rustCargoToml": "sha256:562a8074f541314bb076e26cc44aa53f8c31aa700a083a53cb82fc61e9361c09",
+    "pythonPyprojectToml": "sha256:8cde5a71df944abb207bdb3297800e464ac217f38f78c2d66930cb140f4d0880"
+  },
+  "checks": {
+    "pass_checks": 21,
+    "fail_closed_checks": 0,
+    "typescript_package_json": true,
+    "typescript_tsconfig": true,
+    "rust_cargo_toml": true,
+    "rust_src_lib": true,
+    "python_pyproject": true,
+    "python_package_layout": true
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "formal_n5_claim_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "compiler_functionality_scope": "supported_beta9_target_scaffold_subset_only"
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "continue beta9 local PCD imports before L6 materialization"
+}

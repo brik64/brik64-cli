@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "brik64.cli_beta9_maps_gate.v1",
+  "generatedAt": "2026-06-07T14:16:32Z",
+  "iter_id": "BRIK64-CLI-BETA9-MAPS-20260607-R1",
+  "lane": "cli_0_1_beta9",
+  "decision": "PASS_BRIK64_CLI_BETA9_MAPS",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.9",
+  "cliSha256": "sha256:c3abbbe85ad5d9d9d0390c2278e4f1fafc9f32ee83156785e9d4a81baa7ef83b",
+  "fixture": {
+    "path": "pcd/map_score.pcd",
+    "sha256": "sha256:bcbc824661f497285b56539c1eede360f9ef802f503117a27b58b6dce4499fb0"
+  },
+  "executedTargets": {
+    "typescript": {
+      "programSha256": "sha256:8d96389c4c8b01ff5ef857ccd95f164bfb7a50b26043f9a6a47ef08d2fff1296",
+      "passed": true
+    },
+    "rust": {
+      "programSha256": "sha256:dcbce7b724840372052cbc15254248bc7db7f877623ce2609eacd0597557c85a",
+      "passed": true
+    },
+    "python": {
+      "programSha256": "sha256:73ccaa7e0a0aa478d2d83c23a72e0075df6699e70acc4cc4a56be944ddbe348b",
+      "passed": true
+    }
+  },
+  "checks": {
+    "pass_checks": 10,
+    "fail_closed_checks": 5,
+    "map_literals": true,
+    "map_member_access": true,
+    "map_has": true,
+    "dynamic_map_runtime": false
+  },
+  "adversarial": {
+    "return_map_rejected": true,
+    "has_scalar_rejected": true,
+    "member_scalar_rejected": true,
+    "duplicate_key_rejected": true,
+    "unknown_key_rejected": true,
+    "stack_trace_leaked": false
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "formal_n5_claim_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "compiler_functionality_scope": "supported_beta9_map_literal_subset_only"
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "continue beta9 bounded-loop parser gates before L6 materialization"
+}

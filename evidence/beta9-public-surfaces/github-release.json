@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "brik64.beta9_github_release_surface.v1",
+  "generatedAt": "2026-06-07T13:10:33.655Z",
+  "decision": "STAGED_BETA9_GITHUB_RELEASE_DRAFT",
+  "version": "0.1.0-beta.9",
+  "releaseEligible": false,
+  "publicSurfacePassed": false,
+  "reason": "GitHub release assets are staged on a draft prerelease only; public release publication is intentionally blocked until the full atomic release train passes.",
+  "release": {
+    "tagName": "v0.1.0-beta.9",
+    "isDraft": true,
+    "isPrerelease": true,
+    "targetCommitish": "codex/beta9-github-token-isolation",
+    "url": "https://github.com/brik64/brik64-cli/releases/tag/untagged-66c7e02506dce3d52844"
+  },
+  "assets": {
+    "brik64-cli-0.1.0-beta.9.tgz": {
+      "name": "brik64-cli-0.1.0-beta.9.tgz",
+      "digest": "sha256:aa135949297c2fb9a91e38d03f5b8c1f10bf4fb023c1163c35f39073b46118c5",
+      "size": 35787,
+      "downloadCount": 0,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/brik64-cli-0.1.0-beta.9.tgz",
+      "updatedAt": "2026-06-07T13:10:10Z"
+    },
+    "package.manifest.json": {
+      "name": "package.manifest.json",
+      "digest": "sha256:e47d18feffe2cd9c09e348c5b58d0aaef99bcda21b8c9ec44fad7e27c8d6ab06",
+      "size": 1586,
+      "downloadCount": 0,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/package.manifest.json",
+      "updatedAt": "2026-06-07T13:10:10Z"
+    },
+    "release-manifest.candidate.json": {
+      "name": "release-manifest.candidate.json",
+      "digest": "sha256:6c26386dea3f15d54906798ad10ee25f996079b0cb465f7e748b37f375637603",
+      "size": 1279,
+      "downloadCount": 0,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/release-manifest.candidate.json",
+      "updatedAt": "2026-06-07T13:10:10Z"
+    },
+    "SHA256SUMS": {
+      "name": "SHA256SUMS",
+      "digest": "sha256:9c86a021f09b721433ccb9c1808f06a180ab1f6cd10e77e1e194ec9cd4ea538a",
+      "size": 366,
+      "downloadCount": 0,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/untagged-66c7e02506dce3d52844/SHA256SUMS",
+      "updatedAt": "2026-06-07T13:10:10Z"
+    }
+  },
+  "expectedDigests": {
+    "package": "aa135949297c2fb9a91e38d03f5b8c1f10bf4fb023c1163c35f39073b46118c5",
+    "packageManifest": "sha256:e47d18feffe2cd9c09e348c5b58d0aaef99bcda21b8c9ec44fad7e27c8d6ab06",
+    "releaseManifest": "sha256:6c26386dea3f15d54906798ad10ee25f996079b0cb465f7e748b37f375637603",
+    "checksums": "sha256:9c86a021f09b721433ccb9c1808f06a180ab1f6cd10e77e1e194ec9cd4ea538a"
+  },
+  "checks": {
+    "draft": true,
+    "prerelease": true,
+    "target_commitish": true,
+    "package_digest_matches": true,
+    "package_manifest_digest_matches": true,
+    "release_manifest_digest_matches": true,
+    "checksums_digest_matches": true,
+    "public_release_published": false
+  },
+  "requiredNextAction": "Publish the GitHub release only inside the final atomic release train after curl/GCP, docs, web, SDKs, skills and live verification are ready."
+}

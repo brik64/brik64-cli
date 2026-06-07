@@ -20,6 +20,11 @@ used to move the CLI toward a PCD-first BRIK64 methodology.
   by the serialized L6+N5 factory.
 - The files in this directory are review material for beta methodology, package
   inspection, and future compiler-aligned work.
+- `cli_beta9_transpiler_contract.pcd` is the beta9 source contract for the
+  compiler/scaffold/token-isolation changes. It is not sufficient for release
+  by itself; beta9 promotion also requires a materialization report proving the
+  final artifact was generated from the PCD/polymer inputs through the internal
+  L6+N5 factory.
 
 ## Promotion Path
 
@@ -32,9 +37,12 @@ Before these seeds can support stronger public release language, BRIK64 must:
    factory, including source, artifact, package and release manifest hashes.
 5. Materialize `beta6_package_harness.pcd` through L6+N5, not through a manual
    script, and bind the harness artifact to package/release manifests.
-6. Compile the CLI through the BRIK compiler path.
-7. Run platform execution reports for macOS, Linux distro lanes, and Windows.
-8. Publish release-boundary evidence from `brik64-prod`.
+6. For beta9 and later, materialize the version contract through L6+N5 and
+   publish `evidence/betaN-l6-materialization/report.json` with PCD inventory,
+   polymer, generated artifact, package and release-manifest hashes.
+7. Compile the CLI through the BRIK compiler path.
+8. Run platform execution reports for macOS, Linux distro lanes, and Windows.
+9. Publish release-boundary evidence from `brik64-prod`.
 
 `brik64-prod` remains the authority for release gates, certificate boundaries,
 compiler evidence, and public claim authorization.

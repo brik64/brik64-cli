@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "brik64.beta9_docs_web_changelog_surface.v1",
+  "generatedAt": "2026-06-07T13:22:41.160Z",
+  "decision": "PASS_BETA9_DOCS_WEB_CHANGELOG",
+  "version": "0.1.0-beta.9",
+  "publicSurfacePassed": true,
+  "releaseEligible": true,
+  "docsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+  "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+  "artifacts": [
+    {
+      "id": "docs_install",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/cli/install.mdx",
+      "exists": true,
+      "sha256": "sha256:b6e3528a1fec0d83d23c028092188e17a7fa7770b2487b3354ecb67808b6c75c",
+      "bytes": 2096
+    },
+    {
+      "id": "docs_changelog",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/releases/changelog.mdx",
+      "exists": true,
+      "sha256": "sha256:2d1827ba80bfa01c200299ba610bd68c54866cb6021cb5e78ce2fd911b4c568e",
+      "bytes": 3690
+    },
+    {
+      "id": "docs_sdks",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks.mdx",
+      "exists": true,
+      "sha256": "sha256:d30e16c3bc0ef32c12f1972f45a9918d9d19a555e09687ca771c80c960758844",
+      "bytes": 1461
+    },
+    {
+      "id": "docs_js_sdk",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks/javascript.mdx",
+      "exists": true,
+      "sha256": "sha256:52e988fafefaabf53758a8e0160f9f0c9027155ab0eb34831a675771318c19da",
+      "bytes": 771
+    },
+    {
+      "id": "docs_python_sdk",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks/python.mdx",
+      "exists": true,
+      "sha256": "sha256:28ade05eda8dc30370cf356676391ba294387f26ecc2f8bb7cf42847cce58b02",
+      "bytes": 857
+    },
+    {
+      "id": "docs_rust_sdk",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks/rust.mdx",
+      "exists": true,
+      "sha256": "sha256:1c51ff6f6f04da329e9692f7a88231f48c780c4c72f3deaf4a9c385bdbe40574",
+      "bytes": 823
+    },
+    {
+      "id": "docs_llms",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/llms-full.txt",
+      "exists": true,
+      "sha256": "sha256:0b2b43c080bab71269598e7df37ab96986bf3b4505c415d7a9de4c2b763960c6",
+      "bytes": 108505
+    },
+    {
+      "id": "web_cli_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/cli.ts",
+      "exists": true,
+      "sha256": "sha256:93749f9211b2f8cbcdcecdbb1b44a642ecd1760f4c2cfce1c576e97903318a1b",
+      "bytes": 1759
+    },
+    {
+      "id": "web_sdk_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/sdk/[target].ts",
+      "exists": true,
+      "sha256": "sha256:87e1e4d942ef531fd35191fa3c80c7177eee24cb0429ad506b55f7929b2f2c81",
+      "bytes": 2326
+    },
+    {
+      "id": "web_language_data",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/src/lib/language-data.ts",
+      "exists": true,
+      "sha256": "sha256:10cf68665aebab8de83c43fe9f3f3bd41e0544132384408711ebf35c095fe888",
+      "bytes": 10647
+    },
+    {
+      "id": "web_install_command_refs",
+      "refs": [
+        "src/app/changelog/page.tsx:5:const installCommand = \"curl -fsSL https://brik64.com/cli/install.sh | bash\";",
+        "src/app/home-cli/page.tsx:19:    \"Installer: curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/page.tsx:74:      \"BRIK64 CLI 0.1.0-beta.6: official command brik64, installer curl -fsSL https://brik64.com/cli/install.sh | bash, smoked on darwin-arm64 and linux-x64 Ubuntu 24.04.4 ECO1, Windows blocked.\",",
+        "src/app/home-cli/page.tsx:80:      \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/download/page.tsx:22:      { label: \"Install\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Installs the current beta channel through the counted download route.\" },",
+        "src/app/download/page.tsx:23:      { label: \"Version\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\", note: \"Pins the beta8 installer manifest.\" },",
+        "src/app/download/page.tsx:24:      { label: \"Channel\", command: \"BRIK64_CHANNEL=beta curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Uses the beta channel explicitly.\" },",
+        "src/app/download/page.tsx:33:      { label: \"Install\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Fails closed until darwin-x64 is marked installable in the manifest.\" },",
+        "src/app/download/page.tsx:34:      { label: \"Version\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\", note: \"Pins beta8.\" },",
+        "src/app/download/page.tsx:44:      { label: \"Install\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Auto-detects linux-x64 or linux-arm64; only linux-x64 is installable now.\" },",
+        "src/app/download/page.tsx:45:      { label: \"Version\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\", note: \"Fails closed for linux-arm64 until runner smoke passes.\" },",
+        "src/app/download/page.tsx:55:      { label: \"Install\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\", note: \"Fails closed because no Windows beta8 asset is published.\" },",
+        "src/app/download/page.tsx:56:      { label: \"Version\", command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\", note: \"No Windows claim without smoke evidence.\" },",
+        "src/app/download/page.tsx:65:    command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/download/page.tsx:71:    command: \"curl -fsSL https://brik64.com/cli/install.sh | bash -s 0.1.0-beta.8\",",
+        "src/app/home-cli/agent.json/route.ts:19:    install_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:71:      current_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:78:      current_command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:95:        \"Install: curl -fsSL https://brik64.com/cli/install.sh | bash\",",
+        "src/app/home-cli/agent.json/route.ts:99:      command: \"curl -fsSL https://brik64.com/cli/install.sh | bash\","
+      ],
+      "count": 24
+    }
+  ],
+  "failures": [],
+  "requiredNextAction": "Deploy docs and web in the atomic beta9 release train."
+}

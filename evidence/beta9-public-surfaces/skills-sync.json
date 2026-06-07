@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "brik64.beta9_skills_sync_surface.v1",
+  "generatedAt": "2026-06-07T13:22:41.436Z",
+  "decision": "PASS_BETA9_SKILLS_SYNC",
+  "version": "0.1.0-beta.9",
+  "publicSurfacePassed": true,
+  "releaseEligible": true,
+  "skillsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+  "artifacts": [
+    {
+      "id": "README.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/README.md",
+      "exists": true,
+      "sha256": "sha256:3f9a82b0b4152cf688eb1d49afff4ea697ac151ed5e2b6ce54a343adfff60d22",
+      "bytes": 5825
+    },
+    {
+      "id": "skills/brik64/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:d711d804d6c7bf64f369c4e8fe6222a92423eb1c29fbcec1db1d6bdc4167d223",
+      "bytes": 7969
+    },
+    {
+      "id": "skills/brik64-javascript/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-javascript/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:17c32bd9e398910140cfa8a60af6735d09cf7c9c926d0edf9bb67ebda379ddd9",
+      "bytes": 8750
+    },
+    {
+      "id": "skills/brik64-python/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-python/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:e31105b44869c8fe762a6f8c9bd108b6ea4cae511aada5f1e85ca6aa53caef15",
+      "bytes": 7687
+    },
+    {
+      "id": "skills/brik64-rust/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/brik64-rust/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:e392d45a29bf53432778bd29e143d2d364c2de5d71ddeccf7066017c7acbc081",
+      "bytes": 8767
+    },
+    {
+      "id": "skills/pcd-system/SKILL.md",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills/skills/pcd-system/SKILL.md",
+      "exists": true,
+      "sha256": "sha256:26470a9c0a1f07d1da8016961b810fe96e6d34f65a9a9780910993ab0d5fb368",
+      "bytes": 4672
+    }
+  ],
+  "failures": [],
+  "requiredNextAction": "Publish public skills repository in the atomic beta9 release train."
+}

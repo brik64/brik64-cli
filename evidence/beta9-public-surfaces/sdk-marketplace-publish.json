@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "brik64.beta9_sdk_marketplace_publish.v1",
+  "generatedAt": "2026-06-07T14:24:34.357Z",
+  "version": "0.1.0-beta.9",
+  "pyVersion": "0.1.0b9",
+  "publishRequested": false,
+  "publicationMutated": false,
+  "decision": "PASS_BETA9_SDK_MARKETPLACE_PUBLISH_DRY_RUN",
+  "sourceRepos": [
+    {
+      "id": "js",
+      "expectedPackage": "@brik64/core",
+      "expectedVersion": "0.1.0-beta.9",
+      "packageVersion": "0.1.0-beta.9",
+      "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+      "ok": true,
+      "branch": "main",
+      "head": "e397371e39a599ad8d0cae0f20c46d49d2dba265",
+      "dirty": true,
+      "status": [
+        "?? evidence-beta8-pack/"
+      ]
+    },
+    {
+      "id": "python",
+      "expectedPackage": "brik64",
+      "expectedVersion": "0.1.0b9",
+      "packageVersion": "0.1.0b9",
+      "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+      "ok": true,
+      "branch": "main",
+      "head": "0bae0ca925517ac15eadace587b32b1729e0ff89",
+      "dirty": false,
+      "status": []
+    },
+    {
+      "id": "rust",
+      "expectedPackage": "brik64-core",
+      "expectedVersion": "0.1.0-beta.9",
+      "packageVersion": "0.1.0-beta.9",
+      "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+      "ok": true,
+      "branch": "main",
+      "head": "de72a8858480ad24a1183b685d974d4bda96df6c",
+      "dirty": false,
+      "status": []
+    }
+  ],
+  "preflight": [
+    {
+      "id": "npm_package_dry_run",
+      "passed": true,
+      "commands": [
+        {
+          "command": "npm run build",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+          "rc": 0,
+          "elapsedMs": 1280,
+          "stdout": "\n> @brik64/core@0.1.0-beta.9 build\n> tsc -p tsconfig.json\n\n",
+          "stderr": ""
+        },
+        {
+          "command": "npm test",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+          "rc": 0,
+          "elapsedMs": 813,
+          "stdout": "\n> @brik64/core@0.1.0-beta.9 test\n> node --test\n\n✔ mc arithmetic helpers are importable and deterministic (2.673709ms)\n✔ eva composition helpers compose exported monomers (0.294375ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 306.253917\n",
+          "stderr": ""
+        },
+        {
+          "command": "npm publish --dry-run --tag beta --access public",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+          "rc": 0,
+          "elapsedMs": 2091,
+          "stdout": "\n> @brik64/core@0.1.0-beta.9 prepublishOnly\n> npm run build && npm test\n\n\n> @brik64/core@0.1.0-beta.9 build\n> tsc -p tsconfig.json\n\n\n> @brik64/core@0.1.0-beta.9 test\n> node --test\n\n✔ mc arithmetic helpers are importable and deterministic (1.427667ms)\n✔ eva composition helpers compose exported monomers (0.105542ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 113.503584\n+ @brik64/core@0.1.0-beta.9\n",
+          "stderr": "npm notice\nnpm notice 📦  @brik64/core@0.1.0-beta.9\nnpm notice Tarball Contents\nnpm notice 269B LICENSE\nnpm notice 2.0kB README.md\nnpm notice 692B dist/eva/index.d.ts\nnpm notice 972B dist/eva/index.d.ts.map\nnpm notice 797B dist/eva/index.js\nnpm notice 965B dist/eva/index.js.map\nnpm notice 325B dist/index.d.ts\nnpm notice 192B dist/index.d.ts.map\nnpm notice 1.8kB dist/index.js\nnpm notice 178B dist/index.js.map\nnpm notice 1.3kB dist/mc/arithmetic.d.ts\nnpm notice 901B dist/mc/arithmetic.d.ts.map\nnpm notice 1.8kB dist/mc/arithmetic.js\nnpm notice 2.0kB dist/mc/arithmetic.js.map\nnpm notice 837B dist/mc/audio.d.ts\nnpm notice 716B dist/mc/audio.d.ts.map\nnpm notice 1.6kB dist/mc/audio.js\nnpm notice 1.3kB dist/mc/audio.js.map\nnpm notice 753B dist/mc/concurrency.d.ts\nnpm notice 643B dist/mc/concurrency.d.ts.map\nnpm notice 1.6kB dist/mc/concurrency.js\nnpm notice 1.2kB dist/mc/concurrency.js.map\nnpm notice 572B dist/mc/control.d.ts\nnpm notice 758B dist/mc/control.d.ts.map\nnpm notice 867B dist/mc/control.js\nnpm notice 1.2kB dist/mc/control.js.map\nnpm notice 671B dist/mc/crypto.d.ts\nnpm notice 643B dist/mc/crypto.d.ts.map\nnpm notice 1.8kB dist/mc/crypto.js\nnpm notice 2.5kB dist/mc/crypto.js.map\nnpm notice 801B dist/mc/filesystem.d.ts\nnpm notice 686B dist/mc/filesystem.d.ts.map\nnpm notice 1.6kB dist/mc/filesystem.js\nnpm notice 1.2kB dist/mc/filesystem.js.map\nnpm notice 876B dist/mc/float64.d.ts\nnpm notice 714B dist/mc/float64.d.ts.map\nnpm notice 1.0kB dist/mc/float64.js\nnpm notice 1.0kB dist/mc/float64.js.map\nnpm notice 996B dist/mc/graphics.d.ts\nnpm notice 967B dist/mc/graphics.d.ts.map\nnpm notice 1.6kB dist/mc/graphics.js\nnpm notice 1.4kB dist/mc/graphics.js.map\nnpm notice 485B dist/mc/index.d.ts\nnpm notice 429B dist/mc/index.d.ts.map\nnpm notice 1.5kB dist/mc/index.js\nnpm notice 317B dist/mc/index.js.map\nnpm notice 908B dist/mc/interop.d.ts\nnpm notice 725B dist/mc/interop.d.ts.map\nnpm notice 1.6kB dist/mc/interop.js\nnpm notice 1.2kB dist/mc/interop.js.map\nnpm notice 566B dist/mc/logic.d.ts\nnpm notice 642B dist/mc/logic.d.ts.map\nnpm notice 784B dist/mc/logic.js\nnpm notice 1.1kB dist/mc/logic.js.map\nnpm notice 755B dist/mc/math.d.ts\nnpm notice 654B dist/mc/math.d.ts.map\nnpm notice 966B dist/mc/math.js\nnpm notice 1.1kB dist/mc/math.js.map\nnpm notice 564B dist/mc/memory.d.ts\nnpm notice 718B dist/mc/memory.d.ts.map\nnpm notice 949B dist/mc/memory.js\nnpm notice 1.3kB dist/mc/memory.js.map\nnpm notice 902B dist/mc/network.d.ts\nnpm notice 765B dist/mc/network.d.ts.map\nnpm notice 1.6kB dist/mc/network.js\nnpm notice 1.3kB dist/mc/network.js.map\nnpm notice 630B dist/mc/string.d.ts\nnpm notice 674B dist/mc/string.d.ts.map\nnpm notice 967B dist/mc/string.js\nnpm notice 1.2kB dist/mc/string.js.map\nnpm notice 496B dist/mc/system.d.ts\nnpm notice 522B dist/mc/system.d.ts.map\nnpm notice 1.1kB dist/mc/system.js\nnpm notice 1.3kB dist/mc/system.js.map\nnpm notice 1.1kB package.json\nnpm notice 780B src/eva/index.ts\nnpm notice 290B src/index.ts\nnpm notice 1.6kB src/mc/arithmetic.ts\nnpm notice 1.3kB src/mc/audio.ts\nnpm notice 1.3kB src/mc/concurrency.ts\nnpm notice 660B src/mc/control.ts\nnpm notice 1.5kB src/mc/crypto.ts\nnpm notice 1.3kB src/mc/filesystem.ts\nnpm notice 857B src/mc/float64.ts\nnpm notice 1.5kB src/mc/graphics.ts\nnpm notice 450B src/mc/index.ts\nnpm notice 1.3kB src/mc/interop.ts\nnpm notice 613B src/mc/logic.ts\nnpm notice 782B src/mc/math.ts\nnpm notice 748B src/mc/memory.ts\nnpm notice 1.4kB src/mc/network.ts\nnpm notice 724B src/mc/string.ts\nnpm notice 791B src/mc/system.ts\nnpm notice Tarball Details\nnpm notice name: @brik64/core\nnpm notice version: 0.1.0-beta.9\nnpm notice filename: brik64-core-0.1.0-beta.9.tgz\nnpm notice package size: 20.7 kB\nnpm notice unpacked size: 92.3 kB\nnpm notice shasum: fd2c4a45196886458a1556cbd6c1fc63188c41ab\nnpm notice integrity: sha512-7GFvhJKV9BwxN[...]kDOjgv6pg9+sQ==\nnpm notice total files: 93\nnpm notice\nnpm notice Publishing to https://registry.npmjs.org/ with tag beta and public access (dry-run)\n"
+        }
+      ]
+    },
+    {
+      "id": "pypi_package_build_check",
+      "passed": true,
+      "commands": [
+        {
+          "command": "python3 -m compileall brik64 tests",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+          "rc": 0,
+          "elapsedMs": 119,
+          "stdout": "Listing 'brik64'...\nListing 'brik64/eva'...\nListing 'brik64/mc'...\nListing 'tests'...\n",
+          "stderr": ""
+        },
+        {
+          "command": "bash -lc rm -rf '/tmp/brik64-python-beta9-marketplace-dist' && python3 -m build --outdir '/tmp/brik64-python-beta9-marketplace-dist' && python3 -m twine check '/tmp/brik64-python-beta9-marketplace-dist'/*",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+          "rc": 0,
+          "elapsedMs": 11683,
+          "stdout": "running egg_info\nwriting brik64.egg-info/PKG-INFO\nwriting dependency_links to brik64.egg-info/dependency_links.txt\nwriting top-level names to brik64.egg-info/top_level.txt\nreading manifest file 'brik64.egg-info/SOURCES.txt'\nadding license file 'LICENSE'\nwriting manifest file 'brik64.egg-info/SOURCES.txt'\nrunning sdist\nrunning egg_info\nwriting brik64.egg-info/PKG-INFO\nwriting dependency_links to brik64.egg-info/dependency_links.txt\nwriting top-level names to brik64.egg-info/top_level.txt\nreading manifest file 'brik64.egg-info/SOURCES.txt'\nadding license file 'LICENSE'\nwriting manifest file 'brik64.egg-info/SOURCES.txt'\nrunning check\ncreating brik64-0.1.0b9\ncreating brik64-0.1.0b9/brik64\ncreating brik64-0.1.0b9/brik64.egg-info\ncreating brik64-0.1.0b9/brik64/eva\ncreating brik64-0.1.0b9/brik64/mc\ncreating brik64-0.1.0b9/tests\ncopying files to brik64-0.1.0b9...\ncopying LICENSE -> brik64-0.1.0b9\ncopying README.md -> brik64-0.1.0b9\ncopying pyproject.toml -> brik64-0.1.0b9\ncopying brik64/__init__.py -> brik64-0.1.0b9/brik64\ncopying brik64.egg-info/PKG-INFO -> brik64-0.1.0b9/brik64.egg-info\ncopying brik64.egg-info/SOURCES.txt -> brik64-0.1.0b9/brik64.egg-info\ncopying brik64.egg-info/dependency_links.txt -> brik64-0.1.0b9/brik64.egg-info\ncopying brik64.egg-info/top_level.txt -> brik64-0.1.0b9/brik64.egg-info\ncopying brik64/eva/__init__.py -> brik64-0.1.0b9/brik64/eva\ncopying brik64/mc/__init__.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/arithmetic.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/audio.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/concurrency.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/control.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/crypto.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/filesystem.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/float64.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/graphics.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/interop.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/io.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/logic.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/math_ops.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/memory.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/network.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/string.py -> brik64-0.1.0b9/brik64/mc\ncopying brik64/mc/system.py -> brik64-0.1.0b9/brik64/mc\ncopying tests/test_arithmetic.py -> brik64-0.1.0b9/tests\ncopying tests/test_eva.py -> brik64-0.1.0b9/tests\ncopying brik64.egg-info/SOURCES.txt -> brik64-0.1.0b9/brik64.egg-info\nWriting brik64-0.1.0b9/setup.cfg\nCreating tar archive\nremoving 'brik64-0.1.0b9' (and everything under it)\nrunning egg_info\nwriting brik64.egg-info/PKG-INFO\nwriting dependency_links to brik64.egg-info/dependency_links.txt\nwriting top-level names to brik64.egg-info/top_level.txt\nreading manifest file 'brik64.egg-info/SOURCES.txt'\nadding license file 'LICENSE'\nwriting manifest file 'brik64.egg-info/SOURCES.txt'\nrunning bdist_wheel\nrunning build\nrunning build_py\ncreating build/lib/brik64\ncopying brik64/__init__.py -> build/lib/brik64\ncreating build/lib/brik64/eva\ncopying brik64/eva/__init__.py -> build/lib/brik64/eva\ncreating build/lib/brik64/mc\ncopying brik64/mc/graphics.py -> build/lib/brik64/mc\ncopying brik64/mc/arithmetic.py -> build/lib/brik64/mc\ncopying brik64/mc/system.py -> build/lib/brik64/mc\ncopying brik64/mc/memory.py -> build/lib/brik64/mc\ncopying brik64/mc/filesystem.py -> build/lib/brik64/mc\ncopying brik64/mc/control.py -> build/lib/brik64/mc\ncopying brik64/mc/io.py -> build/lib/brik64/mc\ncopying brik64/mc/concurrency.py -> build/lib/brik64/mc\ncopying brik64/mc/__init__.py -> build/lib/brik64/mc\ncopying brik64/mc/float64.py -> build/lib/brik64/mc\ncopying brik64/mc/logic.py -> build/lib/brik64/mc\ncopying brik64/mc/interop.py -> build/lib/brik64/mc\ncopying brik64/mc/crypto.py -> build/lib/brik64/mc\ncopying brik64/mc/network.py -> build/lib/brik64/mc\ncopying brik64/mc/math_ops.py -> build/lib/brik64/mc\ncopying brik64/mc/audio.py -> build/lib/b",
+          "stderr": "* Creating isolated environment: venv+pip...\n* Installing packages in isolated environment:\n  - setuptools>=68.0,<77\n  - wheel\n* Getting build dependencies for sdist...\n* Building sdist...\n* Building wheel from sdist\n* Creating isolated environment: venv+pip...\n* Installing packages in isolated environment:\n  - setuptools>=68.0,<77\n  - wheel\n* Getting build dependencies for wheel...\n* Building wheel...\n/Users/carlosjperez/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020\n  warnings.warn(\n"
+        }
+      ]
+    },
+    {
+      "id": "crates_package_dry_run",
+      "passed": true,
+      "commands": [
+        {
+          "command": "cargo test",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+          "rc": 0,
+          "elapsedMs": 12612,
+          "stdout": "\nrunning 15 tests\ntest eva::tests::cond_branching ... ok\ntest eva::tests::par_independence ... ok\ntest eva::tests::seq_composition ... ok\ntest eva::tests::pipeline_chain ... ok\ntest mc::arithmetic::tests::add8_wraps ... ok\ntest mc::arithmetic::tests::div8_safe_zero ... ok\ntest mc::arithmetic::tests::clamp_all_cases ... ok\ntest mc::arithmetic::tests::sub8_wraps ... ok\ntest mc::float64::tests::float64_basic ... ok\ntest mc::interop::tests::json_escape ... ok\ntest mc::logic::tests::bitwise ... ok\ntest mc::math::tests::math_basic ... ok\ntest mc::interop::tests::json_roundtrip ... ok\ntest mc::string::tests::substr_oob ... ok\ntest mc::string::tests::concat_cap ... ok\n\ntest result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 34 tests\ntest src/eva/mod.rs - eva::pipeline (line 114) ... ok\ntest src/eva/mod.rs - eva::seq (line 53) ... ok\ntest src/eva/mod.rs - eva (line 19) ... ok\ntest src/eva/mod.rs - eva::cond (line 92) ... ok\ntest src/eva/mod.rs - eva::par (line 73) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::add8 (line 10) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::abs64 (line 79) ... ok\ntest src/lib.rs - (line 12) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::clamp (line 105) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::dec (line 128) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::div8 (line 49) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::inc (line 117) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::mod8 (line 66) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::mul8 (line 36) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::neg64 (line 92) ... ok\ntest src/mc/arithmetic.rs - mc::arithmetic::sub8 (line 23) ... ok\ntest src/mc/control.rs - mc::control::mc_call (line 58) ... ok\ntest src/mc/control.rs - mc::control::mc_if (line 9) ... ok\ntest src/mc/control.rs - mc::control::mc_loop (line 23) ... ok\ntest src/mc/crypto.rs - mc::crypto::bytes_to_hex (line 78) ... ok\ntest src/mc/crypto.rs - mc::crypto::constant_eq (line 55) ... ok\ntest src/mc/crypto.rs - mc::crypto::xor_bytes (line 31) ... ok\ntest src/mc/interop.rs - mc::interop::json_decode (line 30) ... ok\ntest src/mc/interop.rs - mc::interop::json_encode (line 7) ... ok\ntest src/mc/logic.rs - mc::logic::shl8 (line 21) ... ok\ntest src/mc/memory.rs - mc::memory::alloc (line 56) ... ok\ntest src/mc/memory.rs - mc::memory::load (line 9) ... ok\ntest src/mc/memory.rs - mc::memory::store (line 23) ... ok\ntest src/mc/string.rs - mc::string::char_at (line 78) ... ok\ntest src/mc/string.rs - mc::string::concat (line 11) ... ok\ntest src/mc/string.rs - mc::string::len (line 53) ... ok\ntest src/mc/string.rs - mc::string::substr (line 31) ... ok\ntest src/mc/system.rs - mc::system::env_get (line 36) ... ok\ntest src/mc/system.rs - mc::system::time_unix (line 12) ... ok\n\ntest result: ok. 34 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 11.15s\n\n",
+          "stderr": "   Compiling brik64-core v0.1.0-beta.9 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.14s\n     Running unittests src/lib.rs (target/debug/deps/brik64_core-39777b7076b3f576)\n   Doc-tests brik64_core\n"
+        },
+        {
+          "command": "cargo publish --dry-run --allow-dirty",
+          "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+          "rc": 0,
+          "elapsedMs": 1657,
+          "stdout": "",
+          "stderr": "    Updating crates.io index\n   Packaging brik64-core v0.1.0-beta.9 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\n    Updating crates.io index\n    Packaged 28 files, 43.0KiB (14.7KiB compressed)\n   Verifying brik64-core v0.1.0-beta.9 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\n   Compiling brik64-core v0.1.0-beta.9 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/target/package/brik64-core-0.1.0-beta.9)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.46s\n   Uploading brik64-core v0.1.0-beta.9 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\nwarning: aborting upload due to dry run\n"
+        }
+      ]
+    },
+    {
+      "id": "npm_auth",
+      "passed": true,
+      "secretSource": "onepassword:BRIK64",
+      "command": {
+        "command": "npm whoami",
+        "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+        "rc": 0,
+        "elapsedMs": 1056,
+        "stdout": "brik64\n",
+        "stderr": ""
+      }
+    },
+    {
+      "id": "pypi_auth_material_present",
+      "passed": true,
+      "secretSource": "onepassword:BRIK64",
+      "boundary": "PyPI upload tokens cannot be fully validated without an upload attempt; this preflight only proves token material is present and package artifacts pass twine check."
+    },
+    {
+      "id": "crates_auth",
+      "passed": true,
+      "secretSource": "onepassword:BRIK64",
+      "command": {
+        "command": "cargo owner --list brik64-core",
+        "cwd": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+        "rc": 0,
+        "elapsedMs": 365,
+        "stdout": "brik64-admin (BRIK-64 Inc.)\n",
+        "stderr": "    Updating crates.io index\n"
+      }
+    }
+  ],
+  "executed": [],
+  "failures": [],
+  "warnings": [],
+  "expectedConfirm": "PUBLISH SDK 0.1.0-beta.9",
+  "boundary": "Dry-run mode validates package and auth preflight without publishing."
+}
