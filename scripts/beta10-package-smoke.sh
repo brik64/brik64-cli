@@ -80,12 +80,10 @@ CONFIG_HOME="$TMP_DIR/config"
 WORK_DIR="$TMP_DIR/work"
 mkdir -p "$WORK_DIR"
 
-test -f "$EXTRACTED/evidence/beta10-local-gate/report.json"
-if find "$EXTRACTED/evidence" -type f ! -path "$EXTRACTED/evidence/beta10-local-gate/report.json" | grep -q .; then
-  echo "package_contains_unapproved_evidence_payload" >&2
+if [[ -e "$EXTRACTED/evidence" ]]; then
+  echo "package_contains_evidence_payload" >&2
   exit 1
 fi
-test ! -d "$EXTRACTED/evidence/beta10-package"
 
 run_pass version "BRIK64 CLI $VERSION" node "$BRIK" --version
 run_pass help "explain <file.pcd>" node "$BRIK" --help
