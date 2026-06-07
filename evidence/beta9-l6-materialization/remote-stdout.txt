@@ -1,3 +1,3 @@
 REMOTE_HOST=ubuntu-16gb-hel1-1
 REMOTE_L6_VERSION=brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-g0;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;certifies_tests=false;numeric_domain_profile_hash_required=true;delegated_baseline=false;bounded_bpcb_v2_emitter=true;general_compile_delegation=false;general_compile_supported=multi_parameter_cli_dispatch;route2_bounded_compile_supported=true;stage1_compiler_binary_surface=generated_from_pcd_polymer;quality_10_claim_allowed=false;
-L6PLUS_ROUTE2_BUILD target=js output=/tmp/brik64-cli-beta9-materialize-1780849640709/out/brik_cli_beta9_transpiler_contract.js
+L6PLUS_ROUTE2_BUILD target=js output=/tmp/brik64-cli-beta9-materialize-1780849952481/out/brik_cli_beta9_transpiler_contract.js
