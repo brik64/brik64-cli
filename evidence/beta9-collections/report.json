@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta9_collections_gate.v1",
-  "generatedAt": "2026-06-07T12:10:24Z",
+  "generatedAt": "2026-06-07T12:15:00Z",
   "iter_id": "BRIK64-CLI-BETA9-COLLECTIONS-20260607-R1",
   "lane": "cli_0_1_beta9",
   "decision": "PASS_BRIK64_CLI_BETA9_COLLECTIONS",
   "rc": 0,
   "cliVersion": "0.1.0-beta.8",
-  "cliSha256": "sha256:897d110af6946f67fba42ca81c01aa3193a8fd9a3fa55acbe2f8f6c763ced904",
+  "cliSha256": "sha256:cdc68a3bf576066637f61f01332f42af4ae783cc8e567b6fa312eb1c96750724",
   "fixture": {
     "path": "pcd/list_score.pcd",
     "sha256": "sha256:8c23f7aa61e74545e196ddd48636846445ab640a3c62fe0f607cce53dd77f8ab"

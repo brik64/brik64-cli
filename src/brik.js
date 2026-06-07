@@ -451,6 +451,25 @@ function parseStatements(body, params) {
       });
       continue;
     }
+    if (body.slice(index).startsWith('repeat')) {
+      index += 'repeat'.length;
+      skipWhitespace();
+      const countMatch = body.slice(index).match(/^(\d+)/);
+      if (!countMatch) fail(65, 'pcd_parse_error:repeat_requires_literal_bound');
+      const count = Number(countMatch[1]);
+      if (!Number.isInteger(count) || count < 1 || count > 64) {
+        fail(65, 'pcd_parse_error:repeat_bound_out_of_range');
+      }
+      index += countMatch[1].length;
+      skipWhitespace();
+      const loopBody = readBalanced('{', '}');
+      const bodyStatements = parseStatements(loopBody, params);
+      if (bodyStatements.length === 0) {
+        fail(65, 'pcd_parse_error:repeat_empty_body');
+      }
+      statements.push({ type: 'RepeatStatement', count, body: bodyStatements });
+      continue;
+    }
     fail(65, 'pcd_parse_error:unsupported_statement');
   }
   return statements;
@@ -555,6 +574,10 @@ function validateStatementTypes(statements, paramTypes, returnType) {
       validateStatementTypes(statement.alternate, paramTypes, returnType);
       continue;
     }
+    if (statement.type === 'RepeatStatement') {
+      validateStatementTypes(statement.body, paramTypes, returnType);
+      continue;
+    }
     fail(65, 'pcd_parse_error:unknown_statement_type');
   }
 }
@@ -568,12 +591,16 @@ function collectReturns(statements, values = []) {
       collectReturns(statement.consequent, values);
       collectReturns(statement.alternate, values);
     }
+    if (statement.type === 'RepeatStatement') {
+      collectReturns(statement.body, values);
+    }
   }
   return values;
 }
 
 function countBranches(statements) {
   return statements.reduce((count, statement) => {
+    if (statement.type === 'RepeatStatement') return count + countBranches(statement.body);
     if (statement.type !== 'IfStatement') return count;
     return count + 1 + countBranches(statement.consequent) + countBranches(statement.alternate);
   }, 0);
@@ -1018,6 +1045,21 @@ function renderStatements(statements, target, indentLevel) {
       }
       continue;
     }
+    if (statement.type === 'RepeatStatement') {
+      if (target === 'python') {
+        lines.push(`${indent}for _ in range(${statement.count}):`);
+        lines.push(...renderStatements(statement.body, target, indentLevel + 1));
+      } else if (target === 'rust') {
+        lines.push(`${indent}for _ in 0..${statement.count} {`);
+        lines.push(...renderStatements(statement.body, target, indentLevel + 1));
+        lines.push(`${indent}}`);
+      } else {
+        lines.push(`${indent}for (let __brik_i = 0; __brik_i < ${statement.count}; __brik_i += 1) {`);
+        lines.push(...renderStatements(statement.body, target, indentLevel + 1));
+        lines.push(`${indent}}`);
+      }
+      continue;
+    }
     fail(70, 'internal_codegen_error:unknown_statement');
   }
   return lines;
@@ -1088,6 +1130,12 @@ function evaluateStatements(statements, env) {
         if (alternate !== undefined) return alternate;
       }
     }
+    if (statement.type === 'RepeatStatement') {
+      for (let count = 0; count < statement.count; count += 1) {
+        const repeated = evaluateStatements(statement.body, env);
+        if (repeated !== undefined) return repeated;
+      }
+    }
   }
   return undefined;
 }
@@ -1125,6 +1173,9 @@ function collectStatementValues(statements, values = new Set([0, 1, 2, 10])) {
       collectConditionValues(statement.condition, values);
       collectStatementValues(statement.consequent, values);
       collectStatementValues(statement.alternate, values);
+    }
+    if (statement.type === 'RepeatStatement') {
+      collectStatementValues(statement.body, values);
     }
   }
   return values;

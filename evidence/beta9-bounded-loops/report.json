@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "brik64.cli_beta9_bounded_loops_gate.v1",
+  "generatedAt": "2026-06-07T12:14:59Z",
+  "iter_id": "BRIK64-CLI-BETA9-BOUNDED-LOOPS-20260607-R1",
+  "lane": "cli_0_1_beta9",
+  "decision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.8",
+  "cliSha256": "sha256:cdc68a3bf576066637f61f01332f42af4ae783cc8e567b6fa312eb1c96750724",
+  "fixture": {
+    "path": "pcd/repeat_score.pcd",
+    "sha256": "sha256:0e337eaffe2a470f57e10b14fb88e59c82fa6de7fa1deaa94740dfa0eed6fc79"
+  },
+  "executedTargets": {
+    "typescript": {
+      "programSha256": "sha256:855e464e9a8c82ac8978c8e41d026393e7db0ec658e428a6ba8394e187fde586",
+      "passed": true
+    },
+    "rust": {
+      "programSha256": "sha256:3f769a5b6be018b7c663371d2a63afe540789c64a8cee4e3958c11ea5d1131cd",
+      "passed": true
+    },
+    "python": {
+      "programSha256": "sha256:777f16c81d07ab34fe9407c18d4bcf67c2bebaccc4bb66075b41e559d32e57be",
+      "passed": true
+    }
+  },
+  "checks": {
+    "pass_checks": 10,
+    "fail_closed_checks": 4,
+    "repeat_literal_bound": true,
+    "repeat_bound_max": 64,
+    "for_loop_general": false,
+    "while_loop_general": false
+  },
+  "adversarial": {
+    "nonliteral_bound_rejected": true,
+    "zero_bound_rejected": true,
+    "too_large_bound_rejected": true,
+    "empty_body_rejected": true,
+    "stack_trace_leaked": false
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "formal_n5_claim_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "compiler_functionality_scope": "supported_beta9_repeat_literal_subset_only"
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "continue beta9 local PCD imports and scaffolds before L6 materialization"
+}
