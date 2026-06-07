@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "brik64.release_web_surface_sync_l6_materialization.v1",
+  "generatedAt": "2026-06-07T17:08:59.026Z",
+  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC_L6_MATERIALIZATION",
+  "lane": "release_train_hardening",
+  "generationClaim": "workflow_contract_non_claim",
+  "releaseEligible": false,
+  "pcd": {
+    "path": "pcd/release-workflows/release_train_web_surface_sync.pcd",
+    "sha256": "sha256:a9fb055b7fae7dc148cb7c3e9969a6f050b56aef97995cff9ea614ae63e014f5"
+  },
+  "technicalSheet": {
+    "path": "evidence/release-web-surface-sync-l6/technical-sheet.json",
+    "sha256": "sha256:5684c09999f86e29c2c8151d3e1b895f7c66673f74ea5ad7401b20cd27941c9b"
+  },
+  "remote": {
+    "rc": 0,
+    "stdout": "evidence/release-web-surface-sync-l6/remote-stdout.txt",
+    "stderr": "evidence/release-web-surface-sync-l6/remote-stderr.txt",
+    "checksums": "evidence/release-web-surface-sync-l6/remote-SHA256SUMS"
+  },
+  "generatedFiles": [
+    {
+      "path": "evidence/release-web-surface-sync-l6/generated/release_train_web_surface_sync.cert.json",
+      "sha256": "sha256:b650267d7a9b65e7f6d2410601a165739a84c3939ff6aa6f62de83b370003de0",
+      "bytes": 1558
+    },
+    {
+      "path": "evidence/release-web-surface-sync-l6/generated/release_train_web_surface_sync.js",
+      "sha256": "sha256:c4064a575dc9ad866396ca22b46bf8991115d92b2cb96565e2c9786acacca5ca",
+      "bytes": 384
+    }
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "pureBrik64ChainClaimAllowed": false
+  }
+}

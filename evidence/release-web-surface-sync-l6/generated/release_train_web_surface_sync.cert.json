@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "generator": "brikc_cli_l6plus route2 bounded emitter",
+  "issuer": "BRIK-64 L6+ internal non-claim",
+  "engine": "l6_plus",
+  "engine_tier": "internal_generation",
+  "lane": "internal_adaptive",
+  "claim_authority": "non_claim",
+  "public_claim_allowed": false,
+  "numeric_domain": {
+    "schema_version": "brik64.numeric_domain_engine_output.v1",
+    "engine_id": "l6_plus",
+    "engine_tier": "internal_generation",
+    "claim_authority": "internal_non_claim",
+    "certifies_tests": false,
+    "analysis_status": "parsed",
+    "profile_required": false,
+    "numeric_domain_profile_hashes": [],
+    "validation_issues": [],
+    "guard_stability_findings": [],
+    "backend_profile_required_for_strong_certification": true
+  },
+  "source": {
+    "pc": "release_train_web_surface_sync",
+    "function": "release_train_web_surface_sync",
+    "hash_sha256": "a9fb055b7fae7dc148cb7c3e9969a6f050b56aef97995cff9ea614ae63e014f5",
+    "language": "pcd"
+  },
+  "certification": {
+    "level": "ROUTE2_BOUNDED_INTERNAL",
+    "domain_safe": true,
+    "deterministic": true,
+    "total_statements": 2,
+    "certifies_full_repository": false
+  },
+  "target": {
+    "language": "js",
+    "file": "release_train_web_surface_sync.js",
+    "hash_sha256": "c4064a575dc9ad866396ca22b46bf8991115d92b2cb96565e2c9786acacca5ca"
+  },
+  "non_claims": [
+    "does not certify full repository correctness",
+    "does not certify external source authority",
+    "does not certify security or deployment behavior",
+    "does not certify future changes"
+  ]
+}

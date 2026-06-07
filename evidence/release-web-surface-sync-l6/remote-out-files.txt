@@ -1,0 +1,2 @@
+/tmp/brik64-release-web-surface-sync-l6-final-1780852121/out/release_train_web_surface_sync.cert.json
+/tmp/brik64-release-web-surface-sync-l6-final-1780852121/out/release_train_web_surface_sync.js

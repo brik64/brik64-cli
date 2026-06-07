@@ -169,6 +169,12 @@ PY`,
       true
     ),
     command(
+      'web_static_surface',
+      'Materialize brik64.com static release files from the manifest before dispatching web verification.',
+      'node scripts/release/sync-web-release-surface.js --publish',
+      true
+    ),
+    command(
       'docs_dispatch',
       'Dispatch docs update using the manifest payload.',
       `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -`,
