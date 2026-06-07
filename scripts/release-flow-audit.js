@@ -134,8 +134,18 @@ function main() {
     for (const scriptName of requiredBetaScripts(label)) {
       add(Boolean(scripts[scriptName]), failures, `current_beta_script_missing:${scriptName}`);
     }
-    add(fs.existsSync(path.join(root, 'scripts', `build-${label}-package.js`)), failures, `current_beta_package_builder_missing:${label}`);
-    add(fs.existsSync(path.join(root, 'scripts', `${label}-package-smoke.js`)), failures, `current_beta_package_smoke_missing:${label}`);
+    add(
+      fs.existsSync(path.join(root, 'scripts', `build-${label}-package.js`))
+        || fs.existsSync(path.join(root, 'scripts', `build-${label}-package.sh`)),
+      failures,
+      `current_beta_package_builder_missing:${label}`
+    );
+    add(
+      fs.existsSync(path.join(root, 'scripts', `${label}-package-smoke.js`))
+        || fs.existsSync(path.join(root, 'scripts', `${label}-package-smoke.sh`)),
+      failures,
+      `current_beta_package_smoke_missing:${label}`
+    );
     add(fs.existsSync(path.join(root, 'evidence', `${label}-package`, 'package.manifest.json')), failures, `current_beta_package_manifest_missing:${label}`);
   }
 
@@ -173,7 +183,11 @@ function main() {
   add(changelogSection.length > 0, failures, 'changelog_section_missing');
   const changelogForbidden = forbiddenHits(changelogSection);
   if (changelogForbidden.length > 0) failures.push(`changelog_internal_language:${changelogForbidden.join('|')}`);
-  add(readme.includes(`Current public beta: \`${manifest.version}\``), failures, 'readme_public_version_drift');
+  if (manifest.state === 'public') {
+    add(readme.includes(`Current public beta: \`${manifest.version}\``), failures, 'readme_public_version_drift');
+  } else {
+    add(readme.includes(`Current beta candidate: \`${manifest.version}\``), failures, 'readme_candidate_version_drift');
+  }
 
   textContainsAll(publishPlan, [
     'github_release',

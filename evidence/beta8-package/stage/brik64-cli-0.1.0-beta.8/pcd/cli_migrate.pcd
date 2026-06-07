@@ -1,0 +1,27 @@
+// brik64.pcd_file.v1
+// name: brik_cli_migrate
+// status: candidate_pcd_seed
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// command = "migrate"
+// supported_legacy = "lowercase_pc,circuit"
+// output_policy = "no_overwrite_without_explicit_mode"
+// claim_boundary = "syntax_migration_only"
+
+PC brik_cli_migrate {
+    fn brik_cli_migrate(file_present, legacy_detected, output_exists, in_place_requested) {
+        if (file_present == 0) {
+            return 64;
+        }
+        if (legacy_detected == 0) {
+            return 0;
+        }
+        if (output_exists == 1) {
+            if (in_place_requested == 0) {
+                return 73;
+            }
+        }
+        return 0;
+    }
+}
