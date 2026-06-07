@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta9_sdk_marketplaces_surface.v1",
-  "generatedAt": "2026-06-07T14:48:15.368Z",
+  "generatedAt": "2026-06-07T14:51:19.484Z",
   "decision": "PASS_BETA9_SDK_MARKETPLACES",
   "version": "0.1.0-beta.9",
   "publicSurfacePassed": true,
