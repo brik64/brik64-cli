@@ -55,7 +55,8 @@ At minimum:
 
 - `pcd/cli_beta9_transpiler_contract.pcd` records parser/emitter/scaffold
   requirements and staged public-surface contracts such as curl/GCP installer
-  staging.
+  staging, candidate dry-run behavior, exact staged-blocker matching, and the
+  invariant that candidate dry-runs never authorize publication.
 - `pcd/cli_polymer.pcd` is updated to reference the beta9 contract.
 - package and release reports bind PCD/polymer hashes to generated artifacts.
 
@@ -86,6 +87,10 @@ previous PCD inventory hash. The required response is to update the PCD/polymer
 contract first, rerun L6+N5 materialization, rebuild the package, rerun the
 package smoke, and then rerun release readiness. The previous report becomes
 baseline evidence only.
+
+This applies to operational release code as well as compiler code. A dry-run,
+CI, installer, SDK, docs, web, skills, or changelog change is not exempt from
+the PCD/polymer source rule when it affects beta9 release behavior.
 
 ## Required Gates
 
