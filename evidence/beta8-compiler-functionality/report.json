@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "brik64.cli_beta8_compiler_functionality_gate.v1",
+  "generatedAt": "2026-06-07T10:08:15Z",
+  "iter_id": "BRIK64-CLI-BETA8-COMPILER-FUNCTIONALITY-20260606-R1",
+  "lane": "cli_0_1_beta8",
+  "decision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.8",
+  "cliSha256": "sha256:63f28a941626edb18cee7b794e9f3c05acdc29db94e8387e02809ed402a7f8ed",
+  "fixture": {
+    "path": "pcd/branch_math.pcd",
+    "sha256": "sha256:09742f0ef4d80b4f465da256d8d44b4c587306c07015ecb77cada308c1d70404"
+  },
+  "executedTargets": {
+    "typescript": {
+      "programSha256": "sha256:608f6244ed6563765b31e6e42b722eb2c7889b87f7fdb7ca5e86740eb1675a95",
+      "test": "node out-ts/program.test.mjs",
+      "passed": true
+    },
+    "rust": {
+      "programSha256": "sha256:bbe9b972902349fdb4b5884858e840b2c004c2173eb24f605958a913d6075e5d",
+      "test": "rustc out-rust/program_test.rs && ./out-rust/program_test",
+      "passed": true
+    },
+    "python": {
+      "programSha256": "sha256:ca5c353fdd06e4b65b9b6366deea679b2816544af1843932ecdb59d471a742b6",
+      "test": "PYTHONPATH=out-python python3 out-python/test_program.py",
+      "passed": true
+    }
+  },
+  "adversarial": {
+    "unknown_identifier_fail_closed": true,
+    "unsupported_target_fail_closed": true,
+    "path_traversal_fail_closed": true,
+    "stack_trace_leaked": false
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "compiler_functionality_claim_allowed": true,
+    "compiler_functionality_scope": "supported_beta8_pcd_subset_only",
+    "fixpoint_claim_allowed": false,
+    "n5_formal_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "run beta8 adversarial gate and package smoke before public release train"
+}

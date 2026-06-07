@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "brik64.cli_beta8_docs_web_sync_gate.v1",
+  "version": "0.1.0-beta.8",
+  "decision": "PASS_DOCS_WEB_BETA8_SYNC",
+  "releaseEligible": true,
+  "deployAllowed": true,
+  "artifacts": [
+    {
+      "id": "docs_install",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/cli/install.mdx",
+      "sha256": "048710173a310d5b534c69a309de6ae0d152245e05e4a505547402ef544ccedb",
+      "bytes": 2064
+    },
+    {
+      "id": "docs_sdks",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks.mdx",
+      "sha256": "46ca1e93fb94ab79c9bc2cbde7e16cf7121827e99e23b2c8c6de973003649049",
+      "bytes": 1461
+    },
+    {
+      "id": "docs_llms",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/llms-full.txt",
+      "sha256": "9d706cf587326469784d82fa7ff12c3e23b681860d1e0398d50770746f59e857",
+      "bytes": 108533
+    },
+    {
+      "id": "web_sdk_download_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/sdk/[target].ts",
+      "sha256": "adfc6f0d00257beee25a5eeb01af265e6d4a8d70a89779a2ee36a73386af9988",
+      "bytes": 2326
+    },
+    {
+      "id": "web_cli_download_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/cli.ts",
+      "sha256": "28aa7a5369a32ef3601e003937c648b21189490e8b189c0984a56533ecae3416",
+      "bytes": 1759
+    },
+    {
+      "id": "web_language_data",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/src/lib/language-data.ts",
+      "sha256": "6f79e46995e2acd4db34cfc19b66557ef2795183aaa961002b9ef69667c15d23",
+      "bytes": 10647
+    }
+  ],
+  "failures": [],
+  "boundary": "Docs and web source must be beta8 aligned before public release. This gate does not deploy."
+}

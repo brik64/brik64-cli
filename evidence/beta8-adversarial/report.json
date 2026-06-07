@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "brik64.cli_beta8_adversarial_gate.v1",
+  "generatedAt": "2026-06-07T10:08:18Z",
+  "iter_id": "BRIK64-CLI-BETA8-ADVERSARIAL-20260606-R1",
+  "lane": "cli_0_1_beta8",
+  "decision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL",
+  "rc": 0,
+  "cliVersion": "0.1.0-beta.8",
+  "cliSha256": "sha256:63f28a941626edb18cee7b794e9f3c05acdc29db94e8387e02809ed402a7f8ed",
+  "executableEdgeFixture": {
+    "path": "pcd/edge_precedence.pcd",
+    "sha256": "sha256:de6c384a4f4146f78e1ea040176206b49aed6725a35db10b447a8d42fe75bf63"
+  },
+  "passChecks": 9,
+  "failClosedChecks": 12,
+  "generatedTargetExecution": {
+    "typescript": true,
+    "rust": true,
+    "python": true
+  },
+  "failClosedSurface": [
+    "empty_pcd",
+    "binary_input",
+    "too_large_input",
+    "legacy_syntax",
+    "missing_fn",
+    "too_many_params",
+    "invalid_param",
+    "missing_return",
+    "unsupported_statement",
+    "unsupported_expression_token",
+    "malformed_expression",
+    "unclosed_block"
+  ],
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "adversarial_gate_passed": true,
+    "compiler_functionality_scope": "supported_beta8_pcd_subset_only",
+    "fixpoint_claim_allowed": false,
+    "n5_formal_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  },
+  "blockers": [],
+  "warnings": [],
+  "next_action": "run beta8 package smoke and release-train sync gates"
+}

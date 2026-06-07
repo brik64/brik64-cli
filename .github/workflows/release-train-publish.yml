@@ -64,6 +64,12 @@ jobs:
       - name: Generate sync payload
         run: npm run release:train:sync-surfaces
 
+      - name: Verify GitHub signed release commit
+        env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          BRIK64_RELEASE_COMMIT: ${{ github.sha }}
+        run: npm run gate:beta8:github-verified-signature
+
       - name: Prepare SDK publication workspaces
         env:
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
@@ -175,5 +181,6 @@ jobs:
             evidence/release-train-sync/changelog.md
             evidence/release-train-sync/sync-payload.json
             evidence/release-train-sync/report.json
+            evidence/beta8-github-verified-signature/report.json
             evidence/release-train-publish-plan/report.json
             evidence/release-train-publish-execute/report.json

@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.7",
+  "version": "0.1.0-beta.8",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -51,6 +51,16 @@
     "gate:beta7:marketplace-packages": "node scripts/beta7-marketplace-package-gate.js",
     "gate:beta7:docs-web-sync": "node scripts/beta7-docs-web-sync-gate.js",
     "gate:beta7:skills-sync": "node scripts/beta7-skills-sync-gate.js",
+    "gate:beta8:feature-parity": "bash scripts/beta8-compiler-functionality-gate.sh",
+    "gate:beta8:compiler-functionality": "bash scripts/beta8-compiler-functionality-gate.sh",
+    "gate:beta8:adversarial": "bash scripts/beta8-adversarial-gate.sh",
+    "gate:beta8:github-verified-signature": "node scripts/beta8-github-verified-signature-gate.js",
+    "gate:beta8:sdk-sync": "node scripts/beta8-sdk-sync-gate.js",
+    "gate:beta8:marketplace-packages": "node scripts/beta8-marketplace-package-gate.js",
+    "gate:beta8:docs-web-sync": "node scripts/beta8-docs-web-sync-gate.js",
+    "gate:beta8:skills-sync": "node scripts/beta8-skills-sync-gate.js",
+    "package:beta8:local": "bash scripts/build-beta8-package.sh",
+    "smoke:beta8:package": "bash scripts/beta8-package-smoke.sh",
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:flow:audit": "node scripts/release-flow-audit.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
@@ -58,6 +68,8 @@
     "release:train:sync-surfaces": "node scripts/release-train-sync-surfaces.js",
     "release:train:publish-plan": "node scripts/release-train-publish-plan.js",
     "release:train:publish-execute": "node scripts/release-train-publish-execute.js",
+    "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",
+    "release:github-signing-key:register": "node scripts/release/register-github-signing-key.js",
     "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js"
   },
   "author": {
