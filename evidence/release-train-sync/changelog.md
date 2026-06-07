@@ -1,12 +1,15 @@
-## 0.1.0-beta.7
+## 0.1.0-beta.9
 
 ### Added
 
-- Adds local PCD polymerization so users can combine multiple PCD files into a deterministic polymer file and manifest.
-- Adds local verification for certificate presence, source hash agreement, and AST hash agreement before generated outputs are trusted.
-- Adds migration support for legacy lowercase PCD syntax with actionable parser guidance.
-- Adds account status, login, and logout commands for future platform-connected workflows while keeping local workflows available by default.
+- Adds typed i64 function parameters and return annotations for supported PCD programs.
+- Adds bounded list and map expressions for supported local PCD emission.
+- Adds bounded repeat loops with a fixed maximum iteration count.
+- Adds direct same-directory PCD imports and generated helper functions in emitted TypeScript, Rust, and Python outputs.
+- Adds package scaffolds for generated TypeScript, Rust, and Python projects when brik64 emit is used with tests.
+- Adds actionable brik64 doctor diagnostics with stable JSON output for CI.
 
 ### Changed
 
-- Keeps human-readable doctor output as the default and moves machine-readable reports behind an explicit JSON flag.
+- Improves parser failures for unsupported calls, invalid imports, malformed collection expressions, and unsupported loop forms.
+- Keeps cloud verification and cloud polymerization entitlement-gated while local workflows remain available by default.

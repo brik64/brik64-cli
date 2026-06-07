@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.9`
+Current public beta: `0.1.0-beta.9`
 
 ## Install
 
@@ -24,7 +24,7 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta9 Candidate Command Surface
+## Beta9 Command Surface
 
 `0.1.0-beta.9` extends local PCD emission with stricter typed interfaces,
 bounded collections, bounded repeat loops, direct local PCD imports, generated
@@ -58,8 +58,8 @@ session, those paths fail closed and keep local artifacts unchanged.
 
 | Platform | Status | Notes |
 | --- | --- | --- |
-| macOS | Available in current beta candidate | Portable Node.js CLI package; requires Node.js 20 or newer. |
-| Linux | Available in current beta candidate | Portable Node.js CLI package; requires Node.js 20 or newer. |
+| macOS | Available in current public beta | Portable Node.js CLI package; requires Node.js 20 or newer. |
+| Linux | Available in current public beta | Portable Node.js CLI package; requires Node.js 20 or newer. |
 | Windows x64 native | Not available in current public beta | No Windows executable is published. |
 
 The public installer verifies the package SHA-256 before activation. The
@@ -73,7 +73,7 @@ coordinates:
 
 ```sh
 npm install @brik64/core@0.1.0-beta.9
-pip install brik64==0.1.0b8
+pip install brik64==0.1.0b9
 cargo add brik64-core@0.1.0-beta.9
 ```
 

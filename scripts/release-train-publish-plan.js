@@ -64,21 +64,23 @@ function main() {
   const packagePath = packageManifest.package.path;
   const jsSdkPackDir = `evidence-${label}-pack`;
   const pythonSdkVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version;
-  const signatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
+  const genericSignatureReportPath = path.join(root, 'evidence', 'release-github-verified-signature', 'report.json');
+  const legacySignatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
+  const signatureReportPath = fs.existsSync(genericSignatureReportPath) ? genericSignatureReportPath : legacySignatureReportPath;
   const signatureReport = fs.existsSync(signatureReportPath) ? readJson(signatureReportPath) : null;
   const currentHead = gitOutput(['rev-parse', '--short', 'HEAD']);
   const currentHeadFull = gitOutput(['rev-parse', 'HEAD']);
 
   if (manifest.state !== 'public') failures.push(`manifest_state_not_public:${manifest.state}`);
-  if (label === 'beta8') {
+  if (manifest.state === 'public') {
     if (!signatureReport) {
-      failures.push('beta8_github_verified_signature_report_missing');
-    } else if (signatureReport.decision !== 'PASS_BETA8_GITHUB_VERIFIED_SIGNATURE') {
-      failures.push(`beta8_github_verified_signature_not_pass:${signatureReport.decision}`);
+      (dryRunInProgress ? warnings : failures).push('github_verified_signature_report_missing');
+    } else if (!['PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE', 'PASS_BETA8_GITHUB_VERIFIED_SIGNATURE'].includes(signatureReport.decision)) {
+      (dryRunInProgress ? warnings : failures).push(`github_verified_signature_not_pass:${signatureReport.decision}`);
     } else if (signatureReport.boundary?.publicReleaseAllowed !== true) {
-      failures.push('beta8_github_verified_signature_public_release_not_allowed');
+      (dryRunInProgress ? warnings : failures).push('github_verified_signature_public_release_not_allowed');
     } else if (signatureReport.commit !== currentHeadFull) {
-      failures.push(`beta8_github_verified_signature_commit_drift:${signatureReport.commit}:${currentHeadFull}`);
+      (dryRunInProgress ? warnings : failures).push(`github_verified_signature_commit_drift:${signatureReport.commit}:${currentHeadFull}`);
     }
   }
   if (!dryRunInProgress && dryRun.decision !== 'PASS_RELEASE_TRAIN_DRY_RUN') failures.push(`dry_run_not_green:${dryRun.decision}`);

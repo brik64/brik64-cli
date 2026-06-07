@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.8",
-  "version": "0.1.0-beta.8",
+  "releaseId": "brik64-0.1.0-beta.9",
+  "version": "0.1.0-beta.9",
   "channel": "beta",
   "state": "public",
-  "createdAt": "2026-06-06T02:15:00Z",
+  "createdAt": "2026-06-07T15:05:00Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "8f54383d19f9bf62def6286665382751850b003d"
+    "commit": "d915ae4982b6c7a8accf747ffe4aa3165c39be4a"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -30,36 +30,40 @@
         "required": false,
         "status": "not_published"
       }
-    ]
+    ],
+    "package": {
+      "path": "evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz",
+      "sha256": "0d3ae3a4ea653f217aa5b398e12177c28c1dc3627e51f135928639afdab1da41"
+    }
   },
   "sdks": [
     {
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.8",
+      "version": "0.1.0-beta.9",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b8",
+      "version": "0.1.0b9",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.8",
+      "version": "0.1.0-beta.9",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.8",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.8"
+      "tag": "v0.1.0-beta.9",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.9"
     },
     "curlInstaller": {
       "required": true,
@@ -91,50 +95,95 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds bounded source-to-source PCD emission that generates executable TypeScript, Rust, and Python programs for the supported beta syntax."
+      "text": "Adds typed i64 function parameters and return annotations for supported PCD programs."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds generated target tests that execute emitted programs and verify expected behavior across supported target languages."
+      "text": "Adds bounded list and map expressions for supported local PCD emission."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds parser support for arithmetic expressions, comparisons, boolean conditions, nested branches, and expression returns."
+      "text": "Adds bounded repeat loops with a fixed maximum iteration count."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds adversarial parser checks for malformed input, binary data, oversized PCD files, unsupported statements, and path traversal attempts."
+      "text": "Adds direct same-directory PCD imports and generated helper functions in emitted TypeScript, Rust, and Python outputs."
+    },
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Adds package scaffolds for generated TypeScript, Rust, and Python projects when brik64 emit is used with tests."
+    },
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Adds actionable brik64 doctor diagnostics with stable JSON output for CI."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Packages the beta8 CLI candidate with local smoke coverage from an extracted tarball before public release."
+      "text": "Improves parser failures for unsupported calls, invalid imports, malformed collection expressions, and unsupported loop forms."
+    },
+    {
+      "type": "changed",
+      "surface": "cli",
+      "text": "Keeps cloud verification and cloud polymerization entitlement-gated while local workflows remain available by default."
     }
   ],
   "verification": {
     "requiredEvidence": [
       {
-        "id": "compilerFunctionality",
-        "path": "evidence/beta8-compiler-functionality/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA8_COMPILER_FUNCTIONALITY"
+        "id": "typedInterface",
+        "path": "evidence/beta9-typed-interface/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_TYPED_INTERFACE"
       },
       {
-        "id": "adversarial",
-        "path": "evidence/beta8-adversarial/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA8_ADVERSARIAL"
+        "id": "collections",
+        "path": "evidence/beta9-collections/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_COLLECTIONS"
+      },
+      {
+        "id": "maps",
+        "path": "evidence/beta9-maps/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_MAPS"
+      },
+      {
+        "id": "boundedLoops",
+        "path": "evidence/beta9-bounded-loops/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_BOUNDED_LOOPS"
+      },
+      {
+        "id": "scaffolds",
+        "path": "evidence/beta9-scaffolds/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_SCAFFOLDS"
+      },
+      {
+        "id": "localImports",
+        "path": "evidence/beta9-local-imports/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_LOCAL_IMPORTS"
+      },
+      {
+        "id": "doctorUx",
+        "path": "evidence/beta9-doctor-ux/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_DOCTOR_UX"
+      },
+      {
+        "id": "pcdL6Materialization",
+        "path": "evidence/beta9-l6-materialization/gate-report.json",
+        "decision": "PASS_BETA9_PCD_L6_MATERIALIZATION_GATE"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta8-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA8_PACKAGE_BUILT"
+        "path": "evidence/beta9-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta8-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA8_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta9-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA9_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }

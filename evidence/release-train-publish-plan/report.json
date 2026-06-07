@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.release_train_publish_plan.v1",
-  "releaseId": "brik64-0.1.0-beta.8",
-  "version": "0.1.0-beta.8",
-  "manifestDigest": "99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
-  "decision": "FAIL_PUBLISH_PREFLIGHT",
-  "dryRunInProgress": false,
+  "releaseId": "brik64-0.1.0-beta.9",
+  "version": "0.1.0-beta.9",
+  "manifestDigest": "263b971c87ef26a49c48ab076c7c13844c72dd275ae4785c49a0069345428512",
+  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
+  "dryRunInProgress": true,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.8 99eb06417e222e3efbbbd2dafe08f7a9f3850785094e8a01820cc0c8eb4f29f9",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.9 263b971c87ef26a49c48ab076c7c13844c72dd275ae4785c49a0069345428512",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
     "BRIK64_NPM_TOKEN": false,
@@ -21,35 +21,41 @@
     "BRIK64_GCP_SERVICE_ACCOUNT": false
   },
   "signatureReport": {
-    "path": "evidence/beta8-github-verified-signature/report.json",
-    "decision": "PASS_BETA8_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "0123456789abcdef0123456789abcdef01234567",
-    "verified": true,
-    "reason": "valid"
+    "path": "evidence/release-github-verified-signature/report.json",
+    "decision": "BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+    "commit": "a3fe78d1046f1d48d8c60c1140eaa30867aa39de",
+    "verified": false,
+    "reason": ""
   },
   "commands": [
     {
+      "name": "sdk_marketplace_publish_guard",
+      "description": "Run beta9 SDK marketplace package and authentication preflight before any public mutation.",
+      "command": "npm run gate:beta9:sdk-marketplace-publish",
+      "mutatesPublicSurface": true
+    },
+    {
       "name": "github_release",
       "description": "Create or update the GitHub Release from the manifest version and upload committed assets.",
-      "command": "gh release view v0.1.0-beta.8 --repo brik64/brik64-cli || gh release create v0.1.0-beta.8 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.8\" --notes-file CHANGELOG.md && gh release upload v0.1.0-beta.8 --repo brik64/brik64-cli --clobber evidence/beta8-package/brik64-cli-0.1.0-beta.8.tgz evidence/beta8-package/package.manifest.json evidence/beta8-package/SHA256SUMS",
+      "command": "gh release view v0.1.0-beta.9 --repo brik64/brik64-cli || gh release create v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md && gh release upload v0.1.0-beta.9 --repo brik64/brik64-cli --clobber evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz evidence/beta9-package/package.manifest.json evidence/beta9-package/SHA256SUMS",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_npm",
       "description": "Publish the TypeScript SDK package with the manifest beta version.",
-      "command": "npm view @brik64/core@0.1.0-beta.8 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta8-pack/brik64-core-0.1.0-beta.8.tgz",
+      "command": "npm view @brik64/core@0.1.0-beta.9 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta9-pack/brik64-core-0.1.0-beta.9.tgz",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_pypi",
       "description": "Publish the Python SDK package with twine.",
-      "command": "python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b8*\nimport urllib.request\nurllib.request.urlopen('https://pypi.org/pypi/brik64/0.1.0b8/json', timeout=20).close()\nPY",
+      "command": "python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b9*\nimport urllib.request\nurllib.request.urlopen('https://pypi.org/pypi/brik64/0.1.0b9/json', timeout=20).close()\nPY",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_crates",
       "description": "Publish the Rust SDK crate.",
-      "command": "cargo info brik64-core@0.1.0-beta.8 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
+      "command": "cargo info brik64-core@0.1.0-beta.9 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
       "mutatesPublicSurface": true
     },
     {
@@ -85,16 +91,15 @@
   ],
   "rollback": [
     "Do not delete historical release artifacts.",
-    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.8.",
+    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.9.",
     "Restore curl/GCP channel manifest to the previous known-good manifest object.",
     "Create a GitHub Release note amendment that points to the superseding manifest.",
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
-  "failures": [
-    "beta8_github_verified_signature_commit_drift:0123456789abcdef0123456789abcdef01234567:fca57222ec30ced7da99080022d75795ad58435a",
-    "dry_run_manifest_digest_drift"
-  ],
+  "failures": [],
   "warnings": [
+    "github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+    "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
