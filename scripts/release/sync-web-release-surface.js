@@ -205,13 +205,22 @@ function main() {
   const failures = [];
   ensureRepo(failures);
   if (failures.length === 0) {
-    const checkout = run('git', ['checkout', 'main'], { cwd: webRoot });
-    const remote = run('git', ['remote', 'get-url', 'origin'], { cwd: webRoot });
-    const pull = remote.rc === 0
-      ? run('git', ['pull', '--ff-only', 'origin', 'main'], { cwd: webRoot })
-      : { rc: 0 };
-    if (checkout.rc !== 0) failures.push(`web_checkout_main_failed:${checkout.rc}`);
-    if (pull.rc !== 0) failures.push(`web_pull_main_failed:${pull.rc}`);
+    if (process.env.GITHUB_ACTIONS === 'true') {
+      const fetch = run('git', ['fetch', 'origin', 'main'], { cwd: webRoot });
+      const checkout = fetch.rc === 0
+        ? run('git', ['checkout', '-B', 'main', 'origin/main'], { cwd: webRoot })
+        : { rc: 0 };
+      if (fetch.rc !== 0) failures.push(`web_fetch_main_failed:${fetch.rc}`);
+      if (checkout.rc !== 0) failures.push(`web_checkout_main_failed:${checkout.rc}`);
+    } else {
+      const checkout = run('git', ['checkout', 'main'], { cwd: webRoot });
+      const remote = run('git', ['remote', 'get-url', 'origin'], { cwd: webRoot });
+      const pull = remote.rc === 0
+        ? run('git', ['pull', '--ff-only', 'origin', 'main'], { cwd: webRoot })
+        : { rc: 0 };
+      if (checkout.rc !== 0) failures.push(`web_checkout_main_failed:${checkout.rc}`);
+      if (pull.rc !== 0) failures.push(`web_pull_main_failed:${pull.rc}`);
+    }
   }
 
   const sync = failures.length === 0 ? syncFiles(manifest) : { failures: [], files: {} };
