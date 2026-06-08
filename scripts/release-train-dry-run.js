@@ -158,6 +158,30 @@ function runBeta9StagedReadiness() {
   };
 }
 
+function committedPackageShaGate(version) {
+  const label = betaLabel(version);
+  const script = `
+const fs = require('fs');
+const crypto = require('crypto');
+const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));
+const pkg = JSON.parse(fs.readFileSync('evidence/${label}-package/package.manifest.json', 'utf8'));
+const tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');
+if (pkg.version !== manifest.version) {
+  console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);
+  process.exit(1);
+}
+if (pkg.package.sha256 !== manifest.cli.package.sha256 || tarballSha !== manifest.cli.package.sha256) {
+  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);
+  process.exit(1);
+}
+console.log('decision=PASS_COMMITTED_${label.toUpperCase()}_PACKAGE_SHA_GATE');
+`;
+  return run(`${label}_committed_package_sha`, ['node', '-e', script], {
+    stdoutLimit: 12000,
+    stderrLimit: 12000
+  });
+}
+
 function candidateBranchCommands(version) {
   if (version === '0.1.0-beta.9') {
     return [
@@ -232,10 +256,7 @@ function candidateBranchCommands(version) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       }),
-      run('beta12_local_package', ['npm', 'run', 'package:beta12:local'], {
-        stdoutLimit: 12000,
-        stderrLimit: 12000
-      }),
+      committedPackageShaGate(version),
       run('beta12_package_smoke', ['npm', 'run', 'smoke:beta12:package'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
@@ -364,7 +385,7 @@ function main() {
         ...(beta === 6 && runLiveL6Gate
           ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
           : []),
-        run('smoke_tests', ['bash', '-lc', beta === 8 || beta === 9 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
+        run('smoke_tests', ['bash', '-lc', beta === 8 || beta === 9 || beta === 12 ? 'bash -x tests/smoke.sh' : 'BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh'], {
           stdoutLimit: 12000,
           stderrLimit: 12000
         }),
