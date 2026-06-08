@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.12",
-  "version": "0.1.0-beta.12",
+  "releaseId": "brik64-0.1.0-beta.13",
+  "version": "0.1.0-beta.13",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-08T14:12:05.144Z",
+  "state": "draft",
+  "createdAt": "2026-06-08T16:18:00.042Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "55b0be62900602854a76a35be42ff990abbd3974"
+    "branch": "codex/beta13-source-lift",
+    "commit": "a2e2b8e8c78399557e30b634da3fd55212f211ba"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -32,8 +32,8 @@
       }
     ],
     "package": {
-      "path": "evidence/beta12-package/brik64-cli-0.1.0-beta.12.tgz",
-      "sha256": "0ff8aa05e4f1034c5585b00329d4b6a9e726c15472b3be13970d74a0554b87ab"
+      "path": "evidence/beta13-package/brik64-cli-0.1.0-beta.13.tgz",
+      "sha256": "7a539b4307e9168c222d757ea0a5b30f924dec0e5466d29af71bd22ef62d4358"
     }
   },
   "sdks": [
@@ -41,29 +41,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.12",
+      "version": "0.1.0-beta.13",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b12",
+      "version": "0.1.0b13",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.12",
+      "version": "0.1.0-beta.13",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.12",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.12"
+      "tag": "v0.1.0-beta.13",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.13"
     },
     "curlInstaller": {
       "required": true,
@@ -95,50 +95,45 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds opt-in telemetry commands for local export, purge, and explicit send behavior."
+      "text": "Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds redacted user feedback capture with local preview by default and explicit send support."
+      "text": "Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory."
     },
     {
       "type": "added",
-      "surface": "cli",
-      "text": "Adds redacted local error-report inspection and explicit send support."
+      "surface": "pcd",
+      "text": "Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories."
-    },
-    {
-      "type": "changed",
-      "surface": "cli",
-      "text": "Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory."
+      "text": "Adds explicit force overwrite support to PCD migration with --force and -f."
     },
     {
       "type": "changed",
       "surface": "sdk",
-      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release."
+      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release."
     }
   ],
   "verification": {
     "requiredEvidence": [
       {
-        "id": "adversarialGate",
-        "path": "evidence/beta12-adversarial/report.json",
-        "decision": "PASS_BETA12_ADVERSARIAL_GATE"
+        "id": "sourceLiftGate",
+        "path": "evidence/beta13-source-lift/report.json",
+        "decision": "PASS_BETA13_SOURCE_LIFT_GATE"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta12-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA12_PACKAGE_BUILT"
+        "path": "evidence/beta13-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA13_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta12-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA12_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta13-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA13_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }

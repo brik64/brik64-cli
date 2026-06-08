@@ -263,6 +263,19 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.13') {
+    return [
+      run('beta13_source_lift', ['npm', 'run', 'gate:beta13:source-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta13_package_smoke', ['npm', 'run', 'smoke:beta13:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
@@ -340,7 +353,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     return candidateBranchCommands(manifest.version);
   }
 
-  if (betaNumber(manifest.version) === 11 || betaNumber(manifest.version) === 12) {
+  if (betaNumber(manifest.version) === 11 || betaNumber(manifest.version) === 12 || betaNumber(manifest.version) === 13) {
     return candidateBranchCommands(manifest.version);
   }
 

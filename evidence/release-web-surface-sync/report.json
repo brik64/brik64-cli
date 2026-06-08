@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "brik64.release_web_surface_sync_report.v1",
+  "releaseId": "brik64-0.1.0-beta.13",
+  "version": "0.1.0-beta.13",
+  "publishRequested": false,
+  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC_DRY_RUN",
+  "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+  "changedBeforeCommit": true,
+  "commit": null,
+  "pushed": false,
+  "observations": [
+    {
+      "id": "web_checkout_main",
+      "command": "git checkout main",
+      "rc": 0,
+      "stdout": "Your branch is up to date with 'origin/main'.",
+      "stderr": "Already on 'main'"
+    },
+    {
+      "id": "web_pull_main",
+      "command": "git pull --ff-only origin main",
+      "rc": 0,
+      "stdout": "Already up to date.",
+      "stderr": "From https://github.com/brik64-admin/brik64.com\n * branch            main       -> FETCH_HEAD"
+    },
+    {
+      "id": "install",
+      "path": "public/cli/install.sh",
+      "sha256": "7babe7c8b180c0727c63bbf8256687d59551e7a1f4fda37b1c9c20cfa8a36dbf",
+      "bytes": 3259
+    },
+    {
+      "id": "beta",
+      "path": "public/cli/beta.json",
+      "sha256": "2d0fc6e91f8c59710bb59598def3bf675708406e596c3b45f055dcad4e18d908",
+      "bytes": 358
+    },
+    {
+      "id": "changelog",
+      "path": "src/app/changelog/page.tsx",
+      "sha256": "11a940d2727c805be03366fc3629ae250769460ab75de41551e63a2ac0e64a33",
+      "bytes": 7655
+    },
+    {
+      "id": "download",
+      "path": "src/app/download/page.tsx",
+      "sha256": "7840be1d3b8586609ff53bade85ec840e05ff10eb76753e40b8c3a34ff9e7aac",
+      "bytes": 13612
+    },
+    {
+      "id": "sdks",
+      "path": "src/app/sdks/page.tsx",
+      "sha256": "d1a0802fd9dcb5524564c7c8d738e3bafea12736ce37c97fc0636e031e09804d",
+      "bytes": 11683
+    },
+    {
+      "id": "sdkDownloadApi",
+      "path": "functions/api/download/sdk/[target].ts",
+      "sha256": "9452df142987a9137e4fe43f10819d8f2ba31239fb3a9f9d2427580e4ce4d4fc",
+      "bytes": 2335
+    },
+    {
+      "id": "releaseManifest",
+      "path": "public/cli/releases/0.1.0-beta.13.json",
+      "sha256": "3af43a3b4fa8fe90efea98e110271a7f9f2229189389469e0b652b768c138780",
+      "bytes": 1169
+    }
+  ],
+  "failures": [],
+  "boundary": "Materializes brik64.com public CLI/web release files from release/manifest.json. It does not assert formal compiler correctness."
+}

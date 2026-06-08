@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "brik64.cli_beta13_package_manifest.v1",
+  "version": "0.1.0-beta.13",
+  "decision": "PASS_BRIK64_CLI_BETA13_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta13",
+  "generationClaim": "assisted_generation_non_claim",
+  "package": {
+    "path": "evidence/beta13-package/brik64-cli-0.1.0-beta.13.tgz",
+    "sha256": "7a539b4307e9168c222d757ea0a5b30f924dec0e5466d29af71bd22ef62d4358",
+    "bytes": 39438
+  },
+  "inputGates": [
+    {
+      "decision": "PASS_BETA13_SOURCE_LIFT_GATE",
+      "report": "evidence/beta13-source-lift/report.json",
+      "packaged": false
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "beta13_package_smoke",
+    "beta13_github_release",
+    "curl_gcp_installer_beta13",
+    "web_docs_changelog_beta13",
+    "skills_beta13",
+    "sdk_beta13_marketplaces_or_deferrals",
+    "public_claim_scan",
+    "live_release_train_verify"
+  ],
+  "boundary": "Beta13 local package candidate only. Public release remains blocked until GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically."
+}

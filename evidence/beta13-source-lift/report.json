@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "brik64.cli_beta13_source_lift_gate.v1",
+  "version": "0.1.0-beta.13",
+  "decision": "PASS_BETA13_SOURCE_LIFT_GATE",
+  "releaseEligible": true,
+  "evidenceLevel": 3,
+  "checks": [
+    {
+      "id": "version:beta13",
+      "status": "PASS",
+      "elapsedMs": 157
+    },
+    {
+      "id": "pcd:multi_function_emit_all_targets",
+      "status": "PASS",
+      "elapsedMs": 12633,
+      "rustClippyStdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "pcd:multi_function_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 1192
+    },
+    {
+      "id": "migrate:force_overwrite_explicit_only",
+      "status": "PASS",
+      "elapsedMs": 1013
+    },
+    {
+      "id": "lift:js_ts_python_preview_and_privacy",
+      "status": "PASS",
+      "elapsedMs": 1367
+    },
+    {
+      "id": "lift:fail_closed_inputs",
+      "status": "PASS",
+      "elapsedMs": 14229
+    }
+  ],
+  "failures": [],
+  "boundary": "Beta13 source lift is local preview only. It generates PCD candidates, not certificates or formal correctness claims."
+}

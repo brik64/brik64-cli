@@ -92,6 +92,37 @@ function fetchTextWithCurl(url) {
   }
 }
 
+function fetchHeadersWithCurl(url) {
+  const args = ['--silent', '--show-error', '--max-time', '20', '--include', '--output', '/dev/null'];
+  for (const [name, value] of Object.entries(verifierHeaders)) {
+    args.push('--header', `${name}: ${value}`);
+  }
+  args.push(url);
+  const result = spawnSync('curl', args, {
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024
+  });
+  const headerText = result.stdout || '';
+  const statusMatches = [...headerText.matchAll(/^HTTP\/\S+\s+(\d+)/gmi)];
+  const statusCode = statusMatches.length > 0 ? Number(statusMatches[statusMatches.length - 1][1]) : 0;
+  const headerSections = headerText.trim().split(/\r?\n\r?\n/).filter(Boolean);
+  const finalHeaderText = headerSections[headerSections.length - 1] || '';
+  const headers = {};
+  for (const line of finalHeaderText.split(/\r?\n/)) {
+    const separator = line.indexOf(':');
+    if (separator > 0) headers[line.slice(0, separator).toLowerCase()] = line.slice(separator + 1).trim();
+  }
+  return {
+    url,
+    statusCode,
+    headers,
+    body: '',
+    transport: 'curl:no_redirect',
+    transportStatus: result.status,
+    stderr: result.stderr || ''
+  };
+}
+
 function fetchTextWithNode(url, redirects = 0) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
@@ -182,6 +213,26 @@ async function runOnce(attempt, maxAttempts) {
     }
   }
 
+  function observeRedirect(id, url, expectedLocation) {
+    try {
+      const response = fetchHeadersWithCurl(url);
+      observations.push({
+        id,
+        url,
+        statusCode: response.statusCode,
+        transport: response.transport,
+        location: response.headers.location || null
+      });
+      if (response.statusCode !== 302) failures.push(`${id}_http_status:${response.statusCode}`);
+      if (response.headers.location !== expectedLocation) {
+        failures.push(`${id}_location_drift:${response.headers.location || 'missing'}`);
+      }
+    } catch (error) {
+      failures.push(`${id}_fetch_error:${error.message}`);
+      observations.push({ id, url, error: error.message });
+    }
+  }
+
   await observe('curl_installer', manifest.publicSurfaces.curlInstaller.url, (body) => {
     requireText('curl_installer', body, version, failures);
     requireText('curl_installer', body, 'brik64', failures);
@@ -232,6 +283,22 @@ async function runOnce(attempt, maxAttempts) {
     const versions = (parsed.versions || []).map((item) => item.num);
     if (!versions.includes(version)) failures.push(`crates_sdk_version_missing:${version}`);
   });
+
+  observeRedirect(
+    'sdk_download_js',
+    'https://brik64.com/api/download/sdk/js',
+    `https://www.npmjs.com/package/@brik64/core/v/${version}`
+  );
+  observeRedirect(
+    'sdk_download_python',
+    'https://brik64.com/api/download/sdk/python',
+    `https://pypi.org/project/brik64/${pypiVersion}/`
+  );
+  observeRedirect(
+    'sdk_download_rust',
+    'https://brik64.com/api/download/sdk/rust',
+    `https://crates.io/crates/brik64-core/${version}`
+  );
 
   await observe('public_skill', 'https://raw.githubusercontent.com/brik64/brik64-tools-skills/main/skills/brik64/SKILL.md', (body) => {
     requireText('public_skill', body, `version: ${version}`, failures);

@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.12",
+  "version": "0.1.0-beta.13",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -148,7 +148,22 @@
     "test:beta12-adversarial": "node scripts/beta12-adversarial-gate.js",
     "package:beta12:local": "bash scripts/build-beta12-package.sh",
     "smoke:beta12:package": "bash scripts/beta12-package-smoke.sh",
-    "test:beta12-package": "bash scripts/beta12-package-smoke.sh"
+    "test:beta12-package": "bash scripts/beta12-package-smoke.sh",
+    "gate:beta13:source-lift": "node scripts/beta13-source-lift-gate.js",
+    "test:beta13-source-lift": "node scripts/beta13-source-lift-gate.js",
+    "gate:beta13:feature-parity": "node scripts/beta13-source-lift-gate.js",
+    "test:beta13-feature-parity": "node scripts/beta13-source-lift-gate.js",
+    "gate:beta13:sdk-sync": "node scripts/beta13-sdk-sync-gate.js",
+    "test:beta13-sdk-sync": "node scripts/beta13-sdk-sync-gate.js",
+    "gate:beta13:marketplace-packages": "node scripts/beta13-marketplace-package-gate.js",
+    "test:beta13-marketplace-packages": "node scripts/beta13-marketplace-package-gate.js",
+    "gate:beta13:docs-web-sync": "node scripts/beta13-docs-web-sync-gate.js",
+    "test:beta13-docs-web-sync": "node scripts/beta13-docs-web-sync-gate.js",
+    "gate:beta13:skills-sync": "node scripts/beta13-skills-sync-gate.js",
+    "test:beta13-skills-sync": "node scripts/beta13-skills-sync-gate.js",
+    "package:beta13:local": "bash scripts/build-beta13-package.sh",
+    "smoke:beta13:package": "bash scripts/beta13-package-smoke.sh",
+    "test:beta13-package": "bash scripts/beta13-package-smoke.sh"
   },
   "author": {
     "name": "BRIK64 INC",
