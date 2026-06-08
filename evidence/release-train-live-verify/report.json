@@ -4,7 +4,7 @@
   "version": "0.1.0-beta.13",
   "manifestDigest": "7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
   "attempt": 1,
-  "maxAttempts": 10,
+  "maxAttempts": 7,
   "decision": "PASS_RELEASE_TRAIN_LIVE_VERIFY",
   "publicationAllowed": false,
   "boundary": "Live verification only. This report observes public surfaces and does not mutate or publish.",
@@ -30,8 +30,8 @@
       "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.13",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "7e13d20c845e67fbafc94e5be685beead4af2934013abbb6e94ea751fee5a5fd",
-      "bytes": 222234
+      "sha256": "4329869d8d2bccc4891af62d412f38c1be814d2ddafd35c9f71a5e83e5e5a32a",
+      "bytes": 222457
     },
     {
       "id": "docs_install",
@@ -46,7 +46,7 @@
       "url": "https://brik64.com/",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "ab70c8a249d7a685f7c20e3d33956f9faf78ddeeb0783c124f1cab81597b34ff",
+      "sha256": "aeda556e2cc017e5dcafd816b2b8fcf94d4d786cfdb04fbcf8908601d4592c60",
       "bytes": 303194
     },
     {
@@ -54,7 +54,7 @@
       "url": "https://brik64.com/changelog",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "f2ce7a9e065c0064b7c60a9cd1418bb5aa3f147c4393a2f0c0f7bbe8375c8710",
+      "sha256": "d0d6018258aae2b5b573b24959e34876f5b1a18b2507320541d246f1fb2c34ca",
       "bytes": 85452
     },
     {
