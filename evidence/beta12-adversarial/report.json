@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_beta12_adversarial_gate.v1",
-  "generatedAt": "2026-06-08T14:26:43.859Z",
+  "generatedAt": "2026-06-08T14:38:53.751Z",
   "lane": "cli_0_1_beta12",
   "decision": "PASS_BETA12_ADVERSARIAL_GATE",
   "rc": 0,
@@ -8,44 +8,44 @@
     {
       "id": "regression:beta12_semantic_polymerize_gate",
       "status": "PASS",
-      "elapsedMs": 4161,
-      "stdoutSha256": "3a2397c86dc256e274bb445d640463002c57eda1a59814ed80fffd4e49f3a699"
+      "elapsedMs": 1647,
+      "stdoutSha256": "2e73b363b68fd539d488ffb6d2b472b2b629c9915bfaad31ebf9344528be45e4"
     },
     {
       "id": "regression:beta12_rust_emitter_clean_gate",
       "status": "PASS",
-      "elapsedMs": 11940,
-      "stdoutSha256": "ffa04c92283dc4fb6a21bff182601793192a53b960dbb0900434b3d0f6bf400c"
+      "elapsedMs": 2557,
+      "stdoutSha256": "3c7659a616c17009a91da615426b67198b3fdd43ebf66cddc543bcfd0f68b425"
     },
     {
       "id": "regression:beta12_doctor_empty_workspace_gate",
       "status": "PASS",
-      "elapsedMs": 5293,
-      "stdoutSha256": "9e70dcb7d53f990bba0249b8076dfcba1b494b57da54fb998455d7b1623872b6"
+      "elapsedMs": 771,
+      "stdoutSha256": "236cc50df00a85b93b53fa4ebaf0f8afada6dd0873241053dfce054bbc44ab55"
     },
     {
       "id": "adversarial:path_traversal_and_certificate_fail_closed",
       "status": "PASS",
-      "elapsedMs": 1637
+      "elapsedMs": 567
     },
     {
       "id": "adversarial:symlink_input_escape_fail_closed",
       "status": "PASS",
-      "elapsedMs": 3205
+      "elapsedMs": 295
     },
     {
       "id": "adversarial:parser_rejects_malformed_inputs",
       "status": "PASS",
-      "elapsedMs": 5213
+      "elapsedMs": 1147
     },
     {
       "id": "adversarial:polymerize_import_dag_fail_closed",
       "status": "PASS",
-      "elapsedMs": 1590
+      "elapsedMs": 777
     }
   ],
   "blockers": [],
-  "scratchWorkspace": "brik64-beta12-adversarial-nRRnDf",
+  "scratchWorkspace": "brik64-beta12-adversarial-5F17oI",
   "claimBoundary": {
     "functionalCliEvidence": true,
     "publicReleaseAllowed": false,
