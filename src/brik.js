@@ -1202,28 +1202,6 @@ function normalizedPlatform() {
   };
 }
 
-function telemetryEvent(command, fields = {}) {
-  const safeCommand = String(command || 'unknown').split(/\s+/)[0].slice(0, 64);
-  return {
-    schemaVersion: TELEMETRY_QUEUE_SCHEMA,
-    cliVersion: version,
-    capturedAt: new Date().toISOString(),
-    command: redactValue(safeCommand),
-    os: normalizedPlatform().os,
-    arch: normalizedPlatform().arch,
-    nodeMajor: normalizedPlatform().nodeMajor,
-    success: fields.success === true,
-    target: redactValue(fields.target || ''),
-    normalizedErrorCode: redactValue(fields.normalizedErrorCode || ''),
-    durationBucket: fields.durationBucket || 'unknown',
-    rawSourceIncluded: false,
-    rawPcdIncluded: false,
-    absolutePathIncluded: false,
-    rawStdoutIncluded: false,
-    rawStderrIncluded: false
-  };
-}
-
 function appendJsonLine(file, value) {
   mkdirControlled(path.dirname(file));
   fs.appendFileSync(file, `${JSON.stringify(value)}\n`);
