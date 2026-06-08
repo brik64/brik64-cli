@@ -1,0 +1,61 @@
+// brik64.pcd_file.v1
+// name: brik_cli_polymer
+// status: candidate_pcd_seed
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// product = "brik64-cli"
+// cli_version = "0.1.0-beta.9"
+// composition_kind = "polymer"
+// source_units = "cli_core.pcd,cli_init_policy.pcd,cli_certify_emit.pcd,cli_polymerize.pcd,cli_verify.pcd,cli_account_session.pcd,cli_migrate.pcd,cli_beta9_transpiler_contract.pcd"
+// compile_status = "not_compiled"
+// certificate_status = "candidate_only"
+// reads "pcd/cli_core.pcd"
+// reads "pcd/cli_init_policy.pcd"
+// reads "pcd/cli_certify_emit.pcd"
+// reads "pcd/cli_polymerize.pcd"
+// reads "pcd/cli_verify.pcd"
+// reads "pcd/cli_account_session.pcd"
+// reads "pcd/cli_migrate.pcd"
+// reads "pcd/cli_beta9_transpiler_contract.pcd"
+// requires ascii_banner == "BRIK64"
+// requires agent_instruction_policy == "consent_required"
+// requires existing_agents_md_must_not_be_overwritten == true
+// requires certificate_before_emit == true
+// requires supported_emit_targets == "ts,rust,python"
+// requires beta9_transpiler_contract_present == true
+// invariant compile_requires_certified_pcd_batch == true
+// invariant compile_requires_polymer_contract == true
+// invariant local_runtime_available == true
+// invariant managed_runtime_entitlement_required == true
+// invariant internal_artifact_factory_private == true
+// invariant public_claim_allowed == false
+// polymer brik_cli_candidate
+// claim_boundary = "local_candidate_only"
+
+PC brik_cli_polymer {
+    fn brik_cli_polymer(command_code, workspace_readable, certificate_present, target_code) {
+        if (workspace_readable == 0) {
+            return 64;
+        }
+        if (command_code == 1) {
+            return 0;
+        }
+        if (command_code == 2) {
+            if (certificate_present == 0) {
+                return 67;
+            }
+            if (target_code < 1) {
+                return 65;
+            }
+            if (target_code > 3) {
+                return 65;
+            }
+            return 1;
+        }
+        if (command_code == 64) {
+            return 64;
+        }
+        return 0;
+    }
+}

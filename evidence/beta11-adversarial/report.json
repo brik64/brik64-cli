@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_beta11_adversarial_gate.v1",
-  "generatedAt": "2026-06-08T10:20:51.314Z",
+  "generatedAt": "2026-06-08T12:25:37.937Z",
   "lane": "cli_0_1_beta11",
   "decision": "PASS_BETA11_ADVERSARIAL_GATE",
   "rc": 0,
@@ -8,39 +8,39 @@
     {
       "id": "regression:beta11_semantic_polymerize_gate",
       "status": "PASS",
-      "elapsedMs": 2927,
-      "stdoutSha256": "2e8d0a7a201b8d4054606859b3aad589fd46f95a2eca2883dda3325a693c2bff"
+      "elapsedMs": 1786,
+      "stdoutSha256": "430b90e744b568631ab24c71d25e3ec8d6613de964ce29a0e5285d3acb669822"
     },
     {
       "id": "regression:beta11_rust_emitter_clean_gate",
       "status": "PASS",
-      "elapsedMs": 2860,
-      "stdoutSha256": "989d60d3289a14fcf6849c33b25ed7d11baadd5dc01102c607988830a644e25b"
+      "elapsedMs": 2110,
+      "stdoutSha256": "154de19377ebd5e28e73fa69f82a3d2006b0d3e155cacdaaa16de2cdf75cbad9"
     },
     {
       "id": "regression:beta11_doctor_empty_workspace_gate",
       "status": "PASS",
-      "elapsedMs": 932,
-      "stdoutSha256": "67d953717c861d8a3249a7c31f8d17f8e0c429650ab0d9a31e9d81b74cbc3651"
+      "elapsedMs": 592,
+      "stdoutSha256": "8833aeb0500dd4af29b9c057a47712e05cb67b29eb82a7de143411c1ba1b9733"
     },
     {
       "id": "adversarial:path_traversal_and_certificate_fail_closed",
       "status": "PASS",
-      "elapsedMs": 685
+      "elapsedMs": 384
     },
     {
       "id": "adversarial:parser_rejects_malformed_inputs",
       "status": "PASS",
-      "elapsedMs": 2398
+      "elapsedMs": 724
     },
     {
       "id": "adversarial:polymerize_import_dag_fail_closed",
       "status": "PASS",
-      "elapsedMs": 10022
+      "elapsedMs": 494
     }
   ],
   "blockers": [],
-  "scratchWorkspace": "brik64-beta11-adversarial-SyHlIt",
+  "scratchWorkspace": "brik64-beta11-adversarial-e0yuzc",
   "claimBoundary": {
     "functionalCliEvidence": true,
     "publicReleaseAllowed": false,

@@ -86,6 +86,7 @@ function requiredBetaScripts(label) {
       'gate:beta11:rust-emitter-clean',
       'gate:beta11:doctor-empty-workspace',
       'gate:beta11:adversarial',
+      'attempt:beta11:l6-materialization',
       'gate:beta11:l6-materialization'
     ];
   }
@@ -204,8 +205,9 @@ function main() {
     'sdk_pypi',
     'sdk_crates',
     'gcp_curl',
+    'web_static_surface',
+    'web_pages_deploy',
     'docs_dispatch',
-    'web_dispatch',
     'skills_dispatch',
     'post_publish_live_verify'
   ], failures, 'publish_plan_command');

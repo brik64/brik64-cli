@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.10",
-  "version": "0.1.0-beta.10",
+  "releaseId": "brik64-0.1.0-beta.11",
+  "version": "0.1.0-beta.11",
   "channel": "beta",
   "state": "public",
-  "createdAt": "2026-06-07T22:27:09Z",
+  "createdAt": "2026-06-08T12:06:50Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "48bf07af02aa887e78b8d394ae2a6be89e4becc2"
+    "commit": "85426ab1da8df9910fd5dece8e424d7315b33e67"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -32,8 +32,8 @@
       }
     ],
     "package": {
-      "path": "evidence/beta10-package/brik64-cli-0.1.0-beta.10.tgz",
-      "sha256": "b7794371859e0267923db7f4c0b5404cc29040376d23b5cd9d02dd344afa88ea"
+      "path": "evidence/beta11-package/brik64-cli-0.1.0-beta.11.tgz",
+      "sha256": "f81e0581e34ab9422cce517d6e4151b17d1db7f39e4f76499cd2a59961888e65"
     }
   },
   "sdks": [
@@ -41,29 +41,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.10",
+      "version": "0.1.0-beta.11",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b10",
+      "version": "0.1.0b11",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.10",
+      "version": "0.1.0-beta.11",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.10",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.10"
+      "tag": "v0.1.0-beta.11",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.11"
     },
     "curlInstaller": {
       "required": true,
@@ -95,55 +95,65 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds local import graph diagnostics for PCD files that use transitive same-directory imports."
+      "text": "Adds semantic local polymerization coverage for supported same-directory PCD import DAGs."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds literal i64 compile-time constants for supported PCD programs, including bounded repeat counts."
+      "text": "Materializes referenced local import files beside generated polymer outputs when needed for certification."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds brik64 explain with human and JSON diagnostics for parser, import, constant, and type checks."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds brik64 lock to write local PCD, AST, import graph, and constant hashes into brik64.lock.json."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds local telemetry status and explain commands while keeping telemetry disabled by default."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds feedback dry-run and redacted local error-report inspection commands."
+      "text": "Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves local diagnostics for import cycles, invalid constants, and local error capture without sending raw source or PCD content."
+      "text": "Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test."
+    },
+    {
+      "type": "changed",
+      "surface": "cli",
+      "text": "Improves empty-workspace doctor diagnostics for both human output and JSON automation output."
+    },
+    {
+      "type": "changed",
+      "surface": "release",
+      "text": "Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills."
     }
   ],
   "verification": {
     "requiredEvidence": [
       {
-        "id": "localGate",
-        "path": "evidence/beta10-local-gate/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA10_LOCAL_GATE"
+        "id": "adversarialGate",
+        "path": "evidence/beta11-adversarial/report.json",
+        "decision": "PASS_BETA11_ADVERSARIAL_GATE"
+      },
+      {
+        "id": "l6MaterializationGate",
+        "path": "evidence/beta11-l6-materialization/gate-report.json",
+        "decision": "PASS_BETA11_PCD_L6_MATERIALIZATION_GATE"
+      },
+      {
+        "id": "antiDriftGate",
+        "path": "evidence/beta11-anti-drift/report.json",
+        "decision": "PASS_BETA11_ANTI_DRIFT_GATE"
+      },
+      {
+        "id": "surfaceSyncGate",
+        "path": "evidence/beta11-surface-sync/report.json",
+        "decision": "PASS_BETA11_SURFACE_SYNC"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta10-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA10_PACKAGE_BUILT"
+        "path": "evidence/beta11-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA11_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta10-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA10_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta11-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA11_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }

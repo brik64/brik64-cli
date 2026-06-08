@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.10",
+  "version": "0.1.0-beta.11",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -125,7 +125,9 @@
     "gate:beta11:l6-materialization": "node scripts/beta11-l6-materialization-gate.js",
     "test:beta11-l6-materialization": "node scripts/beta11-l6-materialization-gate.js",
     "gate:beta11:anti-drift": "node scripts/beta11-anti-drift-gate.js",
-    "test:beta11-anti-drift": "node scripts/beta11-anti-drift-gate.js"
+    "test:beta11-anti-drift": "node scripts/beta11-anti-drift-gate.js",
+    "gate:beta11:surface-sync": "node scripts/beta11-surface-sync-gate.js",
+    "test:beta11-surface-sync": "node scripts/beta11-surface-sync-gate.js"
   },
   "author": {
     "name": "BRIK64 INC",

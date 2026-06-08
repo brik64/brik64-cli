@@ -13,6 +13,7 @@ const requiredScripts = [
   'gate:beta11:rust-emitter-clean',
   'gate:beta11:doctor-empty-workspace',
   'gate:beta11:adversarial',
+  'attempt:beta11:l6-materialization',
   'gate:beta11:l6-materialization'
 ];
 
@@ -21,6 +22,7 @@ const requiredDryRunIds = [
   'beta11_rust_emitter_clean',
   'beta11_doctor_empty_workspace',
   'beta11_adversarial',
+  'beta11_l6_materialization_attempt',
   'beta11_l6_materialization'
 ];
 

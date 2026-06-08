@@ -1,0 +1,42 @@
+// brik64.pcd_file.v1
+// name: brik_cli_beta11_semantic_polymer_contract
+// status: beta11_candidate_contract
+// lane: cli_0_1_beta
+// generation_claim: assisted_generation_non_claim
+// cli_version = "0.1.0-beta.11"
+// claim_boundary = "local_candidate_only"
+// public claims denied: formal_N5, fixpoint, self_hosting, Rust independence, pure BRIK64 toolchain
+//
+// requires semantic_polymerize_local_dag == true
+// requires root_mid_leaf_import_dag_supported == true
+// requires root_polymer_emit_equivalence == true
+// requires duplicate_pc_fail_closed == true
+// requires import_cycle_fail_closed == true
+// requires path_traversal_fail_closed == true
+// requires unknown_import_fail_closed == true
+// requires polymer_manifest_root_hash_bound == true
+// requires polymer_manifest_source_graph == true
+// requires beta11_exhaustive_audit_gate == true
+// requires beta11_adversarial_audit_gate == true
+// requires release_train_anti_drift_recheck == true
+
+PC brik_cli_beta11_semantic_polymer_contract {
+    fn brik_cli_beta11_semantic_polymer_contract(semantic_polymer_ok, fail_closed_ok, manifest_ok, audit_ok, release_ok) -> i64 {
+        if (semantic_polymer_ok == 0) {
+            return 65;
+        }
+        if (fail_closed_ok == 0) {
+            return 65;
+        }
+        if (manifest_ok == 0) {
+            return 68;
+        }
+        if (audit_ok == 0) {
+            return 68;
+        }
+        if (release_ok == 0) {
+            return 68;
+        }
+        return 0;
+    }
+}
