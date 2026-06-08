@@ -22,10 +22,10 @@
   },
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
-    "decision": "BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "173db618259170aeddb6dd499114341682d83bcd",
-    "verified": false,
-    "reason": "unsigned"
+    "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+    "commit": "f92946fb7e97c0807473fcd00b183fb7724ea0f6",
+    "verified": true,
+    "reason": "valid"
   },
   "commands": [
     {
@@ -37,7 +37,7 @@
     {
       "name": "sdk_npm",
       "description": "Publish the TypeScript SDK package with the manifest beta version.",
-      "command": "npm view @brik64/core@0.1.0-beta.13 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta13-pack/brik64-core-0.1.0-beta.13.tgz",
+      "command": "npm view @brik64/core@0.1.0-beta.13 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.13.tgz",
       "mutatesPublicSurface": true
     },
     {
@@ -98,7 +98,6 @@
   ],
   "failures": [],
   "warnings": [
-    "github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
     "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
