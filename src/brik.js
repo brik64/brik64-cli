@@ -1253,17 +1253,51 @@ function renderExpression(expression, target) {
   fail(70, 'internal_codegen_error:unknown_expression');
 }
 
+function stripOuterParens(value) {
+  const trimmed = value.trim();
+  if (!trimmed.startsWith('(') || !trimmed.endsWith(')')) return value;
+  let depth = 0;
+  for (let index = 0; index < trimmed.length; index += 1) {
+    const char = trimmed[index];
+    if (char === '(') depth += 1;
+    if (char === ')') depth -= 1;
+    if (depth === 0 && index < trimmed.length - 1) return value;
+  }
+  return trimmed.slice(1, -1);
+}
+
+function statementsAlwaysReturn(statements) {
+  for (const statement of statements) {
+    if (statement.type === 'ReturnStatement') return true;
+    if (statement.type === 'IfStatement') {
+      if (
+        statement.alternate.length > 0 &&
+        statementsAlwaysReturn(statement.consequent) &&
+        statementsAlwaysReturn(statement.alternate)
+      ) {
+        return true;
+      }
+    }
+    if (statement.type === 'RepeatStatement') {
+      continue;
+    }
+  }
+  return false;
+}
+
 function renderStatements(statements, target, indentLevel) {
   const unit = target === 'python' ? '    ' : '  ';
   const indent = unit.repeat(indentLevel);
   const lines = [];
   for (const statement of statements) {
     if (statement.type === 'ReturnStatement') {
-      lines.push(`${indent}return ${renderExpression(statement.argument, target)}${target === 'python' ? '' : ';'}`);
+      const expression = renderExpression(statement.argument, target);
+      lines.push(`${indent}return ${target === 'rust' ? stripOuterParens(expression) : expression}${target === 'python' ? '' : ';'}`);
       continue;
     }
     if (statement.type === 'IfStatement') {
-      const condition = renderExpression(statement.condition, target);
+      const renderedCondition = renderExpression(statement.condition, target);
+      const condition = target === 'rust' ? stripOuterParens(renderedCondition) : renderedCondition;
       if (target === 'python') {
         lines.push(`${indent}if ${condition}:`);
         lines.push(...renderStatements(statement.consequent, target, indentLevel + 1));
@@ -1405,21 +1439,27 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
     if (target === 'python') {
       lines.push(`def ${fnName}(${params.map((param) => `${param}=0`).join(', ')}):`);
       lines.push(...renderStatements(importedAst.body, target, 1));
-      lines.push('    raise RuntimeError("pcd import reached non-returning path")');
+      if (!statementsAlwaysReturn(importedAst.body)) {
+        lines.push('    raise RuntimeError("pcd import reached non-returning path")');
+      }
       lines.push('');
       continue;
     }
     if (target === 'rust') {
       lines.push(`fn ${fnName}(${params.map((param) => `${param}: i64`).join(', ')}) -> i64 {`);
       lines.push(...renderStatements(importedAst.body, target, 1).map((line) => line.replace(/^  /, '    ')));
-      lines.push('    panic!("pcd import reached non-returning path");');
+      if (!statementsAlwaysReturn(importedAst.body)) {
+        lines.push('    panic!("pcd import reached non-returning path");');
+      }
       lines.push('}');
       lines.push('');
       continue;
     }
     lines.push(`function ${fnName}(${params.map((param) => `${param} = 0`).join(', ')}) {`);
     lines.push(...renderStatements(importedAst.body, target, 1));
-    lines.push('  throw new Error("pcd import reached non-returning path");');
+    if (!statementsAlwaysReturn(importedAst.body)) {
+      lines.push('  throw new Error("pcd import reached non-returning path");');
+    }
     lines.push('}');
     lines.push('');
   }
@@ -1606,7 +1646,7 @@ function targetSpec(target, ast) {
     ...tsImports,
     `export function run(${tsParams}) {`,
     ...tsStatements,
-    '  throw new Error("pcd execution reached non-returning path");',
+    ...(statementsAlwaysReturn(ast.body) ? [] : ['  throw new Error("pcd execution reached non-returning path");']),
     '}',
     '',
   ].join('\n');
@@ -1632,7 +1672,7 @@ function targetSpec(target, ast) {
     ...rustImports,
     `pub fn run(${rustParams}) -> i64 {`,
     ...rustStatements.map((line) => line.replace(/^  /, '    ')),
-    '    panic!("pcd execution reached non-returning path");',
+    ...(statementsAlwaysReturn(ast.body) ? [] : ['    panic!("pcd execution reached non-returning path");']),
     '}',
     '',
   ].join('\n');
@@ -1642,7 +1682,7 @@ function targetSpec(target, ast) {
     ...rustImports,
     `fn run(${rustParams}) -> i64 {`,
     ...rustStatements.map((line) => line.replace(/^  /, '    ')),
-    '    panic!("pcd execution reached non-returning path");',
+    ...(statementsAlwaysReturn(ast.body) ? [] : ['    panic!("pcd execution reached non-returning path");']),
     '}',
     '',
     'fn main() {',
@@ -1678,7 +1718,7 @@ function targetSpec(target, ast) {
     ...pythonImports,
     `def run(${pythonParams}):`,
     ...pythonStatements,
-    '    raise RuntimeError("pcd execution reached non-returning path")',
+    ...(statementsAlwaysReturn(ast.body) ? [] : ['    raise RuntimeError("pcd execution reached non-returning path")']),
     '',
   ].join('\n');
   const pythonTest = (hash, importLine = 'from program import PCD_SHA256, run') => [
