@@ -1,15 +1,13 @@
-## 0.1.0-beta.9
+## 0.1.0-beta.11
 
 ### Added
 
-- Adds typed i64 function parameters and return annotations for supported PCD programs.
-- Adds bounded list and map expressions for supported local PCD emission.
-- Adds bounded repeat loops with a fixed maximum iteration count.
-- Adds direct same-directory PCD imports and generated helper functions in emitted TypeScript, Rust, and Python outputs.
-- Adds package scaffolds for generated TypeScript, Rust, and Python projects when brik64 emit is used with tests.
-- Adds actionable brik64 doctor diagnostics with stable JSON output for CI.
+- Adds semantic local polymerization coverage for supported same-directory PCD import DAGs.
+- Materializes referenced local import files beside generated polymer outputs when needed for certification.
+- Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior.
 
 ### Changed
 
-- Improves parser failures for unsupported calls, invalid imports, malformed collection expressions, and unsupported loop forms.
-- Keeps cloud verification and cloud polymerization entitlement-gated while local workflows remain available by default.
+- Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test.
+- Improves empty-workspace doctor diagnostics for both human output and JSON automation output.
+- Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills.

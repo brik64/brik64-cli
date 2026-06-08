@@ -182,6 +182,7 @@ function candidateBranchCommands(version) {
     ];
   }
   if (version === '0.1.0-beta.11') {
+    const runLiveL6Gate = process.env.GITHUB_ACTIONS !== 'true' || process.env.BRIK64_L6_LIVE_GATES === '1';
     return [
       run('beta11_semantic_polymerize', ['npm', 'run', 'gate:beta11:semantic-polymerize'], {
         stdoutLimit: 12000,
@@ -199,10 +200,18 @@ function candidateBranchCommands(version) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       }),
-      run('beta11_l6_materialization', ['npm', 'run', 'gate:beta11:l6-materialization'], {
-        stdoutLimit: 12000,
-        stderrLimit: 12000
-      })
+      ...(runLiveL6Gate
+        ? [
+            run('beta11_l6_materialization_attempt', ['npm', 'run', 'attempt:beta11:l6-materialization'], {
+              stdoutLimit: 12000,
+              stderrLimit: 12000
+            }),
+            run('beta11_l6_materialization', ['npm', 'run', 'gate:beta11:l6-materialization'], {
+              stdoutLimit: 12000,
+              stderrLimit: 12000
+            })
+          ]
+        : [])
     ];
   }
   const label = betaLabel(version);

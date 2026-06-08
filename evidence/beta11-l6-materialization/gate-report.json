@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta11_pcd_l6_materialization_gate.v1",
-  "generatedAt": "2026-06-08T10:28:48.377Z",
+  "generatedAt": "2026-06-08T12:24:44.638Z",
   "decision": "PASS_BETA11_PCD_L6_MATERIALIZATION_GATE",
   "blockers": [],
   "expected": {
@@ -9,7 +9,7 @@
     "generationClaim": "assisted_generation_non_claim",
     "pcdInventoryHash": "sha256:767313be7ef735dcc85b170d6f4af656333890c3b42832f4be4b67f2656113cd",
     "beta11ContractHash": "sha256:671c65cda306009606a76bc49f211c14d26d874d692358c0166c0b45a483f701",
-    "adversarialReportHash": "sha256:b9d79bfb59531387f54b57403ff08a96d661ac4e8212f16ce225a1bcc15446c4"
+    "adversarialReportHash": "sha256:a9c411dc3a1c93c0c2c928e0a5163ff0dc89d4a41e2597bfb3ee34e45fe48c31"
   },
   "checks": {
     "decision": true,

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.release_train_publish_plan.v1",
-  "releaseId": "brik64-0.1.0-beta.9",
-  "version": "0.1.0-beta.9",
-  "manifestDigest": "dab3361576c8bf4a3cce10c5f35d89b5668d50379fe012526d12cbc2993cdb45",
+  "releaseId": "brik64-0.1.0-beta.11",
+  "version": "0.1.0-beta.11",
+  "manifestDigest": "0c25ce7f0cda9faaf209ebd9510f1e77d8790de8f1d16f78bc9e62dc1872aafe",
   "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
   "dryRunInProgress": true,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.9 dab3361576c8bf4a3cce10c5f35d89b5668d50379fe012526d12cbc2993cdb45",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.11 0c25ce7f0cda9faaf209ebd9510f1e77d8790de8f1d16f78bc9e62dc1872aafe",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
     "BRIK64_NPM_TOKEN": false,
@@ -29,33 +29,27 @@
   },
   "commands": [
     {
-      "name": "sdk_marketplace_publish_guard",
-      "description": "Run beta9 SDK marketplace package and authentication preflight before any public mutation.",
-      "command": "npm run gate:beta9:sdk-marketplace-publish",
-      "mutatesPublicSurface": true
-    },
-    {
       "name": "github_release",
       "description": "Create or update the GitHub Release from the manifest version and upload committed assets.",
-      "command": "gh api repos/brik64/brik64-cli/git/ref/tags/v0.1.0-beta.9 >/dev/null 2>&1 || gh api repos/brik64/brik64-cli/git/refs -f ref=refs/tags/v0.1.0-beta.9 -f sha=$(git rev-parse HEAD); gh api --method PATCH repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.9 -f sha=$(git rev-parse HEAD) -F force=true; gh release view v0.1.0-beta.9 --repo brik64/brik64-cli || gh release create v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md; gh release upload v0.1.0-beta.9 --repo brik64/brik64-cli --clobber evidence/beta9-package/brik64-cli-0.1.0-beta.9.tgz evidence/beta9-package/package.manifest.json evidence/beta9-package/release-manifest.candidate.json evidence/beta9-package/SHA256SUMS; gh release edit v0.1.0-beta.9 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.9\" --notes-file CHANGELOG.md --prerelease --draft=false",
+      "command": "gh api repos/brik64/brik64-cli/git/ref/tags/v0.1.0-beta.11 >/dev/null 2>&1 || gh api repos/brik64/brik64-cli/git/refs -f ref=refs/tags/v0.1.0-beta.11 -f sha=$(git rev-parse HEAD); gh api --method PATCH repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.11 -f sha=$(git rev-parse HEAD) -F force=true; gh release view v0.1.0-beta.11 --repo brik64/brik64-cli || gh release create v0.1.0-beta.11 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.11\" --notes-file CHANGELOG.md; gh release upload v0.1.0-beta.11 --repo brik64/brik64-cli --clobber evidence/beta11-package/brik64-cli-0.1.0-beta.11.tgz evidence/beta11-package/package.manifest.json evidence/beta11-package/SHA256SUMS; gh release edit v0.1.0-beta.11 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.11\" --notes-file CHANGELOG.md --prerelease --draft=false",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_npm",
       "description": "Publish the TypeScript SDK package with the manifest beta version.",
-      "command": "npm view @brik64/core@0.1.0-beta.9 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta9-pack/brik64-core-0.1.0-beta.9.tgz",
+      "command": "npm view @brik64/core@0.1.0-beta.11 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta11-pack/brik64-core-0.1.0-beta.11.tgz",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_pypi",
       "description": "Publish the Python SDK package with twine.",
-      "command": "python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b9*\nimport urllib.request\nurllib.request.urlopen('https://pypi.org/pypi/brik64/0.1.0b9/json', timeout=20).close()\nPY",
+      "command": "python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b11*\nimport urllib.request\nurllib.request.urlopen('https://pypi.org/pypi/brik64/0.1.0b11/json', timeout=20).close()\nPY",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_crates",
       "description": "Publish the Rust SDK crate.",
-      "command": "cargo info brik64-core@0.1.0-beta.9 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
+      "command": "cargo info brik64-core@0.1.0-beta.11 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
       "mutatesPublicSurface": true
     },
     {
@@ -65,15 +59,21 @@
       "mutatesPublicSurface": true
     },
     {
-      "name": "docs_dispatch",
-      "description": "Dispatch docs update using the manifest payload.",
-      "command": "jq -c '{event_type:\"brik64-release-manifest\",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -",
+      "name": "web_static_surface",
+      "description": "Materialize brik64.com static release files from the manifest before dispatching web verification.",
+      "command": "node scripts/release/sync-web-release-surface.js --publish",
       "mutatesPublicSurface": true
     },
     {
-      "name": "web_dispatch",
-      "description": "Dispatch web/CMS update using the manifest payload.",
-      "command": "jq -c '{event_type:\"brik64-release-manifest\",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64.com/dispatches --method POST --input -",
+      "name": "web_pages_deploy",
+      "description": "Dispatch and wait for the brik64.com Cloudflare Pages deploy workflow before live verification.",
+      "command": "node scripts/release/dispatch-web-pages-deploy.js",
+      "mutatesPublicSurface": true
+    },
+    {
+      "name": "docs_dispatch",
+      "description": "Dispatch docs update using the manifest payload.",
+      "command": "jq -c '{event_type:\"brik64-release-manifest\",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -",
       "mutatesPublicSurface": true
     },
     {
@@ -91,7 +91,7 @@
   ],
   "rollback": [
     "Do not delete historical release artifacts.",
-    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.9.",
+    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.11.",
     "Restore curl/GCP channel manifest to the previous known-good manifest object.",
     "Create a GitHub Release note amendment that points to the superseding manifest.",
     "Run release-train-live-verify and keep the failed report as evidence."

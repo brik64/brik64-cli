@@ -1,70 +1,60 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.9",
-  "version": "0.1.0-beta.9",
+  "releaseId": "brik64-0.1.0-beta.11",
+  "version": "0.1.0-beta.11",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "6df7750f86ea5e20b1e391f884f3e5258f75390b78efda1dca79b34f38e983c4",
+  "manifestDigest": "0c25ce7f0cda9faaf209ebd9510f1e77d8790de8f1d16f78bc9e62dc1872aafe",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.9",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.11",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.9"
+      "version": "0.1.0-beta.11"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b9"
+      "version": "0.1.0b11"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.9"
+      "version": "0.1.0-beta.11"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.9\n\n### Added\n\n- Adds typed i64 function parameters and return annotations for supported PCD programs.\n- Adds bounded list and map expressions for supported local PCD emission.\n- Adds bounded repeat loops with a fixed maximum iteration count.\n- Adds direct same-directory PCD imports and generated helper functions in emitted TypeScript, Rust, and Python outputs.\n- Adds package scaffolds for generated TypeScript, Rust, and Python projects when brik64 emit is used with tests.\n- Adds actionable brik64 doctor diagnostics with stable JSON output for CI.\n\n### Changed\n\n- Improves parser failures for unsupported calls, invalid imports, malformed collection expressions, and unsupported loop forms.\n- Keeps cloud verification and cloud polymerization entitlement-gated while local workflows remain available by default.\n",
+  "changelogMarkdown": "## 0.1.0-beta.11\n\n### Added\n\n- Adds semantic local polymerization coverage for supported same-directory PCD import DAGs.\n- Materializes referenced local import files beside generated polymer outputs when needed for certification.\n- Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior.\n\n### Changed\n\n- Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test.\n- Improves empty-workspace doctor diagnostics for both human output and JSON automation output.\n- Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills.\n",
   "releaseNotes": [
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds typed i64 function parameters and return annotations for supported PCD programs."
+      "text": "Adds semantic local polymerization coverage for supported same-directory PCD import DAGs."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds bounded list and map expressions for supported local PCD emission."
+      "text": "Materializes referenced local import files beside generated polymer outputs when needed for certification."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds bounded repeat loops with a fixed maximum iteration count."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds direct same-directory PCD imports and generated helper functions in emitted TypeScript, Rust, and Python outputs."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds package scaffolds for generated TypeScript, Rust, and Python projects when brik64 emit is used with tests."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds actionable brik64 doctor diagnostics with stable JSON output for CI."
+      "text": "Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves parser failures for unsupported calls, invalid imports, malformed collection expressions, and unsupported loop forms."
+      "text": "Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Keeps cloud verification and cloud polymerization entitlement-gated while local workflows remain available by default."
+      "text": "Improves empty-workspace doctor diagnostics for both human output and JSON automation output."
+    },
+    {
+      "type": "changed",
+      "surface": "release",
+      "text": "Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills."
     }
   ]
 }

@@ -9,7 +9,7 @@ cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
-node "$BRIK" --version | grep -q "BRIK64 CLI 0.1.0-beta.10"
+node "$BRIK" --version | grep -q "BRIK64 CLI $PACKAGE_VERSION"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" --help | grep -q "polymerize <files>"

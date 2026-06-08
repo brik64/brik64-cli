@@ -1,0 +1,360 @@
+{
+  "schemaVersion": "brik64.beta11_surface_sync_gate.v1",
+  "generatedAt": "2026-06-08T12:21:36.793Z",
+  "version": "0.1.0-beta.11",
+  "pythonVersion": "0.1.0b11",
+  "decision": "PASS_BETA11_SURFACE_SYNC",
+  "releaseEligible": true,
+  "blockers": [],
+  "surfaces": [
+    {
+      "id": "cli_readme",
+      "path": "README.md",
+      "root": "/private/tmp/brik64-cli-main-inspect",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "78f8faf6dbced3466a8171f22c701de271055560782129f52ca78e68b8762b48",
+      "bytes": 5241
+    },
+    {
+      "id": "cli_changelog",
+      "path": "CHANGELOG.md",
+      "root": "/private/tmp/brik64-cli-main-inspect",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "e5e6396d90fa2ef218c4cc0307c2bb3032744a789bc1731fadfab9b1f15a2833",
+      "bytes": 7586
+    },
+    {
+      "id": "web_sdk_download_api",
+      "path": "functions/api/download/sdk/[target].ts",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "fa1063b9d3ed7754ecea178a7dd955e6f2b341618c7f46d41e3a7f43fe6721c4",
+      "bytes": 2335
+    },
+    {
+      "id": "web_cli_download_api",
+      "path": "functions/api/download/cli.ts",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "ea5d6ae164ec03ff85bef06df8965aedb263b3479d409f00139f321ab792cc0d",
+      "bytes": 1760
+    },
+    {
+      "id": "web_cli_page",
+      "path": "src/app/cli/page.tsx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "d2996114f187c7d4fa0f6160db4c1bb18a0043cc3b18396518f2ea409f9e7ebc",
+      "bytes": 3962
+    },
+    {
+      "id": "web_download_page",
+      "path": "src/app/download/page.tsx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "bf188243001a60384d9196813ac9c11ea22e0cee0f982929b2d2f9f1b31e43ca",
+      "bytes": 13612
+    },
+    {
+      "id": "web_changelog_page",
+      "path": "src/app/changelog/page.tsx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "93b1b20f3b163fbcb07c8e3e2f1545f48cb2c57b5593a29b25aeb44727b83fc9",
+      "bytes": 6235
+    },
+    {
+      "id": "web_sdks_page",
+      "path": "src/app/sdks/page.tsx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "0a2531c9f831d25ed9fe543d7fb2557c698091d24e029b56bd671f32610230fc",
+      "bytes": 11683
+    },
+    {
+      "id": "web_beta_channel",
+      "path": "public/cli/beta.json",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "ae2ea6bc3fcca81175a45748ca5016ac786a70b7e60fa034f4f46d68478f7f9c",
+      "bytes": 358
+    },
+    {
+      "id": "web_installer",
+      "path": "public/cli/install.sh",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "26eefd10f326c71fb94be8c06d7fcca64a6ad78a110573a944fe57e2b0d2a6f4",
+      "bytes": 3259
+    },
+    {
+      "id": "web_deploy_runbook",
+      "path": "docs/operations/CLOUDFLARE_PAGES_DEPLOY_AUTH_RUNBOOK.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "7eb8199b0b81adaa6e5118b7de8076c9e35a1a2839aeca6649064de075c02999",
+      "bytes": 3409
+    },
+    {
+      "id": "web_language_data",
+      "path": "src/lib/language-data.ts",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "88a8228fe750bcd481f3cfc26be420f6f80ef13f830984c1fac614cd4b45ad08",
+      "bytes": 10650
+    },
+    {
+      "id": "docs_sdks",
+      "path": "sdks.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "950a1e3df1e47843555c6b5f43fa5fcc48ba886ff74a0e3f83dc69d346d15372",
+      "bytes": 1468
+    },
+    {
+      "id": "docs_quickstart",
+      "path": "quickstart.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "a4aa95733e77267c23960f1e070b25402a95852cdf3eaadbfaa70a7b8a6f1496",
+      "bytes": 2153
+    },
+    {
+      "id": "docs_releases",
+      "path": "releases.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "295ef9d25b9302f774ef7cf2c095f381b9801b608f3795c35bb15cc24e2cf930",
+      "bytes": 2825
+    },
+    {
+      "id": "docs_current_availability",
+      "path": "current-availability.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "65b4f3df1557feef070cb858c6f7c620e8b3b3b539d3c22f6fe39bcb6b18e80c",
+      "bytes": 2919
+    },
+    {
+      "id": "docs_cli",
+      "path": "cli.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "a0b5d4c73f5bdec187fac84f61f7cd9ff155a073f33484f44b043b797c459560",
+      "bytes": 2031
+    },
+    {
+      "id": "docs_cli_install",
+      "path": "cli/install.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "59e74625d326586a552c27905331629c69000c9d1f5a97ccbb4068a89bb10c74",
+      "bytes": 2105
+    },
+    {
+      "id": "docs_changelog",
+      "path": "releases/changelog.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "4d37d8e0f018af0f4481ef49f76ab73deaf84cce65f92dbb91f864221e7eb504",
+      "bytes": 3403
+    },
+    {
+      "id": "docs_js_sdk",
+      "path": "sdks/javascript.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "26a120d642312d65c3628a248d49eda165f76dc68a0d55374fcb2cbc315255fe",
+      "bytes": 773
+    },
+    {
+      "id": "docs_python_sdk",
+      "path": "sdks/python.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "77cec028b9bd1220dab433945f71c41ab39a9f13f85ac327d98f94712c8e0ab2",
+      "bytes": 863
+    },
+    {
+      "id": "docs_rust_sdk",
+      "path": "sdks/rust.mdx",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "db23142c64abe0e4a8b5185267b5826aa6e67fc94470d7602481ae510aa907b2",
+      "bytes": 826
+    },
+    {
+      "id": "skills_readme",
+      "path": "README.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "5d1533a4a0dff0e189b38f75921a58ca58f83ca9cf5dc320436c1338f3408127",
+      "bytes": 5826
+    },
+    {
+      "id": "skill_brik64",
+      "path": "skills/brik64/SKILL.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "02db1cab2ef0eaf2f25ff2f0282e737e8423326e1d989207e78c738f4b94985a",
+      "bytes": 7976
+    },
+    {
+      "id": "skill_javascript",
+      "path": "skills/brik64-javascript/SKILL.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "028fcbd709399fda25f6f1eb5c280eac0f4ec2640457861a2280d415350fec36",
+      "bytes": 8752
+    },
+    {
+      "id": "skill_python",
+      "path": "skills/brik64-python/SKILL.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "c8ec417211a3ce7b786bca6cfeaec35caca7818c945bb5ed068993c237545a02",
+      "bytes": 7691
+    },
+    {
+      "id": "skill_rust",
+      "path": "skills/brik64-rust/SKILL.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "e623651db79cb0982c6b57f204c00c6224504fc70338acc2d7f343545118a906",
+      "bytes": 8770
+    },
+    {
+      "id": "skill_pcd_system",
+      "path": "skills/pcd-system/SKILL.md",
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "exists": true,
+      "passed": true,
+      "failures": [],
+      "sha256": "9e6c4eab731d46211751e4556906dcd082cd6e66ad8c80a36d001a4a359f2627",
+      "bytes": 4674
+    }
+  ],
+  "repos": [
+    {
+      "root": "/private/tmp/brik64-cli-main-inspect",
+      "ok": true,
+      "head": "c2ef52279e0ab71a3974bc0afd3df4a450e91c5c",
+      "status": [
+        "## codex/beta11-surface-sync-gate",
+        " M .brik/manifest.json",
+        " M evidence/beta11-adversarial/report.json",
+        " M evidence/beta11-anti-drift/report.json",
+        " M evidence/beta11-l6-materialization/gate-report.json",
+        " M evidence/beta11-l6-materialization/remote-SHA256SUMS",
+        " M evidence/beta11-l6-materialization/remote-out-files.txt",
+        " M evidence/beta11-l6-materialization/remote-stdout.txt",
+        " M evidence/beta11-l6-materialization/report.json",
+        " M evidence/beta11-surface-sync/report.json",
+        " M evidence/release-flow-audit/report.json",
+        " M evidence/release-manifest-validate/report.json",
+        " M evidence/release-train-dry-run/report.json",
+        " M evidence/release-train-live-verify/report.json",
+        " M evidence/release-train-publish-execute/report.json",
+        " M evidence/release-train-publish-plan/report.json",
+        " M evidence/release-train-sync/changelog.md",
+        " M evidence/release-train-sync/report.json",
+        " M evidence/release-train-sync/sync-payload.json",
+        " M package.json",
+        " M release/manifest.json",
+        " M scripts/beta11-anti-drift-gate.js",
+        " M scripts/release-flow-audit.js",
+        " M scripts/release-train-dry-run.js",
+        " M src/brik.js",
+        " M tests/smoke.sh",
+        "?? evidence/beta11-package-smoke/",
+        "?? evidence/beta11-package/",
+        "?? scripts/beta11-package-smoke.sh",
+        "?? scripts/build-beta11-package.sh"
+      ]
+    },
+    {
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+      "ok": true,
+      "head": "c77cd65c2243cb9e2e6e2a8d7eeafed012b5efcc",
+      "status": [
+        "## main...origin/main"
+      ]
+    },
+    {
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site",
+      "ok": true,
+      "head": "8fb76f866be41bbb1bf43afa6b54a21fc1fd16b5",
+      "status": [
+        "## main...origin/main"
+      ]
+    },
+    {
+      "root": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills",
+      "ok": true,
+      "head": "3055763bf480030f185726dab68fcabd2008b216",
+      "status": [
+        "## main...origin/main"
+      ]
+    }
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false
+  }
+}
