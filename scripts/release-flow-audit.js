@@ -80,6 +80,15 @@ function forbiddenHits(text) {
 }
 
 function requiredBetaScripts(label) {
+  if (label === 'beta11') {
+    return [
+      'gate:beta11:semantic-polymerize',
+      'gate:beta11:rust-emitter-clean',
+      'gate:beta11:doctor-empty-workspace',
+      'gate:beta11:adversarial',
+      'gate:beta11:l6-materialization'
+    ];
+  }
   return [
     `gate:${label}:feature-parity`,
     `package:${label}:local`,
