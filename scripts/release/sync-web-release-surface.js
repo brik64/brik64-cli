@@ -55,6 +55,13 @@ function replaceRequired(file, pattern, replacement, failures, id) {
   fs.writeFileSync(file, after);
 }
 
+function replaceOptional(file, pattern, replacement) {
+  const before = fs.readFileSync(file, 'utf8');
+  if (!pattern.test(before)) return false;
+  fs.writeFileSync(file, before.replace(pattern, replacement));
+  return true;
+}
+
 function currentBetaNumber(version) {
   const match = version.match(/^0\.1\.0-beta\.(\d+)$/);
   if (!match) throw new Error(`unsupported_cli_beta_version:${version}`);
@@ -93,7 +100,8 @@ function syncFiles(manifest) {
     beta: path.join(webRoot, 'public', 'cli', 'beta.json'),
     changelog: path.join(webRoot, 'src', 'app', 'changelog', 'page.tsx'),
     download: path.join(webRoot, 'src', 'app', 'download', 'page.tsx'),
-    sdks: path.join(webRoot, 'src', 'app', 'sdks', 'page.tsx')
+    sdks: path.join(webRoot, 'src', 'app', 'sdks', 'page.tsx'),
+    sdkDownloadApi: path.join(webRoot, 'functions', 'api', 'download', 'sdk', '[target].ts')
   };
 
   for (const [id, file] of Object.entries(files)) requireFile(file, failures, id);
@@ -106,12 +114,10 @@ function syncFiles(manifest) {
     failures,
     'install_version'
   );
-  replaceRequired(
+  replaceOptional(
     files.install,
     /SHA256_0_1_0_BETA_\d+="[a-f0-9]{64}"/,
-    `SHA256_0_1_0_BETA_${betaNumber}="${packageSha}"`,
-    failures,
-    'install_sha'
+    `SHA256_0_1_0_BETA_${betaNumber}="${packageSha}"`
   );
   replaceRequired(
     files.install,
@@ -127,12 +133,10 @@ function syncFiles(manifest) {
     failures,
     'install_fail_message'
   );
-  replaceRequired(
+  replaceOptional(
     files.install,
     /EXPECTED_SHA="\$SHA256_0_1_0_BETA_\d+"/,
-    `EXPECTED_SHA="$SHA256_0_1_0_BETA_${betaNumber}"`,
-    failures,
-    'install_expected_sha'
+    `EXPECTED_SHA="$SHA256_0_1_0_BETA_${betaNumber}"`
   );
 
   writeJson(files.beta, {
@@ -174,7 +178,7 @@ function syncFiles(manifest) {
     fs.writeFileSync(files.changelog, changelog);
   }
 
-  for (const file of [files.download, files.sdks]) {
+  for (const file of [files.download, files.sdks, files.sdkDownloadApi]) {
     let text = fs.readFileSync(file, 'utf8');
     text = text
       .replace(previousBetaPattern, manifest.version)
@@ -257,7 +261,7 @@ function main() {
   let pushed = false;
 
   if (publish && failures.length === 0 && statusBeforeCommit) {
-    const addResult = run('git', ['add', 'public/cli/install.sh', 'public/cli/beta.json', `public/cli/releases/${manifest.version}.json`, 'src/app/changelog/page.tsx', 'src/app/download/page.tsx', 'src/app/sdks/page.tsx'], { cwd: webRoot });
+    const addResult = run('git', ['add', 'public/cli/install.sh', 'public/cli/beta.json', `public/cli/releases/${manifest.version}.json`, 'src/app/changelog/page.tsx', 'src/app/download/page.tsx', 'src/app/sdks/page.tsx', 'functions/api/download/sdk/[target].ts'], { cwd: webRoot });
     observations.push({ id: 'web_git_add', ...gitOutput(addResult) });
     if (addResult.rc !== 0) failures.push(`web_add_failed:${addResult.rc}`);
   }
