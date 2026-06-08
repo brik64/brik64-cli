@@ -1,60 +1,60 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.11",
-  "version": "0.1.0-beta.11",
+  "releaseId": "brik64-0.1.0-beta.12",
+  "version": "0.1.0-beta.12",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "0c25ce7f0cda9faaf209ebd9510f1e77d8790de8f1d16f78bc9e62dc1872aafe",
+  "manifestDigest": "b4bf95897b454ca0e5b71fa3de2d2d2694d68d44ffd7ac38875843af23c847af",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.11",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.12",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.11"
+      "version": "0.1.0-beta.12"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b11"
+      "version": "0.1.0b12"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.11"
+      "version": "0.1.0-beta.12"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.11\n\n### Added\n\n- Adds semantic local polymerization coverage for supported same-directory PCD import DAGs.\n- Materializes referenced local import files beside generated polymer outputs when needed for certification.\n- Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior.\n\n### Changed\n\n- Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test.\n- Improves empty-workspace doctor diagnostics for both human output and JSON automation output.\n- Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills.\n",
+  "changelogMarkdown": "## 0.1.0-beta.12\n\n### Added\n\n- Adds opt-in telemetry commands for local export, purge, and explicit send behavior.\n- Adds redacted user feedback capture with local preview by default and explicit send support.\n- Adds redacted local error-report inspection and explicit send support.\n\n### Changed\n\n- Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories.\n- Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory.\n- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release.\n",
   "releaseNotes": [
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds semantic local polymerization coverage for supported same-directory PCD import DAGs."
+      "text": "Adds opt-in telemetry commands for local export, purge, and explicit send behavior."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Materializes referenced local import files beside generated polymer outputs when needed for certification."
+      "text": "Adds redacted user feedback capture with local preview by default and explicit send support."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior."
+      "text": "Adds redacted local error-report inspection and explicit send support."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test."
+      "text": "Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves empty-workspace doctor diagnostics for both human output and JSON automation output."
+      "text": "Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory."
     },
     {
       "type": "changed",
-      "surface": "release",
-      "text": "Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills."
+      "surface": "sdk",
+      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release."
     }
   ]
 }
