@@ -110,6 +110,17 @@ jobs:
           cd "$SDK_ROOT/brik64-lib-rust"
           cargo package --allow-dirty
 
+      - name: Prepare CLI package for manifest version
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("release/manifest.json","utf8")).version)')"
+          BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$VERSION")"
+          PACKAGE_SCRIPT="package:beta${BETA_NUMBER}:local"
+          SMOKE_SCRIPT="smoke:beta${BETA_NUMBER}:package"
+          npm run "$PACKAGE_SCRIPT"
+          npm run "$SMOKE_SCRIPT"
+
       - name: Record beta9 staged SDK preflight
         env:
           BRIK64_RELEASE_PUBLICATION_IN_PROGRESS: "1"

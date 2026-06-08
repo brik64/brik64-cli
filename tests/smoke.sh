@@ -25,13 +25,23 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  beta9_package_out="$(bash "$ROOT_DIR/scripts/build-beta9-package.sh")"
-  grep -q "PASS_BRIK64_CLI_BETA9_PACKAGE_BUILT" <<<"$beta9_package_out"
-  beta9_package_smoke_out="$(bash "$ROOT_DIR/scripts/beta9-package-smoke.sh")"
-  grep -q "decision=PASS_BRIK64_CLI_BETA9_LOCAL_PACKAGE_SMOKE" <<<"$beta9_package_smoke_out"
-  node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (r.releaseEligible !== false || !r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
-  beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
-  grep -q "PASS_BRIK64_CLI_BETA9_RELEASE_READINESS" <<<"$beta9_readiness_out"
+  BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$PACKAGE_VERSION")"
+  PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
+  SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
+  PACKAGE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_PACKAGE_BUILT"
+  SMOKE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_LOCAL_PACKAGE_SMOKE"
+  test -f "$PACKAGE_SCRIPT"
+  test -f "$SMOKE_SCRIPT"
+  package_out="$(bash "$PACKAGE_SCRIPT")"
+  grep -q "$PACKAGE_DECISION" <<<"$package_out"
+  package_smoke_out="$(bash "$SMOKE_SCRIPT")"
+  grep -q "decision=$SMOKE_DECISION" <<<"$package_smoke_out"
+  node -e 'const fs=require("fs"); const beta=process.argv[1]; const r=JSON.parse(fs.readFileSync(`evidence/beta${beta}-package/package.manifest.json`,"utf8")); if (r.releaseEligible !== false) process.exit(1)' "$BETA_NUMBER"
+  if [ "$BETA_NUMBER" = "9" ]; then
+    node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (!r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
+    beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
+    grep -q "PASS_BRIK64_CLI_BETA9_RELEASE_READINESS" <<<"$beta9_readiness_out"
+  fi
 fi
 
 (
