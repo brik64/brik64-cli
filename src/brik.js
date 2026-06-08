@@ -1302,6 +1302,98 @@ function renderStatements(statements, target, indentLevel) {
   return lines;
 }
 
+function renderPcdExpression(expression) {
+  if (expression.type === 'NumberLiteral') return String(expression.value);
+  if (expression.type === 'ConstLiteral') return expression.name || String(expression.value);
+  if (expression.type === 'Identifier') return expression.name;
+  if (expression.type === 'UnaryExpression') return `-${renderPcdExpression(expression.argument)}`;
+  if (expression.type === 'ListLiteral') {
+    return `[${expression.elements.map((element) => renderPcdExpression(element)).join(', ')}]`;
+  }
+  if (expression.type === 'MapLiteral') {
+    return `{${expression.entries.map((entry) => `${entry.key}: ${renderPcdExpression(entry.value)}`).join(', ')}}`;
+  }
+  if (expression.type === 'IndexExpression') {
+    return `${renderPcdExpression(expression.object)}[${renderPcdExpression(expression.index)}]`;
+  }
+  if (expression.type === 'MemberExpression') {
+    return `${renderPcdExpression(expression.object)}.${expression.key}`;
+  }
+  if (expression.type === 'LenExpression') {
+    return `len(${renderPcdExpression(expression.argument)})`;
+  }
+  if (expression.type === 'HasExpression') {
+    return `has(${renderPcdExpression(expression.object)}, ${expression.key})`;
+  }
+  if (expression.type === 'CallExpression') {
+    return `${expression.callee}(${expression.args.map((argument) => renderPcdExpression(argument)).join(', ')})`;
+  }
+  if (expression.type === 'BinaryExpression') {
+    return `(${renderPcdExpression(expression.left)} ${expression.operator} ${renderPcdExpression(expression.right)})`;
+  }
+  fail(70, 'internal_polymer_error:unknown_expression');
+}
+
+function renderPcdStatements(statements, indentLevel = 2) {
+  const indent = '    '.repeat(indentLevel);
+  const lines = [];
+  for (const statement of statements) {
+    if (statement.type === 'ReturnStatement') {
+      lines.push(`${indent}return ${renderPcdExpression(statement.argument)};`);
+      continue;
+    }
+    if (statement.type === 'IfStatement') {
+      lines.push(`${indent}if ${renderPcdExpression(statement.condition)} {`);
+      lines.push(...renderPcdStatements(statement.consequent, indentLevel + 1));
+      if (statement.alternate.length > 0) {
+        lines.push(`${indent}} else {`);
+        lines.push(...renderPcdStatements(statement.alternate, indentLevel + 1));
+      }
+      lines.push(`${indent}}`);
+      continue;
+    }
+    if (statement.type === 'RepeatStatement') {
+      lines.push(`${indent}repeat ${statement.count} {`);
+      lines.push(...renderPcdStatements(statement.body, indentLevel + 1));
+      lines.push(`${indent}}`);
+      continue;
+    }
+    fail(70, 'internal_polymer_error:unknown_statement');
+  }
+  return lines;
+}
+
+function renderSemanticPolymer(rootUnit, units) {
+  const ast = rootUnit.ast;
+  const sourceLines = units.map((unit) => `// source ${unit.file} ${unit.semantic_pcd_sha256}`);
+  const importLines = Object.keys(ast.importGraph || {})
+    .sort()
+    .map((name) => `use ${name};`);
+  const params = ast.params.map((param) => `${param}: ${ast.paramTypes[param] || 'i64'}`).join(', ');
+  const constantLines = Object.entries(ast.constants || {})
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([name, value]) => `    const ${name}: i64 = ${value};`);
+  const bodyLines = renderPcdStatements(ast.body, 2);
+  return [
+    '// brik64.pcd_file.v1',
+    '// generated_by: brik64-cli beta11 semantic polymerize local',
+    '// claim_boundary: local_candidate_only',
+    '// semantic_mode: root_dag_reference',
+    ...sourceLines,
+    '',
+    ...importLines,
+    importLines.length > 0 ? '' : null,
+    'PC brik64_polymer {',
+    ...constantLines,
+    constantLines.length > 0 ? '' : null,
+    `    fn ${ast.fnName}(${params}) -> ${ast.returnType} {`,
+    ...bodyLines,
+    '    }',
+    '}',
+    ''
+  ].filter((line) => line !== null).join('\n');
+}
+
 function renderImportedFunctions(imports, target, seen = new Set()) {
   const lines = [];
   for (const [name, importedAst] of Object.entries(imports || {})) {
@@ -1835,27 +1927,20 @@ function polymerize(rawArgs = []) {
   }
   const outFile = parsed['--out'] || 'polymer.pcd';
   const outPath = workspacePath(outFile);
-  const firstReturn = units[0].ast.returnValues[0] ?? 0;
-  const sourceLines = units.map((unit) => `// source ${unit.file} ${unit.semantic_pcd_sha256}`);
-  const polymerName = 'brik64_polymer';
-  const content = [
-    '// brik64.pcd_file.v1',
-    '// generated_by: brik64-cli beta10 polymerize local',
-    '// claim_boundary: local_candidate_only',
-    ...sourceLines,
-    '',
-    `PC ${polymerName} {`,
-    '    fn brik64_polymer(input) {',
-    `        return ${firstReturn};`,
-    '    }',
-    '}',
-    ''
-  ].join('\n');
+  const rootUnit = units[units.length - 1];
+  const content = renderSemanticPolymer(rootUnit, units);
   writeFileControlled(outPath, content);
   const manifest = {
     schemaVersion: 'brik64.cli_polymer_manifest.v1',
     cliVersion: version,
     mode: 'local',
+    semanticMode: 'root_dag_reference',
+    root: {
+      file: rootUnit.file,
+      pcName: rootUnit.ast.pcName,
+      fnName: rootUnit.ast.fnName,
+      semantic_pcd_sha256: rootUnit.semantic_pcd_sha256
+    },
     output: path.relative(process.cwd(), outPath),
     output_sha256: sha256(content),
     sources: units,

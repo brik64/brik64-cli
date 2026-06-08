@@ -112,7 +112,9 @@
     "test:beta10-local": "bash scripts/beta10-local-gate.sh",
     "package:beta10:local": "bash scripts/build-beta10-package.sh",
     "smoke:beta10:package": "bash scripts/beta10-package-smoke.sh",
-    "test:beta10-package": "bash scripts/beta10-package-smoke.sh"
+    "test:beta10-package": "bash scripts/beta10-package-smoke.sh",
+    "gate:beta11:semantic-polymerize": "node scripts/beta11-semantic-polymerize-gate.js",
+    "test:beta11-semantic-polymerize": "node scripts/beta11-semantic-polymerize-gate.js"
   },
   "author": {
     "name": "BRIK64 INC",

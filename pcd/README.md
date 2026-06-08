@@ -30,6 +30,11 @@ used to move the CLI toward a PCD-first BRIK64 methodology.
   status, feedback dry-run, and redacted local error reports. It is a
   Carril A product contract only and does not claim formal N5, self-hosting, or
   fixpoint.
+- `cli_beta11_semantic_polymer_contract.pcd` is the beta11 source contract for
+  semantic local polymerization of supported PCD DAGs, root/polymer emit
+  equivalence, adversarial audit gates, and release-train anti-drift checks. It
+  remains Carril A product work and does not claim formal N5, self-hosting, or
+  fixpoint.
 
 ## Promotion Path
 
