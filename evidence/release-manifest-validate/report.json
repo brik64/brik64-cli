@@ -22,7 +22,7 @@
         "path": "evidence/beta11-adversarial/report.json",
         "expectedDecision": "PASS_BETA11_ADVERSARIAL_GATE",
         "actualDecision": "PASS_BETA11_ADVERSARIAL_GATE",
-        "sha256": "a9c411dc3a1c93c0c2c928e0a5163ff0dc89d4a41e2597bfb3ee34e45fe48c31"
+        "sha256": "aef5a589a5c1fb334b4ddadd685810d3bb083a14c5872859ffae08402b4cd362"
       },
       {
         "id": "l6MaterializationGate",
@@ -62,7 +62,5 @@
     ]
   },
   "failures": [],
-  "warnings": [
-    "worktree_dirty_allowed:12"
-  ]
+  "warnings": []
 }

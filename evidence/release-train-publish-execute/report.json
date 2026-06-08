@@ -3,7 +3,7 @@
   "releaseId": "brik64-0.1.0-beta.11",
   "version": "0.1.0-beta.11",
   "manifestDigest": "0c25ce7f0cda9faaf209ebd9510f1e77d8790de8f1d16f78bc9e62dc1872aafe",
-  "sourceHead": "0142ca9",
+  "sourceHead": "65ddae0",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
@@ -13,10 +13,7 @@
     "evidence/beta11-l6-materialization/remote-SHA256SUMS",
     "evidence/beta11-l6-materialization/remote-out-files.txt",
     "evidence/beta11-l6-materialization/remote-stdout.txt",
-    "evidence/beta11-l6-materialization/report.json",
-    "evidence/release-flow-audit/report.json",
-    "release/manifest.json",
-    "scripts/release-train-dry-run.js"
+    "evidence/beta11-l6-materialization/report.json"
   ],
   "commandPreflight": [
     {
@@ -91,6 +88,6 @@
   ],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:8"
+    "worktree_dirty_dry_run:5"
   ]
 }
