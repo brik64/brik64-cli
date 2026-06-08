@@ -1,60 +1,55 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.12",
-  "version": "0.1.0-beta.12",
+  "releaseId": "brik64-0.1.0-beta.13",
+  "version": "0.1.0-beta.13",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "b4bf95897b454ca0e5b71fa3de2d2d2694d68d44ffd7ac38875843af23c847af",
+  "manifestDigest": "7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.12",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.13",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.12"
+      "version": "0.1.0-beta.13"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b12"
+      "version": "0.1.0b13"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.12"
+      "version": "0.1.0-beta.13"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.12\n\n### Added\n\n- Adds opt-in telemetry commands for local export, purge, and explicit send behavior.\n- Adds redacted user feedback capture with local preview by default and explicit send support.\n- Adds redacted local error-report inspection and explicit send support.\n\n### Changed\n\n- Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories.\n- Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory.\n- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release.\n",
+  "changelogMarkdown": "## 0.1.0-beta.13\n\n### Added\n\n- Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files.\n- Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory.\n- Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python.\n\n### Changed\n\n- Adds explicit force overwrite support to PCD migration with --force and -f.\n- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release.\n",
   "releaseNotes": [
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds opt-in telemetry commands for local export, purge, and explicit send behavior."
+      "text": "Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds redacted user feedback capture with local preview by default and explicit send support."
+      "text": "Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory."
     },
     {
       "type": "added",
-      "surface": "cli",
-      "text": "Adds redacted local error-report inspection and explicit send support."
+      "surface": "pcd",
+      "text": "Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories."
-    },
-    {
-      "type": "changed",
-      "surface": "cli",
-      "text": "Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory."
+      "text": "Adds explicit force overwrite support to PCD migration with --force and -f."
     },
     {
       "type": "changed",
       "surface": "sdk",
-      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release."
+      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release."
     }
   ]
 }

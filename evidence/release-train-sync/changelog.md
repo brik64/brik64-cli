@@ -1,13 +1,12 @@
-## 0.1.0-beta.12
+## 0.1.0-beta.13
 
 ### Added
 
-- Adds opt-in telemetry commands for local export, purge, and explicit send behavior.
-- Adds redacted user feedback capture with local preview by default and explicit send support.
-- Adds redacted local error-report inspection and explicit send support.
+- Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files.
+- Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory.
+- Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python.
 
 ### Changed
 
-- Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories.
-- Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory.
-- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release.
+- Adds explicit force overwrite support to PCD migration with --force and -f.
+- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release.

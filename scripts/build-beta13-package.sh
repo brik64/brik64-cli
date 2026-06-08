@@ -120,10 +120,111 @@ find "$STAGE_DIR" -type f -exec chmod 644 {} +
 chmod 755 "$STAGE_DIR/src/brik.js"
 find "$STAGE_DIR" -exec touch -t 202606070000 {} +
 
-(
-  cd "$STAGE_ROOT"
-  find "$STAGE_NAME" -type f | LC_ALL=C sort | COPYFILE_DISABLE=1 tar --format ustar -cf - -T -
-) | gzip -n > "$PACKAGE_PATH"
+node - "$STAGE_ROOT" "$STAGE_NAME" "$PACKAGE_PATH" <<'NODE'
+const fs = require('fs');
+const path = require('path');
+
+const [stageRoot, stageName, packagePath] = process.argv.slice(2);
+const root = path.join(stageRoot, stageName);
+const blocks = [];
+const crcTable = new Uint32Array(256);
+
+for (let n = 0; n < 256; n += 1) {
+  let c = n;
+  for (let k = 0; k < 8; k += 1) {
+    c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+  }
+  crcTable[n] = c >>> 0;
+}
+
+function listFiles(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true })
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const files = [];
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) files.push(...listFiles(full));
+    else if (entry.isFile()) files.push(full);
+  }
+  return files;
+}
+
+function writeString(buffer, offset, length, value) {
+  const bytes = Buffer.from(value);
+  bytes.copy(buffer, offset, 0, Math.min(bytes.length, length));
+}
+
+function writeOctal(buffer, offset, length, value) {
+  const text = value.toString(8).padStart(length - 1, '0').slice(-(length - 1));
+  writeString(buffer, offset, length - 1, text);
+  buffer[offset + length - 1] = 0;
+}
+
+function header(name, size, mode) {
+  const buffer = Buffer.alloc(512, 0);
+  const normalized = name.replace(/\\/g, '/');
+  if (Buffer.byteLength(normalized) > 100) {
+    throw new Error(`tar_path_too_long:${normalized}`);
+  }
+  writeString(buffer, 0, 100, normalized);
+  writeOctal(buffer, 100, 8, mode);
+  writeOctal(buffer, 108, 8, 0);
+  writeOctal(buffer, 116, 8, 0);
+  writeOctal(buffer, 124, 12, size);
+  writeOctal(buffer, 136, 12, 1781308800);
+  buffer.fill(0x20, 148, 156);
+  buffer[156] = '0'.charCodeAt(0);
+  writeString(buffer, 257, 6, 'ustar');
+  writeString(buffer, 263, 2, '00');
+  writeString(buffer, 265, 32, 'brik64');
+  writeString(buffer, 297, 32, 'brik64');
+  let checksum = 0;
+  for (const byte of buffer) checksum += byte;
+  const checksumText = checksum.toString(8).padStart(6, '0').slice(-6);
+  writeString(buffer, 148, 6, checksumText);
+  buffer[154] = 0;
+  buffer[155] = 0x20;
+  return buffer;
+}
+
+function crc32(buffer) {
+  let crc = 0xffffffff;
+  for (const byte of buffer) {
+    crc = crcTable[(crc ^ byte) & 0xff] ^ (crc >>> 8);
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function gzipStored(buffer) {
+  const parts = [Buffer.from([0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff])];
+  for (let offset = 0; offset < buffer.length; offset += 65535) {
+    const chunk = buffer.subarray(offset, Math.min(offset + 65535, buffer.length));
+    const header = Buffer.alloc(5);
+    header[0] = offset + chunk.length >= buffer.length ? 0x01 : 0x00;
+    header.writeUInt16LE(chunk.length, 1);
+    header.writeUInt16LE((~chunk.length) & 0xffff, 3);
+    parts.push(header, chunk);
+  }
+  const trailer = Buffer.alloc(8);
+  trailer.writeUInt32LE(crc32(buffer), 0);
+  trailer.writeUInt32LE(buffer.length >>> 0, 4);
+  parts.push(trailer);
+  return Buffer.concat(parts);
+}
+
+for (const file of listFiles(root)) {
+  const rel = path.relative(stageRoot, file);
+  const body = fs.readFileSync(file);
+  const mode = rel.endsWith('/src/brik.js') ? 0o755 : 0o644;
+  blocks.push(header(rel, body.length, mode), body);
+  const padding = (512 - (body.length % 512)) % 512;
+  if (padding) blocks.push(Buffer.alloc(padding, 0));
+}
+
+blocks.push(Buffer.alloc(1024, 0));
+const tarball = Buffer.concat(blocks);
+fs.writeFileSync(packagePath, gzipStored(tarball));
+NODE
 package_sha="$(sha256_file "$PACKAGE_PATH")"
 
 find "$STAGE_DIR" -type f | sort | while read -r file; do
