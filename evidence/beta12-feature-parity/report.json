@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "brik64.cli_beta12_feature_parity_gate.v1",
+  "version": "0.1.0-beta.12",
+  "decision": "PASS_BETA12_FEATURE_PARITY",
+  "releaseEligible": true,
+  "checks": [
+    {
+      "id": "semantic_polymerize",
+      "rc": 0,
+      "elapsedMs": 851,
+      "status": "PASS",
+      "stdoutTail": "\n> @brik64/cli@0.1.0-beta.12 gate:beta12:semantic-polymerize\n> node scripts/beta11-semantic-polymerize-gate.js\n\n{\n  \"schemaVersion\": \"brik64.beta11_semantic_polymerize_gate.v1\",\n  \"decision\": \"PASS_BETA11_SEMANTIC_POLYMERIZE\",\n  \"workdir\": \"/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta11-polymer-3T1JUl\",\n  \"root\": {\n    \"file\": \"root.pcd\",\n    \"pcName\": \"root\",\n    \"fnName\": \"level1\",\n    \"semantic_pcd_sha256\": \"6d67c09d233e7e9c5343bb78f430d21634f29203405e353a47e7f747f42c2140\"\n  },\n  \"semanticMode\": \"root_dag_reference\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "rust_emitter_clean",
+      "rc": 0,
+      "elapsedMs": 1940,
+      "status": "PASS",
+      "stdoutTail": "\n> @brik64/cli@0.1.0-beta.12 gate:beta12:rust-emitter-clean\n> node scripts/beta11-rust-emitter-clean-gate.js\n\n{\n  \"schemaVersion\": \"brik64.beta11_rust_emitter_clean_gate.v1\",\n  \"decision\": \"PASS_BETA11_RUST_EMITTER_CLEAN\",\n  \"workdir\": \"/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta11-rust-CvQZw2\",\n  \"checks\": [\n    \"cargo_test_quiet\",\n    \"no_unnecessary_parentheses\",\n    \"no_unreachable_statement\"\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "doctor_empty_workspace",
+      "rc": 0,
+      "elapsedMs": 466,
+      "status": "PASS",
+      "stdoutTail": "\n> @brik64/cli@0.1.0-beta.12 gate:beta12:doctor-empty-workspace\n> node scripts/beta11-doctor-empty-workspace-gate.js\n\n{\n  \"schemaVersion\": \"brik64.beta11_doctor_empty_workspace_gate.v1\",\n  \"decision\": \"PASS_BETA11_DOCTOR_EMPTY_WORKSPACE\",\n  \"workdir\": \"/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta11-doctor-empty-1xrDkD\",\n  \"checks\": [\n    \"empty_workspace_human_fail_closed\",\n    \"empty_workspace_json_fail_closed\",\n    \"release_eligible_false\",\n    \"actionable_recovery_message\"\n  ]\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "adversarial",
+      "rc": 0,
+      "elapsedMs": 4768,
+      "status": "PASS",
+      "stdoutTail": "\n> @brik64/cli@0.1.0-beta.12 gate:beta12:adversarial\n> node scripts/beta12-adversarial-gate.js\n\n{\n  \"schemaVersion\": \"brik64.cli_beta12_adversarial_gate.v1\",\n  \"generatedAt\": \"2026-06-08T14:25:23.872Z\",\n  \"lane\": \"cli_0_1_beta12\",\n  \"decision\": \"PASS_BETA12_ADVERSARIAL_GATE\",\n  \"rc\": 0,\n  \"checks\": [\n    {\n      \"id\": \"regression:beta12_semantic_polymerize_gate\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 881,\n      \"stdoutSha256\": \"14b158cfa1d7c2094cd9db4525a1503528e41a4fe07d3e11741d2534564f89a2\"\n    },\n    {\n      \"id\": \"regression:beta12_rust_emitter_clean_gate\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 1430,\n      \"stdoutSha256\": \"2e1df347badf09b8a3753328a52dc1b860f151f2d40d11b9e6b779da1daa417d\"\n    },\n    {\n      \"id\": \"regression:beta12_doctor_empty_workspace_gate\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 626,\n      \"stdoutSha256\": \"c68cdfbbcbb6e775b4f50b31e15a51794bdf3347c1b8017d0395d304919bc9be\"\n    },\n    {\n      \"id\": \"adversarial:path_traversal_and_certificate_fail_closed\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 483\n    },\n    {\n      \"id\": \"adversarial:symlink_input_escape_fail_closed\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 127\n    },\n    {\n      \"id\": \"adversarial:parser_rejects_malformed_inputs\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 532\n    },\n    {\n      \"id\": \"adversarial:polymerize_import_dag_fail_closed\",\n      \"status\": \"PASS\",\n      \"elapsedMs\": 463\n    }\n  ],\n  \"blockers\": [],\n  \"scratchWorkspace\": \"brik64-beta12-adversarial-JHt1eo\",\n  \"claimBoundary\": {\n    \"functionalCliEvidence\": true,\n    \"publicReleaseAllowed\": false,\n    \"formalN5ClaimAllowed\": false,\n    \"fixpointClaimAllowed\": false,\n    \"selfHostingClaimAllowed\": false,\n    \"l6PublicClaimAllowed\": false\n  }\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "failures": [],
+  "boundary": "Beta12 feature parity gate covers current public CLI behavior only. It does not assert formal certification or toolchain independence."
+}

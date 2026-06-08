@@ -59,8 +59,15 @@ fi
   grep -q "login_token_env_missing" /tmp/brik-login.err
   node "$BRIK" telemetry status | grep -q '"enabled": false'
   node "$BRIK" telemetry explain | grep -q "networkSent=false"
-  node "$BRIK" feedback --dry-run --category bug --message "token=abc carlos@example.com" | grep -q "\\[redacted"
+  node "$BRIK" telemetry enable | grep -q "telemetry=enabled"
+  node "$BRIK" telemetry status | grep -q '"enabled": true'
+  node "$BRIK" telemetry export | grep -q '"rawSourceIncluded": false'
+  node "$BRIK" feedback --category bug --message "token=abc carlos@example.com /Users/carlosjperez/private" | grep -q "\\[redacted"
   test -f .brik/feedback-preview.json
+  grep -q "\\[redacted_email\\]" .brik/feedback-preview.json
+  grep -q "\\[redacted_path\\]" .brik/feedback-preview.json
+  node "$BRIK" telemetry purge-local | grep -q "purged=local_telemetry_feedback"
+  node "$BRIK" telemetry disable | grep -q "telemetry=disabled"
   if node "$BRIK" doctor >/tmp/brik-empty-doctor.out 2>/tmp/brik-empty-doctor.err; then
     echo "doctor should require PCD inventory" >&2
     exit 1
@@ -139,6 +146,15 @@ if node "$BRIK" emit program.pcd --target ts --out ../escaped-out --tests >/tmp/
 fi
 grep -q "path_outside_workspace" /tmp/brik-out-traversal.err
 test ! -e "$tmpdir/escaped-out/program.mjs"
+
+echo 'PC outside { fn outside(input) { return 99; } }' > "$tmpdir-outside.pcd"
+ln -s "$tmpdir-outside.pcd" symlink-outside.pcd
+if node "$BRIK" certify symlink-outside.pcd >/tmp/brik-symlink-cert.out 2>/tmp/brik-symlink-cert.err; then
+  echo "symlinked input outside workspace should fail closed" >&2
+  exit 1
+fi
+grep -q "path_outside_workspace" /tmp/brik-symlink-cert.err
+test ! -f symlink-outside.pcd.cert.json
 
 mkdir readonly
 chmod 500 readonly

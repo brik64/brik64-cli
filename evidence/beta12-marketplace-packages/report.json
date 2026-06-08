@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "brik64.cli_beta12_marketplace_package_gate.v1",
+  "version": "0.1.0-beta.12",
+  "pythonVersion": "0.1.0b12",
+  "decision": "PASS_MARKETPLACE_PACKAGE_GATE",
+  "releaseEligible": true,
+  "marketplacePublicationAllowed": true,
+  "artifacts": [
+    {
+      "id": "js_npm_package",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/package.json",
+      "sha256": "af680f56c2083937aadc171af77299db69253ee72ed526131e790150825eb2ce",
+      "bytes": 1186
+    },
+    {
+      "id": "python_wheel",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b12-py3-none-any.whl",
+      "sha256": "d1e502cec1958bd87c622bd91f763e962a6c217b0de1c064563d69dda2ba73c2",
+      "bytes": 10037
+    },
+    {
+      "id": "python_sdist",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b12.tar.gz",
+      "sha256": "efd8848b0f7cb956e3b6fad9b9018e417d1aaa739ead4d4a07b39f34678c68d0",
+      "bytes": 7466
+    },
+    {
+      "id": "rust_crate",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/target/package/brik64-core-0.1.0-beta.12.crate",
+      "sha256": "8237333bda37e12c448ac13dfaa1f3271ce55d28a5d46318fee628340a4d5ec9",
+      "bytes": 64083
+    }
+  ],
+  "failures": [],
+  "boundary": "Local package artifacts are present for SDK publication. This gate does not publish to package marketplaces."
+}

@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.11",
-  "version": "0.1.0-beta.11",
+  "releaseId": "brik64-0.1.0-beta.12",
+  "version": "0.1.0-beta.12",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-08T12:06:50Z",
+  "state": "draft",
+  "createdAt": "2026-06-08T14:12:05.144Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "85426ab1da8df9910fd5dece8e424d7315b33e67"
+    "branch": "codex/beta12-release-train",
+    "commit": "830d445ccbaa3370ea1b62f5f551a66233ccaf35"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -32,8 +32,8 @@
       }
     ],
     "package": {
-      "path": "evidence/beta11-package/brik64-cli-0.1.0-beta.11.tgz",
-      "sha256": "f81e0581e34ab9422cce517d6e4151b17d1db7f39e4f76499cd2a59961888e65"
+      "path": "evidence/beta12-package/brik64-cli-0.1.0-beta.12.tgz",
+      "sha256": "b4d42bc773abc317c817903113c46dbbe91f0c95d95cfd712787e38988247b8f"
     }
   },
   "sdks": [
@@ -41,29 +41,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.11",
+      "version": "0.1.0-beta.12",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b11",
+      "version": "0.1.0b12",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.11",
+      "version": "0.1.0-beta.12",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.11",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.11"
+      "tag": "v0.1.0-beta.12",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.12"
     },
     "curlInstaller": {
       "required": true,
@@ -95,65 +95,50 @@
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds semantic local polymerization coverage for supported same-directory PCD import DAGs."
+      "text": "Adds opt-in telemetry commands for local export, purge, and explicit send behavior."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Materializes referenced local import files beside generated polymer outputs when needed for certification."
+      "text": "Adds redacted user feedback capture with local preview by default and explicit send support."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds adversarial release gating for malformed PCD input, path traversal, stale certificates, missing imports, and polymer import behavior."
+      "text": "Adds redacted local error-report inspection and explicit send support."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves generated Rust scaffold output so the Beta11 supported fallback path is warning-free under cargo test."
+      "text": "Rejects PCD inputs, imports, certificates, and generated output paths that resolve outside the workspace through symlinks or existing parent directories."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves empty-workspace doctor diagnostics for both human output and JSON automation output."
+      "text": "Improves empty-workspace doctor guidance when PCD files are present outside the default pcd inventory directory."
     },
     {
       "type": "changed",
-      "surface": "release",
-      "text": "Expands release synchronization checks across CLI README, changelog, web, docs, SDK pages, and public skills."
+      "surface": "sdk",
+      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta12 release."
     }
   ],
   "verification": {
     "requiredEvidence": [
       {
         "id": "adversarialGate",
-        "path": "evidence/beta11-adversarial/report.json",
-        "decision": "PASS_BETA11_ADVERSARIAL_GATE"
-      },
-      {
-        "id": "l6MaterializationGate",
-        "path": "evidence/beta11-l6-materialization/gate-report.json",
-        "decision": "PASS_BETA11_PCD_L6_MATERIALIZATION_GATE"
-      },
-      {
-        "id": "antiDriftGate",
-        "path": "evidence/beta11-anti-drift/report.json",
-        "decision": "PASS_BETA11_ANTI_DRIFT_GATE"
-      },
-      {
-        "id": "surfaceSyncGate",
-        "path": "evidence/beta11-surface-sync/report.json",
-        "decision": "PASS_BETA11_SURFACE_SYNC"
+        "path": "evidence/beta12-adversarial/report.json",
+        "decision": "PASS_BETA12_ADVERSARIAL_GATE"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta11-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA11_PACKAGE_BUILT"
+        "path": "evidence/beta12-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA12_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta11-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA11_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta12-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA12_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }
