@@ -1,8 +1,10 @@
 {
   "schemaVersion": "brik64.release_train_live_verify_report.v1",
-  "releaseId": "brik64-0.1.0-beta.5",
-  "version": "0.1.0-beta.5",
-  "manifestDigest": "058440c5d913a3b2cda8dc23d5ac063cb5de164c35d798aa74d289afac68bc95",
+  "releaseId": "brik64-0.1.0-beta.10",
+  "version": "0.1.0-beta.10",
+  "manifestDigest": "b29b12cc2674138f14385554993dedb426acdbdc5fa40e3de84ce437e3024852",
+  "attempt": 1,
+  "maxAttempts": 31,
   "decision": "PASS_RELEASE_TRAIN_LIVE_VERIFY",
   "publicationAllowed": false,
   "boundary": "Live verification only. This report observes public surfaces and does not mutate or publish.",
@@ -12,80 +14,80 @@
       "url": "https://brik64.com/cli/install.sh",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "711f69cde237313261da198462ce74fc7d7432c2b8b9e494f500180f14e7e62b",
-      "bytes": 3062
+      "sha256": "13f137ce7a3821d55989580e88d1aac778060365a90df9feca8a7ed54f310c1a",
+      "bytes": 3052
     },
     {
       "id": "channel_manifest",
       "url": "https://brik64.com/cli/beta.json",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "918034bdf4535955130ee8b86a55ee47dda0b1a90e5994ddf3dc65055099468f",
-      "bytes": 355
+      "sha256": "d8f3c981e291bf6c8adeb73d81af481981e56d659ea9605b28579b04e75bb7fe",
+      "bytes": 358
     },
     {
       "id": "github_release",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.5",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.10",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "526f7a498bbc7f32cacc1b07f25cee17a16f0aff26cc7b438aff1819136176ab",
-      "bytes": 213490
+      "sha256": "89b79d942580db5136b83d9331a6668972d94a440906511f20a675abc71dd610",
+      "bytes": 219808
     },
     {
       "id": "docs_install",
       "url": "https://docs.brik64.com/cli/install.md",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "031a967c39322b55b60ce4e1e4d89dacf7fd23c0698cc7275c2c55761b3cc7ef",
-      "bytes": 2949
+      "sha256": "44461097cbcfe159526216ecb4961ce958711c37ca595a776db01f62dab6d299",
+      "bytes": 3040
     },
     {
       "id": "web_home",
       "url": "https://brik64.com/",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "356dfd1482b430f0c3bc779af74369be08d45a902168125e0bd1a993de376b1c",
-      "bytes": 303995
+      "sha256": "cd52f10e8b0bc20554a47a0456633f2996fa6ecb2dc1fae8fe516960c07450a2",
+      "bytes": 304137
     },
     {
       "id": "web_changelog",
       "url": "https://brik64.com/changelog",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "ef02a9f8b6ca2a71e768057b49d14884acbd653b97fcfbf4096f29c8951f595a",
-      "bytes": 69193
+      "sha256": "d937844f8c6142ffe0f66886112370cf75640d346c58d04329b3a636f991e7c5",
+      "bytes": 77908
     },
     {
       "id": "npm_sdk",
       "url": "https://registry.npmjs.org/@brik64%2Fcore",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "070130189cbaf437442645ed8aa172d7c2bfd1e15fcd52cb3c3190d964c3f7bf",
-      "bytes": 4990
+      "sha256": "3145bf46a1f0389a079e2e24bd2ee1a45b8e7ea3a677293480b81f3c5769feb4",
+      "bytes": 17667
     },
     {
       "id": "pypi_sdk",
-      "url": "https://pypi.org/pypi/brik64/json",
+      "url": "https://pypi.org/pypi/brik64/0.1.0b10/json",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "eb59b83312a6a068cd5f9c2e041a5494bf8d7de734234c958962180237786dae",
-      "bytes": 6184
+      "sha256": "37cd7b78a6bbf86bff2eae97aa6fc5ac02ba5684eb50f21804de031886ddc0a3",
+      "bytes": 4196
     },
     {
       "id": "crates_sdk",
       "url": "https://crates.io/api/v1/crates/brik64-core",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "3ac806db6f6ab1485e986009259d45332f2fefa8c4652f468eff2e715c7b01d5",
-      "bytes": 13157
+      "sha256": "7619dc75616508c0bceb065a8f01117ae7bdeb34712ee21191c2da443bf33dae",
+      "bytes": 23172
     },
     {
       "id": "public_skill",
       "url": "https://raw.githubusercontent.com/brik64/brik64-tools-skills/main/skills/brik64/SKILL.md",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "9de1314a40c895c9f046170af3c7c22fa138aff5f6b92479f8a0b69510650843",
-      "bytes": 8011
+      "sha256": "979222963989a9ce1ab8dc17a18a2b660d0ca86d549c84ad7b92932b3443775c",
+      "bytes": 7980
     }
   ],
   "failures": []
