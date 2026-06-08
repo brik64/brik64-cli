@@ -2,7 +2,7 @@
   "schemaVersion": "brik64.release_flow_audit_report.v1",
   "releaseId": "brik64-0.1.0-beta.12",
   "version": "0.1.0-beta.12",
-  "manifestDigest": "dab7f9327c9d2c107f5820dc6f2bb394ab66409260b55d7610f477b8891c93da",
+  "manifestDigest": "b4bf95897b454ca0e5b71fa3de2d2d2694d68d44ffd7ac38875843af23c847af",
   "decision": "PASS_RELEASE_FLOW_AUDIT",
   "publicationAllowed": false,
   "boundary": "Static and local release-flow hardening audit. It verifies publication gates, public-surface coverage, and changelog hygiene without publishing.",
@@ -10,8 +10,8 @@
     {
       "releaseId": "brik64-0.1.0-beta.12",
       "version": "0.1.0-beta.12",
-      "state": "draft",
-      "manifestDigest": "dab7f9327c9d2c107f5820dc6f2bb394ab66409260b55d7610f477b8891c93da",
+      "state": "public",
+      "manifestDigest": "b4bf95897b454ca0e5b71fa3de2d2d2694d68d44ffd7ac38875843af23c847af",
       "currentBetaLabel": "beta12",
       "requiredSurfaces": [
         "githubRelease",
