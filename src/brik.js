@@ -1428,6 +1428,59 @@ function renderSemanticPolymer(rootUnit, units) {
   ].filter((line) => line !== null).join('\n');
 }
 
+function collectImportSources(ast, baseDir, collected = new Map()) {
+  for (const [name, importedAst] of Object.entries(ast.imports || {})) {
+    const importPath = path.resolve(baseDir, `${name}.pcd`);
+    if (!fs.existsSync(importPath)) {
+      fail(66, `pcd_import_not_found:${name}`);
+    }
+    const source = fs.readFileSync(importPath, 'utf8');
+    const prior = collected.get(name);
+    const current = { name, importPath, source, semantic_pcd_sha256: sha256(source) };
+    if (prior && prior.semantic_pcd_sha256 !== current.semantic_pcd_sha256) {
+      fail(65, `polymerize_import_name_conflict:${name}`);
+    }
+    collected.set(name, current);
+    collectImportSources(importedAst, path.dirname(importPath), collected);
+  }
+  return collected;
+}
+
+function materializePolymerImports(rootUnit, outPath) {
+  const outDir = path.dirname(outPath);
+  const importSources = collectImportSources(rootUnit.ast, path.dirname(rootUnit.resolvedFile));
+  const materialized = [];
+  for (const source of importSources.values()) {
+    const targetPath = path.join(outDir, `${source.name}.pcd`);
+    if (path.resolve(source.importPath) === path.resolve(targetPath)) {
+      continue;
+    }
+    if (fs.existsSync(targetPath)) {
+      const targetSource = fs.readFileSync(targetPath, 'utf8');
+      if (sha256(targetSource) !== source.semantic_pcd_sha256) {
+        fail(65, `polymerize_import_output_conflict:${source.name}`);
+      }
+      materialized.push({
+        name: source.name,
+        source: path.relative(process.cwd(), source.importPath),
+        output: path.relative(process.cwd(), targetPath),
+        semantic_pcd_sha256: source.semantic_pcd_sha256,
+        reused: true
+      });
+      continue;
+    }
+    writeFileControlled(targetPath, source.source);
+    materialized.push({
+      name: source.name,
+      source: path.relative(process.cwd(), source.importPath),
+      output: path.relative(process.cwd(), targetPath),
+      semantic_pcd_sha256: source.semantic_pcd_sha256,
+      reused: false
+    });
+  }
+  return materialized;
+}
+
 function renderImportedFunctions(imports, target, seen = new Set()) {
   const lines = [];
   for (const [name, importedAst] of Object.entries(imports || {})) {
@@ -1954,6 +2007,7 @@ function polymerize(rawArgs = []) {
     const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
     return {
       file,
+      resolvedFile,
       semantic_pcd_sha256: sha256(source),
       ast
     };
@@ -1970,6 +2024,12 @@ function polymerize(rawArgs = []) {
   const rootUnit = units[units.length - 1];
   const content = renderSemanticPolymer(rootUnit, units);
   writeFileControlled(outPath, content);
+  const materializedImports = materializePolymerImports(rootUnit, outPath);
+  const manifestSources = units.map((unit) => ({
+    file: unit.file,
+    semantic_pcd_sha256: unit.semantic_pcd_sha256,
+    ast: unit.ast
+  }));
   const manifest = {
     schemaVersion: 'brik64.cli_polymer_manifest.v1',
     cliVersion: version,
@@ -1983,7 +2043,8 @@ function polymerize(rawArgs = []) {
     },
     output: path.relative(process.cwd(), outPath),
     output_sha256: sha256(content),
-    sources: units,
+    materializedImports,
+    sources: manifestSources,
     claimBoundary: 'local_candidate_only'
   };
   writeFileControlled(`${outPath}.manifest.json`, JSON.stringify(manifest, null, 2) + '\n');
