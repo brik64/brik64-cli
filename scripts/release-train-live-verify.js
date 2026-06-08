@@ -93,7 +93,7 @@ function fetchTextWithCurl(url) {
 }
 
 function fetchHeadersWithCurl(url) {
-  const args = ['--silent', '--show-error', '--max-time', '20', '--include', '--output', '/dev/null'];
+  const args = ['--silent', '--show-error', '--max-time', '20', '--head', '--dump-header', '-', '--output', '/dev/null'];
   for (const [name, value] of Object.entries(verifierHeaders)) {
     args.push('--header', `${name}: ${value}`);
   }

@@ -3,27 +3,27 @@
   "releaseId": "brik64-0.1.0-beta.13",
   "version": "0.1.0-beta.13",
   "manifestDigest": "7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
-  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
-  "dryRunInProgress": true,
-  "publishRequested": false,
-  "publicationAllowed": false,
+  "decision": "PASS_PUBLISH_PREFLIGHT_READY_TO_MUTATE",
+  "dryRunInProgress": false,
+  "publishRequested": true,
+  "publicationAllowed": true,
   "expectedConfirm": "PUBLISH 0.1.0-beta.13 7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
   "secretAvailability": {
-    "BRIK64_GITHUB_RELEASE_TOKEN": false,
-    "BRIK64_NPM_TOKEN": false,
-    "BRIK64_PYPI_TOKEN": false,
-    "BRIK64_CRATES_TOKEN": false,
-    "BRIK64_DOCS_DISPATCH_TOKEN": false,
-    "BRIK64_WEB_DEPLOY_TOKEN": false,
-    "BRIK64_SKILLS_REPO_TOKEN": false,
+    "BRIK64_GITHUB_RELEASE_TOKEN": true,
+    "BRIK64_NPM_TOKEN": true,
+    "BRIK64_PYPI_TOKEN": true,
+    "BRIK64_CRATES_TOKEN": true,
+    "BRIK64_DOCS_DISPATCH_TOKEN": true,
+    "BRIK64_WEB_DEPLOY_TOKEN": true,
+    "BRIK64_SKILLS_REPO_TOKEN": true,
     "BRIK64_GCP_RELEASE_CREDENTIALS": false,
-    "BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER": false,
-    "BRIK64_GCP_SERVICE_ACCOUNT": false
+    "BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER": true,
+    "BRIK64_GCP_SERVICE_ACCOUNT": true
   },
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
     "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "f92946fb7e97c0807473fcd00b183fb7724ea0f6",
+    "commit": "9033ba0fa1ee71438286c9f9ca97ae50c88a446b",
     "verified": true,
     "reason": "valid"
   },
@@ -98,7 +98,6 @@
   ],
   "failures": [],
   "warnings": [
-    "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."

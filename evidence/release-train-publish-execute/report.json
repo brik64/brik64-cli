@@ -3,14 +3,12 @@
   "releaseId": "brik64-0.1.0-beta.13",
   "version": "0.1.0-beta.13",
   "manifestDigest": "7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
-  "sourceHead": "f92946f",
-  "publishRequested": false,
-  "publicationMutated": false,
-  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
-  "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [
-    "scripts/release-train-publish-plan.js"
-  ],
+  "sourceHead": "9033ba0",
+  "publishRequested": true,
+  "publicationMutated": true,
+  "decision": "FAIL_RELEASE_TRAIN_PUBLISH_EXECUTE",
+  "boundary": "Mutation mode executes ordered publication commands after full preflight.",
+  "dirtyFiles": [],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -73,10 +71,46 @@
       "failures": []
     }
   ],
-  "executed": [],
+  "executed": [
+    {
+      "name": "github_release",
+      "rc": 0,
+      "elapsedMs": 6535,
+      "stdout": "{\"ref\":\"refs/tags/v0.1.0-beta.13\",\"node_id\":\"REF_kwDOSvpCcrhyZWZzL3RhZ3MvdjAuMS4wLWJldGEuMTM\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.13\",\"object\":{\"sha\":\"9033ba0fa1ee71438286c9f9ca97ae50c88a446b\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/commits/9033ba0fa1ee71438286c9f9ca97ae50c88a446b\"}}{\"ref\":\"refs/tags/v0.1.0-beta.13\",\"node_id\":\"REF_kwDOSvpCcrhyZWZzL3RhZ3MvdjAuMS4wLWJldGEuMTM\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.13\",\"object\":{\"sha\":\"9033ba0fa1ee71438286c9f9ca97ae50c88a446b\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/commits/9033ba0fa1ee71438286c9f9ca97ae50c88a446b\"}}https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.13\nhttps://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.13\n",
+      "stderr": "release not found\n"
+    },
+    {
+      "name": "sdk_npm",
+      "rc": 0,
+      "elapsedMs": 921,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "sdk_pypi",
+      "rc": 0,
+      "elapsedMs": 352,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "sdk_crates",
+      "rc": 0,
+      "elapsedMs": 10436,
+      "stdout": "",
+      "stderr": "    Updating crates.io index\n   Packaging brik64-core v0.1.0-beta.13 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\n    Updating crates.io index\n    Packaged 29 files, 89.6KiB (62.6KiB compressed)\n   Verifying brik64-core v0.1.0-beta.13 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\n   Compiling brik64-core v0.1.0-beta.13 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/target/package/brik64-core-0.1.0-beta.13)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.45s\n   Uploading brik64-core v0.1.0-beta.13 (/Users/carlosjperez/Documents/GitHub/brik64-lib-rust)\n    Uploaded brik64-core v0.1.0-beta.13 to registry `crates-io`\nnote: waiting for brik64-core v0.1.0-beta.13 to be available at registry `crates-io`\nhelp: you may press ctrl-c to skip waiting; the crate should be available shortly\n   Published brik64-core v0.1.0-beta.13 at registry `crates-io`\n"
+    },
+    {
+      "name": "gcp_curl",
+      "rc": 1,
+      "elapsedMs": 3528,
+      "stdout": "",
+      "stderr": "ERROR: (gcloud.storage.cp) There was a problem refreshing your current auth tokens: Reauthentication failed. cannot prompt during non-interactive execution.\nPlease run:\n\n  $ gcloud auth login\n\nto obtain new credentials.\n\nIf you have already logged in with a different account, run:\n\n  $ gcloud config set account ACCOUNT\n\nto select an already authenticated account to use.\n"
+    }
+  ],
   "blockers": [],
-  "failures": [],
-  "warnings": [
-    "worktree_dirty_dry_run:1"
-  ]
+  "failures": [
+    "command_failed:gcp_curl:1"
+  ],
+  "warnings": []
 }

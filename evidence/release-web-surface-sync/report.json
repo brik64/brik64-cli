@@ -2,19 +2,19 @@
   "schemaVersion": "brik64.release_web_surface_sync_report.v1",
   "releaseId": "brik64-0.1.0-beta.13",
   "version": "0.1.0-beta.13",
-  "publishRequested": false,
-  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC_DRY_RUN",
+  "publishRequested": true,
+  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC",
   "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
   "changedBeforeCommit": true,
-  "commit": null,
-  "pushed": false,
+  "commit": "847431779a79beed535c8df5f62a499cc059ee44",
+  "pushed": true,
   "observations": [
     {
       "id": "web_checkout_main",
       "command": "git checkout main",
       "rc": 0,
       "stdout": "Your branch is up to date with 'origin/main'.",
-      "stderr": "Already on 'main'"
+      "stderr": "Switched to branch 'main'"
     },
     {
       "id": "web_pull_main",
@@ -22,6 +22,27 @@
       "rc": 0,
       "stdout": "Already up to date.",
       "stderr": "From https://github.com/brik64-admin/brik64.com\n * branch            main       -> FETCH_HEAD"
+    },
+    {
+      "id": "web_git_add",
+      "command": "git add public/cli/install.sh public/cli/beta.json public/cli/releases/0.1.0-beta.13.json src/app/changelog/page.tsx src/app/download/page.tsx src/app/sdks/page.tsx functions/api/download/sdk/[target].ts",
+      "rc": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "web_git_commit",
+      "command": "git commit -m Align public web surface to 0.1.0-beta.13",
+      "rc": 0,
+      "stdout": "[main 8474317] Align public web surface to 0.1.0-beta.13\n 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "stderr": ""
+    },
+    {
+      "id": "web_git_push",
+      "command": "git push origin HEAD:main",
+      "rc": 0,
+      "stdout": "",
+      "stderr": "To https://github.com/brik64-admin/brik64.com.git\n   c00d32e..8474317  HEAD -> main"
     },
     {
       "id": "install",
@@ -56,13 +77,13 @@
     {
       "id": "sdkDownloadApi",
       "path": "functions/api/download/sdk/[target].ts",
-      "sha256": "9452df142987a9137e4fe43f10819d8f2ba31239fb3a9f9d2427580e4ce4d4fc",
-      "bytes": 2335
+      "sha256": "2497bd3750863d45b1c9d98c3f4092ff03c9401662b7cd165fd4a51b11307a91",
+      "bytes": 2332
     },
     {
       "id": "releaseManifest",
       "path": "public/cli/releases/0.1.0-beta.13.json",
-      "sha256": "3af43a3b4fa8fe90efea98e110271a7f9f2229189389469e0b652b768c138780",
+      "sha256": "117e7a2ff4777d5078bce92c0550c3c0163245b07c84665e34d11279bb5a19c6",
       "bytes": 1169
     }
   ],
