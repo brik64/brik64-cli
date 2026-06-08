@@ -195,7 +195,11 @@ function ensureRepo(failures) {
     return;
   }
   fs.mkdirSync(path.dirname(webRoot), { recursive: true });
-  const clone = run('gh', ['repo', 'clone', 'brik64-admin/brik64.com', webRoot], { cwd: path.dirname(webRoot) });
+  const token = process.env.BRIK64_WEB_DEPLOY_TOKEN || process.env.GH_TOKEN || '';
+  const repoUrl = token
+    ? `https://x-access-token:${token}@github.com/brik64-admin/brik64.com.git`
+    : 'https://github.com/brik64-admin/brik64.com.git';
+  const clone = run('git', ['clone', '--branch', 'main', '--depth', '1', repoUrl, webRoot], { cwd: path.dirname(webRoot) });
   if (clone.rc !== 0) failures.push(`web_repo_clone_failed:${clone.rc}`);
 }
 
@@ -206,11 +210,7 @@ function main() {
   ensureRepo(failures);
   if (failures.length === 0) {
     if (process.env.GITHUB_ACTIONS === 'true') {
-      const fetch = run('git', ['fetch', 'origin', 'main'], { cwd: webRoot });
-      const checkout = fetch.rc === 0
-        ? run('git', ['checkout', '-B', 'main', 'origin/main'], { cwd: webRoot })
-        : { rc: 0 };
-      if (fetch.rc !== 0) failures.push(`web_fetch_main_failed:${fetch.rc}`);
+      const checkout = run('git', ['checkout', 'main'], { cwd: webRoot });
       if (checkout.rc !== 0) failures.push(`web_checkout_main_failed:${checkout.rc}`);
     } else {
       const checkout = run('git', ['checkout', 'main'], { cwd: webRoot });
