@@ -58,31 +58,33 @@ git -C "$WEB" commit -q -m "fixture"
 )
 
 REPORT="$ROOT/evidence/release-web-surface-sync/report.json"
+VERSION="$(jq -r '.version' "$ROOT/release/manifest.json")"
+PY_VERSION="$(jq -r '.sdks[] | select(.marketplace=="pypi") | .version' "$ROOT/release/manifest.json")"
 jq -e '
   .decision=="PASS_RELEASE_WEB_SURFACE_SYNC_DRY_RUN"
-  and .version=="0.1.0-beta.9"
+  and .version==$version
   and .changedBeforeCommit==true
   and .pushed==false
-' "$REPORT" >/dev/null
+' --arg version "$VERSION" "$REPORT" >/dev/null
 
-grep -q '0.1.0-beta.9' "$WEB/public/cli/install.sh"
-grep -q 'SHA256_0_1_0_BETA_9' "$WEB/public/cli/install.sh"
-jq -e '.currentVersion=="0.1.0-beta.9" and .releaseManifest=="/cli/releases/0.1.0-beta.9.json"' "$WEB/public/cli/beta.json" >/dev/null
-test -f "$WEB/public/cli/releases/0.1.0-beta.9.json"
-grep -q 'version: "0.1.0-beta.9"' "$WEB/src/app/changelog/page.tsx"
-grep -q '@brik64/core@0.1.0-beta.9' "$WEB/src/app/sdks/page.tsx"
-grep -q 'brik64==0.1.0b9' "$WEB/src/app/sdks/page.tsx"
+grep -q "$VERSION" "$WEB/public/cli/install.sh"
+grep -q "SHA256_0_1_0_BETA_${VERSION##*.}" "$WEB/public/cli/install.sh"
+jq -e '.currentVersion==$version and .releaseManifest==("/cli/releases/" + $version + ".json")' --arg version "$VERSION" "$WEB/public/cli/beta.json" >/dev/null
+test -f "$WEB/public/cli/releases/$VERSION.json"
+grep -q "version: \"$VERSION\"" "$WEB/src/app/changelog/page.tsx"
+grep -q "@brik64/core@$VERSION" "$WEB/src/app/sdks/page.tsx"
+grep -q "brik64==$PY_VERSION" "$WEB/src/app/sdks/page.tsx"
 
 git -C "$WEB" add .
-git -C "$WEB" commit -q -m "sync beta9"
+git -C "$WEB" commit -q -m "sync $VERSION"
 (
   cd "$ROOT"
   BRIK64_WEB_REPO_ROOT="$WEB" node scripts/release/sync-web-release-surface.js
 )
 jq -e '
   .decision=="PASS_RELEASE_WEB_SURFACE_SYNC_DRY_RUN"
-  and .version=="0.1.0-beta.9"
+  and .version==$version
   and .changedBeforeCommit==false
-' "$REPORT" >/dev/null
+' --arg version "$VERSION" "$REPORT" >/dev/null
 
 printf 'PASS release web surface sync\n'
