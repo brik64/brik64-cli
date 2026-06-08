@@ -7,8 +7,8 @@
   "generationClaim": "assisted_generation_non_claim",
   "package": {
     "path": "evidence/beta12-package/brik64-cli-0.1.0-beta.12.tgz",
-    "sha256": "c72b1e3acf57545a73fa09db04fe519fb55c7cb5af8f4ff6d51913b40fffc90f",
-    "bytes": 35928
+    "sha256": "c55ac96ccad36ca08641631532ef793dde7c8383cff4b0258cd4b657d831fbde",
+    "bytes": 35844
   },
   "inputGates": [
     {

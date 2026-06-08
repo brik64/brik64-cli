@@ -12,7 +12,6 @@ const version = '0.1.0-beta.12';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
-const TELEMETRY_QUEUE_SCHEMA = 'brik64.cli_telemetry_event.v1';
 const FEEDBACK_SCHEMA = 'brik64.cli_feedback_event.v1';
 const RESET = '\x1b[0m';
 const BRIK = '\x1b[38;2;180;180;180m';
@@ -1192,14 +1191,6 @@ function readTelemetryConfig() {
 function writeTelemetryConfig(config) {
   mkdirControlled(brikDir());
   writeFileControlled(telemetryConfigPath(), JSON.stringify(config, null, 2) + '\n');
-}
-
-function normalizedPlatform() {
-  return {
-    os: process.platform,
-    arch: process.arch,
-    nodeMajor: Number(process.versions.node.split('.')[0]) || 0
-  };
 }
 
 function appendJsonLine(file, value) {
