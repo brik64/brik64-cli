@@ -269,6 +269,10 @@ function candidateBranchCommands(version) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       }),
+      run('beta13_local_package', ['npm', 'run', 'package:beta13:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
       committedPackageShaGate(version),
       run('beta13_package_smoke', ['npm', 'run', 'smoke:beta13:package'], {
         stdoutLimit: 12000,
