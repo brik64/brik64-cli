@@ -62,7 +62,11 @@ function main() {
   const packageDir = `evidence/${label}-package`;
   const packageManifest = readJson(path.join(root, packageDir, 'package.manifest.json'));
   const packagePath = packageManifest.package.path;
-  const jsSdkPackDir = `evidence-${label}-pack`;
+  const jsSdkPackageCandidates = [
+    `/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-${manifest.version}.tgz`,
+    `/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-${label}-pack/brik64-core-${manifest.version}.tgz`
+  ];
+  const jsSdkPackagePath = jsSdkPackageCandidates.find((candidate) => fs.existsSync(candidate)) || jsSdkPackageCandidates[0];
   const pythonSdkVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version;
   const genericSignatureReportPath = path.join(root, 'evidence', 'release-github-verified-signature', 'report.json');
   const legacySignatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
@@ -144,7 +148,7 @@ function main() {
     command(
       'sdk_npm',
       'Publish the TypeScript SDK package with the manifest beta version.',
-      `npm view @brik64/core@${manifest.version} version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/${jsSdkPackDir}/brik64-core-${manifest.version}.tgz`,
+      `npm view @brik64/core@${manifest.version} version >/dev/null 2>&1 || npm publish --tag beta ${jsSdkPackagePath}`,
       true
     ),
     command(
