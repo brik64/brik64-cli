@@ -116,19 +116,20 @@ jobs:
           set -euo pipefail
           VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("release/manifest.json","utf8")).version)')"
           BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$VERSION")"
-          PACKAGE_SCRIPT="package:beta${BETA_NUMBER}:local"
           SMOKE_SCRIPT="smoke:beta${BETA_NUMBER}:package"
-          npm run "$PACKAGE_SCRIPT"
-          npm run "$SMOKE_SCRIPT"
           node - <<'NODE'
           const fs = require('fs');
+          const crypto = require('crypto');
           const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));
           const pkg = JSON.parse(fs.readFileSync(`evidence/beta${manifest.version.match(/-beta\.(\d+)$/)[1]}-package/package.manifest.json`, 'utf8'));
-          if (pkg.package.sha256 !== manifest.cli.package.sha256) {
-            console.error(`cli_package_sha_drift:${pkg.package.sha256}:${manifest.cli.package.sha256}`);
+          const tarball = pkg.package.path;
+          const tarballSha = crypto.createHash('sha256').update(fs.readFileSync(tarball)).digest('hex');
+          if (pkg.package.sha256 !== manifest.cli.package.sha256 || tarballSha !== manifest.cli.package.sha256) {
+            console.error(`cli_package_sha_drift:${pkg.package.sha256}:${tarballSha}:${manifest.cli.package.sha256}`);
             process.exit(1);
           }
           NODE
+          npm run "$SMOKE_SCRIPT"
 
       - name: Record beta9 staged SDK preflight
         env:
