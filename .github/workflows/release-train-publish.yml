@@ -120,6 +120,15 @@ jobs:
           SMOKE_SCRIPT="smoke:beta${BETA_NUMBER}:package"
           npm run "$PACKAGE_SCRIPT"
           npm run "$SMOKE_SCRIPT"
+          node - <<'NODE'
+          const fs = require('fs');
+          const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));
+          const pkg = JSON.parse(fs.readFileSync(`evidence/beta${manifest.version.match(/-beta\.(\d+)$/)[1]}-package/package.manifest.json`, 'utf8'));
+          if (pkg.package.sha256 !== manifest.cli.package.sha256) {
+            console.error(`cli_package_sha_drift:${pkg.package.sha256}:${manifest.cli.package.sha256}`);
+            process.exit(1);
+          }
+          NODE
 
       - name: Record beta9 staged SDK preflight
         env:
