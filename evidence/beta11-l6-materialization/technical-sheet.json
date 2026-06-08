@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.11",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "sourceHash": "671c65cda306009606a76bc49f211c14d26d874d692358c0166c0b45a483f701",
+  "target": "js_node",
+  "boundedDomains": {
+    "semantic_polymer_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "fail_closed_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "manifest_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "audit_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "release_ok": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    }
+  },
+  "normalization": {
+    "status": "finite_boolean_domains",
+    "l5CertificateInheritance": "forbidden",
+    "separatesRawAndNormalized": true
+  },
+  "monomerTrace": [
+    {
+      "id": 1,
+      "family": "control",
+      "op": "FAIL_CLOSED_BRANCH_CHAIN"
+    }
+  ],
+  "certificationLane": "INTERNAL_BETA11_GENERATION_ATTEMPT",
+  "releaseEligible": false,
+  "technicalSheetHash": "ad3d09fb103a268a7a4626478bc9af43a9a89648c8c2cb32ea686cade14ad9a9"
+}
