@@ -1,16 +1,17 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.12",
-  "version": "0.1.0-beta.12",
-  "manifestDigest": "b4bf95897b454ca0e5b71fa3de2d2d2694d68d44ffd7ac38875843af23c847af",
-  "sourceHead": "55ea1a7",
+  "releaseId": "brik64-0.1.0-beta.13",
+  "version": "0.1.0-beta.13",
+  "manifestDigest": "7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
+  "sourceHead": "1c5fc4e",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "evidence/release-flow-audit/report.json",
-    "release/manifest.json"
+    "evidence/beta13-source-lift/report.json",
+    "release/manifest.json",
+    "scripts/build-beta13-package.sh"
   ],
   "commandPreflight": [
     {
@@ -24,7 +25,7 @@
       "mutatesPublicSurface": true,
       "pass": false,
       "failures": [
-        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta12-pack/brik64-core-0.1.0-beta.12.tgz"
+        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta13-pack/brik64-core-0.1.0-beta.13.tgz"
       ]
     },
     {
@@ -78,10 +79,10 @@
   ],
   "executed": [],
   "blockers": [
-    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta12-pack/brik64-core-0.1.0-beta.12.tgz"
+    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-beta13-pack/brik64-core-0.1.0-beta.13.tgz"
   ],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:2"
+    "worktree_dirty_dry_run:3"
   ]
 }
