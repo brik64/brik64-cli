@@ -254,6 +254,10 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
 
+  if (betaNumber(manifest.version) === 10) {
+    return candidateBranchCommands(manifest.version);
+  }
+
   return [
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),
     run(`${label}_local_package`, ['node', `scripts/build-${label}-package.js`]),
@@ -288,6 +292,9 @@ function main() {
   const commands = candidateBranchMode
     ? candidateBranchCommands(currentPackageVersion)
     : [
+        ...(beta === 10
+          ? candidateBranchCommands(manifest.version)
+          : []),
         run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
         ...(beta === 6 && runLiveL6Gate
           ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
