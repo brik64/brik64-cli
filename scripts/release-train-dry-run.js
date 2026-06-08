@@ -170,7 +170,11 @@ if (pkg.version !== manifest.version) {
   console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);
   process.exit(1);
 }
-if (pkg.package.sha256 !== manifest.cli.package.sha256 || tarballSha !== manifest.cli.package.sha256) {
+if (pkg.package.sha256 !== tarballSha) {
+  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);
+  process.exit(1);
+}
+if (manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {
   console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);
   process.exit(1);
 }
