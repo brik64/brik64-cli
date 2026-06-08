@@ -116,7 +116,9 @@
     "gate:beta11:semantic-polymerize": "node scripts/beta11-semantic-polymerize-gate.js",
     "test:beta11-semantic-polymerize": "node scripts/beta11-semantic-polymerize-gate.js",
     "gate:beta11:rust-emitter-clean": "node scripts/beta11-rust-emitter-clean-gate.js",
-    "test:beta11-rust-emitter-clean": "node scripts/beta11-rust-emitter-clean-gate.js"
+    "test:beta11-rust-emitter-clean": "node scripts/beta11-rust-emitter-clean-gate.js",
+    "gate:beta11:doctor-empty-workspace": "node scripts/beta11-doctor-empty-workspace-gate.js",
+    "test:beta11-doctor-empty-workspace": "node scripts/beta11-doctor-empty-workspace-gate.js"
   },
   "author": {
     "name": "BRIK64 INC",
