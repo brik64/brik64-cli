@@ -79,8 +79,9 @@ ${notes}
 function syncFiles(manifest) {
   const failures = [];
   const betaNumber = currentBetaNumber(manifest.version);
-  const previousBetaPattern = new RegExp(`0\\.1\\.0-beta\\.(?:${Array.from({ length: betaNumber }, (_, i) => i).join('|')})`, 'g');
-  const previousPyPattern = new RegExp(`0\\.1\\.0b(?:${Array.from({ length: betaNumber }, (_, i) => i).join('|')})`, 'g');
+  const previousBetas = Array.from({ length: betaNumber }, (_, i) => i).sort((a, b) => b - a).join('|');
+  const previousBetaPattern = new RegExp(`0\\.1\\.0-beta\\.(?:${previousBetas})(?!\\d)`, 'g');
+  const previousPyPattern = new RegExp(`0\\.1\\.0b(?:${previousBetas})(?!\\d)`, 'g');
   const previousBetaWordPattern = new RegExp(`\\b[Bb]eta(?:${Array.from({ length: betaNumber }, (_, i) => i).join('|')})\\b`, 'g');
   const jsSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'npm');
   const pySdk = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi');
@@ -203,14 +204,37 @@ function ensureRepo(failures) {
   if (clone.rc !== 0) failures.push(`web_repo_clone_failed:${clone.rc}`);
 }
 
+function gitOutput(result) {
+  return {
+    command: result.command || '',
+    rc: result.rc,
+    stdout: (result.stdout || '').trim(),
+    stderr: (result.stderr || '').trim()
+  };
+}
+
+function configureGitIdentity(failures, observations) {
+  if (process.env.GITHUB_ACTIONS !== 'true') return;
+  const email = process.env.BRIK64_RELEASE_GIT_EMAIL || 'release-bot@brik64.com';
+  const name = process.env.BRIK64_RELEASE_GIT_NAME || 'BRIK64 Release Bot';
+  const emailResult = run('git', ['config', 'user.email', email], { cwd: webRoot });
+  const nameResult = run('git', ['config', 'user.name', name], { cwd: webRoot });
+  observations.push({ id: 'git_config_user_email', ...gitOutput(emailResult) });
+  observations.push({ id: 'git_config_user_name', ...gitOutput(nameResult) });
+  if (emailResult.rc !== 0) failures.push(`web_git_config_email_failed:${emailResult.rc}`);
+  if (nameResult.rc !== 0) failures.push(`web_git_config_name_failed:${nameResult.rc}`);
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const manifest = readJson(manifestPath);
   const failures = [];
+  const observations = [];
   ensureRepo(failures);
   if (failures.length === 0) {
     if (process.env.GITHUB_ACTIONS === 'true') {
       const checkout = run('git', ['checkout', 'main'], { cwd: webRoot });
+      observations.push({ id: 'web_checkout_main', ...gitOutput(checkout) });
       if (checkout.rc !== 0) failures.push(`web_checkout_main_failed:${checkout.rc}`);
     } else {
       const checkout = run('git', ['checkout', 'main'], { cwd: webRoot });
@@ -218,10 +242,13 @@ function main() {
       const pull = remote.rc === 0
         ? run('git', ['pull', '--ff-only', 'origin', 'main'], { cwd: webRoot })
         : { rc: 0 };
+      observations.push({ id: 'web_checkout_main', ...gitOutput(checkout) });
+      observations.push({ id: 'web_pull_main', ...gitOutput(pull) });
       if (checkout.rc !== 0) failures.push(`web_checkout_main_failed:${checkout.rc}`);
       if (pull.rc !== 0) failures.push(`web_pull_main_failed:${pull.rc}`);
     }
   }
+  if (failures.length === 0) configureGitIdentity(failures, observations);
 
   const sync = failures.length === 0 ? syncFiles(manifest) : { failures: [], files: {} };
   failures.push(...sync.failures);
@@ -230,18 +257,24 @@ function main() {
   let pushed = false;
 
   if (publish && failures.length === 0 && statusBeforeCommit) {
-    run('git', ['add', 'public/cli/install.sh', 'public/cli/beta.json', `public/cli/releases/${manifest.version}.json`, 'src/app/changelog/page.tsx', 'src/app/download/page.tsx', 'src/app/sdks/page.tsx'], { cwd: webRoot });
+    const addResult = run('git', ['add', 'public/cli/install.sh', 'public/cli/beta.json', `public/cli/releases/${manifest.version}.json`, 'src/app/changelog/page.tsx', 'src/app/download/page.tsx', 'src/app/sdks/page.tsx'], { cwd: webRoot });
+    observations.push({ id: 'web_git_add', ...gitOutput(addResult) });
+    if (addResult.rc !== 0) failures.push(`web_add_failed:${addResult.rc}`);
+  }
+
+  if (publish && failures.length === 0 && statusBeforeCommit) {
     const commitResult = run('git', ['commit', '-m', `Align public web surface to ${manifest.version}`], { cwd: webRoot });
+    observations.push({ id: 'web_git_commit', ...gitOutput(commitResult) });
     if (commitResult.rc !== 0) failures.push(`web_commit_failed:${commitResult.rc}`);
     else {
       commit = run('git', ['rev-parse', 'HEAD'], { cwd: webRoot }).stdout.trim();
       const push = run('git', ['push', 'origin', 'HEAD:main'], { cwd: webRoot });
+      observations.push({ id: 'web_git_push', ...gitOutput(push) });
       if (push.rc !== 0) failures.push(`web_push_main_failed:${push.rc}`);
       else pushed = true;
     }
   }
 
-  const observations = [];
   if (failures.length === 0) {
     for (const [id, file] of Object.entries(sync.files)) {
       observations.push({
