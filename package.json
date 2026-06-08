@@ -61,6 +61,7 @@
     "gate:beta8:skills-sync": "node scripts/beta8-skills-sync-gate.js",
     "gate:beta9:pcd-l6-materialization": "node scripts/beta9-pcd-l6-materialization-gate.js",
     "attempt:beta9:l6-materialization": "node scripts/beta9-l6-materialization-attempt.js",
+    "attempt:beta11:l6-materialization": "node scripts/beta11-l6-materialization-attempt.js",
     "gate:beta9:typed-interface": "bash scripts/beta9-typed-interface-gate.sh",
     "gate:beta9:collections": "bash scripts/beta9-collections-gate.sh",
     "gate:beta9:maps": "bash scripts/beta9-maps-gate.sh",
@@ -120,7 +121,9 @@
     "gate:beta11:doctor-empty-workspace": "node scripts/beta11-doctor-empty-workspace-gate.js",
     "test:beta11-doctor-empty-workspace": "node scripts/beta11-doctor-empty-workspace-gate.js",
     "gate:beta11:adversarial": "node scripts/beta11-adversarial-gate.js",
-    "test:beta11-adversarial": "node scripts/beta11-adversarial-gate.js"
+    "test:beta11-adversarial": "node scripts/beta11-adversarial-gate.js",
+    "gate:beta11:l6-materialization": "node scripts/beta11-l6-materialization-gate.js",
+    "test:beta11-l6-materialization": "node scripts/beta11-l6-materialization-gate.js"
   },
   "author": {
     "name": "BRIK64 INC",

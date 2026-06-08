@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "brik64.beta11_pcd_l6_materialization_gate.v1",
+  "generatedAt": "2026-06-08T10:28:48.377Z",
+  "decision": "PASS_BETA11_PCD_L6_MATERIALIZATION_GATE",
+  "blockers": [],
+  "expected": {
+    "version": "0.1.0-beta.11",
+    "lane": "cli_0_1_beta11",
+    "generationClaim": "assisted_generation_non_claim",
+    "pcdInventoryHash": "sha256:767313be7ef735dcc85b170d6f4af656333890c3b42832f4be4b67f2656113cd",
+    "beta11ContractHash": "sha256:671c65cda306009606a76bc49f211c14d26d874d692358c0166c0b45a483f701",
+    "adversarialReportHash": "sha256:b9d79bfb59531387f54b57403ff08a96d661ac4e8212f16ce225a1bcc15446c4"
+  },
+  "checks": {
+    "decision": true,
+    "version": true,
+    "lane": true,
+    "generationClaim": true,
+    "pcdInventoryHash": true,
+    "beta11ContractHash": true,
+    "adversarialReportHash": true,
+    "factorySerial": true,
+    "generatedArtifactHash": true,
+    "generatedCertificateHash": true,
+    "claimBoundaryClosed": true
+  },
+  "inputs": {
+    "report": "evidence/beta11-l6-materialization/report.json",
+    "pcdInventory": [
+      {
+        "path": "pcd/beta6_package_harness.pcd",
+        "sha256": "sha256:692679f70716c0300b412e42c3c58ce4a5e16b0f57c029b5c4da1b5b56d7591b"
+      },
+      {
+        "path": "pcd/cli_account_session.pcd",
+        "sha256": "sha256:2a629b0c88a96c81a42f3e5949900798fe25886aec7ac203855ba7540cd3b36c"
+      },
+      {
+        "path": "pcd/cli_beta10_modular_diagnostics_contract.pcd",
+        "sha256": "sha256:d696222786f38f10ddd85cdce46f30262462129393f48c1f87b5ca781ba95736"
+      },
+      {
+        "path": "pcd/cli_beta11_semantic_polymer_contract.pcd",
+        "sha256": "sha256:671c65cda306009606a76bc49f211c14d26d874d692358c0166c0b45a483f701"
+      },
+      {
+        "path": "pcd/cli_beta5_route2.pcd",
+        "sha256": "sha256:e3bb149f00b97c96a727baa4890aff9a5421dd91dda917c192d3df9f0e84f80a"
+      },
+      {
+        "path": "pcd/cli_beta9_transpiler_contract.pcd",
+        "sha256": "sha256:66aff2508a52825ba4f2d2636eb80550cb4fc25b1dc00457bd7a49918bb2c5ea"
+      },
+      {
+        "path": "pcd/cli_certify_emit.pcd",
+        "sha256": "sha256:1d73245ebee8592a4eeacdb4b99398baf7c5ddfa3c88c5927f924a871eee7147"
+      },
+      {
+        "path": "pcd/cli_core.pcd",
+        "sha256": "sha256:ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c"
+      },
+      {
+        "path": "pcd/cli_init_policy.pcd",
+        "sha256": "sha256:fae8cf2f18ba00b337236a46ee7d212b1437c7b4eae812ca1e3506651ffdb31d"
+      },
+      {
+        "path": "pcd/cli_migrate.pcd",
+        "sha256": "sha256:3ea78bd6e28c15b409318be8107590e2a833ca6bea98df8a974f4ac7e0beb6ed"
+      },
+      {
+        "path": "pcd/cli_polymer.pcd",
+        "sha256": "sha256:14d4f2a0926eb48734890c054d0be15bc46eadf234feecc52a52afa3950ac16a"
+      },
+      {
+        "path": "pcd/cli_polymerize.pcd",
+        "sha256": "sha256:eeada3bbe77fc19a4387acbf4fced480b06acd1776b8d1587d69ec8e855c0e24"
+      },
+      {
+        "path": "pcd/cli_verify.pcd",
+        "sha256": "sha256:6987959306e52657f53de2ac6e1d35c8389d4ce1e571db381e978dcf650e96ad"
+      },
+      {
+        "path": "pcd/l6_full_cli_generation_factory.pcd",
+        "sha256": "sha256:182ebf0059a5db608be1c40b1e1e1754da875a47fa304b30a02e4d934c93949d"
+      }
+    ]
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false,
+    "pureBrik64ChainClaimAllowed": false
+  },
+  "nextAction": "Continue beta11 release train anti-drift and public surface gates."
+}
