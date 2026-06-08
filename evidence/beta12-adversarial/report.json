@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "brik64.cli_beta12_adversarial_gate.v1",
+  "generatedAt": "2026-06-08T14:43:25.668Z",
+  "lane": "cli_0_1_beta12",
+  "decision": "PASS_BETA12_ADVERSARIAL_GATE",
+  "rc": 0,
+  "checks": [
+    {
+      "id": "regression:beta12_semantic_polymerize_gate",
+      "status": "PASS",
+      "elapsedMs": 1852,
+      "stdoutSha256": "6a2efdfa670c227a47475033e7a29efc573968a17f2f2169b5f32d2982c57bb1"
+    },
+    {
+      "id": "regression:beta12_rust_emitter_clean_gate",
+      "status": "PASS",
+      "elapsedMs": 2379,
+      "stdoutSha256": "71fc9b7e767900e302d000ba3861ec69e2a6cb62121509f1d9fec2478006290d"
+    },
+    {
+      "id": "regression:beta12_doctor_empty_workspace_gate",
+      "status": "PASS",
+      "elapsedMs": 919,
+      "stdoutSha256": "a98a2ee034645e20ee117455e936656474da8ef0d0cb6d8a3d937a2c7f2bb034"
+    },
+    {
+      "id": "adversarial:path_traversal_and_certificate_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 776
+    },
+    {
+      "id": "adversarial:symlink_input_escape_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 355
+    },
+    {
+      "id": "adversarial:parser_rejects_malformed_inputs",
+      "status": "PASS",
+      "elapsedMs": 1700
+    },
+    {
+      "id": "adversarial:polymerize_import_dag_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 1439
+    }
+  ],
+  "blockers": [],
+  "scratchWorkspace": "brik64-beta12-adversarial-3caiXM",
+  "claimBoundary": {
+    "functionalCliEvidence": true,
+    "publicReleaseAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "l6PublicClaimAllowed": false
+  }
+}
