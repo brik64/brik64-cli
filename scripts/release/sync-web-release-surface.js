@@ -7,7 +7,9 @@ const childProcess = require('child_process');
 const root = path.resolve(__dirname, '..', '..');
 const manifestPath = path.join(root, 'release', 'manifest.json');
 const outDir = path.join(root, 'evidence', 'release-web-surface-sync');
-const defaultWebRoot = '/Users/carlosjperez/Documents/GitHub/brik64.com';
+const defaultWebRoot = process.env.GITHUB_ACTIONS === 'true'
+  ? path.join(process.env.RUNNER_TEMP || '/tmp', 'brik64.com')
+  : '/Users/carlosjperez/Documents/GitHub/brik64.com';
 const webRoot = path.resolve(process.env.BRIK64_WEB_REPO_ROOT || defaultWebRoot);
 const publish = process.argv.includes('--publish');
 
