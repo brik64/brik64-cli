@@ -184,7 +184,7 @@ function main() {
 
   const rc = Number(fs.readFileSync(localFiles.rc, 'utf8').trim());
   const stdout = fs.readFileSync(localFiles.stdout, 'utf8');
-  const stderr = fs.readFileSync(localFiles.stderr, 'utf8');
+  fs.readFileSync(localFiles.stderr, 'utf8');
   const remoteOutFiles = fs.readFileSync(localFiles.outFiles, 'utf8').split('\n').filter(Boolean);
   const generatedFiles = [];
   for (const remoteFile of remoteOutFiles) {
