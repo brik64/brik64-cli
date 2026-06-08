@@ -175,15 +175,15 @@ PY`,
       true
     ),
     command(
-      'docs_dispatch',
-      'Dispatch docs update using the manifest payload.',
-      `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -`,
+      'web_pages_deploy',
+      'Dispatch and wait for the brik64.com Cloudflare Pages deploy workflow before live verification.',
+      'node scripts/release/dispatch-web-pages-deploy.js',
       true
     ),
     command(
-      'web_dispatch',
-      'Dispatch web/CMS update using the manifest payload.',
-      `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64.com/dispatches --method POST --input -`,
+      'docs_dispatch',
+      'Dispatch docs update using the manifest payload.',
+      `jq -c '{event_type:"brik64-release-manifest",client_payload:{release:.}}' evidence/release-train-sync/sync-payload.json | gh api repos/brik64-admin/brik64-docs-site/dispatches --method POST --input -`,
       true
     ),
     command(
