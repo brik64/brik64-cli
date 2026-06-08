@@ -181,6 +181,30 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.11') {
+    return [
+      run('beta11_semantic_polymerize', ['npm', 'run', 'gate:beta11:semantic-polymerize'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta11_rust_emitter_clean', ['npm', 'run', 'gate:beta11:rust-emitter-clean'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta11_doctor_empty_workspace', ['npm', 'run', 'gate:beta11:doctor-empty-workspace'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta11_adversarial', ['npm', 'run', 'gate:beta11:adversarial'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta11_l6_materialization', ['npm', 'run', 'gate:beta11:l6-materialization'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
@@ -255,6 +279,10 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
   }
 
   if (betaNumber(manifest.version) === 10) {
+    return candidateBranchCommands(manifest.version);
+  }
+
+  if (betaNumber(manifest.version) === 11) {
     return candidateBranchCommands(manifest.version);
   }
 

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "brik64.beta11_anti_drift_gate.v1",
+  "generatedAt": "2026-06-08T10:35:26.947Z",
+  "decision": "PASS_BETA11_ANTI_DRIFT_GATE",
+  "blockers": [],
+  "checked": {
+    "requiredScripts": [
+      "gate:beta11:semantic-polymerize",
+      "gate:beta11:rust-emitter-clean",
+      "gate:beta11:doctor-empty-workspace",
+      "gate:beta11:adversarial",
+      "gate:beta11:l6-materialization"
+    ],
+    "requiredDryRunIds": [
+      "beta11_semantic_polymerize",
+      "beta11_rust_emitter_clean",
+      "beta11_doctor_empty_workspace",
+      "beta11_adversarial",
+      "beta11_l6_materialization"
+    ],
+    "files": [
+      "package.json",
+      "scripts/release-train-dry-run.js",
+      "scripts/release-flow-audit.js"
+    ]
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false
+  }
+}
