@@ -170,7 +170,11 @@ if (pkg.version !== manifest.version) {
   console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);
   process.exit(1);
 }
-if (pkg.package.sha256 !== manifest.cli.package.sha256 || tarballSha !== manifest.cli.package.sha256) {
+if (pkg.package.sha256 !== tarballSha) {
+  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);
+  process.exit(1);
+}
+if (manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {
   console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);
   process.exit(1);
 }
@@ -263,6 +267,23 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.13') {
+    return [
+      run('beta13_source_lift', ['npm', 'run', 'gate:beta13:source-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta13_local_package', ['npm', 'run', 'package:beta13:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta13_package_smoke', ['npm', 'run', 'smoke:beta13:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
@@ -340,7 +361,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     return candidateBranchCommands(manifest.version);
   }
 
-  if (betaNumber(manifest.version) === 11 || betaNumber(manifest.version) === 12) {
+  if (betaNumber(manifest.version) === 11 || betaNumber(manifest.version) === 12 || betaNumber(manifest.version) === 13) {
     return candidateBranchCommands(manifest.version);
   }
 

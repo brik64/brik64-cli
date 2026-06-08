@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "brik64.cli_beta13_docs_web_sync_gate.v1",
+  "version": "0.1.0-beta.13",
+  "decision": "PASS_DOCS_WEB_BETA13_SYNC",
+  "releaseEligible": true,
+  "deployAllowed": true,
+  "artifacts": [
+    {
+      "id": "docs_install",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/cli/install.mdx",
+      "sha256": "83dd282d27b24039cd483b7e3b20da003f274f9b2439b53621a6958e4d467864",
+      "bytes": 2522
+    },
+    {
+      "id": "docs_sdks",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site/sdks.mdx",
+      "sha256": "f3f56f45c1d087040ab9f4a7f0b5999f23342bb236871887355236bd67cc0dbb",
+      "bytes": 1468
+    },
+    {
+      "id": "web_release_data",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/src/lib/language-data.ts",
+      "sha256": "951d2b1230c3cdf33dd22cc0b1e78c1fd102c97dfeea5cf4538f1058e2e4e8b8",
+      "bytes": 10650
+    },
+    {
+      "id": "web_cli_download_api",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/download/cli.ts",
+      "sha256": "26a5da0c234126d8315b4ea3beb116b8d9786846709dedd66492c8eb444d14b5",
+      "bytes": 1760
+    },
+    {
+      "id": "web_telemetry_intake",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/telemetry/cli.ts",
+      "sha256": "ee6684a15decd856c8c3631db2b6af7fb8dbd272e377021a1c6e1130e8955ad2",
+      "bytes": 308
+    },
+    {
+      "id": "web_feedback_intake",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/feedback.ts",
+      "sha256": "5fd88fe85eda1f8717143b7cce3ddec198acfc3e11669b3782d6e13f0d2d42f9",
+      "bytes": 305
+    },
+    {
+      "id": "web_error_report_intake",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/error-reports.ts",
+      "sha256": "0522d55d6ca778e8d598b4a312ae5d5887c25005b8c7262aec0cf7c74f2534ec",
+      "bytes": 313
+    },
+    {
+      "id": "web_cli_intake_shared",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/functions/api/_cli-intake.ts",
+      "sha256": "40382bec0a8cc5f4c96099d3deeb5d59f9ee2a69e1a8e672ad21c8ae07b468a8",
+      "bytes": 2950
+    },
+    {
+      "id": "web_cli_intake_migration",
+      "path": "/Users/carlosjperez/Documents/GitHub/brik64.com/migrations/0003_cli_intake_events.sql",
+      "sha256": "220b33e33fbb6d43909c9ef720e6a860cac5daf1d025e3365a996acaa305d672",
+      "bytes": 710
+    }
+  ],
+  "failures": [],
+  "boundary": "Docs and web source must be Beta13 aligned before publication. This gate does not deploy."
+}

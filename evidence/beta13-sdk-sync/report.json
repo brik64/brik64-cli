@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "brik64.cli_beta13_sdk_sync_gate.v1",
+  "version": "0.1.0-beta.13",
+  "pythonVersion": "0.1.0b13",
+  "decision": "PASS_SDK_BETA13_SYNC",
+  "releaseEligible": true,
+  "marketplacePublicationAllowed": true,
+  "sdks": [
+    {
+      "id": "js_ts",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/package.json",
+          "sha256": "dbc05e877de4976e392d56216d2aca5a987524be26bb921394923ab9bd6fbff9",
+          "bytes": 1186
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/README.md",
+          "sha256": "33bf7f1806c58f4561c11ae7ccac8d71e6a9cb2dc7ce1e5e1ca3bd4fcff38a1b",
+          "bytes": 1986
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/test/package-exports.test.mjs",
+          "sha256": "a3c95f1dbaa0f5ea552bb5740e714171d3be5943e011374da5242d50a03254df",
+          "bytes": 1950
+        }
+      ],
+      "failures": []
+    },
+    {
+      "id": "python",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/pyproject.toml",
+          "sha256": "75a49a11181308226166eeac66b324909ba2199a9b8fbb06770c82d9357ffd33",
+          "bytes": 657
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/README.md",
+          "sha256": "5965f8dc5f739a6c0d5abc6248b7b692a964c84304748d821b6c6b52feae24bd",
+          "bytes": 1446
+        }
+      ],
+      "failures": []
+    },
+    {
+      "id": "rust",
+      "repo": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust",
+      "status": "updated",
+      "artifacts": [
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
+          "sha256": "23ddd221edd4912f746d20fc75c8c0e2bdf8e4fb0f714cc20f4cd970c6b6a9c4",
+          "bytes": 736
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.lock",
+          "sha256": "c63df0a8f036fe4b29d6e3634bab323bc242dc9e47d9763f3c68b63f98d87f49",
+          "bytes": 2831
+        },
+        {
+          "path": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/README.md",
+          "sha256": "714cfe42e35a62f84aa119f3966a10d1742da40c2f1e14af8b236b6aa4469856",
+          "bytes": 3756
+        }
+      ],
+      "failures": []
+    }
+  ],
+  "failures": [],
+  "boundary": "SDK repositories must be Beta13 aligned before package publication. This gate does not mutate npm, PyPI, or crates.io."
+}
