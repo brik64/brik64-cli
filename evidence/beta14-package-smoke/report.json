@@ -6,7 +6,7 @@
   "lane": "cli_0_1_beta14",
   "package": {
     "path": "evidence/beta14-package/brik64-cli-0.1.0-beta.14.tgz",
-    "sha256": "cde58d42d886bd7c84174dfe20291704427152c9f528aab5366302e04fd7e095"
+    "sha256": "ebc9fa24a182a710afb90f438bef4fec57f7545cce3a69ad1684355eebdb3d77"
   },
   "checks": [
     "extract",

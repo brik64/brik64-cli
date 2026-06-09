@@ -13,6 +13,9 @@ every beta, release candidate, or public release.
   privacy flags, and PCD inventory summaries.
 - Adds support for multiple local functions inside one PCD `PC` block, including
   helper calls emitted to TypeScript, Rust, and Python.
+- Restores utility-style multi-function PCDs that do not define a function with
+  the same name as the `PC` block by selecting the first function as the local
+  entrypoint.
 
 ### Changed
 

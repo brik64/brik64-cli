@@ -33,7 +33,7 @@
     ],
     "package": {
       "path": "evidence/beta14-package/brik64-cli-0.1.0-beta.14.tgz",
-      "sha256": "cde58d42d886bd7c84174dfe20291704427152c9f528aab5366302e04fd7e095"
+      "sha256": "ebc9fa24a182a710afb90f438bef4fec57f7545cce3a69ad1684355eebdb3d77"
     }
   },
   "sdks": [
@@ -101,6 +101,11 @@
       "type": "changed",
       "surface": "cli",
       "text": "Clarifies emit output behavior so --out can write either a target directory or an exact output file for supported targets."
+    },
+    {
+      "type": "changed",
+      "surface": "pcd",
+      "text": "Restores utility-style multi-function PCDs by selecting the first function as the local entrypoint when the PC block does not define a same-name function."
     },
     {
       "type": "changed",
