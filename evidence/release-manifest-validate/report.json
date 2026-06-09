@@ -3,13 +3,13 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.14",
   "state": "public",
-  "manifestDigest": "ddd72fc28fca89797e966cff6ebf814eb44cdf762e0658f020710aead367a645",
+  "manifestDigest": "f452306f8ae3710e5ea181cfb06de704aa9d53b4721d47e07961108b69f0f13b",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "ddd72fc28fca89797e966cff6ebf814eb44cdf762e0658f020710aead367a645",
+      "sha256": "f452306f8ae3710e5ea181cfb06de704aa9d53b4721d47e07961108b69f0f13b",
       "bytes": 4009
     },
     "packageJson": {
@@ -22,33 +22,33 @@
         "path": "evidence/beta14-functional/report.json",
         "expectedDecision": "PASS_BETA14_FUNCTIONAL_GATE",
         "actualDecision": "PASS_BETA14_FUNCTIONAL_GATE",
-        "sha256": "b26269cc142c059f900a9d13d74ec34dfbeeef0ea957e8639f12453aec0ef2e2"
+        "sha256": "7becb52deda27e913d49634180340719dd2f442b246c0b8b00375994ae1be973"
       },
       {
         "id": "sourceLiftGate",
         "path": "evidence/beta14-source-lift/report.json",
         "expectedDecision": "PASS_BETA14_SOURCE_LIFT_GATE",
         "actualDecision": "PASS_BETA14_SOURCE_LIFT_GATE",
-        "sha256": "6617208713d966e54b3fb7d579ba3a9090a230e020b8cd20326c4a03f98f1c63"
+        "sha256": "8172eb7a1c8cc2a0065f03bd6794a21b62018cda0669d5e2304a48f209e36bc5"
       },
       {
         "id": "localPackage",
         "path": "evidence/beta14-package/package.manifest.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA14_PACKAGE_BUILT",
         "actualDecision": "PASS_BRIK64_CLI_BETA14_PACKAGE_BUILT",
-        "sha256": "bbe9ad4421961ac10f7459b8564eda5a257a8347babf12c64e03b17fd02e394d"
+        "sha256": "6b987531a4b8f4802511866755523528fded7c64ee416d287d2c4ac01da74408"
       },
       {
         "id": "localPackageSmoke",
         "path": "evidence/beta14-package-smoke/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA14_LOCAL_PACKAGE_SMOKE",
         "actualDecision": "PASS_BRIK64_CLI_BETA14_LOCAL_PACKAGE_SMOKE",
-        "sha256": "69ffe14b0a49db63e505a7f9ff08b512cadd601566bb3635cf60c39dfcd5cb3c"
+        "sha256": "37bb6b60dd875b34a0bf9b04f721c055173cc237225e263098a60e6f8437cccf"
       }
     ]
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:21"
+    "worktree_dirty_allowed:17"
   ]
 }

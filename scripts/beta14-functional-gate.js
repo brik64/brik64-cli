@@ -113,6 +113,23 @@ record('pcd:unsupported_type_fail_closed', () => {
   expectFail('unsupported-param', process.execPath, [brik, 'certify', 'bad.pcd'], 'unsupported_param_type:u128', { cwd: work });
 });
 
+record('pcd:utility_component_implicit_entrypoint', () => {
+  const work = initWork('utility-entrypoint');
+  write(path.join(work, 'math.pcd'), `PC math {
+  fn add(input: i64) -> i64 {
+    return input + 1;
+  }
+  fn sub(input: i64) -> i64 {
+    return add(input) - 2;
+  }
+}
+`);
+  expectPass('certify-utility', process.execPath, [brik, 'certify', 'math.pcd'], { cwd: work });
+  const cert = JSON.parse(fs.readFileSync(path.join(work, 'math.pcd.cert.json'), 'utf8'));
+  assert(cert.ast.entrypoint.explicit === false, 'entrypoint_should_be_implicit', cert.ast.entrypoint);
+  assert(cert.ast.entrypoint.name === 'add', 'entrypoint_should_select_first_function', cert.ast.entrypoint);
+});
+
 record('routing:cloud_fail_closed', () => {
   const work = initWork('cloud-routing');
   write(path.join(work, 'ok.pcd'), `PC ok {
