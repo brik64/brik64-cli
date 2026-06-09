@@ -119,9 +119,9 @@ record('pcd:multi_function_emit_all_targets', () => {
   return { rustClippyStdoutSha256: sha256(clippy.stdout) };
 });
 
-record('pcd:multi_function_fail_closed', () => {
+record('pcd:multi_function_utility_and_fail_closed', () => {
   const work = initWork('multi-fail');
-  write(path.join(work, 'missing_entry.pcd'), `PC missing_entry {
+  write(path.join(work, 'utility.pcd'), `PC utility {
   fn helper(input) {
     return input;
   }
@@ -139,7 +139,10 @@ record('pcd:multi_function_fail_closed', () => {
   }
 }
 `);
-  expectFail('missing-entry', process.execPath, [brik, 'certify', 'missing_entry.pcd'], 'pcd_parse_error:missing_entrypoint:missing_entry', { cwd: work });
+  expectPass('utility-no-matching-entrypoint', process.execPath, [brik, 'certify', 'utility.pcd'], { cwd: work });
+  const cert = JSON.parse(fs.readFileSync(path.join(work, 'utility.pcd.cert.json'), 'utf8'));
+  assert(cert.ast.entrypoint.explicit === false, 'utility_entrypoint_should_be_implicit', cert.ast.entrypoint);
+  assert(cert.ast.entrypoint.name === 'helper', 'utility_entrypoint_should_select_first_function', cert.ast.entrypoint);
   expectFail('cycle', process.execPath, [brik, 'certify', 'cycle.pcd'], 'pcd_parse_error:local_function_cycle', { cwd: work });
 });
 

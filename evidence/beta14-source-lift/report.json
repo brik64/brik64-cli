@@ -8,33 +8,33 @@
     {
       "id": "version:beta14",
       "status": "PASS",
-      "elapsedMs": 88
+      "elapsedMs": 103
     },
     {
       "id": "pcd:multi_function_emit_all_targets",
       "status": "PASS",
-      "elapsedMs": 2083,
+      "elapsedMs": 2921,
       "rustClippyStdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
-      "id": "pcd:multi_function_fail_closed",
+      "id": "pcd:multi_function_utility_and_fail_closed",
       "status": "PASS",
-      "elapsedMs": 218
+      "elapsedMs": 313
     },
     {
       "id": "migrate:force_overwrite_explicit_only",
       "status": "PASS",
-      "elapsedMs": 344
+      "elapsedMs": 503
     },
     {
       "id": "lift:js_ts_python_preview_and_privacy",
       "status": "PASS",
-      "elapsedMs": 352
+      "elapsedMs": 499
     },
     {
       "id": "lift:fail_closed_inputs",
       "status": "PASS",
-      "elapsedMs": 326
+      "elapsedMs": 463
     }
   ],
   "failures": [],

@@ -942,10 +942,7 @@ function parsePcd(source, context = {}) {
       returnType: block.returnType
     };
   }
-  const entryName = signatures[pcName] ? pcName : (fnBlocks.length === 1 ? fnBlocks[0].name : null);
-  if (!entryName) {
-    fail(65, `pcd_parse_error:missing_entrypoint:${pcName}`);
-  }
+  const entryName = signatures[pcName] ? pcName : fnBlocks[0].name;
   const parsedFunctions = {};
   for (const block of fnBlocks) {
     const signature = signatures[block.name];
@@ -976,6 +973,11 @@ function parsePcd(source, context = {}) {
     importGraph,
     constants,
     functions: parsedFunctions,
+    entrypoint: {
+      name: entry.name,
+      explicit: entry.name === pcName,
+      fallbackReason: entry.name === pcName ? null : 'pc_name_function_missing_first_function_selected'
+    },
     body: entry.body,
     returnValues: entry.returnValues,
     branchCount: Object.values(parsedFunctions).reduce((sum, fn) => sum + fn.branchCount, 0),

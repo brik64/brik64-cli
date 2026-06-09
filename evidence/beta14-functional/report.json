@@ -20,6 +20,11 @@
       "elapsedMs": 0
     },
     {
+      "id": "pcd:utility_component_implicit_entrypoint",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
       "id": "routing:cloud_fail_closed",
       "status": "PASS",
       "elapsedMs": 0

@@ -33,7 +33,7 @@
     ],
     "package": {
       "path": "evidence/beta14-package/brik64-cli-0.1.0-beta.14.tgz",
-      "sha256": "c194bdde2e4cf877f9e8035f554118873b54ce8e35a9914650d1bc059945f8c7"
+      "sha256": "cde58d42d886bd7c84174dfe20291704427152c9f528aab5366302e04fd7e095"
     }
   },
   "sdks": [
