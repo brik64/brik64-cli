@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "brik64.cli_beta14_functional_gate.v1",
+  "version": "0.1.0-beta.14",
+  "decision": "PASS_BETA14_FUNCTIONAL_GATE",
+  "evidenceLevel": 3,
+  "checks": [
+    {
+      "id": "version:beta14",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "pcd:i32_emit_file_outputs",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "pcd:unsupported_type_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "routing:cloud_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 0
+    }
+  ],
+  "failures": [],
+  "boundary": "Beta14 public beta functional gate. This is not formal correctness, N5, fixpoint, or production-stable evidence."
+}
