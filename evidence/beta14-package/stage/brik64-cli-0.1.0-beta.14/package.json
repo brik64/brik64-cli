@@ -1,0 +1,13 @@
+{
+  "name": "@brik64/cli",
+  "version": "0.1.0-beta.14",
+  "private": true,
+  "description": "BRIK64 CLI beta14 candidate for local source lift preview, adoption reports, and secure PCD workflows.",
+  "bin": {
+    "brik": "src/brik.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "distribution": "curl_and_github_release_assets"
+}
