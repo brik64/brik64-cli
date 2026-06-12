@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_86.HTTP_POST
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_86_HTTP_POST {
+    fn MC_86_HTTP_POST(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

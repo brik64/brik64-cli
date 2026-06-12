@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_00.ADD8
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_00_ADD8 {
+    fn MC_00_ADD8(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

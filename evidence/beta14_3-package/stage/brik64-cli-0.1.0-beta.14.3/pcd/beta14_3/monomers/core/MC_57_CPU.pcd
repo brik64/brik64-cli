@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_57.CPU
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_57_CPU {
+    fn MC_57_CPU(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}
