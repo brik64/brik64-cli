@@ -600,9 +600,9 @@ function main() {
       requiredEvidence.push({
         id: 'beta14_3_l6_generation_blocker',
         path: 'evidence/beta14_3-l6-generation/gate-report.json',
-        expectedDecision: 'BLOCKED_BETA14_3_L6_GENERATION_GATE',
+        expectedDecision: 'PASS_BETA14_3_L6_GENERATION_GATE',
         actualDecision: l6?.decision || null,
-        pass: l6?.decision === 'BLOCKED_BETA14_3_L6_GENERATION_GATE'
+        pass: l6?.decision === 'PASS_BETA14_3_L6_GENERATION_GATE'
       });
       requiredEvidence.push({
         id: 'beta14_3_local_package',
@@ -625,7 +625,7 @@ function main() {
       if (!monomer) failures.push('candidate_readiness_missing:beta14_3_monomer_128');
       else if (monomer.decision !== 'PASS_BETA14_3_MONOMER_128_GATE') failures.push(`candidate_beta14_3_monomer_128_invalid:${monomer.decision}`);
       if (!l6) failures.push('candidate_readiness_missing:beta14_3_l6_generation_gate');
-      else if (l6.decision !== 'BLOCKED_BETA14_3_L6_GENERATION_GATE') failures.push(`candidate_beta14_3_l6_generation_decision_invalid:${l6.decision}`);
+      else if (l6.decision !== 'PASS_BETA14_3_L6_GENERATION_GATE') failures.push(`candidate_beta14_3_l6_generation_decision_invalid:${l6.decision}`);
       if (!candidatePackage) failures.push('candidate_readiness_missing:beta14_3_local_package');
       else if (candidatePackage.decision !== 'PASS_BRIK64_CLI_BETA14_3_PACKAGE_BUILT') failures.push(`candidate_beta14_3_package_invalid:${candidatePackage.decision}`);
       else if (candidatePackage.releaseEligible !== false || candidatePackage.claimBoundary?.publicReleaseAllowed !== false) failures.push('candidate_beta14_3_package_public_boundary_invalid');

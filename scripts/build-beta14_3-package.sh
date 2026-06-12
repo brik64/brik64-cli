@@ -103,8 +103,17 @@ inputs=(
   "evidence/beta14_3-l6-generation/gate-report.json"
   "evidence/beta14_3-l6-generation/l6plus_engine_manifest.json"
   "evidence/beta14_3-l6-generation/materialization-probe.json"
-  "evidence/beta14_3-l6-generation/generated/cli_entrypoint.js"
-  "evidence/beta14_3-l6-generation/generated/cli_entrypoint.cert.json"
+  "evidence/beta14_3-l6-generation/materialization-attempt-report.json"
+  "evidence/beta14_3-l6-generation/generated_artifact_manifest.json"
+  "evidence/beta14_3-l6-generation/seal_report.json"
+  "evidence/beta14_3-l6-generation/hashes.json"
+  "evidence/beta14_3-l6-generation/input_pcd_hashes.tsv"
+  "evidence/beta14_3-l6-generation/materialization-SHA256SUMS"
+  "evidence/beta14_3-l6-generation/materialization-failures.txt"
+  "evidence/beta14_3-l6-generation/materialization-out-files.txt"
+  "evidence/beta14_3-l6-generation/materialization-out.tgz"
+  "evidence/beta14_3-l6-generation/materialization-stdout.txt"
+  "evidence/beta14_3-l6-generation/serial.txt"
   "engines/l4plus-n5/serial.txt"
   "engines/l4plus-n5/checksums.tsv"
   "engines/l4plus-n5/runtime-bundle.manifest.json"
@@ -288,7 +297,7 @@ jq -n \
 	      fixpointClaimAllowed:false,
 	      n5FormalClaimAllowed:false,
 	      rustIndependenceClaimAllowed:false,
-	      blocker:"full_l6_cli_materialization_missing"
+	      blocker:"public_surface_sync_pending"
 	    },
 	    inputGates:[{
       decision:"PASS_BETA14_SOURCE_LIFT_GATE",
@@ -317,7 +326,7 @@ jq -n \
       "public_claim_scan",
       "live_release_train_verify"
     ],
-    boundary:"Beta14.3 local package candidate only. Public release remains blocked until full L6 CLI materialization, package smoke, GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically."
+	    boundary:"Beta14.3 local package candidate only. Public release remains blocked until full L6 CLI materialization, package smoke, GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically."
   }' > "$MANIFEST_PATH"
 
 {

@@ -7,8 +7,8 @@
   "generationClaim": "assisted_generation_non_claim",
   "package": {
     "path": "evidence/beta14_3-package/brik64-cli-0.1.0-beta.14.3.tgz",
-    "sha256": "792117523867bafaabb382e32442089899893f16bc812e31d03e59eae1c1748e",
-    "bytes": 467514
+    "sha256": "f8ce4c36b5f6831bbfe9d8acd4b7499d561e6f1d220a0faf7a190eafc17c7c0a",
+    "bytes": 1064039
   },
   "claimBoundary": {
     "publicClaimsAllowed": false,
@@ -16,7 +16,7 @@
     "fixpointClaimAllowed": false,
     "n5FormalClaimAllowed": false,
     "rustIndependenceClaimAllowed": false,
-    "blocker": "full_l6_cli_materialization_missing"
+    "blocker": "public_surface_sync_pending"
   },
   "inputGates": [
     {

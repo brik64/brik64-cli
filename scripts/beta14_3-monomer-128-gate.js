@@ -168,8 +168,8 @@ record('l6:evidence_fail_closed_until_materialized', () => {
   );
   assert(manifest.publicationAllowed === false, 'l6_manifest_publication_boundary_open', manifest);
   assert(
-    ['BLOCKED_PENDING_L6_MATERIALIZATION', 'BLOCKED_PENDING_FULL_L6_CLI_MATERIALIZATION'].includes(seal.decision),
-    'seal_not_fail_closed',
+    ['BLOCKED_PENDING_L6_MATERIALIZATION', 'BLOCKED_PENDING_FULL_L6_CLI_MATERIALIZATION', 'PASS_BETA14_3_L6_SEAL'].includes(seal.decision),
+    'seal_not_in_expected_beta14_3_state',
     seal
   );
   assert(seal.publicationAllowed === false, 'seal_publication_boundary_open', seal);

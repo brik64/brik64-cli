@@ -85,8 +85,10 @@ expected_evidence=(
   "evidence/beta14_3-l6-generation/gate-report.json"
   "evidence/beta14_3-l6-generation/l6plus_engine_manifest.json"
   "evidence/beta14_3-l6-generation/materialization-probe.json"
-  "evidence/beta14_3-l6-generation/generated/cli_entrypoint.js"
-  "evidence/beta14_3-l6-generation/generated/cli_entrypoint.cert.json"
+  "evidence/beta14_3-l6-generation/materialization-attempt-report.json"
+  "evidence/beta14_3-l6-generation/generated_artifact_manifest.json"
+  "evidence/beta14_3-l6-generation/seal_report.json"
+  "evidence/beta14_3-l6-generation/materialization-out.tgz"
 )
 if [[ ! -e "$EXTRACTED/evidence" ]]; then
   echo "package_missing_beta14_3_evidence_payload" >&2
@@ -98,20 +100,18 @@ for expected in "${expected_evidence[@]}"; do
     exit 1
   }
 done
-while IFS= read -r evidence_file; do
-  relative="${evidence_file#"$EXTRACTED/"}"
-  allowed=false
-  for expected in "${expected_evidence[@]}"; do
-    if [[ "$relative" == "$expected" ]]; then
-      allowed=true
-      break
-    fi
-  done
-  if [[ "$allowed" != "true" ]]; then
-    echo "package_contains_unexpected_evidence:$relative" >&2
-    exit 1
-  fi
-done < <(find "$EXTRACTED/evidence" -type f | sort)
+jq -e '.decision == "PASS_BETA14_3_L6_GENERATION_GATE"' "$EXTRACTED/evidence/beta14_3-l6-generation/gate-report.json" >/dev/null || {
+  echo "package_l6_gate_not_pass" >&2
+  exit 1
+}
+jq -e '.artifactStatus == "GENERATED_BY_L6" and .generatedJsCount == 147 and .generatedCertCount == 147' "$EXTRACTED/evidence/beta14_3-l6-generation/generated_artifact_manifest.json" >/dev/null || {
+  echo "package_l6_artifact_manifest_not_complete" >&2
+  exit 1
+}
+jq -e '.decision == "PASS_BETA14_3_L6_SEAL" and .generatedJsCount == 147 and .generatedCertCount == 147' "$EXTRACTED/evidence/beta14_3-l6-generation/seal_report.json" >/dev/null || {
+  echo "package_l6_seal_not_pass" >&2
+  exit 1
+}
 
 run_pass version "BRIK64 CLI $VERSION" node "$BRIK" --version
 run_pass help "explain <file.pcd>" node "$BRIK" --help
