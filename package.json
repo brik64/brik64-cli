@@ -83,6 +83,7 @@
     "release:manifest:validate": "node scripts/release-manifest-validate.js",
     "release:flow:audit": "node scripts/release-flow-audit.js",
     "release:train:dry-run": "node scripts/release-train-dry-run.js",
+    "release:credential-preflight": "node scripts/release/credential-preflight.js",
     "release:train:live-verify": "node scripts/release-train-live-verify.js",
     "release:train:sync-surfaces": "node scripts/release-train-sync-surfaces.js",
     "release:train:publish-plan": "node scripts/release-train-publish-plan.js",
