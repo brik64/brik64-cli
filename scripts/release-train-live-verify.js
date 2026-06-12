@@ -123,6 +123,37 @@ function fetchHeadersWithCurl(url) {
   };
 }
 
+function fetchRedirectWithCurl(url) {
+  const args = ['--silent', '--show-error', '--max-time', '20', '--dump-header', '-', '--output', '/dev/null'];
+  for (const [name, value] of Object.entries(verifierHeaders)) {
+    args.push('--header', `${name}: ${value}`);
+  }
+  args.push(url);
+  const result = spawnSync('curl', args, {
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024
+  });
+  const headerText = result.stdout || '';
+  const statusMatches = [...headerText.matchAll(/^HTTP\/\S+\s+(\d+)/gmi)];
+  const statusCode = statusMatches.length > 0 ? Number(statusMatches[statusMatches.length - 1][1]) : 0;
+  const headerSections = headerText.trim().split(/\r?\n\r?\n/).filter(Boolean);
+  const finalHeaderText = headerSections[headerSections.length - 1] || '';
+  const headers = {};
+  for (const line of finalHeaderText.split(/\r?\n/)) {
+    const separator = line.indexOf(':');
+    if (separator > 0) headers[line.slice(0, separator).toLowerCase()] = line.slice(separator + 1).trim();
+  }
+  return {
+    url,
+    statusCode,
+    headers,
+    body: '',
+    transport: 'curl:get_no_redirect',
+    transportStatus: result.status,
+    stderr: result.stderr || ''
+  };
+}
+
 function fetchTextWithNode(url, redirects = 0) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
@@ -215,7 +246,7 @@ async function runOnce(attempt, maxAttempts) {
 
   function observeRedirect(id, url, expectedLocation) {
     try {
-      const response = fetchHeadersWithCurl(url);
+      const response = fetchRedirectWithCurl(url);
       observations.push({
         id,
         url,
