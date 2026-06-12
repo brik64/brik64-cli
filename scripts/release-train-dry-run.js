@@ -164,21 +164,23 @@ function committedPackageShaGate(version) {
   const script = `
 const fs = require('fs');
 const crypto = require('crypto');
-const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));
-const pkg = JSON.parse(fs.readFileSync('evidence/${label}-package/package.manifest.json', 'utf8'));
-const tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');
-if (pkg.version !== manifest.version) {
-  console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);
-  process.exit(1);
-}
-if (pkg.package.sha256 !== tarballSha) {
-  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);
-  process.exit(1);
-}
-if (manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {
-  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);
-  process.exit(1);
-}
+	const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));
+	const pkg = JSON.parse(fs.readFileSync('evidence/${label}-package/package.manifest.json', 'utf8'));
+	const tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');
+	if (pkg.version !== manifest.version) {
+	  if (pkg.version !== '${version}' || pkg.releaseEligible !== false || pkg.claimBoundary?.publicReleaseAllowed !== false) {
+	    console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);
+	    process.exit(1);
+	  }
+	}
+	if (pkg.package.sha256 !== tarballSha) {
+	  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);
+	  process.exit(1);
+	}
+	if (pkg.version === manifest.version && manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {
+	  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);
+	  process.exit(1);
+	}
 console.log('decision=PASS_COMMITTED_${label.toUpperCase()}_PACKAGE_SHA_GATE');
 `;
   return run(`${label}_committed_package_sha`, ['node', '-e', script], {
@@ -351,6 +353,23 @@ function candidateBranchCommands(version) {
       }),
       committedPackageShaGate(version),
       run('beta14_2_package_smoke', ['npm', 'run', 'smoke:beta14:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
+  if (version === '0.1.0-beta.14.3') {
+    return [
+      run('beta14_3_monomer_128', ['npm', 'run', 'gate:beta14.3:monomer-128'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta14_3_local_package', ['npm', 'run', 'package:beta14.3:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta14_3_package_smoke', ['npm', 'run', 'smoke:beta14.3:package'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })
@@ -562,6 +581,57 @@ function main() {
       else if (beta10Package.decision !== 'PASS_BRIK64_CLI_BETA10_PACKAGE_BUILT') failures.push(`candidate_beta10_package_invalid:${beta10Package.decision}`);
       if (!beta10PackageSmoke) failures.push('candidate_readiness_missing:beta10_package_smoke');
       else if (beta10PackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA10_LOCAL_PACKAGE_SMOKE') failures.push(`candidate_beta10_package_smoke_invalid:${beta10PackageSmoke.decision}`);
+    } else if (currentPackageVersion === '0.1.0-beta.14.3') {
+      const monomerPath = path.join(root, 'evidence', 'beta14_3-monomer-128', 'report.json');
+      const l6Path = path.join(root, 'evidence', 'beta14_3-l6-generation', 'gate-report.json');
+      const packagePath = path.join(root, 'evidence', 'beta14_3-package', 'package.manifest.json');
+      const packageSmokePath = path.join(root, 'evidence', 'beta14_3-package-smoke', 'report.json');
+      const monomer = fs.existsSync(monomerPath) ? readJson(monomerPath) : null;
+      const l6 = fs.existsSync(l6Path) ? readJson(l6Path) : null;
+      const candidatePackage = fs.existsSync(packagePath) ? readJson(packagePath) : null;
+      const candidatePackageSmoke = fs.existsSync(packageSmokePath) ? readJson(packageSmokePath) : null;
+      requiredEvidence.push({
+        id: 'beta14_3_monomer_128',
+        path: 'evidence/beta14_3-monomer-128/report.json',
+        expectedDecision: 'PASS_BETA14_3_MONOMER_128_GATE',
+        actualDecision: monomer?.decision || null,
+        pass: monomer?.decision === 'PASS_BETA14_3_MONOMER_128_GATE'
+      });
+      requiredEvidence.push({
+        id: 'beta14_3_l6_generation_blocker',
+        path: 'evidence/beta14_3-l6-generation/gate-report.json',
+        expectedDecision: 'BLOCKED_BETA14_3_L6_GENERATION_GATE',
+        actualDecision: l6?.decision || null,
+        pass: l6?.decision === 'BLOCKED_BETA14_3_L6_GENERATION_GATE'
+      });
+      requiredEvidence.push({
+        id: 'beta14_3_local_package',
+        path: 'evidence/beta14_3-package/package.manifest.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA14_3_PACKAGE_BUILT',
+        actualDecision: candidatePackage?.decision || null,
+        pass: candidatePackage?.decision === 'PASS_BRIK64_CLI_BETA14_3_PACKAGE_BUILT'
+          && candidatePackage?.releaseEligible === false
+          && candidatePackage?.claimBoundary?.publicReleaseAllowed === false
+      });
+      requiredEvidence.push({
+        id: 'beta14_3_package_smoke',
+        path: 'evidence/beta14_3-package-smoke/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE',
+        actualDecision: candidatePackageSmoke?.decision || null,
+        pass: candidatePackageSmoke?.decision === 'PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE'
+          && candidatePackageSmoke?.releaseEligible === false
+          && candidatePackageSmoke?.claim_boundary?.public_release_allowed === false
+      });
+      if (!monomer) failures.push('candidate_readiness_missing:beta14_3_monomer_128');
+      else if (monomer.decision !== 'PASS_BETA14_3_MONOMER_128_GATE') failures.push(`candidate_beta14_3_monomer_128_invalid:${monomer.decision}`);
+      if (!l6) failures.push('candidate_readiness_missing:beta14_3_l6_generation_gate');
+      else if (l6.decision !== 'BLOCKED_BETA14_3_L6_GENERATION_GATE') failures.push(`candidate_beta14_3_l6_generation_decision_invalid:${l6.decision}`);
+      if (!candidatePackage) failures.push('candidate_readiness_missing:beta14_3_local_package');
+      else if (candidatePackage.decision !== 'PASS_BRIK64_CLI_BETA14_3_PACKAGE_BUILT') failures.push(`candidate_beta14_3_package_invalid:${candidatePackage.decision}`);
+      else if (candidatePackage.releaseEligible !== false || candidatePackage.claimBoundary?.publicReleaseAllowed !== false) failures.push('candidate_beta14_3_package_public_boundary_invalid');
+      if (!candidatePackageSmoke) failures.push('candidate_readiness_missing:beta14_3_package_smoke');
+      else if (candidatePackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE') failures.push(`candidate_beta14_3_package_smoke_invalid:${candidatePackageSmoke.decision}`);
+      else if (candidatePackageSmoke.releaseEligible !== false || candidatePackageSmoke.claim_boundary?.public_release_allowed !== false) failures.push('candidate_beta14_3_smoke_public_boundary_invalid');
     }
   } else {
     for (const item of manifest.verification.requiredEvidence) {
