@@ -8,7 +8,7 @@
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "codex/beta14-3-pcd-l6-128-monomers",
-    "commit": "6d611bc"
+    "commit": "36ab1e8"
   },
   "cli": {
     "packageName": "@brik64/cli",
