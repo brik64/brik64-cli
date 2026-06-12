@@ -128,6 +128,7 @@ function isAllowedGeneratedDirtyFile(file) {
     'evidence/beta9-release-readiness/',
     'evidence/release-manifest-validate/',
     'evidence/release-github-verified-signature/',
+    'evidence/release-credential-preflight/',
     'evidence/release-train-dry-run/',
     'evidence/release-train-live-verify/',
     'evidence/release-train-publish-execute/',
