@@ -164,6 +164,12 @@ jobs:
         if: ${{ inputs.execute_publication == true && env.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER != '' && env.BRIK64_GCP_SERVICE_ACCOUNT != '' }}
         uses: google-github-actions/setup-gcloud@v3
 
+      - name: Authenticate to crates.io with trusted publishing
+        id: crates_io_auth
+        if: ${{ inputs.execute_publication == true }}
+        continue-on-error: true
+        uses: rust-lang/crates-io-auth-action@v1
+
       - name: Generate publication plan
         env:
           BRIK64_RELEASE_PUBLICATION_IN_PROGRESS: "1"
@@ -172,7 +178,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.BRIK64_PYPI_TOKEN }}
-          CARGO_REGISTRY_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates_io_auth.outputs.token || secrets.BRIK64_CRATES_TOKEN }}
           BRIK64_RELEASE_CONFIRM: ${{ inputs.confirm }}
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
@@ -180,7 +186,7 @@ jobs:
           BRIK64_GCP_SERVICE_ACCOUNT: ${{ secrets.BRIK64_GCP_SERVICE_ACCOUNT }}
           BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
-          BRIK64_CRATES_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
+          BRIK64_CRATES_TOKEN: ${{ steps.crates_io_auth.outputs.token || secrets.BRIK64_CRATES_TOKEN }}
           BRIK64_DOCS_DISPATCH_TOKEN: ${{ secrets.BRIK64_DOCS_DISPATCH_TOKEN }}
           BRIK64_WEB_DEPLOY_TOKEN: ${{ secrets.BRIK64_WEB_DEPLOY_TOKEN }}
           BRIK64_SKILLS_REPO_TOKEN: ${{ secrets.BRIK64_SKILLS_REPO_TOKEN }}
@@ -199,7 +205,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.BRIK64_PYPI_TOKEN }}
-          CARGO_REGISTRY_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates_io_auth.outputs.token || secrets.BRIK64_CRATES_TOKEN }}
           BRIK64_RELEASE_MANIFEST_DIGEST: ${{ inputs.manifest_digest }}
           BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
           BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
@@ -207,7 +213,7 @@ jobs:
           BRIK64_GCP_SERVICE_ACCOUNT: ${{ secrets.BRIK64_GCP_SERVICE_ACCOUNT }}
           BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
           BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
-          BRIK64_CRATES_TOKEN: ${{ secrets.BRIK64_CRATES_TOKEN }}
+          BRIK64_CRATES_TOKEN: ${{ steps.crates_io_auth.outputs.token || secrets.BRIK64_CRATES_TOKEN }}
           BRIK64_DOCS_DISPATCH_TOKEN: ${{ secrets.BRIK64_DOCS_DISPATCH_TOKEN }}
           BRIK64_WEB_DEPLOY_TOKEN: ${{ secrets.BRIK64_WEB_DEPLOY_TOKEN }}
           BRIK64_SKILLS_REPO_TOKEN: ${{ secrets.BRIK64_SKILLS_REPO_TOKEN }}
