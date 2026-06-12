@@ -113,8 +113,16 @@ async function main() {
       }
     });
     const valid = crates.statusCode >= 200 && crates.statusCode < 300;
-    checks.push({ name: 'crates_token', present: true, valid, status: redactStatus(crates.statusCode) });
-    if (!valid) failures.push('crates_token_invalid_or_trusted_publishing_missing');
+    checks.push({
+      name: 'crates_token',
+      present: true,
+      valid: valid || null,
+      status: valid ? 'auth_accepted' : 'present_scoped_or_oidc_publish_token_unverified',
+      note: valid
+        ? 'crates.io accepted the token on /api/v1/me.'
+        : 'Scoped crates.io publish tokens may not authorize /api/v1/me. Final validation happens at cargo publish.'
+    });
+    if (!valid) warnings.push(`crates_token_account_probe_${redactStatus(crates.statusCode)}`);
   } else {
     checks.push({ name: 'crates_token', present: false, valid: false, status: 'missing' });
     failures.push('crates_token_missing_or_trusted_publishing_missing');
