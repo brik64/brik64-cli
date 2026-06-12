@@ -10,7 +10,7 @@ trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
 node "$BRIK" --version | grep -q "BRIK64 CLI $PACKAGE_VERSION"
-node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (!s.includes("█████████████") || !s.includes("▒▒▒▒▒▒▒▒▒▒▒▒")) process.exit(1); });'
+node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (s.includes("█████████████") || !s.includes("BRIK64 CLI")) process.exit(1); });'
 node "$BRIK" --help | grep -q "status=public_beta"
 node "$BRIK" --help | grep -q "polymerize <files>"
 node "$BRIK" --help | grep -q "verify <file.pcd>"
@@ -25,18 +25,24 @@ node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
-  BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$PACKAGE_VERSION")"
+  BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.\d+)?$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$PACKAGE_VERSION")"
+  BETA_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  PACKAGE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_PACKAGE_BUILT"
-  SMOKE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_LOCAL_PACKAGE_SMOKE"
+  if [ "$PACKAGE_VERSION" = "0.1.0-beta.14.1" ]; then
+    PACKAGE_DECISION="PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT"
+    SMOKE_DECISION="PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE"
+  else
+    PACKAGE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_PACKAGE_BUILT"
+    SMOKE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_LOCAL_PACKAGE_SMOKE"
+  fi
   test -f "$PACKAGE_SCRIPT"
   test -f "$SMOKE_SCRIPT"
   package_out="$(bash "$PACKAGE_SCRIPT")"
   grep -q "$PACKAGE_DECISION" <<<"$package_out"
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"
   grep -q "decision=$SMOKE_DECISION" <<<"$package_smoke_out"
-  node -e 'const fs=require("fs"); const beta=process.argv[1]; const r=JSON.parse(fs.readFileSync(`evidence/beta${beta}-package/package.manifest.json`,"utf8")); if (r.releaseEligible !== false) process.exit(1)' "$BETA_NUMBER"
+  node -e 'const fs=require("fs"); const label=process.argv[1]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); if (r.releaseEligible !== false) process.exit(1)' "$BETA_LABEL"
   if [ "$BETA_NUMBER" = "9" ]; then
     node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (!r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
     beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
@@ -236,7 +242,7 @@ rm .brik/manifest.json
 node "$BRIK" init >/tmp/brik-reinit.out
 mkdir -p pcd
 cp program.pcd pcd/program.pcd
-node "$BRIK" lock | grep -q "lock=brik64.lock.json"
+node "$BRIK" lock --files pcd/program.pcd | grep -q "lock=brik64.lock.json"
 test -f brik64.lock.json
 node -e 'const fs=require("fs"); const l=JSON.parse(fs.readFileSync("brik64.lock.json","utf8")); if (l.schemaVersion !== "brik64.cli_lockfile.v1" || l.releaseEligible !== false || l.pcds.length !== 1) process.exit(1)'
 node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(".brik/manifest.json", JSON.stringify(m,null,2)+"\n")'

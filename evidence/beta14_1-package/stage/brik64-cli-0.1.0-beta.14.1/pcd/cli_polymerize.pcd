@@ -1,0 +1,29 @@
+// brik64.pcd_file.v1
+// name: brik_cli_polymerize
+// status: candidate_pcd_seed
+// certifiesFormalCorrectness: false
+// certifiesTests: false
+// certifiesFixpoint: false
+// command = "polymerize"
+// local_mode = "ast_composition"
+// managed_mode = "entitlement_required"
+// output = "polymer.pcd"
+// manifest = "polymer.pcd.manifest.json"
+// claim_boundary = "local_candidate_only"
+
+PC brik_cli_polymerize {
+    fn brik_cli_polymerize(input_count, cloud_requested, entitlement_present, duplicate_symbol) {
+        if (input_count < 1) {
+            return 64;
+        }
+        if (duplicate_symbol == 1) {
+            return 65;
+        }
+        if (cloud_requested == 1) {
+            if (entitlement_present == 0) {
+                return 67;
+            }
+        }
+        return 0;
+    }
+}

@@ -2,9 +2,9 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="0.1.0-beta.14"
-PKG_DIR="$ROOT_DIR/evidence/beta14-package"
-OUT_DIR="$ROOT_DIR/evidence/beta14-package-smoke"
+VERSION="0.1.0-beta.14.1"
+PKG_DIR="$ROOT_DIR/evidence/beta14_1-package"
+OUT_DIR="$ROOT_DIR/evidence/beta14_1-package-smoke"
 MANIFEST="$PKG_DIR/package.manifest.json"
 TMP_DIR="$(mktemp -d)"
 
@@ -69,7 +69,7 @@ package_sha="$(jq -r '.package.sha256' "$MANIFEST")"
 package_path="$ROOT_DIR/$package_rel"
 
 [[ "$manifest_version" == "$VERSION" ]] || { echo "manifest_version_drift:$manifest_version" >&2; exit 1; }
-[[ "$manifest_decision" == "PASS_BRIK64_CLI_BETA14_PACKAGE_BUILT" ]] || { echo "package_decision_drift:$manifest_decision" >&2; exit 1; }
+[[ "$manifest_decision" == "PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT" ]] || { echo "package_decision_drift:$manifest_decision" >&2; exit 1; }
 [[ "$release_eligible" == "false" ]] || { echo "beta14_candidate_should_not_be_public_release_eligible" >&2; exit 1; }
 [[ "$(sha256_file "$package_path")" == "$package_sha" ]] || { echo "package_hash_mismatch" >&2; exit 1; }
 
@@ -169,11 +169,11 @@ jq -n \
   --arg packagePath "$package_rel" \
   --arg packageSha "$package_sha" \
   '{
-    schemaVersion:"brik64.cli_beta14_package_smoke.v1",
+    schemaVersion:"brik64.cli_beta14_1_package_smoke.v1",
     version:$version,
-    decision:"PASS_BRIK64_CLI_BETA14_LOCAL_PACKAGE_SMOKE",
+    decision:"PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE",
     releaseEligible:false,
-    lane:"cli_0_1_beta14",
+    lane:"cli_0_1_beta14_1",
     package:{path:$packagePath, sha256:$packageSha},
     checks:[
       "extract",
@@ -205,5 +205,5 @@ jq -n \
     next_action:"run release train dry-run, final GitHub Release asset publication, curl/GCP staging and live verification"
   }' > "$OUT_DIR/report.json"
 
-printf 'decision=PASS_BRIK64_CLI_BETA14_LOCAL_PACKAGE_SMOKE\n'
+printf 'decision=PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE\n'
 printf 'checks=17\n'

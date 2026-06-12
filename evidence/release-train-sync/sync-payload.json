@@ -1,55 +1,60 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.13",
-  "version": "0.1.0-beta.13",
+  "releaseId": "brik64-0.1.0-beta.14.1",
+  "version": "0.1.0-beta.14.1",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "7b4ff4cc1da495db45c4b04855595aee3bd20dafec3b50929f7db0a0eeb1bf16",
+  "manifestDigest": "e7f6fadf0f39c513a057459c059a7661ff9e03668477b80ef38554d355472aeb",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.13",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.1",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.13"
+      "version": "0.1.0-beta.14.1"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b13"
+      "version": "0.1.0b14.post1"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.13"
+      "version": "0.1.0-beta.14.1"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.13\n\n### Added\n\n- Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files.\n- Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory.\n- Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python.\n\n### Changed\n\n- Adds explicit force overwrite support to PCD migration with --force and -f.\n- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release.\n",
+  "changelogMarkdown": "## 0.1.0-beta.14.1\n\n### Added\n\n- Adds PCD templates for gate, utility and numeric-monomer starting points.\n- Adds command-specific help, exit-code help and script-friendly quiet/no-banner output.\n\n### Changed\n\n- Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser.\n- Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls.\n- Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows.\n- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release.\n",
   "releaseNotes": [
     {
       "type": "added",
-      "surface": "cli",
-      "text": "Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory."
-    },
-    {
-      "type": "added",
       "surface": "pcd",
-      "text": "Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python."
+      "text": "Adds PCD templates for gate, utility and numeric-monomer starting points."
+    },
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Adds command-specific help, exit-code help and script-friendly quiet/no-banner output."
+    },
+    {
+      "type": "changed",
+      "surface": "pcd",
+      "text": "Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Adds explicit force overwrite support to PCD migration with --force and -f."
+      "text": "Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls."
+    },
+    {
+      "type": "changed",
+      "surface": "cli",
+      "text": "Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows."
     },
     {
       "type": "changed",
       "surface": "sdk",
-      "text": "Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release."
+      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release."
     }
   ]
 }

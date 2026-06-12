@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "brik64.cli_beta14_1_package_manifest.v1",
+  "version": "0.1.0-beta.14.1",
+  "decision": "PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta14_1",
+  "generationClaim": "assisted_generation_non_claim",
+  "package": {
+    "path": "evidence/beta14_1-package/brik64-cli-0.1.0-beta.14.1.tgz",
+    "sha256": "f537228ac21f10df714f966c42a97e2188f31fb2ec86e0ff7b92dec8d922afe3",
+    "bytes": 212006
+  },
+  "inputGates": [
+    {
+      "decision": "PASS_BETA14_SOURCE_LIFT_GATE",
+      "report": "evidence/beta14-source-lift/report.json",
+      "packaged": false
+    },
+    {
+      "decision": "PASS_BETA14_1_AUDIT_CLOSURE_GATE",
+      "report": "evidence/beta14_1-audit-closure/report.json",
+      "packaged": false
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "beta14_1_package_smoke",
+    "beta14_1_github_release",
+    "curl_gcp_installer_beta14_1",
+    "web_docs_changelog_beta14_1",
+    "skills_beta14_1",
+    "sdk_beta14_1_marketplaces_or_deferrals",
+    "public_claim_scan",
+    "live_release_train_verify"
+  ],
+  "boundary": "Beta14.1 local package candidate only. Public release remains blocked until GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically."
+}

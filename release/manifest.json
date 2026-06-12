@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.14",
-  "version": "0.1.0-beta.14",
+  "releaseId": "brik64-0.1.0-beta.14.1",
+  "version": "0.1.0-beta.14.1",
   "channel": "beta",
   "state": "public",
-  "createdAt": "2026-06-09T13:30:32.556Z",
+  "createdAt": "2026-06-12T11:43:41.994Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "96504db520af30be27e20786da333ef84603f66f"
+    "branch": "codex/beta14-1-audit-closure",
+    "commit": "7f7efdf8783a4d865092205f4b00ee91cce051fa"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -32,8 +32,8 @@
       }
     ],
     "package": {
-      "path": "evidence/beta14-package/brik64-cli-0.1.0-beta.14.tgz",
-      "sha256": "ebc9fa24a182a710afb90f438bef4fec57f7545cce3a69ad1684355eebdb3d77"
+      "path": "evidence/beta14_1-package/brik64-cli-0.1.0-beta.14.1.tgz",
+      "sha256": "f537228ac21f10df714f966c42a97e2188f31fb2ec86e0ff7b92dec8d922afe3"
     }
   },
   "sdks": [
@@ -41,29 +41,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.14",
+      "version": "0.1.0-beta.14.1",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b14",
+      "version": "0.1.0b14.post1",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.14",
+      "version": "0.1.0-beta.14.1",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.14",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14"
+      "tag": "v0.1.0-beta.14.1",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.1"
     },
     "curlInstaller": {
       "required": true,
@@ -95,32 +95,32 @@
     {
       "type": "added",
       "surface": "pcd",
-      "text": "Adds i32 parameters and return annotations for supported PCD functions while keeping i64 support."
+      "text": "Adds PCD templates for gate, utility and numeric-monomer starting points."
     },
     {
-      "type": "changed",
+      "type": "added",
       "surface": "cli",
-      "text": "Clarifies emit output behavior so --out can write either a target directory or an exact output file for supported targets."
+      "text": "Adds command-specific help, exit-code help and script-friendly quiet/no-banner output."
     },
     {
       "type": "changed",
       "surface": "pcd",
-      "text": "Restores utility-style multi-function PCDs by selecting the first function as the local entrypoint when the PC block does not define a same-name function."
+      "text": "Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves local and managed routing boundaries for verify, polymerize, login, logout, and account status."
+      "text": "Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls."
     },
     {
-      "type": "added",
+      "type": "changed",
       "surface": "cli",
-      "text": "Keeps opt-in telemetry, redacted feedback previews, and local error reports disabled from network transfer unless explicitly enabled and sent."
+      "text": "Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows."
     },
     {
-      "type": "added",
-      "surface": "web",
-      "text": "Adds release download observability requirements for CLI and SDK routes so public beta installs can be reviewed in the private metrics panel."
+      "type": "changed",
+      "surface": "sdk",
+      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release."
     }
   ],
   "verification": {
@@ -136,14 +136,19 @@
         "decision": "PASS_BETA14_SOURCE_LIFT_GATE"
       },
       {
+        "id": "beta14_1AuditClosureGate",
+        "path": "evidence/beta14_1-audit-closure/report.json",
+        "decision": "PASS_BETA14_1_AUDIT_CLOSURE_GATE"
+      },
+      {
         "id": "localPackage",
-        "path": "evidence/beta14-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA14_PACKAGE_BUILT"
+        "path": "evidence/beta14_1-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta14-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA14_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta14_1-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }

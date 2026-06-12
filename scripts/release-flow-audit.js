@@ -40,12 +40,24 @@ function section(text, marker) {
 }
 
 function betaNumber(version) {
-  const match = String(version).match(/^0\.1\.0-beta\.(\d+)$/);
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)?$/);
   return match ? match[1] : null;
+}
+
+function betaLabel(version) {
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.(\d+))?$/);
+  if (!match) return null;
+  return match[2] ? `beta${match[1]}_${match[2]}` : `beta${match[1]}`;
 }
 
 function add(condition, failures, code) {
   if (!condition) failures.push(code);
+}
+
+function pypiVersion(version) {
+  return String(version).replace(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?$/, (_all, base, beta, post) => (
+    post ? `${base}b${beta}.post${post}` : `${base}b${beta}`
+  ));
 }
 
 function textContainsAll(text, needles, failures, prefix) {
@@ -80,6 +92,15 @@ function forbiddenHits(text) {
 }
 
 function requiredBetaScripts(label) {
+  if (label === 'beta14_1') {
+    return [
+      'gate:beta14:functional',
+      'gate:beta14:source-lift',
+      'gate:beta14.1:audit-closure',
+      'package:beta14:local',
+      'smoke:beta14:package'
+    ];
+  }
   if (label === 'beta11') {
     return [
       'gate:beta11:semantic-polymerize',
@@ -122,7 +143,7 @@ function main() {
   const changelog = readText(path.join(root, 'CHANGELOG.md'));
 
   const currentBeta = betaNumber(manifest.version);
-  const label = currentBeta ? `beta${currentBeta}` : null;
+  const label = betaLabel(manifest.version);
   const changelogSection = section(changelog, `## ${manifest.version}`);
 
   add(manifest.schemaVersion === 'brik64.release_manifest.v1', failures, 'manifest_schema_invalid');
@@ -141,20 +162,21 @@ function main() {
 
   if (label) {
     const scripts = packageJson.scripts || {};
+    const packageScriptLabel = label === 'beta14_1' ? 'beta14' : label;
     for (const scriptName of requiredBetaScripts(label)) {
       add(Boolean(scripts[scriptName]), failures, `current_beta_script_missing:${scriptName}`);
     }
     add(
-      fs.existsSync(path.join(root, 'scripts', `build-${label}-package.js`))
-        || fs.existsSync(path.join(root, 'scripts', `build-${label}-package.sh`)),
+      fs.existsSync(path.join(root, 'scripts', `build-${packageScriptLabel}-package.js`))
+        || fs.existsSync(path.join(root, 'scripts', `build-${packageScriptLabel}-package.sh`)),
       failures,
-      `current_beta_package_builder_missing:${label}`
+      `current_beta_package_builder_missing:${packageScriptLabel}`
     );
     add(
-      fs.existsSync(path.join(root, 'scripts', `${label}-package-smoke.js`))
-        || fs.existsSync(path.join(root, 'scripts', `${label}-package-smoke.sh`)),
+      fs.existsSync(path.join(root, 'scripts', `${packageScriptLabel}-package-smoke.js`))
+        || fs.existsSync(path.join(root, 'scripts', `${packageScriptLabel}-package-smoke.sh`)),
       failures,
-      `current_beta_package_smoke_missing:${label}`
+      `current_beta_package_smoke_missing:${packageScriptLabel}`
     );
     add(fs.existsSync(path.join(root, 'evidence', `${label}-package`, 'package.manifest.json')), failures, `current_beta_package_manifest_missing:${label}`);
   }
@@ -173,7 +195,7 @@ function main() {
 
   const requiredMarketplaces = new Map([
     ['npm', manifest.version],
-    ['pypi', manifest.version.replace('-beta.', 'b')],
+    ['pypi', pypiVersion(manifest.version)],
     ['crates.io', manifest.version]
   ]);
   for (const [marketplace, expectedVersion] of requiredMarketplaces.entries()) {

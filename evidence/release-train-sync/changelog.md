@@ -1,12 +1,13 @@
-## 0.1.0-beta.13
+## 0.1.0-beta.14.1
 
 ### Added
 
-- Adds local source lift preview for JavaScript, TypeScript, and Python files into PCD candidate files.
-- Adds adoption reports with lift preview counts, warning counts, privacy flags, and local PCD inventory.
-- Adds multiple local functions inside one PCD block, including helper calls emitted to TypeScript, Rust, and Python.
+- Adds PCD templates for gate, utility and numeric-monomer starting points.
+- Adds command-specific help, exit-code help and script-friendly quiet/no-banner output.
 
 ### Changed
 
-- Adds explicit force overwrite support to PCD migration with --force and -f.
-- Aligns JavaScript, Python, and Rust SDK package coordinates to the Beta13 release.
+- Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser.
+- Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls.
+- Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows.
+- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release.
