@@ -66,6 +66,12 @@ function containsForbiddenPublicLanguage(text) {
   return patterns.filter((pattern) => pattern.test(text)).map((pattern) => pattern.toString());
 }
 
+function pypiVersion(version) {
+  return String(version).replace(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?$/, (_all, base, beta, post) => (
+    post ? `${base}b${beta}.post${post}` : `${base}b${beta}`
+  ));
+}
+
 function validate() {
   const manifestPath = path.resolve(root, argValue('--manifest', defaultManifest));
   const failures = [];
@@ -92,7 +98,7 @@ function validate() {
   const changelogSection = versionSection(changelog, manifest.version);
 
   add(manifest.schemaVersion === 'brik64.release_manifest.v1', failures, 'schema_version_invalid');
-  add(/^0\.\d+\.\d+-(beta|rc)\.\d+$|^\d+\.\d+\.\d+$/.test(manifest.version), failures, 'version_format_invalid');
+  add(/^0\.\d+\.\d+-(beta|rc)\.\d+(?:\.\d+)?$|^\d+\.\d+\.\d+$/.test(manifest.version), failures, 'version_format_invalid');
   add(manifest.releaseId === `brik64-${manifest.version}`, failures, 'release_id_version_drift');
   add(['draft', 'dry_run_passed', 'publishing', 'public', 'failed', 'superseded'].includes(manifest.state), failures, 'state_invalid');
   add(packageJson.version === manifest.version, failures, `package_version_drift:${packageJson.version}`);
@@ -124,7 +130,7 @@ function validate() {
 
   const sdkByMarketplace = new Map((manifest.sdks || []).map((sdk) => [sdk.marketplace, sdk]));
   add(sdkByMarketplace.get('npm')?.version === manifest.version, failures, 'npm_sdk_version_drift');
-  add(sdkByMarketplace.get('pypi')?.version === manifest.version.replace('-beta.', 'b'), failures, 'pypi_sdk_version_drift');
+  add(sdkByMarketplace.get('pypi')?.version === pypiVersion(manifest.version), failures, 'pypi_sdk_version_drift');
   add(sdkByMarketplace.get('crates.io')?.version === manifest.version, failures, 'rust_sdk_version_drift');
 
   const evidence = [];

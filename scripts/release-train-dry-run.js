@@ -95,13 +95,14 @@ console.log('decision=PASS_BETA6_COMMITTED_SURFACE_REPORTS');
 }
 
 function betaNumber(version) {
-  const match = String(version).match(/^0\.1\.0-beta\.(\d+)$/);
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)?$/);
   return match ? Number(match[1]) : null;
 }
 
 function betaLabel(version) {
-  const number = betaNumber(version);
-  return Number.isInteger(number) ? `beta${number}` : null;
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.(\d+))?$/);
+  if (!match) return null;
+  return match[2] ? `beta${match[1]}_${match[2]}` : `beta${match[1]}`;
 }
 
 function packageVersion() {
@@ -300,6 +301,31 @@ function candidateBranchCommands(version) {
       }),
       committedPackageShaGate(version),
       run('beta14_package_smoke', ['npm', 'run', 'smoke:beta14:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
+  if (version === '0.1.0-beta.14.1') {
+    return [
+      run('beta14_functional', ['npm', 'run', 'gate:beta14:functional'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta14_source_lift', ['npm', 'run', 'gate:beta14:source-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta14_1_audit_closure', ['npm', 'run', 'gate:beta14.1:audit-closure'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta14_1_local_package', ['npm', 'run', 'package:beta14:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta14_1_package_smoke', ['npm', 'run', 'smoke:beta14:package'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })

@@ -3,6 +3,34 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.14.1
+
+### Added
+
+- Adds `brik64 template` for gate, utility, and numeric-monomer PCD starting
+  points.
+- Adds command-specific help, `brik64 help exit-codes`, and script-friendly
+  quiet/no-banner output controls.
+- Adds `brik64 skill check-version` for installed skill/version drift checks.
+
+### Changed
+
+- Accepts supported numeric monomer calls and inline `if (...) return ...;`
+  syntax in the public beta parser.
+- Improves parser errors for missing `PC` blocks, legacy syntax, and unsupported
+  monomer calls with examples and suggested next commands.
+- Hardens `lock`, `migrate`, `doctor`, `polymerize`, `lift`, and `update`
+  behavior for local workflow use.
+- Aligns CLI, JavaScript, Python, and Rust SDK package coordinates to Beta14.1.
+
+### Compatibility
+
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim formal certification for arbitrary user code,
+  universal correctness, or independent toolchain closure.
+
 ## 0.1.0-beta.14
 
 ### Added
