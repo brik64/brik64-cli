@@ -63,7 +63,7 @@ function replaceOptional(file, pattern, replacement) {
 }
 
 function currentBetaNumber(version) {
-  const match = version.match(/^0\.1\.0-beta\.(\d+)$/);
+  const match = version.match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)?$/);
   if (!match) throw new Error(`unsupported_cli_beta_version:${version}`);
   return Number(match[1]);
 }
@@ -86,9 +86,9 @@ ${notes}
 function syncFiles(manifest) {
   const failures = [];
   const betaNumber = currentBetaNumber(manifest.version);
-  const previousBetas = Array.from({ length: betaNumber }, (_, i) => i).sort((a, b) => b - a).join('|');
-  const previousBetaPattern = new RegExp(`0\\.1\\.0-beta\\.(?:${previousBetas})(?!\\d)`, 'g');
-  const previousPyPattern = new RegExp(`0\\.1\\.0b(?:${previousBetas})(?!\\d)`, 'g');
+  const previousBetas = Array.from({ length: betaNumber + 1 }, (_, i) => i).sort((a, b) => b - a).join('|');
+  const previousBetaPattern = new RegExp(`0\\.1\\.0-beta\\.(?:${previousBetas})(?:\\.\\d+)?(?!\\d)`, 'g');
+  const previousPyPattern = new RegExp(`0\\.1\\.0b(?:${previousBetas})(?:\\.post\\d+)?(?!\\d)`, 'g');
   const previousBetaWordPattern = new RegExp(`\\b[Bb]eta(?:${Array.from({ length: betaNumber }, (_, i) => i).join('|')})\\b`, 'g');
   const jsSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'npm');
   const pySdk = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi');
@@ -121,14 +121,14 @@ function syncFiles(manifest) {
   );
   replaceRequired(
     files.install,
-    /if \[ "\$VERSION" != "0\.1\.0-beta\.\d+" \]; then/,
+    /if \[ "\$VERSION" != "0\.1\.0-beta\.\d+(?:\.\d+)?" \]; then/,
     `if [ "$VERSION" != "${manifest.version}" ]; then`,
     failures,
     'install_allowed_version'
   );
   replaceRequired(
     files.install,
-    /this installer currently serves 0\.1\.0-beta\.\d+ only; set BRIK64_VERSION=0\.1\.0-beta\.\d+/,
+    /this installer currently serves 0\.1\.0-beta\.\d+(?:\.\d+)? only; set BRIK64_VERSION=0\.1\.0-beta\.\d+(?:\.\d+)?/,
     `this installer currently serves ${manifest.version} only; set BRIK64_VERSION=${manifest.version}`,
     failures,
     'install_fail_message'
@@ -184,9 +184,9 @@ function syncFiles(manifest) {
       .replace(previousBetaPattern, manifest.version)
       .replace(previousPyPattern, pySdk?.version || manifest.version)
       .replace(previousBetaWordPattern, (value) => value[0] === 'B' ? `Beta${betaNumber}` : `beta${betaNumber}`);
-    if (jsSdk) text = text.replace(/@brik64\/core@0\.1\.0-beta\.\d+/g, `${jsSdk.package}@${jsSdk.version}`);
-    if (pySdk) text = text.replace(/brik64==0\.1\.0b\d+/g, `${pySdk.package}==${pySdk.version}`);
-    if (rustSdk) text = text.replace(/brik64-core(?:@| --version )0\.1\.0-beta\.\d+/g, (match) => match.includes('--version') ? `${rustSdk.package} --version ${rustSdk.version}` : `${rustSdk.package}@${rustSdk.version}`);
+    if (jsSdk) text = text.replace(/@brik64\/core@0\.1\.0-beta\.\d+(?:\.\d+)?/g, `${jsSdk.package}@${jsSdk.version}`);
+    if (pySdk) text = text.replace(/brik64==0\.1\.0b\d+(?:\.post\d+)?/g, `${pySdk.package}==${pySdk.version}`);
+    if (rustSdk) text = text.replace(/brik64-core(?:@| --version )0\.1\.0-beta\.\d+(?:\.\d+)?/g, (match) => match.includes('--version') ? `${rustSdk.package} --version ${rustSdk.version}` : `${rustSdk.package}@${rustSdk.version}`);
     fs.writeFileSync(file, text);
   }
 
