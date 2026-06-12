@@ -1,0 +1,13 @@
+{
+  "name": "@brik64/cli",
+  "version": "0.1.0-beta.14.1",
+  "private": true,
+  "description": "BRIK64 CLI beta14.1 audit-closure candidate for local PCD workflows, syntax UX, lift previews, and secure evidence review.",
+  "bin": {
+    "brik": "src/brik.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "distribution": "curl_and_github_release_assets"
+}
