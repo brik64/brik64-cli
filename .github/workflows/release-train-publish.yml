@@ -170,6 +170,26 @@ jobs:
         continue-on-error: true
         uses: rust-lang/crates-io-auth-action@v1
 
+      - name: Validate release credentials before public mutation
+        if: ${{ inputs.execute_publication == true }}
+        env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          TWINE_PASSWORD: ${{ secrets.BRIK64_PYPI_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates_io_auth.outputs.token || secrets.BRIK64_CRATES_TOKEN }}
+          BRIK64_GITHUB_RELEASE_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          BRIK64_GCP_RELEASE_CREDENTIALS: ${{ secrets.BRIK64_GCP_RELEASE_CREDENTIALS }}
+          BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          BRIK64_GCP_SERVICE_ACCOUNT: ${{ secrets.BRIK64_GCP_SERVICE_ACCOUNT }}
+          BRIK64_NPM_TOKEN: ${{ secrets.BRIK64_NPM_TOKEN }}
+          BRIK64_PYPI_TOKEN: ${{ secrets.BRIK64_PYPI_TOKEN }}
+          BRIK64_CRATES_TOKEN: ${{ steps.crates_io_auth.outputs.token || secrets.BRIK64_CRATES_TOKEN }}
+          BRIK64_DOCS_DISPATCH_TOKEN: ${{ secrets.BRIK64_DOCS_DISPATCH_TOKEN }}
+          BRIK64_WEB_DEPLOY_TOKEN: ${{ secrets.BRIK64_WEB_DEPLOY_TOKEN }}
+          BRIK64_SKILLS_REPO_TOKEN: ${{ secrets.BRIK64_SKILLS_REPO_TOKEN }}
+        run: npm run release:credential-preflight -- --publish
+
       - name: Generate publication plan
         env:
           BRIK64_RELEASE_PUBLICATION_IN_PROGRESS: "1"
@@ -239,3 +259,4 @@ jobs:
             evidence/release-train-live-verify/report.json
             evidence/release-train-publish-plan/report.json
             evidence/release-train-publish-execute/report.json
+            evidence/release-credential-preflight/report.json
