@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "brik64.cli_beta14_3_package_smoke.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta14_3",
+  "package": {
+    "path": "evidence/beta14_3-package/brik64-cli-0.1.0-beta.14.3.tgz",
+    "sha256": "5e713745bef11017a84f8d28e3df7794667366485f4510084eb9dae3ffccbff3"
+  },
+  "checks": [
+    "extract",
+    "package_content_snapshot",
+    "version",
+    "help",
+    "engine_status",
+    "monomers_list",
+    "monomers_test_all",
+    "init",
+    "explain",
+    "explain_json",
+    "lock_json",
+    "telemetry_status",
+    "monomer_explain",
+    "monomer_explain_extended",
+    "telemetry_explain",
+    "feedback_redaction",
+    "lift_js_preview",
+    "adoption_report_json",
+    "certify",
+    "certify_monomer",
+    "effect_boundary_fail_closed",
+    "emit_ts",
+    "generated_ts_exec",
+    "polymerize_multi_input_no_loss",
+    "import_cycle_fail_closed"
+  ],
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "public_release_allowed": false,
+    "local_package_smoke_passed": true,
+    "fixpoint_claim_allowed": false,
+    "n5_formal_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  },
+  "next_action": "run release train dry-run, final GitHub Release asset publication, curl/GCP staging and live verification"
+}

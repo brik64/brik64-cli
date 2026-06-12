@@ -1,60 +1,55 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.14.1",
-  "version": "0.1.0-beta.14.1",
+  "releaseId": "brik64-0.1.0-beta.14.3",
+  "version": "0.1.0-beta.14.3",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "e7f6fadf0f39c513a057459c059a7661ff9e03668477b80ef38554d355472aeb",
+  "manifestDigest": "192ad300f49160b2611044138efd1226304bc6bb86d33f9129000b73b19e0e36",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.1",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.3",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.14.1"
+      "version": "0.1.0-beta.14.3"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b14.post1"
+      "version": "0.1.0b14.post3"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.14.1"
+      "version": "0.1.0-beta.14.3"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.14.1\n\n### Added\n\n- Adds PCD templates for gate, utility and numeric-monomer starting points.\n- Adds command-specific help, exit-code help and script-friendly quiet/no-banner output.\n\n### Changed\n\n- Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser.\n- Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls.\n- Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows.\n- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release.\n",
+  "changelogMarkdown": "## 0.1.0-beta.14.3\n\n### Added\n\n- Adds a 128-monomer inspection surface with 64 core entries and 64 extended entries for registry listing, explanation and local test reporting.\n- Adds Beta14.3 PCD source contracts for CLI commands, monomer registry coverage, lift workflows, harness checks and release synchronization.\n\n### Changed\n\n- Improves monomer explain and monomer test output so local automation can verify core and extended registry coverage from the CLI.\n- Packages Beta14.3 with hash-bound materialization evidence, package checksums and local smoke verification for the distributed beta artifact.\n- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.3 release train.\n",
   "releaseNotes": [
     {
       "type": "added",
-      "surface": "pcd",
-      "text": "Adds PCD templates for gate, utility and numeric-monomer starting points."
+      "surface": "cli",
+      "text": "Adds a 128-monomer inspection surface with 64 core entries and 64 extended entries for registry listing, explanation and local test reporting."
     },
     {
       "type": "added",
-      "surface": "cli",
-      "text": "Adds command-specific help, exit-code help and script-friendly quiet/no-banner output."
-    },
-    {
-      "type": "changed",
       "surface": "pcd",
-      "text": "Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser."
+      "text": "Adds Beta14.3 PCD source contracts for CLI commands, monomer registry coverage, lift workflows, harness checks and release synchronization."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls."
+      "text": "Improves monomer explain and monomer test output so local automation can verify core and extended registry coverage from the CLI."
     },
     {
       "type": "changed",
-      "surface": "cli",
-      "text": "Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows."
+      "surface": "release",
+      "text": "Packages Beta14.3 with hash-bound materialization evidence, package checksums and local smoke verification for the distributed beta artifact."
     },
     {
       "type": "changed",
       "surface": "sdk",
-      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release."
+      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.3 release train."
     }
   ]
 }

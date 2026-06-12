@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_52.VERIFY
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_52_VERIFY {
+    fn MC_52_VERIFY(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

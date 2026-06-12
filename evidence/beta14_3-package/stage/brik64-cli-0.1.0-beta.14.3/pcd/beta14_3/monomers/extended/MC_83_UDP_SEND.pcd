@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_83.UDP_SEND
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_83_UDP_SEND {
+    fn MC_83_UDP_SEND(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

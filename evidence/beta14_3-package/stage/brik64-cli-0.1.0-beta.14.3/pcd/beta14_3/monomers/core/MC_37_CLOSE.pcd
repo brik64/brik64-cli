@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_37.CLOSE
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_37_CLOSE {
+    fn MC_37_CLOSE(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

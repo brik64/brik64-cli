@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_17.STORE
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_17_STORE {
+    fn MC_17_STORE(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}
