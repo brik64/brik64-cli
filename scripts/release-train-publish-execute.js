@@ -117,6 +117,7 @@ function isAllowedGeneratedDirtyFile(file) {
   if (/^evidence\/beta\d+-(adversarial|compiler-functionality|github-verified-signature|l6-factory-bridge|local-candidate|package-smoke|package|publication-preflight|release-checksums)\//.test(file)) {
     return true;
   }
+  if (/^evidence\/beta14-source-lift\/report\.json$/.test(file)) return true;
   return [
     'evidence/beta5-l6-factory-bridge/',
     'evidence/beta5-local-candidate/',
