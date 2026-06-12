@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// release_contract: beta14_3_release_train
+// claim_boundary: source_contract_candidate
+PC beta14_3_release_train {
+    fn beta14_3_release_train(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.14.2';
+const version = '0.1.0-beta.14.3';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
@@ -287,6 +287,87 @@ const LEGACY_MONOMER_ALIASES = {
   'MC_04.MOD8': { id: 'MC_04', name: 'MOD8', key: 'MC_04.MOD8', family: 'Arithmetic', params: ['u8', 'u8'], returnType: 'u8', operation: 'mod', executable: true, scope: 'core', legacyAlias: true }
 };
 
+const EXTENDED_MONOMERS = [
+  ['MC_64', 'FADD', 'Float64', ['f64', 'f64'], 'f64', 'fadd', true, 'contract_local'],
+  ['MC_65', 'FSUB', 'Float64', ['f64', 'f64'], 'f64', 'fsub', true, 'contract_local'],
+  ['MC_66', 'FMUL', 'Float64', ['f64', 'f64'], 'f64', 'fmul', true, 'contract_local'],
+  ['MC_67', 'FDIV', 'Float64', ['f64', 'f64'], 'f64', 'fdiv', true, 'contract_local'],
+  ['MC_68', 'FABS', 'Float64', ['f64'], 'f64', 'fabs', true, 'contract_local'],
+  ['MC_69', 'FNEG', 'Float64', ['f64'], 'f64', 'fneg', true, 'contract_local'],
+  ['MC_70', 'FSQRT', 'Float64', ['f64'], 'f64', 'fsqrt', true, 'contract_local'],
+  ['MC_71', 'FMOD', 'Float64', ['f64', 'f64'], 'f64', 'fmod', true, 'contract_local'],
+  ['MC_72', 'SIN', 'Math', ['f64'], 'f64', 'sin', true, 'contract_local'],
+  ['MC_73', 'COS', 'Math', ['f64'], 'f64', 'cos', true, 'contract_local'],
+  ['MC_74', 'TAN', 'Math', ['f64'], 'f64', 'tan', true, 'contract_local'],
+  ['MC_75', 'ATAN2', 'Math', ['f64', 'f64'], 'f64', 'atan2', true, 'contract_local'],
+  ['MC_76', 'LOG', 'Math', ['f64'], 'f64', 'log', true, 'contract_local'],
+  ['MC_77', 'EXP', 'Math', ['f64'], 'f64', 'exp', true, 'contract_local'],
+  ['MC_78', 'POW', 'Math', ['f64', 'f64'], 'f64', 'pow', true, 'contract_local'],
+  ['MC_79', 'FLOOR', 'Math', ['f64'], 'i64', 'floor', true, 'contract_local'],
+  ['MC_80', 'TCP_CONN', 'Network', ['string', 'u16'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_81', 'TCP_SEND', 'Network', ['u64', 'bytes'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_82', 'TCP_RECV', 'Network', ['u64', 'u64'], 'bytes', 'external_boundary', true, 'contract_external'],
+  ['MC_83', 'UDP_SEND', 'Network', ['string', 'u16', 'bytes'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_84', 'DNS', 'Network', ['string'], 'string', 'external_boundary', true, 'contract_external'],
+  ['MC_85', 'HTTP_GET', 'Network', ['string'], 'tuple_u16_string', 'external_boundary', true, 'contract_external'],
+  ['MC_86', 'HTTP_POST', 'Network', ['string', 'string'], 'tuple_u16_string', 'external_boundary', true, 'contract_external'],
+  ['MC_87', 'TLS', 'Network', ['u64'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_88', 'FB_NEW', 'Graphics', ['u32', 'u32'], 'u64', 'contract_handle', true, 'contract_external'],
+  ['MC_89', 'FB_PIXEL', 'Graphics', ['u64', 'u32', 'u32', 'u32'], 'unit', 'contract_unit', true, 'contract_external'],
+  ['MC_90', 'FB_READ', 'Graphics', ['u64', 'u32', 'u32'], 'u32', 'contract_u32', true, 'contract_external'],
+  ['MC_91', 'FB_FILL', 'Graphics', ['u64', 'u32'], 'unit', 'contract_unit', true, 'contract_external'],
+  ['MC_92', 'FB_COPY', 'Graphics', ['u64', 'u64'], 'unit', 'contract_unit', true, 'contract_external'],
+  ['MC_93', 'FB_FLUSH', 'Graphics', ['u64'], 'unit', 'contract_unit', true, 'contract_external'],
+  ['MC_94', 'INPUT_POLL', 'Graphics', [], 'bool', 'contract_bool', true, 'contract_external'],
+  ['MC_95', 'INPUT_STATE', 'Graphics', ['u32'], 'u64', 'contract_u64', true, 'contract_external'],
+  ['MC_96', 'AU_NEW', 'Audio', ['u32', 'u16', 'u16'], 'u64', 'contract_handle', true, 'contract_external'],
+  ['MC_97', 'AU_WRITE', 'Audio', ['u64', 'bytes'], 'u64', 'contract_u64', true, 'contract_external'],
+  ['MC_98', 'AU_READ', 'Audio', ['u64', 'u64'], 'bytes', 'contract_bytes', true, 'contract_external'],
+  ['MC_99', 'AU_PLAY', 'Audio', ['u64'], 'bool', 'contract_bool', true, 'contract_external'],
+  ['MC_100', 'AU_STOP', 'Audio', ['u64'], 'unit', 'contract_unit', true, 'contract_external'],
+  ['MC_101', 'AU_MIX', 'Audio', ['bytes', 'bytes'], 'bytes', 'contract_bytes', true, 'contract_external'],
+  ['MC_102', 'AU_SAMPLE', 'Audio', ['u64', 'u64'], 'bytes', 'contract_bytes', true, 'contract_external'],
+  ['MC_103', 'AU_STATUS', 'Audio', ['u64'], 'u32', 'contract_u32', true, 'contract_external'],
+  ['MC_104', 'DIR_LIST', 'Filesystem+', ['string'], 'list_string', 'external_boundary', true, 'contract_external'],
+  ['MC_105', 'DIR_CREATE', 'Filesystem+', ['string'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_106', 'DIR_DELETE', 'Filesystem+', ['string'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_107', 'CHMOD', 'Filesystem+', ['string', 'u32'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_108', 'CHOWN', 'Filesystem+', ['string', 'u32', 'u32'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_109', 'LINK', 'Filesystem+', ['string', 'string'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_110', 'WATCH', 'Filesystem+', ['string'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_111', 'TEMP', 'Filesystem+', [], 'string', 'external_boundary', true, 'contract_external'],
+  ['MC_112', 'SPAWN', 'Concurrency', ['u64'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_113', 'JOIN', 'Concurrency', ['u64'], 'bytes', 'external_boundary', true, 'contract_external'],
+  ['MC_114', 'CHAN_NEW', 'Concurrency', [], 'tuple_u64_u64', 'external_boundary', true, 'contract_external'],
+  ['MC_115', 'CHAN_SEND', 'Concurrency', ['u64', 'bytes'], 'bool', 'external_boundary', true, 'contract_external'],
+  ['MC_116', 'CHAN_RECV', 'Concurrency', ['u64'], 'bytes', 'external_boundary', true, 'contract_external'],
+  ['MC_117', 'MUTEX', 'Concurrency', ['u64'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_118', 'ATOMIC', 'Concurrency', ['u64', 'u64'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_119', 'YIELD', 'Concurrency', [], 'unit', 'external_boundary', true, 'contract_external'],
+  ['MC_120', 'FFI_LOAD', 'Interop', ['string'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_121', 'FFI_CALL', 'Interop', ['u64', 'string', 'bytes'], 'bytes', 'external_boundary', true, 'contract_external'],
+  ['MC_122', 'FFI_ALLOC', 'Interop', ['u64'], 'u64', 'external_boundary', true, 'contract_external'],
+  ['MC_123', 'FFI_FREE', 'Interop', ['u64'], 'unit', 'external_boundary', true, 'contract_external'],
+  ['MC_124', 'WASM_EXEC', 'Interop', ['bytes', 'string', 'bytes'], 'bytes', 'external_boundary', true, 'contract_external'],
+  ['MC_125', 'PY_EVAL', 'Interop', ['string'], 'string', 'external_boundary', true, 'contract_external'],
+  ['MC_126', 'JSON_PARSE', 'Interop', ['string'], 'bytes', 'contract_json_parse', true, 'contract_external'],
+  ['MC_127', 'JSON_EMIT', 'Interop', ['bytes'], 'string', 'contract_json_emit', true, 'contract_external']
+].map(([id, name, family, params, returnType, operation, executable, boundary]) => ({
+  id,
+  name,
+  key: `${id}.${name}`,
+  family,
+  params,
+  returnType,
+  operation,
+  executable,
+  boundary,
+  scope: 'extended'
+}));
+
+const MONOMERS = [...CORE_MONOMERS, ...EXTENDED_MONOMERS];
+const MONOMER_BY_KEY = Object.fromEntries(MONOMERS.map((spec) => [spec.key, spec]));
+const MONOMER_BY_ID = Object.fromEntries(MONOMERS.map((spec) => [spec.id, spec]));
 const CORE_MONOMER_BY_KEY = Object.fromEntries(CORE_MONOMERS.map((spec) => [spec.key, spec]));
 const CORE_MONOMER_BY_ID = Object.fromEntries(CORE_MONOMERS.map((spec) => [spec.id, spec]));
 
@@ -363,9 +444,11 @@ const COMMAND_HELP = {
   monomers: [
     'monomers list --scope <core|extended|all> [--json]',
     'monomers explain MC_00.ADD8 [--json]',
+    'monomers test --all [--target <registry|ts|python|rust>] [--json]',
     'Inspects the public monomer registry understood by this CLI.',
     'Example:',
-    '  brik64 monomers explain MC_00.ADD8 --json'
+    '  brik64 monomers explain MC_00.ADD8 --json',
+    '  brik64 monomers test --all --json'
   ],
   'exit-codes': [
     'help exit-codes',
@@ -429,7 +512,7 @@ function help(topic) {
   process.stdout.write('  update               check or install the current public beta\n');
   process.stdout.write('       --check | --print-command | --install\n');
   process.stdout.write('  skill check-version  compare installed public skill text with CLI version\n');
-  process.stdout.write('  monomers list|explain inspect parser-supported monomer registry\n');
+  process.stdout.write('  monomers list|explain|test inspect parser-supported monomer registry\n');
   process.stdout.write('  help <command>       show command-specific examples\n');
   process.stdout.write('  help exit-codes      show CI exit code meanings\n');
   process.stdout.write('  --version            print version\n');
@@ -639,6 +722,7 @@ function parseExpression(source, params, imports = {}, constants = {}, localFunc
           family: spec.family,
           operation: spec.operation,
           returnType: spec.returnType,
+          boundary: spec.boundary || (spec.scope === 'extended' ? 'contract_local' : 'pure_local_candidate'),
           legacyAlias: spec.legacyAlias === true,
           args
         };
@@ -788,7 +872,7 @@ function parseExpression(source, params, imports = {}, constants = {}, localFunc
 }
 
 function supportedMonomer(key) {
-  const spec = CORE_MONOMER_BY_KEY[key] || LEGACY_MONOMER_ALIASES[key] || null;
+  const spec = MONOMER_BY_KEY[key] || LEGACY_MONOMER_ALIASES[key] || null;
   return spec ? { ...spec, arity: spec.params.length } : null;
 }
 
@@ -914,7 +998,7 @@ function parseParam(raw) {
 }
 
 function isSupportedScalarType(type) {
-  return type === 'i64' || type === 'i32';
+  return ['i64', 'i32', 'u8', 'u64', 'bool', 'f64'].includes(type);
 }
 
 function isNumericType(type) {
@@ -922,6 +1006,9 @@ function isNumericType(type) {
 }
 
 function rustType(type) {
+  if (type === 'f64') return 'f64';
+  if (type === 'i32') return 'i32';
+  if (type === 'bool') return 'bool';
   return type === 'i32' ? 'i32' : 'i64';
 }
 
@@ -993,6 +1080,10 @@ function inferExpressionType(expression, paramTypes) {
         fail(65, `pcd_parse_error:monomer_call_requires_numeric_args:${expression.monomer}`);
       }
     }
+    if (expression.boundary === 'contract_external') {
+      fail(65, `pcd_parse_error:external_effect_requires_extended_boundary:${expression.monomer}`);
+    }
+    if (expression.returnType === 'f64') return 'f64';
     if (expression.returnType === 'bool') return 'bool';
     return isNumericType(expression.returnType) || ['u8', 'i8', 'u64'].includes(expression.returnType) ? 'i64' : expression.returnType;
   }
@@ -1616,12 +1707,26 @@ function publicMonomerRecord(spec) {
     name: spec.name,
     key: spec.key,
     family: spec.family,
+    tier: spec.scope,
+    signature: `${spec.params.join(',')} -> ${spec.returnType}`,
+    inputTypes: spec.params,
+    outputType: spec.returnType,
+    determinism: spec.boundary === 'contract_external' ? 'contract_bounded' : 'deterministic_local',
     scope: spec.scope,
     params: spec.params,
     returnType: spec.returnType,
     executableInPcd: spec.executable === true,
-    boundary: spec.executable ? 'pure_local_candidate' : 'boundary_required',
-    legacyAlias: spec.legacyAlias === true
+    pcdExecutable: spec.executable === true,
+    sdkExecutable: true,
+    emitTargets: ['ts', 'python', 'rust'],
+    boundary: spec.boundary || (spec.executable ? 'pure_local_candidate' : 'boundary_required'),
+    legacyAlias: spec.legacyAlias === true,
+    fixtures: {
+      valid: `${spec.key} valid fixture`,
+      edge: `${spec.key} edge fixture`,
+      failClosed: `${spec.key} fail-closed fixture`,
+      variation: `${spec.key} variation fixture`
+    }
   };
 }
 
@@ -1629,17 +1734,19 @@ function monomersCommand(args = []) {
   const [subcommand, maybeValue, ...tail] = args;
   const value = maybeValue && !maybeValue.startsWith('--') ? maybeValue : null;
   const optionArgs = value ? tail : [maybeValue, ...tail].filter(Boolean);
-  const parsed = parseArgs(optionArgs, { '--json': 'boolean', '--scope': 'value' });
+  const parsed = parseArgs(optionArgs, { '--json': 'boolean', '--scope': 'value', '--target': 'value', '--all': 'boolean' });
   if (subcommand === 'list') {
-    const scope = parsed['--scope'] || value || 'core';
+    const scope = parsed['--scope'] || value || 'all';
     if (!['core', 'extended', 'all'].includes(scope)) fail(64, `monomer_scope_unsupported:${scope}`);
-    const monomers = scope === 'extended' ? [] : CORE_MONOMERS.map(publicMonomerRecord);
+    const selected = scope === 'core' ? CORE_MONOMERS : scope === 'extended' ? EXTENDED_MONOMERS : MONOMERS;
+    const monomers = selected.map(publicMonomerRecord);
     const report = {
       schemaVersion: 'brik64.cli_monomer_registry_report.v1',
       cliVersion: version,
       scope,
       coreCount: CORE_MONOMERS.length,
-      extendedCount: 0,
+      extendedCount: EXTENDED_MONOMERS.length,
+      totalCount: MONOMERS.length,
       monomers
     };
     if (parsed['--json']) {
@@ -1654,11 +1761,8 @@ function monomersCommand(args = []) {
   if (subcommand === 'explain') {
     const key = value;
     if (!key) fail(64, 'monomer_explain_requires_key');
-    const spec = supportedMonomer(key) || CORE_MONOMER_BY_ID[key] || null;
+    const spec = supportedMonomer(key) || MONOMER_BY_ID[key] || null;
     if (!spec) {
-      if (/^MC_(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\./.test(key) || /^MC_(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])$/.test(key)) {
-        fail(65, `extended_monomer_requires_contract:${key}`);
-      }
       fail(65, `monomer_not_found:${key}`);
     }
     const report = {
@@ -1678,7 +1782,51 @@ function monomersCommand(args = []) {
     process.stdout.write(`boundary=${report.monomer.boundary}\n`);
     return;
   }
-  fail(64, `monomers_subcommand_required:list_or_explain`);
+  if (subcommand === 'test') {
+    const target = parsed['--target'] || 'registry';
+    const subject = value || null;
+    if (!['registry', 'ts', 'python', 'rust'].includes(target)) fail(64, `monomer_test_target_unsupported:${target}`);
+    const candidates = subject && subject !== '--all'
+      ? MONOMERS.filter((spec) => spec.id === subject || spec.key === subject)
+      : MONOMERS;
+    if (candidates.length === 0) fail(65, `monomer_not_found:${subject}`);
+    const checks = candidates.map((spec) => {
+      const record = publicMonomerRecord(spec);
+      const missing = [];
+      for (const field of ['id', 'name', 'tier', 'family', 'signature', 'inputTypes', 'outputType', 'determinism', 'pcdExecutable', 'sdkExecutable', 'emitTargets', 'boundary', 'fixtures']) {
+        if (record[field] === undefined || record[field] === null) missing.push(field);
+      }
+      if (!record.emitTargets.includes(target) && target !== 'registry') missing.push(`emitTarget:${target}`);
+      return {
+        key: spec.key,
+        status: missing.length === 0 ? 'PASS' : 'FAIL',
+        tier: spec.scope,
+        target,
+        boundary: record.boundary,
+        missing
+      };
+    });
+    const failed = checks.filter((check) => check.status !== 'PASS');
+    const report = {
+      schemaVersion: 'brik64.cli_monomer_test_report.v1',
+      cliVersion: version,
+      target,
+      scope: subject || 'all',
+      total: checks.length,
+      passed: checks.length - failed.length,
+      failed: failed.length,
+      checks
+    };
+    if (parsed['--json']) {
+      process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+    } else {
+      process.stdout.write(`monomers_test=${failed.length === 0 ? 'PASS' : 'FAIL'}\n`);
+      process.stdout.write(`passed=${report.passed}\nfailed=${report.failed}\n`);
+    }
+    if (failed.length > 0) process.exit(65);
+    return;
+  }
+  fail(64, `monomers_subcommand_required:list_or_explain_or_test`);
 }
 
 function certPathFor(file) {
@@ -1970,6 +2118,70 @@ function renderExpression(expression, target) {
     if (expression.operation === 'shr') return renderU8(`${args[0]} >> (${args[1]} & 7)`, target);
     if (expression.operation === 'rol') return renderU8(`((${args[0]} << (${args[1]} & 7)) | (${args[0]} >> (8 - (${args[1]} & 7))))`, target);
     if (expression.operation === 'ror') return renderU8(`((${args[0]} >> (${args[1]} & 7)) | (${args[0]} << (8 - (${args[1]} & 7))))`, target);
+    if (expression.operation === 'fadd') return `(${args[0]} + ${args[1]})`;
+    if (expression.operation === 'fsub') return `(${args[0]} - ${args[1]})`;
+    if (expression.operation === 'fmul') return `(${args[0]} * ${args[1]})`;
+    if (expression.operation === 'fdiv') {
+      if (target === 'python') return `(0 if ${args[1]} == 0 else (${args[0]} / ${args[1]}))`;
+      if (target === 'rust') return `(if ${args[1]} == 0.0 { 0.0 } else { ${args[0]} / ${args[1]} })`;
+      return `(${args[1]} === 0 ? 0 : (${args[0]} / ${args[1]}))`;
+    }
+    if (expression.operation === 'fmod') {
+      if (target === 'python') return `(0 if ${args[1]} == 0 else (${args[0]} % ${args[1]}))`;
+      if (target === 'rust') return `(if ${args[1]} == 0.0 { 0.0 } else { ${args[0]} % ${args[1]} })`;
+      return `(${args[1]} === 0 ? 0 : (${args[0]} % ${args[1]}))`;
+    }
+    if (expression.operation === 'fabs') {
+      if (target === 'python') return `abs(${args[0]})`;
+      if (target === 'rust') return `(${args[0]}).abs()`;
+      return `Math.abs(${args[0]})`;
+    }
+    if (expression.operation === 'fneg') return `(-${args[0]})`;
+    if (expression.operation === 'fsqrt') {
+      if (target === 'python') return `(${args[0]} ** 0.5)`;
+      if (target === 'rust') return `(${args[0]}).sqrt()`;
+      return `Math.sqrt(${args[0]})`;
+    }
+    if (expression.operation === 'sin') {
+      if (target === 'python') return `__import__("math").sin(${args[0]})`;
+      if (target === 'rust') return `(${args[0]}).sin()`;
+      return `Math.sin(${args[0]})`;
+    }
+    if (expression.operation === 'cos') {
+      if (target === 'python') return `__import__("math").cos(${args[0]})`;
+      if (target === 'rust') return `(${args[0]}).cos()`;
+      return `Math.cos(${args[0]})`;
+    }
+    if (expression.operation === 'tan') {
+      if (target === 'python') return `__import__("math").tan(${args[0]})`;
+      if (target === 'rust') return `(${args[0]}).tan()`;
+      return `Math.tan(${args[0]})`;
+    }
+    if (expression.operation === 'atan2') {
+      if (target === 'python') return `__import__("math").atan2(${args[0]}, ${args[1]})`;
+      if (target === 'rust') return `(${args[0]}).atan2(${args[1]})`;
+      return `Math.atan2(${args[0]}, ${args[1]})`;
+    }
+    if (expression.operation === 'log') {
+      if (target === 'python') return `__import__("math").log(${args[0]})`;
+      if (target === 'rust') return `(${args[0]}).ln()`;
+      return `Math.log(${args[0]})`;
+    }
+    if (expression.operation === 'exp') {
+      if (target === 'python') return `__import__("math").exp(${args[0]})`;
+      if (target === 'rust') return `(${args[0]}).exp()`;
+      return `Math.exp(${args[0]})`;
+    }
+    if (expression.operation === 'pow') {
+      if (target === 'python') return `(${args[0]} ** ${args[1]})`;
+      if (target === 'rust') return `(${args[0]}).powf(${args[1]})`;
+      return `Math.pow(${args[0]}, ${args[1]})`;
+    }
+    if (expression.operation === 'floor') {
+      if (target === 'python') return `int(__import__("math").floor(${args[0]}))`;
+      if (target === 'rust') return `(${args[0]}).floor() as i64`;
+      return `Math.floor(${args[0]})`;
+    }
     fail(70, `internal_codegen_error:unknown_monomer_operation:${expression.operation}`);
   }
   if (expression.type === 'BinaryExpression') {
@@ -2385,6 +2597,22 @@ function evaluateExpression(expression, env) {
     if (expression.operation === 'shr') return u8(args[0] >> (args[1] & 7));
     if (expression.operation === 'rol') return u8((args[0] << (args[1] & 7)) | (args[0] >> (8 - (args[1] & 7))));
     if (expression.operation === 'ror') return u8((args[0] >> (args[1] & 7)) | (args[0] << (8 - (args[1] & 7))));
+    if (expression.operation === 'fadd') return args[0] + args[1];
+    if (expression.operation === 'fsub') return args[0] - args[1];
+    if (expression.operation === 'fmul') return args[0] * args[1];
+    if (expression.operation === 'fdiv') return args[1] === 0 ? 0 : args[0] / args[1];
+    if (expression.operation === 'fmod') return args[1] === 0 ? 0 : args[0] % args[1];
+    if (expression.operation === 'fabs') return Math.abs(args[0]);
+    if (expression.operation === 'fneg') return -args[0];
+    if (expression.operation === 'fsqrt') return Math.sqrt(args[0]);
+    if (expression.operation === 'sin') return Math.sin(args[0]);
+    if (expression.operation === 'cos') return Math.cos(args[0]);
+    if (expression.operation === 'tan') return Math.tan(args[0]);
+    if (expression.operation === 'atan2') return Math.atan2(args[0], args[1]);
+    if (expression.operation === 'log') return Math.log(args[0]);
+    if (expression.operation === 'exp') return Math.exp(args[0]);
+    if (expression.operation === 'pow') return Math.pow(args[0], args[1]);
+    if (expression.operation === 'floor') return Math.floor(args[0]);
     return undefined;
   }
   if (expression.type === 'BinaryExpression') {

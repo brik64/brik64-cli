@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "brik64.cli_beta14_3_monomer_128_gate.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "PASS_BETA14_3_MONOMER_128_GATE",
+  "evidenceLevel": 3,
+  "checks": [
+    {
+      "id": "version:beta14_3",
+      "status": "PASS",
+      "elapsedMs": 76
+    },
+    {
+      "id": "registry:128_counts",
+      "status": "PASS",
+      "elapsedMs": 73,
+      "coreCount": 64,
+      "extendedCount": 64,
+      "totalCount": 128
+    },
+    {
+      "id": "registry:test_all_128",
+      "status": "PASS",
+      "elapsedMs": 72,
+      "total": 128,
+      "passed": 128
+    },
+    {
+      "id": "registry:explain_core_and_extended",
+      "status": "PASS",
+      "elapsedMs": 147
+    },
+    {
+      "id": "pcd:extended_float_emit_targets",
+      "status": "PASS",
+      "elapsedMs": 483
+    },
+    {
+      "id": "pcd:external_boundary_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 149
+    },
+    {
+      "id": "pcd:source_scaffold_present",
+      "status": "PASS",
+      "elapsedMs": 2,
+      "pcdCount": 147
+    },
+    {
+      "id": "l6:evidence_fail_closed_until_materialized",
+      "status": "PASS",
+      "elapsedMs": 0
+    }
+  ],
+  "failures": [],
+  "boundary": "Registry and parser gate only. This is not L6+N5 generation evidence, self-hosting, fixpoint, formal proof, or public release authorization."
+}

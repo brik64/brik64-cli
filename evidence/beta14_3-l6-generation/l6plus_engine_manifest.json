@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "brik64.beta14_3_l6plus_engine_manifest.v1",
+  "version": "0.1.0-beta.14.3",
+  "status": "PASS_REMOTE_L6_PREFLIGHT_NON_CLAIM",
+  "publicationAllowed": false,
+  "host": "root@89.167.104.236",
+  "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+  "engineVersion": "5.0.0-beta.1-l6plus-internal-g0",
+  "claimAuthority": "non_claim",
+  "publicClaimAllowed": false,
+  "checksumsOk": true,
+  "auditDecision": "PASS",
+  "generalCompileSupported": "multi_parameter_cli_dispatch",
+  "route2BoundedCompileSupported": true,
+  "materializationStatus": "PENDING_BETA14_3_FULL_ARTIFACT_GENERATION",
+  "claimBoundary": "Remote L6+N5 is healthy for internal non-claim generation, but Beta14.3 is not publication-eligible until full PCD materialization, package, checksums, and live manifest evidence exist."
+}

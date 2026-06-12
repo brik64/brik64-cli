@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.beta14_3_l6_generation_gate.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "BLOCKED_BETA14_3_L6_GENERATION_GATE",
+  "blockers": [
+    "beta14_3_l6_generated_artifact_missing",
+    "beta14_3_l6_seal_missing"
+  ],
+  "checks": {
+    "version": true,
+    "remotePreflight": true,
+    "auditDecision": true,
+    "claimClosed": true
+  },
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "nextAction": "Materialize the Beta14.3 CLI artifact from pcd/beta14_3 through L6+N5, then write generated_artifact_manifest.json and seal_report.json with PASS decisions."
+}

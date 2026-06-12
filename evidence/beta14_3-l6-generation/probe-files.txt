@@ -1,0 +1,2 @@
+/tmp/brik64-cli-beta14-3-materialize-1781290407965/out/cli_entrypoint.cert.json
+/tmp/brik64-cli-beta14-3-materialize-1781290407965/out/cli_entrypoint.js

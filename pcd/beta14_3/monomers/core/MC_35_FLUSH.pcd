@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_35.FLUSH
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_35_FLUSH {
+    fn MC_35_FLUSH(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

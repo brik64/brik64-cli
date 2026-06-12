@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.14.3 bounded materialization probe",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "sourceHash": "88f191218d97a5338fc6d5576b76df4e443f93e13db9bb6d13f422cdba724caf",
+  "target": "js_node",
+  "boundedDomains": {
+    "command_id": {
+      "kind": "integer",
+      "min": 0,
+      "max": 64
+    }
+  },
+  "normalization": {
+    "status": "finite_probe_domain",
+    "l5CertificateInheritance": "forbidden",
+    "separatesRawAndNormalized": true
+  },
+  "monomerTrace": [
+    {
+      "id": 0,
+      "family": "control",
+      "op": "IF_RETURN_PROBE"
+    }
+  ],
+  "certificationLane": "INTERNAL_BETA14_3_GENERATION_PROBE",
+  "releaseEligible": false,
+  "technicalSheetHash": "ad0adffafafccc87dd9ba6cd3d381601c9202541cfd83af80475c701759c5b00"
+}

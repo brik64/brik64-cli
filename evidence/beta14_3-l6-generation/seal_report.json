@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "brik64.beta14_3_seal_report.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "BLOCKED_PENDING_FULL_L6_CLI_MATERIALIZATION",
+  "boundedProbeDecision": "PASS_BETA14_3_L6_BOUNDED_MATERIALIZATION_PROBE",
+  "inputPcdHash": "7ba558e6e7245b9429b47bacf4510c78c0a33987300484662425fafe3921f7ce",
+  "publicationAllowed": false,
+  "blockers": [
+    "full_cli_artifact_missing",
+    "package_manifest_missing",
+    "release_train_not_synced"
+  ]
+}

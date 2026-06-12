@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "brik64.beta14_3_generated_artifact_manifest.v1",
+  "version": "0.1.0-beta.14.3",
+  "artifactStatus": "BOUNDED_PROBE_GENERATED_BY_L6_FULL_CLI_PENDING",
+  "publicationAllowed": false,
+  "inputPcdCount": 147,
+  "probeDecision": "PASS_BETA14_3_L6_BOUNDED_MATERIALIZATION_PROBE",
+  "generatedProbeFiles": [
+    {
+      "path": "evidence/beta14_3-l6-generation/generated/cli_entrypoint.cert.json",
+      "sha256": "65b574e6ea75fd6602817193dbf49a03a334341ae02c956209af4afd466ec082",
+      "bytes": 1510
+    },
+    {
+      "path": "evidence/beta14_3-l6-generation/generated/cli_entrypoint.js",
+      "sha256": "b455792cb8b2f80878367c15b7d7d28f4977e0db67d96f43718297283b93cfd2",
+      "bytes": 335
+    }
+  ],
+  "fullCliArtifactGenerated": false,
+  "blockers": [
+    "beta14_3_full_cli_artifact_not_materialized",
+    "beta14_3_package_manifest_not_bound_to_l6_artifact"
+  ]
+}

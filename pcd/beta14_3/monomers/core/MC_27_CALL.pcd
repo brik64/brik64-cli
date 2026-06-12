@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_27.CALL
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_27_CALL {
+    fn MC_27_CALL(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

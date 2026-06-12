@@ -1,0 +1,17 @@
+{
+  "decision": "PASS",
+  "report": "/var/lib/brik64/l6plus-n5/audit-report.json",
+  "checks": {
+    "serial_expected": true,
+    "binary_executable": true,
+    "checksums_ok": true,
+    "claim_boundary_closed": true,
+    "version_rc_ok": true,
+    "version_declares_l6_plus": true,
+    "version_declares_non_claim": true,
+    "invalid_compile_fails_closed": true,
+    "systemd_service_enabled": true,
+    "systemd_timer_enabled": true,
+    "systemd_service_active_or_exited": true
+  }
+}
