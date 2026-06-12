@@ -1,61 +1,54 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.14.1",
+  "version": "0.1.0-beta.14.3",
   "state": "public",
-  "manifestDigest": "086ca97a0b08e5c97677c0d04ca0e551472dba77584962501de41b0b13874d49",
+  "manifestDigest": "bce9735b7aa6d3523cbb5fac1dd563a9fb8a66096a73efdcded8bf61bae3d60a",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "086ca97a0b08e5c97677c0d04ca0e551472dba77584962501de41b0b13874d49",
-      "bytes": 4242
+      "sha256": "bce9735b7aa6d3523cbb5fac1dd563a9fb8a66096a73efdcded8bf61bae3d60a",
+      "bytes": 4123
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.14.1"
+      "version": "0.1.0-beta.14.3"
     },
     "evidence": [
       {
-        "id": "beta14FunctionalGate",
-        "path": "evidence/beta14-functional/report.json",
-        "expectedDecision": "PASS_BETA14_FUNCTIONAL_GATE",
-        "actualDecision": "PASS_BETA14_FUNCTIONAL_GATE",
-        "sha256": "7becb52deda27e913d49634180340719dd2f442b246c0b8b00375994ae1be973"
+        "id": "beta14_3Monomer128Gate",
+        "path": "evidence/beta14_3-monomer-128/report.json",
+        "expectedDecision": "PASS_BETA14_3_MONOMER_128_GATE",
+        "actualDecision": "PASS_BETA14_3_MONOMER_128_GATE",
+        "sha256": "eb4494bf253ea311b666cdc0a25d7b0847ff566912cc142d37f6bbfd54d5bfc3"
       },
       {
-        "id": "sourceLiftGate",
-        "path": "evidence/beta14-source-lift/report.json",
-        "expectedDecision": "PASS_BETA14_SOURCE_LIFT_GATE",
-        "actualDecision": "PASS_BETA14_SOURCE_LIFT_GATE",
-        "sha256": "e83f7b56a24260aba56a8e934a61f490229eceb72b78c3b01682b0d731f4b5f8"
+        "id": "beta14_3L6GenerationGate",
+        "path": "evidence/beta14_3-l6-generation/gate-report.json",
+        "expectedDecision": "PASS_BETA14_3_L6_GENERATION_GATE",
+        "actualDecision": "PASS_BETA14_3_L6_GENERATION_GATE",
+        "sha256": "4905def8b54e1e846b1f1c0afa0dc6fe7871275bd31c33ae88fc96888e3c74a9"
       },
       {
-        "id": "beta14_1AuditClosureGate",
-        "path": "evidence/beta14_1-audit-closure/report.json",
-        "expectedDecision": "PASS_BETA14_1_AUDIT_CLOSURE_GATE",
-        "actualDecision": "PASS_BETA14_1_AUDIT_CLOSURE_GATE",
-        "sha256": "0557f31d4b9285671c97c7753428bb820a54fbe78b5ce82847fa20084848c914"
+        "id": "beta14_3LocalPackage",
+        "path": "evidence/beta14_3-package/package.manifest.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA14_3_PACKAGE_BUILT",
+        "actualDecision": "PASS_BRIK64_CLI_BETA14_3_PACKAGE_BUILT",
+        "sha256": "f135478928cdcaeef2b978360177ebf0eb36e27e572364938b7a886b2303bd55"
       },
       {
-        "id": "localPackage",
-        "path": "evidence/beta14_1-package/package.manifest.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT",
-        "actualDecision": "PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT",
-        "sha256": "db8561716b7a9de43907b118af51bda8fe9ca130e618646186edb039346a7526"
-      },
-      {
-        "id": "localPackageSmoke",
-        "path": "evidence/beta14_1-package-smoke/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE",
-        "sha256": "7ee146df53faf37a6ff0d3f333c49ffbbab67f427d19e4b5bb843741d6970ffc"
+        "id": "beta14_3LocalPackageSmoke",
+        "path": "evidence/beta14_3-package-smoke/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE",
+        "sha256": "6012b0f6bc3fb6af0b1e503387ec14bac6202d3d65da58215a60febfa4435fd0"
       }
     ]
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:19"
+    "worktree_dirty_allowed:63"
   ]
 }

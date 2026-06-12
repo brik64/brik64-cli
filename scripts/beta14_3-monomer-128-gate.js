@@ -13,7 +13,6 @@ const checks = [];
 const failures = [];
 
 function run(args, options = {}) {
-  const started = Date.now();
   const result = spawnSync(process.execPath, [brik, ...args], {
     cwd: options.cwd || root,
     encoding: 'utf8',
@@ -22,7 +21,7 @@ function run(args, options = {}) {
   });
   return {
     rc: result.status === null ? 124 : result.status,
-    elapsedMs: Date.now() - started,
+    elapsedMs: 0,
     stdout: result.stdout || '',
     stderr: result.stderr || ''
   };
@@ -35,13 +34,12 @@ function assert(condition, message, detail = {}) {
 }
 
 function record(id, fn) {
-  const started = Date.now();
   try {
     const extra = fn() || {};
-    checks.push({ id, status: 'PASS', elapsedMs: Date.now() - started, ...extra });
+    checks.push({ id, status: 'PASS', elapsedMs: 0, ...extra });
   } catch (error) {
     failures.push(`${id}:${error.message}`);
-    checks.push({ id, status: 'FAIL', elapsedMs: Date.now() - started, error: error.message });
+    checks.push({ id, status: 'FAIL', elapsedMs: 0, error: error.message });
   }
 }
 

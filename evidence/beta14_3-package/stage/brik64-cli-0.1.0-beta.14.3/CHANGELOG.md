@@ -3,6 +3,31 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.14.3
+
+### Added
+
+- Adds a 128-monomer inspection surface with 64 CORE entries and 64 EXTENDED
+  entries for registry listing, explanation, and local test reporting.
+- Adds Beta14.3 PCD source contracts for CLI command groups, monomer coverage,
+  lift workflows, harness checks, and release synchronization.
+
+### Changed
+
+- Improves monomer explain and monomer test output so local automation can
+  verify core and extended registry coverage from the CLI.
+- Packages Beta14.3 with hash-bound materialization evidence, package checksums,
+  and local smoke verification for the distributed beta artifact.
+- Aligns CLI, JavaScript, Python, and Rust SDK package coordinates to Beta14.3.
+
+### Compatibility
+
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim formal certification for arbitrary user code,
+  universal correctness, self-hosting, or independent toolchain closure.
+
 ## 0.1.0-beta.14.2
 
 ### Added

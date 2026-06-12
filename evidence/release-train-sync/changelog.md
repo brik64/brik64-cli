@@ -1,13 +1,12 @@
-## 0.1.0-beta.14.1
+## 0.1.0-beta.14.3
 
 ### Added
 
-- Adds PCD templates for gate, utility and numeric-monomer starting points.
-- Adds command-specific help, exit-code help and script-friendly quiet/no-banner output.
+- Adds a 128-monomer inspection surface with 64 core entries and 64 extended entries for registry listing, explanation and local test reporting.
+- Adds Beta14.3 PCD source contracts for CLI commands, monomer registry coverage, lift workflows, harness checks and release synchronization.
 
 ### Changed
 
-- Accepts supported numeric monomer calls and inline if-return syntax in the public beta parser.
-- Improves actionable parser errors for missing PC blocks, legacy syntax and unsupported monomer calls.
-- Hardens lock, migrate, doctor, polymerize, lift, update and skill version-check workflows.
-- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release.
+- Improves monomer explain and monomer test output so local automation can verify core and extended registry coverage from the CLI.
+- Packages Beta14.3 with hash-bound materialization evidence, package checksums and local smoke verification for the distributed beta artifact.
+- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.3 release train.

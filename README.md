@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.14.2`
+Current public beta: `0.1.0-beta.14.3`
 
 ## Install
 
@@ -24,12 +24,9 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta14.2 Command Surface
+## Beta14.3 Command Surface
 
-`0.1.0-beta.14.2` is an audit-closure hotfix for the Beta14 public CLI. It
-improves PCD syntax discovery, command help, parser compatibility, lock and
-doctor diagnostics, lift previews, update checks, and skill version checks while
-keeping the same local-candidate claim boundary.
+`0.1.0-beta.14.3` extends the Beta14 public CLI with a 128-monomer inspection surface, Beta14.3 PCD source contracts, package evidence checks, and the same local-candidate claim boundary.
 
 - `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
 - `brik64 doctor` prints a human-readable workspace summary with diagnostics
@@ -54,7 +51,7 @@ keeping the same local-candidate claim boundary.
   current strict syntax. `--dry-run` previews changes and `--force` or `-f` is
   required to overwrite an existing output file.
 - `brik64 lift <js|ts|python> <path> --preview` scans simple local source
-  functions and writes PCD candidates under `.brik/lift-preview/`. Beta14.2
+  functions and writes PCD candidates under `.brik/lift-preview/`. Beta14.3
   translates simple `if`/`return` bodies; `--stub-only` preserves the older
   expression-only preview. It does not create certificates or send source over
   the network.
@@ -71,10 +68,11 @@ keeping the same local-candidate claim boundary.
   default and `send` is explicit.
 - `brik64 template --type <gate|utility|numeric-monomer> --out <file.pcd>`
   writes a parser-supported starter PCD.
-- `brik64 monomers list` and `brik64 monomers explain MC_00.ADD8` inspect the
-  CORE monomer registry understood by the CLI. Pure arithmetic/logic monomers
-  can run locally; effectful or non-scalar monomers fail closed without a
-  boundary contract.
+- `brik64 monomers list`, `brik64 monomers explain MC_00.ADD8`,
+  `brik64 monomers explain MC_127.JSON_EMIT`, and `brik64 monomers test --all`
+  inspect and test the 64 CORE plus 64 EXTENDED registry entries exposed by the
+  CLI. Pure scalar runtime paths run locally; effectful or external boundaries
+  fail closed without an explicit boundary contract.
 - `brik64 help <command>` and `brik64 help exit-codes` provide command-specific
   examples and CI exit code meanings.
 - `brik64 update --check` compares the local CLI with the public release
@@ -107,9 +105,9 @@ SDKs are distributed separately from the CLI. Current beta SDK package
 coordinates:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.14.2
-pip install brik64==0.1.0b14.post2
-cargo add brik64-core@0.1.0-beta.14.2
+npm install @brik64/core@0.1.0-beta.14.3
+pip install brik64==0.1.0b14.post3
+cargo add brik64-core@0.1.0-beta.14.3
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed
@@ -158,7 +156,7 @@ See [LICENSE](LICENSE) and [NOTICE](NOTICE). BRIK64 CLI public beta is
 proprietary evaluation software from BRIK64 INC.
 ## PCD Syntax Profile
 
-Beta14.2 supports this public parser profile:
+Beta14.3 supports this public parser profile:
 
 ```pcd
 PC order_gate {
