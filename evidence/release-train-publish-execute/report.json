@@ -1,29 +1,14 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.14.1",
-  "version": "0.1.0-beta.14.1",
-  "manifestDigest": "e7f6fadf0f39c513a057459c059a7661ff9e03668477b80ef38554d355472aeb",
-  "sourceHead": "7f7efdf",
+  "releaseId": "brik64-0.1.0-beta.14.3",
+  "version": "0.1.0-beta.14.3",
+  "manifestDigest": "192ad300f49160b2611044138efd1226304bc6bb86d33f9129000b73b19e0e36",
+  "sourceHead": "0fd65db",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [
-    "CHANGELOG.md",
-    "evidence/beta14-source-lift/report.json",
-    "evidence/beta14_1-package-smoke/report.json",
-    "evidence/beta14_1-package/SHA256SUMS",
-    "evidence/beta14_1-package/brik64-cli-0.1.0-beta.14.1.tgz",
-    "evidence/beta14_1-package/package.manifest.json",
-    "evidence/beta14_1-package/stage-checksums.tsv",
-    "evidence/beta14_1-package/stage/brik64-cli-0.1.0-beta.14.1/CHANGELOG.md",
-    "release/manifest.json",
-    "scripts/release-flow-audit.js",
-    "scripts/release-manifest-validate.js",
-    "scripts/release-train-dry-run.js",
-    "scripts/release-train-publish-plan.js",
-    "tests/smoke.sh"
-  ],
+  "dirtyFiles": [],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -36,7 +21,7 @@
       "mutatesPublicSurface": true,
       "pass": false,
       "failures": [
-        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.1.tgz"
+        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.3.tgz"
       ]
     },
     {
@@ -44,7 +29,7 @@
       "mutatesPublicSurface": true,
       "pass": false,
       "failures": [
-        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post1*"
+        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post3*"
       ]
     },
     {
@@ -92,11 +77,9 @@
   ],
   "executed": [],
   "blockers": [
-    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.1.tgz",
-    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post1*"
+    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.3.tgz",
+    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post3*"
   ],
   "failures": [],
-  "warnings": [
-    "worktree_dirty_dry_run:14"
-  ]
+  "warnings": []
 }
