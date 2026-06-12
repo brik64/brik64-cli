@@ -27,15 +27,11 @@ node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.\d+)?$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$PACKAGE_VERSION")"
   BETA_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' "$PACKAGE_VERSION")"
+  BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$PACKAGE_VERSION" = "0.1.0-beta.14.1" ]; then
-    PACKAGE_DECISION="PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT"
-    SMOKE_DECISION="PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE"
-  else
-    PACKAGE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_PACKAGE_BUILT"
-    SMOKE_DECISION="PASS_BRIK64_CLI_BETA${BETA_NUMBER}_LOCAL_PACKAGE_SMOKE"
-  fi
+  PACKAGE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_BUILT"
+  SMOKE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_LOCAL_PACKAGE_SMOKE"
   test -f "$PACKAGE_SCRIPT"
   test -f "$SMOKE_SCRIPT"
   package_out="$(bash "$PACKAGE_SCRIPT")"

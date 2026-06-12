@@ -1,0 +1,20 @@
+PC l4plus_n5_runtime_adapter {
+    let engine = "l4_plus";
+    let engine_tier = "free_default";
+    let cli_invocation = "bir_runtime build";
+    let platform_api_route = "compile.l4_plus.default";
+    let worker_queue_route = "engine_worker_l4";
+    let docker_runtime = "brik64-engine-worker-l4";
+    let certificate_visibility = "public_or_private_by_proof_record";
+    let manifest_fallback = "non_claim_api_manifest_only";
+    let fail_closed_on_unknown_manifest = "true";
+    OUTPUT engine;
+    OUTPUT engine_tier;
+    OUTPUT cli_invocation;
+    OUTPUT platform_api_route;
+    OUTPUT worker_queue_route;
+    OUTPUT docker_runtime;
+    OUTPUT certificate_visibility;
+    OUTPUT manifest_fallback;
+    OUTPUT fail_closed_on_unknown_manifest;
+}

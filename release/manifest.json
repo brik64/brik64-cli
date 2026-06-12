@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.14.1",
-  "version": "0.1.0-beta.14.1",
+  "releaseId": "brik64-0.1.0-beta.14.2",
+  "version": "0.1.0-beta.14.2",
   "channel": "beta",
   "state": "public",
   "createdAt": "2026-06-12T11:43:41.994Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta14-1-audit-closure",
-    "commit": "7f7efdf8783a4d865092205f4b00ee91cce051fa"
+    "branch": "codex/beta14-2-audit-closeout",
+    "commit": "73ca95c89722146a541ea30fa2afede915b42e89"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -32,8 +32,8 @@
       }
     ],
     "package": {
-      "path": "evidence/beta14_1-package/brik64-cli-0.1.0-beta.14.1.tgz",
-      "sha256": "f537228ac21f10df714f966c42a97e2188f31fb2ec86e0ff7b92dec8d922afe3"
+      "path": "evidence/beta14_2-package/brik64-cli-0.1.0-beta.14.2.tgz",
+      "sha256": "8a39ed9254b8ff622c6ac760c4612c3b3c2a8fb3ee15edd872727dd1c8ba711b"
     }
   },
   "sdks": [
@@ -41,29 +41,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.14.1",
+      "version": "0.1.0-beta.14.2",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b14.post1",
+      "version": "0.1.0b14.post2",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.14.1",
+      "version": "0.1.0-beta.14.2",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.14.1",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.1"
+      "tag": "v0.1.0-beta.14.2",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.2"
     },
     "curlInstaller": {
       "required": true,
@@ -120,7 +120,7 @@
     {
       "type": "changed",
       "surface": "sdk",
-      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.1 release."
+      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.2 release."
     }
   ],
   "verification": {
@@ -136,19 +136,19 @@
         "decision": "PASS_BETA14_SOURCE_LIFT_GATE"
       },
       {
-        "id": "beta14_1AuditClosureGate",
-        "path": "evidence/beta14_1-audit-closure/report.json",
-        "decision": "PASS_BETA14_1_AUDIT_CLOSURE_GATE"
+        "id": "beta14_2AuditClosureGate",
+        "path": "evidence/beta14_2-audit-closure/report.json",
+        "decision": "PASS_BETA14_2_AUDIT_CLOSURE_GATE"
       },
       {
         "id": "localPackage",
-        "path": "evidence/beta14_1-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT"
+        "path": "evidence/beta14_2-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA14_2_PACKAGE_BUILT"
       },
       {
         "id": "localPackageSmoke",
-        "path": "evidence/beta14_1-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA14_1_LOCAL_PACKAGE_SMOKE"
+        "path": "evidence/beta14_2-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA14_2_LOCAL_PACKAGE_SMOKE"
       }
     ]
   }

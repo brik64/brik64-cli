@@ -1,0 +1,12 @@
+{
+  "engine": "l4plus_n5",
+  "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
+  "public_claims_allowed": true,
+  "n5_authorized": true,
+  "r99_9_claim_allowed": true,
+  "r99_99_claim_allowed": false,
+  "r99_999_claim_allowed": false,
+  "r99_999999_claim_allowed": false,
+  "universal_correctness_claim_allowed": false,
+  "platform_can_issue_certification": false
+}
