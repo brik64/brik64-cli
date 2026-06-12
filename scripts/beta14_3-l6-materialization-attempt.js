@@ -237,7 +237,6 @@ function main() {
 
   fs.rmSync(generatedDir, { recursive: true, force: true });
   fs.mkdirSync(generatedDir, { recursive: true });
-  const remoteOutFiles = fs.readFileSync(localRemote.outFiles, 'utf8').split('\n').filter(Boolean);
   run('tar', ['-xzf', localRemote.outArchive, '-C', generatedDir]);
 
   const generatedFiles = [];
