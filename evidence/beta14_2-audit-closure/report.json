@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "brik64.cli_beta14_2_audit_closure_gate.v1",
+  "version": "0.1.0-beta.14.2",
+  "decision": "PASS_BETA14_2_AUDIT_CLOSURE_GATE",
+  "evidenceLevel": 3,
+  "checks": [
+    {
+      "id": "version_and_quiet_output",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "template_help_and_exit_codes",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "parser_core_monomers_inline_if_and_fail_closed_boundaries",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "doctor_and_lock_report_bad_file_names",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "migrate_dry_run_and_legacy_function",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "polymerize_inline_and_collision",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "engine_status_packaged_artifact_present",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "lift_best_effort_and_stub_only",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "skill_check_version",
+      "status": "PASS",
+      "elapsedMs": 0
+    }
+  ],
+  "failures": [],
+  "boundary": "Beta14.2 audit closure gate. Local candidate/product UX evidence only; not formal correctness, N5, self-hosting, or fixpoint evidence."
+}

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="0.1.0-beta.14.1"
-OUT_DIR="$ROOT_DIR/evidence/beta14_1-package"
+VERSION="0.1.0-beta.14.2"
+OUT_DIR="$ROOT_DIR/evidence/beta14_2-package"
 STAGE_ROOT="$OUT_DIR/stage"
 STAGE_NAME="brik64-cli-$VERSION"
 STAGE_DIR="$STAGE_ROOT/$STAGE_NAME"
@@ -43,7 +43,7 @@ copy_input() {
 package_version="$(json_field "$ROOT_DIR/package.json" '.version')"
 manifest_version="$(json_field "$ROOT_DIR/.brik/manifest.json" '.cliVersion')"
 local_gate="$ROOT_DIR/evidence/beta14-source-lift/report.json"
-audit_gate="$ROOT_DIR/evidence/beta14_1-audit-closure/report.json"
+audit_gate="$ROOT_DIR/evidence/beta14_2-audit-closure/report.json"
 local_gate_decision="$(test -f "$local_gate" && json_field "$local_gate" '.decision' || true)"
 audit_gate_decision="$(test -f "$audit_gate" && json_field "$audit_gate" '.decision' || true)"
 
@@ -51,7 +51,7 @@ failures=()
 [[ "$package_version" == "$VERSION" ]] || failures+=("package_version_drift:$package_version")
 [[ "$manifest_version" == "$VERSION" ]] || failures+=("brik_manifest_version_drift:$manifest_version")
 [[ "$local_gate_decision" == "PASS_BETA14_SOURCE_LIFT_GATE" ]] || failures+=("beta14_source_lift_gate_missing_or_invalid:$local_gate_decision")
-[[ "$audit_gate_decision" == "PASS_BETA14_1_AUDIT_CLOSURE_GATE" ]] || failures+=("beta14_1_audit_closure_gate_missing_or_invalid:$audit_gate_decision")
+[[ "$audit_gate_decision" == "PASS_BETA14_2_AUDIT_CLOSURE_GATE" ]] || failures+=("beta14_2_audit_closure_gate_missing_or_invalid:$audit_gate_decision")
 
 if [[ "${#failures[@]}" -gt 0 ]]; then
   rm -rf "$OUT_DIR"
@@ -59,9 +59,9 @@ if [[ "${#failures[@]}" -gt 0 ]]; then
   printf '%s\n' "${failures[@]}" | jq -Rsc \
     --arg version "$VERSION" \
     '{
-      schemaVersion:"brik64.cli_beta14_1_package_manifest.v1",
+      schemaVersion:"brik64.cli_beta14_2_package_manifest.v1",
       version:$version,
-      decision:"FAIL_BRIK64_CLI_BETA14_1_PACKAGE_BUILT",
+      decision:"FAIL_BRIK64_CLI_BETA14_2_PACKAGE_BUILT",
       releaseEligible:false,
       failures:(split("\n") | map(select(length > 0)))
     }' > "$MANIFEST_PATH"
@@ -94,6 +94,24 @@ inputs=(
   "engines/l4plus-n5/serial.txt"
   "engines/l4plus-n5/checksums.tsv"
   "engines/l4plus-n5/runtime-bundle.manifest.json"
+  "engines/l4plus-n5/manifest/claim_boundary.json"
+  "engines/l4plus-n5/evidence/l4plus_n5_critical_artifact_lock.json"
+  "engines/l4plus-n5/evidence/l4plus_n5_critical_freeze_certificate.json"
+  "engines/l4plus-n5/evidence/l4plus_n5_critical_freeze_report.json"
+  "engines/l4plus-n5/evidence/l4plus_n5_burn_in_report.json"
+  "engines/l4plus-n5/pcd/engine.manifest.json"
+  "engines/l4plus-n5/pcd/engine.pcd"
+  "engines/l4plus-n5/pcd/l4plus_engine_runtime.bir"
+  "engines/l4plus-n5/pcd/l4plus_engine_runtime.bir.asm"
+  "engines/l4plus-n5/pcd/l4plus_engine_runtime.cert.json"
+  "engines/l4plus-n5/pcd/harness.manifest.json"
+  "engines/l4plus-n5/pcd/harness.pcd"
+  "engines/l4plus-n5/pcd/l4plus_n5_harness.bir"
+  "engines/l4plus-n5/pcd/l4plus_n5_harness.cert.json"
+  "engines/l4plus-n5/pcd/runtime_adapter.manifest.json"
+  "engines/l4plus-n5/pcd/runtime_adapter.pcd"
+  "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir"
+  "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.cert.json"
 )
 
 for input in "${inputs[@]}"; do
@@ -106,7 +124,7 @@ jq -n \
     name:"@brik64/cli",
     version:$version,
     private:true,
-    description:"BRIK64 CLI beta14.1 audit-closure candidate for local PCD workflows, syntax UX, lift previews, and secure evidence review.",
+	    description:"BRIK64 CLI beta14.2 audit-closure candidate for local PCD workflows, monomer registry inspection, lift previews, and secure evidence review.",
     bin:{brik:"src/brik.js"},
     engines:{node:">=20"},
     distribution:"curl_and_github_release_assets"
@@ -237,15 +255,15 @@ done > "$OUT_DIR/stage-checksums.tsv"
 
 jq -n \
   --arg version "$VERSION" \
-  --arg packagePath "evidence/beta14_1-package/$PACKAGE_NAME" \
+  --arg packagePath "evidence/beta14_2-package/$PACKAGE_NAME" \
   --arg packageSha "$package_sha" \
   --argjson packageBytes "$(file_size "$PACKAGE_PATH")" \
   '{
-    schemaVersion:"brik64.cli_beta14_1_package_manifest.v1",
+    schemaVersion:"brik64.cli_beta14_2_package_manifest.v1",
     version:$version,
-    decision:"PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT",
+    decision:"PASS_BRIK64_CLI_BETA14_2_PACKAGE_BUILT",
     releaseEligible:false,
-    lane:"cli_0_1_beta14_1",
+    lane:"cli_0_1_beta14_2",
     generationClaim:"assisted_generation_non_claim",
     package:{path:$packagePath, sha256:$packageSha, bytes:$packageBytes},
     inputGates:[{
@@ -253,21 +271,21 @@ jq -n \
       report:"evidence/beta14-source-lift/report.json",
       packaged:false
     },{
-      decision:"PASS_BETA14_1_AUDIT_CLOSURE_GATE",
-      report:"evidence/beta14_1-audit-closure/report.json",
+      decision:"PASS_BETA14_2_AUDIT_CLOSURE_GATE",
+      report:"evidence/beta14_2-audit-closure/report.json",
       packaged:false
     }],
     requiredPublicReleaseGates:[
-      "beta14_1_package_smoke",
-      "beta14_1_github_release",
-      "curl_gcp_installer_beta14_1",
-      "web_docs_changelog_beta14_1",
-      "skills_beta14_1",
-      "sdk_beta14_1_marketplaces_or_deferrals",
+      "beta14_2_package_smoke",
+      "beta14_2_github_release",
+      "curl_gcp_installer_beta14_2",
+      "web_docs_changelog_beta14_2",
+      "skills_beta14_2",
+      "sdk_beta14_2_marketplaces_or_deferrals",
       "public_claim_scan",
       "live_release_train_verify"
     ],
-    boundary:"Beta14.1 local package candidate only. Public release remains blocked until GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically."
+    boundary:"Beta14.2 local package candidate only. Public release remains blocked until GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically."
   }' > "$MANIFEST_PATH"
 
 {
@@ -276,7 +294,7 @@ jq -n \
   printf '%s  %s\n' "$(sha256_file "$OUT_DIR/stage-checksums.tsv")" "stage-checksums.tsv"
 } > "$OUT_DIR/SHA256SUMS"
 
-printf 'decision=PASS_BRIK64_CLI_BETA14_1_PACKAGE_BUILT\n'
+printf 'decision=PASS_BRIK64_CLI_BETA14_2_PACKAGE_BUILT\n'
 printf 'releaseEligible=false\n'
-printf 'package=evidence/beta14_1-package/%s\n' "$PACKAGE_NAME"
+printf 'package=evidence/beta14_2-package/%s\n' "$PACKAGE_NAME"
 printf 'sha256=%s\n' "$package_sha"

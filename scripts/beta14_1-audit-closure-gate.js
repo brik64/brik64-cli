@@ -6,8 +6,8 @@ const { spawnSync } = require('child_process');
 
 const root = path.resolve(__dirname, '..');
 const brik = path.join(root, 'src', 'brik.js');
-const version = '0.1.0-beta.14.1';
-const evidenceDir = path.join(root, 'evidence', 'beta14_1-audit-closure');
+const version = '0.1.0-beta.14.2';
+const evidenceDir = path.join(root, 'evidence', 'beta14_2-audit-closure');
 const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-beta14-1-'));
 process.env.BRIK64_CONFIG_HOME = path.join(scratch, 'config');
 const checks = [];
@@ -95,12 +95,12 @@ record('template_help_and_exit_codes', () => {
   assert(codes.stdout.includes('65  PCD parse'), 'exit_codes_missing', codes);
 });
 
-record('parser_numeric_monomers_inline_if_and_fail_closed_extended', () => {
+record('parser_core_monomers_inline_if_and_fail_closed_boundaries', () => {
   const work = initWork('monomers');
   write(path.join(work, 'calc.pcd'), `PC calc {
   fn calc(a: i64, b: i64) -> i64 {
     if (b == 0) return MC_00.ADD8(a, 1);
-    return MC_04.MOD8(MC_02.MUL8(a, b), 10);
+    return MC_08.AND8(MC_02.MUL8(a, b), 255);
   }
 }
 `);
@@ -113,7 +113,12 @@ record('parser_numeric_monomers_inline_if_and_fail_closed_extended', () => {
   expectPass('certify-monomer', ['certify', 'calc.pcd'], { cwd: work });
   expectPass('emit-ts', ['emit', 'calc.pcd', '--target', 'ts', '--out', 'out-ts', '--tests'], { cwd: work });
   expectCommandPass('run-ts-test', process.execPath, ['out-ts/program.test.mjs'], { cwd: work });
-  expectFail('unsupported-string-monomer', ['certify', 'string_bad.pcd'], 'unsupported_monomer_call:MC_40.CONCAT', { cwd: work });
+  const registry = expectPass('monomers-list', ['monomers', 'list', '--json'], { cwd: work });
+  assert(JSON.parse(registry.stdout).coreCount === 64, 'core_monomer_count_mismatch', registry);
+  const explain = expectPass('monomers-explain', ['monomers', 'explain', 'MC_00.ADD8', '--json'], { cwd: work });
+  assert(JSON.parse(explain.stdout).monomer.executableInPcd === true, 'monomer_explain_executable_mismatch', explain);
+  expectFail('unsupported-string-monomer', ['certify', 'string_bad.pcd'], 'effect_boundary_required:MC_40.CONCAT', { cwd: work });
+  expectFail('extended-monomer', ['monomers', 'explain', 'MC_64.FADD'], 'extended_monomer_requires_contract:MC_64.FADD', { cwd: work });
 });
 
 record('doctor_and_lock_report_bad_file_names', () => {
@@ -154,6 +159,15 @@ record('polymerize_inline_and_collision', () => {
   assert(output.includes('fn a(') && output.includes('fn b('), 'inline_functions_missing', { output });
   write(path.join(work, 'c.pcd'), `PC c { fn a(input: i64) -> i64 { return input; } }\n`);
   expectFail('poly-collision', ['polymerize', 'a.pcd', 'c.pcd', '--inline', '--out', 'bad.pcd'], 'polymer_inline_name_collision:a', { cwd: work });
+  expectPass('poly-default', ['polymerize', 'a.pcd', 'b.pcd', '--out', 'polymer-default.pcd', '--json'], { cwd: work });
+  const defaultOutput = fs.readFileSync(path.join(work, 'polymer-default.pcd'), 'utf8');
+  assert(defaultOutput.includes('fn a(') && defaultOutput.includes('fn b('), 'default_polymer_lost_input', { defaultOutput });
+});
+
+record('engine_status_packaged_artifact_present', () => {
+  const result = expectPass('engine-status', ['engine', 'status', '--quiet']);
+  const report = JSON.parse(result.stdout);
+  assert(report.status === 'PASS' && report.artifactCount > 0, 'engine_status_contract_mismatch', report);
 });
 
 record('lift_best_effort_and_stub_only', () => {
@@ -183,13 +197,13 @@ record('skill_check_version', () => {
 
 fs.mkdirSync(evidenceDir, { recursive: true });
 const report = {
-  schemaVersion: 'brik64.cli_beta14_1_audit_closure_gate.v1',
+  schemaVersion: 'brik64.cli_beta14_2_audit_closure_gate.v1',
   version,
-  decision: failures.length === 0 ? 'PASS_BETA14_1_AUDIT_CLOSURE_GATE' : 'FAIL_BETA14_1_AUDIT_CLOSURE_GATE',
+  decision: failures.length === 0 ? 'PASS_BETA14_2_AUDIT_CLOSURE_GATE' : 'FAIL_BETA14_2_AUDIT_CLOSURE_GATE',
   evidenceLevel: failures.length === 0 ? 3 : 1,
   checks,
   failures,
-  boundary: 'Beta14.1 audit closure gate. Local candidate/product UX evidence only; not formal correctness, N5, self-hosting, or fixpoint evidence.'
+  boundary: 'Beta14.2 audit closure gate. Local candidate/product UX evidence only; not formal correctness, N5, self-hosting, or fixpoint evidence.'
 };
 fs.writeFileSync(path.join(evidenceDir, 'report.json'), `${JSON.stringify(report, null, 2)}\n`);
 process.stdout.write(`decision=${report.decision}\n`);
