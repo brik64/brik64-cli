@@ -7,12 +7,12 @@
     {
       "id": "version:beta14_3",
       "status": "PASS",
-      "elapsedMs": 81
+      "elapsedMs": 82
     },
     {
       "id": "registry:128_counts",
       "status": "PASS",
-      "elapsedMs": 76,
+      "elapsedMs": 71,
       "coreCount": 64,
       "extendedCount": 64,
       "totalCount": 128
@@ -20,24 +20,24 @@
     {
       "id": "registry:test_all_128",
       "status": "PASS",
-      "elapsedMs": 76,
+      "elapsedMs": 67,
       "total": 128,
       "passed": 128
     },
     {
       "id": "registry:explain_core_and_extended",
       "status": "PASS",
-      "elapsedMs": 149
+      "elapsedMs": 145
     },
     {
       "id": "pcd:extended_float_emit_targets",
       "status": "PASS",
-      "elapsedMs": 478
+      "elapsedMs": 468
     },
     {
       "id": "pcd:external_boundary_fail_closed",
       "status": "PASS",
-      "elapsedMs": 150
+      "elapsedMs": 148
     },
     {
       "id": "pcd:source_scaffold_present",
