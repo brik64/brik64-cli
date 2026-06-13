@@ -1,14 +1,14 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.14.5",
-  "version": "0.1.0-beta.14.5",
+  "releaseId": "brik64-0.1.0-beta.14.6",
+  "version": "0.1.0-beta.14.6",
   "channel": "beta",
   "state": "public",
-  "createdAt": "2026-06-13T07:56:28.585Z",
+  "createdAt": "2026-06-13T00:00:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "18204ed633fa7e68636448532c559f814201c592"
+    "commit": "26dbb5bf25252928f8c40f149805c3aef778481f"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -32,8 +32,8 @@
       }
     ],
     "package": {
-      "path": "evidence/beta14_5-package/brik64-cli-0.1.0-beta.14.5.tgz",
-      "sha256": "45a422a521de5ccd3a35ad7f797870da2cd568f3842e96bc6e7617d0f639acd0"
+      "path": "evidence/beta14_6-package/brik64-cli-0.1.0-beta.14.6.tgz",
+      "sha256": "4b8d5a0d53cfb4acb1796e4f28a9bfae631fd34a039d53b42efefe4383b74c3e"
     }
   },
   "sdks": [
@@ -41,29 +41,29 @@
       "language": "typescript",
       "package": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.14.5",
+      "version": "0.1.0-beta.14.6",
       "required": true
     },
     {
       "language": "python",
       "package": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b14.post5",
+      "version": "0.1.0b14.post6",
       "required": true
     },
     {
       "language": "rust",
       "package": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.14.5",
+      "version": "0.1.0-beta.14.6",
       "required": true
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "tag": "v0.1.0-beta.14.5",
-      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.5"
+      "tag": "v0.1.0-beta.14.6",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.6"
     },
     "curlInstaller": {
       "required": true,
@@ -93,24 +93,29 @@
   },
   "releaseNotes": [
     {
-      "type": "changed",
-      "surface": "lift",
-      "text": "Improves TypeScript lift preview for supported clamp patterns using Math.floor, Math.min, Math.max and Math.abs."
+      "type": "added",
+      "surface": "pcd",
+      "text": "Adds bounded domain declarations for parameter ranges, invariants, conditional domains, and technical-sheet parameters."
+    },
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Adds domain inspect, validate, sheet, and add commands for bounded PCD workflows."
     },
     {
       "type": "changed",
-      "surface": "lift",
-      "text": "Improves Rust lift preview for simple if plus fallback return bodies so generated PCD candidates preserve the conditional branch."
+      "surface": "certify",
+      "text": "Requires complete bounded domain contracts by default for local candidate certificates."
     },
     {
       "type": "changed",
       "surface": "emit",
-      "text": "Updates generated Python tests so they can run directly and be discovered by pytest-compatible runners."
+      "text": "Generated TypeScript, Python, and Rust outputs now include domain contract hashes and fail-closed precondition checks."
     },
     {
-      "type": "added",
-      "surface": "release",
-      "text": "Adds Beta14.5 functional closure, 128-monomer, package and package-smoke gates for release verification."
+      "type": "changed",
+      "surface": "polymerize",
+      "text": "Polymer manifests now include source and composite domain contract hashes."
     }
   ],
   "verification": {

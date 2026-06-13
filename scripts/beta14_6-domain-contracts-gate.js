@@ -57,6 +57,13 @@ function write(file, content) {
   fs.writeFileSync(file, content);
 }
 
+function normalizeOutput(value) {
+  return String(value || '')
+    .replace(/thread '([^']+)' \(\d+\)/g, "thread '$1' ([pid])")
+    .replace(/\/var\/folders\/[^\s]+/g, '[tmp]')
+    .replace(/\/tmp\/brik64-beta146-gate\.[A-Za-z0-9]+/g, '[tmp]');
+}
+
 function main() {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-beta146-gate.'));
   const checks = [];
@@ -125,8 +132,8 @@ function main() {
   const report = {
     schemaVersion: 'brik64.beta14_6_domain_contracts_gate.v1',
     version: VERSION,
-    generatedAt: new Date().toISOString(),
-    workspace: tmp,
+    generatedAt: '2026-06-13T00:00:00.000Z',
+    workspace: '[ephemeral]',
     decision: failed.length === 0 ? 'PASS_BETA14_6_DOMAIN_CONTRACTS_GATE' : 'FAIL_BETA14_6_DOMAIN_CONTRACTS_GATE',
     checks: checks.map((check) => ({
       name: check.name,
@@ -134,9 +141,9 @@ function main() {
       status: check.status,
       skipped: check.skipped || false,
       args: check.args || [check.command],
-      stdout_sha256: sha256(check.stdout || ''),
-      stderr_sha256: sha256(check.stderr || ''),
-      stderr_tail: (check.stderr || '').split('\n').slice(-4).join('\n')
+      stdout_sha256: sha256(normalizeOutput(check.stdout)),
+      stderr_sha256: sha256(normalizeOutput(check.stderr)),
+      stderr_tail: normalizeOutput(check.stderr).split('\n').slice(-4).join('\n')
     }))
   };
   fs.writeFileSync(path.join(evidenceDir, 'report.json'), JSON.stringify(report, null, 2) + '\n');
