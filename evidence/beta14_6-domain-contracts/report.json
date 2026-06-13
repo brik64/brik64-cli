@@ -279,8 +279,8 @@
       "skipped": false,
       "args": [],
       "stdout_sha256": "6a53c23142b8a7450c8b0098f11af93d8d6900544ef1cc98dec530b9495ab2ce",
-      "stderr_sha256": "89a07649e2d08cbae6c4e5ae236ee476072cbe7f47a5a56dc5d978ab29932786",
-      "stderr_tail": "thread 'main' (3114782) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+      "stderr_sha256": "bc6650a63e603908886fe61da23c6c70276513435944fff342f8280c521c8dc3",
+      "stderr_tail": "thread 'main' ([pid]) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
     },
     {
       "name": "polymerize_domain_inputs",
