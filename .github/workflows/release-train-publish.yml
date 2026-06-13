@@ -115,9 +115,8 @@ jobs:
         run: |
           set -euo pipefail
           VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("release/manifest.json","utf8")).version)')"
-          BETA_NUMBER="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.\d+)?$/); if (!m) process.exit(1); process.stdout.write(m[1])' "$VERSION")"
           BETA_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' "$VERSION")"
-          SMOKE_SCRIPT="smoke:beta${BETA_NUMBER}:package"
+          SMOKE_SCRIPT="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `smoke:beta${m[1]}.${m[2]}:package` : `smoke:beta${m[1]}:package`)' "$VERSION")"
           node - "$BETA_LABEL" <<'NODE'
           const fs = require('fs');
           const crypto = require('crypto');
