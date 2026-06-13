@@ -2,14 +2,14 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.14.4",
   "version": "0.1.0-beta.14.4",
-  "manifestDigest": "2f5a1b85f106857847737385a70f92f211088449ab708feeaa793af5c1760467",
-  "sourceHead": "b9f6453",
+  "manifestDigest": "241613adf4dedb2d01797d556137f438b62fd2c7557a679a61dc64f1fe912a15",
+  "sourceHead": "097d854",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "scripts/beta14x-128-executable-gate.js"
+    "release/manifest.json"
   ],
   "commandPreflight": [
     {

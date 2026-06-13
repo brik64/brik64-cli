@@ -8,7 +8,7 @@
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "codex/beta14x-128-executable",
-    "commit": "b6dec7a"
+    "commit": "80adcb2c9d6a55742f0e8cd09cdd093ec88160fd"
   },
   "cli": {
     "packageName": "@brik64/cli",
