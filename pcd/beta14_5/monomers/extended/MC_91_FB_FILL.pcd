@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_91.FB_FILL
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_91_FB_FILL {
+    fn MC_91_FB_FILL(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

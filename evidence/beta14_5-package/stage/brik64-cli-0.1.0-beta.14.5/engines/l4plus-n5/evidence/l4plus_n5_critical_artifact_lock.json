@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "brik64.l4plus_n5_critical_artifact_lock.v1",
+  "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
+  "source_sha": "449e1785c4f512fa7370b281d566ae50a296a015",
+  "artifactRefs": {
+    "engine_pcd": {
+      "path": "pcd/engines/l4plus_n5/engine.pcd",
+      "sha256": "sha256:8e87f92ce267f33aa1fcd3e8815502e08f887637300030cc8b565e508a7b7668"
+    },
+    "engine_manifest": {
+      "path": "pcd/engines/l4plus_n5/engine.manifest.json",
+      "sha256": "sha256:470454a0ab21fb6629838d91a4b410c48d669446fd2e213090510669bcb9435c"
+    },
+    "engine_bir": {
+      "path": "pcd/engines/l4plus_n5/l4plus_engine_runtime.bir",
+      "sha256": "sha256:14645419bdfde549122d0df9537b806d8620be6953222feb66fd5134c5c6d6cf"
+    },
+    "engine_bir_asm": {
+      "path": "pcd/engines/l4plus_n5/l4plus_engine_runtime.bir.asm",
+      "sha256": "sha256:0c7d54c6f4e35ef099eb463e817606bb54f4349fcd2ada3646fa19ae76b14779"
+    },
+    "engine_certificate_preview": {
+      "path": "pcd/engines/l4plus_n5/l4plus_engine_runtime.cert.json",
+      "sha256": "sha256:cb69bb34b595120b983959139204ccf6dd33cd246364e5a9d30cc206069fda71"
+    },
+    "runtime_adapter_pcd": {
+      "path": "pcd/engines/l4plus_n5/runtime_adapter.pcd",
+      "sha256": "sha256:c7354811628f1c323151788f37d388c3c5baeda328de06504997eed71c82513b"
+    },
+    "proof_binder_pcd": {
+      "path": "pcd/engines/l4plus_n5/proof_binder.pcd",
+      "sha256": "sha256:f3b0691d9d8323e263cef5255d0f7123a1206c5802ddb28e02683c84dec32704"
+    },
+    "evidence_pack_pcd": {
+      "path": "pcd/engines/l4plus_n5/evidence_pack.pcd",
+      "sha256": "sha256:80f9d64ed801138fb4b7dbf5c10b778adc3c3da790727c8c7036bdb9ddc3dfc2"
+    },
+    "harness_pcd": {
+      "path": "pcd/engines/l4plus_n5/harness.pcd",
+      "sha256": "sha256:b9dc97d75637ff69eef7489a2825c166d43ff2cc73d1b59a4e1bef2ee27a6c34"
+    },
+    "reconstruction_pcd": {
+      "path": "pcd/engines/l4plus_n5/l4plus_n5_reconstruction.pcd",
+      "sha256": "sha256:3a44add012a1832428aba24e3a53b1f4b1198571d926db9da6c031ba4ae3855c"
+    }
+  },
+  "reportRefs": {
+    "fresh_fire": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-FIRE-20260525/fire10_summary.json",
+      "sha256": "sha256:f335ca2982cd0966c71d0af00c19e5e2cde64eb15e7418c5615dfd2fb535b42e"
+    },
+    "fresh_liftback": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-LIFTBACK3-20260525/liftback_report.json",
+      "sha256": "sha256:f83b9956d1e5203fd2542c70cd5e8fa01c16f5386821d361de41de090ed5777a"
+    },
+    "shard_prepare": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-20260525-PREP9/l4plus_n5_r99_9_shard_prepare_report.json",
+      "sha256": "sha256:158ac915c6611f7c327ece3d5a917b0d9112470cd97a43ae3a7383e5bde10a6c"
+    },
+    "campaign_plan": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-20260525-PREP9/l4plus_n5_r99_9_shard_plan.json",
+      "sha256": "sha256:973fc0c20821d62e3e7b49c1026339451470cef6d4a90a97f9469d00de4b031e"
+    },
+    "campaign_shards": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-20260525-PREP9-campaign/roundtrip_campaign_shards.json",
+      "sha256": "sha256:023ac9eb5bfd8621060191420c420b6360d16b166838c6a818489ec7268410d7"
+    },
+    "campaign_aggregate": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-20260525-PREP9-campaign-aggregate/roundtrip_reliability_report.json",
+      "sha256": "sha256:30f60fd912928f326ab1db2237c357872f43284c2262550d72a87d6ec86b7044"
+    },
+    "roundtrip_gate": {
+      "path": "out/pit-cycle/L4PLUS-N5-R99-9-FRESH-20260525-PREP9-aggregate-roundtrip-gate/l4plus_roundtrip_99_report.json",
+      "sha256": "sha256:ff7e12b07e4c98c27d21a30d9943c0cd678ea85403d423668196db60c5a8ed5f"
+    }
+  },
+  "mutation_policy": "immutable_after_freeze_rebuild_only_from_modified_pcd",
+  "install_policy": {
+    "first": "hetzner_burn_in",
+    "production": "gcp_after_burn_in"
+  },
+  "soc2_readiness": [
+    "hash_bound_artifacts",
+    "segregated_promotion_gates",
+    "change_requires_new_certificate",
+    "platform_consumes_prod_evidence_only"
+  ]
+}

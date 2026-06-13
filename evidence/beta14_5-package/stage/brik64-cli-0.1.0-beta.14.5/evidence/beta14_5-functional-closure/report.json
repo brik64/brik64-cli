@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "brik64.beta14_5_functional_closure_gate.v1",
+  "version": "0.1.0-beta.14.5",
+  "decision": "PASS_BETA14_5_FUNCTIONAL_CLOSURE_GATE",
+  "workspace": "redacted_temp_workspace",
+  "absolutePathIncluded": false,
+  "checks": {
+    "tsMathLift": 1,
+    "pythonMinMaxAbsLift": 1,
+    "rustDirectoryLift": 1,
+    "pythonPytestHarness": "SKIPPED_PYTEST_NOT_INSTALLED",
+    "failClosedMissingSource": 66
+  }
+}

@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// harness: monomer_128_matrix
+// claim_boundary: source_contract_candidate
+PC monomer_128_matrix {
+    fn monomer_128_matrix(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

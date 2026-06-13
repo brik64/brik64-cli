@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.beta14_3_l6_materialization_probe.v1",
+  "version": "0.1.0-beta.14.3",
+  "source": "pcd/beta14_3/cli/cli_entrypoint.pcd",
+  "remoteWork": "/tmp/brik64-cli-beta14-3-materialize-1781290407965",
+  "releaseEligible": false,
+  "claimBoundary": "non_claim_probe_only",
+  "decision": "PASS_BETA14_3_L6_BOUNDED_MATERIALIZATION_PROBE",
+  "rc": 0,
+  "generated": [
+    {
+      "path": "evidence/beta14_3-l6-generation/generated/cli_entrypoint.cert.json",
+      "sha256": "65b574e6ea75fd6602817193dbf49a03a334341ae02c956209af4afd466ec082",
+      "bytes": 1510
+    },
+    {
+      "path": "evidence/beta14_3-l6-generation/generated/cli_entrypoint.js",
+      "sha256": "b455792cb8b2f80878367c15b7d7d28f4977e0db67d96f43718297283b93cfd2",
+      "bytes": 335
+    }
+  ],
+  "stdout": "evidence/beta14_3-l6-generation/probe-stdout.txt",
+  "stderr": "evidence/beta14_3-l6-generation/probe-stderr.txt"
+}

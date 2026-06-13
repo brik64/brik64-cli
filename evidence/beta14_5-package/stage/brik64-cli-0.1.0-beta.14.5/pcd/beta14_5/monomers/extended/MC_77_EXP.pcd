@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_77.EXP
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_77_EXP {
+    fn MC_77_EXP(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

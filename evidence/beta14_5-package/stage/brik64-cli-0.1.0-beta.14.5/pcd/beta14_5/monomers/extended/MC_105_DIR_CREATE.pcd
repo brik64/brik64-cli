@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_105.DIR_CREATE
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_105_DIR_CREATE {
+    fn MC_105_DIR_CREATE(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

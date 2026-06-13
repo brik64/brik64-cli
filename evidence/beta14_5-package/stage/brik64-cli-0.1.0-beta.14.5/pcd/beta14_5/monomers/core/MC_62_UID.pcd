@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_62.UID
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_62_UID {
+    fn MC_62_UID(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}
