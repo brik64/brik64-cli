@@ -7,13 +7,13 @@
     {
       "id": "registry:128",
       "status": "PASS",
-      "elapsedMs": 123,
+      "elapsedMs": 92,
       "total": 128
     },
     {
       "id": "pcd_or_boundary_executable:128",
       "status": "PASS",
-      "elapsedMs": 21792,
+      "elapsedMs": 19126,
       "executableTotal": 128,
       "matrix": [
         {
@@ -917,7 +917,7 @@
     {
       "id": "target_parity:representative_rust_ts_python",
       "status": "PASS",
-      "elapsedMs": 9227,
+      "elapsedMs": 8704,
       "representativeCount": 8,
       "targets": [
         "ts",
@@ -928,7 +928,7 @@
     {
       "id": "lift:directory_and_rust_preview",
       "status": "PASS",
-      "elapsedMs": 315
+      "elapsedMs": 313
     }
   ],
   "failures": [],
