@@ -2,30 +2,14 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.14.4",
   "version": "0.1.0-beta.14.4",
-  "manifestDigest": "709e8389fb391a45dd34f58ae077ddffa61d3f976dcf90306e447ab05aafc9e7",
-  "sourceHead": "b9b353d",
+  "manifestDigest": "2f5a1b85f106857847737385a70f92f211088449ab708feeaa793af5c1760467",
+  "sourceHead": "b6dec7a",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    ".brik/manifest.json",
-    "CHANGELOG.md",
-    "README.md",
-    "package.json",
-    "release/manifest.json",
-    "scripts/release-train-dry-run.js",
-    "src/brik.js",
-    "tests/smoke.sh",
-    "evidence/beta14_4-128-executable/",
-    "evidence/beta14_4-monomer-128/",
-    "evidence/beta14_4-package-smoke/",
-    "evidence/beta14_4-package/",
-    "pcd/beta14_4/",
-    "scripts/beta14_4-128-executable-gate.js",
-    "scripts/beta14_4-monomer-128-gate.js",
-    "scripts/beta14_4-package-smoke.sh",
-    "scripts/build-beta14_4-package.sh"
+    "release/manifest.json"
   ],
   "commandPreflight": [
     {
@@ -93,6 +77,6 @@
   "blockers": [],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:17"
+    "worktree_dirty_dry_run:1"
   ]
 }
