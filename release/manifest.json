@@ -3,12 +3,12 @@
   "releaseId": "brik64-0.1.0-beta.14.5",
   "version": "0.1.0-beta.14.5",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-13T07:56:28.585Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta14-5-functional-closure",
-    "commit": "ef717f47ea963dacdd94e21028cbdf6f6eb3e386"
+    "branch": "main",
+    "commit": "18204ed633fa7e68636448532c559f814201c592"
   },
   "cli": {
     "packageName": "@brik64/cli",
