@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.14.4",
   "state": "public",
-  "manifestDigest": "2f5a1b85f106857847737385a70f92f211088449ab708feeaa793af5c1760467",
+  "manifestDigest": "241613adf4dedb2d01797d556137f438b62fd2c7557a679a61dc64f1fe912a15",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "2f5a1b85f106857847737385a70f92f211088449ab708feeaa793af5c1760467",
-      "bytes": 4122
+      "sha256": "241613adf4dedb2d01797d556137f438b62fd2c7557a679a61dc64f1fe912a15",
+      "bytes": 4155
     },
     "packageJson": {
       "path": "package.json",
