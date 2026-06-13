@@ -4,11 +4,11 @@
   "version": "0.1.0-beta.14.6",
   "channel": "beta",
   "state": "public",
-  "createdAt": "2026-06-13T09:58:28.294Z",
+  "createdAt": "2026-06-13T00:00:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "c405b6bdd6791ff3a7da0125900f6933f4cd4dcf"
+    "commit": "26dbb5bf25252928f8c40f149805c3aef778481f"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -33,7 +33,7 @@
     ],
     "package": {
       "path": "evidence/beta14_6-package/brik64-cli-0.1.0-beta.14.6.tgz",
-      "sha256": "8944c055e5a86409bc21c31ff2fed7ee46975636a8f810d35c1c07cc3f968ed4"
+      "sha256": "8c34f3f72e65ef3292e5fb15e73e931468457aaf9266bb78cb5aaa71ad7bff0a"
     }
   },
   "sdks": [

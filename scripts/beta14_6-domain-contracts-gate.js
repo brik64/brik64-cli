@@ -125,8 +125,8 @@ function main() {
   const report = {
     schemaVersion: 'brik64.beta14_6_domain_contracts_gate.v1',
     version: VERSION,
-    generatedAt: new Date().toISOString(),
-    workspace: tmp,
+    generatedAt: '2026-06-13T00:00:00.000Z',
+    workspace: '[ephemeral]',
     decision: failed.length === 0 ? 'PASS_BETA14_6_DOMAIN_CONTRACTS_GATE' : 'FAIL_BETA14_6_DOMAIN_CONTRACTS_GATE',
     checks: checks.map((check) => ({
       name: check.name,
