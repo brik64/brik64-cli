@@ -3702,9 +3702,12 @@ function migrate(file, args = []) {
     if (domainLines) {
       migrated = migrated.replace(/(\bPC\s+[A-Za-z_][A-Za-z0-9_]*\s*\{\s*)/m, `$1\n${domainLines}\n`);
     }
-    migrated = migrated.replace(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^):]+(?:\s*,\s*[^):]+)*)\)/g, (_, name, rawParams) => {
+    migrated = migrated.replace(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)/g, (_, name, rawParams) => {
       const typed = rawParams.split(',').map((param) => {
         const trimmed = param.trim();
+        if (!trimmed || !/^[A-Za-z_][A-Za-z0-9_]*(?:\s*:\s*[A-Za-z0-9_]+)?$/.test(trimmed)) {
+          fail(65, `pcd_parse_error:legacy_param_unsupported:${trimmed || 'empty'}`);
+        }
         return trimmed.includes(':') ? trimmed : `${trimmed}: i64`;
       }).join(', ');
       return `fn ${name}(${typed})`;
