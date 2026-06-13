@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.beta14_6_domain_contracts_gate.v1",
   "version": "0.1.0-beta.14.6",
-  "generatedAt": "2026-06-13T09:42:09.709Z",
-  "workspace": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta146-gate.zfEAKV",
+  "generatedAt": "2026-06-13T09:47:22.207Z",
+  "workspace": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta146-gate.JnlQFr",
   "decision": "PASS_BETA14_6_DOMAIN_CONTRACTS_GATE",
   "checks": [
     {
@@ -279,8 +279,8 @@
       "skipped": false,
       "args": [],
       "stdout_sha256": "6a53c23142b8a7450c8b0098f11af93d8d6900544ef1cc98dec530b9495ab2ce",
-      "stderr_sha256": "64f919521a75305dd44a7da423bec11846c16ed47609b5d26bf7ecef53f48f95",
-      "stderr_tail": "thread 'main' (3040426) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+      "stderr_sha256": "18a401dd5b7efca53ca5b2ee3502e781d1dcea8b77f7e9b0ec73ece29b8ba922",
+      "stderr_tail": "thread 'main' (3065969) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
     },
     {
       "name": "polymerize_domain_inputs",
