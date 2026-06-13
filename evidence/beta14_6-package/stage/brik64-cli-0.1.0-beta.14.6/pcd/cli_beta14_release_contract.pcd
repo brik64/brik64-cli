@@ -1,0 +1,17 @@
+// brik64.pcd_file.v1
+// contract: beta14 source lift preview and adoption report
+// claim_boundary: assisted_generation_non_claim
+
+PC beta14_source_lift_contract {
+    const PREVIEW_REQUIRED: i64 = 1;
+    const CERTS_GENERATED: i64 = 0;
+    const NETWORK_SENT: i64 = 0;
+
+    fn beta14_source_lift_contract(input: i64) -> i64 {
+        if (input >= PREVIEW_REQUIRED) {
+            return CERTS_GENERATED + NETWORK_SENT;
+        } else {
+            return 0;
+        }
+    }
+}

@@ -1,0 +1,47 @@
+// brik64.pcd_file.v1
+// name: brik_cli_beta10_modular_diagnostics_contract
+// status: beta10_candidate_contract
+// lane: cli_0_1_beta
+// generation_claim: assisted_generation_non_claim
+// cli_version = "0.1.0-beta.10"
+// claim_boundary = "local_candidate_only"
+// public claims denied: formal_N5, fixpoint, self_hosting, Rust independence, pure BRIK64 toolchain
+//
+// requires import_dag_local == true
+// requires import_cycle_fail_closed == true
+// requires const_i64_literal_only == true
+// requires const_non_literal_fail_closed == true
+// requires explain_human_and_json == true
+// requires lockfile_hash_bound_local_metadata == true
+// requires telemetry_disabled_by_default == true
+// requires feedback_dry_run_redacted_local == true
+// requires error_report_last_redacted_local == true
+// requires network_send_disabled_beta10 == true
+// requires raw_source_pcd_paths_secrets_not_reported == true
+
+PC brik_cli_beta10_modular_diagnostics_contract {
+    fn brik_cli_beta10_modular_diagnostics_contract(import_dag_ok, const_ok, explain_ok, lock_ok, telemetry_ok, feedback_ok, errors_ok, privacy_ok) {
+        if (import_dag_ok == 0) {
+            return 0;
+        }
+        if (const_ok == 0) {
+            return 0;
+        }
+        if (explain_ok == 0) {
+            return 0;
+        }
+        if (lock_ok == 0) {
+            return 0;
+        }
+        if (telemetry_ok == 0) {
+            return 0;
+        }
+        if (feedback_ok == 0) {
+            return 0;
+        }
+        if (errors_ok == 0) {
+            return 0;
+        }
+        return privacy_ok;
+    }
+}
