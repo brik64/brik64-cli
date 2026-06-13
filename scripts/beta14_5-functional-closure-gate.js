@@ -123,7 +123,8 @@ const report = {
   schemaVersion: 'brik64.beta14_5_functional_closure_gate.v1',
   version,
   decision: 'PASS_BETA14_5_FUNCTIONAL_CLOSURE_GATE',
-  workspace,
+  workspace: 'redacted_temp_workspace',
+  absolutePathIncluded: false,
   checks: {
     tsMathLift: tsLift.candidateCount,
     pythonMinMaxAbsLift: pyLift.candidateCount,
