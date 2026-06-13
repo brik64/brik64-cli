@@ -1342,12 +1342,25 @@ function buildDomainContract({ domains, domainParams, invariants, conditionalDom
     if (!declaredDomainParams.has(name)) fail(65, `pcd_parse_error:domain_param_undeclared:${name}`);
   }
   const unresolvedParams = [...referencedParams].filter((name) => !Object.prototype.hasOwnProperty.call(technicalSheet, name));
+  const resolvedDomains = domains.map((domain) => ({
+    name: domain.name,
+    minValue: domainBoundValue(domain.min, technicalSheet),
+    maxValue: domainBoundValue(domain.max, technicalSheet)
+  }));
+  const resolvedConditionalDomains = conditionalDomains.map((conditional) => ({
+    condition: conditional.condition,
+    name: conditional.domain.name,
+    minValue: domainBoundValue(conditional.domain.min, technicalSheet),
+    maxValue: domainBoundValue(conditional.domain.max, technicalSheet)
+  }));
   const normalized = {
     schemaVersion: 'brik64.cli_domain_contract.v1',
     domains,
     domainParams,
     invariants,
     conditionalDomains,
+    resolvedDomains,
+    resolvedConditionalDomains,
     missingParams,
     unresolvedParams,
     status: missingParams.length > 0 ? 'missing' : unresolvedParams.length > 0 ? 'unresolved_params' : 'complete',

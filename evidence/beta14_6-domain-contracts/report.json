@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.beta14_6_domain_contracts_gate.v1",
   "version": "0.1.0-beta.14.6",
-  "generatedAt": "2026-06-13T09:51:18.920Z",
-  "workspace": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta146-gate.HZqbqO",
+  "generatedAt": "2026-06-13T09:54:54.030Z",
+  "workspace": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta146-gate.lyGHzp",
   "decision": "PASS_BETA14_6_DOMAIN_CONTRACTS_GATE",
   "checks": [
     {
@@ -57,7 +57,7 @@
         "pcd/bounded_gate.pcd",
         "--json"
       ],
-      "stdout_sha256": "091a82d0286124c9132db1b3411b2a94dbcb2b058058bf66239765b01c6e388b",
+      "stdout_sha256": "7ccc84b2f82c3e16751f39ef831664c4bac0041994057f1cb124cb9d8458fcc2",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -71,7 +71,7 @@
         "validate",
         "pcd/bounded_gate.pcd"
       ],
-      "stdout_sha256": "09797e28fb0ddda5a017320c5e3e088c41f691c8928b7bd59199799e93da320e",
+      "stdout_sha256": "8822d68b112a092a3fb20c2bd251a7da04f7134b684953d7d08aab507efc80a5",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -98,7 +98,7 @@
         "pcd/bounded_gate.pcd",
         "--json"
       ],
-      "stdout_sha256": "e89e05d53a43e720361ac282c6c7bbfb96df966ef87d050708b8db82496db50f",
+      "stdout_sha256": "39f3fd468aed0b6f85518edfd08bb558024186114528dce925e0f6a378402904",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -176,7 +176,7 @@
         "--technical-sheet",
         "technical-sheet.json"
       ],
-      "stdout_sha256": "830d45b447514b0f33435bc27d0de49da890b94f15465dfdd25e80517d9b5ee2",
+      "stdout_sha256": "ac68042ee4a2e128399784a62b279b5853ae78c5f048d2a976a7d687a88f189c",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -279,8 +279,8 @@
       "skipped": false,
       "args": [],
       "stdout_sha256": "6a53c23142b8a7450c8b0098f11af93d8d6900544ef1cc98dec530b9495ab2ce",
-      "stderr_sha256": "a8244f6a4ae8d1952917052b9ddeb7bb4ed4663227287be45c4735de1cee9d9b",
-      "stderr_tail": "thread 'main' (3080773) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+      "stderr_sha256": "a39b841efa4f1bf8810d25faf45a6de2e4e973dc06389c9044f1ea5c220db24b",
+      "stderr_tail": "thread 'main' (3092997) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
     },
     {
       "name": "polymerize_domain_inputs",
@@ -295,13 +295,13 @@
         "polymer.pcd",
         "--json"
       ],
-      "stdout_sha256": "b1d23e95bc0d5c9206bf87edd2b4974ddab3a6d0e32f50df570eeaf9d15c7e5f",
+      "stdout_sha256": "738402fb0908720b29819ad136617f9a5be1c35f4be677a9562f36433385ad89",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
     {
       "name": "polymer_manifest_has_domain_hash",
-      "ok": "53e142bcd5d67499ba52551d1564aeca88b465ed160b3d4254f413a53316ac88",
+      "ok": "63acea4ba2fed42c0f4d729943aa440a20970ba71d60830ffb63b3d4b2fcebbb",
       "status": 0,
       "skipped": false,
       "args": [
