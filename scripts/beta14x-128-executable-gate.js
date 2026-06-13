@@ -155,7 +155,6 @@ record('lift:directory_and_rust_preview', () => {
     assert(manifest.candidateCount >= 1, `lift_candidate_missing:${language}`, manifest);
     assert(manifest.source.fileCount >= 1, `lift_file_count_missing:${language}`, manifest);
     for (const candidate of manifest.candidates) {
-      const pcd = path.join(work, manifest.source.path || '', candidate.file);
       assert(!String(candidate.file).includes('beta14.2'), `lift_stale_candidate:${language}`, candidate);
     }
   }
