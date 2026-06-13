@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.14.5",
+  "version": "0.1.0-beta.14.6",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -202,7 +202,19 @@
     "test:beta14.5-128-executable": "node scripts/beta14_5-128-executable-gate.js",
     "package:beta14.5:local": "bash scripts/build-beta14_5-package.sh",
     "smoke:beta14.5:package": "bash scripts/beta14_5-package-smoke.sh",
-    "test:beta14.5-package": "bash scripts/beta14_5-package-smoke.sh"
+    "test:beta14.5-package": "bash scripts/beta14_5-package-smoke.sh",
+    "gate:beta14.6:domain-parser": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:domain-required": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:domain-tests": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:conditional-domains": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:relational-domains": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:parametric-domains": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:lift-domain-boundary": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta14.6:polymer-domain-compat": "node scripts/beta14_6-domain-contracts-gate.js",
+    "test:beta14.6-domain-contracts": "node scripts/beta14_6-domain-contracts-gate.js",
+    "package:beta14.6:local": "bash scripts/build-beta14_6-package.sh",
+    "smoke:beta14.6:package": "bash scripts/beta14_6-package-smoke.sh",
+    "test:beta14.6-package": "bash scripts/beta14_6-package-smoke.sh"
   },
   "author": {
     "name": "BRIK64 INC",

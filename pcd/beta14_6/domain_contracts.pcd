@@ -1,0 +1,12 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta14.6 bounded domain contract surface
+PC beta14_6_domain_contracts {
+    domain amount: i64 [0, 100000];
+    domain balance: i64 [0, 100000];
+    invariant amount <= balance;
+    fn beta14_6_domain_contracts(amount: i64, balance: i64) -> i64 {
+        if (amount <= balance) return 1;
+        return 0;
+    }
+}

@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "brik64.beta14_6_domain_contracts_gate.v1",
+  "version": "0.1.0-beta.14.6",
+  "generatedAt": "2026-06-13T09:54:54.030Z",
+  "workspace": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta146-gate.lyGHzp",
+  "decision": "PASS_BETA14_6_DOMAIN_CONTRACTS_GATE",
+  "checks": [
+    {
+      "name": "node_syntax",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "--check",
+        "/private/tmp/brik64-cli-beta14-6/src/brik.js"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "init",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "init"
+      ],
+      "stdout_sha256": "923ae18417803bae3aeb2d3822c80dbae1bf9b6e4b88140759cdc10914a7d699",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "template_domain_gate",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "template",
+        "--type",
+        "domain-gate",
+        "--out",
+        "pcd/bounded_gate.pcd"
+      ],
+      "stdout_sha256": "912ede8f20e2f8c7ee284bf896fccf0462dc3882b87edbdf39e5f2e888f8d73f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "domain_inspect_json",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "domain",
+        "inspect",
+        "pcd/bounded_gate.pcd",
+        "--json"
+      ],
+      "stdout_sha256": "7ccc84b2f82c3e16751f39ef831664c4bac0041994057f1cb124cb9d8458fcc2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "domain_validate",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "domain",
+        "validate",
+        "pcd/bounded_gate.pcd"
+      ],
+      "stdout_sha256": "8822d68b112a092a3fb20c2bd251a7da04f7134b684953d7d08aab507efc80a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "certify_domain_gate",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "certify",
+        "pcd/bounded_gate.pcd"
+      ],
+      "stdout_sha256": "a3f37c9253cc195bcb74fe3bec091fad387ac95c299d33a28c2999617de91abc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "verify_domain_gate",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "verify",
+        "pcd/bounded_gate.pcd",
+        "--json"
+      ],
+      "stdout_sha256": "39f3fd468aed0b6f85518edfd08bb558024186114528dce925e0f6a378402904",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "certify_missing_domain_fails",
+      "ok": true,
+      "status": 65,
+      "skipped": false,
+      "args": [
+        "certify",
+        "pcd/missing_domain.pcd"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "34b3336568d4f4e8c7382e684a56bc9bb64531784abf7ae858654e938dd456ef",
+      "stderr_tail": "bounded_domain_required:missing; missing=x; unresolved=none; run `brik64 domain inspect pcd/missing_domain.pcd --json` or add domain declarations\n"
+    },
+    {
+      "name": "domain_add_missing_domain",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "domain",
+        "add",
+        "pcd/missing_domain.pcd",
+        "--param",
+        "x",
+        "--min",
+        "0",
+        "--max",
+        "10"
+      ],
+      "stdout_sha256": "5b6dd8167ce021d397f0ffb6c4dcb17f717ab1f558b1248a574344d382834dbf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "certify_after_domain_add",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "certify",
+        "pcd/missing_domain.pcd"
+      ],
+      "stdout_sha256": "1c4e733315348cf0b576f69920cbe9c0624d50649016b3b4b133518d70e7ba9e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "domain_sheet_param",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "domain",
+        "sheet",
+        "pcd/param_domain.pcd",
+        "--out",
+        "technical-sheet.json"
+      ],
+      "stdout_sha256": "31ab19029923e32b2a3c6dd61ca29d0f25c86c752683a4e62a7410c6acc4a9c6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "domain_validate_with_sheet",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "domain",
+        "validate",
+        "pcd/param_domain.pcd",
+        "--technical-sheet",
+        "technical-sheet.json"
+      ],
+      "stdout_sha256": "ac68042ee4a2e128399784a62b279b5853ae78c5f048d2a976a7d687a88f189c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "emit_ts",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "emit",
+        "pcd/bounded_gate.pcd",
+        "--target",
+        "ts",
+        "--out",
+        "out-ts",
+        "--tests"
+      ],
+      "stdout_sha256": "07e3a28ce9a300aa80f5a0d0668e9ce29c58629706341de93397372d8841fbf4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "emit_python",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "emit",
+        "pcd/bounded_gate.pcd",
+        "--target",
+        "python",
+        "--out",
+        "out-python",
+        "--tests"
+      ],
+      "stdout_sha256": "744e53e042a6096527b4f27776f706a60fc188906cccfaa1916cf91de9b33dfd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "emit_rust",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "emit",
+        "pcd/bounded_gate.pcd",
+        "--target",
+        "rust",
+        "--out",
+        "out-rust",
+        "--tests"
+      ],
+      "stdout_sha256": "2b46a44d42d4a310acd249b97583512215bd3b1fcdba36d5de59f79437135b07",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "run_ts_generated_tests",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "out-ts/program.test.mjs"
+      ],
+      "stdout_sha256": "b6f4a7425e48618d17011cc6d5cb618c565ba70c49ca44cd9cdff623efc2c16d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "run_python_generated_tests",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "out-python/test_program.py"
+      ],
+      "stdout_sha256": "91790bf5f3f1cd8330af999589d373ddd66c20dbc68f2740ba3f83455776be37",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "rust_compile_generated_tests",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "out-rust/program_test.rs",
+        "-o",
+        "out-rust/program_test"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "run_rust_generated_tests",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [],
+      "stdout_sha256": "6a53c23142b8a7450c8b0098f11af93d8d6900544ef1cc98dec530b9495ab2ce",
+      "stderr_sha256": "a39b841efa4f1bf8810d25faf45a6de2e4e973dc06389c9044f1ea5c220db24b",
+      "stderr_tail": "thread 'main' (3092997) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+    },
+    {
+      "name": "polymerize_domain_inputs",
+      "ok": true,
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "polymerize",
+        "pcd/bounded_gate.pcd",
+        "pcd/missing_domain.pcd",
+        "--out",
+        "polymer.pcd",
+        "--json"
+      ],
+      "stdout_sha256": "738402fb0908720b29819ad136617f9a5be1c35f4be677a9562f36433385ad89",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    },
+    {
+      "name": "polymer_manifest_has_domain_hash",
+      "ok": "63acea4ba2fed42c0f4d729943aa440a20970ba71d60830ffb63b3d4b2fcebbb",
+      "status": 0,
+      "skipped": false,
+      "args": [
+        "assert",
+        "polymer_manifest_has_domain_hash"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_tail": ""
+    }
+  ]
+}

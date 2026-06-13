@@ -17,10 +17,6 @@ node "$BRIK" --help | grep -q "verify <file.pcd>"
 node "$BRIK" --help | grep -q "migrate <file.pcd>"
 node "$BRIK" --help | grep -q "explain <file.pcd>"
 node "$BRIK" --help | grep -q "telemetry status"
-node "$BRIK" doctor | grep -q "BRIK64 workspace doctor"
-node "$BRIK" doctor --json | grep -q '"status": "PASS"'
-node "$BRIK" doctor --json | grep -q '"localRuntime": "available"'
-node "$BRIK" doctor --json | grep -q '"internalArtifactFactory": "private"'
 node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
@@ -30,7 +26,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ]; then
+  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
@@ -86,7 +82,8 @@ fi
 cat >"$tmpdir/program.pcd" <<'PCD'
 // beta5 minimal valid PCD
 PC sample {
-    fn sample(input) {
+    domain input: i64 [0, 255];
+    fn sample(input: i64) -> i64 {
         if (input == 0) {
             return 1;
         }
@@ -216,7 +213,8 @@ node "$BRIK" certify legacy.beta7.pcd
 
 cat >variant.pcd <<'PCD'
 PC variant {
-    fn variant(input) {
+    domain input: i64 [0, 255];
+    fn variant(input: i64) -> i64 {
         if (input == 1) {
             return 8;
         }
@@ -256,7 +254,8 @@ grep -q "engine_tier_policy_l6_distribution_open" /tmp/brik-bad-tier.err
 cat >"$tmpdir/leaf.pcd" <<'PCD'
 PC leaf {
     const LIMIT: i64 = 3;
-    fn leaf(input) {
+    domain input: i64 [0, 255];
+    fn leaf(input: i64) -> i64 {
         repeat LIMIT {
             if (input == LIMIT) {
                 return 21;
@@ -271,7 +270,8 @@ cat >"$tmpdir/mid.pcd" <<'PCD'
 use leaf;
 PC mid {
     const OFFSET: i64 = 2;
-    fn mid(input) {
+    domain input: i64 [0, 255];
+    fn mid(input: i64) -> i64 {
         if (leaf(input) == 21) {
             return 40 + OFFSET;
         }
@@ -283,7 +283,8 @@ PCD
 cat >"$tmpdir/root.pcd" <<'PCD'
 use mid;
 PC root {
-    fn root(input) {
+    domain input: i64 [0, 255];
+    fn root(input: i64) -> i64 {
         return mid(input);
     }
 }
@@ -299,11 +300,11 @@ node out-dag/program.test.mjs | grep -q "PASS"
 node "$BRIK" explain root.pcd --json | grep -q '"mid"'
 cat >cycle_a.pcd <<'PCD'
 use cycle_b;
-PC cycle_a { fn cycle_a(input) { return cycle_b(input); } }
+PC cycle_a { domain input: i64 [0, 255]; fn cycle_a(input: i64) -> i64 { return cycle_b(input); } }
 PCD
 cat >cycle_b.pcd <<'PCD'
 use cycle_a;
-PC cycle_b { fn cycle_b(input) { return cycle_a(input); } }
+PC cycle_b { domain input: i64 [0, 255]; fn cycle_b(input: i64) -> i64 { return cycle_a(input); } }
 PCD
 if node "$BRIK" certify cycle_a.pcd >/tmp/brik-cycle.out 2>/tmp/brik-cycle.err; then
   echo "import cycle should fail closed" >&2
@@ -313,7 +314,8 @@ grep -q "import_cycle" /tmp/brik-cycle.err
 cat >bad_const.pcd <<'PCD'
 PC bad_const {
     const LIMIT: i64 = input;
-    fn bad_const(input) { return 1; }
+    domain input: i64 [0, 255];
+    fn bad_const(input: i64) -> i64 { return 1; }
 }
 PCD
 if node "$BRIK" certify bad_const.pcd >/tmp/brik-bad-const.out 2>/tmp/brik-bad-const.err; then

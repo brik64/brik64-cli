@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "brik64.l4plus_n5_burn_in_report.v1",
+  "iter_id": "L4PLUS-N5-BURN-IN-R1-20260525T1009Z",
+  "generatedAt": "2026-05-25T10:08:06Z",
+  "decision": "PASS",
+  "fail_phase": null,
+  "fail_reason": null,
+  "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
+  "remote": {
+    "host": "100.79.139.109",
+    "pointer": "/opt/brik64/engines/l4plus-n5/current-burn-in"
+  },
+  "evidence": {
+    "freeze_report": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/l4plus_n5_critical_freeze_report.json",
+    "install_report": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_burn_in_install_report.json",
+    "hash_verify": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_hash_verify.json"
+  },
+  "checks": [
+    {
+      "name": "artifact_exists:out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/l4plus_n5_critical_freeze_report.json",
+      "status": "PASS",
+      "evidence": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/l4plus_n5_critical_freeze_report.json"
+    },
+    {
+      "name": "artifact_exists:out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_burn_in_install_report.json",
+      "status": "PASS",
+      "evidence": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_burn_in_install_report.json"
+    },
+    {
+      "name": "artifact_exists:out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_hash_verify.json",
+      "status": "PASS",
+      "evidence": "out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_hash_verify.json"
+    },
+    {
+      "name": "serial:shape",
+      "status": "PASS",
+      "evidence": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4"
+    },
+    {
+      "name": "install:serial_match",
+      "status": "PASS",
+      "evidence": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4"
+    },
+    {
+      "name": "install:decision",
+      "status": "PASS",
+      "evidence": "/Users/carlosjperez/Documents/GitHub/brik64-prod/out/pit-cycle/L4PLUS-N5-CRITICAL-FREEZE-R1-20260525T095449Z/hetzner_burn_in_install_report.json"
+    },
+    {
+      "name": "install:mode",
+      "status": "PASS",
+      "evidence": "burn_in_candidate"
+    },
+    {
+      "name": "install:gcp_blocked",
+      "status": "PASS",
+      "evidence": "gcpPromotionAllowed=false"
+    },
+    {
+      "name": "local:certificate_hash",
+      "status": "PASS",
+      "evidence": "sha256:86828d4fe8bad314e4eb34662f7023cc7bb155223d24af160f7d45ee0cd2726c"
+    },
+    {
+      "name": "remote:pointer_serial",
+      "status": "PASS",
+      "evidence": "/opt/brik64/engines/l4plus-n5/burn-in/BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4"
+    },
+    {
+      "name": "remote:certificate_hash",
+      "status": "PASS",
+      "evidence": "sha256:86828d4fe8bad314e4eb34662f7023cc7bb155223d24af160f7d45ee0cd2726c"
+    },
+    {
+      "name": "remote:pcd_hash",
+      "status": "PASS",
+      "evidence": "sha256:8e87f92ce267f33aa1fcd3e8815502e08f887637300030cc8b565e508a7b7668"
+    },
+    {
+      "name": "remote:bir_hash",
+      "status": "PASS",
+      "evidence": "sha256:14645419bdfde549122d0df9537b806d8620be6953222feb66fd5134c5c6d6cf"
+    },
+    {
+      "name": "remote:reconstruction_hash",
+      "status": "PASS",
+      "evidence": "sha256:3a44add012a1832428aba24e3a53b1f4b1198571d926db9da6c031ba4ae3855c"
+    },
+    {
+      "name": "remote:no_apple_double_files",
+      "status": "PASS",
+      "evidence": "0"
+    }
+  ],
+  "blockers": [],
+  "claim_boundary": {
+    "public_claims_allowed": true,
+    "n5_authorized": true,
+    "r99_9_claim_allowed": true,
+    "r99_99_claim_allowed": false,
+    "r99_999_claim_allowed": false,
+    "r99_999999_claim_allowed": false,
+    "universal_correctness_claim_allowed": false,
+    "platform_can_issue_certification": false
+  },
+  "promotion": {
+    "hetzner_burn_in_passed": true,
+    "gcpPromotionAllowed": false,
+    "platform_installation_status": "burn_in_passed_ready_for_platform_consumption"
+  },
+  "next_action": "register exact serial in platform as prod-evidence-backed engine; keep GCP promotion false until explicit production promotion gate"
+}
