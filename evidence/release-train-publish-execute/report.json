@@ -1,16 +1,14 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.14.4",
-  "version": "0.1.0-beta.14.4",
-  "manifestDigest": "241613adf4dedb2d01797d556137f438b62fd2c7557a679a61dc64f1fe912a15",
-  "sourceHead": "097d854",
+  "releaseId": "brik64-0.1.0-beta.14.6",
+  "version": "0.1.0-beta.14.6",
+  "manifestDigest": "5e01e140d3710c1597f78f461311055090be7fec6455361f496f4d11c0918ab5",
+  "sourceHead": "6d3fd27",
   "publishRequested": false,
   "publicationMutated": false,
-  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
+  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [
-    "release/manifest.json"
-  ],
+  "dirtyFiles": [],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -21,14 +19,18 @@
     {
       "name": "sdk_npm",
       "mutatesPublicSurface": true,
-      "pass": true,
-      "failures": []
+      "pass": false,
+      "failures": [
+        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.6.tgz"
+      ]
     },
     {
       "name": "sdk_pypi",
       "mutatesPublicSurface": true,
-      "pass": true,
-      "failures": []
+      "pass": false,
+      "failures": [
+        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post6*"
+      ]
     },
     {
       "name": "sdk_crates",
@@ -74,9 +76,10 @@
     }
   ],
   "executed": [],
-  "blockers": [],
+  "blockers": [
+    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.6.tgz",
+    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post6*"
+  ],
   "failures": [],
-  "warnings": [
-    "worktree_dirty_dry_run:1"
-  ]
+  "warnings": []
 }
