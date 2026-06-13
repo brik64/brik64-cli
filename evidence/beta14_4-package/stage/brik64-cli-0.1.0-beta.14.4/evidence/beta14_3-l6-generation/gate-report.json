@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "brik64.beta14_3_l6_generation_gate.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "PASS_BETA14_3_L6_GENERATION_GATE",
+  "blockers": [],
+  "checks": {
+    "version": true,
+    "remotePreflight": true,
+    "auditDecision": true,
+    "claimClosed": true
+  },
+  "publicationAllowed": true,
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "nextAction": "Continue package and release-train gates."
+}

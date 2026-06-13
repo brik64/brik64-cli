@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_16.LOAD
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_16_LOAD {
+    fn MC_16_LOAD(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

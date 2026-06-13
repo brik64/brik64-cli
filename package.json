@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.14.3",
+  "version": "0.1.0-beta.14.4",
   "private": true,
   "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
@@ -183,7 +183,17 @@
     "test:beta14.3-monomer-128": "node scripts/beta14_3-monomer-128-gate.js",
     "package:beta14.3:local": "bash scripts/build-beta14_3-package.sh",
     "smoke:beta14.3:package": "bash scripts/beta14_3-package-smoke.sh",
-    "test:beta14.3-package": "bash scripts/beta14_3-package-smoke.sh"
+    "test:beta14.3-package": "bash scripts/beta14_3-package-smoke.sh",
+    "gate:beta14x:128-executable": "node scripts/beta14x-128-executable-gate.js",
+    "test:beta14x-128-executable": "node scripts/beta14x-128-executable-gate.js",
+    "beta14:4:monomer-128-gate": "node scripts/beta14_4-monomer-128-gate.js",
+    "gate:beta14.4:monomer-128": "node scripts/beta14_4-monomer-128-gate.js",
+    "test:beta14.4-monomer-128": "node scripts/beta14_4-monomer-128-gate.js",
+    "gate:beta14.4:128-executable": "node scripts/beta14_4-128-executable-gate.js",
+    "test:beta14.4-128-executable": "node scripts/beta14_4-128-executable-gate.js",
+    "package:beta14.4:local": "bash scripts/build-beta14_4-package.sh",
+    "smoke:beta14.4:package": "bash scripts/beta14_4-package-smoke.sh",
+    "test:beta14.4-package": "bash scripts/beta14_4-package-smoke.sh"
   },
   "author": {
     "name": "BRIK64 INC",

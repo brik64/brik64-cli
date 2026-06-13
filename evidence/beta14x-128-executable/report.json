@@ -1,0 +1,936 @@
+{
+  "schemaVersion": "brik64.beta14x_128_executable_gate.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "PASS_BETA14X_128_EXECUTABLE_GATE",
+  "beta15Blocked": false,
+  "checks": [
+    {
+      "id": "registry:128",
+      "status": "PASS",
+      "elapsedMs": 92,
+      "total": 128
+    },
+    {
+      "id": "pcd_or_boundary_executable:128",
+      "status": "PASS",
+      "elapsedMs": 19126,
+      "executableTotal": 128,
+      "matrix": [
+        {
+          "key": "MC_00.ADD8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_00_ADD8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_01.SUB8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_01_SUB8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_02.MUL8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_02_MUL8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_03.DIV8",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_03_DIV8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_04.INC",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_04_INC.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_05.DEC",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_05_DEC.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_06.ABS",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_06_ABS.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_07.CLAMP",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_07_CLAMP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_08.AND8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_08_AND8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_09.OR8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_09_OR8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_10.XOR8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_10_XOR8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_11.NOT8",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_11_NOT8.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_12.SHL",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_12_SHL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_13.SHR",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_13_SHR.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_14.ROL",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_14_ROL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_15.ROR",
+          "boundary": "pure_local_candidate",
+          "fixture": "pcd/MC_15_ROR.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_16.LOAD",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_16_LOAD.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_17.STORE",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_17_STORE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_18.PUSH",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_18_PUSH.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_19.POP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_19_POP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_20.PEEK",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_20_PEEK.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_21.SWAP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_21_SWAP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_22.DUP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_22_DUP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_23.DROP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_23_DROP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_24.IF",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_24_IF.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_25.LOOP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_25_LOOP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_26.JUMP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_26_JUMP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_27.CALL",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_27_CALL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_28.RET",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_28_RET.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_29.BREAK",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_29_BREAK.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_30.CONTINUE",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_30_CONTINUE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_31.NOP",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_31_NOP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_32.READ",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_32_READ.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_33.WRITE",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_33_WRITE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_34.SEEK",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_34_SEEK.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_35.FLUSH",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_35_FLUSH.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_36.OPEN",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_36_OPEN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_37.CLOSE",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_37_CLOSE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_38.EOF",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_38_EOF.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_39.ERR",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_39_ERR.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_40.CONCAT",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_40_CONCAT.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_41.SPLIT",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_41_SPLIT.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_42.SUBSTR",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_42_SUBSTR.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_43.LEN",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_43_LEN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_44.UPPER",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_44_UPPER.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_45.LOWER",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_45_LOWER.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_46.TRIM",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_46_TRIM.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_47.MATCH",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_47_MATCH.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_48.HASH",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_48_HASH.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_49.ENCRYPT",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_49_ENCRYPT.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_50.DECRYPT",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_50_DECRYPT.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_51.SIGN",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_51_SIGN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_52.VERIFY",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_52_VERIFY.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_53.RNG",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_53_RNG.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_54.DERIVE",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_54_DERIVE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_55.SEAL",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_55_SEAL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_56.TIME",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_56_TIME.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_57.CPU",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_57_CPU.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_58.MEM",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_58_MEM.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_59.DISK",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_59_DISK.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_60.NET",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_60_NET.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_61.PID",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_61_PID.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_62.UID",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_62_UID.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_63.ENV",
+          "boundary": "boundary_required",
+          "fixture": "pcd/MC_63_ENV.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_64.FADD",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_64_FADD.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_65.FSUB",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_65_FSUB.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_66.FMUL",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_66_FMUL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_67.FDIV",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_67_FDIV.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_68.FABS",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_68_FABS.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_69.FNEG",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_69_FNEG.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_70.FSQRT",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_70_FSQRT.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_71.FMOD",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_71_FMOD.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_72.SIN",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_72_SIN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_73.COS",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_73_COS.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_74.TAN",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_74_TAN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_75.ATAN2",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_75_ATAN2.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_76.LOG",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_76_LOG.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_77.EXP",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_77_EXP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_78.POW",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_78_POW.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_79.FLOOR",
+          "boundary": "contract_local",
+          "fixture": "pcd/MC_79_FLOOR.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_80.TCP_CONN",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_80_TCP_CONN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_81.TCP_SEND",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_81_TCP_SEND.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_82.TCP_RECV",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_82_TCP_RECV.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_83.UDP_SEND",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_83_UDP_SEND.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_84.DNS",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_84_DNS.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_85.HTTP_GET",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_85_HTTP_GET.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_86.HTTP_POST",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_86_HTTP_POST.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_87.TLS",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_87_TLS.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_88.FB_NEW",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_88_FB_NEW.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_89.FB_PIXEL",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_89_FB_PIXEL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_90.FB_READ",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_90_FB_READ.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_91.FB_FILL",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_91_FB_FILL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_92.FB_COPY",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_92_FB_COPY.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_93.FB_FLUSH",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_93_FB_FLUSH.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_94.INPUT_POLL",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_94_INPUT_POLL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_95.INPUT_STATE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_95_INPUT_STATE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_96.AU_NEW",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_96_AU_NEW.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_97.AU_WRITE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_97_AU_WRITE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_98.AU_READ",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_98_AU_READ.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_99.AU_PLAY",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_99_AU_PLAY.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_100.AU_STOP",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_100_AU_STOP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_101.AU_MIX",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_101_AU_MIX.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_102.AU_SAMPLE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_102_AU_SAMPLE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_103.AU_STATUS",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_103_AU_STATUS.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_104.DIR_LIST",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_104_DIR_LIST.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_105.DIR_CREATE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_105_DIR_CREATE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_106.DIR_DELETE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_106_DIR_DELETE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_107.CHMOD",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_107_CHMOD.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_108.CHOWN",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_108_CHOWN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_109.LINK",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_109_LINK.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_110.WATCH",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_110_WATCH.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_111.TEMP",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_111_TEMP.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_112.SPAWN",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_112_SPAWN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_113.JOIN",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_113_JOIN.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_114.CHAN_NEW",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_114_CHAN_NEW.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_115.CHAN_SEND",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_115_CHAN_SEND.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_116.CHAN_RECV",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_116_CHAN_RECV.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_117.MUTEX",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_117_MUTEX.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_118.ATOMIC",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_118_ATOMIC.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_119.YIELD",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_119_YIELD.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_120.FFI_LOAD",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_120_FFI_LOAD.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_121.FFI_CALL",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_121_FFI_CALL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_122.FFI_ALLOC",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_122_FFI_ALLOC.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_123.FFI_FREE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_123_FFI_FREE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_124.WASM_EXEC",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_124_WASM_EXEC.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_125.PY_EVAL",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_125_PY_EVAL.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_126.JSON_PARSE",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_126_JSON_PARSE.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        },
+        {
+          "key": "MC_127.JSON_EMIT",
+          "boundary": "contract_external",
+          "fixture": "pcd/MC_127_JSON_EMIT.pcd",
+          "certify": "PASS",
+          "verify": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "target_parity:representative_rust_ts_python",
+      "status": "PASS",
+      "elapsedMs": 8704,
+      "representativeCount": 8,
+      "targets": [
+        "ts",
+        "python",
+        "rust"
+      ]
+    },
+    {
+      "id": "lift:directory_and_rust_preview",
+      "status": "PASS",
+      "elapsedMs": 313
+    }
+  ],
+  "failures": [],
+  "claimBoundary": "128 executable means PCD local execution or explicit deterministic boundary-contract execution, not real external IO execution."
+}

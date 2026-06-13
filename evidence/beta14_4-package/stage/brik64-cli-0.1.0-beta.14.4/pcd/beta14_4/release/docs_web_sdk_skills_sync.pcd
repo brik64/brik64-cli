@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// release_contract: docs_web_sdk_skills_sync
+// claim_boundary: source_contract_candidate
+PC docs_web_sdk_skills_sync {
+    fn docs_web_sdk_skills_sync(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

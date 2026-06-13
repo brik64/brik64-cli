@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// harness: adversarial_release_gate
+// claim_boundary: source_contract_candidate
+PC adversarial_release_gate {
+    fn adversarial_release_gate(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

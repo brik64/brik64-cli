@@ -1,30 +1,30 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.14.3",
-  "version": "0.1.0-beta.14.3",
+  "releaseId": "brik64-0.1.0-beta.14.4",
+  "version": "0.1.0-beta.14.4",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "192ad300f49160b2611044138efd1226304bc6bb86d33f9129000b73b19e0e36",
+  "manifestDigest": "241613adf4dedb2d01797d556137f438b62fd2c7557a679a61dc64f1fe912a15",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.3",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.4",
   "sdkInstall": {
     "typescript": {
       "marketplace": "npm",
       "package": "@brik64/core",
-      "version": "0.1.0-beta.14.3"
+      "version": "0.1.0-beta.14.4"
     },
     "python": {
       "marketplace": "pypi",
       "package": "brik64",
-      "version": "0.1.0b14.post3"
+      "version": "0.1.0b14.post4"
     },
     "rust": {
       "marketplace": "crates.io",
       "package": "brik64-core",
-      "version": "0.1.0-beta.14.3"
+      "version": "0.1.0-beta.14.4"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.14.3\n\n### Added\n\n- Adds a 128-monomer inspection surface with 64 core entries and 64 extended entries for registry listing, explanation and local test reporting.\n- Adds Beta14.3 PCD source contracts for CLI commands, monomer registry coverage, lift workflows, harness checks and release synchronization.\n\n### Changed\n\n- Improves monomer explain and monomer test output so local automation can verify core and extended registry coverage from the CLI.\n- Packages Beta14.3 with hash-bound materialization evidence, package checksums and local smoke verification for the distributed beta artifact.\n- Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.3 release train.\n",
+  "changelogMarkdown": "## 0.1.0-beta.14.4\n\n### Added\n\n- Adds a 128-monomer inspection surface with 64 core entries and 64 extended entries for registry listing, explanation and local test reporting.\n- Adds Beta14.4 PCD source contracts for monomer coverage, boundary declarations, lift workflows and release synchronization.\n\n### Changed\n\n- Improves monomer fixtures so each core and extended monomer can be certified and verified through local execution or an explicit deterministic boundary contract.\n- Fixes Rust emission for bitwise NOT and floating-point monomers, including generated Rust tests for representative float programs.\n- Adds Rust lift preview and directory lift handling for supported JS, Python and Rust sources.\n",
   "releaseNotes": [
     {
       "type": "added",
@@ -34,22 +34,22 @@
     {
       "type": "added",
       "surface": "pcd",
-      "text": "Adds Beta14.3 PCD source contracts for CLI commands, monomer registry coverage, lift workflows, harness checks and release synchronization."
+      "text": "Adds Beta14.4 PCD source contracts for monomer coverage, boundary declarations, lift workflows and release synchronization."
     },
     {
       "type": "changed",
       "surface": "cli",
-      "text": "Improves monomer explain and monomer test output so local automation can verify core and extended registry coverage from the CLI."
+      "text": "Improves monomer fixtures so each core and extended monomer can be certified and verified through local execution or an explicit deterministic boundary contract."
     },
     {
       "type": "changed",
-      "surface": "release",
-      "text": "Packages Beta14.3 with hash-bound materialization evidence, package checksums and local smoke verification for the distributed beta artifact."
+      "surface": "emit",
+      "text": "Fixes Rust emission for bitwise NOT and floating-point monomers, including generated Rust tests for representative float programs."
     },
     {
       "type": "changed",
-      "surface": "sdk",
-      "text": "Aligns JavaScript, Python and Rust SDK package coordinates to the Beta14.3 release train."
+      "surface": "lift",
+      "text": "Adds Rust lift preview and directory lift handling for supported JS, Python and Rust sources."
     }
   ]
 }

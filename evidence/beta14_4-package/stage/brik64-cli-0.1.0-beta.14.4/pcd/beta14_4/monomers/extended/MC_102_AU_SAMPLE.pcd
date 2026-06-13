@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_102.AU_SAMPLE
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_102_AU_SAMPLE {
+    fn MC_102_AU_SAMPLE(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

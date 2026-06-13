@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// harness: target_parity_ts_python_rust
+// claim_boundary: source_contract_candidate
+PC target_parity_ts_python_rust {
+    fn target_parity_ts_python_rust(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

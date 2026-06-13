@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_48.HASH
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_48_HASH {
+    fn MC_48_HASH(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}
