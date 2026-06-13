@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_120.FFI_LOAD
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_120_FFI_LOAD {
+    fn MC_120_FFI_LOAD(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

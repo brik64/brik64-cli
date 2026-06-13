@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_74.TAN
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_74_TAN {
+    fn MC_74_TAN(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

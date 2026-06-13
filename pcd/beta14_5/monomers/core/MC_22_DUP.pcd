@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_22.DUP
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_22_DUP {
+    fn MC_22_DUP(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

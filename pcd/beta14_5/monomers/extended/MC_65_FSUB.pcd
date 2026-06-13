@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_65.FSUB
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_65_FSUB {
+    fn MC_65_FSUB(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

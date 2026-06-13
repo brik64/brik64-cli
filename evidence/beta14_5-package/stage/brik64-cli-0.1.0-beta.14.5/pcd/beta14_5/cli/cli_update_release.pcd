@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// beta14_5_source_contract: cli_update_release
+// claim_boundary: source_contract_candidate; requires L6+N5 materialization evidence before publication.
+PC cli_update_release {
+    fn cli_update_release(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

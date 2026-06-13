@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// lift_language: rust
+// claim_boundary: source_contract_candidate
+PC lift_rust {
+    fn lift_rust(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

@@ -1,0 +1,9 @@
+// brik64.pcd_file.v1
+// lift_language: js
+// claim_boundary: source_contract_candidate
+PC lift_js {
+    fn lift_js(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}
