@@ -1,0 +1,10 @@
+// brik64.pcd_file.v1
+// monomer: MC_25.LOOP
+// tier: core
+// claim_boundary: source_contract_candidate
+PC MC_25_LOOP {
+    fn MC_25_LOOP(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

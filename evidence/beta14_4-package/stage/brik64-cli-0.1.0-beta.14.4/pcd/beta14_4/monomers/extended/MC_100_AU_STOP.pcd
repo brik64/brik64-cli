@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_100.AU_STOP
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_100_AU_STOP {
+    fn MC_100_AU_STOP(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

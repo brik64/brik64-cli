@@ -30,9 +30,9 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$BETA_LABEL" = "beta14_3" ]; then
-    PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta14_3-package.sh"
-    SMOKE_SCRIPT="$ROOT_DIR/scripts/beta14_3-package-smoke.sh"
+  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ]; then
+    PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
+    SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
   PACKAGE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_BUILT"
   SMOKE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_LOCAL_PACKAGE_SMOKE"

@@ -1,14 +1,32 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.14.3",
-  "version": "0.1.0-beta.14.3",
-  "manifestDigest": "192ad300f49160b2611044138efd1226304bc6bb86d33f9129000b73b19e0e36",
-  "sourceHead": "0fd65db",
+  "releaseId": "brik64-0.1.0-beta.14.4",
+  "version": "0.1.0-beta.14.4",
+  "manifestDigest": "709e8389fb391a45dd34f58ae077ddffa61d3f976dcf90306e447ab05aafc9e7",
+  "sourceHead": "b9b353d",
   "publishRequested": false,
   "publicationMutated": false,
-  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
+  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [],
+  "dirtyFiles": [
+    ".brik/manifest.json",
+    "CHANGELOG.md",
+    "README.md",
+    "package.json",
+    "release/manifest.json",
+    "scripts/release-train-dry-run.js",
+    "src/brik.js",
+    "tests/smoke.sh",
+    "evidence/beta14_4-128-executable/",
+    "evidence/beta14_4-monomer-128/",
+    "evidence/beta14_4-package-smoke/",
+    "evidence/beta14_4-package/",
+    "pcd/beta14_4/",
+    "scripts/beta14_4-128-executable-gate.js",
+    "scripts/beta14_4-monomer-128-gate.js",
+    "scripts/beta14_4-package-smoke.sh",
+    "scripts/build-beta14_4-package.sh"
+  ],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -19,18 +37,14 @@
     {
       "name": "sdk_npm",
       "mutatesPublicSurface": true,
-      "pass": false,
-      "failures": [
-        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.3.tgz"
-      ]
+      "pass": true,
+      "failures": []
     },
     {
       "name": "sdk_pypi",
       "mutatesPublicSurface": true,
-      "pass": false,
-      "failures": [
-        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post3*"
-      ]
+      "pass": true,
+      "failures": []
     },
     {
       "name": "sdk_crates",
@@ -76,10 +90,9 @@
     }
   ],
   "executed": [],
-  "blockers": [
-    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.14.3.tgz",
-    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b14.post3*"
-  ],
+  "blockers": [],
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "worktree_dirty_dry_run:17"
+  ]
 }

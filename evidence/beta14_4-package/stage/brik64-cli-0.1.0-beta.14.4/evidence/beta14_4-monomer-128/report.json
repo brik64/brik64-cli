@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "brik64.cli_beta14_4_monomer_128_gate.v1",
+  "version": "0.1.0-beta.14.4",
+  "decision": "PASS_BETA14_4_MONOMER_128_GATE",
+  "evidenceLevel": 3,
+  "checks": [
+    {
+      "id": "version:beta14_4",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "registry:128_counts",
+      "status": "PASS",
+      "elapsedMs": 0,
+      "coreCount": 64,
+      "extendedCount": 64,
+      "totalCount": 128
+    },
+    {
+      "id": "registry:test_all_128",
+      "status": "PASS",
+      "elapsedMs": 0,
+      "total": 128,
+      "passed": 128
+    },
+    {
+      "id": "registry:explain_core_and_extended",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "pcd:extended_float_emit_targets",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "pcd:external_boundary_fail_closed",
+      "status": "PASS",
+      "elapsedMs": 0
+    },
+    {
+      "id": "pcd:source_scaffold_present",
+      "status": "PASS",
+      "elapsedMs": 0,
+      "pcdCount": 147
+    },
+    {
+      "id": "l6:prior_baseline_packaged_without_new_claim",
+      "status": "PASS",
+      "elapsedMs": 0,
+      "priorL6Baseline": "beta14_3",
+      "claimBoundary": "not_new_beta14_4_l6_materialization"
+    }
+  ],
+  "failures": [],
+  "boundary": "Registry, parser and source-scaffold gate only. Prior Beta14.3 L6 evidence is consumed as baseline; this is not fresh Beta14.4 L6 generation evidence, self-hosting, fixpoint, formal proof, or public release authorization."
+}

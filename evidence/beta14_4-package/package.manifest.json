@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "brik64.cli_beta14_4_package_manifest.v1",
+  "version": "0.1.0-beta.14.4",
+  "decision": "PASS_BRIK64_CLI_BETA14_4_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta14_4",
+  "generationClaim": "assisted_generation_non_claim",
+  "package": {
+    "path": "evidence/beta14_4-package/brik64-cli-0.1.0-beta.14.4.tgz",
+    "sha256": "424b5a4efacd8b5918197005d49e635acb1d5adba27d796adb102991a8173377",
+    "bytes": 1100391
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "publicReleaseAllowed": false,
+    "fixpointClaimAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false,
+    "blocker": "public_surface_sync_pending"
+  },
+  "inputGates": [
+    {
+      "decision": "PASS_BETA14_SOURCE_LIFT_GATE",
+      "report": "evidence/beta14-source-lift/report.json",
+      "packaged": false
+    },
+    {
+      "decision": "PASS_BETA14_4_MONOMER_128_GATE",
+      "report": "evidence/beta14_4-monomer-128/report.json",
+      "packaged": true
+    },
+    {
+      "decision": "PASS_BETA14_4_128_EXECUTABLE_GATE",
+      "report": "evidence/beta14_4-128-executable/report.json",
+      "packaged": true
+    },
+    {
+      "decision": "PASS_BETA14_3_L6_GENERATION_GATE_PRIOR_BASELINE",
+      "report": "evidence/beta14_3-l6-generation/gate-report.json",
+      "packaged": true,
+      "claimBoundary": "prior_baseline_not_new_beta14_4_l6_materialization"
+    },
+    {
+      "decision": "PASS_BETA14_4_AUDIT_CLOSURE_GATE_OR_PRIOR_BETA14_2_BASELINE",
+      "report": "evidence/beta14_2-audit-closure/report.json",
+      "packaged": false
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "beta14_4_package_smoke",
+    "beta14_4_github_release",
+    "curl_gcp_installer_beta14_4",
+    "web_docs_changelog_beta14_4",
+    "skills_beta14_4",
+    "sdk_beta14_4_marketplaces_or_deferrals",
+    "public_claim_scan",
+    "live_release_train_verify"
+  ],
+  "boundary": "Beta14.4 local package candidate only. Public release remains blocked until package smoke, GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication and live verification pass atomically. Prior Beta14.3 L6 evidence is packaged as baseline only, not as a fresh Beta14.4 L6 materialization claim."
+}

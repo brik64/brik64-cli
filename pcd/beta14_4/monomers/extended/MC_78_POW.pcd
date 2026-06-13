@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_78.POW
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_78_POW {
+    fn MC_78_POW(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

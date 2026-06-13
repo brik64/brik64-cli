@@ -1,0 +1,103 @@
+{
+  "schema_version": "brik64.generated_artifact_manifest.v1",
+  "id": "engine.l4plus_n5",
+  "source_pcd": {
+    "path": "pcd/engines/l4plus_n5/engine.pcd",
+    "sha256": "8e87f92ce267f33aa1fcd3e8815502e08f887637300030cc8b565e508a7b7668"
+  },
+  "canonical_bir": {
+    "path": "pcd/engines/l4plus_n5/l4plus_engine_runtime.bir",
+    "sha256": "14645419bdfde549122d0df9537b806d8620be6953222feb66fd5134c5c6d6cf"
+  },
+  "certificate_preview": {
+    "path": "pcd/engines/l4plus_n5/l4plus_engine_runtime.cert.json",
+    "sha256": "43e7014d9d761d496dacacf483bbfb9602d26a23029fd2068f761b5cf4428ed5"
+  },
+  "generated_by": "generated_compiler_inventory_replay_p0_2aq",
+  "claim_authority": "non_claim",
+  "certifies_tests": false,
+  "public_claims_allowed": false,
+  "n5_authorized": false,
+  "generator_evidence": "out/pit-cycle/GENERATED-COMPILER-INVENTORY-REPLAY-P0-2AQ-REFRESHED-ARTIFACT-20260518/report.json",
+  "numeric_domain_profile_hash": "sha256:6359b89aaca9a99746710cd731dc881d3a67c3c8f808f414bbc7ad1019d23083",
+  "guard_stability": "not_applicable_no_numeric_guards_detected",
+  "backend_profile": {
+    "runtime_target": "bir",
+    "target_architecture": "portable_bir",
+    "fast_math": false,
+    "reassociation": "forbidden_unless_proven_safe",
+    "fma": "forbidden_unless_declared",
+    "vectorization": "forbidden_unless_declared",
+    "gpu_execution": "non_certifiable_without_deterministic_profile",
+    "certification_scope": "numeric_contract_binding_only"
+  },
+  "numeric_evidence": {
+    "schema": "brik64.numeric_engine_evidence.v1",
+    "engine_id": "l4plus_n5",
+    "component_id": "engine.l4plus_n5",
+    "artifact_kind": "manifest",
+    "numeric_domain_profile_hash": "sha256:6359b89aaca9a99746710cd731dc881d3a67c3c8f808f414bbc7ad1019d23083",
+    "guard_stability": "not_applicable_no_numeric_guards_detected",
+    "backend_profile": {
+      "runtime_target": "bir",
+      "target_architecture": "portable_bir",
+      "fast_math": false,
+      "reassociation": "forbidden_unless_proven_safe",
+      "fma": "forbidden_unless_declared",
+      "vectorization": "forbidden_unless_declared",
+      "gpu_execution": "non_certifiable_without_deterministic_profile",
+      "certification_scope": "numeric_contract_binding_only"
+    },
+    "claim_authority": "non_claim",
+    "certifies_tests": false,
+    "public_claims_allowed": false,
+    "n5_authorized": false,
+    "generated_by": "engine_numeric_evidence_contract_materialize_20260518",
+    "active_contract": {
+      "path": "out/pit-cycle/NUMERIC-DOMAIN-PROFILE-ACTIVE-CONTRACT-P0-20260518/report.json",
+      "sha256": "sha256:aea4eb1dce3101afd6a472fa75d475e4083c784b3d825aba661f4c0132114a33",
+      "fingerprint": "sha256:f2a959886b9633abf5c308e299925b7ba97d0b61592b9417e941f810b9400e90",
+      "source_sha": "65e64708b67d7c99de3982dae988300d3efa8314"
+    },
+    "observed_hashes": {
+      "source_pcd_sha256": "sha256:8e87f92ce267f33aa1fcd3e8815502e08f887637300030cc8b565e508a7b7668",
+      "canonical_bir_sha256": "sha256:14645419bdfde549122d0df9537b806d8620be6953222feb66fd5134c5c6d6cf"
+    },
+    "evidence_level": "LEVEL_2_HASH_BOUND_NUMERIC_CONTRACT_BINDING",
+    "limitation": "This evidence binds generated artifacts to the active NumericDomainProfile contract; it does not prove N5, guard stability for numeric guards, or language independence.",
+    "generated_compiler_hash": "sha256:6dab63e1b5e837ee147ee3ff341194f2885a7d4ea1224dce83e8e6eaf2fb9367",
+    "runtime_artifact_hash": "sha256:9547c60752e84513b3884f6d5ddc89ae17b41b90857316922233cd1be6b011d5",
+    "runtime_binding": {
+      "schema": "brik64.generated_runtime_binding.v1",
+      "generated_by": "generated_compiler",
+      "generated_compiler_hash": "sha256:6dab63e1b5e837ee147ee3ff341194f2885a7d4ea1224dce83e8e6eaf2fb9367",
+      "runtime_artifact_hash": "sha256:9547c60752e84513b3884f6d5ddc89ae17b41b90857316922233cd1be6b011d5",
+      "runtime_target": "bir_interpreter",
+      "runtime_artifact": "out/pit-cycle/L6PLUS-COMPILER-BRIKC-SELFHOSTED-RUNTIME-CANDIDATE-20260518/runtime_candidate/runtime.py",
+      "runtime_claim_authority": "claim_candidate_self_hosted_runtime",
+      "deterministic_profile": "reproducible_deterministic",
+      "io_policy": "deny_by_default",
+      "equivalence_report": "out/pit-cycle/L6PLUS-COMPILER-BRIKC-SELFHOSTED-RUNTIME-CANDIDATE-20260518/runtime_candidate/equivalence_report.json",
+      "runtime_spec": "software/spec/generated_runtime_contract_candidates.v1.json",
+      "runtime_contract_report": "out/pit-cycle/CLAIM-BEARING-RUNTIME-CONTRACT-P0-2AS-CLAIM-BEARING-INTERNAL-20260518/report.json",
+      "limitation": "Hash binding for generated runtime consumption; not an N5 or public language-independence claim."
+    }
+  },
+  "generated_compiler_hash": "sha256:6dab63e1b5e837ee147ee3ff341194f2885a7d4ea1224dce83e8e6eaf2fb9367",
+  "runtime_artifact_hash": "sha256:9547c60752e84513b3884f6d5ddc89ae17b41b90857316922233cd1be6b011d5",
+  "runtime_binding": {
+    "schema": "brik64.generated_runtime_binding.v1",
+    "generated_by": "generated_compiler",
+    "generated_compiler_hash": "sha256:6dab63e1b5e837ee147ee3ff341194f2885a7d4ea1224dce83e8e6eaf2fb9367",
+    "runtime_artifact_hash": "sha256:9547c60752e84513b3884f6d5ddc89ae17b41b90857316922233cd1be6b011d5",
+    "runtime_target": "bir_interpreter",
+    "runtime_artifact": "out/pit-cycle/L6PLUS-COMPILER-BRIKC-SELFHOSTED-RUNTIME-CANDIDATE-20260518/runtime_candidate/runtime.py",
+    "runtime_claim_authority": "claim_candidate_self_hosted_runtime",
+    "deterministic_profile": "reproducible_deterministic",
+    "io_policy": "deny_by_default",
+    "equivalence_report": "out/pit-cycle/L6PLUS-COMPILER-BRIKC-SELFHOSTED-RUNTIME-CANDIDATE-20260518/runtime_candidate/equivalence_report.json",
+    "runtime_spec": "software/spec/generated_runtime_contract_candidates.v1.json",
+    "runtime_contract_report": "out/pit-cycle/CLAIM-BEARING-RUNTIME-CONTRACT-P0-2AS-CLAIM-BEARING-INTERNAL-20260518/report.json",
+    "limitation": "Hash binding for generated runtime consumption; not an N5 or public language-independence claim."
+  }
+}

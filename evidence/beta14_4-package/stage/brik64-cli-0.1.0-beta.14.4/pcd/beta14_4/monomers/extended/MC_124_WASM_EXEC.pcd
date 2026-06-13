@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// monomer: MC_124.WASM_EXEC
+// tier: extended
+// certification-profile: extended_contract
+// claim_boundary: source_contract_candidate
+PC MC_124_WASM_EXEC {
+    fn MC_124_WASM_EXEC(command_id) {
+        if (command_id == 1) { return 1; }
+        return 0;
+    }
+}

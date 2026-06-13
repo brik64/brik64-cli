@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "brik64.beta14_3_seal_report.v1",
+  "version": "0.1.0-beta.14.3",
+  "decision": "PASS_BETA14_3_L6_SEAL",
+  "publicationAllowed": false,
+  "generationClaim": "assisted_generation_non_claim",
+  "inputPcdCount": 147,
+  "generatedJsCount": 147,
+  "generatedCertCount": 147,
+  "generatedArtifactCompositeHash": "7bfda7b3b56df8db30df0c5c509e8a6d471112423206821706611e887277cc93",
+  "materializationAttempt": "evidence/beta14_3-l6-generation/materialization-attempt-report.json",
+  "blockers": [],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}
