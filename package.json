@@ -183,7 +183,9 @@
     "test:beta14.3-monomer-128": "node scripts/beta14_3-monomer-128-gate.js",
     "package:beta14.3:local": "bash scripts/build-beta14_3-package.sh",
     "smoke:beta14.3:package": "bash scripts/beta14_3-package-smoke.sh",
-    "test:beta14.3-package": "bash scripts/beta14_3-package-smoke.sh"
+    "test:beta14.3-package": "bash scripts/beta14_3-package-smoke.sh",
+    "gate:beta14x:128-executable": "node scripts/beta14x-128-executable-gate.js",
+    "test:beta14x-128-executable": "node scripts/beta14x-128-executable-gate.js"
   },
   "author": {
     "name": "BRIK64 INC",
