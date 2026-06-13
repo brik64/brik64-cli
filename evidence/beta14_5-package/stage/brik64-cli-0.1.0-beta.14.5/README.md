@@ -6,6 +6,7 @@ create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
 Current public beta: `0.1.0-beta.14.5`
+Current beta candidate: `0.1.0-beta.14.5`
 
 ## Install
 
@@ -157,7 +158,7 @@ See [LICENSE](LICENSE) and [NOTICE](NOTICE). BRIK64 CLI public beta is
 proprietary evaluation software from BRIK64 INC.
 ## PCD Syntax Profile
 
-Beta14.4 supports this public parser profile:
+Beta14.5 supports this public parser profile:
 
 ```pcd
 PC order_gate {
