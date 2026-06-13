@@ -8,7 +8,7 @@
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "codex/beta14-5-functional-closure",
-    "commit": "pending"
+    "commit": "ef717f47ea963dacdd94e21028cbdf6f6eb3e386"
   },
   "cli": {
     "packageName": "@brik64/cli",
