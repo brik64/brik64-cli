@@ -146,10 +146,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ -f evidence/beta9-package/package.manifest.json ]; then
+          VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("release/manifest.json","utf8")).version)')"
+          if [[ "$VERSION" == 0.1.0-beta.9* ]] && [ -f evidence/beta9-package/package.manifest.json ]; then
             npm run gate:beta9:sdk-marketplace-publish || true
             npm run gate:beta9:sdk-marketplaces || true
             npm run gate:beta9:manifest-drift
+          else
+            echo "Skipping beta9 staged SDK preflight for $VERSION"
           fi
 
       - name: Authenticate to Google Cloud
