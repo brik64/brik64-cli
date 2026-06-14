@@ -1,0 +1,113 @@
+{
+  "schema": "brik64.beta15_cli_l6plus_materialization_report.v1",
+  "generated_at": "2026-06-14T08:57:42.004Z",
+  "cli": "brik64-cli-beta15-production-candidate",
+  "version": "0.1.0-beta.15",
+  "classification": "cli_l6plus_materialization_pass_internal_non_claim",
+  "source": {
+    "domain_binding_manifest": {
+      "path": "pcd/cli/beta15/manifest.json",
+      "exists": true,
+      "sha256": "sha256:ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+      "size_bytes": 872
+    },
+    "cli_source_pcd": {
+      "path": "pcd/cli/beta15/cli_polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+      "size_bytes": 822
+    },
+    "base_public_beta_polymer": {
+      "path": "pcd/cli/public_beta/brik_cli_public_beta.polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:60376a758c8c3ac7602dc4d3d2882293c6e490a1c59ca9def3c9f136e1e85cc9",
+      "size_bytes": 1160
+    },
+    "l6plus_stage1_provenance_report": {
+      "path": "reports/engine-domain-rehomologation-beta14.8/l6plus-n5/semantic-materialization-runner/stage1_generation_provenance_report.json",
+      "exists": true,
+      "sha256": "sha256:106670c2b625ff615154eed3324ac49654d975b0ea81e5cfbf4ac3b546ad99ff",
+      "size_bytes": 3316
+    },
+    "l6plus_materialization_runner_report": {
+      "path": "reports/engine-domain-rehomologation-beta14.8/semantic_self_regeneration_acceptance_report.json",
+      "exists": true,
+      "sha256": "sha256:c2289aee881eed77717933f0c5a14fa7d2f6c9fa0ba91d12dfd163ce8dd1bbca",
+      "size_bytes": 7095
+    },
+    "l6plus_cli_materializer_readiness_report": {
+      "path": "reports/engine-domain-rehomologation-beta14.8/real_materializer_acceptance_contract_report.json",
+      "exists": true,
+      "sha256": "sha256:467ef3d730ea3529276b5ae69e8240ee597dab14f1c62a751199c36ed98c3878",
+      "size_bytes": 8346
+    },
+    "l6plus_remote_authority_probe_report": {
+      "path": "reports/cli-release-fixpoint/l6plus_remote_authority_probe_report.json",
+      "exists": true,
+      "sha256": "sha256:263a239ce8abe17b40ae44d6d2a136ff871d478554b2b35123718e9e0dcc7a71",
+      "size_bytes": 2272
+    },
+    "command_contract": {
+      "path": "pcd/cli/beta15/l6plus_materialization_command.contract.json",
+      "exists": true,
+      "sha256": "sha256:c94ffbf088246404d819d6591c5827f054997708c4b937c2c7ed8d03984da417",
+      "size_bytes": 3597
+    }
+  },
+  "materialization": {
+    "command": "node scripts/ops/beta15_cli_artifact_candidate_materialize.js && node scripts/ops/beta15_cli_l6plus_materialization_contract_materialize.js",
+    "executable_cli_artifact": {
+      "path": "reports/cli-release-fixpoint/beta15/artifact_candidate",
+      "exists": true,
+      "sha256": "sha256:f86922cce11276b5631a5c877a349416b653befa117a36cc04e604a3b612dcb8",
+      "size_bytes": 2011
+    },
+    "artifact_manifest": {
+      "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
+      "exists": true,
+      "sha256": "sha256:34151c38732ad52dfbf4648cba59ac013398f63c18e3afa7dfeff9ad61b6cf9f",
+      "size_bytes": 2349
+    },
+    "pcd_polymer_to_artifact_replay_report": {
+      "path": "reports/cli-release-fixpoint/beta15/pcd_polymer_to_artifact_replay_report.json",
+      "exists": true,
+      "sha256": "sha256:1f22d63ab2a2aa5159e792c758b3ee8266c7119b910777cd0b0b81a8f51e8a0b",
+      "size_bytes": 2286
+    },
+    "release_manifest": {
+      "path": "reports/cli-release-fixpoint/beta15/release_manifest.json",
+      "exists": true,
+      "sha256": "sha256:5d4264d9f40c76de6527894a6a4bc1a2d71b32c0ccabd126d1483d0b8bfb8502",
+      "size_bytes": 1291
+    },
+    "sha256sums": {
+      "path": "reports/cli-release-fixpoint/beta15/SHA256SUMS",
+      "exists": true,
+      "sha256": "sha256:ef7ec7de9973fcd079fe9385f59a619c6ac3183a2741796b0b51404d06d3ec26",
+      "size_bytes": 121
+    },
+    "generated_by_l6plus_n5": true,
+    "stage_replay_input_allowed": true,
+    "reproducible_artifact_hash_match": true,
+    "atomic_release_train_verified": true
+  },
+  "observations": [
+    "l6plus_stage1_provenance_present",
+    "l6plus_semantic_self_regeneration_acceptance_present",
+    "l6plus_cli_materializer_readiness_present",
+    "l6plus_remote_authority_probe_present"
+  ],
+  "blockers": [],
+  "decision": "PASS",
+  "verdict": "PASS",
+  "next_action": "implement an authorized L6+N5 CLI materializer command that consumes this PCD/polymer contract and emits an executable artifact plus replay and release-train evidence",
+  "claim_boundary": {
+    "authority": "internal_non_claim_materialization_report",
+    "public_claims_allowed": false,
+    "n5_authorized": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "release_publication_allowed": false
+  }
+}

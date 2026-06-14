@@ -6,7 +6,7 @@ create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
 Current public beta: `0.1.0-beta.14.6`
-Current beta candidate: `0.1.0-beta.14.6`
+Current beta candidate: `0.1.0-beta.15`
 
 ## Install
 
@@ -25,6 +25,13 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
+## Beta15 Production Candidate Boundary
+
+`0.1.0-beta.15` is staged as an internal production-candidate release train
+precondition. It imports a PCD/polymer-bound CLI artifact candidate and
+keeps public release, public fixpoint, self-hosting, formal N5 and
+Rust-independence claims closed until atomic public-surface verification
+passes.
 ## Beta14.6 Candidate Command Surface
 
 `0.1.0-beta.14.6` adds bounded domain contracts for PCD inputs. PCD files can

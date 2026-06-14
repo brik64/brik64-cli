@@ -1,0 +1,8 @@
+BRIK64 CLI artifact candidate descriptor
+cli=brik64-cli-beta15-production-candidate
+version=0.1.0-beta.15
+domain_binding=sha256:ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0
+pcd=sha256:ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24
+polymer=sha256:60376a758c8c3ac7602dc4d3d2882293c6e490a1c59ca9def3c9f136e1e85cc9
+classification=non_executable_hash_bound_candidate
+claim_boundary=internal_non_claim

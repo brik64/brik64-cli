@@ -1,8 +1,8 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.14.6",
+  "version": "0.1.0-beta.15",
   "private": true,
-  "description": "BRIK64 CLI public beta for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
+  "description": "BRIK64 CLI beta15 production-candidate surface for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
   "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
