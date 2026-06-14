@@ -10,7 +10,8 @@ Current beta candidate: `0.1.0-beta.15`
 
 ## Install
 
-The public CLI install path is curl-only:
+The public CLI install path remains curl-only until the Beta15 release train is
+promoted and live-verified:
 
 ```sh
 curl -fsSL https://brik64.com/cli/install.sh | bash
@@ -27,111 +28,42 @@ The npm package namespace is reserved for SDK libraries, not CLI installation.
 
 ## Beta15 Production Candidate Boundary
 
-`0.1.0-beta.15` is staged as an internal production-candidate release train
-precondition. It imports a PCD/polymer-bound CLI artifact candidate and
-keeps public release, public fixpoint, self-hosting, formal N5 and
-Rust-independence claims closed until atomic public-surface verification
-passes.
-## Beta14.6 Candidate Command Surface
+`0.1.0-beta.15` is staged as a production-candidate release train precondition.
+It imports a PCD/polymer-bound CLI artifact candidate. Public release claims remain closed until atomic public-surface verification passes. Public fixpoint claims remain closed. Self-hosting claims remain closed. Formal N5 claims remain closed. Rust-independence claims remain closed.
 
-`0.1.0-beta.14.6` adds bounded domain contracts for PCD inputs. PCD files can
-declare parameter ranges, invariants, conditional domains, and technical-sheet
-parameters; certification and generated TS/Python/Rust programs carry the
-domain contract hash and fail closed when generated code receives values outside
-declared bounds.
+## Beta15 Candidate Command Surface
 
-- `brik64 domain inspect <file.pcd> --json` reports the domain contract.
-- `brik64 domain validate <file.pcd>` fails when required domains are missing.
-- `brik64 domain sheet <file.pcd> --out technical-sheet.json` creates a
-  parameter sheet for domain-bound values.
-- `brik64 template --type domain-gate --out pcd/bounded_gate.pcd` creates a
-  bounded starter PCD.
-
-## Beta14.5 Command Surface
-
-`0.1.0-beta.14.5` extends the Beta14 public CLI with a 128-monomer inspection surface, executable or boundary-contract fixtures for every registry entry, stronger source-lift handling for supported JavaScript/TypeScript, Python, and Rust patterns, pytest-discoverable Python generated tests, and the same local-candidate claim boundary.
+The candidate keeps the local workflow focused on bounded PCD review and
+claim-safe evidence:
 
 - `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
-- `brik64 doctor` prints a human-readable workspace summary with diagnostics
-  and suggested actions, including PCD parse validation.
-- `brik64 doctor --json` emits `brik64.cli_doctor_report.v1` for CI.
-- `brik64 account status` shows whether the CLI is using local default routing
-  or a managed session.
-- `brik64 login --token-env <VAR>` records a managed-session token hash without
-  printing the token.
-- `brik64 logout` returns routing to local default.
-- `brik64 certify <file.pcd>` writes a local candidate certificate.
-- `brik64 verify <file.pcd>` checks local certificate and AST/hash coherence.
-- `brik64 emit <file.pcd> --target <ts|rust|python> --out <dir> --tests`
-  emits executable target files, generated tests, and package scaffolds for
-  supported beta PCD expressions, branches, collections, loops, and direct local
-  imports.
-- `brik64 polymerize <files.pcd...> --out polymer.pcd` combines compatible PCD
-  files into a deterministic local polymer candidate and materializes referenced
-  import files beside the output when needed. `--inline` writes a merged
-  function body when names do not collide.
-- `brik64 migrate <file.pcd>` converts supported legacy PCD syntax into the
-  current strict syntax. `--dry-run` previews changes and `--force` or `-f` is
-  required to overwrite an existing output file.
-- `brik64 lift <js|ts|python|rust> <path> --preview` scans simple local source
-  functions from files or directories and writes PCD candidates under
-  `.brik/lift-preview/`. Beta14.5 translates simple `if`/`return` bodies,
-  arithmetic, `Math.abs`, `Math.floor`, `abs`, clamp-style `min(max())`
-  patterns, and simple Rust `fn`/`pub fn` branches. Unsupported constructs produce an
-  actionable preview report instead of a false PCD.
-- `brik64 adoption report` summarizes local lift preview runs, candidate
-  counts, warning counts, and local PCD inventory. `--json` emits
-  `brik64.cli_adoption_report.v1`.
-- `brik64 explain <file.pcd>` prints parser, import, constant and type
-  diagnostics; `--json` emits `brik64.cli_explain_report.v1`.
-- `brik64 lock` writes `brik64.lock.json` with local PCD, AST, import graph,
-  and constant hashes for review. `--files` scopes inputs and `--skip-errors`
-  writes a partial non-release lock for valid files.
-- `brik64 telemetry status`, `enable`, `disable`, `export`, `purge-local`,
-  `send`, and `explain` manage opt-in local telemetry. Telemetry is disabled by
-  default and `send` is explicit.
-- `brik64 template --type <gate|utility|numeric-monomer> --out <file.pcd>`
-  writes a parser-supported starter PCD.
-- `brik64 monomers list`, `brik64 monomers explain MC_00.ADD8`,
-  `brik64 monomers explain MC_127.JSON_EMIT`, and `brik64 monomers test --all`
-  inspect and test the 64 CORE plus 64 EXTENDED registry entries exposed by the
-  CLI. Pure scalar runtime paths run locally; effectful or external boundaries
-  fail closed without an explicit boundary contract.
-- `brik64 help <command>` and `brik64 help exit-codes` provide command-specific
-  examples and CI exit code meanings.
-- `brik64 update --check` compares the local CLI with the public release
-  manifest.
-- `brik64 skill check-version` reports drift in locally installed BRIK64 agent
-  skills.
-- `brik64 feedback --category <bug|docs|feature|install|compiler|sdk> --message <text>` creates
-  a redacted local feedback preview. `--send` requires enabled telemetry.
-- `brik64 errors status`, `explain-last`, `send-last`, and `purge-local`
-  inspect, redact, send, or remove local error-report state.
+- `brik64 doctor` reports local workspace status; `--json` is for CI.
+- `brik64 pcd generate <name>` creates a starter PCD candidate.
+- `brik64 certify` writes local candidate evidence only.
+- `brik64 polymerize` writes a local polymer candidate.
+- `brik64 compile all` emits supported local targets for candidate workflows.
+- `brik64 test all` runs local candidate checks.
 
-Managed `--cloud` paths are entitlement-gated in this beta. Without a managed
-session, those paths fail closed and keep local artifacts unchanged.
+Managed cloud paths remain entitlement-gated. Without a managed session, those
+paths fail closed and keep local artifacts unchanged.
 
 ## Platform Support
 
 | Platform | Status | Notes |
 | --- | --- | --- |
-| macOS | Available in current public beta | Portable Node.js CLI package; requires Node.js 20 or newer. |
-| Linux | Available in current public beta | Portable Node.js CLI package; requires Node.js 20 or newer. |
+| macOS | Available in current public beta | Portable package; requires the documented runtime for the active public installer. |
+| Linux | Available in current public beta | Portable package; requires the documented runtime for the active public installer. |
 | Windows x64 native | Not available in current public beta | No Windows executable is published. |
-
-The public installer verifies the package SHA-256 before activation. The
-authoritative checksum is published with release assets in `package.manifest.json`
-and `SHA256SUMS`.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. Current beta SDK package
-coordinates:
+SDKs are distributed separately from the CLI. Beta15 candidate coordinates are
+staged for release-train synchronization:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.14.5
-pip install brik64==0.1.0b14.post5
-cargo add brik64-core@0.1.0-beta.14.5
+npm install @brik64/core@0.1.0-beta.15
+pip install brik64==0.1.0b15
+cargo add brik64-core@0.1.0-beta.15
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed
@@ -140,9 +72,7 @@ claims, or replace the CLI workspace workflow.
 ## Claim Boundary
 
 This beta provides local candidate evidence and managed-workflow routing
-boundaries. It does not by itself establish formal certification for arbitrary
-user code, universal correctness, independent toolchain closure, or native
-Windows compatibility.
+boundaries. It does not by itself establish formal certification for arbitrary user code. It does not establish universal correctness. It does not establish independent toolchain closure. Public fixpoint claims remain closed. Self-hosting claims remain closed. Formal N5 claims remain closed. Rust-independence claims remain closed. It does not establish native Windows compatibility.
 
 ## CLI And Agent Skill
 
@@ -178,24 +108,3 @@ Copyright (c) 2026 BRIK64 INC. All rights reserved.
 
 See [LICENSE](LICENSE) and [NOTICE](NOTICE). BRIK64 CLI public beta is
 proprietary evaluation software from BRIK64 INC.
-## PCD Syntax Profile
-
-Beta14.5 supports this public parser profile:
-
-```pcd
-PC order_gate {
-    fn order_gate(amount: i64, limit: i64) -> i64 {
-        if (amount <= 0) return 0;
-        if (amount > limit) {
-            return 0;
-        }
-        return MC_00.ADD8(0, 1);
-    }
-}
-```
-
-Supported PCD monomer calls cover the 64 CORE and 64 EXTENDED registry entries.
-Pure scalar monomers execute locally. Effectful or external monomers require an
-explicit `boundary MC_XX.NAME;` declaration and execute through a deterministic
-boundary contract in this beta, not through live network, filesystem, process,
-graphics, audio, or FFI effects.
