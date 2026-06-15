@@ -19,6 +19,7 @@ const audit = process.env.BRIK64_L6_AUDIT || '/opt/brik64/engines/l6plus-n5/bin/
 
 const inputPcds = [
   'pcd/beta15_4/release/l6_cli_materialization_contract.pcd',
+  'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd',
   'pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd',
   'pcd/beta15_4/harness/rust_app_polymer_regression_gate.pcd',
   'pcd/cli_core.pcd',

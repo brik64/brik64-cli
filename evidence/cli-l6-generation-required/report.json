@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-15T23:43:27.917Z",
+  "generatedAt": "2026-06-15T23:51:45.439Z",
   "version": "0.1.0-beta.15.4",
   "label": "beta15_4",
   "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,23 +18,23 @@
     "dir": "evidence/beta15_4-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "109ba0bc80743722d060516f7ee1f653e66f6d5ee07efa47f17aadd05e9c8458",
+      "sha256": "555e0ad672485a2aec81d786f6daec02ee87ef57a41bb861f228b78bcdd498d7",
       "sizeBytes": 6019
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "8f510e05b7aef381d95a1acac62bf75ee545f84a786e693199af289beb2192b0",
+      "sha256": "bcf3519a55597be0e8021f2684dc75d13e9837dd8fa88d313c3705329090bd27",
       "sizeBytes": 1629
     },
     "input_pcd_hashes.tsv": {
       "path": "evidence/beta15_4-l6-generation/input_pcd_hashes.tsv",
-      "sha256": "27ba57a258033dfa9255df57e65e1a6a331eed500b25a89a354c691a8c561501",
-      "sizeBytes": 551
+      "sha256": "1d71d77c1d006dac52a9c2d95053dfa7b7118a9fced5ac2a0a52e8f089d46d7b",
+      "sizeBytes": 685
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "b19836d85a27595dbfa13779e334639396da1ff849533af4659b1fc144c8f7e1",
-      "sizeBytes": 1450
+      "sha256": "86935dbba66a94cebf955662227a3571e854d8cb9fca1aeef55db4ecbe06969c",
+      "sizeBytes": 1648
     },
     "package.manifest.json": {
       "path": "evidence/beta15_4-l6-generation/package.manifest.json",
@@ -48,8 +48,8 @@
     },
     "hashes.json": {
       "path": "evidence/beta15_4-l6-generation/hashes.json",
-      "sha256": "0ca80a46aa8f80ae65d1d8aaebf5802a8bbbb1bf1ae3b69e7245f20f2fc066d3",
-      "sizeBytes": 1148
+      "sha256": "a006eceb5b7c8b0130b31f0fe19f7e8bde030d7bad98398ce4e92e95aec9f310",
+      "sizeBytes": 1346
     }
   },
   "checks": {

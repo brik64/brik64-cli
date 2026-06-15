@@ -63,6 +63,20 @@
       - Boundary:
         this hardens future acceptance; current run remains blocked because no
         L6 artifact is emitted.
+- [x] Add PCD contract for the L6 CLI materialization result payload.
+      - PCD:
+        `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`.
+      - Attempt:
+        `scripts/beta15_4-l6-generation-attempt.js`.
+      - Evidence:
+        `evidence/beta15_4-l6-generation/input_pcd_hashes.tsv`.
+      - Result:
+        the L6 input-set now includes explicit closure conditions for result
+        line emission, L6 serial, materializer mode, observed context hashes,
+        artifact/package/release binding and seal pass.
+      - Boundary:
+        this strengthens the contract; it does not generate the missing
+        artifact.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

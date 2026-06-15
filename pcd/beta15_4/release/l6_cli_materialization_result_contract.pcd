@@ -1,0 +1,42 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_4_source_contract: l6_cli_materialization_result_contract
+PC l6_cli_materialization_result_contract {
+    domain cli_scope_beta15_4: i64 [0, 1];
+    domain result_line_emitted: i64 [0, 1];
+    domain l6plus_serial_bound: i64 [0, 1];
+    domain materializer_mode_bound: i64 [0, 1];
+    domain pcd_input_set_hash_matches: i64 [0, 1];
+    domain remote_wrapper_hash_matches: i64 [0, 1];
+    domain wrapper_exec_target_hash_matches: i64 [0, 1];
+    domain generated_artifact_hash_bound: i64 [0, 1];
+    domain package_hash_bound: i64 [0, 1];
+    domain release_manifest_hash_bound: i64 [0, 1];
+    domain seal_report_pass: i64 [0, 1];
+    fn l6_cli_materialization_result_contract(
+        cli_scope_beta15_4: i64,
+        result_line_emitted: i64,
+        l6plus_serial_bound: i64,
+        materializer_mode_bound: i64,
+        pcd_input_set_hash_matches: i64,
+        remote_wrapper_hash_matches: i64,
+        wrapper_exec_target_hash_matches: i64,
+        generated_artifact_hash_bound: i64,
+        package_hash_bound: i64,
+        release_manifest_hash_bound: i64,
+        seal_report_pass: i64
+    ) -> i64 {
+        if (cli_scope_beta15_4 == 0) return 0;
+        if (result_line_emitted == 0) return 0;
+        if (l6plus_serial_bound == 0) return 0;
+        if (materializer_mode_bound == 0) return 0;
+        if (pcd_input_set_hash_matches == 0) return 0;
+        if (remote_wrapper_hash_matches == 0) return 0;
+        if (wrapper_exec_target_hash_matches == 0) return 0;
+        if (generated_artifact_hash_bound == 0) return 0;
+        if (package_hash_bound == 0) return 0;
+        if (release_manifest_hash_bound == 0) return 0;
+        if (seal_report_pass == 0) return 0;
+        return 1;
+    }
+}

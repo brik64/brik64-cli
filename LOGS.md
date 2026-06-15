@@ -269,3 +269,29 @@ Boundary:
 - This prevents shape-valid but context-invalid materialization results from
   passing.
 - It does not implement the missing L6 materializer or publish Beta15.4.
+
+## Iteration 13
+
+- Added `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd` as
+  a dedicated PCD for the endpoint result payload contract.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` so the L6 input-set
+  includes both:
+  - `l6_cli_materialization_contract.pcd`;
+  - `l6_cli_materialization_result_contract.pcd`.
+- Updated the fail-closed generation attempt test to require both PCDs in the
+  generated input hash ledger.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  blockers because no L6-generated artifact/package/release binding exists.
+- Current PCD input-set hash:
+  `1d71d77c1d006dac52a9c2d95053dfa7b7118a9fced5ac2a0a52e8f089d46d7b`.
+
+Boundary:
+
+- This moves more of the materializer acceptance contract into PCD.
+- It does not implement the missing materializer endpoint or publish Beta15.4.

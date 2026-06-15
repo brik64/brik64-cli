@@ -35,9 +35,12 @@ jq -e '
   and .generatedByL6PlusN5==false
   and .pcdToArtifactHashBound==false
   and ([.inputPcds[].path] | index("pcd/beta15_4/release/l6_cli_materialization_contract.pcd"))
+  and ([.inputPcds[].path] | index("pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd"))
 ' evidence/beta15_4-l6-generation/generated_artifact_manifest.json >/dev/null
 
 grep -q 'pcd/beta15_4/release/l6_cli_materialization_contract.pcd' \
+  evidence/beta15_4-l6-generation/input_pcd_hashes.tsv
+grep -q 'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd' \
   evidence/beta15_4-l6-generation/input_pcd_hashes.tsv
 
 echo "PASS beta15.4 L6 generation attempt fails closed with materialization contract"

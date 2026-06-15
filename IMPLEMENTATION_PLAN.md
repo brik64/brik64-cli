@@ -44,6 +44,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   the exact PCD input-set hash and remote wrapper / wrapper exec-target hashes
   observed during the current L6 attempt. Shape-valid provenance with arbitrary
   hashes must fail closed.
+- Result contract policy: the Beta15.4 L6 input set includes a dedicated
+  `l6_cli_materialization_result_contract.pcd` describing the required
+  `BRIK64_L6_CLI_MATERIALIZATION_RESULT` closure: CLI scope, result emission,
+  L6 serial, materializer mode, observed hash matches, artifact/package/release
+  bindings and seal pass.
 
 ## Phases
 
