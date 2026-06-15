@@ -88,3 +88,24 @@ Boundary:
 - Missing external gap evidence remains fatal outside PR mode.
 - The public release path still requires
   `BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS`.
+
+## Iteration 6
+
+- Investigated Beta15.4 package SHA drift observed during repeated dry-runs.
+- Root cause: `release:train:dry-run` reruns pre-public gates that rewrite
+  evidence reports with fresh timing fields before packaging; the package is
+  deterministic only when its staged inputs are frozen.
+- Added `scripts/tests/test_beta15_4_package_determinism.sh` to build the
+  package twice from unchanged inputs and compare package SHA, `SHA256SUMS` and
+  `stage-checksums.tsv`.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_package_determinism.sh` passed.
+
+Boundary:
+
+- This does not make pre-public evidence reports timestamp-free.
+- It proves the packager is deterministic under frozen inputs and preserves the
+  release requirement that final L6 evidence, package hash and release manifest
+  must be generated as one sealed set.

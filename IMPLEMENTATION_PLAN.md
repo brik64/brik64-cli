@@ -17,6 +17,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Cross-repo evidence policy: `release:train:dry-run` must also consume the
   Beta15.4 materializer gap report from `brik64-prod` and reject legacy
   `0.1.0-beta.15` materialization evidence.
+- Package policy: Beta15.4 package generation must be deterministic for frozen
+  inputs; final release evidence and package hashes must be sealed together
+  after the last evidence-generating gate run.
 
 ## Phases
 
