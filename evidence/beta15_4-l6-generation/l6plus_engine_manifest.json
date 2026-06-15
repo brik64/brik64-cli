@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6plus_engine_probe.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T23:18:50.495Z",
+  "generatedAt": "2026-06-15T23:29:55.353Z",
   "host": "root@89.167.104.236",
   "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
   "claimBoundary": {
@@ -19,13 +19,13 @@
   },
   "remoteRefProbe": {
     "status": 0,
-    "stdout_sha256": "8f40729a0986fe980a7729f32407a80d1925022862ab688e8a6d4b969ff0c809",
+    "stdout_sha256": "36f7e8d80c1d95b0eb7414ddc8057bf610c8b3c5b52457525aa784d5ab5734ec",
     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "remoteRefs": {
     "wrapper": {
-      "sha256": "73abc61f6558e3db0672578885ee2c229df8e10d90a416243e55a0fb5d7e8f30",
-      "bytes": 125,
+      "sha256": "0377618ff38f71be3e97557b785f25ff73c5d20ce2364ec0d1788eaae3dd3b5c",
+      "bytes": 671,
       "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
     },
     "wrapper_exec_target": {
@@ -39,5 +39,5 @@
       "target": "/opt/brik64/engines/l6plus-n5/BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957"
     }
   },
-  "wrapperMode": "shell_exec_only"
+  "wrapperMode": "cli_materializer_dispatcher"
 }

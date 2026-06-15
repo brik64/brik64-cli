@@ -121,7 +121,7 @@ function writeInputHashes(inputs) {
 function materializationAttempts() {
   const contract = fs.readFileSync(path.join(root, 'pcd', 'beta15_4', 'release', 'l6_cli_materialization_contract.pcd'), 'utf8');
   const encoded = Buffer.from(contract).toString('base64');
-  return ['compile', 'route2', 'materialize', 'emit'].map((command) => {
+  return ['l6-cli-materialize', 'beta15.4-cli-materialize', 'compile', 'route2', 'materialize', 'emit'].map((command) => {
     const remote = [
       'set -euo pipefail',
       'tmp="$(mktemp /tmp/brik64-beta15-4-contract.XXXXXX.pcd)"',
@@ -152,11 +152,11 @@ function main() {
   const remoteRefProbe = ssh([
     'set -euo pipefail',
     `printf 'BRIK64_REMOTE_REF\\twrapper\\t%s\\t%s\\t%s\\n' "$(sha256sum ${wrapper} | awk '{print $1}')" "$(stat -c %s ${wrapper})" "$(readlink -f ${wrapper} || printf ${wrapper})"`,
-    `exec_target="$(awk '/^exec /{gsub(/"/, "", $2); print $2; exit}' ${wrapper})"`,
+    `exec_target="$(awk '/^exec_target=/{gsub(/"/, "", $0); sub(/^exec_target=/, "", $0); print $0; exit} /^exec /{gsub(/"/, "", $2); print $2; exit}' ${wrapper})"`,
     `if [ -n "$exec_target" ]; then printf 'BRIK64_REMOTE_REF\\twrapper_exec_target\\t%s\\t%s\\t%s\\n' "$(sha256sum "$exec_target" | awk '{print $1}')" "$(stat -c %s "$exec_target")" "$exec_target"; fi`,
     `current="$(readlink -f /opt/brik64/engines/l6plus-n5/current || true)"`,
     `if [ -n "$current" ]; then printf 'BRIK64_REMOTE_REF\\tcurrent\\t%s\\t0\\t%s\\n' "$(find "$current" -maxdepth 0 -type d -printf '%p' | sha256sum | awk '{print $1}')" "$current"; fi`,
-    `if sed -n '1,12p' ${wrapper} | grep -q 'exec '; then printf 'BRIK64_WRAPPER_MODE\\tshell_exec_only\\n'; else printf 'BRIK64_WRAPPER_MODE\\tunknown\\n'; fi`
+    `if grep -q 'BRIK64_L6_CLI_MATERIALIZER_ENDPOINT' ${wrapper}; then printf 'BRIK64_WRAPPER_MODE\\tcli_materializer_dispatcher\\n'; elif sed -n '1,12p' ${wrapper} | grep -q '^exec '; then printf 'BRIK64_WRAPPER_MODE\\tshell_exec_only\\n'; else printf 'BRIK64_WRAPPER_MODE\\tunknown\\n'; fi`
   ].join('; '));
   const auditJson = parseAudit(hostProbe.stdout);
   const remoteRefs = parseRemoteRefs(remoteRefProbe.stdout);

@@ -190,3 +190,27 @@ Boundary:
 - This prepares the consumer side of the L6 materializer endpoint.
 - It does not install the endpoint, generate the artifact, publish Beta15.4 or
   create self-hosting/fixpoint/Rust-independence claims.
+
+## Iteration 10
+
+- Re-ran the Beta15.4 L6 attempt after the Hetzner wrapper was upgraded to a
+  fail-closed CLI materializer dispatcher.
+- Updated remote wrapper probing to detect `cli_materializer_dispatcher` and
+  bind the dispatcher to the underlying L6+N5 exec target hash.
+- Updated the fail-closed attempt regression so the blocker moves from
+  `remote_l6plus_wrapper_has_no_cli_materializer_interface` to
+  `remote_l6plus_materialization_contract_unavailable`.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed because no
+  L6-generated artifact/package/release hash binding exists.
+
+Boundary:
+
+- The dispatcher is operational endpoint plumbing only.
+- It is not a generated CLI artifact and does not authorize Beta15.4
+  publication.

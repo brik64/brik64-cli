@@ -30,7 +30,15 @@
       - Boundary:
         no synthetic PASS is used for release evidence; real run remains
         blocked until the remote endpoint emits the contract result.
+- [x] Detect installed fail-closed dispatcher without treating it as release evidence.
+      - Evidence:
+        `evidence/beta15_4-l6-generation/gate-report.json`.
+      - Result:
+        `wrapperMode` is now `cli_materializer_dispatcher`; generation remains
+        blocked by missing materialization result and missing artifact.
+      - Boundary:
+        dispatcher installation is not L6 artifact generation.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
-        `remote_l6plus_wrapper_has_no_cli_materializer_interface`.
+        `remote_l6plus_materialization_contract_unavailable`.
 - [ ] Publish public surfaces only after L6 and release train gates pass.

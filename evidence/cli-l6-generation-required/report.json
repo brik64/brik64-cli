@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-15T23:17:26.452Z",
+  "generatedAt": "2026-06-15T23:29:55.682Z",
   "version": "0.1.0-beta.15.4",
   "label": "beta15_4",
   "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,13 +18,13 @@
     "dir": "evidence/beta15_4-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "2d465dabb0c925dafbf1a386cd54adb68e4e23cc36187b0821956177eb9727be",
-      "sizeBytes": 4217
+      "sha256": "cd5491beaae304cad9dd6a97b79cf3fe94716625889389fb78bc68d30b9e9bdd",
+      "sizeBytes": 5680
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "e569e89ddcc2d282952fcf68a8acd250e0829e4e99cc8d94fb6e17a2b6392783",
-      "sizeBytes": 1617
+      "sha256": "8c2d735b9d3e7ef708a177c900fc9d0604b1a7fb1e93bbce213fd51bc9c28138",
+      "sizeBytes": 1629
     },
     "input_pcd_hashes.tsv": {
       "path": "evidence/beta15_4-l6-generation/input_pcd_hashes.tsv",
@@ -33,8 +33,8 @@
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "958c2089cfc76bec78b52b8caecfd5a302302661c14a92d541e8cc4d44ccef2b",
-      "sizeBytes": 1513
+      "sha256": "b19836d85a27595dbfa13779e334639396da1ff849533af4659b1fc144c8f7e1",
+      "sizeBytes": 1450
     },
     "package.manifest.json": {
       "path": "evidence/beta15_4-l6-generation/package.manifest.json",
@@ -68,7 +68,7 @@
   "blockers": [
     "l6_gate_decision_not_pass:BLOCKED_BETA15_4_L6_GENERATION_GATE",
     "l6_gate_publication_not_allowed",
-    "l6_gate_blockers_present:4",
+    "l6_gate_blockers_present:3",
     "artifact_manifest_missing_pcd_to_artifact_hash_binding",
     "package_manifest_missing_artifact_to_package_hash_binding",
     "package_manifest_missing_package_to_release_manifest_hash_binding"

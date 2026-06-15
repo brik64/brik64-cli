@@ -20,11 +20,14 @@ jq -e '
   and .publicationAllowed==false
   and (.blockers | index("generated_artifact_missing"))
   and (.blockers | index("remote_l6plus_materialization_contract_unavailable"))
-  and (.blockers | index("remote_l6plus_wrapper_has_no_cli_materializer_interface"))
-  and .remoteCapability.wrapperMode=="shell_exec_only"
+  and (.blockers | index("unsupported_or_missing_input_for_l6_cli_materialization_contract"))
+  and (.blockers | index("remote_l6plus_wrapper_has_no_cli_materializer_interface") | not)
+  and (.remoteCapability.wrapperMode=="cli_materializer_dispatcher" or .remoteCapability.wrapperMode=="shell_exec_only")
   and .remoteCapability.materializerContractAccepted==false
   and (.remoteCapability.wrapper.sha256 | type=="string")
   and (.remoteCapability.wrapperExecTarget.sha256 | type=="string")
+  and (.attempts[0].command[1]=="l6-cli-materialize")
+  and (.attempts[0].observed | contains("BRIK64_L6_CLI_MATERIALIZER_ENDPOINT") or contains("unsupported_or_missing_input"))
 ' evidence/beta15_4-l6-generation/gate-report.json >/dev/null
 
 jq -e '

@@ -32,6 +32,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   PCD-to-artifact, artifact-to-package, package-to-release-manifest and seal
   hash bindings. The CLI consumer must reject stale versions, malformed hashes
   or missing bindings.
+- Remote dispatcher policy: a fail-closed endpoint dispatcher is acceptable as
+  operational progress only. It removes `shell_exec_only` ambiguity but must
+  not satisfy release gates until a real materialization result is emitted and
+  hash-bound.
 
 ## Phases
 
