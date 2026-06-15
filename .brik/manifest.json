@@ -2,7 +2,7 @@
   "schema": "brik64.cli_project_manifest.v1",
   "schemaVersion": "brik64.cli_project_manifest.v1",
   "project": "brik64-cli",
-  "cliVersion": "0.1.0-beta.15.2",
+  "cliVersion": "0.1.0-beta.15.3",
   "lane": "cli_0_1_beta",
   "generationClaim": "assisted_generation_non_claim",
   "preferred_engine": "auto",
@@ -37,6 +37,16 @@
     "claimReportContradictionGateRequired": true,
     "publicUiLanguageGateRequired": true,
     "claimBoundary": "assisted_generation_non_claim_until_l6_generation_evidence_exists"
+  },
+  "beta15_3": {
+    "pcdFirstRequired": true,
+    "generatedApplicationIntegrityGateRequired": true,
+    "div8TupleEmissionRequired": true,
+    "rustGeneratedWarningsForbidden": true,
+    "polymerPcdStandardRequired": true,
+    "coreExtendedClassificationRequired": true,
+    "publicReleaseEligible": false,
+    "claimBoundary": "candidate_local_package_until_release_train_and_l6_generation_evidence_exist"
   },
   "compositionPcd": "pcd/cli_polymer.pcd",
   "bootstrapEntrypoint": "src/brik.js",

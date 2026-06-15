@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.2';
+const version = '0.1.0-beta.15.3';
 const RELEASE_STATUS = 'pre_public_candidate';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
@@ -385,7 +385,7 @@ const CORE_MONOMERS = [
   ['MC_00', 'ADD8', 'Arithmetic', ['u8', 'u8'], 'u8', 'add', true],
   ['MC_01', 'SUB8', 'Arithmetic', ['u8', 'u8'], 'u8', 'sub', true],
   ['MC_02', 'MUL8', 'Arithmetic', ['u8', 'u8'], 'u8', 'mul', true],
-  ['MC_03', 'DIV8', 'Arithmetic', ['u8', 'u8'], 'tuple_u8_u8', 'div_tuple', false],
+  ['MC_03', 'DIV8', 'Arithmetic', ['u8', 'u8'], 'tuple_u8_u8', 'div_tuple', true],
   ['MC_04', 'INC', 'Arithmetic', ['u8'], 'u8', 'inc', true],
   ['MC_05', 'DEC', 'Arithmetic', ['u8'], 'u8', 'dec', true],
   ['MC_06', 'ABS', 'Arithmetic', ['i8'], 'u8', 'abs', true],
@@ -801,7 +801,7 @@ function tokenizeExpression(source) {
     }
     const number = source.slice(index).match(/^\d+(?:\.\d+)?/);
     if (number) {
-      tokens.push({ type: 'number', value: Number(number[0]) });
+      tokens.push({ type: 'number', value: Number(number[0]), raw: number[0], numericType: number[0].includes('.') ? 'f64' : 'i64' });
       index += number[0].length;
       continue;
     }
@@ -854,7 +854,7 @@ function parseExpression(source, params, imports = {}, constants = {}, localFunc
     let expression;
     if (token.type === 'number') {
       consume();
-      expression = { type: 'NumberLiteral', value: token.value, numericType: Number.isInteger(token.value) ? 'i64' : 'f64' };
+      expression = { type: 'NumberLiteral', value: token.value, raw: token.raw, numericType: token.numericType || (Number.isInteger(token.value) ? 'i64' : 'f64') };
     } else if (token.type === 'identifier') {
       consume();
       if (/^MC_\d{2,3}$/.test(token.value) && peek() && peek().value === '.') {
@@ -957,6 +957,8 @@ function parseExpression(source, params, imports = {}, constants = {}, localFunc
         expression = { type: 'CallExpression', callee, args, local: Boolean(localFunctions[callee]) };
       } else if (peek() && peek().value === '(') {
         fail(65, `pcd_parse_error:unknown_callable:${token.value}`);
+      } else if (token.value === 'true' || token.value === 'false') {
+        expression = { type: 'ConstLiteral', name: token.value, value: token.value === 'true', literalType: 'bool' };
       } else if (Object.prototype.hasOwnProperty.call(constants, token.value)) {
         expression = { type: 'ConstLiteral', name: token.value, value: constants[token.value] };
       } else if (!params.some((param) => param.name === token.value)) {
@@ -1189,11 +1191,11 @@ function parseParam(raw) {
 }
 
 function isSupportedScalarType(type) {
-  return ['i64', 'i32', 'u8', 'u64', 'bool', 'f64'].includes(type);
+  return ['i64', 'i32', 'u8', 'u64', 'bool', 'f64', 'tuple_u8_u8'].includes(type);
 }
 
 function isNumericType(type) {
-  return isSupportedScalarType(type);
+  return ['i64', 'i32', 'u8', 'u64', 'bool', 'f64'].includes(type);
 }
 
 function rustType(type) {
@@ -1202,16 +1204,18 @@ function rustType(type) {
   if (type === 'u8') return 'i64';
   if (type === 'u64') return 'i64';
   if (type === 'bool') return 'bool';
+  if (type === 'tuple_u8_u8') return '(i64, i64)';
   return type === 'i32' ? 'i32' : 'i64';
 }
 
 function expressionTypeCompatible(actualType, expectedType) {
+  if (actualType === expectedType) return true;
   return isNumericType(actualType) && isNumericType(expectedType);
 }
 
 function inferExpressionType(expression, paramTypes) {
   if (expression.type === 'NumberLiteral') return expression.numericType || (Number.isInteger(expression.value) ? 'i64' : 'f64');
-  if (expression.type === 'ConstLiteral') return 'i64';
+  if (expression.type === 'ConstLiteral') return expression.literalType || 'i64';
   if (expression.type === 'Identifier') return paramTypes[expression.name] || 'unknown';
   if (expression.type === 'UnaryExpression') {
     const argumentType = inferExpressionType(expression.argument, paramTypes);
@@ -1279,6 +1283,7 @@ function inferExpressionType(expression, paramTypes) {
     if (expression.boundary === 'declared_boundary_contract') return 'i64';
     if (expression.returnType === 'f64') return 'f64';
     if (expression.returnType === 'bool') return 'bool';
+    if (expression.returnType === 'tuple_u8_u8') return 'tuple_u8_u8';
     return isNumericType(expression.returnType) || ['u8', 'i8', 'u64'].includes(expression.returnType) ? 'i64' : expression.returnType;
   }
   if (expression.type === 'BinaryExpression') {
@@ -2580,19 +2585,35 @@ function renderU8(value, target) {
 }
 
 function renderRustF64(value) {
-  return `(${value} as f64)`;
+  return `(${stripOuterParens(value)} as f64)`;
 }
 
 function renderBoundaryContractValue(returnType, target) {
   if (returnType === 'bool') return target === 'python' ? 'False' : 'false';
   if (returnType === 'f64') return '0.0';
   if (returnType === 'unit') return '0';
+  if (returnType === 'tuple_u8_u8') {
+    if (target === 'python' || target === 'ts') return '[0, 0]';
+    if (target === 'rust') return '(0, 0)';
+  }
   if (['string', 'bytes', 'bytes32', 'bytes64', 'list_string', 'tuple_u16_string', 'tuple_u64_u64'].includes(returnType)) return '0';
   return '0';
 }
 
+function renderRustReturnExpression(expression, returnType) {
+  const rendered = renderExpression(expression, 'rust');
+  if (returnType === 'f64') {
+    if (expression.type === 'NumberLiteral') return rustLiteral(expression.value, 'f64');
+    return stripOuterParens(rendered);
+  }
+  return stripOuterParens(rendered);
+}
+
 function renderExpression(expression, target) {
-  if (expression.type === 'NumberLiteral') return String(expression.value);
+  if (expression.type === 'NumberLiteral') {
+    if (target === 'rust' && expression.numericType === 'f64') return rustLiteral(expression.value, 'f64');
+    return String(expression.value);
+  }
   if (expression.type === 'ConstLiteral') return String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
   if (expression.type === 'UnaryExpression') return `(-${renderExpression(expression.argument, target)})`;
@@ -2648,6 +2669,13 @@ function renderExpression(expression, target) {
     if (expression.operation === 'add') return renderU8(`${args[0]} + ${args[1]}`, target);
     if (expression.operation === 'sub') return renderU8(`${args[0]} - ${args[1]}`, target);
     if (expression.operation === 'mul') return renderU8(`${args[0]} * ${args[1]}`, target);
+    if (expression.operation === 'div_tuple') {
+      const quotient = `${args[1]} === 0 ? 0 : Math.trunc(${args[0]} / ${args[1]})`;
+      const remainder = `${args[1]} === 0 ? 0 : (${args[0]} % ${args[1]})`;
+      if (target === 'python') return `([0, 0] if ${args[1]} == 0 else [int(${args[0]} // ${args[1]}), ${renderU8(`${args[0]} % ${args[1]}`, target)}])`;
+      if (target === 'rust') return `(if ${args[1]} == 0 { (0, 0) } else { (${renderU8(`${args[0]} / ${args[1]}`, target)}, ${renderU8(`${args[0]} % ${args[1]}`, target)}) })`;
+      return `[${renderU8(quotient, target)}, ${renderU8(remainder, target)}]`;
+    }
     if (expression.operation === 'mod') return renderU8(`${args[0]} % ${args[1]}`, target);
     if (expression.operation === 'inc') return renderU8(`${args[0]} + 1`, target);
     if (expression.operation === 'dec') return renderU8(`${args[0]} - 1`, target);
@@ -2803,14 +2831,16 @@ function statementsAlwaysReturn(statements) {
   return false;
 }
 
-function renderStatements(statements, target, indentLevel) {
+function renderStatements(statements, target, indentLevel, returnType = 'i64') {
   const unit = target === 'python' ? '    ' : '  ';
   const indent = unit.repeat(indentLevel);
   const lines = [];
   for (const statement of statements) {
     if (statement.type === 'ReturnStatement') {
-      const expression = renderExpression(statement.argument, target);
-      lines.push(`${indent}return ${target === 'rust' ? stripOuterParens(expression) : expression}${target === 'python' ? '' : ';'}`);
+      const expression = target === 'rust'
+        ? renderRustReturnExpression(statement.argument, returnType)
+        : renderExpression(statement.argument, target);
+      lines.push(`${indent}return ${expression}${target === 'python' ? '' : ';'}`);
       continue;
     }
     if (statement.type === 'IfStatement') {
@@ -2818,17 +2848,17 @@ function renderStatements(statements, target, indentLevel) {
       const condition = target === 'rust' ? stripOuterParens(renderedCondition) : renderedCondition;
       if (target === 'python') {
         lines.push(`${indent}if ${condition}:`);
-        lines.push(...renderStatements(statement.consequent, target, indentLevel + 1));
+        lines.push(...renderStatements(statement.consequent, target, indentLevel + 1, returnType));
         if (statement.alternate.length > 0) {
           lines.push(`${indent}else:`);
-          lines.push(...renderStatements(statement.alternate, target, indentLevel + 1));
+          lines.push(...renderStatements(statement.alternate, target, indentLevel + 1, returnType));
         }
       } else {
-        lines.push(`${indent}if ${condition} {`);
-        lines.push(...renderStatements(statement.consequent, target, indentLevel + 1));
+        lines.push(target === 'rust' ? `${indent}if ${condition} {` : `${indent}if (${condition}) {`);
+        lines.push(...renderStatements(statement.consequent, target, indentLevel + 1, returnType));
         if (statement.alternate.length > 0) {
           lines.push(`${indent}} else {`);
-          lines.push(...renderStatements(statement.alternate, target, indentLevel + 1));
+          lines.push(...renderStatements(statement.alternate, target, indentLevel + 1, returnType));
         }
         lines.push(`${indent}}`);
       }
@@ -2837,14 +2867,14 @@ function renderStatements(statements, target, indentLevel) {
     if (statement.type === 'RepeatStatement') {
       if (target === 'python') {
         lines.push(`${indent}for _ in range(${statement.count}):`);
-        lines.push(...renderStatements(statement.body, target, indentLevel + 1));
+        lines.push(...renderStatements(statement.body, target, indentLevel + 1, returnType));
       } else if (target === 'rust') {
         lines.push(`${indent}for _ in 0..${statement.count} {`);
-        lines.push(...renderStatements(statement.body, target, indentLevel + 1));
+        lines.push(...renderStatements(statement.body, target, indentLevel + 1, returnType));
         lines.push(`${indent}}`);
       } else {
         lines.push(`${indent}for (let __brik_i = 0; __brik_i < ${statement.count}; __brik_i += 1) {`);
-        lines.push(...renderStatements(statement.body, target, indentLevel + 1));
+        lines.push(...renderStatements(statement.body, target, indentLevel + 1, returnType));
         lines.push(`${indent}}`);
       }
       continue;
@@ -2861,7 +2891,7 @@ function renderLocalFunctions(ast, target) {
     if (target === 'python') {
       lines.push(`def ${fn.name}(${params.map((param) => `${param}=0`).join(', ')}):`);
       lines.push(renderPartialDomainCall(params, target));
-      lines.push(...renderStatements(fn.body, target, 1));
+      lines.push(...renderStatements(fn.body, target, 1, fn.returnType));
       if (!statementsAlwaysReturn(fn.body)) {
         lines.push('    raise RuntimeError("pcd local helper reached non-returning path")');
       }
@@ -2871,7 +2901,7 @@ function renderLocalFunctions(ast, target) {
     if (target === 'rust') {
       lines.push(`fn ${fn.name}(${params.map((param) => `${param}: ${rustType(fn.paramTypes?.[param])}`).join(', ')}) -> ${rustType(fn.returnType)} {`);
       lines.push(...renderPartialDomainCall(params, target));
-      lines.push(...renderStatements(fn.body, target, 1).map((line) => line.replace(/^  /, '    ')));
+      lines.push(...renderStatements(fn.body, target, 1, fn.returnType).map((line) => line.replace(/^  /, '    ')));
       if (!statementsAlwaysReturn(fn.body)) {
         lines.push('    panic!("pcd local helper reached non-returning path");');
       }
@@ -2881,7 +2911,7 @@ function renderLocalFunctions(ast, target) {
     }
     lines.push(`function ${fn.name}(${params.map((param) => `${param} = 0`).join(', ')}) {`);
     lines.push(renderPartialDomainCall(params, target));
-    lines.push(...renderStatements(fn.body, target, 1));
+    lines.push(...renderStatements(fn.body, target, 1, fn.returnType));
     if (!statementsAlwaysReturn(fn.body)) {
       lines.push('  throw new Error("pcd local helper reached non-returning path");');
     }
@@ -2935,7 +2965,7 @@ function renderPcdStatements(statements, indentLevel = 2) {
       continue;
     }
     if (statement.type === 'IfStatement') {
-      lines.push(`${indent}if ${renderPcdExpression(statement.condition)} {`);
+      lines.push(`${indent}if (${stripOuterParens(renderPcdExpression(statement.condition))}) {`);
       lines.push(...renderPcdStatements(statement.consequent, indentLevel + 1));
       if (statement.alternate.length > 0) {
         lines.push(`${indent}} else {`);
@@ -2976,6 +3006,11 @@ function renderPcdDomainContract(contract, indentLevel = 1) {
   return lines;
 }
 
+function renderPcdBoundaryContracts(boundaryContracts = [], indentLevel = 1) {
+  const indent = '    '.repeat(indentLevel);
+  return [...boundaryContracts].sort().map((boundary) => `${indent}boundary ${boundary};`);
+}
+
 function renderSemanticPolymer(rootUnit, units) {
   const ast = rootUnit.ast;
   const sourceLines = units.map((unit) => `// source ${unit.file} ${unit.semantic_pcd_sha256}`);
@@ -2998,6 +3033,7 @@ function renderSemanticPolymer(rootUnit, units) {
     importLines.length > 0 ? '' : null,
     'PC brik64_polymer {',
     ...renderPcdDomainContract(ast.domainContract, 1),
+    ...renderPcdBoundaryContracts(ast.boundaryContracts, 1),
     ast.domainContract ? '' : null,
     ...constantLines,
     constantLines.length > 0 ? '' : null,
@@ -3012,6 +3048,37 @@ function renderSemanticPolymer(rootUnit, units) {
 function renderInlinePolymer(units, rootName) {
   const names = new Set();
   const domainKeys = new Map();
+  const mergedContract = {
+    domains: [],
+    domainParams: [],
+    invariants: [],
+    conditionalDomains: []
+  };
+  const boundaryContracts = new Set();
+  for (const unit of units) {
+    const domainContract = unit.ast.domainContract || {};
+    for (const domain of domainContract.domains || []) {
+      const key = JSON.stringify(domain);
+      const prior = domainKeys.get(domain.name);
+      if (prior && prior !== key) fail(65, `polymer_inline_domain_conflict:${domain.name}`);
+      if (!prior) {
+        domainKeys.set(domain.name, key);
+        mergedContract.domains.push(domain);
+      }
+    }
+    for (const invariant of domainContract.invariants || []) {
+      if (!mergedContract.invariants.includes(invariant)) mergedContract.invariants.push(invariant);
+    }
+    for (const conditional of domainContract.conditionalDomains || []) {
+      const key = JSON.stringify(conditional);
+      if (!mergedContract.conditionalDomains.some((item) => JSON.stringify(item) === key)) {
+        mergedContract.conditionalDomains.push(conditional);
+      }
+    }
+    for (const boundary of unit.ast.boundaryContracts || []) {
+      boundaryContracts.add(boundary);
+    }
+  }
   const lines = [
     '// brik64.pcd_file.v1',
     `// generated_by: brik64-cli ${version} semantic polymerize local`,
@@ -3021,25 +3088,12 @@ function renderInlinePolymer(units, rootName) {
     '',
     `PC ${rootName} {`
   ];
+  lines.push(...renderPcdDomainContract(mergedContract, 1));
+  lines.push(...renderPcdBoundaryContracts(boundaryContracts, 1));
+  if (mergedContract.domains.length > 0 || mergedContract.invariants.length > 0 || mergedContract.conditionalDomains.length > 0 || boundaryContracts.size > 0) {
+    lines.push('');
+  }
   for (const unit of units) {
-    const domainContract = unit.ast.domainContract || {};
-    const filteredContract = {
-      ...domainContract,
-      domains: [],
-      domainParams: [],
-      invariants: domainContract.invariants || [],
-      conditionalDomains: domainContract.conditionalDomains || []
-    };
-    for (const domain of domainContract.domains || []) {
-      const key = JSON.stringify(domain);
-      const prior = domainKeys.get(domain.name);
-      if (prior && prior !== key) fail(65, `polymer_inline_domain_conflict:${domain.name}`);
-      if (!prior) {
-        domainKeys.set(domain.name, key);
-        filteredContract.domains.push(domain);
-      }
-    }
-    lines.push(...renderPcdDomainContract(filteredContract, 1));
     for (const fn of Object.values(unit.ast.functions || {})) {
       if (names.has(fn.name)) fail(65, `polymer_inline_name_collision:${fn.name}`);
       names.add(fn.name);
@@ -3124,7 +3178,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
     if (target === 'python') {
       lines.push(`def ${fnName}(${params.map((param) => `${param}=0`).join(', ')}):`);
       lines.push(renderPartialDomainCall(params, target));
-      lines.push(...renderStatements(importedAst.body, target, 1));
+      lines.push(...renderStatements(importedAst.body, target, 1, importedAst.returnType));
       if (!statementsAlwaysReturn(importedAst.body)) {
         lines.push('    raise RuntimeError("pcd import reached non-returning path")');
       }
@@ -3134,7 +3188,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
     if (target === 'rust') {
       lines.push(`fn ${fnName}(${params.map((param) => `${param}: ${rustType(importedAst.paramTypes?.[param])}`).join(', ')}) -> ${rustType(importedAst.returnType)} {`);
       lines.push(...renderPartialDomainCall(params, target));
-      lines.push(...renderStatements(importedAst.body, target, 1).map((line) => line.replace(/^  /, '    ')));
+      lines.push(...renderStatements(importedAst.body, target, 1, importedAst.returnType).map((line) => line.replace(/^  /, '    ')));
       if (!statementsAlwaysReturn(importedAst.body)) {
         lines.push('    panic!("pcd import reached non-returning path");');
       }
@@ -3144,7 +3198,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
     }
     lines.push(`function ${fnName}(${params.map((param) => `${param} = 0`).join(', ')}) {`);
     lines.push(renderPartialDomainCall(params, target));
-    lines.push(...renderStatements(importedAst.body, target, 1));
+    lines.push(...renderStatements(importedAst.body, target, 1, importedAst.returnType));
     if (!statementsAlwaysReturn(importedAst.body)) {
       lines.push('  throw new Error("pcd import reached non-returning path");');
     }
@@ -3207,6 +3261,7 @@ function evaluateExpression(expression, env) {
     if (expression.operation === 'add') return u8(args[0] + args[1]);
     if (expression.operation === 'sub') return u8(args[0] - args[1]);
     if (expression.operation === 'mul') return u8(args[0] * args[1]);
+    if (expression.operation === 'div_tuple') return args[1] === 0 ? [0, 0] : [u8(Math.trunc(args[0] / args[1])), u8(args[0] % args[1])];
     if (expression.operation === 'mod') return args[1] === 0 ? undefined : u8(args[0] % args[1]);
     if (expression.operation === 'inc') return u8(args[0] + 1);
     if (expression.operation === 'dec') return u8(args[0] - 1);
@@ -3301,9 +3356,11 @@ function collectConditionValues(expression, values = new Set([0, 1, 2, 10])) {
     values.add(expression.value - 1);
   }
   if (expression.type === 'ConstLiteral') {
-    values.add(expression.value);
-    values.add(expression.value + 1);
-    values.add(expression.value - 1);
+    if (typeof expression.value === 'number') {
+      values.add(expression.value);
+      values.add(expression.value + 1);
+      values.add(expression.value - 1);
+    }
   }
   if (expression.type === 'UnaryExpression') collectConditionValues(expression.argument, values);
   if (expression.type === 'ListLiteral') {
@@ -3375,8 +3432,13 @@ function generatedCases(ast) {
         })
       };
     })
-    .filter((testCase) => testCase.expected !== undefined)
+    .filter((testCase) => testCase.expected !== undefined && expectedValueSerializable(testCase.expected))
     .slice(0, 8);
+}
+
+function expectedValueSerializable(value) {
+  if (Array.isArray(value)) return value.every(expectedValueSerializable);
+  return typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value));
 }
 
 function ensureExecutable(ast) {
@@ -3388,6 +3450,10 @@ function ensureExecutable(ast) {
 }
 
 function rustLiteral(value, type) {
+  if (type === 'tuple_u8_u8') {
+    if (!Array.isArray(value) || value.length !== 2) return '(0, 0)';
+    return `(${rustLiteral(value[0], 'i64')}, ${rustLiteral(value[1], 'i64')})`;
+  }
   if (type === 'f64') return Number.isInteger(value) ? `${value}.0` : String(value);
   if (type === 'bool') return value ? 'true' : 'false';
   return String(Number.isFinite(value) ? Math.trunc(value) : 0);
@@ -3425,7 +3491,7 @@ function renderDomainAssertions(ast, target) {
   if (target === 'rust') {
     const params = ast.params.length > 0 ? ast.params : ['input'];
     const rustParams = params.map((param) => `${param}: ${rustType(ast.paramTypes?.[param])}`).join(', ');
-    const lines = [`pub const DOMAIN_CONTRACT_SHA256: &str = "${contract.sha256 || ''}";`, 'fn assert_domain_value(name: &str, value: f64) {'];
+    const lines = [`pub const DOMAIN_CONTRACT_SHA256: &str = "${contract.sha256 || ''}";`, '#[allow(dead_code)]', 'fn assert_domain_value(name: &str, value: f64) {'];
     if (domains.length === 0) {
       lines.push('    let _ = (name, value);', '    return;');
     }
@@ -3433,7 +3499,10 @@ function renderDomainAssertions(ast, target) {
       lines.push(`    if name == "${domain.name}" && !(${rustDomainLiteral(domain.min.value, domain.type)} as f64 <= value && value <= ${rustDomainLiteral(domain.max.value, domain.type)} as f64) { panic!("domain_out_of_bounds:${domain.name}"); }`);
     }
     lines.push('}', '', `pub fn assert_domain(${rustParams}) {`);
-    if (domains.length === 0 && (contract.invariants || []).length === 0) lines.push('    return;');
+    if (domains.length === 0 && (contract.invariants || []).length === 0) {
+      lines.push(`    let _ = (${params.join(', ')});`);
+      lines.push('    return;');
+    }
     for (const domain of domains) {
       lines.push(`    if !(${rustDomainLiteral(domain.min.value, domain.type)} <= ${domain.name} && ${domain.name} <= ${rustDomainLiteral(domain.max.value, domain.type)}) { panic!("domain_out_of_bounds:${domain.name}"); }`);
     }
@@ -3484,9 +3553,9 @@ function targetSpec(target, ast) {
   const tsParams = params.map((param) => `${param} = 0`).join(', ');
   const rustParams = params.map((param) => `${param}: ${rustType(ast.paramTypes?.[param])}`).join(', ');
   const pythonParams = params.map((param) => `${param}=0`).join(', ');
-  const tsStatements = renderStatements(ast.body, 'ts', 1);
-  const rustStatements = renderStatements(ast.body, 'rust', 1);
-  const pythonStatements = renderStatements(ast.body, 'python', 1);
+  const tsStatements = renderStatements(ast.body, 'ts', 1, ast.returnType);
+  const rustStatements = renderStatements(ast.body, 'rust', 1, ast.returnType);
+  const pythonStatements = renderStatements(ast.body, 'python', 1, ast.returnType);
   const tsImports = renderImportedFunctions(ast.imports, 'ts');
   const rustImports = renderImportedFunctions(ast.imports, 'rust');
   const pythonImports = renderImportedFunctions(ast.imports, 'python');
@@ -3517,11 +3586,12 @@ function targetSpec(target, ast) {
     `import { pcdSha256, run } from "${importPath}";`,
     '',
     'if (pcdSha256 !== "' + hash + '") throw new Error("pcd hash mismatch");',
+    'function sameValue(left, right) { return JSON.stringify(left) === JSON.stringify(right); }',
     `const cases = ${JSON.stringify(cases)};`,
     'for (const testCase of cases) {',
     `  const actual = run(${params.map((param) => `testCase.args.${param}`).join(', ')});`,
-    '  if (actual !== testCase.expected) {',
-    '    throw new Error(`case ${testCase.input} expected ${testCase.expected} got ${actual}`);',
+    '  if (!sameValue(actual, testCase.expected)) {',
+    '    throw new Error(`case ${testCase.input} expected ${JSON.stringify(testCase.expected)} got ${JSON.stringify(actual)}`);',
     '  }',
     '}',
     ...domainFailures.flatMap((domainFailure) => [
@@ -4072,6 +4142,7 @@ function polymerize(rawArgs = []) {
   if (!rootUnit) fail(65, `polymerize_root_not_found:${rootName}`);
   const inlineRequested = parsed['--inline'] || units.length > 1;
   const content = inlineRequested ? renderInlinePolymer(units, rootName || rootUnit.ast.fnName) : renderSemanticPolymer(rootUnit, units);
+  mkdirControlled(path.dirname(outPath));
   writeFileControlled(outPath, content);
   const materializedImports = inlineRequested ? [] : materializePolymerImports(rootUnit, outPath);
   const manifestSources = units.map((unit) => ({

@@ -12,7 +12,7 @@
       "skipped": false,
       "args": [
         "--check",
-        "/Users/carlosjperez/Documents/GitHub/brik64-cli-beta15-release-worktree/src/brik.js"
+        "/Users/carlosjperez/Documents/GitHub/brik64-cli-beta15.3/src/brik.js"
       ],
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -57,7 +57,7 @@
         "pcd/bounded_gate.pcd",
         "--json"
       ],
-      "stdout_sha256": "42e248d8df3fa0c71e6d1e7c8a9e2517ade8fa875e2a092b8628177481e875b1",
+      "stdout_sha256": "616a93a540265d2f2d906c693b00d30878882aeab9051c58c2d058b93ae98735",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -98,7 +98,7 @@
         "pcd/bounded_gate.pcd",
         "--json"
       ],
-      "stdout_sha256": "26ff67cdc3929ed0ab1f5f8f39cd7484ebe6b23d755b1c5dedc126c70a1ab3cf",
+      "stdout_sha256": "94c169e170d4d0c3c12f3132e6f3eb4d35a9e279b6fefa4f274a911882898280",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -212,7 +212,7 @@
         "out-python",
         "--tests"
       ],
-      "stdout_sha256": "744e53e042a6096527b4f27776f706a60fc188906cccfaa1916cf91de9b33dfd",
+      "stdout_sha256": "eb485a371489b983229e7bd60667f693ab24b47f3477c9488d48f67bcaa35081",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -252,7 +252,7 @@
       "status": 0,
       "skipped": false,
       "args": [
-        "out-python/test_program.py"
+        "out-python/tests/test_bounded_gate.py"
       ],
       "stdout_sha256": "91790bf5f3f1cd8330af999589d373ddd66c20dbc68f2740ba3f83455776be37",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -279,8 +279,8 @@
       "skipped": false,
       "args": [],
       "stdout_sha256": "6a53c23142b8a7450c8b0098f11af93d8d6900544ef1cc98dec530b9495ab2ce",
-      "stderr_sha256": "bc6650a63e603908886fe61da23c6c70276513435944fff342f8280c521c8dc3",
-      "stderr_tail": "thread 'main' ([pid]) panicked at out-rust/program_test.rs:6:45:\ndomain_out_of_bounds:amount\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace\n"
+      "stderr_sha256": "576721d9749dd629ff93569e9ac88011af41fde655dd8507e31ab55992554d0a",
+      "stderr_tail": "\nthread 'main' ([pid]) panicked at out-rust/program_test.rs:13:47:\ndomain_out_of_bounds:balance\n"
     },
     {
       "name": "polymerize_domain_inputs",
@@ -291,11 +291,13 @@
         "polymerize",
         "pcd/bounded_gate.pcd",
         "pcd/missing_domain.pcd",
+        "--root",
+        "bounded_gate",
         "--out",
         "polymer.pcd",
         "--json"
       ],
-      "stdout_sha256": "44fc4f335fb6fa1a2d91ea75c8e9c045ddd383577948863ba92fdb928197a872",
+      "stdout_sha256": "817cea446ef2a9afbb9742c45b23003802ad7584f0b85bdb12f92b8977e1ce71",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },

@@ -35,7 +35,7 @@ function runNative(cwd, command, args, options = {}) {
   const result = spawnSync(command, args, {
     cwd,
     encoding: 'utf8',
-    env: { ...process.env },
+    env: { ...process.env, ...(options.env || {}) },
     maxBuffer: 8 * 1024 * 1024
   });
   const ok = options.optionalMissing && result.error && result.error.code === 'ENOENT'
@@ -111,13 +111,17 @@ function main() {
     add(`emit_${target}`, run(tmp, ['emit', 'pcd/bounded_gate.pcd', '--target', target, '--out', `out-${target}`, '--tests']));
   }
   add('run_ts_generated_tests', runNative(tmp, process.execPath, ['out-ts/program.test.mjs']));
-  add('run_python_generated_tests', runNative(tmp, 'python3', ['out-python/test_program.py'], { optionalMissing: true }));
+  const pythonTestDir = path.join(tmp, 'out-python', 'tests');
+  const pythonTest = fs.existsSync(pythonTestDir)
+    ? path.join('out-python', 'tests', fs.readdirSync(pythonTestDir).find((name) => /^test_.*\.py$/.test(name)))
+    : 'out-python/test_program.py';
+  add('run_python_generated_tests', runNative(tmp, 'python3', [pythonTest], { env: { PYTHONPATH: path.join(tmp, 'out-python') } }));
   add('rust_compile_generated_tests', runNative(tmp, 'rustc', ['out-rust/program_test.rs', '-o', 'out-rust/program_test'], { optionalMissing: true }));
   if (fs.existsSync(path.join(tmp, 'out-rust', 'program_test'))) {
     add('run_rust_generated_tests', runNative(tmp, path.join(tmp, 'out-rust', 'program_test'), []));
   }
 
-  add('polymerize_domain_inputs', run(tmp, ['polymerize', 'pcd/bounded_gate.pcd', 'pcd/missing_domain.pcd', '--out', 'polymer.pcd', '--json']));
+  add('polymerize_domain_inputs', run(tmp, ['polymerize', 'pcd/bounded_gate.pcd', 'pcd/missing_domain.pcd', '--root', 'bounded_gate', '--out', 'polymer.pcd', '--json']));
   const polymerManifest = path.join(tmp, 'polymer.pcd.manifest.json');
   add('polymer_manifest_has_domain_hash', {
     ok: fs.existsSync(polymerManifest) && JSON.parse(fs.readFileSync(polymerManifest, 'utf8')).composite_domain_sha256,

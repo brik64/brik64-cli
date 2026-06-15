@@ -73,7 +73,8 @@ function fixtureFor(monomer) {
   const safe = `${monomer.id}_${monomer.name}`.replace(/[^A-Za-z0-9_]/g, '_');
   const args = monomer.inputTypes.map((type, index) => literalFor(type, index)).join(', ');
   const needsBoundary = monomer.boundary !== 'pure_local_candidate' && monomer.boundary !== 'contract_local';
-  const returnType = !needsBoundary && monomer.outputType === 'f64' ? 'f64' : 'i64';
+  const executableOutputTypes = new Set(['i64', 'i32', 'u8', 'u64', 'bool', 'f64', 'tuple_u8_u8']);
+  const returnType = !needsBoundary && executableOutputTypes.has(monomer.outputType) ? monomer.outputType : 'i64';
   return [
     '// brik64.pcd_file.v1',
     `// generated_by: brik64-cli ${version} beta14.5 128 executable gate`,
@@ -138,7 +139,14 @@ record('target_parity:representative_rust_ts_python', () => {
       expectPass(`emit:${target}:${monomer.key}`, process.execPath, [brik, 'emit', path.relative(work, file), '--target', target, '--out', `out-${target}-${monomer.id}`, '--tests'], { cwd: work });
     }
     expectPass(`run-ts:${monomer.key}`, process.execPath, [`out-ts-${monomer.id}/program.test.mjs`], { cwd: work });
-    expectPass(`run-python:${monomer.key}`, 'python3', [`out-python-${monomer.id}/test_program.py`], { cwd: work });
+    const pythonTestDir = path.join(work, `out-python-${monomer.id}`, 'tests');
+    const pythonTest = fs.existsSync(pythonTestDir)
+      ? path.join(`out-python-${monomer.id}`, 'tests', fs.readdirSync(pythonTestDir).find((name) => /^test_.*\.py$/.test(name)))
+      : path.join(`out-python-${monomer.id}`, 'test_program.py');
+    expectPass(`run-python:${monomer.key}`, 'python3', [pythonTest], {
+      cwd: work,
+      env: { PYTHONPATH: path.join(work, `out-python-${monomer.id}`) }
+    });
     expectPass(`run-rust:${monomer.key}`, 'cargo', ['test', '--quiet'], { cwd: path.join(work, `out-rust-${monomer.id}`) });
   }
   return { representativeCount: representative.length, targets: ['ts', 'python', 'rust'] };

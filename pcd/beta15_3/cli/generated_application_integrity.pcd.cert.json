@@ -1,0 +1,598 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.3",
+  "pcd": "pcd/beta15_3/cli/generated_application_integrity.pcd",
+  "semantic_pcd_sha256": "57a44ec9347e587d8dd8d77410570c88f90874cdbc9c033bcff9f071dec1a558",
+  "ast_sha256": "717dfd3f765a8135c45ade4274a2b630406b26fabfc886f321e027ae0fe46ca2",
+  "domain_contract_sha256": "2bdbb606a5506dafcc359e44e8fee137b7c1001962ee09515ce8c1684c75a2af",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "ts_condition_parenthesized",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "div8_tuple_lowered",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "rust_f64_type_stable",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "python_math_fixture_safe",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "polymer_pcd_parseable",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "ts_condition_parenthesized",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "div8_tuple_lowered",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "rust_f64_type_stable",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "python_math_fixture_safe",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "polymer_pcd_parseable",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "2bdbb606a5506dafcc359e44e8fee137b7c1001962ee09515ce8c1684c75a2af"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "generated_application_integrity",
+    "fnName": "generated_application_integrity",
+    "params": [
+      "ts_condition_parenthesized",
+      "div8_tuple_lowered",
+      "rust_f64_type_stable",
+      "python_math_fixture_safe",
+      "polymer_pcd_parseable"
+    ],
+    "paramTypes": {
+      "ts_condition_parenthesized": "i64",
+      "div8_tuple_lowered": "i64",
+      "rust_f64_type_stable": "i64",
+      "python_math_fixture_safe": "i64",
+      "polymer_pcd_parseable": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "ts_condition_parenthesized",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "div8_tuple_lowered",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "rust_f64_type_stable",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "python_math_fixture_safe",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "polymer_pcd_parseable",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "ts_condition_parenthesized",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "div8_tuple_lowered",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "rust_f64_type_stable",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "python_math_fixture_safe",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "polymer_pcd_parseable",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "2bdbb606a5506dafcc359e44e8fee137b7c1001962ee09515ce8c1684c75a2af"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "generated_application_integrity": {
+        "name": "generated_application_integrity",
+        "params": [
+          "ts_condition_parenthesized",
+          "div8_tuple_lowered",
+          "rust_f64_type_stable",
+          "python_math_fixture_safe",
+          "polymer_pcd_parseable"
+        ],
+        "paramTypes": {
+          "ts_condition_parenthesized": "i64",
+          "div8_tuple_lowered": "i64",
+          "rust_f64_type_stable": "i64",
+          "python_math_fixture_safe": "i64",
+          "polymer_pcd_parseable": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "ts_condition_parenthesized"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "div8_tuple_lowered"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "rust_f64_type_stable"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "python_math_fixture_safe"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "polymer_pcd_parseable"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "raw": "1",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 5
+      }
+    },
+    "entrypoint": {
+      "name": "generated_application_integrity",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "ts_condition_parenthesized"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "div8_tuple_lowered"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "rust_f64_type_stable"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "python_math_fixture_safe"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "polymer_pcd_parseable"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "raw": "1",
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 5,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

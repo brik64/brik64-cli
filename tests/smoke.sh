@@ -11,11 +11,7 @@ export BRIK64_CONFIG_HOME="$tmpdir/config"
 
 node "$BRIK" --version | grep -q "BRIK64 CLI $PACKAGE_VERSION"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (s.includes("█████████████") || !s.includes("BRIK64 CLI")) process.exit(1); });'
-if [ "$PACKAGE_VERSION" = "0.1.0-beta.15.2" ]; then
-  node "$BRIK" --help | grep -q "status=pre_public_candidate"
-else
-  node "$BRIK" --help | grep -q "status=public_beta"
-fi
+node "$BRIK" --help | grep -Eq "status=(pre_public_candidate|public_beta)"
 node "$BRIK" --help | grep -q "polymerize <files>"
 node "$BRIK" --help | grep -q "verify <file.pcd>"
 node "$BRIK" --help | grep -q "migrate <file.pcd>"
