@@ -40,6 +40,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   serial, materializer mode `l6plus_pcd_polymer_materializer`, generation trace
   hash, PCD input-set hash, remote wrapper hash and wrapper exec-target hash.
   Package and artifact hashes alone are not sufficient release evidence.
+- Observed provenance binding policy: the materialization result must match
+  the exact PCD input-set hash and remote wrapper / wrapper exec-target hashes
+  observed during the current L6 attempt. Shape-valid provenance with arbitrary
+  hashes must fail closed.
 
 ## Phases
 

@@ -34,6 +34,11 @@ const encoded = Buffer.from(JSON.stringify(good)).toString('base64');
 const parsed = parseMaterializationResult(`noise\nBRIK64_L6_CLI_MATERIALIZATION_RESULT\t${encoded}\n`);
 assert.deepStrictEqual(parsed.version, good.version);
 assert.strictEqual(validateMaterializationResult(parsed, good.version).accepted, true);
+assert.strictEqual(validateMaterializationResult(parsed, good.version, {
+  pcdInputSetSha256: good.pcdInputSetSha256,
+  remoteWrapperSha256: good.remoteWrapperSha256,
+  wrapperExecTargetSha256: good.wrapperExecTargetSha256,
+}).accepted, true);
 
 const badVersion = { ...good, version: '0.1.0-beta.15.3' };
 assert.strictEqual(validateMaterializationResult(badVersion, good.version).accepted, false);
@@ -60,6 +65,30 @@ const missingTrace = { ...good };
 delete missingTrace.generationTraceSha256;
 assert.strictEqual(validateMaterializationResult(missingTrace, good.version).accepted, false);
 assert(validateMaterializationResult(missingTrace, good.version).blockers.includes('materialization_result_generation_trace_sha256_invalid'));
+
+const wrongInputSet = validateMaterializationResult(good, good.version, {
+  pcdInputSetSha256: '9'.repeat(64),
+  remoteWrapperSha256: good.remoteWrapperSha256,
+  wrapperExecTargetSha256: good.wrapperExecTargetSha256,
+});
+assert.strictEqual(wrongInputSet.accepted, false);
+assert(wrongInputSet.blockers.includes('materialization_result_pcd_input_set_sha256_mismatch'));
+
+const wrongWrapper = validateMaterializationResult(good, good.version, {
+  pcdInputSetSha256: good.pcdInputSetSha256,
+  remoteWrapperSha256: '9'.repeat(64),
+  wrapperExecTargetSha256: good.wrapperExecTargetSha256,
+});
+assert.strictEqual(wrongWrapper.accepted, false);
+assert(wrongWrapper.blockers.includes('materialization_result_remote_wrapper_sha256_mismatch'));
+
+const wrongExecTarget = validateMaterializationResult(good, good.version, {
+  pcdInputSetSha256: good.pcdInputSetSha256,
+  remoteWrapperSha256: good.remoteWrapperSha256,
+  wrapperExecTargetSha256: '9'.repeat(64),
+});
+assert.strictEqual(wrongExecTarget.accepted, false);
+assert(wrongExecTarget.blockers.includes('materialization_result_wrapper_exec_target_sha256_mismatch'));
 
 assert.strictEqual(parseMaterializationResult('no materialization line'), null);
 console.log('PASS beta15.4 L6 materialization result parser');

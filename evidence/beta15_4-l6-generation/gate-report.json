@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T23:37:42.936Z",
+  "generatedAt": "2026-06-15T23:43:27.634Z",
   "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -33,7 +33,12 @@
       "bytes": 0,
       "target": "/opt/brik64/engines/l6plus-n5/BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957"
     },
-    "materializerContractAccepted": false
+    "materializerContractAccepted": false,
+    "expectedMaterializationContext": {
+      "pcdInputSetSha256": "27ba57a258033dfa9255df57e65e1a6a331eed500b25a89a354c691a8c561501",
+      "remoteWrapperSha256": "0377618ff38f71be3e97557b785f25ff73c5d20ce2364ec0d1788eaae3dd3b5c",
+      "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a"
+    }
   },
   "attempts": [
     {

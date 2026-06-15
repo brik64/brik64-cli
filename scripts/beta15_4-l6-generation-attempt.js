@@ -116,6 +116,16 @@ function ensureInputs() {
 function writeInputHashes(inputs) {
   const body = `${inputs.map((item) => `${item.sha256}\t${item.bytes}\t${item.path}`).join('\n')}\n`;
   fs.writeFileSync(path.join(evidenceDir, 'input_pcd_hashes.tsv'), body);
+  return sha256(body);
+}
+
+function expectedMaterializationContext(inputs, remoteRefs) {
+  const inputHashBody = `${inputs.map((item) => `${item.sha256}\t${item.bytes}\t${item.path}`).join('\n')}\n`;
+  return {
+    pcdInputSetSha256: sha256(inputHashBody),
+    remoteWrapperSha256: remoteRefs.wrapper?.sha256 || null,
+    wrapperExecTargetSha256: remoteRefs.wrapper_exec_target?.sha256 || null,
+  };
 }
 
 function materializationAttempts() {
@@ -146,7 +156,7 @@ function main() {
   fs.mkdirSync(evidenceDir, { recursive: true });
 
   const inputs = ensureInputs();
-  writeInputHashes(inputs);
+  const pcdInputSetSha256 = writeInputHashes(inputs);
 
   const hostProbe = ssh(['set -euo pipefail', `${healthcheck}`, `${wrapper} --version`, `${audit}`].join('; '));
   const remoteRefProbe = ssh([
@@ -162,10 +172,11 @@ function main() {
   const remoteRefs = parseRemoteRefs(remoteRefProbe.stdout);
   const wrapperMode = parseWrapperMode(remoteRefProbe.stdout);
   const attempts = materializationAttempts();
+  const expectedContext = expectedMaterializationContext(inputs, remoteRefs);
   const acceptedAttempt = attempts
     .map((attempt) => ({
       attempt,
-      validation: validateMaterializationResult(attempt.materializationResult, version)
+      validation: validateMaterializationResult(attempt.materializationResult, version, expectedContext)
     }))
     .find((entry) => entry.validation.accepted);
   const materialization = acceptedAttempt?.validation.normalized || null;
@@ -248,6 +259,7 @@ function main() {
     schemaVersion: 'brik64.cli_beta15_4_l6_hashes.v1',
     version,
     inputPcds: inputs,
+    pcdInputSetSha256,
     generatedArtifact: materialization?.generatedArtifactSha256 || null,
     package: materialization?.packageSha256 || null,
     releaseManifest: materialization?.releaseManifestSha256 || null
@@ -272,12 +284,13 @@ function main() {
       wrapper: remoteRefs.wrapper || null,
       wrapperExecTarget: remoteRefs.wrapper_exec_target || null,
       current: remoteRefs.current || null,
-      materializerContractAccepted: materialization !== null
+      materializerContractAccepted: materialization !== null,
+      expectedMaterializationContext: expectedContext
     },
     attempts: attempts.map((attempt) => ({
       ...attempt,
       materializationResult: attempt.materializationResult ? { present: true } : null,
-      materializationValidation: validateMaterializationResult(attempt.materializationResult, version)
+      materializationValidation: validateMaterializationResult(attempt.materializationResult, version, expectedContext)
     })),
     nextAction: 'implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.4 publication'
   };

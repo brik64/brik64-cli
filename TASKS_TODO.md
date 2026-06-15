@@ -50,6 +50,19 @@
       - Boundary:
         this still does not generate the Beta15.4 artifact; it prevents manual
         package hashes from satisfying the L6 release gate.
+- [x] Bind L6 materialization result to observed inputs and remote wrapper.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Attempt:
+        `scripts/beta15_4-l6-generation-attempt.js`.
+      - Evidence:
+        `evidence/beta15_4-l6-generation/gate-report.json`.
+      - Result:
+        the accepted endpoint result must match the current PCD input-set hash,
+        remote wrapper hash and wrapper exec-target hash observed by SSH.
+      - Boundary:
+        this hardens future acceptance; current run remains blocked because no
+        L6 artifact is emitted.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

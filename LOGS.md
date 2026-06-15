@@ -239,3 +239,33 @@ Boundary:
 - This closes a provenance-bypass risk in the future endpoint contract.
 - It does not materialize the Beta15.4 CLI artifact and does not authorize
   public release.
+
+## Iteration 12
+
+- Extended the L6 materialization result validator to accept expected context:
+  PCD input-set hash, remote wrapper hash and wrapper exec-target hash.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` to compute the PCD
+  input-set hash from `input_pcd_hashes.tsv` content and bind it to the remote
+  wrapper references observed over SSH.
+- Added adversarial parser coverage for:
+  - wrong PCD input-set hash;
+  - wrong remote wrapper hash;
+  - wrong wrapper exec-target hash.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with the
+  expected publication blockers.
+- Current expected context:
+  - `pcdInputSetSha256=27ba57a258033dfa9255df57e65e1a6a331eed500b25a89a354c691a8c561501`
+  - `remoteWrapperSha256=0377618ff38f71be3e97557b785f25ff73c5d20ce2364ec0d1788eaae3dd3b5c`
+  - `wrapperExecTargetSha256=7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a`
+
+Boundary:
+
+- This prevents shape-valid but context-invalid materialization results from
+  passing.
+- It does not implement the missing L6 materializer or publish Beta15.4.

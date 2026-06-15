@@ -41,7 +41,7 @@ function normalizeSha256(value) {
   return String(value || '').replace(/^sha256:/, '').toLowerCase();
 }
 
-function validateMaterializationResult(result, version) {
+function validateMaterializationResult(result, version, expected = {}) {
   const blockers = [];
   if (!result || typeof result !== 'object') {
     return {
@@ -63,6 +63,15 @@ function validateMaterializationResult(result, version) {
   for (const field of REQUIRED_SHA_FIELDS) {
     if (!isSha256(result[field])) {
       blockers.push(`materialization_result_${field.replace(/Sha256$/, '_sha256').replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`)}_invalid`);
+    }
+  }
+  for (const [field, blocker] of [
+    ['pcdInputSetSha256', 'materialization_result_pcd_input_set_sha256_mismatch'],
+    ['remoteWrapperSha256', 'materialization_result_remote_wrapper_sha256_mismatch'],
+    ['wrapperExecTargetSha256', 'materialization_result_wrapper_exec_target_sha256_mismatch'],
+  ]) {
+    if (expected[field] && isSha256(result[field]) && normalizeSha256(result[field]) !== normalizeSha256(expected[field])) {
+      blockers.push(blocker);
     }
   }
   if (!Array.isArray(result.inputPcds) || result.inputPcds.length === 0) {
