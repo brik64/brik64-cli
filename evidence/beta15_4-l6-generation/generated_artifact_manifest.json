@@ -5,11 +5,16 @@
   "generatedByL6PlusN5": false,
   "pcdToArtifactHashBound": false,
   "blockers": [
-    "l6plus_materializer_contract_unavailable",
-    "remote_l6plus_rejected_file_input_with_unsupported_or_missing_input"
+    "remote_l6plus_materialization_contract_unavailable",
+    "unsupported_or_missing_input_for_l6_cli_materialization_contract"
   ],
   "requiredNextAction": "add or expose a Beta15.4 CLI PCD/polymer materialization endpoint, then rerun generation from canonical PCD inputs",
   "inputPcds": [
+    {
+      "path": "pcd/beta15_4/release/l6_cli_materialization_contract.pcd",
+      "sha256": "38a1b06cf909883e30a2f2bddf9ce53aeb09ffec6d2196fd753e8007a40cab26",
+      "bytes": 978
+    },
     {
       "path": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",
       "sha256": "0d74ce5983f94f683095cf07136563ad4094cf92e21c274fea2ada058464bf33",

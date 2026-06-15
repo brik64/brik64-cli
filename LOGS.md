@@ -109,3 +109,29 @@ Boundary:
 - It proves the packager is deterministic under frozen inputs and preserves the
   release requirement that final L6 evidence, package hash and release manifest
   must be generated as one sealed set.
+
+## Iteration 7
+
+- Added canonical Beta15.4 release contract:
+  `pcd/beta15_4/release/l6_cli_materialization_contract.pcd`.
+- Added `scripts/beta15_4-l6-generation-attempt.js` and npm script
+  `attempt:beta15.4:l6-generation`.
+- The attempt sends the contract PCD to the Hetzner L6+N5 wrapper through the
+  same command family previously probed: `compile`, `route2`, `materialize`,
+  and `emit`.
+- Current L6+N5 wrapper still fails closed with unsupported/missing input, so
+  the attempt writes blocked evidence rather than release evidence.
+- Added `scripts/tests/test_beta15_4_l6_generation_attempt.sh`.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still blocks publication, now with
+  `pcd/beta15_4/release/l6_cli_materialization_contract.pcd` included in
+  `evidence/beta15_4-l6-generation/input_pcd_hashes.tsv`.
+
+Active blocker remains:
+
+- The L6+N5 host must expose an actual CLI materializer endpoint that accepts
+  the Beta15.4 contract and emits artifact/package/release-manifest hash
+  binding.

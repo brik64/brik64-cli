@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-15T22:04:24.057Z",
+  "generatedAt": "2026-06-15T22:37:09.091Z",
   "version": "0.1.0-beta.15.4",
   "label": "beta15_4",
   "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,23 +18,23 @@
     "dir": "evidence/beta15_4-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "d06ab7cbe8cf24516d00bf288fee42d79f3abf5877027333a9a5c7dc19e77a72",
-      "sizeBytes": 1908
+      "sha256": "ae3e67d1315adc5efed006a0036d029551a573ca5a10da632b5430b4c995f8c7",
+      "sizeBytes": 2616
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "5a89cee9214476423f3eb57a3b84c7b9e51aa37d2649f8c2758b0a267f95b010",
-      "sizeBytes": 1749
+      "sha256": "10317cd6e1273a805c8e7f9d8f5d781aba68cdf019b2282b08197705c1944490",
+      "sizeBytes": 691
     },
     "input_pcd_hashes.tsv": {
       "path": "evidence/beta15_4-l6-generation/input_pcd_hashes.tsv",
-      "sha256": "d94e902e029434801b855cc984363ba838a9f62935f499606060e91de2777aa2",
-      "sizeBytes": 425
+      "sha256": "27ba57a258033dfa9255df57e65e1a6a331eed500b25a89a354c691a8c561501",
+      "sizeBytes": 551
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "c2d7a25e5bd6712e9747ed191c6e9bdb6f385f9a6f96e4e9e9b98d2216b14b12",
-      "sizeBytes": 1227
+      "sha256": "94b453e57215734600b7393e068cb6d6c62f9341f6887370c5d423f99fd3503a",
+      "sizeBytes": 1424
     },
     "package.manifest.json": {
       "path": "evidence/beta15_4-l6-generation/package.manifest.json",
@@ -48,8 +48,8 @@
     },
     "hashes.json": {
       "path": "evidence/beta15_4-l6-generation/hashes.json",
-      "sha256": "22bbf0586a111c75f341972c17e97ea1963f559e4a80dfd721f7cfe701008965",
-      "sizeBytes": 867
+      "sha256": "a12e751d40dbe4b914089a5a98a4140641d5625a8ad338c6bd0470535c1a277d",
+      "sizeBytes": 1057
     }
   },
   "checks": {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T21:59:07.285Z",
+  "generatedAt": "2026-06-15T22:36:56.056Z",
   "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -13,7 +13,7 @@
   },
   "blockers": [
     "remote_l6plus_materialization_contract_unavailable",
-    "unsupported_or_missing_input_for_probe_pcd",
+    "unsupported_or_missing_input_for_l6_cli_materialization_contract",
     "generated_artifact_missing"
   ],
   "attempts": [
@@ -21,39 +21,44 @@
       "command": [
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "compile",
-        "@@FILE:/tmp/probe.pcd"
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
       ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
       "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
     },
     {
       "command": [
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "route2",
-        "@@FILE:/tmp/probe.pcd"
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
       ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
       "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
     },
     {
       "command": [
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "materialize",
-        "@@FILE:/tmp/probe.pcd"
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
       ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
       "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
     },
     {
       "command": [
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "emit",
-        "@@FILE:/tmp/probe.pcd"
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
       ],
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
-    },
-    {
-      "command": [
-        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
-        "@@FILE:/tmp/probe.pcd"
-      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
       "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
     }
   ],
