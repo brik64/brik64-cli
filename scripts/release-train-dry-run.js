@@ -472,6 +472,23 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.15.3') {
+    return [
+      run('beta15_3_pre_public_rc', ['npm', 'run', 'gate:beta15.3:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_3_local_package', ['npm', 'run', 'package:beta15.3:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta15_3_package_smoke', ['npm', 'run', 'smoke:beta15.3:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
@@ -748,6 +765,60 @@ function main() {
       if (!candidatePackageSmoke) failures.push('candidate_readiness_missing:beta14_3_package_smoke');
       else if (candidatePackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA14_3_LOCAL_PACKAGE_SMOKE') failures.push(`candidate_beta14_3_package_smoke_invalid:${candidatePackageSmoke.decision}`);
       else if (candidatePackageSmoke.releaseEligible !== false || candidatePackageSmoke.claim_boundary?.public_release_allowed !== false) failures.push('candidate_beta14_3_smoke_public_boundary_invalid');
+    } else if (currentPackageVersion === '0.1.0-beta.15.3') {
+      const prePublicPath = path.join(root, 'evidence', 'beta15_3-pre-public-rc', 'report.json');
+      const packagePath = path.join(root, 'evidence', 'beta15_3-package', 'package.manifest.json');
+      const packageSmokePath = path.join(root, 'evidence', 'beta15_3-package-smoke', 'report.json');
+      const l6PreflightPath = path.join(root, 'evidence', 'beta15_3-l6-preflight', 'report.json');
+      const prePublic = fs.existsSync(prePublicPath) ? readJson(prePublicPath) : null;
+      const candidatePackage = fs.existsSync(packagePath) ? readJson(packagePath) : null;
+      const candidatePackageSmoke = fs.existsSync(packageSmokePath) ? readJson(packageSmokePath) : null;
+      const l6Preflight = fs.existsSync(l6PreflightPath) ? readJson(l6PreflightPath) : null;
+      requiredEvidence.push({
+        id: 'beta15_3_pre_public_rc',
+        path: 'evidence/beta15_3-pre-public-rc/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE',
+        actualDecision: prePublic?.decision || null,
+        pass: prePublic?.decision === 'PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE'
+          && prePublic?.releaseEligible === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_3_local_package',
+        path: 'evidence/beta15_3-package/package.manifest.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_3_PACKAGE_BUILT',
+        actualDecision: candidatePackage?.decision || null,
+        pass: candidatePackage?.decision === 'PASS_BRIK64_CLI_BETA15_3_PACKAGE_BUILT'
+          && candidatePackage?.releaseEligible === false
+          && candidatePackage?.claimBoundary?.publicReleaseAllowed === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_3_package_smoke',
+        path: 'evidence/beta15_3-package-smoke/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_3_PACKAGE_SMOKE',
+        actualDecision: candidatePackageSmoke?.decision || null,
+        pass: candidatePackageSmoke?.decision === 'PASS_BRIK64_CLI_BETA15_3_PACKAGE_SMOKE'
+          && candidatePackageSmoke?.releaseEligible === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_3_l6_preflight_non_claim',
+        path: 'evidence/beta15_3-l6-preflight/report.json',
+        expectedDecision: 'PASS_BETA15_3_L6_PREFLIGHT_NON_CLAIM',
+        actualDecision: l6Preflight?.decision || null,
+        pass: l6Preflight?.decision === 'PASS_BETA15_3_L6_PREFLIGHT_NON_CLAIM'
+          && l6Preflight?.publicClaimAllowed === false
+      });
+      if (!prePublic) failures.push('candidate_readiness_missing:beta15_3_pre_public_rc');
+      else if (prePublic.decision !== 'PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE') failures.push(`candidate_beta15_3_pre_public_invalid:${prePublic.decision}`);
+      else if (prePublic.releaseEligible !== false) failures.push('candidate_beta15_3_pre_public_boundary_invalid');
+      if (!candidatePackage) failures.push('candidate_readiness_missing:beta15_3_local_package');
+      else if (candidatePackage.decision !== 'PASS_BRIK64_CLI_BETA15_3_PACKAGE_BUILT') failures.push(`candidate_beta15_3_package_invalid:${candidatePackage.decision}`);
+      else if (candidatePackage.releaseEligible !== false || candidatePackage.claimBoundary?.publicReleaseAllowed !== false) failures.push('candidate_beta15_3_package_public_boundary_invalid');
+      if (!candidatePackageSmoke) failures.push('candidate_readiness_missing:beta15_3_package_smoke');
+      else if (candidatePackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA15_3_PACKAGE_SMOKE') failures.push(`candidate_beta15_3_package_smoke_invalid:${candidatePackageSmoke.decision}`);
+      else if (candidatePackageSmoke.releaseEligible !== false) failures.push('candidate_beta15_3_smoke_public_boundary_invalid');
+      if (!l6Preflight) failures.push('candidate_readiness_missing:beta15_3_l6_preflight');
+      else if (l6Preflight.decision !== 'PASS_BETA15_3_L6_PREFLIGHT_NON_CLAIM') failures.push(`candidate_beta15_3_l6_preflight_invalid:${l6Preflight.decision}`);
+      else if (l6Preflight.publicClaimAllowed !== false) failures.push('candidate_beta15_3_l6_preflight_claim_boundary_invalid');
     }
   } else {
     const manifestRequiredEvidence = Array.isArray(manifest.verification?.requiredEvidence)

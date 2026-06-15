@@ -7,7 +7,7 @@
   "generationClaim": "pcd_first_candidate_with_local_runtime_baseline",
   "package": {
     "path": "evidence/beta15_3-package/brik64-cli-0.1.0-beta.15.3.tgz",
-    "sha256": "34364f3f077b14ae90dd0f0525101b2e3fa70892f53286340a5c2dbc4e30fd17",
+    "sha256": "f66d26519e2a9be44497828b7472b78f484ef8f5717292b4700a1ecee5f83600",
     "bytes": 555583
   },
   "claimBoundary": {

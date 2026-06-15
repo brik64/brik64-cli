@@ -2,8 +2,8 @@
   "schemaVersion": "brik64.release_train_dry_run_report.v1",
   "releaseId": "brik64-0.1.0-beta.15.2",
   "version": "0.1.0-beta.15.2",
-  "packageVersion": "0.1.0-beta.15.2",
-  "candidateBranchMode": false,
+  "packageVersion": "0.1.0-beta.15.3",
+  "candidateBranchMode": true,
   "minimalReleaseManifestMode": true,
   "channel": "beta",
   "state": "pre_public_release_candidate",
@@ -11,23 +11,76 @@
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [],
+  "initialDirtyFiles": [
+    "evidence/beta15_3-generated-application-integrity/report.json",
+    "evidence/beta15_3-package/SHA256SUMS",
+    "evidence/beta15_3-package/brik64-cli-0.1.0-beta.15.3.tgz",
+    "evidence/beta15_3-package/package.manifest.json",
+    "evidence/beta15_3-package/stage-checksums.tsv",
+    "evidence/beta15_3-pre-public-rc/report.json",
+    "scripts/release-train-dry-run.js"
+  ],
   "commands": [
     {
-      "name": "minimal_manifest_version_contract",
-      "command": "node -e \n            const fs = require('fs');\n            const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));\n            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));\n            if (manifest.version !== pkg.version) {\n              console.error('minimal_manifest_version_drift:' + manifest.version + ':' + pkg.version);\n              process.exit(1);\n            }\n            const artifactSha = manifest.cli?.package?.sha256 || manifest.cli?.artifact?.sha256;\n            if (!artifactSha) {\n              console.error('minimal_manifest_cli_artifact_sha_missing');\n              process.exit(1);\n            }\n            console.log('decision=PASS_MINIMAL_RELEASE_MANIFEST_VERSION_CONTRACT');\n          ",
+      "name": "beta15_3_pre_public_rc",
+      "command": "npm run gate:beta15.3:pre-public-rc",
       "rc": 0,
-      "elapsedMs": 75,
-      "stdout": "decision=PASS_MINIMAL_RELEASE_MANIFEST_VERSION_CONTRACT\n",
+      "elapsedMs": 80929,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.15.3 gate:beta15.3:pre-public-rc\n> node scripts/beta15_3-pre-public-rc-gate.js\n\ndecision=PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE\n",
+      "stderr": ""
+    },
+    {
+      "name": "beta15_3_local_package",
+      "command": "npm run package:beta15.3:local",
+      "rc": 0,
+      "elapsedMs": 3881,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.15.3 package:beta15.3:local\n> bash scripts/build-beta15_3-package.sh\n\ndecision=PASS_BRIK64_CLI_BETA15_3_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta15_3-package/brik64-cli-0.1.0-beta.15.3.tgz\nsha256=f66d26519e2a9be44497828b7472b78f484ef8f5717292b4700a1ecee5f83600\n",
+      "stderr": ""
+    },
+    {
+      "name": "beta15_3_committed_package_sha",
+      "command": "node -e \nconst fs = require('fs');\nconst crypto = require('crypto');\n\tconst manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));\n\tconst pkg = JSON.parse(fs.readFileSync('evidence/beta15_3-package/package.manifest.json', 'utf8'));\n\tconst tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');\n\tif (pkg.version !== manifest.version) {\n\t  if (pkg.version !== '0.1.0-beta.15.3' || pkg.releaseEligible !== false || pkg.claimBoundary?.publicReleaseAllowed !== false) {\n\t    console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);\n\t    process.exit(1);\n\t  }\n\t}\n\tif (pkg.package.sha256 !== tarballSha) {\n\t  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);\n\t  process.exit(1);\n\t}\n\tif (pkg.version === manifest.version && manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {\n\t  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);\n\t  process.exit(1);\n\t}\nconsole.log('decision=PASS_COMMITTED_BETA15_3_PACKAGE_SHA_GATE');\n",
+      "rc": 0,
+      "elapsedMs": 135,
+      "stdout": "decision=PASS_COMMITTED_BETA15_3_PACKAGE_SHA_GATE\n",
+      "stderr": ""
+    },
+    {
+      "name": "beta15_3_package_smoke",
+      "command": "npm run smoke:beta15.3:package",
+      "rc": 0,
+      "elapsedMs": 3064,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.15.3 smoke:beta15.3:package\n> bash scripts/beta15_3-package-smoke.sh\n\ndecision=PASS_BRIK64_CLI_BETA15_3_PACKAGE_SMOKE\n",
       "stderr": ""
     }
   ],
   "requiredEvidence": [
     {
-      "id": "manifest_required_evidence_not_declared",
-      "path": "release/manifest.json",
-      "expectedDecision": "NO_REQUIRED_EVIDENCE_DECLARED",
-      "actualDecision": "NO_REQUIRED_EVIDENCE_DECLARED",
+      "id": "beta15_3_pre_public_rc",
+      "path": "evidence/beta15_3-pre-public-rc/report.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE",
+      "actualDecision": "PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE",
+      "pass": true
+    },
+    {
+      "id": "beta15_3_local_package",
+      "path": "evidence/beta15_3-package/package.manifest.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA15_3_PACKAGE_BUILT",
+      "actualDecision": "PASS_BRIK64_CLI_BETA15_3_PACKAGE_BUILT",
+      "pass": true
+    },
+    {
+      "id": "beta15_3_package_smoke",
+      "path": "evidence/beta15_3-package-smoke/report.json",
+      "expectedDecision": "PASS_BRIK64_CLI_BETA15_3_PACKAGE_SMOKE",
+      "actualDecision": "PASS_BRIK64_CLI_BETA15_3_PACKAGE_SMOKE",
+      "pass": true
+    },
+    {
+      "id": "beta15_3_l6_preflight_non_claim",
+      "path": "evidence/beta15_3-l6-preflight/report.json",
+      "expectedDecision": "PASS_BETA15_3_L6_PREFLIGHT_NON_CLAIM",
+      "actualDecision": "PASS_BETA15_3_L6_PREFLIGHT_NON_CLAIM",
       "pass": true
     }
   ],
