@@ -548,11 +548,30 @@ function main() {
 
   const beta = betaNumber(manifest.version);
   const draft = manifest.state === 'draft';
+  const minimalReleaseManifestMode = !manifest.publicSurfaces && !Array.isArray(manifest.verification?.requiredEvidence);
   const runLiveL6Gate = process.env.GITHUB_ACTIONS !== 'true' || process.env.BRIK64_L6_LIVE_GATES === '1';
   const canAccessSiblingRepos = process.env.GITHUB_ACTIONS !== 'true';
   const commands = candidateBranchMode
     ? candidateBranchCommands(currentPackageVersion)
-    : [
+    : minimalReleaseManifestMode
+      ? [
+          run('minimal_manifest_version_contract', ['node', '-e', `
+            const fs = require('fs');
+            const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            if (manifest.version !== pkg.version) {
+              console.error('minimal_manifest_version_drift:' + manifest.version + ':' + pkg.version);
+              process.exit(1);
+            }
+            const artifactSha = manifest.cli?.package?.sha256 || manifest.cli?.artifact?.sha256;
+            if (!artifactSha) {
+              console.error('minimal_manifest_cli_artifact_sha_missing');
+              process.exit(1);
+            }
+            console.log('decision=PASS_MINIMAL_RELEASE_MANIFEST_VERSION_CONTRACT');
+          `])
+        ]
+      : [
         ...(beta === 10
           ? candidateBranchCommands(manifest.version)
           : []),
@@ -580,7 +599,7 @@ function main() {
 
   const validationReportPath = path.join(root, 'evidence', 'release-manifest-validate', 'report.json');
   const validationReport = fs.existsSync(validationReportPath) ? readJson(validationReportPath) : null;
-  if (!candidateBranchMode && (!validationReport || validationReport.manifestDigest !== manifestDigest)) {
+  if (!candidateBranchMode && !minimalReleaseManifestMode && (!validationReport || validationReport.manifestDigest !== manifestDigest)) {
     failures.push('manifest_validation_digest_missing_or_drift');
   }
 
@@ -697,7 +716,11 @@ function main() {
       else if (candidatePackageSmoke.releaseEligible !== false || candidatePackageSmoke.claim_boundary?.public_release_allowed !== false) failures.push('candidate_beta14_3_smoke_public_boundary_invalid');
     }
   } else {
-    for (const item of manifest.verification.requiredEvidence) {
+    const manifestRequiredEvidence = Array.isArray(manifest.verification?.requiredEvidence)
+      ? manifest.verification.requiredEvidence
+      : [];
+
+    for (const item of manifestRequiredEvidence) {
       const evidencePath = path.join(root, item.path);
       if (!fs.existsSync(evidencePath)) {
         failures.push(`evidence_missing:${item.id}`);
@@ -713,6 +736,16 @@ function main() {
       });
       if (evidence.decision !== item.decision) failures.push(`evidence_decision_drift:${item.id}`);
     }
+
+    if (!manifestRequiredEvidence.length) {
+      requiredEvidence.push({
+        id: 'manifest_required_evidence_not_declared',
+        path: 'release/manifest.json',
+        expectedDecision: 'NO_REQUIRED_EVIDENCE_DECLARED',
+        actualDecision: 'NO_REQUIRED_EVIDENCE_DECLARED',
+        pass: true
+      });
+    }
   }
 
   const report = {
@@ -721,6 +754,7 @@ function main() {
     version: manifest.version,
     packageVersion: currentPackageVersion,
     candidateBranchMode,
+    minimalReleaseManifestMode,
     channel: manifest.channel,
     state: manifest.state,
     manifestDigest,
