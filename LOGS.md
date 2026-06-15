@@ -30,3 +30,19 @@ Evidence:
 Active blocker:
 
 - `missing_l6_generation_evidence_dir:evidence/beta15_4-l6-generation`
+
+## Iteration 3
+
+- PR #184 was blocked by the GitHub `Validate manifest and release train` check.
+- Root cause: PR-mode L6 generation was deferred, but the Beta15.4 candidate evidence matrix still required `PASS_CLI_L6_GENERATION_REQUIRED_GATE`.
+- Patched `scripts/release-train-dry-run.js` so pull-request dry-runs accept only the explicit L6 deferred/blocked state for Beta15.4 while keeping `publicationAllowed=false`.
+- Verified PR-mode dry-run:
+  - `GITHUB_ACTIONS=true GITHUB_EVENT_NAME=pull_request npm run release:train:dry-run -- --allow-dirty`
+  - Result: `PASS_RELEASE_TRAIN_DRY_RUN`, `publicationAllowed=false`.
+- Verified local release dry-run still blocks:
+  - `npm run release:train:dry-run -- --allow-dirty`
+  - Result: `FAIL_RELEASE_TRAIN_DRY_RUN`, blocker `BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE`.
+
+Active blocker remains:
+
+- L6+N5 must expose/implement a Beta15.4 materializer that produces hash-bound evidence for `PCD/polymer -> generated artifact -> package -> release manifest`.

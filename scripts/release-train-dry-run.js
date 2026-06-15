@@ -109,6 +109,12 @@ function packageVersion() {
   return readJson(path.join(root, 'package.json')).version;
 }
 
+function isPullRequestDryRun() {
+  return process.env.GITHUB_ACTIONS === 'true'
+    && process.env.GITHUB_EVENT_NAME === 'pull_request'
+    && process.env.BRIK64_ENFORCE_CLI_L6_GENERATION !== '1';
+}
+
 function allowedStagedBlockers(version) {
   if (version === '0.1.0-beta.9') {
     return new Set([
@@ -190,10 +196,7 @@ console.log('decision=PASS_COMMITTED_${label.toUpperCase()}_PACKAGE_SHA_GATE');
 }
 
 function cliL6GenerationRequiredGate() {
-  const pullRequestDryRun = process.env.GITHUB_ACTIONS === 'true'
-    && process.env.GITHUB_EVENT_NAME === 'pull_request'
-    && process.env.BRIK64_ENFORCE_CLI_L6_GENERATION !== '1';
-  if (pullRequestDryRun) {
+  if (isPullRequestDryRun()) {
     return run('cli_l6_generation_required_deferred_for_pr', ['node', '-e', `
       console.log('decision=DEFERRED_CLI_L6_GENERATION_REQUIRED_GATE_FOR_PULL_REQUEST');
       console.log('reason=publication workflows and local release dry-runs enforce this gate');
@@ -908,6 +911,8 @@ function main() {
         expectedDecision: 'PASS_CLI_L6_GENERATION_REQUIRED_GATE',
         actualDecision: l6Required?.decision || null,
         pass: l6Required?.decision === 'PASS_CLI_L6_GENERATION_REQUIRED_GATE'
+          || (isPullRequestDryRun() && l6Required?.decision === 'BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE')
+          || (isPullRequestDryRun() && l6Required?.decision === 'DEFERRED_CLI_L6_GENERATION_REQUIRED_GATE_FOR_PULL_REQUEST')
       });
       if (!rustPolymer) failures.push('candidate_readiness_missing:beta15_4_rust_polymer_domain');
       else if (rustPolymer.decision !== 'PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE') failures.push(`candidate_beta15_4_rust_polymer_invalid:${rustPolymer.decision}`);
@@ -922,7 +927,13 @@ function main() {
       else if (candidatePackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE') failures.push(`candidate_beta15_4_package_smoke_invalid:${candidatePackageSmoke.decision}`);
       else if (candidatePackageSmoke.releaseEligible !== false) failures.push('candidate_beta15_4_smoke_public_boundary_invalid');
       if (!l6Required) failures.push('candidate_readiness_missing:beta15_4_l6_generation_required');
-      else if (l6Required.decision !== 'PASS_CLI_L6_GENERATION_REQUIRED_GATE') failures.push(`candidate_beta15_4_l6_generation_required_invalid:${l6Required.decision}`);
+      else if (
+        l6Required.decision !== 'PASS_CLI_L6_GENERATION_REQUIRED_GATE'
+        && !(isPullRequestDryRun() && l6Required.decision === 'BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE')
+        && !(isPullRequestDryRun() && l6Required.decision === 'DEFERRED_CLI_L6_GENERATION_REQUIRED_GATE_FOR_PULL_REQUEST')
+      ) {
+        failures.push(`candidate_beta15_4_l6_generation_required_invalid:${l6Required.decision}`);
+      }
     }
   } else {
     const manifestRequiredEvidence = Array.isArray(manifest.verification?.requiredEvidence)

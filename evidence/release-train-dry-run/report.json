@@ -12,43 +12,30 @@
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
   "initialDirtyFiles": [
-    ".brik/manifest.json",
-    "README.md",
-    "evidence/beta14_6-domain-contracts/report.json",
+    "evidence/beta15_4-package/SHA256SUMS",
+    "evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz",
+    "evidence/beta15_4-package/package.manifest.json",
+    "evidence/beta15_4-package/stage-checksums.tsv",
+    "evidence/beta15_4-pre-public-rc/report.json",
+    "evidence/beta15_4-rust-polymer-domain/report.json",
+    "evidence/beta15_4-stale-public-surface/report.json",
     "evidence/cli-l6-generation-required/report.json",
-    "package.json",
-    "scripts/release-train-dry-run.js",
-    "src/brik.js",
-    "COMPLETION.txt",
-    "IMPLEMENTATION_PLAN.md",
-    "LOGS.md",
-    "TASKS_TODO.md",
-    "evidence/beta15_4-package-smoke/",
-    "evidence/beta15_4-package/",
-    "evidence/beta15_4-pre-public-rc/",
-    "evidence/beta15_4-rust-polymer-domain/",
-    "evidence/beta15_4-stale-public-surface/",
-    "pcd/beta15_4/",
-    "scripts/beta15_4-package-smoke.sh",
-    "scripts/beta15_4-pre-public-rc-gate.js",
-    "scripts/beta15_4-rust-polymer-domain-gate.js",
-    "scripts/beta15_4-stale-public-surface-gate.js",
-    "scripts/build-beta15_4-package.sh"
+    "scripts/release-train-dry-run.js"
   ],
   "commands": [
     {
       "name": "cli_l6_generation_required",
       "command": "npm run gate:cli:l6-generation-required",
       "rc": 1,
-      "elapsedMs": 216,
+      "elapsedMs": 211,
       "stdout": "\n> @brik64/cli@0.1.0-beta.15.4 gate:cli:l6-generation-required\n> node scripts/cli-l6-generation-required-gate.js\n\nBLOCKED_CLI_L6_GENERATION_REQUIRED_GATE evidence/cli-l6-generation-required/report.json\n",
-      "stderr": "missing_l6_generation_evidence_dir:evidence/beta15_4-l6-generation\n"
+      "stderr": "l6_gate_decision_not_pass:BLOCKED_BETA15_4_L6_GENERATION_GATE\nl6_gate_publication_not_allowed\nl6_gate_blockers_present:3\nartifact_manifest_missing_pcd_to_artifact_hash_binding\npackage_manifest_missing_artifact_to_package_hash_binding\npackage_manifest_missing_package_to_release_manifest_hash_binding\n"
     },
     {
       "name": "beta15_4_pre_public_rc",
       "command": "npm run gate:beta15.4:pre-public-rc",
       "rc": 0,
-      "elapsedMs": 43684,
+      "elapsedMs": 45260,
       "stdout": "\n> @brik64/cli@0.1.0-beta.15.4 gate:beta15.4:pre-public-rc\n> node scripts/beta15_4-pre-public-rc-gate.js\n\ndecision=PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE\n",
       "stderr": ""
     },
@@ -56,15 +43,15 @@
       "name": "beta15_4_local_package",
       "command": "npm run package:beta15.4:local",
       "rc": 0,
-      "elapsedMs": 1868,
-      "stdout": "\n> @brik64/cli@0.1.0-beta.15.4 package:beta15.4:local\n> bash scripts/build-beta15_4-package.sh\n\ndecision=PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz\nsha256=a6a07ce942308561282b473bcdff3b027ec3568bf02b4ae00313ef2fc9cff8bd\n",
+      "elapsedMs": 1812,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.15.4 package:beta15.4:local\n> bash scripts/build-beta15_4-package.sh\n\ndecision=PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz\nsha256=543be54a4f4848643bb60362901785a0cac2e0d59a332b7bfc2325ec11c9f9be\n",
       "stderr": ""
     },
     {
       "name": "beta15_4_committed_package_sha",
       "command": "node -e \nconst fs = require('fs');\nconst crypto = require('crypto');\n\tconst manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));\n\tconst pkg = JSON.parse(fs.readFileSync('evidence/beta15_4-package/package.manifest.json', 'utf8'));\n\tconst tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');\n\tif (pkg.version !== manifest.version) {\n\t  if (pkg.version !== '0.1.0-beta.15.4' || pkg.releaseEligible !== false || pkg.claimBoundary?.publicReleaseAllowed !== false) {\n\t    console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);\n\t    process.exit(1);\n\t  }\n\t}\n\tif (pkg.package.sha256 !== tarballSha) {\n\t  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);\n\t  process.exit(1);\n\t}\n\tif (pkg.version === manifest.version && manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {\n\t  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);\n\t  process.exit(1);\n\t}\nconsole.log('decision=PASS_COMMITTED_BETA15_4_PACKAGE_SHA_GATE');\n",
       "rc": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 74,
       "stdout": "decision=PASS_COMMITTED_BETA15_4_PACKAGE_SHA_GATE\n",
       "stderr": ""
     },
@@ -72,7 +59,7 @@
       "name": "beta15_4_package_smoke",
       "command": "npm run smoke:beta15.4:package",
       "rc": 0,
-      "elapsedMs": 2161,
+      "elapsedMs": 2027,
       "stdout": "\n> @brik64/cli@0.1.0-beta.15.4 smoke:beta15.4:package\n> bash scripts/beta15_4-package-smoke.sh\n\ndecision=PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE\n",
       "stderr": ""
     }

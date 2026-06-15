@@ -19,7 +19,7 @@
     {
       "id": "version",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 89,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.4\nstatus=pre_public_candidate\n",
       "stderr": ""
     },
@@ -40,63 +40,63 @@
     {
       "id": "node_check_beta15_4_stale_public_surface_gate",
       "status": 0,
-      "elapsedMs": 54,
+      "elapsedMs": 56,
       "stdout": "",
       "stderr": ""
     },
     {
       "id": "node_check_self",
       "status": 0,
-      "elapsedMs": 54,
+      "elapsedMs": 59,
       "stdout": "",
       "stderr": ""
     },
     {
       "id": "gate_beta15_4_rust_polymer_domain",
       "status": 0,
-      "elapsedMs": 4300,
+      "elapsedMs": 4543,
       "stdout": "decision=PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE\n",
       "stderr": ""
     },
     {
       "id": "gate_beta15_4_stale_public_surface",
       "status": 0,
-      "elapsedMs": 747,
+      "elapsedMs": 784,
       "stdout": "decision=PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE\n",
       "stderr": ""
     },
     {
       "id": "gate_beta14_5_128_executable_regression",
       "status": 0,
-      "elapsedMs": 28900,
+      "elapsedMs": 30081,
       "stdout": "decision=PASS_BETA14_5_128_EXECUTABLE_GATE\nchecks=4\n",
       "stderr": ""
     },
     {
       "id": "gate_beta14_6_domain_contracts_regression",
       "status": 0,
-      "elapsedMs": 1716,
+      "elapsedMs": 1897,
       "stdout": "PASS_BETA14_6_DOMAIN_CONTRACTS_GATE\nreport=evidence/beta14_6-domain-contracts/report.json\n",
       "stderr": ""
     },
     {
       "id": "gate_beta15_2_pre_public_regression",
       "status": 0,
-      "elapsedMs": 840,
+      "elapsedMs": 946,
       "stdout": "decision=PASS_BRIK64_CLI_BETA15_2_PRE_PUBLIC_RC_GATE\n",
       "stderr": ""
     },
     {
       "id": "smoke",
       "status": 0,
-      "elapsedMs": 6603,
+      "elapsedMs": 6398,
       "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=polymer.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=legacy.beta7.pcd.cert.json\ncertificate=variant.pcd.cert.json\ncertificate=root.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
       "stderr": ""
     },
     {
       "id": "monomers_all",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 76,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_monomer_test_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.4\",\n  \"target\": \"registry\",\n  \"scope\": \"all\",\n  \"total\": 128,\n  \"passed\": 128,\n  \"failed\": 0,\n  \"checks\": [\n    {\n      \"key\": \"MC_00.ADD8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_01.SUB8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_02.MUL8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_03.DIV8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_04.INC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_05.DEC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_06.ABS\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_07.CLAMP\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    ",
       "stderr": ""
     }
