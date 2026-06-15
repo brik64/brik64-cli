@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15.2`
+Current beta candidate: `0.1.0-beta.15.3`
 Previous/live public baseline until promotion: `0.1.0-beta.15`
 
 ## Install
@@ -27,14 +27,15 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15.2 Pre-Public Candidate Boundary
+## Beta15.3 Pre-Public Candidate Boundary
 
-`0.1.0-beta.15.2` is staged as a pre-public maintenance candidate for stronger
-bounded-domain enforcement, generated test coverage, local traceability, and
+`0.1.0-beta.15.3` is staged as a pre-public maintenance candidate for generated
+application integrity: tuple monomer emission, cleaner generated Rust, generated
+test execution, certifiable polymer PCD output, local traceability, and
 claim-safe project reports. Public release claims remain closed until atomic
 public-surface verification passes.
 
-## Beta15.2 Candidate Command Surface
+## Beta15.3 Candidate Command Surface
 
 The candidate keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -49,9 +50,12 @@ review and claim-safe evidence:
 - `brik64 pcd generate <name>` creates a starter PCD candidate.
 - `brik64 certify` writes local candidate evidence only.
 - `brik64 polymerize` writes a local polymer candidate. Multi-input inline
-  polymers require `--root <fn>` so the entrypoint is explicit.
+  polymers require `--root <fn>` so the entrypoint is explicit. Source polymers
+  intended for review should use the `.polymer.pcd` suffix.
 - `brik64 compile all` emits supported local targets for candidate workflows.
 - `brik64 test all` runs local candidate checks.
+- `brik64 monomers test --all --json` reports the 128-entry registry status for
+  local candidate validation.
 
 Managed cloud paths remain entitlement-gated. Without a managed session, those
 paths fail closed and keep local artifacts unchanged.
@@ -66,8 +70,9 @@ paths fail closed and keep local artifacts unchanged.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. Beta15 candidate coordinates are
-staged for release-train synchronization:
+SDKs are distributed separately from the CLI. Beta15.3 SDK marketplace
+coordinates are pending release-train synchronization. Until that gate passes,
+use the last published SDK baseline documented by the public release surface:
 
 ```sh
 npm install @brik64/core@0.1.0-beta.15.2
@@ -89,7 +94,7 @@ establish native Windows compatibility.
 
 ## Local Ledger
 
-Beta15.2 records selected workspace actions in `.brik/ledger/events.jsonl` with
+Beta15.3 records selected workspace actions in `.brik/ledger/events.jsonl` with
 a hash chain and `.brik/ledger/head.json` head pointer. Event payloads are
 redacted by default: raw source, raw PCD content, absolute paths, and secrets are
 not written to the ledger event body.

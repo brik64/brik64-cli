@@ -1,0 +1,24 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_3_source_contract: generated_application_integrity
+PC generated_application_integrity {
+    domain ts_condition_parenthesized: i64 [0, 1];
+    domain div8_tuple_lowered: i64 [0, 1];
+    domain rust_f64_type_stable: i64 [0, 1];
+    domain python_math_fixture_safe: i64 [0, 1];
+    domain polymer_pcd_parseable: i64 [0, 1];
+    fn generated_application_integrity(
+        ts_condition_parenthesized: i64,
+        div8_tuple_lowered: i64,
+        rust_f64_type_stable: i64,
+        python_math_fixture_safe: i64,
+        polymer_pcd_parseable: i64
+    ) -> i64 {
+        if (ts_condition_parenthesized == 0) return 0;
+        if (div8_tuple_lowered == 0) return 0;
+        if (rust_f64_type_stable == 0) return 0;
+        if (python_math_fixture_safe == 0) return 0;
+        if (polymer_pcd_parseable == 0) return 0;
+        return 1;
+    }
+}

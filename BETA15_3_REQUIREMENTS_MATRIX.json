@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "brik64.cli_beta15_3_requirements_matrix.v1",
+  "version": "0.1.0-beta.15.3",
+  "releaseEligible": false,
+  "claimBoundary": "pre_public_candidate_local_package_only",
+  "requirements": [
+    {
+      "id": "B15_3_DIV8_TUPLE_EMIT",
+      "status": "implemented_candidate",
+      "evidence": "evidence/beta15_3-generated-application-integrity/report.json",
+      "description": "MC_03.DIV8 emits tuple_u8_u8 with executable generated tests for TypeScript, Python, and Rust."
+    },
+    {
+      "id": "B15_3_TS_CONDITION_SYNTAX",
+      "status": "implemented_candidate",
+      "evidence": "evidence/beta15_3-generated-application-integrity/report.json",
+      "description": "Generated TypeScript conditions keep parentheses for boolean literals and branch expressions."
+    },
+    {
+      "id": "B15_3_RUST_F64_AND_WARNINGS",
+      "status": "implemented_candidate",
+      "evidence": "evidence/beta15_3-generated-application-integrity/report.json",
+      "description": "Generated Rust f64 branch and method-call cases compile and test without warnings inside the Beta15.3 gate."
+    },
+    {
+      "id": "B15_3_POLYMER_PCD_STANDARD",
+      "status": "implemented_candidate",
+      "evidence": "evidence/beta15_3-generated-application-integrity/report.json",
+      "description": "Inline polymer output is a certifiable .polymer.pcd with domains and boundary contracts before functions."
+    },
+    {
+      "id": "B15_3_128_MONOMER_REGRESSION",
+      "status": "implemented_candidate",
+      "evidence": "evidence/beta14_5-128-executable/report.json",
+      "description": "The 128 monomer regression gate passes against the Beta15.3 local candidate."
+    },
+    {
+      "id": "B15_3_PUBLIC_RELEASE_TRAIN",
+      "status": "pending",
+      "evidence": null,
+      "description": "GitHub release, curl installer, web, docs, SDKs, skills, changelog, and live verification are not yet synchronized for public publication."
+    },
+    {
+      "id": "B15_3_L6_GENERATION",
+      "status": "pending",
+      "evidence": null,
+      "description": "L6+N5 generation/homologation evidence has not yet been refreshed for this candidate."
+    }
+  ]
+}

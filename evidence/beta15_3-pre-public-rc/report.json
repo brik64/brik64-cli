@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "brik64.cli_beta15_3_pre_public_rc_report.v1",
+  "version": "0.1.0-beta.15.3",
+  "decision": "PASS_BRIK64_CLI_BETA15_3_PRE_PUBLIC_RC_GATE",
+  "evidenceLevel": "NIVEL 3",
+  "releaseEligible": false,
+  "claimBoundary": "candidate local package only; public release requires synchronized web/docs/SDK/skills/live surfaces and L6 generation evidence before any stronger claim.",
+  "checked": [
+    "node_syntax",
+    "beta15_3_generated_application_integrity",
+    "beta14_5_128_executable_regression",
+    "beta14_6_domain_contracts_regression",
+    "beta15_2_pre_public_regression",
+    "smoke",
+    "monomers_128_registry"
+  ],
+  "records": [
+    {
+      "id": "version",
+      "status": 0,
+      "elapsedMs": 889,
+      "stdout": "BRIK64 CLI 0.1.0-beta.15.3\nstatus=pre_public_candidate\n",
+      "stderr": ""
+    },
+    {
+      "id": "node_check_cli",
+      "status": 0,
+      "elapsedMs": 194,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "node_check_beta15_3_gate",
+      "status": 0,
+      "elapsedMs": 1616,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "node_check_self",
+      "status": 0,
+      "elapsedMs": 399,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "id": "gate_beta15_3_generated_application_integrity",
+      "status": 0,
+      "elapsedMs": 7426,
+      "stdout": "decision=PASS_BRIK64_CLI_BETA15_3_GENERATED_APPLICATION_INTEGRITY_GATE\n",
+      "stderr": ""
+    },
+    {
+      "id": "gate_beta14_5_128_executable_regression",
+      "status": 0,
+      "elapsedMs": 63821,
+      "stdout": "decision=PASS_BETA14_5_128_EXECUTABLE_GATE\nchecks=4\n",
+      "stderr": ""
+    },
+    {
+      "id": "gate_beta14_6_domain_contracts_regression",
+      "status": 0,
+      "elapsedMs": 4483,
+      "stdout": "PASS_BETA14_6_DOMAIN_CONTRACTS_GATE\nreport=evidence/beta14_6-domain-contracts/report.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "gate_beta15_2_pre_public_regression",
+      "status": 0,
+      "elapsedMs": 1464,
+      "stdout": "decision=PASS_BRIK64_CLI_BETA15_2_PRE_PUBLIC_RC_GATE\n",
+      "stderr": ""
+    },
+    {
+      "id": "smoke",
+      "status": 0,
+      "elapsedMs": 14487,
+      "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=polymer.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=legacy.beta7.pcd.cert.json\ncertificate=variant.pcd.cert.json\ncertificate=root.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "monomers_all",
+      "status": 0,
+      "elapsedMs": 140,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_monomer_test_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.3\",\n  \"target\": \"registry\",\n  \"scope\": \"all\",\n  \"total\": 128,\n  \"passed\": 128,\n  \"failed\": 0,\n  \"checks\": [\n    {\n      \"key\": \"MC_00.ADD8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_01.SUB8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_02.MUL8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_03.DIV8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_04.INC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_05.DEC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_06.ABS\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_07.CLAMP\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    ",
+      "stderr": ""
+    }
+  ]
+}

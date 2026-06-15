@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "brik64.beta15_3_generated_application_integrity_gate.v1",
+  "version": "0.1.0-beta.15.3",
+  "decision": "PASS_BRIK64_CLI_BETA15_3_GENERATED_APPLICATION_INTEGRITY_GATE",
+  "evidenceLevel": "NIVEL 3",
+  "checked": [
+    "ts_condition_parentheses",
+    "div8_tuple_emit_ts_python_rust",
+    "rust_f64_branch_literals",
+    "python_math_log_domain_fixtures",
+    "polymer_pcd_certify_verify",
+    "polymer_domains_before_functions"
+  ],
+  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-3-Ho4Sll",
+  "records": [
+    {
+      "id": "version",
+      "status": 0,
+      "stdout": "BRIK64 CLI 0.1.0-beta.15.3\nstatus=pre_public_candidate\n",
+      "stderr": ""
+    },
+    {
+      "id": "init",
+      "status": 0,
+      "stdout": "created=.brik/manifest.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:core_a.pcd",
+      "status": 0,
+      "stdout": "certificate=pcd/core_a.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:core_a.pcd",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=12b71da80e5f9fc71719907e2efc70f883374adcf0cb213f63eefd8c7c321a8d\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:core_b.pcd",
+      "status": 0,
+      "stdout": "certificate=pcd/core_b.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:core_b.pcd",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=762f55ea41b9d57e04a17c1a648b9e630c23ed6f82200734caa83e5a3ca5c9f8\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:div8_tuple.pcd",
+      "status": 0,
+      "stdout": "certificate=pcd/div8_tuple.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:div8_tuple.pcd",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=2d19d86a1f87f0881a9201c930a9b187649c293f4caed5aa563b9d5264d835ab\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:f64_branch.pcd",
+      "status": 0,
+      "stdout": "certificate=pcd/f64_branch.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:f64_branch.pcd",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=075b6aea262172bfa39514bcb3a7266a70bf6c44b8da68f6c23f07a82468d986\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:math_log.pcd",
+      "status": 0,
+      "stdout": "certificate=pcd/math_log.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:math_log.pcd",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=e3785a1500172c88fd31acc4362d2d4707f408dfdbbebe4550b97c9fccde4434\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:ts_constant_condition.pcd",
+      "status": 0,
+      "stdout": "certificate=pcd/ts_constant_condition.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:ts_constant_condition.pcd",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=e3ca40485a33b6f6ebd3196aeb63886a5bf0ab7d935441fbba2852168e914d9d\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:ts:pcd/ts_constant_condition.pcd",
+      "status": 0,
+      "stdout": "generated=out/ts-condition/program.mjs\ntests=out/ts-condition/program.test.mjs\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/ts-condition:ts",
+      "status": 0,
+      "stdout": "brik64 generated ts test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:ts:pcd/div8_tuple.pcd",
+      "status": 0,
+      "stdout": "generated=out/div8-ts/program.mjs\ntests=out/div8-ts/program.test.mjs\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/div8-ts:ts",
+      "status": 0,
+      "stdout": "brik64 generated ts test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:python:pcd/div8_tuple.pcd",
+      "status": 0,
+      "stdout": "generated=out/div8-python/brik64_generated_div8_tuple/program.py\ntests=out/div8-python/tests/test_div8_tuple.py\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/div8-python:python",
+      "status": 0,
+      "stdout": "brik64 generated python test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:rust:pcd/div8_tuple.pcd",
+      "status": 0,
+      "stdout": "generated=out/div8-rust/program.rs\ntests=out/div8-rust/program_test.rs\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/div8-rust:rust",
+      "status": 0,
+      "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:rust:pcd/f64_branch.pcd",
+      "status": 0,
+      "stdout": "generated=out/f64-rust/program.rs\ntests=out/f64-rust/program_test.rs\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/f64-rust:rust",
+      "status": 0,
+      "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:ts:pcd/f64_branch.pcd",
+      "status": 0,
+      "stdout": "generated=out/f64-ts/program.mjs\ntests=out/f64-ts/program.test.mjs\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/f64-ts:ts",
+      "status": 0,
+      "stdout": "brik64 generated ts test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:python:pcd/math_log.pcd",
+      "status": 0,
+      "stdout": "generated=out/log-python/brik64_generated_math_log/program.py\ntests=out/log-python/tests/test_math_log.py\n",
+      "stderr": ""
+    },
+    {
+      "id": "test:out/log-python:python",
+      "status": 0,
+      "stdout": "brik64 generated python test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "polymerize:core",
+      "status": 0,
+      "stdout": "polymer=polymers/core_system.polymer.pcd\nmanifest=polymers/core_system.polymer.pcd.manifest.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:core_polymer",
+      "status": 0,
+      "stdout": "certificate=polymers/core_system.polymer.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:core_polymer",
+      "status": 0,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=e81d249fa249e0b3edc1c97026dfab6e07be4c2bdbcbd5905ab4032b4f5b8476\nclaim=local_candidate_only\n",
+      "stderr": ""
+    }
+  ]
+}

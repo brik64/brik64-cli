@@ -1,0 +1,14 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_3_harness_contract: generated_application_integrity_gate
+PC generated_application_integrity_gate {
+    domain fresh_emit_targets_pass: i64 [0, 1];
+    domain div8_tuple_parity_pass: i64 [0, 1];
+    domain polymer_pcd_gate_pass: i64 [0, 1];
+    fn generated_application_integrity_gate(fresh_emit_targets_pass: i64, div8_tuple_parity_pass: i64, polymer_pcd_gate_pass: i64) -> i64 {
+        if (fresh_emit_targets_pass == 0) return 0;
+        if (div8_tuple_parity_pass == 0) return 0;
+        if (polymer_pcd_gate_pass == 0) return 0;
+        return 1;
+    }
+}

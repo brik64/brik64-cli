@@ -3,6 +3,40 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.3
+
+### Added
+
+- Adds a Beta15.3 generated-application-integrity gate covering TypeScript
+  condition syntax, DIV8 tuple emission, Rust f64 emission, Python math-domain
+  fixtures, and certifiable `.polymer.pcd` output.
+- Adds a Beta15.3 pre-public RC gate that aggregates the generated-integrity
+  gate, 128-monomer regression, domain-contract regression, Beta15.2 regression,
+  smoke tests, and monomer registry checks.
+- Adds Beta15.3 local package and package-smoke scripts with release eligibility
+  kept closed until public surfaces are synchronized.
+
+### Changed
+
+- `MC_03.DIV8` is executable as `tuple_u8_u8` in generated TypeScript, Python,
+  and Rust tests.
+- Generated Rust f64 branch and method-call output now avoids invalid casts and
+  warning-producing condition formatting in the Beta15.3 gate.
+- Inline polymer generation now creates parent output directories and preserves
+  domain and boundary declarations before functions in certifiable polymer PCDs.
+- Regression gates now discover the current generated Python test layout instead
+  of assuming legacy root-level `test_program.py` files.
+
+### Compatibility
+
+- This beta remains a pre-public candidate. Public release is blocked until
+  GitHub release assets, curl installer, web, docs, SDKs, skills, changelog,
+  public claim scan, and live verification are synchronized.
+- The L6+N5 check included with this candidate is a non-claim preflight only; it
+  does not prove Beta15.3 artifact materialization by L6+N5.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.2
 
 ### Added

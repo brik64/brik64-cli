@@ -1,0 +1,16 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_3_source_contract: polymer_pcd_standard
+PC polymer_pcd_standard {
+    domain source_is_pcd: i64 [0, 1];
+    domain manifest_is_metadata: i64 [0, 1];
+    domain certifies: i64 [0, 1];
+    domain verifies: i64 [0, 1];
+    fn polymer_pcd_standard(source_is_pcd: i64, manifest_is_metadata: i64, certifies: i64, verifies: i64) -> i64 {
+        if (source_is_pcd == 0) return 0;
+        if (manifest_is_metadata == 0) return 0;
+        if (certifies == 0) return 0;
+        if (verifies == 0) return 0;
+        return 1;
+    }
+}

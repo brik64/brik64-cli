@@ -39,7 +39,7 @@
         },
         {
           "key": "MC_03.DIV8",
-          "boundary": "boundary_required",
+          "boundary": "pure_local_candidate",
           "fixture": "pcd/MC_03_DIV8.pcd",
           "certify": "PASS",
           "verify": "PASS"
