@@ -1,0 +1,23 @@
+{
+  "schema": "brik64.cli_beta_fixpoint_source_manifest.v1",
+  "cli": "brik64-cli-beta15-production-candidate",
+  "version": "0.1.0-beta.15",
+  "lane": "cli_0_1_beta",
+  "classification": "source_contract_non_claim",
+  "source_pcd": "pcd/cli/beta15/cli_polymer.pcd",
+  "base_public_beta_manifest": "pcd/cli/public_beta/brik_cli_public_beta.manifest.json",
+  "base_public_beta_polymer": "pcd/cli/public_beta/brik_cli_public_beta.polymer.pcd",
+  "required_generation": {
+    "factory": "l6plus-n5",
+    "pcd_polymer_to_artifact_replay_required": true,
+    "generated_artifact_hash_required": true,
+    "atomic_release_train_required": true
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "release_publication_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  }
+}

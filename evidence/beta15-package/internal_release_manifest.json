@@ -1,0 +1,36 @@
+{
+  "schema": "brik64.beta15_cli_release_manifest.v1",
+  "generated_at": "2026-06-15T05:55:02.640Z",
+  "cli": "brik64-cli-beta15-production-candidate",
+  "version": "0.1.0-beta.15",
+  "artifact": {
+    "path": "reports/cli-release-fixpoint/beta15/artifact_candidate",
+    "exists": true,
+    "sha256": "sha256:f86922cce11276b5631a5c877a349416b653befa117a36cc04e604a3b612dcb8",
+    "size_bytes": 2011
+  },
+  "artifact_manifest": {
+    "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
+    "exists": true,
+    "sha256": "sha256:8c55ecd064fb566b586cdd9c979af5edce21576b43cc38bcb4ef65c79f6bb0cd",
+    "size_bytes": 2349
+  },
+  "replay_report": {
+    "path": "reports/cli-release-fixpoint/beta15/pcd_polymer_to_artifact_replay_report.json",
+    "exists": true,
+    "sha256": "sha256:7e2db34563fd99f682a577dcfbaa8d1d49928c2c1f4b5f5cb04752867156e64c",
+    "size_bytes": 2286
+  },
+  "release_train": {
+    "atomic_verification_present": true,
+    "public_publication_authorized": false,
+    "internal_fixpoint_precondition_only": true
+  },
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "release_publication_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false
+  }
+}

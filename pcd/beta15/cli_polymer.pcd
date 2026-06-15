@@ -1,0 +1,23 @@
+// BRIK64 CLI beta15 production-candidate fixpoint blocker source wrapper.
+// Source authority: pcd/cli/public_beta/brik_cli_public_beta.polymer.pcd
+// Boundary: source contract only; not artifact, replay, release, or fixpoint evidence.
+PC brik64_cli_beta15_production_candidate_polymer {
+    fn brik64_cli_beta15_production_candidate(public_beta_source_ready, domain_contract_ready, l6_factory_ready, replay_ready, release_train_ready) {
+        if (public_beta_source_ready <= 0) {
+            return 0;
+        }
+        if (domain_contract_ready <= 0) {
+            return 0;
+        }
+        if (l6_factory_ready <= 0) {
+            return 0;
+        }
+        if (replay_ready <= 0) {
+            return 0;
+        }
+        if (release_train_ready <= 0) {
+            return 0;
+        }
+        return 1;
+    }
+}

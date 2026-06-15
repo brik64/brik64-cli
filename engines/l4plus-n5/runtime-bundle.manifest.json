@@ -4,14 +4,14 @@
   "releaseEligible": false,
   "runtimeMode": "portable_bir_bundle",
   "nativeExecutableIncluded": false,
-  "cliVersion": "0.1.0-beta.5",
+  "cliVersion": "0.1.0-beta.15",
   "engine": "L4+N5",
   "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
   "sourceRepo": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5",
   "claimBoundary": {
-    "publicClaimsAllowed": true,
-    "n5Authorized": true,
-    "r99_9ClaimAllowed": true,
+    "publicClaimsAllowed": false,
+    "n5Authorized": false,
+    "r99_9ClaimAllowed": false,
     "r99_999999ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false,
     "platformCanIssueCertification": false

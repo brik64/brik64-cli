@@ -1,0 +1,129 @@
+{
+  "schema": "brik64.beta15_cli_fixpoint_report.v1",
+  "generated_at": "2026-06-15T05:55:02.833Z",
+  "cli": "brik64-cli-beta15-production-candidate",
+  "version": "0.1.0-beta.15",
+  "classification": "cli_fixpoint_internal_non_claim_pass",
+  "inputs": {
+    "candidate_1": {
+      "path": "pcd/cli/beta15/manifest.json",
+      "exists": true,
+      "sha256": "sha256:ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+      "size_bytes": 872
+    },
+    "candidate_2": {
+      "path": "pcd/cli/beta15/cli_polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+      "size_bytes": 822
+    },
+    "candidate_3": {
+      "path": "pcd/cli/public_beta/brik_cli_public_beta.polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:60376a758c8c3ac7602dc4d3d2882293c6e490a1c59ca9def3c9f136e1e85cc9",
+      "size_bytes": 1160
+    },
+    "candidate_4": {
+      "path": "reports/cli-release-fixpoint/beta15/l6plus_materialization_report.json",
+      "exists": true,
+      "sha256": "sha256:f5b82a132c060a769cac2136ae8fdb4e7f584229cef42961532029aa2e822a44",
+      "size_bytes": 4851
+    },
+    "candidate_5": {
+      "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
+      "exists": true,
+      "sha256": "sha256:8c55ecd064fb566b586cdd9c979af5edce21576b43cc38bcb4ef65c79f6bb0cd",
+      "size_bytes": 2349
+    },
+    "candidate_6": {
+      "path": "reports/cli-release-fixpoint/executable_artifact_preflight_report.json",
+      "exists": true,
+      "sha256": "sha256:e732d4b573581d0b27b43dad4fd14d8fbe5a60e3f7eb74c9ac3cc2cfb3f3c230",
+      "size_bytes": 2018
+    },
+    "candidate_7": {
+      "path": "reports/cli-release-fixpoint/beta15/release_manifest.json",
+      "exists": true,
+      "sha256": "sha256:bc95a30af12de5b61ba8d8916a82a2c9b3caa2d3d74f5c129c4fb5d11f0f3995",
+      "size_bytes": 1291
+    },
+    "candidate_8": {
+      "path": "release/beta15/manifest.json",
+      "exists": false
+    },
+    "domain_binding": {
+      "path": "pcd/cli/beta15/manifest.json",
+      "exists": true,
+      "sha256": "sha256:ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+      "size_bytes": 872
+    },
+    "pcd": {
+      "path": "pcd/cli/beta15/cli_polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+      "size_bytes": 822
+    },
+    "polymer": {
+      "path": "pcd/cli/public_beta/brik_cli_public_beta.polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:60376a758c8c3ac7602dc4d3d2882293c6e490a1c59ca9def3c9f136e1e85cc9",
+      "size_bytes": 1160
+    },
+    "l6plus_materialization_report": {
+      "path": "reports/cli-release-fixpoint/beta15/l6plus_materialization_report.json",
+      "exists": true,
+      "sha256": "sha256:f5b82a132c060a769cac2136ae8fdb4e7f584229cef42961532029aa2e822a44",
+      "size_bytes": 4851
+    },
+    "artifact_candidate_manifest": {
+      "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
+      "exists": true,
+      "sha256": "sha256:8c55ecd064fb566b586cdd9c979af5edce21576b43cc38bcb4ef65c79f6bb0cd",
+      "size_bytes": 2349
+    },
+    "executable_artifact_preflight": {
+      "path": "reports/cli-release-fixpoint/executable_artifact_preflight_report.json",
+      "exists": true,
+      "sha256": "sha256:e732d4b573581d0b27b43dad4fd14d8fbe5a60e3f7eb74c9ac3cc2cfb3f3c230",
+      "size_bytes": 2018
+    },
+    "replay_report": {
+      "path": "reports/cli-release-fixpoint/beta15/pcd_polymer_to_artifact_replay_report.json",
+      "exists": true,
+      "sha256": "sha256:7e2db34563fd99f682a577dcfbaa8d1d49928c2c1f4b5f5cb04752867156e64c",
+      "size_bytes": 2286
+    },
+    "release_manifest": {
+      "path": "reports/cli-release-fixpoint/beta15/release_manifest.json",
+      "exists": true,
+      "sha256": "sha256:bc95a30af12de5b61ba8d8916a82a2c9b3caa2d3d74f5c129c4fb5d11f0f3995",
+      "size_bytes": 1291
+    }
+  },
+  "present_input_count": 15,
+  "reproducibility": {
+    "pcd_polymer_to_artifact_replay_executed": true,
+    "generated_artifact_matches_fresh_self_regeneration": true,
+    "reproducible_hash_match": true
+  },
+  "outputs": {
+    "stage_candidate": {
+      "path": "reports/cli-release-fixpoint/beta15/artifact_candidate",
+      "sha256": "sha256:f86922cce11276b5631a5c877a349416b653befa117a36cc04e604a3b612dcb8",
+      "executable": true,
+      "stage_replay_input_allowed": true
+    }
+  },
+  "blockers": [],
+  "decision": "PASS",
+  "verdict": "PASS",
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "n5_authorized": false,
+    "fixpoint_claim_allowed": false,
+    "self_hosting_claim_allowed": false,
+    "rust_independence_claim_allowed": false,
+    "release_publication_allowed": false
+  },
+  "next_action": "consume this internal non-claim CLI fixpoint row in the Beta15 closure matrix"
+}

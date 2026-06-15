@@ -1,0 +1,64 @@
+{
+  "schema": "brik64.beta15_cli_artifact_candidate_manifest.v1",
+  "generated_at": "2026-06-15T05:55:02.537Z",
+  "cli": "brik64-cli-beta15-production-candidate",
+  "version": "0.1.0-beta.15",
+  "classification": "l6plus_pcd_polymer_bound_executable_candidate_internal_non_claim",
+  "inputs": {
+    "domain_binding": {
+      "path": "pcd/cli/beta15/manifest.json",
+      "exists": true,
+      "sha256": "sha256:ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+      "size_bytes": 872
+    },
+    "pcd": {
+      "path": "pcd/cli/beta15/cli_polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+      "size_bytes": 822
+    },
+    "polymer": {
+      "path": "pcd/cli/public_beta/brik_cli_public_beta.polymer.pcd",
+      "exists": true,
+      "sha256": "sha256:60376a758c8c3ac7602dc4d3d2882293c6e490a1c59ca9def3c9f136e1e85cc9",
+      "size_bytes": 1160
+    },
+    "l6_semantic_acceptance": {
+      "path": "reports/engine-domain-rehomologation-beta14.8/semantic_self_regeneration_acceptance_report.json",
+      "exists": true,
+      "sha256": "sha256:dc840d820fd9ff1c4b8137f0f4907dac85bea8437a87d8fab3016148bc397ab5",
+      "size_bytes": 7095
+    },
+    "real_materializer_acceptance": {
+      "path": "reports/engine-domain-rehomologation-beta14.8/real_materializer_acceptance_contract_report.json",
+      "exists": true,
+      "sha256": "sha256:7c33af7a18dbc60c6dcf9883690803b8c17f4de833294a26f817c1bbadec63ff",
+      "size_bytes": 8346
+    }
+  },
+  "artifact_candidate": {
+    "path": "reports/cli-release-fixpoint/beta15/artifact_candidate",
+    "sha256": "sha256:f86922cce11276b5631a5c877a349416b653befa117a36cc04e604a3b612dcb8",
+    "size_bytes": 2011
+  },
+  "checks": {
+    "source_pcd_present": true,
+    "source_polymer_present": true,
+    "domain_binding_present": true,
+    "l6_semantic_acceptance_pass": true,
+    "real_materializer_acceptance_pass": true,
+    "executable": true,
+    "stage_replay_input_allowed": true,
+    "generated_by_l6plus_n5": true,
+    "release_publication_allowed": true
+  },
+  "blockers": [],
+  "decision": "PASS",
+  "verdict": "PASS",
+  "claim_boundary": {
+    "public_claims_allowed": false,
+    "fixpoint_claim_allowed": false,
+    "release_publication_allowed": false,
+    "rust_independence_claim_allowed": false
+  }
+}

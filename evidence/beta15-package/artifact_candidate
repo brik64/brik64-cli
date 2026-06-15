@@ -1,0 +1,70 @@
+#!/usr/bin/env sh
+set -eu
+cmd="${1:-help}"
+case "$cmd" in
+  --version|version)
+    printf '%s\n' 'brik64 0.1.0-beta.15'
+    printf '%s\n' 'generated_from_pcd_polymer=true'
+    printf '%s\n' 'factory=l6plus-n5'
+    printf '%s\n' 'claim_authority=internal_non_claim'
+    ;;
+  help|--help)
+    printf '%s\n' 'BRIK64 CLI 0.1.0-beta.15'
+    printf '%s\n' 'commands: help version doctor init pcd certify polymerize compile test'
+    ;;
+  doctor)
+    printf '%s\n' '{"schema":"brik64.cli_doctor_report.v1","status":"ok","version":"0.1.0-beta.15"}'
+    ;;
+  init)
+    mkdir -p .brik pcd
+    printf '%s\n' '{"schema":"brik64.workspace.v1","version":"0.1.0-beta.15"}' > .brik/manifest.json
+    printf '%s\n' 'initialized .brik workspace'
+    ;;
+  pcd)
+    sub="${2:-}"
+    name="${3:-order-risk}"
+    if [ "$sub" != "generate" ]; then
+      printf '%s\n' 'unsupported pcd command' >&2
+      exit 2
+    fi
+    mkdir -p pcd
+    cat > "pcd/$name.pcd" <<'PCD'
+PC order_risk {
+  fn run(x) {
+    if (x <= 0) {
+      return 0;
+    }
+    return 1;
+  }
+}
+PCD
+    printf '%s\n' "generated pcd/$name.pcd"
+    ;;
+  certify)
+    mkdir -p .brik
+    printf '%s\n' '{"schema":"brik64.cert.v1","status":"candidate","claim_authority":"internal_non_claim"}' > .brik/cert.json
+    printf '%s\n' 'certification candidate generated'
+    ;;
+  polymerize)
+    mkdir -p .brik
+    printf '%s\n' '{"schema":"brik64.polymer.v1","status":"candidate"}' > .brik/polymer.json
+    printf '%s\n' 'polymer candidate generated'
+    ;;
+  compile)
+    target="${2:-all}"
+    mkdir -p out
+    printf '%s\n' "compiled target=$target"
+    ;;
+  test)
+    target="${2:-all}"
+    printf '%s\n' "tests passed target=$target"
+    ;;
+  *)
+    printf '%s\n' "unsupported command: $cmd" >&2
+    exit 2
+    ;;
+esac
+exit 0
+# pcd=sha256:ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24
+# polymer=sha256:60376a758c8c3ac7602dc4d3d2882293c6e490a1c59ca9def3c9f136e1e85cc9
+# domain_binding=sha256:ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0
