@@ -1,0 +1,16 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.2 generated helpers must enforce declared domain boundaries before executing helper logic.
+PC domain_helper_enforcement {
+    domain entrypoint_domain_ok: i64 [0, 1];
+    domain helper_domain_ok: i64 [0, 1];
+    domain below_min_rejected: i64 [0, 1];
+    domain above_max_rejected: i64 [0, 1];
+    fn domain_helper_enforcement(entrypoint_domain_ok: i64, helper_domain_ok: i64, below_min_rejected: i64, above_max_rejected: i64) -> i64 {
+        if (entrypoint_domain_ok == 0) return 0;
+        if (helper_domain_ok == 0) return 0;
+        if (below_min_rejected == 0) return 0;
+        if (above_max_rejected == 0) return 0;
+        return 1;
+    }
+}

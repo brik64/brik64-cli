@@ -455,6 +455,23 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.15.2') {
+    return [
+      run('beta15_2_pre_public_rc', ['npm', 'run', 'gate:beta15.2:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_2_local_package', ['npm', 'run', 'package:beta15.2:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta15_2_package_smoke', ['npm', 'run', 'smoke:beta15.2:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]

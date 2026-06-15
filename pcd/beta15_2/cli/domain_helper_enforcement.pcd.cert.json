@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.2",
+  "pcd": "pcd/beta15_2/cli/domain_helper_enforcement.pcd",
+  "semantic_pcd_sha256": "d0c35fba21b3f5d15b7351a76c72ef5e622e0d5d20ae6e6e177198d6e7ba342b",
+  "ast_sha256": "8eb117e82850f1bdb639b7a87e800d74b33072a72e3326d7ad4f9fd55851eac5",
+  "domain_contract_sha256": "c27542d7e3379c03d6f8824ae727e8ee92ceb76acc7a5206cf40047a7eee8bc9",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "entrypoint_domain_ok",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "helper_domain_ok",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "below_min_rejected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "above_max_rejected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "entrypoint_domain_ok",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "helper_domain_ok",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "below_min_rejected",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "above_max_rejected",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "c27542d7e3379c03d6f8824ae727e8ee92ceb76acc7a5206cf40047a7eee8bc9"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "domain_helper_enforcement",
+    "fnName": "domain_helper_enforcement",
+    "params": [
+      "entrypoint_domain_ok",
+      "helper_domain_ok",
+      "below_min_rejected",
+      "above_max_rejected"
+    ],
+    "paramTypes": {
+      "entrypoint_domain_ok": "i64",
+      "helper_domain_ok": "i64",
+      "below_min_rejected": "i64",
+      "above_max_rejected": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "entrypoint_domain_ok",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "helper_domain_ok",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "below_min_rejected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "above_max_rejected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "entrypoint_domain_ok",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "helper_domain_ok",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "below_min_rejected",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "above_max_rejected",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "c27542d7e3379c03d6f8824ae727e8ee92ceb76acc7a5206cf40047a7eee8bc9"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "domain_helper_enforcement": {
+        "name": "domain_helper_enforcement",
+        "params": [
+          "entrypoint_domain_ok",
+          "helper_domain_ok",
+          "below_min_rejected",
+          "above_max_rejected"
+        ],
+        "paramTypes": {
+          "entrypoint_domain_ok": "i64",
+          "helper_domain_ok": "i64",
+          "below_min_rejected": "i64",
+          "above_max_rejected": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "entrypoint_domain_ok"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "helper_domain_ok"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "below_min_rejected"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "above_max_rejected"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 4
+      }
+    },
+    "entrypoint": {
+      "name": "domain_helper_enforcement",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "entrypoint_domain_ok"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "helper_domain_ok"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "below_min_rejected"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "above_max_rejected"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 4,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

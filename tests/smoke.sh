@@ -11,7 +11,11 @@ export BRIK64_CONFIG_HOME="$tmpdir/config"
 
 node "$BRIK" --version | grep -q "BRIK64 CLI $PACKAGE_VERSION"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (s.includes("█████████████") || !s.includes("BRIK64 CLI")) process.exit(1); });'
-node "$BRIK" --help | grep -q "status=public_beta"
+if [ "$PACKAGE_VERSION" = "0.1.0-beta.15.2" ]; then
+  node "$BRIK" --help | grep -q "status=pre_public_candidate"
+else
+  node "$BRIK" --help | grep -q "status=public_beta"
+fi
 node "$BRIK" --help | grep -q "polymerize <files>"
 node "$BRIK" --help | grep -q "verify <file.pcd>"
 node "$BRIK" --help | grep -q "migrate <file.pcd>"
@@ -26,7 +30,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ]; then
+  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi

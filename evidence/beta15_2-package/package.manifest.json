@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "brik64.cli_beta15_2_package_manifest.v1",
+  "version": "0.1.0-beta.15.2",
+  "decision": "PASS_BRIK64_CLI_BETA15_2_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "pcd_first_candidate_with_local_runtime_baseline",
+  "package": {
+    "path": "evidence/beta15_2-package/brik64-cli-0.1.0-beta.15.2.tgz",
+    "sha256": "d52f68e91da5075eb1e463efaa8043378c9a6967c9619e8c3ef2493a05ac1a54",
+    "bytes": 499258
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "publicReleaseAllowed": false,
+    "fixpointClaimAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false,
+    "blocker": "public_surface_sync_pending"
+  },
+  "inputGates": [
+    {
+      "decision": "PASS_BRIK64_CLI_BETA15_2_PRE_PUBLIC_RC_GATE",
+      "report": "evidence/beta15_2-pre-public-rc/report.json",
+      "packaged": true
+    },
+    {
+      "decision": "PASS_BETA15_2_SURFACE_SYNC_CANDIDATE",
+      "report": "evidence/beta15_2-surface-sync/report.json",
+      "packaged": true
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "beta15_2_package_smoke",
+    "github_release_beta15_2",
+    "curl_gcp_installer_beta15_2",
+    "web_docs_changelog_beta15_2",
+    "skills_beta15_2",
+    "sdk_beta15_2_marketplaces_or_deferrals",
+    "public_claim_scan",
+    "live_release_train_verify"
+  ],
+  "boundary": "Beta15.2 local package candidate only. Public release remains blocked until package smoke, GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication or deferral, and live verification pass atomically."
+}

@@ -1,0 +1,16 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.2 doctor must reject release-ready reports when the workspace manifest still blocks public release.
+PC claim_report_contradiction {
+    domain manifest_blocks_release: i64 [0, 1];
+    domain report_claims_release_ready: i64 [0, 1];
+    domain contradiction_detected: i64 [0, 1];
+    fn claim_report_contradiction(manifest_blocks_release: i64, report_claims_release_ready: i64, contradiction_detected: i64) -> i64 {
+        if (manifest_blocks_release == 1) {
+            if (report_claims_release_ready == 1) {
+                if (contradiction_detected == 0) return 0;
+            }
+        }
+        return 1;
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "brik64.cli_beta15_2_pre_public_rc_gate_report.v1",
+  "version": "0.1.0-beta.15.2",
+  "lane": "cli_0_1_beta",
+  "decision": "PASS_BRIK64_CLI_BETA15_2_PRE_PUBLIC_RC_GATE",
+  "releaseEligible": false,
+  "claimBoundary": "assisted_generation_non_claim",
+  "checked": [
+    "generated_domain_tests_include_below_min",
+    "generated_domain_tests_include_above_max",
+    "generated_entrypoint_blocks_above_max_domain",
+    "generated_helper_blocks_above_max_domain",
+    "generated_python_tests_execute",
+    "doctor_blocks_release_ready_report_when_manifest_release_disallowed",
+    "doctor_remains_releaseEligible_false",
+    "ledger_verify_passes_before_tamper",
+    "ledger_verify_fails_after_event_tamper"
+  ],
+  "commands": [
+    "node --check src/brik.js",
+    "node --check scripts/beta15_2-pre-public-rc-gate.js",
+    "node scripts/beta15_2-pre-public-rc-gate.js",
+    "npm run test:beta15.2-pre-public-rc"
+  ],
+  "externalRegressionProbe": {
+    "workspace": "/Users/carlosjperez/Documents/GitHub/PR-TEST-brik64",
+    "command": "env BRIK64_NO_BANNER=1 node /Users/carlosjperez/Documents/GitHub/brik64-cli-beta15-1/src/brik.js doctor --json",
+    "expectedStatus": "FAIL",
+    "observedErrors": [
+      "manifest_cli_version_mismatch",
+      "claim_report_release_ready_contradiction:.brik/audit/FINAL_AUDIT_REPORT.md",
+      "ledger_verify_failed"
+    ]
+  },
+  "notVerified": [
+    "public_curl_installer_beta15_2",
+    "github_release_v0.1.0-beta.15.2",
+    "sdk_marketplace_beta15_2_publication",
+    "web_docs_live_deploy",
+    "external_public_clean_audit"
+  ]
+}

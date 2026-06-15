@@ -3,6 +3,33 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.2
+
+### Added
+
+- Adds generated boundary tests for both lower-bound and upper-bound domain
+  failures in emitted local targets.
+- Adds a pre-public candidate gate that checks bounded-domain enforcement,
+  generated helper safety, claim-safe reports, and local ledger tamper
+  detection.
+
+### Changed
+
+- Generated helper and imported functions now apply domain checks for their own
+  parameters before executing local logic.
+- `doctor` now fails when local audit reports declare public release readiness
+  while the workspace manifest is still marked local-candidate only.
+
+### Compatibility
+
+- This beta remains a local candidate evidence workflow until public release
+  surfaces are synchronized and verified.
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.1
 
 ### Added
