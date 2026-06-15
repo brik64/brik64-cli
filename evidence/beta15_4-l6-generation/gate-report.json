@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
+  "version": "0.1.0-beta.15.4",
+  "generatedAt": "2026-06-15T21:59:07.285Z",
+  "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
+  "publicationAllowed": false,
+  "releasePublicationAllowed": false,
+  "claimBoundary": {
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "blockers": [
+    "remote_l6plus_materialization_contract_unavailable",
+    "unsupported_or_missing_input_for_probe_pcd",
+    "generated_artifact_missing"
+  ],
+  "attempts": [
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "compile",
+        "@@FILE:/tmp/probe.pcd"
+      ],
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "route2",
+        "@@FILE:/tmp/probe.pcd"
+      ],
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "materialize",
+        "@@FILE:/tmp/probe.pcd"
+      ],
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "emit",
+        "@@FILE:/tmp/probe.pcd"
+      ],
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "@@FILE:/tmp/probe.pcd"
+      ],
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+    }
+  ],
+  "nextAction": "implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.4 publication"
+}

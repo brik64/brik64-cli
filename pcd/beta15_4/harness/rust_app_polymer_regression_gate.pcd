@@ -1,0 +1,22 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_4_source_contract: rust_app_polymer_regression_gate
+PC rust_app_polymer_regression_gate {
+    domain ts_target_pass: i64 [0, 1];
+    domain python_target_pass: i64 [0, 1];
+    domain rust_target_pass: i64 [0, 1];
+    domain adversarial_fail_closed: i64 [0, 1];
+    fn rust_app_polymer_regression_gate(
+        ts_target_pass: i64,
+        python_target_pass: i64,
+        rust_target_pass: i64,
+        adversarial_fail_closed: i64
+    ) -> i64 {
+        if (ts_target_pass == 0) return 0;
+        if (python_target_pass == 0) return 0;
+        if (rust_target_pass == 0) return 0;
+        if (adversarial_fail_closed == 0) return 0;
+        return 1;
+    }
+}
+

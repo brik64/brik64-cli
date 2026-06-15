@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15.3`
+Current beta candidate: `0.1.0-beta.15.4`
 Previous/live public baseline until promotion: `0.1.0-beta.15`
 
 ## Install
@@ -29,7 +29,7 @@ The npm package namespace is reserved for SDK libraries, not CLI installation.
 
 ## Beta15.3 Pre-Public Candidate Boundary
 
-`0.1.0-beta.15.3` is staged as a pre-public maintenance candidate for generated
+`0.1.0-beta.15.4` is staged as a pre-public maintenance candidate for generated
 application integrity: tuple monomer emission, cleaner generated Rust, generated
 test execution, certifiable polymer PCD output, local traceability, and
 claim-safe project reports. Public release claims remain closed until atomic

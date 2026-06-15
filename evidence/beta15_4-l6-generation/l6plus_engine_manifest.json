@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "brik64.cli_beta15_4_l6plus_engine_probe.v1",
+  "version": "0.1.0-beta.15.4",
+  "generatedAt": "2026-06-15T21:59:07.275Z",
+  "host": "root@89.167.104.236",
+  "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "hostProbe": {
+    "status": 0,
+    "stdout": "checksums_ok=5\nserial=BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-generated;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;stage1_compiler_binary_surface=generated_from_pcd_polymer;\n{\n  \"decision\": \"PASS\",\n  \"report\": \"/var/lib/brik64/l6plus-n5/audit-report.json\",\n  \"checks\": {\n    \"serial_expected\": true,\n    \"binary_executable\": true,\n    \"checksums_ok\": true,\n    \"claim_boundary_closed\": true,\n    \"version_rc_ok\": true,\n    \"version_declares_l6_plus\": true,\n    \"version_declares_non_claim\": true,\n    \"invalid_compile_fails_closed\": true,\n    \"systemd_service_enabled\": true,\n    \"systemd_timer_enabled\": true,\n    \"systemd_service_active_or_exited\": true\n  }\n}\nbrikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-generated\nengine=l6_plus\nengine_tier=internal_generation\nlane=internal_adaptive\nclaim_authority=non_claim\npublic_claim_allowed=false\nstage1_compiler_binary_surface=generated_from_pcd_polymer\n7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a  /opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus\n",
+    "stderr": ""
+  }
+}

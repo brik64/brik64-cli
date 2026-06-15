@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "brik64.cli_beta15_4_l6_package_manifest.v1",
+  "version": "0.1.0-beta.15.4",
+  "decision": "BLOCKED_BETA15_4_L6_PACKAGE_MANIFEST",
+  "artifactToPackageHashBound": false,
+  "packageToReleaseManifestHashBound": false,
+  "releasePublicationAllowed": false,
+  "blockers": [
+    "generated_artifact_missing"
+  ]
+}

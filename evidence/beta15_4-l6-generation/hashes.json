@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "brik64.cli_beta15_4_l6_hashes.v1",
+  "version": "0.1.0-beta.15.4",
+  "inputPcds": [
+    {
+      "path": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",
+      "sha256": "0d74ce5983f94f683095cf07136563ad4094cf92e21c274fea2ada058464bf33",
+      "bytes": 949
+    },
+    {
+      "path": "pcd/beta15_4/harness/rust_app_polymer_regression_gate.pcd",
+      "sha256": "067acbcc0d9df096c500522aabd7a32bfc3282e0a8ed5cb2c756398ec4242334",
+      "bytes": 733
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "14d4f2a0926eb48734890c054d0be15bc46eadf234feecc52a52afa3950ac16a",
+      "bytes": 2146
+    }
+  ],
+  "generatedArtifact": null,
+  "package": null,
+  "releaseManifest": null
+}

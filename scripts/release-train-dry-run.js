@@ -506,6 +506,24 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.15.4') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta15_4_pre_public_rc', ['npm', 'run', 'gate:beta15.4:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_4_local_package', ['npm', 'run', 'package:beta15.4:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta15_4_package_smoke', ['npm', 'run', 'smoke:beta15.4:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [
@@ -840,6 +858,71 @@ function main() {
       if (!l6Preflight) failures.push('candidate_readiness_missing:beta15_3_l6_preflight');
       else if (l6Preflight.decision !== 'PASS_BETA15_3_L6_PREFLIGHT_NON_CLAIM') failures.push(`candidate_beta15_3_l6_preflight_invalid:${l6Preflight.decision}`);
       else if (l6Preflight.publicClaimAllowed !== false) failures.push('candidate_beta15_3_l6_preflight_claim_boundary_invalid');
+    } else if (currentPackageVersion === '0.1.0-beta.15.4') {
+      const prePublicPath = path.join(root, 'evidence', 'beta15_4-pre-public-rc', 'report.json');
+      const rustPolymerPath = path.join(root, 'evidence', 'beta15_4-rust-polymer-domain', 'report.json');
+      const packagePath = path.join(root, 'evidence', 'beta15_4-package', 'package.manifest.json');
+      const packageSmokePath = path.join(root, 'evidence', 'beta15_4-package-smoke', 'report.json');
+      const l6RequiredPath = path.join(root, 'evidence', 'cli-l6-generation-required', 'report.json');
+      const prePublic = fs.existsSync(prePublicPath) ? readJson(prePublicPath) : null;
+      const rustPolymer = fs.existsSync(rustPolymerPath) ? readJson(rustPolymerPath) : null;
+      const candidatePackage = fs.existsSync(packagePath) ? readJson(packagePath) : null;
+      const candidatePackageSmoke = fs.existsSync(packageSmokePath) ? readJson(packageSmokePath) : null;
+      const l6Required = fs.existsSync(l6RequiredPath) ? readJson(l6RequiredPath) : null;
+      requiredEvidence.push({
+        id: 'beta15_4_rust_polymer_domain',
+        path: 'evidence/beta15_4-rust-polymer-domain/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE',
+        actualDecision: rustPolymer?.decision || null,
+        pass: rustPolymer?.decision === 'PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE'
+          && rustPolymer?.releaseEligible === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_4_pre_public_rc',
+        path: 'evidence/beta15_4-pre-public-rc/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE',
+        actualDecision: prePublic?.decision || null,
+        pass: prePublic?.decision === 'PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE'
+          && prePublic?.releaseEligible === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_4_local_package',
+        path: 'evidence/beta15_4-package/package.manifest.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT',
+        actualDecision: candidatePackage?.decision || null,
+        pass: candidatePackage?.decision === 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT'
+          && candidatePackage?.releaseEligible === false
+          && candidatePackage?.claimBoundary?.publicReleaseAllowed === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_4_package_smoke',
+        path: 'evidence/beta15_4-package-smoke/report.json',
+        expectedDecision: 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE',
+        actualDecision: candidatePackageSmoke?.decision || null,
+        pass: candidatePackageSmoke?.decision === 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE'
+          && candidatePackageSmoke?.releaseEligible === false
+      });
+      requiredEvidence.push({
+        id: 'beta15_4_l6_generation_required',
+        path: 'evidence/cli-l6-generation-required/report.json',
+        expectedDecision: 'PASS_CLI_L6_GENERATION_REQUIRED_GATE',
+        actualDecision: l6Required?.decision || null,
+        pass: l6Required?.decision === 'PASS_CLI_L6_GENERATION_REQUIRED_GATE'
+      });
+      if (!rustPolymer) failures.push('candidate_readiness_missing:beta15_4_rust_polymer_domain');
+      else if (rustPolymer.decision !== 'PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE') failures.push(`candidate_beta15_4_rust_polymer_invalid:${rustPolymer.decision}`);
+      else if (rustPolymer.releaseEligible !== false) failures.push('candidate_beta15_4_rust_polymer_boundary_invalid');
+      if (!prePublic) failures.push('candidate_readiness_missing:beta15_4_pre_public_rc');
+      else if (prePublic.decision !== 'PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE') failures.push(`candidate_beta15_4_pre_public_invalid:${prePublic.decision}`);
+      else if (prePublic.releaseEligible !== false) failures.push('candidate_beta15_4_pre_public_boundary_invalid');
+      if (!candidatePackage) failures.push('candidate_readiness_missing:beta15_4_local_package');
+      else if (candidatePackage.decision !== 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT') failures.push(`candidate_beta15_4_package_invalid:${candidatePackage.decision}`);
+      else if (candidatePackage.releaseEligible !== false || candidatePackage.claimBoundary?.publicReleaseAllowed !== false) failures.push('candidate_beta15_4_package_public_boundary_invalid');
+      if (!candidatePackageSmoke) failures.push('candidate_readiness_missing:beta15_4_package_smoke');
+      else if (candidatePackageSmoke.decision !== 'PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE') failures.push(`candidate_beta15_4_package_smoke_invalid:${candidatePackageSmoke.decision}`);
+      else if (candidatePackageSmoke.releaseEligible !== false) failures.push('candidate_beta15_4_smoke_public_boundary_invalid');
+      if (!l6Required) failures.push('candidate_readiness_missing:beta15_4_l6_generation_required');
+      else if (l6Required.decision !== 'PASS_CLI_L6_GENERATION_REQUIRED_GATE') failures.push(`candidate_beta15_4_l6_generation_required_invalid:${l6Required.decision}`);
     }
   } else {
     const manifestRequiredEvidence = Array.isArray(manifest.verification?.requiredEvidence)

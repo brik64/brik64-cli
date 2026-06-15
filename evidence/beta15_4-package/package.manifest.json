@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "brik64.cli_beta15_4_package_manifest.v1",
+  "version": "0.1.0-beta.15.4",
+  "decision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT",
+  "releaseEligible": false,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "pcd_first_candidate_blocked_until_l6_materialization",
+  "package": {
+    "path": "evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz",
+    "sha256": "a6a07ce942308561282b473bcdff3b027ec3568bf02b4ae00313ef2fc9cff8bd",
+    "bytes": 584767
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "publicReleaseAllowed": false,
+    "fixpointClaimAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false,
+    "blocker": "l6_generation_evidence_and_public_surface_sync_pending"
+  },
+  "inputGates": [
+    {
+      "decision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE",
+      "report": "evidence/beta15_4-pre-public-rc/report.json",
+      "packaged": true
+    },
+    {
+      "decision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE",
+      "report": "evidence/beta15_4-rust-polymer-domain/report.json",
+      "packaged": true,
+      "blocker": null
+    },
+    {
+      "decision": "PENDING_CLI_L6_GENERATION_REQUIRED_GATE",
+      "report": "evidence/cli-l6-generation-required/report.json",
+      "packaged": false,
+      "blocker": "beta15_4_l6_generation_evidence_pending"
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "beta15_4_package_smoke",
+    "github_release_beta15_4",
+    "curl_gcp_installer_beta15_4",
+    "web_docs_changelog_beta15_4",
+    "skills_beta15_4",
+    "sdk_beta15_4_marketplaces_or_deferrals",
+    "public_claim_scan",
+    "live_release_train_verify"
+  ],
+  "boundary": "Beta15.4 local package candidate only. Public release remains blocked until L6 generation evidence, package smoke, GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication or deferral, and live verification pass atomically."
+}

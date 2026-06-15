@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "brik64.cli_beta15_4_stale_public_surface_gate.v1",
+  "version": "0.1.0-beta.15.4",
+  "decision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE",
+  "evidenceLevel": "NIVEL 3",
+  "checked": [
+    "help_lift_no_stale_beta",
+    "help_template_no_stale_beta",
+    "generated_ts_package_neutral_local_version",
+    "generated_python_package_neutral_local_version",
+    "generated_rust_package_neutral_local_version",
+    "generated_programs_no_stale_beta15_1"
+  ],
+  "records": [
+    {
+      "id": "version",
+      "status": 0,
+      "elapsedMs": 71
+    },
+    {
+      "id": "help_lift",
+      "status": 0,
+      "elapsedMs": 71
+    },
+    {
+      "id": "help_template",
+      "status": 0,
+      "elapsedMs": 71
+    },
+    {
+      "id": "init",
+      "status": 0,
+      "elapsedMs": 74
+    },
+    {
+      "id": "template_numeric",
+      "status": 0,
+      "elapsedMs": 73
+    },
+    {
+      "id": "certify_numeric",
+      "status": 0,
+      "elapsedMs": 78
+    },
+    {
+      "id": "emit_ts",
+      "status": 0,
+      "elapsedMs": 80
+    },
+    {
+      "id": "emit_python",
+      "status": 0,
+      "elapsedMs": 82
+    },
+    {
+      "id": "emit_rust",
+      "status": 0,
+      "elapsedMs": 83
+    }
+  ]
+}

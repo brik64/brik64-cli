@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.3';
+const version = '0.1.0-beta.15.4';
 const RELEASE_STATUS = 'pre_public_candidate';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
@@ -2899,6 +2899,7 @@ function renderLocalFunctions(ast, target) {
       continue;
     }
     if (target === 'rust') {
+      lines.push('#[allow(dead_code)]');
       lines.push(`fn ${fn.name}(${params.map((param) => `${param}: ${rustType(fn.paramTypes?.[param])}`).join(', ')}) -> ${rustType(fn.returnType)} {`);
       lines.push(...renderPartialDomainCall(params, target));
       lines.push(...renderStatements(fn.body, target, 1, fn.returnType).map((line) => line.replace(/^  /, '    ')));
@@ -3186,6 +3187,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
       continue;
     }
     if (target === 'rust') {
+      lines.push('#[allow(dead_code)]');
       lines.push(`fn ${fnName}(${params.map((param) => `${param}: ${rustType(importedAst.paramTypes?.[param])}`).join(', ')}) -> ${rustType(importedAst.returnType)} {`);
       lines.push(...renderPartialDomainCall(params, target));
       lines.push(...renderStatements(importedAst.body, target, 1, importedAst.returnType).map((line) => line.replace(/^  /, '    ')));
@@ -3503,8 +3505,15 @@ function renderDomainAssertions(ast, target) {
       lines.push(`    let _ = (${params.join(', ')});`);
       lines.push('    return;');
     }
-    for (const domain of domains) {
-      lines.push(`    if !(${rustDomainLiteral(domain.min.value, domain.type)} <= ${domain.name} && ${domain.name} <= ${rustDomainLiteral(domain.max.value, domain.type)}) { panic!("domain_out_of_bounds:${domain.name}"); }`);
+    const paramSet = new Set(params);
+    const checkedRustParams = new Set();
+    for (const domain of domains.filter((item) => paramSet.has(item.name))) {
+      checkedRustParams.add(domain.name);
+      lines.push(`    assert_domain_value("${domain.name}", ${domain.name} as f64);`);
+    }
+    const uncheckedRustParams = params.filter((param) => !checkedRustParams.has(param));
+    if (uncheckedRustParams.length > 0) {
+      lines.push(`    let _ = (${uncheckedRustParams.join(', ')});`);
     }
     for (const invariant of contract.invariants || []) {
       lines.push(`    if !(${invariant.expression}) { panic!("domain_invariant_failed"); }`);
