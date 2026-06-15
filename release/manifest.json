@@ -7,9 +7,9 @@
   "createdAt": "2026-06-15T17:45:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "30881286a8162e21f8ef4c6c792d9d054638e7bd",
-    "pullRequest": "https://github.com/brik64/brik64-cli/pull/175"
+    "branch": "codex/beta15-2-pre-public-rc",
+    "commit": "16e431b40ca2d0dc342b4b0ab94e3953ad14bb95",
+    "pullRequest": "https://github.com/brik64/brik64-cli/pull/177"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -18,8 +18,8 @@
     "package": {
       "name": "brik64-cli-0.1.0-beta.15.2.tgz",
       "path": "evidence/beta15_2-package/brik64-cli-0.1.0-beta.15.2.tgz",
-      "sha256": null,
-      "size_bytes": null
+      "sha256": "6b08c8dbebf2f05a5cd2770bb2abfac3a82c493bec3848330a7aa889442d398b",
+      "size_bytes": 495674
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,

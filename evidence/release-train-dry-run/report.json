@@ -1,23 +1,31 @@
 {
   "schemaVersion": "brik64.release_train_dry_run_report.v1",
-  "releaseId": "brik64-0.1.0-beta.15.1",
-  "version": "0.1.0-beta.15.1",
-  "packageVersion": "0.1.0-beta.15.1",
+  "releaseId": "brik64-0.1.0-beta.15.2",
+  "version": "0.1.0-beta.15.2",
+  "packageVersion": "0.1.0-beta.15.2",
   "candidateBranchMode": false,
   "minimalReleaseManifestMode": true,
   "channel": "beta",
-  "state": "public_release_candidate",
-  "manifestDigest": "0ab2cd726a06650262476b928bbef6db21b9f7c6fb249f5ef97811a7ef3cb4de",
-  "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
+  "state": "pre_public_release_candidate",
+  "manifestDigest": "a1a8f309d80d61119874897dfd782a648d2b74c33fcf2e4e24c302cf39c5ee09",
+  "decision": "FAIL_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [],
+  "initialDirtyFiles": [
+    "package.json",
+    "release/manifest.json",
+    "scripts/release-train-dry-run.js",
+    "evidence/beta15_2-package/",
+    "pcd/beta15_2/",
+    "scripts/beta15_2-package-smoke.sh",
+    "scripts/build-beta15_2-package.sh"
+  ],
   "commands": [
     {
       "name": "minimal_manifest_version_contract",
       "command": "node -e \n            const fs = require('fs');\n            const manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));\n            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));\n            if (manifest.version !== pkg.version) {\n              console.error('minimal_manifest_version_drift:' + manifest.version + ':' + pkg.version);\n              process.exit(1);\n            }\n            const artifactSha = manifest.cli?.package?.sha256 || manifest.cli?.artifact?.sha256;\n            if (!artifactSha) {\n              console.error('minimal_manifest_cli_artifact_sha_missing');\n              process.exit(1);\n            }\n            console.log('decision=PASS_MINIMAL_RELEASE_MANIFEST_VERSION_CONTRACT');\n          ",
       "rc": 0,
-      "elapsedMs": 64,
+      "elapsedMs": 123,
       "stdout": "decision=PASS_MINIMAL_RELEASE_MANIFEST_VERSION_CONTRACT\n",
       "stderr": ""
     }
@@ -31,5 +39,7 @@
       "pass": true
     }
   ],
-  "failures": []
+  "failures": [
+    "initial_worktree_dirty:7"
+  ]
 }

@@ -1,0 +1,18 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.2 pre-public gate must pass candidate behavior and keep public release blocked until package and public surfaces are verified.
+PC pre_public_rc_gate {
+    domain domain_gate_pass: i64 [0, 1];
+    domain claim_gate_pass: i64 [0, 1];
+    domain ledger_gate_pass: i64 [0, 1];
+    domain package_manifest_bound: i64 [0, 1];
+    domain public_release_allowed: i64 [0, 1];
+    fn pre_public_rc_gate(domain_gate_pass: i64, claim_gate_pass: i64, ledger_gate_pass: i64, package_manifest_bound: i64, public_release_allowed: i64) -> i64 {
+        if (domain_gate_pass == 0) return 0;
+        if (claim_gate_pass == 0) return 0;
+        if (ledger_gate_pass == 0) return 0;
+        if (package_manifest_bound == 0) return 0;
+        if (public_release_allowed == 1) return 0;
+        return 1;
+    }
+}

@@ -1,0 +1,576 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.2",
+  "pcd": "pcd/beta15_2/harness/pre_public_rc_gate.pcd",
+  "semantic_pcd_sha256": "811fd81fd7b8a5f9b1580d03c9d5a018dc8164ba623e15508d1a208562d20c9b",
+  "ast_sha256": "614ce16621b54f8176beb79921a7fe23707a802891570c15680cc50be57ecd90",
+  "domain_contract_sha256": "77491cecdfede28a9d6a879610b9a0d2e6d412568ca850fa26ff8b353a708822",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "domain_gate_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "claim_gate_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "ledger_gate_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "package_manifest_bound",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "public_release_allowed",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "domain_gate_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "claim_gate_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "ledger_gate_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "package_manifest_bound",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "public_release_allowed",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "77491cecdfede28a9d6a879610b9a0d2e6d412568ca850fa26ff8b353a708822"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "pre_public_rc_gate",
+    "fnName": "pre_public_rc_gate",
+    "params": [
+      "domain_gate_pass",
+      "claim_gate_pass",
+      "ledger_gate_pass",
+      "package_manifest_bound",
+      "public_release_allowed"
+    ],
+    "paramTypes": {
+      "domain_gate_pass": "i64",
+      "claim_gate_pass": "i64",
+      "ledger_gate_pass": "i64",
+      "package_manifest_bound": "i64",
+      "public_release_allowed": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "domain_gate_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "claim_gate_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "ledger_gate_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "package_manifest_bound",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "public_release_allowed",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "domain_gate_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "claim_gate_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "ledger_gate_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "package_manifest_bound",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "public_release_allowed",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "77491cecdfede28a9d6a879610b9a0d2e6d412568ca850fa26ff8b353a708822"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "pre_public_rc_gate": {
+        "name": "pre_public_rc_gate",
+        "params": [
+          "domain_gate_pass",
+          "claim_gate_pass",
+          "ledger_gate_pass",
+          "package_manifest_bound",
+          "public_release_allowed"
+        ],
+        "paramTypes": {
+          "domain_gate_pass": "i64",
+          "claim_gate_pass": "i64",
+          "ledger_gate_pass": "i64",
+          "package_manifest_bound": "i64",
+          "public_release_allowed": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "domain_gate_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "claim_gate_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "ledger_gate_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "package_manifest_bound"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "public_release_allowed"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 1,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 5
+      }
+    },
+    "entrypoint": {
+      "name": "pre_public_rc_gate",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "domain_gate_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "claim_gate_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "ledger_gate_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "package_manifest_bound"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "public_release_allowed"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 1,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 5,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

@@ -1,0 +1,352 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.2",
+  "pcd": "pcd/beta15_2/cli/claim_report_contradiction.pcd",
+  "semantic_pcd_sha256": "ec898a9745af1f31c98f03102fbbe5faec16881b94328a037c199e6f799d4a95",
+  "ast_sha256": "6ea9ee3644a57a2d6c2a4ee000e9b3173788db40cc4f214a205c4d3a921cf0ef",
+  "domain_contract_sha256": "13ff1f55dbc09963e1180099f3f25f1c2434e08425ff8fe248c6cf44b326cae8",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "manifest_blocks_release",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "report_claims_release_ready",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "contradiction_detected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "manifest_blocks_release",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "report_claims_release_ready",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "contradiction_detected",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "13ff1f55dbc09963e1180099f3f25f1c2434e08425ff8fe248c6cf44b326cae8"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "claim_report_contradiction",
+    "fnName": "claim_report_contradiction",
+    "params": [
+      "manifest_blocks_release",
+      "report_claims_release_ready",
+      "contradiction_detected"
+    ],
+    "paramTypes": {
+      "manifest_blocks_release": "i64",
+      "report_claims_release_ready": "i64",
+      "contradiction_detected": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "manifest_blocks_release",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "report_claims_release_ready",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "contradiction_detected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "manifest_blocks_release",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "report_claims_release_ready",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "contradiction_detected",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "13ff1f55dbc09963e1180099f3f25f1c2434e08425ff8fe248c6cf44b326cae8"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "claim_report_contradiction": {
+        "name": "claim_report_contradiction",
+        "params": [
+          "manifest_blocks_release",
+          "report_claims_release_ready",
+          "contradiction_detected"
+        ],
+        "paramTypes": {
+          "manifest_blocks_release": "i64",
+          "report_claims_release_ready": "i64",
+          "contradiction_detected": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "manifest_blocks_release"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 1,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "IfStatement",
+                "condition": {
+                  "type": "BinaryExpression",
+                  "operator": "==",
+                  "left": {
+                    "type": "Identifier",
+                    "name": "report_claims_release_ready"
+                  },
+                  "right": {
+                    "type": "NumberLiteral",
+                    "value": 1,
+                    "numericType": "i64"
+                  }
+                },
+                "consequent": [
+                  {
+                    "type": "IfStatement",
+                    "condition": {
+                      "type": "BinaryExpression",
+                      "operator": "==",
+                      "left": {
+                        "type": "Identifier",
+                        "name": "contradiction_detected"
+                      },
+                      "right": {
+                        "type": "NumberLiteral",
+                        "value": 0,
+                        "numericType": "i64"
+                      }
+                    },
+                    "consequent": [
+                      {
+                        "type": "ReturnStatement",
+                        "argument": {
+                          "type": "NumberLiteral",
+                          "value": 0,
+                          "numericType": "i64"
+                        }
+                      }
+                    ],
+                    "alternate": []
+                  }
+                ],
+                "alternate": []
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          1
+        ],
+        "branchCount": 3
+      }
+    },
+    "entrypoint": {
+      "name": "claim_report_contradiction",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "manifest_blocks_release"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 1,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "report_claims_release_ready"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 1,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "IfStatement",
+                "condition": {
+                  "type": "BinaryExpression",
+                  "operator": "==",
+                  "left": {
+                    "type": "Identifier",
+                    "name": "contradiction_detected"
+                  },
+                  "right": {
+                    "type": "NumberLiteral",
+                    "value": 0,
+                    "numericType": "i64"
+                  }
+                },
+                "consequent": [
+                  {
+                    "type": "ReturnStatement",
+                    "argument": {
+                      "type": "NumberLiteral",
+                      "value": 0,
+                      "numericType": "i64"
+                    }
+                  }
+                ],
+                "alternate": []
+              }
+            ],
+            "alternate": []
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      1
+    ],
+    "branchCount": 3,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}
