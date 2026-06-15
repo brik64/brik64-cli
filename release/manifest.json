@@ -42,6 +42,31 @@
     "decision": "PASS_BETA15_2_SURFACE_SYNC_CANDIDATE",
     "publicationAllowed": false
   },
+  "githubReleaseDraft": {
+    "id": "RE_kwDOSvpCcs4UPraN",
+    "tagName": "v0.1.0-beta.15.2",
+    "url": "https://github.com/brik64/brik64-cli/releases/tag/untagged-47e72f9dfbcce7bf5488",
+    "targetCommitish": "d310dee7a0247636db408c0c055b6ef6ab879351",
+    "isDraft": true,
+    "isPrerelease": true,
+    "assets": [
+      {
+        "name": "brik64-cli-0.1.0-beta.15.2.tgz",
+        "sha256": "d52f68e91da5075eb1e463efaa8043378c9a6967c9619e8c3ef2493a05ac1a54",
+        "size_bytes": 499258
+      },
+      {
+        "name": "SHA256SUMS",
+        "sha256": "f15f2afceb4226d2ceda1339f6df640a8de472cc654067665de0c4b2ece4aa90",
+        "size_bytes": 271
+      },
+      {
+        "name": "package.manifest.json",
+        "sha256": "01d8426014393fce04c28b00a8bb7a68a07b2fd584e8dae5468ddcb3cead5e63",
+        "size_bytes": 1601
+      }
+    ]
+  },
   "requiredPublicSurfaces": [
     "github_release_v0.1.0-beta.15.2",
     "curl_installer_beta15_2",
