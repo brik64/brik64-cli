@@ -88,6 +88,7 @@ inputs=(
   "BETA15_2_EXTERNAL_AUDIT_PROMPT.md"
   "BETA15_2_REQUIREMENTS_MATRIX.json"
   "evidence/beta15_2-pre-public-rc/report.json"
+  "evidence/beta15_2-surface-sync/report.json"
   "engines/l4plus-n5/serial.txt"
   "engines/l4plus-n5/checksums.tsv"
   "engines/l4plus-n5/runtime-bundle.manifest.json"
@@ -262,6 +263,10 @@ jq -n \
     inputGates:[{
       decision:"PASS_BRIK64_CLI_BETA15_2_PRE_PUBLIC_RC_GATE",
       report:"evidence/beta15_2-pre-public-rc/report.json",
+      packaged:true
+    },{
+      decision:"PASS_BETA15_2_SURFACE_SYNC_CANDIDATE",
+      report:"evidence/beta15_2-surface-sync/report.json",
       packaged:true
     }],
     requiredPublicReleaseGates:[

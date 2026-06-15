@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "brik64.beta15_2_surface_sync_report.v1",
+  "version": "0.1.0-beta.15.2",
+  "generatedAt": "2026-06-15T17:55:00.000Z",
+  "decision": "PASS_BETA15_2_SURFACE_SYNC_CANDIDATE",
+  "publicationAllowed": false,
+  "boundary": "Candidate synchronization report only. It does not publish public surfaces and does not authorize a public Beta15.2 release.",
+  "surfaces": [
+    {
+      "surface": "cli",
+      "status": "updated",
+      "evidence": "https://github.com/brik64/brik64-cli/pull/177",
+      "notes": "CLI candidate package, package smoke and dry-run evidence are staged in the CLI PR."
+    },
+    {
+      "surface": "docs",
+      "status": "updated",
+      "evidence": "https://github.com/brik64-admin/brik64-docs-site/pull/15",
+      "notes": "Docs describe Beta15.2 as a pre-public candidate and keep live installer verification explicit."
+    },
+    {
+      "surface": "skills",
+      "status": "updated",
+      "evidence": "https://github.com/brik64/brik64-tools-skills/pull/16",
+      "notes": "Public skill is version-independent and points to the Beta15.2 candidate boundary."
+    },
+    {
+      "surface": "web",
+      "status": "updated",
+      "evidence": "https://github.com/brik64-admin/brik64.com/pull/27",
+      "notes": "Web/curl metadata is staged as candidate-only and must not deploy independently."
+    },
+    {
+      "surface": "js_sdk",
+      "status": "no_change_required",
+      "evidence": "@brik64/core@0.1.0-beta.15 remains compatible; Beta15.2 changes CLI generated-domain enforcement and local claim checks only.",
+      "notes": "No SDK API, package metadata or marketplace publication change is required for this candidate."
+    },
+    {
+      "surface": "python_sdk",
+      "status": "no_change_required",
+      "evidence": "brik64==0.1.0b15 remains compatible; Beta15.2 changes CLI generated-domain enforcement and local claim checks only.",
+      "notes": "No SDK API, package metadata or marketplace publication change is required for this candidate."
+    },
+    {
+      "surface": "rust_sdk",
+      "status": "no_change_required",
+      "evidence": "brik64-core@0.1.0-beta.15 remains compatible; Beta15.2 changes CLI generated-domain enforcement and local claim checks only.",
+      "notes": "No SDK API, package metadata or marketplace publication change is required for this candidate."
+    },
+    {
+      "surface": "github_release",
+      "status": "blocked",
+      "evidence": "No v0.1.0-beta.15.2 GitHub Release has been created in this turn.",
+      "notes": "Keep blocked until the atomic promotion window."
+    },
+    {
+      "surface": "live_verify",
+      "status": "blocked",
+      "evidence": "Live curl still must be verified after coordinated promotion.",
+      "notes": "Public live verification is required before declaring Beta15.2 published."
+    }
+  ],
+  "blockers": [
+    "github_release_not_published",
+    "curl_live_not_promoted",
+    "live_verify_not_run"
+  ]
+}
