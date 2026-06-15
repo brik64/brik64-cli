@@ -1,37 +1,56 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15-production-candidate",
-  "version": "0.1.0-beta.15",
+  "releaseId": "brik64-0.1.0-beta.15.1",
+  "version": "0.1.0-beta.15.1",
   "channel": "beta",
-  "state": "candidate",
-  "createdAt": "2026-06-15T05:55:02.640Z",
+  "state": "public_release_candidate",
+  "createdAt": "2026-06-15T13:45:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta15-production-candidate-release",
-    "commit": "b521af522adf59933ee3d11630c790d6379e89ef"
+    "branch": "main",
+    "commit": "30881286a8162e21f8ef4c6c792d9d054638e7bd",
+    "pullRequest": "https://github.com/brik64/brik64-cli/pull/175"
   },
   "cli": {
     "packageName": "@brik64/cli",
     "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
     "verifyCommand": "brik64 --version",
-    "artifact": {
-      "path": "evidence/beta15-package/artifact_candidate",
-      "sha256": "sha256:f86922cce11276b5631a5c877a349416b653befa117a36cc04e604a3b612dcb8",
-      "size_bytes": 2011
+    "package": {
+      "name": "brik64-cli-0.1.0-beta.15.1.tgz",
+      "path": "evidence/beta15_1-package/brik64-cli-0.1.0-beta.15.1.tgz",
+      "sha256": "66cae9fb9146b122f6913cfa320f26e31056c5ef16c7663dc02c226b23ac1f90",
+      "size_bytes": 442933
     },
     "claimBoundary": {
-      "publicClaimsAllowed": false,
-      "releasePublicationAllowed": false,
+      "publicClaimsAllowed": true,
+      "releasePublicationAllowed": true,
+      "formalCertificationClaimAllowed": false,
       "fixpointPublicClaimAllowed": false,
       "selfHostingPublicClaimAllowed": false,
+      "n5FormalClaimAllowed": false,
       "rustIndependenceClaimAllowed": false
     }
   },
+  "sdks": {
+    "policy": "no_change_required_for_cli_hotfix",
+    "npm": "@brik64/core@0.1.0-beta.15",
+    "pypi": "brik64==0.1.0b15",
+    "crates": "brik64-core@0.1.0-beta.15"
+  },
+  "requiredPublicSurfaces": [
+    "github_release_v0.1.0-beta.15.1",
+    "curl_installer_beta15_1",
+    "brik64_com_beta_json",
+    "docs_beta15_1",
+    "skills_beta15_1",
+    "web_changelog_beta15_1",
+    "live_install_verify"
+  ],
   "releaseNotes": [
     {
-      "type": "candidate",
+      "type": "public_beta",
       "surface": "cli",
-      "text": "Stages the Beta15 production-candidate release train from a PCD/polymer-bound internal artifact candidate."
+      "text": "Adds local .brik ledger verification, explicit polymer roots for multi-PCD inline polymers, and isolated Python test packages for generated outputs."
     }
   ]
 }
