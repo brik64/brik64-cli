@@ -3,6 +3,35 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15
+
+### Added
+
+- Adds the Beta15 local runtime bundle metadata used by `brik64 engine status`
+  so users can inspect the active local engine boundary from the CLI.
+- Adds bounded-domain workflow coverage to the public release train, including
+  domain templates, domain inspection, domain validation, and domain-aware
+  verification output.
+- Adds release-surface synchronization for CLI, installer, SDK metadata, docs,
+  web download pages, and public agent skills.
+
+### Changed
+
+- Keeps bounded PCD domain contracts required for claim-bearing local
+  `certify`, `verify`, and `polymerize` workflows.
+- Aligns package metadata and CLI help text to `0.1.0-beta.15`.
+- Keeps public runtime claims closed for unsupported surfaces; the CLI reports
+  local workflow evidence without claiming formal certification for arbitrary
+  user programs.
+
+### Compatibility
+
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.14.6
 
 ### Added
