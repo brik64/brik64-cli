@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T22:36:56.056Z",
+  "generatedAt": "2026-06-15T22:49:42.135Z",
   "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -14,8 +14,28 @@
   "blockers": [
     "remote_l6plus_materialization_contract_unavailable",
     "unsupported_or_missing_input_for_l6_cli_materialization_contract",
+    "remote_l6plus_wrapper_has_no_cli_materializer_interface",
     "generated_artifact_missing"
   ],
+  "remoteCapability": {
+    "wrapperMode": "shell_exec_only",
+    "wrapper": {
+      "sha256": "73abc61f6558e3db0672578885ee2c229df8e10d90a416243e55a0fb5d7e8f30",
+      "bytes": 125,
+      "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
+    },
+    "wrapperExecTarget": {
+      "sha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+      "bytes": 851,
+      "target": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus"
+    },
+    "current": {
+      "sha256": "95ce6f70f65f1fcf9a2862d185ee8e91be8a50dafc3cc6dee6356b28eb32a45b",
+      "bytes": 0,
+      "target": "/opt/brik64/engines/l6plus-n5/BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957"
+    },
+    "materializerContractAccepted": false
+  },
   "attempts": [
     {
       "command": [

@@ -77,6 +77,26 @@ function parseSerial(text) {
   return match ? match[1] : null;
 }
 
+function parseRemoteRefs(stdout) {
+  const refs = {};
+  for (const line of stdout.split(/\r?\n/)) {
+    const match = line.match(/^BRIK64_REMOTE_REF\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]*)$/);
+    if (!match) continue;
+    const [, id, sha256Value, bytes, target] = match;
+    refs[id] = {
+      sha256: sha256Value === 'missing' ? null : sha256Value,
+      bytes: bytes === 'missing' ? null : Number(bytes),
+      target: target || null
+    };
+  }
+  return refs;
+}
+
+function parseWrapperMode(stdout) {
+  const match = stdout.match(/^BRIK64_WRAPPER_MODE\t(.+)$/m);
+  return match ? match[1] : null;
+}
+
 function ensureInputs() {
   return inputPcds.map((relativePath) => {
     const file = path.join(root, relativePath);
@@ -124,7 +144,18 @@ function main() {
   writeInputHashes(inputs);
 
   const hostProbe = ssh(['set -euo pipefail', `${healthcheck}`, `${wrapper} --version`, `${audit}`].join('; '));
+  const remoteRefProbe = ssh([
+    'set -euo pipefail',
+    `printf 'BRIK64_REMOTE_REF\\twrapper\\t%s\\t%s\\t%s\\n' "$(sha256sum ${wrapper} | awk '{print $1}')" "$(stat -c %s ${wrapper})" "$(readlink -f ${wrapper} || printf ${wrapper})"`,
+    `exec_target="$(awk '/^exec /{gsub(/"/, "", $2); print $2; exit}' ${wrapper})"`,
+    `if [ -n "$exec_target" ]; then printf 'BRIK64_REMOTE_REF\\twrapper_exec_target\\t%s\\t%s\\t%s\\n' "$(sha256sum "$exec_target" | awk '{print $1}')" "$(stat -c %s "$exec_target")" "$exec_target"; fi`,
+    `current="$(readlink -f /opt/brik64/engines/l6plus-n5/current || true)"`,
+    `if [ -n "$current" ]; then printf 'BRIK64_REMOTE_REF\\tcurrent\\t%s\\t0\\t%s\\n' "$(find "$current" -maxdepth 0 -type d -printf '%p' | sha256sum | awk '{print $1}')" "$current"; fi`,
+    `if sed -n '1,12p' ${wrapper} | grep -q 'exec '; then printf 'BRIK64_WRAPPER_MODE\\tshell_exec_only\\n'; else printf 'BRIK64_WRAPPER_MODE\\tunknown\\n'; fi`
+  ].join('; '));
   const auditJson = parseAudit(hostProbe.stdout);
+  const remoteRefs = parseRemoteRefs(remoteRefProbe.stdout);
+  const wrapperMode = parseWrapperMode(remoteRefProbe.stdout);
   const attempts = materializationAttempts();
   const anyAccepted = attempts.some((attempt) => /PASS|generated|artifact/i.test(String(attempt.observed || '')));
 
@@ -146,7 +177,14 @@ function main() {
       stdout_sha256: sha256(hostProbe.stdout),
       stderr_sha256: sha256(hostProbe.stderr),
       auditDecision: auditJson?.decision || null
-    }
+    },
+    remoteRefProbe: {
+      status: remoteRefProbe.status,
+      stdout_sha256: sha256(remoteRefProbe.stdout),
+      stderr_sha256: sha256(remoteRefProbe.stderr)
+    },
+    remoteRefs,
+    wrapperMode
   });
 
   const blockers = [];
@@ -154,6 +192,7 @@ function main() {
   if (auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
   if (!anyAccepted) blockers.push('remote_l6plus_materialization_contract_unavailable');
   if (!anyAccepted) blockers.push('unsupported_or_missing_input_for_l6_cli_materialization_contract');
+  if (wrapperMode === 'shell_exec_only' && !anyAccepted) blockers.push('remote_l6plus_wrapper_has_no_cli_materializer_interface');
   blockers.push('generated_artifact_missing');
 
   writeJson(path.join(evidenceDir, 'generated_artifact_manifest.json'), {
@@ -207,6 +246,13 @@ function main() {
       rustIndependenceClaimAllowed: false
     },
     blockers: [...new Set(blockers)],
+    remoteCapability: {
+      wrapperMode,
+      wrapper: remoteRefs.wrapper || null,
+      wrapperExecTarget: remoteRefs.wrapper_exec_target || null,
+      current: remoteRefs.current || null,
+      materializerContractAccepted: anyAccepted
+    },
     attempts,
     nextAction: 'implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.4 publication'
   };

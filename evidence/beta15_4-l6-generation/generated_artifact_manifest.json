@@ -6,7 +6,8 @@
   "pcdToArtifactHashBound": false,
   "blockers": [
     "remote_l6plus_materialization_contract_unavailable",
-    "unsupported_or_missing_input_for_l6_cli_materialization_contract"
+    "unsupported_or_missing_input_for_l6_cli_materialization_contract",
+    "remote_l6plus_wrapper_has_no_cli_materializer_interface"
   ],
   "requiredNextAction": "add or expose a Beta15.4 CLI PCD/polymer materialization endpoint, then rerun generation from canonical PCD inputs",
   "inputPcds": [

@@ -23,6 +23,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - L6 attempt policy: Beta15.4 materialization attempts must use
   `pcd/beta15_4/release/l6_cli_materialization_contract.pcd` as the release
   contract input and write blocked evidence if the host cannot accept it.
+- Remote capability evidence policy: blocked attempts must record the Hetzner
+  wrapper mode, wrapper hash, executed target hash and whether the materializer
+  contract was accepted, so a healthy engine host cannot be mistaken for a
+  CLI materializer endpoint.
 
 ## Phases
 

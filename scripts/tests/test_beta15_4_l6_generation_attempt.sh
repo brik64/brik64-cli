@@ -20,6 +20,11 @@ jq -e '
   and .publicationAllowed==false
   and (.blockers | index("generated_artifact_missing"))
   and (.blockers | index("remote_l6plus_materialization_contract_unavailable"))
+  and (.blockers | index("remote_l6plus_wrapper_has_no_cli_materializer_interface"))
+  and .remoteCapability.wrapperMode=="shell_exec_only"
+  and .remoteCapability.materializerContractAccepted==false
+  and (.remoteCapability.wrapper.sha256 | type=="string")
+  and (.remoteCapability.wrapperExecTarget.sha256 | type=="string")
 ' evidence/beta15_4-l6-generation/gate-report.json >/dev/null
 
 jq -e '

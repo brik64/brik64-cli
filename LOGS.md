@@ -135,3 +135,29 @@ Active blocker remains:
 - The L6+N5 host must expose an actual CLI materializer endpoint that accepts
   the Beta15.4 contract and emits artifact/package/release-manifest hash
   binding.
+
+## Iteration 8
+
+- Inspected the Hetzner L6+N5 authority before attempting any publication.
+- Confirmed `healthcheck` and `audit` PASS for serial
+  `BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957`, but the public wrapper is a
+  `shell_exec_only` shim around the current ELF.
+- Patched `scripts/beta15_4-l6-generation-attempt.js` so the evidence pack now
+  records wrapper hash, executed target hash, current engine directory and
+  contract acceptance state.
+- Added regression assertions in
+  `scripts/tests/test_beta15_4_l6_generation_attempt.sh` for the explicit
+  blocker `remote_l6plus_wrapper_has_no_cli_materializer_interface`.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed, now with four
+  blockers including `remote_l6plus_wrapper_has_no_cli_materializer_interface`.
+
+Boundary:
+
+- This is not L6+N5 materialization.
+- This is not Beta15.4 publication.
+- It prevents a healthy remote engine audit from being misread as a complete
+  CLI materializer endpoint.
