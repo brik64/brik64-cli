@@ -6,6 +6,7 @@ create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
 Current beta candidate: `0.1.0-beta.15`
+Previous/live public baseline until promotion: `0.1.0-beta.14.6`
 
 ## Install
 
