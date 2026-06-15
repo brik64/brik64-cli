@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "brik64.beta15_2_requirements_matrix.v1",
+  "version": "0.1.0-beta.15.2",
+  "lane": "cli_0_1_beta",
+  "claimBoundary": "assisted_generation_non_claim",
+  "requirements": [
+    {
+      "id": "B15_2_DOMAIN_HELPER_ENFORCEMENT",
+      "status": "implemented_local_gate_pass",
+      "defects": ["domain_contract_not_enforced", "polymer_helper_domain_bypass"],
+      "gate": "node scripts/beta15_2-pre-public-rc-gate.js",
+      "evidenceLevel": "N3",
+      "notes": "Generated entrypoints and helpers fail closed for min and max boundary violations."
+    },
+    {
+      "id": "B15_2_GENERATED_TEST_STRENGTH",
+      "status": "implemented_local_gate_pass",
+      "defects": ["generated_test_matrix_gap"],
+      "gate": "node scripts/beta15_2-pre-public-rc-gate.js",
+      "evidenceLevel": "N3",
+      "notes": "Generated tests include below_min and above_max domain failure cases."
+    },
+    {
+      "id": "B15_2_CLAIM_REPORT_CONTRADICTION",
+      "status": "implemented_local_gate_pass",
+      "defects": ["claim_overreach"],
+      "gate": "node scripts/beta15_2-pre-public-rc-gate.js",
+      "evidenceLevel": "N3",
+      "notes": "doctor fails when .brik/audit reports claim release readiness against releaseAllowed=false."
+    },
+    {
+      "id": "B15_2_LEDGER_TAMPER_REGRESSION",
+      "status": "implemented_local_gate_pass",
+      "defects": ["ledger_integrity_regression"],
+      "gate": "node scripts/beta15_2-pre-public-rc-gate.js",
+      "evidenceLevel": "N3",
+      "notes": "Gate preserves Beta15.1 append-only ledger tamper detection."
+    },
+    {
+      "id": "B15_2_EXTERNAL_DATA_SANITIZATION",
+      "status": "planned_not_implemented",
+      "defects": ["external_data_sanitation_gap"],
+      "gate": "pending application scaffold generator gate",
+      "evidenceLevel": "N0",
+      "notes": "Needed for generated FastAPI/application templates that ingest external APIs."
+    },
+    {
+      "id": "B15_2_PUBLIC_UI_LANGUAGE",
+      "status": "planned_not_implemented_in_cli_repo",
+      "defects": ["ui_internal_vocab_leak"],
+      "gate": "pending docs/skills/web scan",
+      "evidenceLevel": "N0",
+      "notes": "Public skill/docs updates exist in adjacent worktrees but must be committed and synchronized."
+    },
+    {
+      "id": "B15_2_RELEASE_TRAIN_SYNC",
+      "status": "blocked_pending_package_and_surface_sync",
+      "defects": ["sdk_version_metadata_drift", "mock_install_evidence_contamination"],
+      "gate": "release:train:dry-run",
+      "evidenceLevel": "N0",
+      "notes": "Beta15.2 is not public until package, manifest, curl, docs, skills, web, changelog, and SDK policy are verified."
+    }
+  ]
+}

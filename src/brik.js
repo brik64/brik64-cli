@@ -10,7 +10,8 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.1';
+const version = '0.1.0-beta.15.2';
+const RELEASE_STATUS = 'pre_public_candidate';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
@@ -363,7 +364,7 @@ function printBanner() {
   if (bannerSuppressed()) return;
   printBrik64Logo();
   process.stdout.write(`BRIK64 CLI ${version}\n`);
-  process.stdout.write('status=public_beta\n');
+  process.stdout.write(`status=${RELEASE_STATUS}\n`);
 }
 
 const EXIT_CODES = [
@@ -644,7 +645,7 @@ function printCommandHelp(name) {
   const lines = COMMAND_HELP[name];
   if (!lines) fail(2, `unknown_help_topic:${name}`);
   printBanner();
-  if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=public_beta\n`);
+  if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=${RELEASE_STATUS}\n`);
   process.stdout.write(`\n${lines.join('\n')}\n`);
   if (name !== 'exit-codes') {
     process.stdout.write('\nCommon parser profile:\n');
@@ -656,7 +657,7 @@ function printCommandHelp(name) {
 function help(topic) {
   if (topic) return printCommandHelp(topic);
   printBanner();
-  if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=public_beta\n`);
+  if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=${RELEASE_STATUS}\n`);
   process.stdout.write('\ncommands:\n');
   process.stdout.write('  init                 create .brik metadata only\n');
   process.stdout.write('  doctor [--json]      inspect workspace health\n');
@@ -1864,6 +1865,35 @@ function doctorManifestDiagnostics() {
   return { manifest, errors, actions };
 }
 
+function scanClaimReportContradictions(manifest) {
+  const findings = [];
+  const boundary = manifest?.claimBoundary || {};
+  const releaseAllowed = boundary.releaseAllowed ?? boundary.releaseAuthorized;
+  if (releaseAllowed !== false) return findings;
+  const auditDir = path.resolve('.brik', 'audit');
+  if (!fs.existsSync(auditDir)) return findings;
+  const reportNames = fs.readdirSync(auditDir)
+    .filter((name) => /\.(md|txt|json|jsonl)$/i.test(name))
+    .sort();
+  for (const name of reportNames) {
+    const file = path.join(auditDir, name);
+    let content = '';
+    try {
+      content = fs.readFileSync(file, 'utf8');
+    } catch (_) {
+      continue;
+    }
+    if (/\b(RELEASE READY|LISTA PARA DISTRIBUCI[ÓO]N P[ÚU]BLICA|release-ready|public release ready)\b/i.test(content)) {
+      findings.push({
+        file: path.relative(process.cwd(), file),
+        error: 'claim_report_release_ready_contradiction',
+        action: 'Rewrite or supersede the report as local_candidate_only, or set releaseAllowed through the release train only after public evidence exists.'
+      });
+    }
+  }
+  return findings;
+}
+
 function buildDoctorReport() {
   const { manifest, errors, actions } = doctorManifestDiagnostics();
   const warnings = [];
@@ -1892,6 +1922,10 @@ function buildDoctorReport() {
     if (policy.l5EmbeddedFreeRuntimeAllowed !== false) {
       errors.push('engine_tier_policy_l5_free_embedding_open');
       actions.push('Set engineTierPolicy.l5EmbeddedFreeRuntimeAllowed to false.');
+    }
+    for (const finding of scanClaimReportContradictions(manifest)) {
+      errors.push(`${finding.error}:${finding.file}`);
+      actions.push(finding.action);
     }
   }
   const pcds = pcdInventory();
@@ -2153,7 +2187,7 @@ function ledgerCommand(args = []) {
       verify: report,
       action: report.status === 'PASS'
         ? 'Ledger is valid; no repair required.'
-        : 'Restore .brik/ledger from version control or create a new workspace. Beta15.1 does not rewrite history.'
+        : 'Restore .brik/ledger from version control or create a new workspace. This CLI does not rewrite history.'
     }, null, 2)}\n`);
     if (report.status !== 'PASS') process.exit(65);
     return;
@@ -2826,6 +2860,7 @@ function renderLocalFunctions(ast, target) {
     const params = fn.params.length > 0 ? fn.params : ['input'];
     if (target === 'python') {
       lines.push(`def ${fn.name}(${params.map((param) => `${param}=0`).join(', ')}):`);
+      lines.push(renderPartialDomainCall(params, target));
       lines.push(...renderStatements(fn.body, target, 1));
       if (!statementsAlwaysReturn(fn.body)) {
         lines.push('    raise RuntimeError("pcd local helper reached non-returning path")');
@@ -2835,6 +2870,7 @@ function renderLocalFunctions(ast, target) {
     }
     if (target === 'rust') {
       lines.push(`fn ${fn.name}(${params.map((param) => `${param}: ${rustType(fn.paramTypes?.[param])}`).join(', ')}) -> ${rustType(fn.returnType)} {`);
+      lines.push(...renderPartialDomainCall(params, target));
       lines.push(...renderStatements(fn.body, target, 1).map((line) => line.replace(/^  /, '    ')));
       if (!statementsAlwaysReturn(fn.body)) {
         lines.push('    panic!("pcd local helper reached non-returning path");');
@@ -2844,6 +2880,7 @@ function renderLocalFunctions(ast, target) {
       continue;
     }
     lines.push(`function ${fn.name}(${params.map((param) => `${param} = 0`).join(', ')}) {`);
+    lines.push(renderPartialDomainCall(params, target));
     lines.push(...renderStatements(fn.body, target, 1));
     if (!statementsAlwaysReturn(fn.body)) {
       lines.push('  throw new Error("pcd local helper reached non-returning path");');
@@ -3086,6 +3123,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
     const fnName = importedFunctionName(name);
     if (target === 'python') {
       lines.push(`def ${fnName}(${params.map((param) => `${param}=0`).join(', ')}):`);
+      lines.push(renderPartialDomainCall(params, target));
       lines.push(...renderStatements(importedAst.body, target, 1));
       if (!statementsAlwaysReturn(importedAst.body)) {
         lines.push('    raise RuntimeError("pcd import reached non-returning path")');
@@ -3095,6 +3133,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
     }
     if (target === 'rust') {
       lines.push(`fn ${fnName}(${params.map((param) => `${param}: ${rustType(importedAst.paramTypes?.[param])}`).join(', ')}) -> ${rustType(importedAst.returnType)} {`);
+      lines.push(...renderPartialDomainCall(params, target));
       lines.push(...renderStatements(importedAst.body, target, 1).map((line) => line.replace(/^  /, '    ')));
       if (!statementsAlwaysReturn(importedAst.body)) {
         lines.push('    panic!("pcd import reached non-returning path");');
@@ -3104,6 +3143,7 @@ function renderImportedFunctions(imports, target, seen = new Set()) {
       continue;
     }
     lines.push(`function ${fnName}(${params.map((param) => `${param} = 0`).join(', ')}) {`);
+    lines.push(renderPartialDomainCall(params, target));
     lines.push(...renderStatements(importedAst.body, target, 1));
     if (!statementsAlwaysReturn(importedAst.body)) {
       lines.push('  throw new Error("pcd import reached non-returning path");');
@@ -3385,7 +3425,14 @@ function renderDomainAssertions(ast, target) {
   if (target === 'rust') {
     const params = ast.params.length > 0 ? ast.params : ['input'];
     const rustParams = params.map((param) => `${param}: ${rustType(ast.paramTypes?.[param])}`).join(', ');
-    const lines = [`pub const DOMAIN_CONTRACT_SHA256: &str = "${contract.sha256 || ''}";`, `pub fn assert_domain(${rustParams}) {`];
+    const lines = [`pub const DOMAIN_CONTRACT_SHA256: &str = "${contract.sha256 || ''}";`, 'fn assert_domain_value(name: &str, value: f64) {'];
+    if (domains.length === 0) {
+      lines.push('    let _ = (name, value);', '    return;');
+    }
+    for (const domain of domains) {
+      lines.push(`    if name == "${domain.name}" && !(${rustDomainLiteral(domain.min.value, domain.type)} as f64 <= value && value <= ${rustDomainLiteral(domain.max.value, domain.type)} as f64) { panic!("domain_out_of_bounds:${domain.name}"); }`);
+    }
+    lines.push('}', '', `pub fn assert_domain(${rustParams}) {`);
     if (domains.length === 0 && (contract.invariants || []).length === 0) lines.push('    return;');
     for (const domain of domains) {
       lines.push(`    if !(${rustDomainLiteral(domain.min.value, domain.type)} <= ${domain.name} && ${domain.name} <= ${rustDomainLiteral(domain.max.value, domain.type)}) { panic!("domain_out_of_bounds:${domain.name}"); }`);
@@ -3411,13 +3458,23 @@ function renderDomainAssertions(ast, target) {
   return lines;
 }
 
-function domainFailureCase(ast, cases) {
+function domainFailureCases(ast, cases) {
   const params = ast.params.length > 0 ? ast.params : ['input'];
   const paramSet = new Set(params);
-  const domain = (ast.domainContract?.domains || []).find((item) => paramSet.has(item.name) && item.min.kind === 'literal' && item.max.kind === 'literal');
-  if (!domain) return null;
   const base = cases[0]?.args || Object.fromEntries(params.map((param) => [param, 1]));
-  return { domain: domain.name, args: { ...base, [domain.name]: domain.min.value - 1 } };
+  return (ast.domainContract?.domains || [])
+    .filter((item) => paramSet.has(item.name) && item.min.kind === 'literal' && item.max.kind === 'literal')
+    .flatMap((domain) => [
+      { domain: domain.name, boundary: 'below_min', args: { ...base, [domain.name]: domain.min.value - 1 } },
+      { domain: domain.name, boundary: 'above_max', args: { ...base, [domain.name]: domain.max.value + 1 } }
+    ]);
+}
+
+function renderPartialDomainCall(functionParams, target) {
+  const params = functionParams.length > 0 ? functionParams : ['input'];
+  if (target === 'python') return `    assertDomain(${params.map((param) => `${param}=${param}`).join(', ')})`;
+  if (target === 'rust') return params.map((param) => `    assert_domain_value("${param}", ${param} as f64);`);
+  return `  assertDomain({ ${params.join(', ')} });`;
 }
 
 function targetSpec(target, ast) {
@@ -3439,7 +3496,7 @@ function targetSpec(target, ast) {
   const tsDomainAssertions = renderDomainAssertions(ast, 'ts');
   const rustDomainAssertions = renderDomainAssertions(ast, 'rust');
   const pythonDomainAssertions = renderDomainAssertions(ast, 'python');
-  const domainFailure = domainFailureCase(ast, cases);
+  const domainFailures = domainFailureCases(ast, cases);
   const safeName = (ast.artifactName || ast.fnName).replace(/[^A-Za-z0-9_]/g, '_');
   const tsProgram = (hash) => [
     `// BRIK64 ${version} functional emission candidate`,
@@ -3467,10 +3524,10 @@ function targetSpec(target, ast) {
     '    throw new Error(`case ${testCase.input} expected ${testCase.expected} got ${actual}`);',
     '  }',
     '}',
-    ...(domainFailure ? [
-      `try { run(${params.map((param) => JSON.stringify(domainFailure.args[param])).join(', ')}); throw new Error("domain failure case did not fail"); }`,
+    ...domainFailures.flatMap((domainFailure) => [
+      `try { run(${params.map((param) => JSON.stringify(domainFailure.args[param])).join(', ')}); throw new Error("domain failure case did not fail:${domainFailure.domain}:${domainFailure.boundary}"); }`,
       'catch (error) { if (!String(error.message).includes("domain_")) throw error; }'
-    ] : []),
+    ]),
     'console.log("brik64 generated ts test: PASS");',
     '',
   ].join('\n');
@@ -3507,10 +3564,10 @@ function targetSpec(target, ast) {
     `    assert_eq!(PCD_SHA256, "${hash}");`,
     '    assert!(PCD_AST_JSON.contains("body"));',
     ...cases.map((testCase) => `    assert_eq!(run(${params.map((param) => rustLiteral(testCase.args[param], ast.paramTypes?.[param])).join(', ')}), ${rustLiteral(testCase.expected, ast.returnType)});`),
-    ...(domainFailure ? [
-      `    let failed = std::panic::catch_unwind(|| run(${params.map((param) => rustLiteral(domainFailure.args[param], ast.paramTypes?.[param])).join(', ')})).is_err();`,
-      '    assert!(failed);'
-    ] : []),
+    ...domainFailures.flatMap((domainFailure, index) => [
+      `    let failed_${index} = std::panic::catch_unwind(|| run(${params.map((param) => rustLiteral(domainFailure.args[param], ast.paramTypes?.[param])).join(', ')})).is_err();`,
+      `    assert!(failed_${index});`
+    ]),
     '    println!("brik64 generated rust test: PASS");',
     '}',
     '',
@@ -3527,10 +3584,10 @@ function targetSpec(target, ast) {
     `        assert_eq!(PCD_SHA256, "${hash}");`,
     '        assert!(PCD_AST_JSON.contains("body"));',
     ...cases.map((testCase) => `        assert_eq!(run(${params.map((param) => rustLiteral(testCase.args[param], ast.paramTypes?.[param])).join(', ')}), ${rustLiteral(testCase.expected, ast.returnType)});`),
-    ...(domainFailure ? [
-      `        let failed = std::panic::catch_unwind(|| run(${params.map((param) => rustLiteral(domainFailure.args[param], ast.paramTypes?.[param])).join(', ')})).is_err();`,
-      '        assert!(failed);'
-    ] : []),
+    ...domainFailures.flatMap((domainFailure, index) => [
+      `        let failed_${index} = std::panic::catch_unwind(|| run(${params.map((param) => rustLiteral(domainFailure.args[param], ast.paramTypes?.[param])).join(', ')})).is_err();`,
+      `        assert!(failed_${index});`
+    ]),
     '    }',
     '}',
     '',
@@ -3560,15 +3617,17 @@ function targetSpec(target, ast) {
     '    for case in cases:',
     `        actual = run(${params.map((param) => `case["args"]["${param}"]`).join(', ')})`,
     '        assert actual == case["expected"], f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
-    ...(domainFailure ? [
+    ...(domainFailures.length > 0 ? [
       '',
       'def test_domain_failure_case_fails():',
-      '    failed = False',
-      '    try:',
-      `        run(${params.map((param) => JSON.stringify(domainFailure.args[param])).join(', ')})`,
-      '    except ValueError as error:',
-      '        failed = "domain_" in str(error)',
-      '    assert failed'
+      `    failure_cases = ${JSON.stringify(domainFailures)}`,
+      '    for failure_case in failure_cases:',
+      '        failed = False',
+      '        try:',
+      `            run(${params.map((param) => `failure_case["args"]["${param}"]`).join(', ')})`,
+      '        except ValueError as error:',
+      '            failed = "domain_" in str(error)',
+      '        assert failed, failure_case'
     ] : []),
     '',
     'if __name__ == "__main__":',
@@ -4877,7 +4936,7 @@ async function main() {
   if (file === '--help') return help(cmd);
   if (cmd === '--version' || cmd === 'version') {
     printBanner();
-    if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=public_beta\n`);
+    if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=${RELEASE_STATUS}\n`);
     return;
   }
   if (cmd === 'init') return init();
