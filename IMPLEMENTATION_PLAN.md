@@ -27,6 +27,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   wrapper mode, wrapper hash, executed target hash and whether the materializer
   contract was accepted, so a healthy engine host cannot be mistaken for a
   CLI materializer endpoint.
+- Endpoint result policy: the L6+N5 CLI materializer endpoint must emit
+  `BRIK64_L6_CLI_MATERIALIZATION_RESULT\t<base64-json>` with version,
+  PCD-to-artifact, artifact-to-package, package-to-release-manifest and seal
+  hash bindings. The CLI consumer must reject stale versions, malformed hashes
+  or missing bindings.
 
 ## Phases
 

@@ -161,3 +161,32 @@ Boundary:
 - This is not Beta15.4 publication.
 - It prevents a healthy remote engine audit from being misread as a complete
   CLI materializer endpoint.
+
+## Iteration 9
+
+- Added `scripts/beta15_4-l6-materialization-result.js` as the strict parser
+  and validator for the future L6+N5 endpoint output.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` to consume
+  `BRIK64_L6_CLI_MATERIALIZATION_RESULT\t<base64-json>` and write PASS
+  artifact/package/seal evidence only when all hash-binding fields validate.
+- Added adversarial parser coverage for:
+  - valid complete hash-bound result;
+  - stale version;
+  - invalid package hash;
+  - missing PCD-to-artifact binding;
+  - absent result line.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed, as expected,
+  because the remote endpoint is not installed and no L6-generated artifact is
+  present.
+
+Boundary:
+
+- This prepares the consumer side of the L6 materializer endpoint.
+- It does not install the endpoint, generate the artifact, publish Beta15.4 or
+  create self-hosting/fixpoint/Rust-independence claims.

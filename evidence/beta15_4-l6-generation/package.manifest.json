@@ -4,6 +4,8 @@
   "decision": "BLOCKED_BETA15_4_L6_PACKAGE_MANIFEST",
   "artifactToPackageHashBound": false,
   "packageToReleaseManifestHashBound": false,
+  "packageSha256": null,
+  "releaseManifestSha256": null,
   "releasePublicationAllowed": false,
   "blockers": [
     "generated_artifact_missing"

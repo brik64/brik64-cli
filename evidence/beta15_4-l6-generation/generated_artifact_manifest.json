@@ -4,6 +4,7 @@
   "decision": "BLOCKED_BETA15_4_L6_ARTIFACT_MATERIALIZATION",
   "generatedByL6PlusN5": false,
   "pcdToArtifactHashBound": false,
+  "artifactSha256": null,
   "blockers": [
     "remote_l6plus_materialization_contract_unavailable",
     "unsupported_or_missing_input_for_l6_cli_materialization_contract",

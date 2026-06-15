@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6plus_engine_probe.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T22:56:57.339Z",
+  "generatedAt": "2026-06-15T23:18:50.495Z",
   "host": "root@89.167.104.236",
   "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
   "claimBoundary": {

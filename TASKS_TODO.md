@@ -19,6 +19,17 @@
         current Hetzner wrapper is `shell_exec_only`, points at the L6+N5 ELF,
         and does not expose a CLI materializer interface for the Beta15.4
         contract.
+- [x] Add strict consumer for L6 CLI materialization endpoint result.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        only a complete version-matched hash-bound result can switch
+        `attempt:beta15.4:l6-generation` from BLOCKED to PASS.
+      - Boundary:
+        no synthetic PASS is used for release evidence; real run remains
+        blocked until the remote endpoint emits the contract result.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_wrapper_has_no_cli_materializer_interface`.

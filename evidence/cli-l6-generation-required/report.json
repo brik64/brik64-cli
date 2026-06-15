@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-15T22:56:57.650Z",
+  "generatedAt": "2026-06-15T23:17:26.452Z",
   "version": "0.1.0-beta.15.4",
   "label": "beta15_4",
   "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,12 +18,12 @@
     "dir": "evidence/beta15_4-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "2ce2514b4a7f53439377d853c756bc968cc61b799b65d4d4e46788cfb8b9ece3",
-      "sizeBytes": 3433
+      "sha256": "2d465dabb0c925dafbf1a386cd54adb68e4e23cc36187b0821956177eb9727be",
+      "sizeBytes": 4217
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "c70ee12ae8de02786ad4d01a88ca59eaaffcd978c8275722f1407324e0000479",
+      "sha256": "e569e89ddcc2d282952fcf68a8acd250e0829e4e99cc8d94fb6e17a2b6392783",
       "sizeBytes": 1617
     },
     "input_pcd_hashes.tsv": {
@@ -33,18 +33,18 @@
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "01f734078154617fe5754be94d717671f958a779d36812c380a2e52b5a8d6f25",
-      "sizeBytes": 1487
+      "sha256": "958c2089cfc76bec78b52b8caecfd5a302302661c14a92d541e8cc4d44ccef2b",
+      "sizeBytes": 1513
     },
     "package.manifest.json": {
       "path": "evidence/beta15_4-l6-generation/package.manifest.json",
-      "sha256": "a6851e85bd92823d484203c8a98cf5ea9b8a180ad0f4d290a9497d44db4bee95",
-      "sizeBytes": 331
+      "sha256": "8b3fc3ee9156a05fecc9e15ed53653dcfb1dfc896dbc5a61c31aee63a49bdc00",
+      "sizeBytes": 389
     },
     "seal_report.json": {
       "path": "evidence/beta15_4-l6-generation/seal_report.json",
-      "sha256": "52ecf5e976c3346ee8ac43fc276161bea95d4b6167d45fb19abe391980a6d459",
-      "sizeBytes": 197
+      "sha256": "66aa756993dea50e256300e235cd5076d35fc0d54e0f5883ac5accb042560d6c",
+      "sizeBytes": 224
     },
     "hashes.json": {
       "path": "evidence/beta15_4-l6-generation/hashes.json",

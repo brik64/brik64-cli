@@ -3,6 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const childProcess = require('child_process');
+const {
+  parseMaterializationResult,
+  validateMaterializationResult
+} = require('./beta15_4-l6-materialization-result');
 
 const root = path.resolve(__dirname, '..');
 const version = '0.1.0-beta.15.4';
@@ -131,7 +135,8 @@ function materializationAttempts() {
       status: result.status,
       stdout_sha256: sha256(result.stdout),
       stderr_sha256: sha256(result.stderr),
-      observed: `${result.stdout}${result.stderr}`.trim().slice(0, 500) || null
+      observed: `${result.stdout}${result.stderr}`.trim().slice(0, 500) || null,
+      materializationResult: parseMaterializationResult(`${result.stdout}\n${result.stderr}`)
     };
   });
 }
@@ -157,7 +162,13 @@ function main() {
   const remoteRefs = parseRemoteRefs(remoteRefProbe.stdout);
   const wrapperMode = parseWrapperMode(remoteRefProbe.stdout);
   const attempts = materializationAttempts();
-  const anyAccepted = attempts.some((attempt) => /PASS|generated|artifact/i.test(String(attempt.observed || '')));
+  const acceptedAttempt = attempts
+    .map((attempt) => ({
+      attempt,
+      validation: validateMaterializationResult(attempt.materializationResult, version)
+    }))
+    .find((entry) => entry.validation.accepted);
+  const materialization = acceptedAttempt?.validation.normalized || null;
 
   writeJson(path.join(evidenceDir, 'l6plus_engine_manifest.json'), {
     schemaVersion: 'brik64.cli_beta15_4_l6plus_engine_probe.v1',
@@ -190,55 +201,65 @@ function main() {
   const blockers = [];
   if (hostProbe.status !== 0) blockers.push('remote_l6plus_probe_failed');
   if (auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
-  if (!anyAccepted) blockers.push('remote_l6plus_materialization_contract_unavailable');
-  if (!anyAccepted) blockers.push('unsupported_or_missing_input_for_l6_cli_materialization_contract');
-  if (wrapperMode === 'shell_exec_only' && !anyAccepted) blockers.push('remote_l6plus_wrapper_has_no_cli_materializer_interface');
-  blockers.push('generated_artifact_missing');
+  if (!materialization) blockers.push('remote_l6plus_materialization_contract_unavailable');
+  if (!materialization) blockers.push('unsupported_or_missing_input_for_l6_cli_materialization_contract');
+  if (wrapperMode === 'shell_exec_only' && !materialization) blockers.push('remote_l6plus_wrapper_has_no_cli_materializer_interface');
+  if (!materialization) blockers.push('generated_artifact_missing');
 
   writeJson(path.join(evidenceDir, 'generated_artifact_manifest.json'), {
     schemaVersion: 'brik64.cli_beta15_4_l6_generated_artifact_manifest.v1',
     version,
-    decision: 'BLOCKED_BETA15_4_L6_ARTIFACT_MATERIALIZATION',
-    generatedByL6PlusN5: false,
-    pcdToArtifactHashBound: false,
-    blockers: blockers.filter((item) => item !== 'generated_artifact_missing'),
-    requiredNextAction: 'add or expose a Beta15.4 CLI PCD/polymer materialization endpoint, then rerun generation from canonical PCD inputs',
-    inputPcds: inputs
+    decision: materialization
+      ? 'PASS_BETA15_4_L6_ARTIFACT_MATERIALIZATION'
+      : 'BLOCKED_BETA15_4_L6_ARTIFACT_MATERIALIZATION',
+    generatedByL6PlusN5: materialization?.generatedByL6PlusN5 === true,
+    pcdToArtifactHashBound: materialization?.pcdToArtifactHashBound === true,
+    artifactSha256: materialization?.generatedArtifactSha256 || null,
+    blockers: materialization ? [] : blockers.filter((item) => item !== 'generated_artifact_missing'),
+    requiredNextAction: materialization
+      ? 'bind generated package and release manifest evidence'
+      : 'add or expose a Beta15.4 CLI PCD/polymer materialization endpoint, then rerun generation from canonical PCD inputs',
+    inputPcds: materialization?.inputPcds || inputs
   });
 
   writeJson(path.join(evidenceDir, 'package.manifest.json'), {
     schemaVersion: 'brik64.cli_beta15_4_l6_package_manifest.v1',
     version,
-    decision: 'BLOCKED_BETA15_4_L6_PACKAGE_MANIFEST',
-    artifactToPackageHashBound: false,
-    packageToReleaseManifestHashBound: false,
-    releasePublicationAllowed: false,
-    blockers: ['generated_artifact_missing']
+    decision: materialization
+      ? 'PASS_BETA15_4_L6_PACKAGE_MANIFEST'
+      : 'BLOCKED_BETA15_4_L6_PACKAGE_MANIFEST',
+    artifactToPackageHashBound: materialization?.artifactToPackageHashBound === true,
+    packageToReleaseManifestHashBound: materialization?.packageToReleaseManifestHashBound === true,
+    packageSha256: materialization?.packageSha256 || null,
+    releaseManifestSha256: materialization?.releaseManifestSha256 || null,
+    releasePublicationAllowed: materialization !== null,
+    blockers: materialization ? [] : ['generated_artifact_missing']
   });
 
   writeJson(path.join(evidenceDir, 'seal_report.json'), {
     schemaVersion: 'brik64.cli_beta15_4_l6_seal_report.v1',
     version,
-    decision: 'BLOCKED_BETA15_4_L6_SEAL',
-    blockers: ['no_l6_generated_artifact_to_seal']
+    decision: materialization ? 'PASS_BETA15_4_L6_SEAL' : 'BLOCKED_BETA15_4_L6_SEAL',
+    compositeSha256: materialization?.compositeSha256 || null,
+    blockers: materialization ? [] : ['no_l6_generated_artifact_to_seal']
   });
 
   writeJson(path.join(evidenceDir, 'hashes.json'), {
     schemaVersion: 'brik64.cli_beta15_4_l6_hashes.v1',
     version,
     inputPcds: inputs,
-    generatedArtifact: null,
-    package: null,
-    releaseManifest: null
+    generatedArtifact: materialization?.generatedArtifactSha256 || null,
+    package: materialization?.packageSha256 || null,
+    releaseManifest: materialization?.releaseManifestSha256 || null
   });
 
   const gateReport = {
     schemaVersion: 'brik64.cli_beta15_4_l6_generation_gate.v1',
     version,
     generatedAt: new Date().toISOString(),
-    decision: 'BLOCKED_BETA15_4_L6_GENERATION_GATE',
-    publicationAllowed: false,
-    releasePublicationAllowed: false,
+    decision: materialization ? 'PASS_BETA15_4_L6_GENERATION_GATE' : 'BLOCKED_BETA15_4_L6_GENERATION_GATE',
+    publicationAllowed: materialization !== null,
+    releasePublicationAllowed: materialization !== null,
     claimBoundary: {
       formalN5ClaimAllowed: false,
       fixpointClaimAllowed: false,
@@ -251,16 +272,20 @@ function main() {
       wrapper: remoteRefs.wrapper || null,
       wrapperExecTarget: remoteRefs.wrapper_exec_target || null,
       current: remoteRefs.current || null,
-      materializerContractAccepted: anyAccepted
+      materializerContractAccepted: materialization !== null
     },
-    attempts,
+    attempts: attempts.map((attempt) => ({
+      ...attempt,
+      materializationResult: attempt.materializationResult ? { present: true } : null,
+      materializationValidation: validateMaterializationResult(attempt.materializationResult, version)
+    })),
     nextAction: 'implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.4 publication'
   };
   writeJson(path.join(evidenceDir, 'gate-report.json'), gateReport);
 
   console.log(`decision=${gateReport.decision}`);
   console.log(`report=${rel(path.join(evidenceDir, 'gate-report.json'))}`);
-  process.exit(2);
+  process.exit(materialization ? 0 : 2);
 }
 
 main();

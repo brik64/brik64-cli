@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T22:56:57.346Z",
+  "generatedAt": "2026-06-15T23:18:50.501Z",
   "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -46,7 +46,14 @@
       "status": 0,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
     },
     {
       "command": [
@@ -57,7 +64,14 @@
       "status": 0,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
     },
     {
       "command": [
@@ -68,7 +82,14 @@
       "status": 0,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
     },
     {
       "command": [
@@ -79,7 +100,14 @@
       "status": 0,
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input"
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
     }
   ],
   "nextAction": "implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.4 publication"
