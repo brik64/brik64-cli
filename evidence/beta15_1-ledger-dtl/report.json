@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "brik64.cli_beta15_1_ledger_dtl_report.v1",
+  "version": "0.1.0-beta.15.1",
+  "createdAt": "2026-06-15T13:08:51Z",
+  "lane": "cli_0_1_beta",
+  "iterId": "beta15.1-ledger-dtl",
+  "sourceSha": "ec065a13bcb6c50ce5d499334997652debf689c3",
+  "claimBoundary": "local_candidate_only",
+  "decision": "PASS_LOCAL_CANDIDATE_GATE",
+  "publicReleaseStatus": "NOT_VERIFIED_IN_THIS_REPORT",
+  "checks": [
+    {
+      "name": "node_syntax_cli",
+      "command": "node --check src/brik.js",
+      "status": "PASS"
+    },
+    {
+      "name": "node_syntax_gate",
+      "command": "node --check scripts/beta15_1-ledger-dtl-gate.js",
+      "status": "PASS"
+    },
+    {
+      "name": "beta15_1_ledger_dtl_gate",
+      "command": "npm run test:beta15.1-ledger-dtl",
+      "status": "PASS",
+      "decision": "PASS_BRIK64_CLI_BETA15_1_LEDGER_DTL_GATE",
+      "coverage": [
+        "init creates ledger files",
+        "certify records ledger events",
+        "polymerize requires explicit root for multi-input inline polymers",
+        "inline polymer output uses beta15.1 metadata",
+        "generated Python directory outputs use isolated package names",
+        "pytest executes generated tests for multiple emitted packages",
+        "lock records ledger events",
+        "ledger verify passes on intact ledger",
+        "ledger export is redacted",
+        "ledger verify fails on edited event",
+        "ledger verify fails on deleted event",
+        "ledger verify fails on reordered events",
+        "ledger verify fails when initialized workspace ledger files are missing"
+      ]
+    },
+    {
+      "name": "bootstrap_smoke",
+      "command": "npm test",
+      "status": "PASS",
+      "decision": "brik64-cli bootstrap smoke: PASS"
+    },
+    {
+      "name": "beta15_1_pcd_contracts_certify",
+      "command": "for f in pcd/beta15_1/cli/*.pcd pcd/beta15_1/harness/*.pcd; do node src/brik.js certify \"$f\"; done",
+      "status": "PASS",
+      "decision": "PASS_BETA15_1_PCD_CONTRACTS_CERTIFY",
+      "coverage": [
+        "ledger_commands.pcd",
+        "ledger_verify.pcd",
+        "polymer_entrypoint.pcd",
+        "python_emit_test_layout.pcd",
+        "ledger_tamper_gate.pcd",
+        "pr_test_galaxy_case_gate.pcd"
+      ]
+    },
+    {
+      "name": "pr_test_galaxy_case_temp_audit",
+      "command": "temporary audit using /Users/carlosjperez/Documents/GitHub/PR-TEST-brik64/case_study_1_galaxy_classification.zip",
+      "status": "PASS",
+      "decision": "PASS_PR_TEST_BETA15_1_TEMP_AUDIT",
+      "coverage": [
+        "certify/verify/emit Python for three real PCDs",
+        "inline polymerize with explicit root",
+        "certify/emit Python for generated polymer",
+        "pytest executes generated tests",
+        "ledger verify passes",
+        "doctor passes"
+      ]
+    }
+  ],
+  "risks": [
+    "This report does not verify live installer, docs site, web, SDK marketplaces, or public skills.",
+    "This report does not establish self-hosting, fixpoint, formal N5, universal correctness, or independent toolchain closure.",
+    "The local ledger is tamper-evident inside a workspace. It is not a distributed ledger and does not prevent filesystem deletion by a privileged local user."
+  ],
+  "nextRequiredGate": "release_train_dry_run_then_live_public_surface_verify"
+}

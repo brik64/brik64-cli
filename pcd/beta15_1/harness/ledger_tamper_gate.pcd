@@ -1,0 +1,16 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.1 adversarial ledger tamper gate.
+PC ledger_tamper_gate {
+    domain append_pass: i64 [0, 1];
+    domain edit_detected: i64 [0, 1];
+    domain delete_detected: i64 [0, 1];
+    domain reorder_detected: i64 [0, 1];
+    fn ledger_tamper_gate(append_pass: i64, edit_detected: i64, delete_detected: i64, reorder_detected: i64) -> i64 {
+        if (append_pass == 0) return 0;
+        if (edit_detected == 0) return 0;
+        if (delete_detected == 0) return 0;
+        if (reorder_detected == 0) return 0;
+        return 1;
+    }
+}

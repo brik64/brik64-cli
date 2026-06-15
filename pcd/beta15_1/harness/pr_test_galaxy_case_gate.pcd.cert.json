@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.1",
+  "pcd": "pcd/beta15_1/harness/pr_test_galaxy_case_gate.pcd",
+  "semantic_pcd_sha256": "8b264f20eca9e989292edffa820acf6c19180d3e13aafd1bdfd23eb296545a72",
+  "ast_sha256": "13dcba47d09017057212eb1a313662157e0aaddef5a5b6965a2236dd73a602d3",
+  "domain_contract_sha256": "115fb075ea50bede600ff59f0e3f54fefedd0481c24d9a231da8f6ebbdb31af7",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "pcd_verify_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "pytest_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "polymer_root_explicit",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "stale_beta14_removed",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "pcd_verify_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "pytest_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "polymer_root_explicit",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "stale_beta14_removed",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "115fb075ea50bede600ff59f0e3f54fefedd0481c24d9a231da8f6ebbdb31af7"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "pr_test_galaxy_case_gate",
+    "fnName": "pr_test_galaxy_case_gate",
+    "params": [
+      "pcd_verify_pass",
+      "pytest_pass",
+      "polymer_root_explicit",
+      "stale_beta14_removed"
+    ],
+    "paramTypes": {
+      "pcd_verify_pass": "i64",
+      "pytest_pass": "i64",
+      "polymer_root_explicit": "i64",
+      "stale_beta14_removed": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "pcd_verify_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "pytest_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "polymer_root_explicit",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "stale_beta14_removed",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "pcd_verify_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "pytest_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "polymer_root_explicit",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "stale_beta14_removed",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "115fb075ea50bede600ff59f0e3f54fefedd0481c24d9a231da8f6ebbdb31af7"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "pr_test_galaxy_case_gate": {
+        "name": "pr_test_galaxy_case_gate",
+        "params": [
+          "pcd_verify_pass",
+          "pytest_pass",
+          "polymer_root_explicit",
+          "stale_beta14_removed"
+        ],
+        "paramTypes": {
+          "pcd_verify_pass": "i64",
+          "pytest_pass": "i64",
+          "polymer_root_explicit": "i64",
+          "stale_beta14_removed": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "pcd_verify_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "pytest_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "polymer_root_explicit"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "stale_beta14_removed"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 4
+      }
+    },
+    "entrypoint": {
+      "name": "pr_test_galaxy_case_gate",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "pcd_verify_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "pytest_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "polymer_root_explicit"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "stale_beta14_removed"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 4,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

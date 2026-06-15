@@ -1,0 +1,14 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.1 generated Python tests must have per-PCD unique module names.
+PC python_emit_test_layout {
+    domain unique_test_name: i64 [0, 1];
+    domain package_import_ok: i64 [0, 1];
+    domain pytest_collect_ok: i64 [0, 1];
+    fn python_emit_test_layout(unique_test_name: i64, package_import_ok: i64, pytest_collect_ok: i64) -> i64 {
+        if (unique_test_name == 0) return 0;
+        if (package_import_ok == 0) return 0;
+        if (pytest_collect_ok == 0) return 0;
+        return 1;
+    }
+}

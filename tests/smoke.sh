@@ -134,8 +134,11 @@ test -f "$tmpdir/out-ts/program.mjs"
 test -f "$tmpdir/out-ts/program.test.mjs"
 test -f "$tmpdir/out-rust/program.rs"
 test -f "$tmpdir/out-rust/program_test.rs"
-test -f "$tmpdir/out-python/program.py"
-test -f "$tmpdir/out-python/test_program.py"
+test -f "$tmpdir/out-python/brik64_generated_program/program.py"
+test -f "$tmpdir/out-python/tests/test_program.py"
+test ! -f "$tmpdir/out-python/test_program.py"
+node "$BRIK" ledger verify --json | grep -q '"status": "PASS"'
+node "$BRIK" ledger status | grep -q "ledger_status=PASS"
 
 if node "$BRIK" emit program.pcd --target go --out out-go --tests >/tmp/brik-emit-go.out 2>/tmp/brik-emit-go.err; then
   echo "unsupported target should fail closed" >&2

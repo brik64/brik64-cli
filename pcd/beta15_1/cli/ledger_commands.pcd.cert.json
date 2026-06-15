@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.1",
+  "pcd": "pcd/beta15_1/cli/ledger_commands.pcd",
+  "semantic_pcd_sha256": "613bd5a23e37e86c0fa53702505d78b66c8a47493505da6d18812e1e773ead13",
+  "ast_sha256": "4fc61554d36bbf4775a4d5f58b4c27f9e9fc56ad036614fd997e1b590722b93b",
+  "domain_contract_sha256": "2d157f84d3e3f73dc203c718ac24932b47279907e1146c1945e9c3c0111decd2",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "event_count",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1000000
+        }
+      },
+      {
+        "name": "tamper_detected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "event_count",
+        "minValue": 0,
+        "maxValue": 1000000
+      },
+      {
+        "name": "tamper_detected",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "2d157f84d3e3f73dc203c718ac24932b47279907e1146c1945e9c3c0111decd2"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "ledger_commands",
+    "fnName": "ledger_status",
+    "params": [
+      "event_count",
+      "tamper_detected"
+    ],
+    "paramTypes": {
+      "event_count": "i64",
+      "tamper_detected": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "event_count",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1000000
+          }
+        },
+        {
+          "name": "tamper_detected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "event_count",
+          "minValue": 0,
+          "maxValue": 1000000
+        },
+        {
+          "name": "tamper_detected",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "2d157f84d3e3f73dc203c718ac24932b47279907e1146c1945e9c3c0111decd2"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "ledger_status": {
+        "name": "ledger_status",
+        "params": [
+          "event_count",
+          "tamper_detected"
+        ],
+        "paramTypes": {
+          "event_count": "i64",
+          "tamper_detected": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": ">",
+              "left": {
+                "type": "Identifier",
+                "name": "tamper_detected"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          1
+        ],
+        "branchCount": 1
+      }
+    },
+    "entrypoint": {
+      "name": "ledger_status",
+      "explicit": false,
+      "fallbackReason": "pc_name_function_missing_first_function_selected"
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": ">",
+          "left": {
+            "type": "Identifier",
+            "name": "tamper_detected"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      1
+    ],
+    "branchCount": 1,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}
