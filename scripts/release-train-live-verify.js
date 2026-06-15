@@ -204,7 +204,46 @@ function sleep(ms) {
 }
 
 function requireText(surface, body, needle, failures) {
-  if (!body.includes(needle)) failures.push(`${surface}_missing:${needle}`);
+  const normalizedBody = body
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const normalizedNeedle = needle.replace(/\s+/g, ' ').trim();
+  if (!body.includes(needle) && !normalizedBody.includes(normalizedNeedle)) {
+    failures.push(`${surface}_missing:${needle}`);
+  }
+}
+
+function betaToPypiVersion(version) {
+  const match = version.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?$/);
+  if (!match) return version;
+  return `${match[1]}b${match[2]}${match[3] ? `.post${match[3]}` : ''}`;
+}
+
+function sdkVersion(manifest, marketplace, fallback) {
+  if (Array.isArray(manifest.sdks)) {
+    return manifest.sdks.find((sdk) => sdk.marketplace === marketplace)?.version || fallback;
+  }
+  if (manifest.sdks && typeof manifest.sdks === 'object') {
+    const value = manifest.sdks[marketplace];
+    if (typeof value === 'string') {
+      if (marketplace === 'pypi') return value.replace(/^brik64==/, '');
+      const atVersion = value.match(/@(.+)$/);
+      if (atVersion) return atVersion[1];
+    }
+  }
+  return fallback;
+}
+
+function publicSurfaces(manifest) {
+  const version = manifest.version;
+  return manifest.publicSurfaces || {
+    curlInstaller: { url: 'https://brik64.com/cli/install.sh' },
+    channelManifest: { url: 'https://brik64.com/cli/beta.json' },
+    githubRelease: { url: `https://github.com/brik64/brik64-cli/releases/tag/v${version}` },
+    docs: { urls: ['https://docs.brik64.com/cli/install'] },
+    web: { urls: ['https://brik64.com/', 'https://brik64.com/changelog'] }
+  };
 }
 
 async function runOnce(attempt, maxAttempts) {
@@ -213,7 +252,8 @@ async function runOnce(attempt, maxAttempts) {
   const failures = [];
   const observations = [];
   const version = manifest.version;
-  const pypiVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi')?.version;
+  const pypiVersion = sdkVersion(manifest, 'pypi', betaToPypiVersion(version));
+  const surfaces = publicSurfaces(manifest);
 
   async function observe(id, url, checker) {
     try {
@@ -264,12 +304,12 @@ async function runOnce(attempt, maxAttempts) {
     }
   }
 
-  await observe('curl_installer', manifest.publicSurfaces.curlInstaller.url, (body) => {
+  await observe('curl_installer', surfaces.curlInstaller.url, (body) => {
     requireText('curl_installer', body, version, failures);
     requireText('curl_installer', body, 'brik64', failures);
   });
 
-  await observe('channel_manifest', manifest.publicSurfaces.channelManifest.url, (body) => {
+  await observe('channel_manifest', surfaces.channelManifest.url, (body) => {
     let parsed = null;
     try {
       parsed = JSON.parse(body);
@@ -281,21 +321,21 @@ async function runOnce(attempt, maxAttempts) {
     if (channelVersion !== version) failures.push(`channel_manifest_version_drift:${channelVersion || 'missing'}`);
   });
 
-  await observe('github_release', manifest.publicSurfaces.githubRelease.url, (body) => {
+  await observe('github_release', surfaces.githubRelease.url, (body) => {
     requireText('github_release', body, `v${version}`, failures);
   });
 
-  await observe('docs_install', manifest.publicSurfaces.docs.urls[0], (body) => {
+  await observe('docs_install', surfaces.docs.urls[0], (body) => {
     requireText('docs_install', body, version, failures);
     requireText('docs_install', body, manifest.cli.installCommand, failures);
   });
 
-  await observe('web_home', manifest.publicSurfaces.web.urls[0], (body) => {
+  await observe('web_home', surfaces.web.urls[0], (body) => {
     requireText('web_home', body, 'Get the skill', failures);
     requireText('web_home', body, manifest.cli.installCommand, failures);
   });
 
-  await observe('web_changelog', manifest.publicSurfaces.web.urls[1], (body) => {
+  await observe('web_changelog', surfaces.web.urls[1], (body) => {
     requireText('web_changelog', body, version, failures);
   });
 
