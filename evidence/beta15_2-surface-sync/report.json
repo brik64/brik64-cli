@@ -50,9 +50,9 @@
     },
     {
       "surface": "github_release",
-      "status": "blocked",
-      "evidence": "No v0.1.0-beta.15.2 GitHub Release has been created in this turn.",
-      "notes": "Keep blocked until the atomic promotion window."
+      "status": "staged",
+      "evidence": "Draft prerelease RE_kwDOSvpCcs4UPraN contains brik64-cli-0.1.0-beta.15.2.tgz, SHA256SUMS and package.manifest.json. Draft URL: https://github.com/brik64/brik64-cli/releases/tag/untagged-47e72f9dfbcce7bf5488",
+      "notes": "The draft is intentionally not public. Final release URLs under v0.1.0-beta.15.2 become valid only when the draft is published during the atomic promotion window."
     },
     {
       "surface": "live_verify",
@@ -62,7 +62,7 @@
     }
   ],
   "blockers": [
-    "github_release_not_published",
+    "github_release_draft_not_published",
     "curl_live_not_promoted",
     "live_verify_not_run"
   ]
