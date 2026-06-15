@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
+  "generatedAt": "2026-06-15T20:23:47.657Z",
+  "version": "0.1.0-beta.15.3",
+  "label": "beta15_3",
+  "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
+  "policy": {
+    "requirement": "Every new public BRIK64 CLI version must include direct L6+N5 generation evidence before release.",
+    "acceptedChain": "PCD/polymer -> L6+N5 serial -> generated artifact -> package -> release manifest",
+    "rejectedEvidence": [
+      "preflight-only L6 health reports",
+      "manual patches without PCD regeneration",
+      "route2 bounded historical generation reused for a newer CLI",
+      "internal reports with releasePublicationAllowed=false"
+    ]
+  },
+  "evidence": {},
+  "checks": {
+    "releaseManifestVersionContext": true
+  },
+  "blockers": [
+    "missing_l6_generation_evidence_dir:evidence/beta15_3-l6-generation"
+  ]
+}
