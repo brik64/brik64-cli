@@ -36,6 +36,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   operational progress only. It removes `shell_exec_only` ambiguity but must
   not satisfy release gates until a real materialization result is emitted and
   hash-bound.
+- L6 provenance policy: a materialization result must include L6+N5 engine
+  serial, materializer mode `l6plus_pcd_polymer_materializer`, generation trace
+  hash, PCD input-set hash, remote wrapper hash and wrapper exec-target hash.
+  Package and artifact hashes alone are not sufficient release evidence.
 
 ## Phases
 

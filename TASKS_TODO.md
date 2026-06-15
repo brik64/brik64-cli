@@ -38,6 +38,18 @@
         blocked by missing materialization result and missing artifact.
       - Boundary:
         dispatcher installation is not L6 artifact generation.
+- [x] Harden L6 materialization result provenance.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        the CLI consumer now rejects results that omit the L6+N5 serial,
+        materializer mode, generation trace hash, PCD input-set hash, remote
+        wrapper hash or wrapper exec-target hash.
+      - Boundary:
+        this still does not generate the Beta15.4 artifact; it prevents manual
+        package hashes from satisfying the L6 release gate.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

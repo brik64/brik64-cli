@@ -214,3 +214,28 @@ Boundary:
 - The dispatcher is operational endpoint plumbing only.
 - It is not a generated CLI artifact and does not authorize Beta15.4
   publication.
+
+## Iteration 11
+
+- Hardened `scripts/beta15_4-l6-materialization-result.js` so the accepted
+  endpoint result must include L6+N5 provenance, not only package hashes.
+- Required fields now include `l6plusEngineSerial`,
+  `materializerMode=l6plus_pcd_polymer_materializer`,
+  `generationTraceSha256`, `pcdInputSetSha256`, `remoteWrapperSha256` and
+  `wrapperExecTargetSha256`.
+- Added adversarial parser coverage for missing serial, manual materializer
+  mode and missing generation trace hash.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed, as expected,
+  because no L6-generated artifact/package/release hash binding exists.
+
+Boundary:
+
+- This closes a provenance-bypass risk in the future endpoint contract.
+- It does not materialize the Beta15.4 CLI artifact and does not authorize
+  public release.

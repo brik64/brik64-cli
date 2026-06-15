@@ -6,6 +6,19 @@ const REQUIRED_TRUE_FIELDS = [
   'sealReportPass',
 ];
 
+const REQUIRED_SHA_FIELDS = [
+  'generatedArtifactSha256',
+  'packageSha256',
+  'releaseManifestSha256',
+  'compositeSha256',
+  'generationTraceSha256',
+  'pcdInputSetSha256',
+  'remoteWrapperSha256',
+  'wrapperExecTargetSha256',
+];
+
+const REQUIRED_MATERIALIZER_MODE = 'l6plus_pcd_polymer_materializer';
+
 function parseMaterializationResult(text) {
   const source = String(text || '');
   const line = source
@@ -38,13 +51,20 @@ function validateMaterializationResult(result, version) {
   }
 
   if (result.version !== version) blockers.push(`materialization_result_version_mismatch:${result.version || 'missing'}`);
+  if (typeof result.l6plusEngineSerial !== 'string' || !result.l6plusEngineSerial.startsWith('BRIK64-L6PLUS-N5-')) {
+    blockers.push('materialization_result_l6plus_engine_serial_invalid');
+  }
+  if (result.materializerMode !== REQUIRED_MATERIALIZER_MODE) {
+    blockers.push('materialization_result_materializer_mode_invalid');
+  }
   for (const field of REQUIRED_TRUE_FIELDS) {
     if (result[field] !== true) blockers.push(`materialization_result_${field}_not_true`);
   }
-  if (!isSha256(result.generatedArtifactSha256)) blockers.push('materialization_result_generated_artifact_sha256_invalid');
-  if (!isSha256(result.packageSha256)) blockers.push('materialization_result_package_sha256_invalid');
-  if (!isSha256(result.releaseManifestSha256)) blockers.push('materialization_result_release_manifest_sha256_invalid');
-  if (!isSha256(result.compositeSha256)) blockers.push('materialization_result_composite_sha256_invalid');
+  for (const field of REQUIRED_SHA_FIELDS) {
+    if (!isSha256(result[field])) {
+      blockers.push(`materialization_result_${field.replace(/Sha256$/, '_sha256').replace(/[A-Z]/g, (match) => `_${match.toLowerCase()}`)}_invalid`);
+    }
+  }
   if (!Array.isArray(result.inputPcds) || result.inputPcds.length === 0) {
     blockers.push('materialization_result_input_pcds_missing');
   }
@@ -67,6 +87,10 @@ function validateMaterializationResult(result, version) {
           packageSha256: normalizeSha256(result.packageSha256),
           releaseManifestSha256: normalizeSha256(result.releaseManifestSha256),
           compositeSha256: normalizeSha256(result.compositeSha256),
+          generationTraceSha256: normalizeSha256(result.generationTraceSha256),
+          pcdInputSetSha256: normalizeSha256(result.pcdInputSetSha256),
+          remoteWrapperSha256: normalizeSha256(result.remoteWrapperSha256),
+          wrapperExecTargetSha256: normalizeSha256(result.wrapperExecTargetSha256),
           inputPcds: result.inputPcds.map((item) => ({
             ...item,
             sha256: normalizeSha256(item.sha256),
