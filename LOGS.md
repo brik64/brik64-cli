@@ -71,3 +71,20 @@ Active blocker remains:
   currently reports `BETA15_4_CLI_L6_MATERIALIZER_GAP_BLOCKED`, so local/public
   release dry-runs fail closed until fresh Beta15.4 L6+N5 materialization
   evidence exists.
+
+## Iteration 5
+
+- GitHub PR validation failed because the external `brik64-prod` gap report is
+  not present inside the isolated `brik64-cli` Actions checkout.
+- Patched `scripts/release-train-dry-run.js` so missing external gap evidence is
+  accepted only in pull-request dry-run mode, while publication/local dry-runs
+  still require the report and a PASS decision.
+- Verified sequentially:
+  - `bash scripts/tests/test_beta15_4_release_train_l6_gap.sh` passed.
+  - `GITHUB_ACTIONS=true GITHUB_EVENT_NAME=pull_request BRIK64_BETA15_4_L6_GAP_REPORT=/tmp/brik64_missing_gap_report_seq.json npm run release:train:dry-run -- --allow-dirty` passed with `publicationAllowed=false`.
+
+Boundary:
+
+- Missing external gap evidence remains fatal outside PR mode.
+- The public release path still requires
+  `BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS`.

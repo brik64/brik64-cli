@@ -984,9 +984,10 @@ function main() {
       ) {
         failures.push(`candidate_beta15_4_l6_generation_required_invalid:${l6Required.decision}`);
       }
-      if (!l6Gap) failures.push('candidate_readiness_missing:beta15_4_l6_materializer_gap');
+      if (!l6Gap && !isPullRequestDryRun()) failures.push('candidate_readiness_missing:beta15_4_l6_materializer_gap');
       else if (
-        l6Gap.decision !== 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS'
+        l6Gap
+        && l6Gap.decision !== 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS'
         && !(isPullRequestDryRun() && l6Gap.decision === 'BETA15_4_CLI_L6_MATERIALIZER_GAP_BLOCKED')
       ) {
         failures.push(`candidate_beta15_4_l6_materializer_gap_invalid:${l6Gap.decision}`);
