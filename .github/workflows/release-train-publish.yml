@@ -16,6 +16,16 @@ on:
         required: true
         default: false
         type: boolean
+      rust_crate_only:
+        description: "Publish only the Rust SDK crate through this trusted publisher workflow."
+        required: false
+        default: false
+        type: boolean
+      rust_crate_version:
+        description: "Rust SDK crate version for rust_crate_only mode."
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: read
@@ -23,6 +33,7 @@ permissions:
 
 jobs:
   publish-plan:
+    if: ${{ inputs.rust_crate_only != true }}
     name: Build fail-closed publication plan
     runs-on: ubuntu-latest
     env:
@@ -262,3 +273,83 @@ jobs:
             evidence/release-train-publish-plan/report.json
             evidence/release-train-publish-execute/report.json
             evidence/release-credential-preflight/report.json
+
+  rust-crate-only:
+    if: ${{ inputs.rust_crate_only == true }}
+    name: Publish Rust SDK crate only
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate rust crate publication input
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ inputs.execute_publication }}" = "true"
+          test -n "${{ inputs.rust_crate_version }}"
+
+      - name: Checkout Rust SDK
+        uses: actions/checkout@v6
+        with:
+          repository: brik64-admin/brik64-lib-rust
+          token: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+          ref: main
+          path: brik64-lib-rust
+
+      - name: Install Rust
+        shell: bash
+        run: |
+          set -euo pipefail
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+
+      - name: Verify crate version
+        working-directory: brik64-lib-rust
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTUAL="$(cargo metadata --no-deps --format-version=1 | python3 -c 'import json,sys; print(json.load(sys.stdin)["packages"][0]["version"])')"
+          test "$ACTUAL" = "${{ inputs.rust_crate_version }}"
+
+      - name: Test
+        working-directory: brik64-lib-rust
+        run: cargo test
+
+      - name: Clippy
+        working-directory: brik64-lib-rust
+        run: cargo clippy -- -D warnings
+
+      - name: Package
+        working-directory: brik64-lib-rust
+        run: cargo package
+
+      - name: Check crates.io current versions
+        id: crates_version
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, urllib.request, os
+          version = os.environ["VERSION"]
+          req = urllib.request.Request(
+              "https://crates.io/api/v1/crates/brik64-core",
+              headers={"User-Agent": "brik64-release-verifier/1.0"},
+          )
+          with urllib.request.urlopen(req, timeout=30) as response:
+              data = json.load(response)
+          versions = {item["num"] for item in data.get("versions", [])}
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"exists={'true' if version in versions else 'false'}\n")
+          PY
+        env:
+          VERSION: ${{ inputs.rust_crate_version }}
+
+      - name: Authenticate to crates.io with trusted publishing
+        id: crates_io_auth
+        if: ${{ steps.crates_version.outputs.exists != 'true' }}
+        uses: rust-lang/crates-io-auth-action@v1
+
+      - name: Publish
+        if: ${{ steps.crates_version.outputs.exists != 'true' }}
+        working-directory: brik64-lib-rust
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.crates_io_auth.outputs.token }}
+        run: cargo publish
