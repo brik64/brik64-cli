@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.1",
+  "pcd": "pcd/beta15_1/harness/ledger_tamper_gate.pcd",
+  "semantic_pcd_sha256": "8864861ee4c5eeae63bead7809b7716e0f14721ca9c72831415cb96ad54fe6c0",
+  "ast_sha256": "efd4ea9796dfbd55dd840172c998ae0e76ffbaea5f804a5b69a5a01c10e95f5d",
+  "domain_contract_sha256": "8590deec2f33b773d1fb55f137d185969521968e7e8d3c2db24899dab4b5559b",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "append_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "edit_detected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "delete_detected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "reorder_detected",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "append_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "edit_detected",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "delete_detected",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "reorder_detected",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "8590deec2f33b773d1fb55f137d185969521968e7e8d3c2db24899dab4b5559b"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "ledger_tamper_gate",
+    "fnName": "ledger_tamper_gate",
+    "params": [
+      "append_pass",
+      "edit_detected",
+      "delete_detected",
+      "reorder_detected"
+    ],
+    "paramTypes": {
+      "append_pass": "i64",
+      "edit_detected": "i64",
+      "delete_detected": "i64",
+      "reorder_detected": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "append_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "edit_detected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "delete_detected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "reorder_detected",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "append_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "edit_detected",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "delete_detected",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "reorder_detected",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "8590deec2f33b773d1fb55f137d185969521968e7e8d3c2db24899dab4b5559b"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "ledger_tamper_gate": {
+        "name": "ledger_tamper_gate",
+        "params": [
+          "append_pass",
+          "edit_detected",
+          "delete_detected",
+          "reorder_detected"
+        ],
+        "paramTypes": {
+          "append_pass": "i64",
+          "edit_detected": "i64",
+          "delete_detected": "i64",
+          "reorder_detected": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "append_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "edit_detected"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "delete_detected"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "reorder_detected"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 4
+      }
+    },
+    "entrypoint": {
+      "name": "ledger_tamper_gate",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "append_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "edit_detected"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "delete_detected"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "reorder_detected"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 4,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

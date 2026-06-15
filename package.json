@@ -1,8 +1,8 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.15",
+  "version": "0.1.0-beta.15.1",
   "private": true,
-  "description": "BRIK64 CLI beta15 production-candidate surface for local PCD workflows, bounded evidence review, and claim-safe project scaffolding.",
+  "description": "BRIK64 CLI beta15.1 local PCD workflow surface with append-only .brik ledger, explicit polymer roots, and claim-safe project evidence.",
   "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
@@ -212,6 +212,11 @@
     "gate:beta14.6:lift-domain-boundary": "node scripts/beta14_6-domain-contracts-gate.js",
     "gate:beta14.6:polymer-domain-compat": "node scripts/beta14_6-domain-contracts-gate.js",
     "test:beta14.6-domain-contracts": "node scripts/beta14_6-domain-contracts-gate.js",
+    "gate:beta15.1:ledger-dtl": "node scripts/beta15_1-ledger-dtl-gate.js",
+    "test:beta15.1-ledger-dtl": "node scripts/beta15_1-ledger-dtl-gate.js",
+    "package:beta15.1:local": "bash scripts/build-beta15_1-package.sh",
+    "smoke:beta15.1:package": "bash scripts/beta15_1-package-smoke.sh",
+    "test:beta15.1-package": "bash scripts/beta15_1-package-smoke.sh",
     "package:beta14.6:local": "bash scripts/build-beta14_6-package.sh",
     "smoke:beta14.6:package": "bash scripts/beta14_6-package-smoke.sh",
     "test:beta14.6-package": "bash scripts/beta14_6-package-smoke.sh"

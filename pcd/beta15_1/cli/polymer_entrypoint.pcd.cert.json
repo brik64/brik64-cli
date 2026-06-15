@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.1",
+  "pcd": "pcd/beta15_1/cli/polymer_entrypoint.pcd",
+  "semantic_pcd_sha256": "a207bd61f6deb8b7ebd2dc5989bd66f8d35a14ce0601f4882777e93cd9f7b820",
+  "ast_sha256": "e3e89309d47166d1306ba76246bf8cec3e9b3c2b88c4400cfbb87fd075a251b9",
+  "domain_contract_sha256": "5a07cb0736e1973914dafad4cf6c5777a2b23057239f3150acd857babd7a33f3",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "input_count",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 1
+        },
+        "max": {
+          "kind": "literal",
+          "value": 4096
+        }
+      },
+      {
+        "name": "root_declared",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "input_count",
+        "minValue": 1,
+        "maxValue": 4096
+      },
+      {
+        "name": "root_declared",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "5a07cb0736e1973914dafad4cf6c5777a2b23057239f3150acd857babd7a33f3"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "polymer_entrypoint",
+    "fnName": "polymer_entrypoint",
+    "params": [
+      "input_count",
+      "root_declared"
+    ],
+    "paramTypes": {
+      "input_count": "i64",
+      "root_declared": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "input_count",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 1
+          },
+          "max": {
+            "kind": "literal",
+            "value": 4096
+          }
+        },
+        {
+          "name": "root_declared",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "input_count",
+          "minValue": 1,
+          "maxValue": 4096
+        },
+        {
+          "name": "root_declared",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "5a07cb0736e1973914dafad4cf6c5777a2b23057239f3150acd857babd7a33f3"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "polymer_entrypoint": {
+        "name": "polymer_entrypoint",
+        "params": [
+          "input_count",
+          "root_declared"
+        ],
+        "paramTypes": {
+          "input_count": "i64",
+          "root_declared": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": ">",
+              "left": {
+                "type": "Identifier",
+                "name": "input_count"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 1,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "IfStatement",
+                "condition": {
+                  "type": "BinaryExpression",
+                  "operator": "==",
+                  "left": {
+                    "type": "Identifier",
+                    "name": "root_declared"
+                  },
+                  "right": {
+                    "type": "NumberLiteral",
+                    "value": 0,
+                    "numericType": "i64"
+                  }
+                },
+                "consequent": [
+                  {
+                    "type": "ReturnStatement",
+                    "argument": {
+                      "type": "NumberLiteral",
+                      "value": 0,
+                      "numericType": "i64"
+                    }
+                  }
+                ],
+                "alternate": []
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          1
+        ],
+        "branchCount": 2
+      }
+    },
+    "entrypoint": {
+      "name": "polymer_entrypoint",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": ">",
+          "left": {
+            "type": "Identifier",
+            "name": "input_count"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 1,
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "root_declared"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      1
+    ],
+    "branchCount": 2,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

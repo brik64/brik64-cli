@@ -4,7 +4,9 @@ build/
 node_modules/
 *.log
 .DS_Store
+.brik/ledger/
 evidence/tmp/
+evidence/*-package/stage/
 evidence/beta8-github-verified-signature/
 evidence/github-signing-key-preflight/
 evidence/github-signing-key-registration/

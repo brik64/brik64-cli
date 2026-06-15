@@ -1,0 +1,11 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.1 local .brik append-only ledger command contract.
+PC ledger_commands {
+    domain event_count: i64 [0, 1000000];
+    domain tamper_detected: i64 [0, 1];
+    fn ledger_status(event_count: i64, tamper_detected: i64) -> i64 {
+        if (tamper_detected > 0) return 0;
+        return 1;
+    }
+}

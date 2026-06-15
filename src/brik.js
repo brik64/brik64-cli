@@ -10,11 +10,13 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15';
+const version = '0.1.0-beta.15.1';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
 const FEEDBACK_SCHEMA = 'brik64.cli_feedback_event.v1';
+const LEDGER_EVENT_SCHEMA = 'brik64.cli_ledger_event.v1';
+const LEDGER_HEAD_SCHEMA = 'brik64.cli_ledger_head.v1';
 const RESET = '\x1b[0m';
 const BRIK = '\x1b[38;2;180;180;180m';
 const CYAN = '\x1b[38;2;25;167;195m';
@@ -185,6 +187,170 @@ function mkdirControlled(dir) {
   } catch (error) {
     fail(74, `filesystem_mkdir_error:${error.code || 'unknown'}`);
   }
+}
+
+function pathHashForLedger(file) {
+  return sha256(path.relative(process.cwd(), path.resolve(file)));
+}
+
+function ledgerDir() {
+  return path.resolve('.brik', 'ledger');
+}
+
+function ledgerEventsPath() {
+  return path.join(ledgerDir(), 'events.jsonl');
+}
+
+function ledgerHeadPath() {
+  return path.join(ledgerDir(), 'head.json');
+}
+
+function ledgerTombstonesPath() {
+  return path.join(ledgerDir(), 'tombstones.jsonl');
+}
+
+function redactedLedgerPayload(payload) {
+  return JSON.parse(JSON.stringify(payload || {}, (_, value) => {
+    if (typeof value !== 'string') return value;
+    return redactValue(value);
+  }));
+}
+
+function readLedgerEvents() {
+  const eventsPath = ledgerEventsPath();
+  if (!fs.existsSync(eventsPath)) return [];
+  return fs.readFileSync(eventsPath, 'utf8')
+    .split('\n')
+    .filter((line) => line.trim().length > 0)
+    .map((line, index) => {
+      try {
+        return JSON.parse(line);
+      } catch (_) {
+        fail(65, `ledger_parse_error:line_${index + 1}`);
+      }
+    });
+}
+
+function computeLedgerEventHash(event) {
+  const copy = { ...event };
+  delete copy.eventHash;
+  return sha256(canonicalJson(copy));
+}
+
+function readLedgerHead() {
+  const headPath = ledgerHeadPath();
+  if (!fs.existsSync(headPath)) {
+    return {
+      schemaVersion: LEDGER_HEAD_SCHEMA,
+      cliVersion: version,
+      sequence: 0,
+      eventCount: 0,
+      headHash: null,
+      updatedAt: null
+    };
+  }
+  return readJsonRequired(headPath, 'ledger_head_parse_error', 'ledger_head_missing');
+}
+
+function ledgerAppend(eventType, payload = {}) {
+  try {
+    const brik = path.resolve('.brik');
+    if (!fs.existsSync(brik)) return null;
+    mkdirControlled(ledgerDir());
+    const events = readLedgerEvents();
+    const head = readLedgerHead();
+    const previous = events[events.length - 1] || null;
+    const prevEventHash = previous ? previous.eventHash : null;
+    const sequence = previous ? previous.sequence + 1 : 1;
+    const cleanPayload = redactedLedgerPayload(payload);
+    const event = {
+      schemaVersion: LEDGER_EVENT_SCHEMA,
+      cliVersion: version,
+      sequence,
+      eventType,
+      createdAt: new Date().toISOString(),
+      actor: process.env.USER || process.env.USERNAME || 'local',
+      workspaceId: sha256(process.cwd()),
+      prevEventHash,
+      payloadHash: sha256(canonicalJson(cleanPayload)),
+      payload: cleanPayload,
+      claimBoundary: 'local_candidate_only',
+      redaction: {
+        rawSourceIncluded: false,
+        rawPcdIncluded: false,
+        absolutePathIncluded: false,
+        secretsIncluded: false
+      }
+    };
+    event.eventHash = computeLedgerEventHash(event);
+    fs.appendFileSync(ledgerEventsPath(), `${JSON.stringify(event)}\n`);
+    const nextHead = {
+      schemaVersion: LEDGER_HEAD_SCHEMA,
+      cliVersion: version,
+      sequence,
+      eventCount: sequence,
+      headHash: event.eventHash,
+      previousHeadHash: head.headHash || null,
+      updatedAt: event.createdAt,
+      appendOnly: true
+    };
+    writeFileControlled(ledgerHeadPath(), JSON.stringify(nextHead, null, 2) + '\n');
+    return event;
+  } catch (_) {
+    return null;
+  }
+}
+
+function ledgerAppendRequired(eventType, payload = {}) {
+  const event = ledgerAppend(eventType, payload);
+  if (!event && fs.existsSync(path.resolve('.brik'))) {
+    fail(74, `ledger_append_failed:${eventType}`);
+  }
+  return event;
+}
+
+function verifyLedgerState() {
+  const brikDir = path.resolve('.brik');
+  const events = readLedgerEvents();
+  const errors = [];
+  if (!fs.existsSync(brikDir)) {
+    errors.push('ledger_workspace_missing');
+  } else {
+    if (!fs.existsSync(ledgerEventsPath())) errors.push('ledger_events_missing');
+    if (!fs.existsSync(ledgerHeadPath())) errors.push('ledger_head_missing');
+  }
+  let expectedPrev = null;
+  let lastHash = null;
+  events.forEach((event, index) => {
+    const expectedSequence = index + 1;
+    if (event.schemaVersion !== LEDGER_EVENT_SCHEMA) errors.push(`ledger_schema_unsupported:${expectedSequence}`);
+    if (event.sequence !== expectedSequence) errors.push(`ledger_sequence_mismatch:${expectedSequence}`);
+    if ((event.prevEventHash || null) !== expectedPrev) errors.push(`ledger_prev_hash_mismatch:${expectedSequence}`);
+    const computed = computeLedgerEventHash(event);
+    if (event.eventHash !== computed) errors.push(`ledger_event_hash_mismatch:${expectedSequence}`);
+    expectedPrev = event.eventHash;
+    lastHash = event.eventHash;
+  });
+  const head = readLedgerHead();
+  if (events.length === 0) {
+    if (head.headHash) errors.push('ledger_head_nonempty_without_events');
+  } else if (head.headHash !== lastHash) {
+    errors.push('ledger_head_hash_mismatch');
+  }
+  if (head.eventCount !== events.length && events.length > 0) {
+    errors.push('ledger_head_count_mismatch');
+  }
+  return {
+    schemaVersion: 'brik64.cli_ledger_verify_report.v1',
+    cliVersion: version,
+    status: errors.length === 0 ? 'PASS' : 'FAIL',
+    appendOnly: true,
+    eventCount: events.length,
+    headHash: lastHash,
+    tamperDetected: errors.length > 0,
+    errors,
+    claimBoundary: 'local_candidate_only'
+  };
 }
 
 function bannerSuppressed() {
@@ -406,6 +572,15 @@ const COMMAND_HELP = {
     'Example:',
     '  brik64 lock --files pcd/a.pcd,pdc/b.pcd --skip-errors --json'
   ],
+  ledger: [
+    'ledger <status|verify|append|snapshot|tombstone|export|repair> [options]',
+    'Maintains the local .brik append-only evidence ledger. Events are hash-chained and never deleted.',
+    'Example:',
+    '  brik64 ledger status --json',
+    '  brik64 ledger append --type note --ref pcd/order_gate.pcd',
+    '  brik64 ledger tombstone <eventHash> --reason superseded',
+    '  brik64 ledger export --redacted'
+  ],
   migrate: [
     'migrate <file.pcd> [--out <file>|--in-place] [--dry-run] [--force|-f] [--json]',
     'Converts supported legacy PCD syntax into the current PC/fn block form.',
@@ -414,10 +589,10 @@ const COMMAND_HELP = {
     '  brik64 migrate old.pcd --dry-run --json'
   ],
   polymerize: [
-    'polymerize <files.pcd...> [--local] [--inline] --out <file> [--json]',
+    'polymerize <files.pcd...> [--local] [--inline] [--root <fn>] --out <file> [--json]',
     'Default local mode writes a root_dag_reference polymer. --inline writes all source functions into one PC.',
     'Example:',
-    '  brik64 polymerize pcd/a.pcd pcd/b.pcd --inline --out polymer.pcd'
+    '  brik64 polymerize pcd/a.pcd pcd/b.pcd --inline --root run_pipeline --out polymer.pcd'
   ],
   lift: [
     'lift <js|ts|python|rust> <path> --preview [--stub-only] [--include-source-comment] [--json]',
@@ -502,11 +677,13 @@ function help(topic) {
   process.stdout.write('       --json --out <file> --technical-sheet <file>\n');
   process.stdout.write('  lock                 write brik64.lock.json for local hashes\n');
   process.stdout.write('       --files <files> --skip-errors --json\n');
+  process.stdout.write('  ledger               inspect/verify local append-only .brik ledger\n');
+  process.stdout.write('       status|verify|append|snapshot|tombstone|export|repair\n');
   process.stdout.write('  certify <file.pcd>   write local candidate certificate\n');
   process.stdout.write('  emit <file.pcd>      emit only when local certificate exists\n');
   process.stdout.write('       --target <ts|rust|python> --out <dir> --tests\n');
   process.stdout.write('  polymerize <files>   combine PCDs into a deterministic polymer\n');
-  process.stdout.write('       --local | --cloud --inline --out <file> --json\n');
+  process.stdout.write('       --local | --cloud --inline --root <fn> --out <file> --json\n');
   process.stdout.write('  verify <file.pcd>    verify local certificate/workspace coherence\n');
   process.stdout.write('       --local | --cloud | --json\n');
   process.stdout.write('  telemetry status     inspect local opt-in telemetry status\n');
@@ -1588,6 +1765,14 @@ function init() {
       }
     }, null, 2) + '\n');
   }
+  mkdirControlled(ledgerDir());
+  if (!fs.existsSync(ledgerEventsPath())) writeFileControlled(ledgerEventsPath(), '');
+  if (!fs.existsSync(ledgerHeadPath())) writeFileControlled(ledgerHeadPath(), JSON.stringify(readLedgerHead(), null, 2) + '\n');
+  ledgerAppendRequired('workspace.init', {
+    manifest: '.brik/manifest.json',
+    manifestPathHash: pathHashForLedger(manifestPath),
+    manifestSha256: sha256(fs.readFileSync(manifestPath, 'utf8'))
+  });
   process.stdout.write(`created=${path.relative(process.cwd(), manifestPath)}\n`);
 }
 
@@ -1740,6 +1925,20 @@ function buildDoctorReport() {
       actions.push('Add at least one .pcd file under ./pcd or run certify/emit directly on a specific .pcd file.');
     }
   }
+  const ledger = fs.existsSync(path.resolve('.brik'))
+    ? verifyLedgerState()
+    : {
+      status: 'MISSING',
+      eventCount: 0,
+      headHash: null,
+      tamperDetected: false,
+      appendOnly: true,
+      errors: ['ledger_missing:.brik/ledger']
+    };
+  if (ledger.status === 'FAIL') {
+    errors.push('ledger_verify_failed');
+    actions.push('Run `brik64 ledger verify --json`; restore .brik/ledger from version control if the hash chain was edited.');
+  }
   return {
     schemaVersion: 'brik64.cli_doctor_report.v1',
     cliVersion: version,
@@ -1756,6 +1955,13 @@ function buildDoctorReport() {
       files: pcdValidation
     },
     pcdInventorySha256: sha256(JSON.stringify(pcds)),
+    ledger: {
+      status: ledger.status,
+      eventCount: ledger.eventCount,
+      headHash: ledger.headHash,
+      tamperDetected: ledger.tamperDetected,
+      appendOnly: ledger.appendOnly === true
+    },
     releaseScope: 'local_candidate_only',
     diagnostics: {
       errors,
@@ -1838,6 +2044,121 @@ function doctor() {
     process.stderr.write(`${message}\n`);
     process.exit(65);
   }
+}
+
+function ledgerCommand(args = []) {
+  const sub = args[0];
+  if (!sub) fail(64, 'ledger_subcommand_required');
+  const parsed = parseArgs(args.slice(1), {
+    '--json': 'boolean',
+    '--type': 'value',
+    '--ref': 'value',
+    '--reason': 'value',
+    '--redacted': 'boolean',
+    '--dry-run': 'boolean'
+  });
+  if (sub === 'status' || sub === 'verify') {
+    const report = verifyLedgerState();
+    if (parsed['--json'] || sub === 'verify') {
+      process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+    } else {
+      process.stdout.write(`ledger_status=${report.status}\n`);
+      process.stdout.write(`events=${report.eventCount}\n`);
+      process.stdout.write(`head=${report.headHash || 'none'}\n`);
+      process.stdout.write(`tamper_detected=${report.tamperDetected ? 'yes' : 'no'}\n`);
+    }
+    if (report.status !== 'PASS') process.exit(65);
+    return;
+  }
+  if (sub === 'append') {
+    if (!parsed['--type']) fail(64, 'ledger_append_type_required');
+    const ref = parsed['--ref'] || null;
+    let refSha256 = null;
+    let refPathHash = null;
+    if (ref) {
+      const resolved = workspacePath(ref, 64, { mustExist: true, realpath: true });
+      refSha256 = sha256(fs.readFileSync(resolved));
+      refPathHash = pathHashForLedger(resolved);
+    }
+    const event = ledgerAppend(parsed['--type'], {
+      ref: ref ? path.relative(process.cwd(), path.resolve(ref)) : null,
+      refPathHash,
+      refSha256
+    });
+    if (!event) fail(74, 'ledger_append_failed');
+    process.stdout.write(`${JSON.stringify(event, null, 2)}\n`);
+    return;
+  }
+  if (sub === 'snapshot') {
+    const report = verifyLedgerState();
+    if (report.status !== 'PASS') fail(65, 'ledger_snapshot_requires_valid_ledger');
+    const snapshotsDir = path.join(ledgerDir(), 'snapshots');
+    mkdirControlled(snapshotsDir);
+    const out = path.join(snapshotsDir, `${String(report.eventCount).padStart(8, '0')}-${report.headHash || 'empty'}.json`);
+    writeFileControlled(out, JSON.stringify({ ...report, createdAt: new Date().toISOString() }, null, 2) + '\n');
+    ledgerAppend('ledger.snapshot', {
+      snapshot: path.relative(process.cwd(), out),
+      snapshotPathHash: pathHashForLedger(out),
+      headHash: report.headHash
+    });
+    process.stdout.write(`snapshot=${path.relative(process.cwd(), out)}\n`);
+    return;
+  }
+  if (sub === 'tombstone') {
+    const targetHash = args[1];
+    if (!targetHash) fail(64, 'ledger_tombstone_hash_required');
+    const reason = parsed['--reason'] || 'superseded';
+    const event = ledgerAppend('ledger.tombstone', { targetEventHash: targetHash, reason });
+    if (!event) fail(74, 'ledger_tombstone_failed');
+    fs.appendFileSync(ledgerTombstonesPath(), `${JSON.stringify({
+      targetEventHash: targetHash,
+      reason,
+      tombstoneEventHash: event.eventHash,
+      createdAt: event.createdAt
+    })}\n`);
+    process.stdout.write(`tombstone=${event.eventHash}\n`);
+    return;
+  }
+  if (sub === 'export') {
+    const report = verifyLedgerState();
+    const events = readLedgerEvents().map((event) => ({
+      schemaVersion: event.schemaVersion,
+      cliVersion: event.cliVersion,
+      sequence: event.sequence,
+      eventType: event.eventType,
+      createdAt: event.createdAt,
+      prevEventHash: event.prevEventHash,
+      eventHash: event.eventHash,
+      payloadHash: event.payloadHash,
+      payload: parsed['--redacted'] ? redactedLedgerPayload(event.payload) : event.payload,
+      claimBoundary: event.claimBoundary,
+      redaction: event.redaction
+    }));
+    process.stdout.write(`${JSON.stringify({
+      schemaVersion: 'brik64.cli_ledger_export.v1',
+      cliVersion: version,
+      redacted: Boolean(parsed['--redacted']),
+      verify: report,
+      events
+    }, null, 2)}\n`);
+    return;
+  }
+  if (sub === 'repair') {
+    const report = verifyLedgerState();
+    process.stdout.write(`${JSON.stringify({
+      schemaVersion: 'brik64.cli_ledger_repair_plan.v1',
+      cliVersion: version,
+      dryRun: parsed['--dry-run'] !== false,
+      status: report.status === 'PASS' ? 'NOOP' : 'NEEDS_MANUAL_RESTORE',
+      verify: report,
+      action: report.status === 'PASS'
+        ? 'Ledger is valid; no repair required.'
+        : 'Restore .brik/ledger from version control or create a new workspace. Beta15.1 does not rewrite history.'
+    }, null, 2)}\n`);
+    if (report.status !== 'PASS') process.exit(65);
+    return;
+  }
+  fail(64, `unknown_ledger_command:${sub}`);
 }
 
 function repoRoot() {
@@ -2631,7 +2952,7 @@ function renderSemanticPolymer(rootUnit, units) {
   const bodyLines = renderPcdStatements(ast.body, 2);
   return [
     '// brik64.pcd_file.v1',
-    '// generated_by: brik64-cli beta14 semantic polymerize local',
+    `// generated_by: brik64-cli ${version} semantic polymerize local`,
     '// claim_boundary: local_candidate_only',
     '// semantic_mode: root_dag_reference',
     ...sourceLines,
@@ -2651,19 +2972,37 @@ function renderSemanticPolymer(rootUnit, units) {
   ].filter((line) => line !== null).join('\n');
 }
 
-function renderInlinePolymer(units) {
+function renderInlinePolymer(units, rootName) {
   const names = new Set();
+  const domainKeys = new Map();
   const lines = [
     '// brik64.pcd_file.v1',
-    '// generated_by: brik64-cli beta14.2 semantic polymerize local',
+    `// generated_by: brik64-cli ${version} semantic polymerize local`,
     '// claim_boundary: local_candidate_only',
     '// semantic_mode: inline_merged_functions',
     ...units.map((unit) => `// source ${unit.file} ${unit.semantic_pcd_sha256}`),
     '',
-    'PC brik64_polymer {'
+    `PC ${rootName} {`
   ];
   for (const unit of units) {
-    lines.push(...renderPcdDomainContract(unit.ast.domainContract, 1));
+    const domainContract = unit.ast.domainContract || {};
+    const filteredContract = {
+      ...domainContract,
+      domains: [],
+      domainParams: [],
+      invariants: domainContract.invariants || [],
+      conditionalDomains: domainContract.conditionalDomains || []
+    };
+    for (const domain of domainContract.domains || []) {
+      const key = JSON.stringify(domain);
+      const prior = domainKeys.get(domain.name);
+      if (prior && prior !== key) fail(65, `polymer_inline_domain_conflict:${domain.name}`);
+      if (!prior) {
+        domainKeys.set(domain.name, key);
+        filteredContract.domains.push(domain);
+      }
+    }
+    lines.push(...renderPcdDomainContract(filteredContract, 1));
     for (const fn of Object.values(unit.ast.functions || {})) {
       if (names.has(fn.name)) fail(65, `polymer_inline_name_collision:${fn.name}`);
       names.add(fn.name);
@@ -2674,6 +3013,7 @@ function renderInlinePolymer(units) {
       lines.push('');
     }
   }
+  if (!names.has(rootName)) fail(65, `polymerize_root_not_found:${rootName}`);
   if (lines[lines.length - 1] === '') lines.pop();
   lines.push('}', '');
   return lines.join('\n');
@@ -3072,9 +3412,10 @@ function renderDomainAssertions(ast, target) {
 }
 
 function domainFailureCase(ast, cases) {
-  const domain = (ast.domainContract?.domains || []).find((item) => item.min.kind === 'literal' && item.max.kind === 'literal');
-  if (!domain) return null;
   const params = ast.params.length > 0 ? ast.params : ['input'];
+  const paramSet = new Set(params);
+  const domain = (ast.domainContract?.domains || []).find((item) => paramSet.has(item.name) && item.min.kind === 'literal' && item.max.kind === 'literal');
+  if (!domain) return null;
   const base = cases[0]?.args || Object.fromEntries(params.map((param) => [param, 1]));
   return { domain: domain.name, args: { ...base, [domain.name]: domain.min.value - 1 } };
 }
@@ -3099,9 +3440,9 @@ function targetSpec(target, ast) {
   const rustDomainAssertions = renderDomainAssertions(ast, 'rust');
   const pythonDomainAssertions = renderDomainAssertions(ast, 'python');
   const domainFailure = domainFailureCase(ast, cases);
-  const safeName = ast.fnName.replace(/[^A-Za-z0-9_]/g, '_');
+  const safeName = (ast.artifactName || ast.fnName).replace(/[^A-Za-z0-9_]/g, '_');
   const tsProgram = (hash) => [
-    '// BRIK64 beta14 functional emission candidate',
+    `// BRIK64 ${version} functional emission candidate`,
     '// claim: local candidate evidence only',
     `export const pcdSha256 = "${hash}";`,
     `export const pcdAst = ${astJson};`,
@@ -3134,7 +3475,7 @@ function targetSpec(target, ast) {
     '',
   ].join('\n');
   const rustProgram = (hash) => [
-    '// BRIK64 beta14 functional emission candidate',
+    `// BRIK64 ${version} functional emission candidate`,
     '// claim: local candidate evidence only',
     '#![allow(clippy::needless_return)]',
     `pub const PCD_SHA256: &str = "${hash}";`,
@@ -3195,7 +3536,7 @@ function targetSpec(target, ast) {
     '',
   ].join('\n');
   const pythonProgram = (hash) => [
-    '# BRIK64 beta14 functional emission candidate',
+    `# BRIK64 ${version} functional emission candidate`,
     '# claim: local candidate evidence only',
     `PCD_SHA256 = "${hash}"`,
     `PCD_AST_JSON = ${JSON.stringify(JSON.stringify(ast))}`,
@@ -3245,7 +3586,7 @@ function targetSpec(target, ast) {
       scaffoldFiles: (hash) => ({
         'package.json': JSON.stringify({
           name: `brik64-generated-${safeName}`,
-          version: '0.0.0-beta14-local',
+          version: '0.0.0-beta15.1-local',
           private: true,
           type: 'module',
           scripts: { test: 'node program.test.mjs' }
@@ -3274,7 +3615,7 @@ function targetSpec(target, ast) {
         'Cargo.toml': [
           '[package]',
           `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
-          'version = "0.0.0-beta14-local"',
+          'version = "0.0.0-beta15.1-local"',
           'edition = "2021"',
           'publish = false',
           '',
@@ -3286,24 +3627,25 @@ function targetSpec(target, ast) {
       })
     },
     python: {
-      program: 'program.py',
+      packageDir: `brik64_generated_${safeName}`,
+      program: `${safeName}.py`,
       extension: '.py',
-      test: 'test_program.py',
+      test: `test_${safeName}.py`,
       code: pythonProgram,
       testCode: (hash, importLine) => pythonTest(hash, importLine),
       scaffoldFiles: (hash) => ({
         'pyproject.toml': [
           '[project]',
           `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
-        'version = "0.0.0-beta14-local"',
+          'version = "0.0.0-beta15.1-local"',
           'requires-python = ">=3.10"',
           '',
           '[tool.brik64]',
           'claim_boundary = "local_candidate_only"',
           '',
         ].join('\n'),
-        'brik64_generated/__init__.py': 'from .program import PCD_SHA256, PCD_AST_JSON, run\n',
-        'brik64_generated/program.py': pythonProgram(hash),
+        [`brik64_generated_${safeName}/__init__.py`]: 'from .program import PCD_SHA256, PCD_AST_JSON, run\n',
+        [`brik64_generated_${safeName}/program.py`]: pythonProgram(hash),
         'tests/conftest.py': [
           'import sys',
           'from pathlib import Path',
@@ -3313,7 +3655,7 @@ function targetSpec(target, ast) {
           '    sys.path.insert(0, str(ROOT))',
           '',
         ].join('\n'),
-        'tests/test_program.py': pythonTest(hash, 'from brik64_generated.program import PCD_SHA256, run')
+        [`tests/test_${safeName}.py`]: pythonTest(hash, `from brik64_generated_${safeName}.program import PCD_SHA256, run`)
       })
     },
   };
@@ -3325,6 +3667,14 @@ function emitPaths(outArg, spec, target) {
   const ext = path.extname(resolved);
   const looksLikeFile = ext.length > 0;
   if (!looksLikeFile) {
+    if (target === 'python') {
+      return {
+        mode: 'directory',
+        outDir: resolved,
+        programPath: path.join(resolved, spec.packageDir, 'program.py'),
+        testPath: path.join(resolved, 'tests', spec.test)
+      };
+    }
     return {
       mode: 'directory',
       outDir: resolved,
@@ -3474,6 +3824,15 @@ function certify(file, args = []) {
   };
   const certPath = certPathFor(file);
   writeFileControlled(certPath, JSON.stringify(cert, null, 2) + '\n');
+  ledgerAppendRequired('pcd.certify', {
+    pcd: path.relative(process.cwd(), resolvedFile),
+    pcdPathHash: pathHashForLedger(resolvedFile),
+    semantic_pcd_sha256: cert.semantic_pcd_sha256,
+    ast_sha256: cert.ast_sha256,
+    domain_contract_sha256: cert.domain_contract_sha256,
+    certificate: path.relative(process.cwd(), certPath),
+    certificateSha256: sha256(JSON.stringify(cert))
+  });
   process.stdout.write(`certificate=${path.relative(process.cwd(), certPath)}\n`);
 }
 
@@ -3501,6 +3860,7 @@ function emit(file, args = []) {
   const source = readFileRequired(file);
   const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
   const cert = certificateFor(file, source, ast);
+  ast.artifactName = path.basename(resolvedFile, '.pcd');
   const options = parseEmitOptions(args);
   if (options.target || options.outDir || options.tests) {
     const spec = targetSpec(options.target, ast);
@@ -3513,8 +3873,10 @@ function emit(file, args = []) {
     const paths = emitPaths(options.outDir, spec, options.target);
     mkdirControlled(paths.outDir);
     const { programPath, testPath } = paths;
+    mkdirControlled(path.dirname(programPath));
     writeFileControlled(programPath, spec.code(cert.semantic_pcd_sha256));
     if (options.tests) {
+      mkdirControlled(path.dirname(testPath));
       const importPath = `./${path.basename(programPath)}`;
       if (options.target === 'ts') {
         writeFileControlled(testPath, spec.testCode(cert.semantic_pcd_sha256, importPath));
@@ -3534,9 +3896,18 @@ function emit(file, args = []) {
     }
     process.stdout.write(`generated=${path.relative(process.cwd(), programPath)}\n`);
     if (options.tests) process.stdout.write(`tests=${path.relative(process.cwd(), testPath)}\n`);
+    ledgerAppendRequired('pcd.emit', {
+      pcd: path.relative(process.cwd(), resolvedFile),
+      target: options.target,
+      program: path.relative(process.cwd(), programPath),
+      programSha256: sha256(fs.readFileSync(programPath)),
+      tests: options.tests ? path.relative(process.cwd(), testPath) : null,
+      testsSha256: options.tests && fs.existsSync(testPath) ? sha256(fs.readFileSync(testPath)) : null,
+      semantic_pcd_sha256: cert.semantic_pcd_sha256
+    });
     return;
   }
-  process.stdout.write('// BRIK64 beta14 functional emission candidate\n');
+  process.stdout.write(`// BRIK64 ${version} functional emission candidate\n`);
   process.stdout.write('// claim: local candidate evidence only\n');
   process.stdout.write(`// pcd_sha256=${cert.semantic_pcd_sha256}\n`);
   process.stdout.write(`// ast_sha256=${cert.ast_sha256}\n`);
@@ -3550,7 +3921,7 @@ function verify(file, args = []) {
   }
   requireLocalOrEntitled(parsed);
   if (parsed['--cloud']) {
-    fail(69, 'managed_verify_endpoint_unavailable_beta14');
+    fail(69, 'managed_verify_endpoint_unavailable_beta15_1');
   }
   const resolvedFile = workspacePath(file, 64, { mustExist: true, realpath: true });
   const source = readFileRequired(file);
@@ -3596,14 +3967,15 @@ function polymerize(rawArgs = []) {
     '--cloud': 'boolean',
     '--out': 'value',
     '--json': 'boolean',
-    '--inline': 'boolean'
+    '--inline': 'boolean',
+    '--root': 'value'
   });
   if (parsed['--local'] && parsed['--cloud']) {
     fail(64, 'polymerize_mode_conflict');
   }
   requireLocalOrEntitled(parsed);
   if (parsed['--cloud']) {
-    fail(69, 'managed_polymerize_endpoint_unavailable_beta14');
+    fail(69, 'managed_polymerize_endpoint_unavailable_beta15_1');
   }
   const files = parsed._;
   if (files.length === 0) {
@@ -3631,9 +4003,16 @@ function polymerize(rawArgs = []) {
   }
   const outFile = parsed['--out'] || 'polymer.pcd';
   const outPath = workspacePath(outFile, 64, { output: true });
-  const rootUnit = units[units.length - 1];
+  const rootName = parsed['--root'];
+  if (units.length > 1 && !rootName) {
+    fail(65, 'polymerize_root_required; pass --root <fn> so the polymer entrypoint is explicit');
+  }
+  const rootUnit = rootName
+    ? units.find((unit) => Object.prototype.hasOwnProperty.call(unit.ast.functions || {}, rootName))
+    : units[units.length - 1];
+  if (!rootUnit) fail(65, `polymerize_root_not_found:${rootName}`);
   const inlineRequested = parsed['--inline'] || units.length > 1;
-  const content = inlineRequested ? renderInlinePolymer(units) : renderSemanticPolymer(rootUnit, units);
+  const content = inlineRequested ? renderInlinePolymer(units, rootName || rootUnit.ast.fnName) : renderSemanticPolymer(rootUnit, units);
   writeFileControlled(outPath, content);
   const materializedImports = inlineRequested ? [] : materializePolymerImports(rootUnit, outPath);
   const manifestSources = units.map((unit) => ({
@@ -3649,9 +4028,9 @@ function polymerize(rawArgs = []) {
     mode: 'local',
     semanticMode: inlineRequested ? (parsed['--inline'] ? 'inline_merged_functions' : 'inline_merged_functions_default') : 'root_dag_reference',
     root: {
-    file: rootUnit.file,
-    pcName: rootUnit.ast.pcName,
-    fnName: rootUnit.ast.fnName,
+      file: rootUnit.file,
+      pcName: inlineRequested ? (rootName || rootUnit.ast.fnName) : rootUnit.ast.pcName,
+      fnName: rootName || rootUnit.ast.fnName,
       semantic_pcd_sha256: rootUnit.semantic_pcd_sha256,
       domain_contract_sha256: rootUnit.domain_contract_sha256
     },
@@ -3663,6 +4042,15 @@ function polymerize(rawArgs = []) {
     claimBoundary: 'local_candidate_only'
   };
   writeFileControlled(`${outPath}.manifest.json`, JSON.stringify(manifest, null, 2) + '\n');
+  ledgerAppendRequired('pcd.polymerize', {
+    output: path.relative(process.cwd(), outPath),
+    outputSha256: manifest.output_sha256,
+    manifest: path.relative(process.cwd(), `${outPath}.manifest.json`),
+    root: manifest.root,
+    sourceCount: units.length,
+    semanticMode: manifest.semanticMode,
+    composite_domain_sha256: manifest.composite_domain_sha256
+  });
   if (parsed['--json']) {
     process.stdout.write(`${JSON.stringify(manifest, null, 2)}\n`);
     return;
@@ -4244,6 +4632,13 @@ function lock(args = []) {
     claimBoundary: 'local_candidate_only'
   };
   writeFileControlled(path.resolve('brik64.lock.json'), JSON.stringify(lockFile, null, 2) + '\n');
+  ledgerAppendRequired('workspace.lock', {
+    output: 'brik64.lock.json',
+    outputSha256: sha256(JSON.stringify(lockFile)),
+    pcdCount: entries.length,
+    partial: lockFile.partial,
+    lockSha256: lockFile.lock_sha256
+  });
   if (parsed['--json']) {
     process.stdout.write(`${JSON.stringify(lockFile, null, 2)}\n`);
     return;
@@ -4310,9 +4705,9 @@ async function telemetry(args = []) {
     return;
   }
   if (sub === 'explain') {
-    process.stdout.write('BRIK64 telemetry is disabled by default in beta14.\n');
+    process.stdout.write('BRIK64 telemetry is disabled by default in beta15.1.\n');
     process.stdout.write('Telemetry is opt-in, redacted, exportable, purgeable, and never includes raw source, PCD bodies, absolute paths, tokens, emails, raw stdout, or raw stderr.\n');
-    process.stdout.write('beta14 networkSent=false unless telemetry send is explicitly invoked after enable\n');
+    process.stdout.write('beta15.1 networkSent=false unless telemetry send is explicitly invoked after enable\n');
     return;
   }
   fail(64, 'unknown_telemetry_command');
@@ -4489,6 +4884,7 @@ async function main() {
   if (cmd === 'template') return templateCommand([file, ...args].filter(Boolean));
   if (cmd === 'domain') return domainCommand([file, ...args].filter(Boolean));
   if (cmd === 'doctor') return doctor();
+  if (cmd === 'ledger') return ledgerCommand([file, ...args].filter(Boolean));
   if (cmd === 'engine' && file === 'status') return engineStatus();
   if (cmd === 'monomers') return monomersCommand([file, ...args].filter(Boolean));
   if (cmd === 'account' && file === 'status') return accountStatus(args);

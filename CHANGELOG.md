@@ -3,6 +3,40 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.1
+
+### Added
+
+- Adds a local `.brik/ledger/` command surface for append-only workspace event
+  history, ledger verification, redacted export, snapshots, tombstones, and
+  dry-run repair guidance.
+- Adds ledger events for `init`, `certify`, `emit`, `polymerize`, and `lock` so
+  normal local candidate workflows leave a tamper-evident trace.
+- Adds a Beta15.1 ledger and real-case gate that checks polymer root handling,
+  generated Python package isolation, pytest execution, redacted ledger export,
+  and ledger tamper detection.
+
+### Changed
+
+- Requires an explicit `--root <fn>` when materializing a multi-input inline
+  polymer, avoiding ambiguous entrypoint selection.
+- Improves inline polymer generation by deduplicating compatible domain
+  declarations and failing closed on conflicting domain declarations.
+- Emits Python directory targets into package-specific modules so multiple
+  generated outputs can be tested in one workspace without import collisions.
+- Makes `doctor` include ledger verification status and fail closed when the
+  local ledger has been edited, deleted, reordered, or left incomplete.
+
+### Compatibility
+
+- The local ledger is a tamper-evident workspace history. It is not a
+  distributed blockchain and is not a formal certificate.
+- macOS and Linux continue to use the portable Node.js CLI package and require
+  Node.js 20 or newer.
+- Windows native executables are not published in this beta.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15
 
 ### Added

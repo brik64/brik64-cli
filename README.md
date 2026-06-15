@@ -5,8 +5,8 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15`
-Previous/live public baseline until promotion: `0.1.0-beta.14.6`
+Current beta candidate: `0.1.0-beta.15.1`
+Previous/live public baseline until promotion: `0.1.0-beta.15`
 
 ## Install
 
@@ -27,21 +27,28 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15 Production Candidate Boundary
+## Beta15.1 Production Candidate Boundary
 
-`0.1.0-beta.15` is staged as a production-candidate release train precondition.
-It imports a PCD/polymer-bound CLI artifact candidate. Public release claims remain closed until atomic public-surface verification passes. Public fixpoint claims remain closed. Self-hosting claims remain closed. Formal N5 claims remain closed. Rust-independence claims remain closed.
+`0.1.0-beta.15.1` is staged as a production-candidate maintenance release for
+local traceability and real-case workflow hardening. Public release claims remain
+closed until atomic public-surface verification passes. Public fixpoint claims
+remain closed. Self-hosting claims remain closed. Formal N5 claims remain
+closed. Rust-independence claims remain closed.
 
-## Beta15 Candidate Command Surface
+## Beta15.1 Candidate Command Surface
 
 The candidate keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
 
-- `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
-- `brik64 doctor` reports local workspace status; `--json` is for CI.
+- `brik64 init` creates `.brik/manifest.json` plus `.brik/ledger/` local trace
+  files. It does not create `AGENTS.md`.
+- `brik64 ledger status|verify|snapshot|tombstone|export|repair --dry-run`
+  inspects the local append-only ledger chain.
+- `brik64 doctor` reports local workspace and ledger status; `--json` is for CI.
 - `brik64 pcd generate <name>` creates a starter PCD candidate.
 - `brik64 certify` writes local candidate evidence only.
-- `brik64 polymerize` writes a local polymer candidate.
+- `brik64 polymerize` writes a local polymer candidate. Multi-input inline
+  polymers require `--root <fn>` so the entrypoint is explicit.
 - `brik64 compile all` emits supported local targets for candidate workflows.
 - `brik64 test all` runs local candidate checks.
 
@@ -62,9 +69,9 @@ SDKs are distributed separately from the CLI. Beta15 candidate coordinates are
 staged for release-train synchronization:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.15
-pip install brik64==0.1.0b15
-cargo add brik64-core@0.1.0-beta.15
+npm install @brik64/core@0.1.0-beta.15.1
+pip install brik64==0.1.0b15.post1
+cargo add brik64-core@0.1.0-beta.15.1
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed
@@ -73,7 +80,32 @@ claims, or replace the CLI workspace workflow.
 ## Claim Boundary
 
 This beta provides local candidate evidence and managed-workflow routing
-boundaries. It does not by itself establish formal certification for arbitrary user code. It does not establish universal correctness. It does not establish independent toolchain closure. Public fixpoint claims remain closed. Self-hosting claims remain closed. Formal N5 claims remain closed. Rust-independence claims remain closed. It does not establish native Windows compatibility.
+boundaries. The local ledger is a tamper-evident workspace history, not a
+distributed blockchain and not a formal certificate. This beta does not by
+itself establish formal certification for arbitrary user code. It does not
+establish universal correctness. It does not establish independent toolchain
+closure. Public fixpoint claims remain closed. Self-hosting claims remain
+closed. Formal N5 claims remain closed. Rust-independence claims remain closed.
+It does not establish native Windows compatibility.
+
+## Local Ledger
+
+Beta15.1 records selected workspace actions in `.brik/ledger/events.jsonl` with
+a hash chain and `.brik/ledger/head.json` head pointer. Event payloads are
+redacted by default: raw source, raw PCD content, absolute paths, and secrets are
+not written to the ledger event body.
+
+Useful commands:
+
+```sh
+brik64 ledger status
+brik64 ledger verify --json
+brik64 ledger export --redacted
+brik64 ledger tombstone <event-hash> --reason "superseded by follow-up evidence"
+```
+
+Ledger verification fails closed when events are edited, deleted, reordered, or
+when required ledger files are missing from an initialized workspace.
 
 ## CLI And Agent Skill
 

@@ -1,0 +1,16 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.1 regression gate for PR-TEST-brik64 real case study blockers.
+PC pr_test_galaxy_case_gate {
+    domain pcd_verify_pass: i64 [0, 1];
+    domain pytest_pass: i64 [0, 1];
+    domain polymer_root_explicit: i64 [0, 1];
+    domain stale_beta14_removed: i64 [0, 1];
+    fn pr_test_galaxy_case_gate(pcd_verify_pass: i64, pytest_pass: i64, polymer_root_explicit: i64, stale_beta14_removed: i64) -> i64 {
+        if (pcd_verify_pass == 0) return 0;
+        if (pytest_pass == 0) return 0;
+        if (polymer_root_explicit == 0) return 0;
+        if (stale_beta14_removed == 0) return 0;
+        return 1;
+    }
+}

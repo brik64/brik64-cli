@@ -1,0 +1,13 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.1 polymer root selection must be explicit for multi-PCD polymers.
+PC polymer_entrypoint {
+    domain input_count: i64 [1, 4096];
+    domain root_declared: i64 [0, 1];
+    fn polymer_entrypoint(input_count: i64, root_declared: i64) -> i64 {
+        if (input_count > 1) {
+            if (root_declared == 0) return 0;
+        }
+        return 1;
+    }
+}

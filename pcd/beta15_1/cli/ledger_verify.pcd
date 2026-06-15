@@ -1,0 +1,16 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// purpose: Beta15.1 hash-chain verification contract for .brik ledger events.
+PC ledger_verify {
+    domain sequence_ok: i64 [0, 1];
+    domain prev_hash_ok: i64 [0, 1];
+    domain event_hash_ok: i64 [0, 1];
+    domain head_hash_ok: i64 [0, 1];
+    fn ledger_verify(sequence_ok: i64, prev_hash_ok: i64, event_hash_ok: i64, head_hash_ok: i64) -> i64 {
+        if (sequence_ok == 0) return 0;
+        if (prev_hash_ok == 0) return 0;
+        if (event_hash_ok == 0) return 0;
+        if (head_hash_ok == 0) return 0;
+        return 1;
+    }
+}
