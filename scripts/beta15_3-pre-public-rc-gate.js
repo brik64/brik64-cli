@@ -56,6 +56,9 @@ try {
   run('gate_beta15_3_generated_application_integrity', process.execPath, ['scripts/beta15_3-generated-application-integrity-gate.js'], {
     expect: 'PASS_BRIK64_CLI_BETA15_3_GENERATED_APPLICATION_INTEGRITY_GATE'
   });
+  run('gate_beta15_3_stale_public_surface', process.execPath, ['scripts/beta15_3-stale-public-surface-gate.js'], {
+    expect: 'PASS_BRIK64_CLI_BETA15_3_STALE_PUBLIC_SURFACE_GATE'
+  });
   run('gate_beta14_5_128_executable_regression', process.execPath, ['scripts/beta14_5-128-executable-gate.js'], {
     expect: 'PASS_BETA14_5_128_EXECUTABLE_GATE'
   });
@@ -84,6 +87,7 @@ try {
     checked: [
       'node_syntax',
       'beta15_3_generated_application_integrity',
+      'beta15_3_stale_public_surface',
       'beta14_5_128_executable_regression',
       'beta14_6_domain_contracts_regression',
       'beta15_2_pre_public_regression',

@@ -597,7 +597,7 @@ const COMMAND_HELP = {
   ],
   lift: [
     'lift <js|ts|python|rust> <path> --preview [--stub-only] [--include-source-comment] [--json]',
-    'Creates local PCD candidates. By default Beta14.2 translates simple if/return patterns.',
+    'Creates local PCD candidates. The current parser translates simple deterministic if/return patterns.',
     'Example:',
     '  brik64 lift js src/pricing.js --preview --json'
   ],
@@ -609,7 +609,7 @@ const COMMAND_HELP = {
   ],
   template: [
     'template --type <gate|utility|numeric-monomer> --out <file.pcd> [--force]',
-    'Writes a starter PCD matching the public Beta14.2 parser profile.',
+    'Writes a starter PCD matching the current public parser profile.',
     'Example:',
     '  brik64 template --type numeric-monomer --out pcd/add8.pcd'
   ],
@@ -3715,7 +3715,7 @@ function targetSpec(target, ast) {
       scaffoldFiles: (hash) => ({
         'package.json': JSON.stringify({
           name: `brik64-generated-${safeName}`,
-          version: '0.0.0-beta15.1-local',
+          version: '0.0.0',
           private: true,
           type: 'module',
           scripts: { test: 'node program.test.mjs' }
@@ -3744,7 +3744,7 @@ function targetSpec(target, ast) {
         'Cargo.toml': [
           '[package]',
           `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
-          'version = "0.0.0-beta15.1-local"',
+          'version = "0.0.0"',
           'edition = "2021"',
           'publish = false',
           '',
@@ -3766,7 +3766,7 @@ function targetSpec(target, ast) {
         'pyproject.toml': [
           '[project]',
           `name = "brik64-generated-${safeName.replace(/_/g, '-')}"`,
-          'version = "0.0.0-beta15.1-local"',
+          'version = "0.0.0"',
           'requires-python = ">=3.10"',
           '',
           '[tool.brik64]',
