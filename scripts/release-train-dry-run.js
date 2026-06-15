@@ -189,6 +189,22 @@ console.log('decision=PASS_COMMITTED_${label.toUpperCase()}_PACKAGE_SHA_GATE');
   });
 }
 
+function cliL6GenerationRequiredGate() {
+  const pullRequestDryRun = process.env.GITHUB_ACTIONS === 'true'
+    && process.env.GITHUB_EVENT_NAME === 'pull_request'
+    && process.env.BRIK64_ENFORCE_CLI_L6_GENERATION !== '1';
+  if (pullRequestDryRun) {
+    return run('cli_l6_generation_required_deferred_for_pr', ['node', '-e', `
+      console.log('decision=DEFERRED_CLI_L6_GENERATION_REQUIRED_GATE_FOR_PULL_REQUEST');
+      console.log('reason=publication workflows and local release dry-runs enforce this gate');
+    `]);
+  }
+  return run('cli_l6_generation_required', ['npm', 'run', 'gate:cli:l6-generation-required'], {
+    stdoutLimit: 12000,
+    stderrLimit: 12000
+  });
+}
+
 function candidateBranchCommands(version) {
   if (version === '0.1.0-beta.9') {
     return [
@@ -474,6 +490,7 @@ function candidateBranchCommands(version) {
   }
   if (version === '0.1.0-beta.15.3') {
     return [
+      cliL6GenerationRequiredGate(),
       run('beta15_3_pre_public_rc', ['npm', 'run', 'gate:beta15.3:pre-public-rc'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
@@ -491,7 +508,10 @@ function candidateBranchCommands(version) {
   }
   const label = betaLabel(version);
   return label
-    ? [run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])]
+    ? [
+        ...(betaNumber(version) >= 15 ? [cliL6GenerationRequiredGate()] : []),
+        run(`${label}_candidate_missing_dry_run_contract`, ['bash', '-lc', `echo "missing candidate dry-run contract for ${label}" >&2; exit 2`])
+      ]
     : [run('candidate_version_unsupported', ['bash', '-lc', `echo "unsupported candidate version ${version}" >&2; exit 2`])];
 }
 
@@ -571,6 +591,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
   }
 
   return [
+    ...(betaNumber(manifest.version) >= 15 ? [cliL6GenerationRequiredGate()] : []),
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),
     run(`${label}_local_package`, ['node', `scripts/build-${label}-package.js`]),
     run(`${label}_package_smoke`, ['node', `scripts/${label}-package-smoke.js`]),
