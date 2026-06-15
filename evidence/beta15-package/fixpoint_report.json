@@ -1,6 +1,6 @@
 {
   "schema": "brik64.beta15_cli_fixpoint_report.v1",
-  "generated_at": "2026-06-14T08:54:55.934Z",
+  "generated_at": "2026-06-15T05:55:02.833Z",
   "cli": "brik64-cli-beta15-production-candidate",
   "version": "0.1.0-beta.15",
   "classification": "cli_fixpoint_internal_non_claim_pass",
@@ -26,25 +26,25 @@
     "candidate_4": {
       "path": "reports/cli-release-fixpoint/beta15/l6plus_materialization_report.json",
       "exists": true,
-      "sha256": "sha256:0a97a366eaca9e2a81c95b2ae967099f9f389ad4d47fe2a412ae41e2923c8be2",
+      "sha256": "sha256:f5b82a132c060a769cac2136ae8fdb4e7f584229cef42961532029aa2e822a44",
       "size_bytes": 4851
     },
     "candidate_5": {
       "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
       "exists": true,
-      "sha256": "sha256:34151c38732ad52dfbf4648cba59ac013398f63c18e3afa7dfeff9ad61b6cf9f",
+      "sha256": "sha256:8c55ecd064fb566b586cdd9c979af5edce21576b43cc38bcb4ef65c79f6bb0cd",
       "size_bytes": 2349
     },
     "candidate_6": {
       "path": "reports/cli-release-fixpoint/executable_artifact_preflight_report.json",
       "exists": true,
-      "sha256": "sha256:336035113dc3e6b8f869419881b20c6ef0e5ff7de8414bd3dfeb474df686e4b0",
-      "size_bytes": 3335
+      "sha256": "sha256:e732d4b573581d0b27b43dad4fd14d8fbe5a60e3f7eb74c9ac3cc2cfb3f3c230",
+      "size_bytes": 2018
     },
     "candidate_7": {
       "path": "reports/cli-release-fixpoint/beta15/release_manifest.json",
       "exists": true,
-      "sha256": "sha256:bfc2aa4eaf74b4101a550c2824b813fe68b12f8a1aafdce7a698f65926be7c81",
+      "sha256": "sha256:bc95a30af12de5b61ba8d8916a82a2c9b3caa2d3d74f5c129c4fb5d11f0f3995",
       "size_bytes": 1291
     },
     "candidate_8": {
@@ -72,31 +72,31 @@
     "l6plus_materialization_report": {
       "path": "reports/cli-release-fixpoint/beta15/l6plus_materialization_report.json",
       "exists": true,
-      "sha256": "sha256:0a97a366eaca9e2a81c95b2ae967099f9f389ad4d47fe2a412ae41e2923c8be2",
+      "sha256": "sha256:f5b82a132c060a769cac2136ae8fdb4e7f584229cef42961532029aa2e822a44",
       "size_bytes": 4851
     },
     "artifact_candidate_manifest": {
       "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
       "exists": true,
-      "sha256": "sha256:34151c38732ad52dfbf4648cba59ac013398f63c18e3afa7dfeff9ad61b6cf9f",
+      "sha256": "sha256:8c55ecd064fb566b586cdd9c979af5edce21576b43cc38bcb4ef65c79f6bb0cd",
       "size_bytes": 2349
     },
     "executable_artifact_preflight": {
       "path": "reports/cli-release-fixpoint/executable_artifact_preflight_report.json",
       "exists": true,
-      "sha256": "sha256:336035113dc3e6b8f869419881b20c6ef0e5ff7de8414bd3dfeb474df686e4b0",
-      "size_bytes": 3335
+      "sha256": "sha256:e732d4b573581d0b27b43dad4fd14d8fbe5a60e3f7eb74c9ac3cc2cfb3f3c230",
+      "size_bytes": 2018
     },
     "replay_report": {
       "path": "reports/cli-release-fixpoint/beta15/pcd_polymer_to_artifact_replay_report.json",
       "exists": true,
-      "sha256": "sha256:adaa5dcca2eb811829a6d8e08c152bf2cb0d1e7e2593b55d5074ef640e972b8b",
+      "sha256": "sha256:7e2db34563fd99f682a577dcfbaa8d1d49928c2c1f4b5f5cb04752867156e64c",
       "size_bytes": 2286
     },
     "release_manifest": {
       "path": "reports/cli-release-fixpoint/beta15/release_manifest.json",
       "exists": true,
-      "sha256": "sha256:bfc2aa4eaf74b4101a550c2824b813fe68b12f8a1aafdce7a698f65926be7c81",
+      "sha256": "sha256:bc95a30af12de5b61ba8d8916a82a2c9b3caa2d3d74f5c129c4fb5d11f0f3995",
       "size_bytes": 1291
     }
   },

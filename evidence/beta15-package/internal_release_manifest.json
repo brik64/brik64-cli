@@ -1,6 +1,6 @@
 {
   "schema": "brik64.beta15_cli_release_manifest.v1",
-  "generated_at": "2026-06-14T08:57:42.002Z",
+  "generated_at": "2026-06-15T05:55:02.640Z",
   "cli": "brik64-cli-beta15-production-candidate",
   "version": "0.1.0-beta.15",
   "artifact": {
@@ -12,13 +12,13 @@
   "artifact_manifest": {
     "path": "reports/cli-release-fixpoint/beta15/artifact_candidate_manifest.json",
     "exists": true,
-    "sha256": "sha256:34151c38732ad52dfbf4648cba59ac013398f63c18e3afa7dfeff9ad61b6cf9f",
+    "sha256": "sha256:8c55ecd064fb566b586cdd9c979af5edce21576b43cc38bcb4ef65c79f6bb0cd",
     "size_bytes": 2349
   },
   "replay_report": {
     "path": "reports/cli-release-fixpoint/beta15/pcd_polymer_to_artifact_replay_report.json",
     "exists": true,
-    "sha256": "sha256:1f22d63ab2a2aa5159e792c758b3ee8266c7119b910777cd0b0b81a8f51e8a0b",
+    "sha256": "sha256:7e2db34563fd99f682a577dcfbaa8d1d49928c2c1f4b5f5cb04752867156e64c",
     "size_bytes": 2286
   },
   "release_train": {

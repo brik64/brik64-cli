@@ -5,13 +5,13 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.14.6`
 Current beta candidate: `0.1.0-beta.15`
 
 ## Install
 
-The public CLI install path remains curl-only until the Beta15 release train is
-promoted and live-verified:
+The public CLI install path remains curl-only. Until the Beta15 release train is
+promoted and live-verified, the live installer may still serve the previous
+public beta:
 
 ```sh
 curl -fsSL https://brik64.com/cli/install.sh | bash
@@ -33,8 +33,8 @@ It imports a PCD/polymer-bound CLI artifact candidate. Public release claims rem
 
 ## Beta15 Candidate Command Surface
 
-The candidate keeps the local workflow focused on bounded PCD review and
-claim-safe evidence:
+The candidate keeps the local workflow focused on explicit bounded-domain PCD
+review and claim-safe evidence:
 
 - `brik64 init` creates `.brik/manifest.json` and does not create `AGENTS.md`.
 - `brik64 doctor` reports local workspace status; `--json` is for CI.

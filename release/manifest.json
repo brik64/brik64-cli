@@ -4,11 +4,11 @@
   "version": "0.1.0-beta.15",
   "channel": "beta",
   "state": "candidate",
-  "createdAt": "2026-06-14T08:57:42.002Z",
+  "createdAt": "2026-06-15T05:55:02.640Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "codex/beta15-production-candidate-release",
-    "commit": "faf83f9a0bd85f1027058aecf3a588a7ca369522"
+    "commit": "b521af522adf59933ee3d11630c790d6379e89ef"
   },
   "cli": {
     "packageName": "@brik64/cli",

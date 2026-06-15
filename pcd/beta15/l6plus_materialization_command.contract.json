@@ -1,6 +1,6 @@
 {
   "schema": "brik64.beta15_cli_l6plus_materialization_command_contract.v1",
-  "generated_at": "2026-06-14T08:57:42.004Z",
+  "generated_at": "2026-06-15T05:55:02.640Z",
   "cli": "brik64-cli-beta15-production-candidate",
   "version": "0.1.0-beta.15",
   "status": "pass_internal_non_claim",
@@ -34,19 +34,19 @@
     "l6plus_materialization_runner_report": {
       "path": "reports/engine-domain-rehomologation-beta14.8/semantic_self_regeneration_acceptance_report.json",
       "exists": true,
-      "sha256": "sha256:c2289aee881eed77717933f0c5a14fa7d2f6c9fa0ba91d12dfd163ce8dd1bbca",
+      "sha256": "sha256:dc840d820fd9ff1c4b8137f0f4907dac85bea8437a87d8fab3016148bc397ab5",
       "size_bytes": 7095
     },
     "l6plus_cli_materializer_readiness_report": {
       "path": "reports/engine-domain-rehomologation-beta14.8/real_materializer_acceptance_contract_report.json",
       "exists": true,
-      "sha256": "sha256:467ef3d730ea3529276b5ae69e8240ee597dab14f1c62a751199c36ed98c3878",
+      "sha256": "sha256:7c33af7a18dbc60c6dcf9883690803b8c17f4de833294a26f817c1bbadec63ff",
       "size_bytes": 8346
     },
     "l6plus_remote_authority_probe_report": {
       "path": "reports/cli-release-fixpoint/l6plus_remote_authority_probe_report.json",
       "exists": true,
-      "sha256": "sha256:263a239ce8abe17b40ae44d6d2a136ff871d478554b2b35123718e9e0dcc7a71",
+      "sha256": "sha256:dc44da22dd5c016a4e1e71947fd4dc8486d125cb5d3202d098c774b79d34afe7",
       "size_bytes": 2272
     }
   },

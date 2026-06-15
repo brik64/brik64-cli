@@ -1,6 +1,6 @@
 {
   "schema": "brik64.beta15_cli_artifact_candidate_manifest.v1",
-  "generated_at": "2026-06-14T08:54:55.509Z",
+  "generated_at": "2026-06-15T05:55:02.537Z",
   "cli": "brik64-cli-beta15-production-candidate",
   "version": "0.1.0-beta.15",
   "classification": "l6plus_pcd_polymer_bound_executable_candidate_internal_non_claim",
@@ -26,13 +26,13 @@
     "l6_semantic_acceptance": {
       "path": "reports/engine-domain-rehomologation-beta14.8/semantic_self_regeneration_acceptance_report.json",
       "exists": true,
-      "sha256": "sha256:c2289aee881eed77717933f0c5a14fa7d2f6c9fa0ba91d12dfd163ce8dd1bbca",
+      "sha256": "sha256:dc840d820fd9ff1c4b8137f0f4907dac85bea8437a87d8fab3016148bc397ab5",
       "size_bytes": 7095
     },
     "real_materializer_acceptance": {
       "path": "reports/engine-domain-rehomologation-beta14.8/real_materializer_acceptance_contract_report.json",
       "exists": true,
-      "sha256": "sha256:467ef3d730ea3529276b5ae69e8240ee597dab14f1c62a751199c36ed98c3878",
+      "sha256": "sha256:7c33af7a18dbc60c6dcf9883690803b8c17f4de833294a26f817c1bbadec63ff",
       "size_bytes": 8346
     }
   },
