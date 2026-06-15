@@ -12,8 +12,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 
 - Iteration: `beta15.4-rust-polymer-l6`
 - Lane: `cli_0_1_beta`
-- Current focus: close the confirmed Rust app-polymer regression before any public release work.
+- Current focus: keep the Beta15.4 candidate mergeable while publication remains blocked by version-specific L6+N5 materializer evidence.
 - Publication policy: fail closed until `evidence/beta15_4-l6-generation/` satisfies `gate:cli:l6-generation-required`.
+- Cross-repo evidence policy: `release:train:dry-run` must also consume the
+  Beta15.4 materializer gap report from `brik64-prod` and reject legacy
+  `0.1.0-beta.15` materialization evidence.
 
 ## Phases
 
@@ -22,4 +25,3 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 3. Version, package, and smoke Beta15.4 as a non-public candidate.
 4. Materialize L6+N5 evidence pack for Beta15.4.
 5. Only after all gates pass, synchronize public surfaces and publish atomically.
-

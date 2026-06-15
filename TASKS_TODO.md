@@ -9,5 +9,6 @@
 - [x] Add Beta15.4 package and smoke scripts.
 - [x] Update release train dry-run for Beta15.4.
 - [x] Keep PR dry-run mergeable while publication remains blocked by L6.
+- [x] Make release dry-run consume the `brik64-prod` Beta15.4 L6 materializer gap report.
 - [ ] Create L6+N5 generation evidence pack.
 - [ ] Publish public surfaces only after L6 and release train gates pass.

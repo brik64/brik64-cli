@@ -208,6 +208,44 @@ function cliL6GenerationRequiredGate() {
   });
 }
 
+function beta15_4L6MaterializerGapReportPath() {
+  return process.env.BRIK64_BETA15_4_L6_GAP_REPORT
+    || path.resolve(root, '..', 'brik64-prod', 'reports', 'beta15_4-cli-l6-materializer-gap', 'gap_report.json');
+}
+
+function beta15_4L6MaterializerGapGate() {
+  if (isPullRequestDryRun()) {
+    return run('beta15_4_l6_materializer_gap_deferred_for_pr', ['node', '-e', `
+      console.log('decision=DEFERRED_BETA15_4_L6_MATERIALIZER_GAP_GATE_FOR_PULL_REQUEST');
+      console.log('reason=publication workflows and local release dry-runs enforce this gate');
+    `]);
+  }
+  const reportPath = beta15_4L6MaterializerGapReportPath();
+  const script = `
+const fs = require('fs');
+const reportPath = ${JSON.stringify(reportPath)};
+if (!fs.existsSync(reportPath)) {
+  console.error('beta15_4_l6_materializer_gap_report_missing:' + reportPath);
+  process.exit(2);
+}
+const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+if (report.version !== '0.1.0-beta.15.4') {
+  console.error('beta15_4_l6_materializer_gap_version_invalid:' + (report.version || 'missing'));
+  process.exit(2);
+}
+if (report.decision !== 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS') {
+  console.error('beta15_4_l6_materializer_gap_not_pass:' + (report.decision || 'missing'));
+  if (Array.isArray(report.blockers)) console.error('blockers=' + report.blockers.join('|'));
+  process.exit(2);
+}
+console.log('decision=PASS_BETA15_4_L6_MATERIALIZER_GAP_GATE');
+`;
+  return run('beta15_4_l6_materializer_gap', ['node', '-e', script], {
+    stdoutLimit: 12000,
+    stderrLimit: 12000
+  });
+}
+
 function candidateBranchCommands(version) {
   if (version === '0.1.0-beta.9') {
     return [
@@ -512,6 +550,7 @@ function candidateBranchCommands(version) {
   if (version === '0.1.0-beta.15.4') {
     return [
       cliL6GenerationRequiredGate(),
+      beta15_4L6MaterializerGapGate(),
       run('beta15_4_pre_public_rc', ['npm', 'run', 'gate:beta15.4:pre-public-rc'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
@@ -867,11 +906,13 @@ function main() {
       const packagePath = path.join(root, 'evidence', 'beta15_4-package', 'package.manifest.json');
       const packageSmokePath = path.join(root, 'evidence', 'beta15_4-package-smoke', 'report.json');
       const l6RequiredPath = path.join(root, 'evidence', 'cli-l6-generation-required', 'report.json');
+      const l6GapPath = beta15_4L6MaterializerGapReportPath();
       const prePublic = fs.existsSync(prePublicPath) ? readJson(prePublicPath) : null;
       const rustPolymer = fs.existsSync(rustPolymerPath) ? readJson(rustPolymerPath) : null;
       const candidatePackage = fs.existsSync(packagePath) ? readJson(packagePath) : null;
       const candidatePackageSmoke = fs.existsSync(packageSmokePath) ? readJson(packageSmokePath) : null;
       const l6Required = fs.existsSync(l6RequiredPath) ? readJson(l6RequiredPath) : null;
+      const l6Gap = fs.existsSync(l6GapPath) ? readJson(l6GapPath) : null;
       requiredEvidence.push({
         id: 'beta15_4_rust_polymer_domain',
         path: 'evidence/beta15_4-rust-polymer-domain/report.json',
@@ -914,6 +955,15 @@ function main() {
           || (isPullRequestDryRun() && l6Required?.decision === 'BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE')
           || (isPullRequestDryRun() && l6Required?.decision === 'DEFERRED_CLI_L6_GENERATION_REQUIRED_GATE_FOR_PULL_REQUEST')
       });
+      requiredEvidence.push({
+        id: 'beta15_4_l6_materializer_gap',
+        path: path.relative(root, l6GapPath),
+        expectedDecision: 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS',
+        actualDecision: l6Gap?.decision || null,
+        pass: l6Gap?.decision === 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS'
+          || (isPullRequestDryRun() && l6Gap?.decision === 'BETA15_4_CLI_L6_MATERIALIZER_GAP_BLOCKED')
+          || (isPullRequestDryRun() && !l6Gap)
+      });
       if (!rustPolymer) failures.push('candidate_readiness_missing:beta15_4_rust_polymer_domain');
       else if (rustPolymer.decision !== 'PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE') failures.push(`candidate_beta15_4_rust_polymer_invalid:${rustPolymer.decision}`);
       else if (rustPolymer.releaseEligible !== false) failures.push('candidate_beta15_4_rust_polymer_boundary_invalid');
@@ -933,6 +983,13 @@ function main() {
         && !(isPullRequestDryRun() && l6Required.decision === 'DEFERRED_CLI_L6_GENERATION_REQUIRED_GATE_FOR_PULL_REQUEST')
       ) {
         failures.push(`candidate_beta15_4_l6_generation_required_invalid:${l6Required.decision}`);
+      }
+      if (!l6Gap) failures.push('candidate_readiness_missing:beta15_4_l6_materializer_gap');
+      else if (
+        l6Gap.decision !== 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS'
+        && !(isPullRequestDryRun() && l6Gap.decision === 'BETA15_4_CLI_L6_MATERIALIZER_GAP_BLOCKED')
+      ) {
+        failures.push(`candidate_beta15_4_l6_materializer_gap_invalid:${l6Gap.decision}`);
       }
     }
   } else {

@@ -46,3 +46,28 @@ Active blocker:
 Active blocker remains:
 
 - L6+N5 must expose/implement a Beta15.4 materializer that produces hash-bound evidence for `PCD/polymer -> generated artifact -> package -> release manifest`.
+
+## Iteration 4
+
+- Added Beta15.4 cross-repo materializer gap consumption to
+  `scripts/release-train-dry-run.js`.
+- The dry-run now reads
+  `../brik64-prod/reports/beta15_4-cli-l6-materializer-gap/gap_report.json`
+  by default, or `BRIK64_BETA15_4_L6_GAP_REPORT` when set.
+- PR dry-runs defer the cross-repo gate and keep `publicationAllowed=false`.
+- Local/public dry-runs require
+  `BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS`.
+- Added regression
+  `scripts/tests/test_beta15_4_release_train_l6_gap.sh`.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_release_train_l6_gap.sh` passed.
+- `GITHUB_ACTIONS=true GITHUB_EVENT_NAME=pull_request npm run release:train:dry-run -- --allow-dirty` passed with `publicationAllowed=false`.
+
+Active blocker remains:
+
+- `../brik64-prod/reports/beta15_4-cli-l6-materializer-gap/gap_report.json`
+  currently reports `BETA15_4_CLI_L6_MATERIALIZER_GAP_BLOCKED`, so local/public
+  release dry-runs fail closed until fresh Beta15.4 L6+N5 materialization
+  evidence exists.
