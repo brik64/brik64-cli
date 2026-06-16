@@ -1,0 +1,77 @@
+{
+  "failures": 0,
+  "units": [
+    {
+      "id": "pcd_beta15_4_release_l6_cli_materialization_contract",
+      "sourcePath": "pcd/beta15_4/release/l6_cli_materialization_contract.pcd",
+      "rc": 0,
+      "files": [
+        "l6_cli_materialization_contract.cert.json",
+        "l6_cli_materialization_contract.js",
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_4_release_l6_cli_materialization_result_contract",
+      "sourcePath": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
+      "rc": 0,
+      "files": [
+        "l6_cli_materialization_result_contract.cert.json",
+        "l6_cli_materialization_result_contract.js",
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_4_cli_rust_app_polymer_domain_codegen",
+      "sourcePath": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",
+      "rc": 0,
+      "files": [
+        "rc.txt",
+        "rust_app_polymer_domain_codegen.cert.json",
+        "rust_app_polymer_domain_codegen.js",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_4_harness_rust_app_polymer_regression_gate",
+      "sourcePath": "pcd/beta15_4/harness/rust_app_polymer_regression_gate.pcd",
+      "rc": 0,
+      "files": [
+        "rc.txt",
+        "rust_app_polymer_regression_gate.cert.json",
+        "rust_app_polymer_regression_gate.js",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_cli_core",
+      "sourcePath": "pcd/cli_core.pcd",
+      "rc": 0,
+      "files": [
+        "brik_cli_core.cert.json",
+        "brik_cli_core.js",
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_cli_polymer",
+      "sourcePath": "pcd/cli_polymer.pcd",
+      "rc": 0,
+      "files": [
+        "brik_cli_polymer.cert.json",
+        "brik_cli_polymer.js",
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    }
+  ]
+}

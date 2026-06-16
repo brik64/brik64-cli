@@ -1,0 +1,1970 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.4",
+  "pcd": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
+  "semantic_pcd_sha256": "336b2144527d132899478dc88e72935eb80f543b1624392374c7c98e92562451",
+  "ast_sha256": "2c95c1be667f650e793652af941b25df117f265e232fef692594c589249a3535",
+  "domain_contract_sha256": "90d1c4f81ec1ac2401ff49ab28d7a71183be3f8abf16e5c83a0f6ee8ca5d24c2",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "cli_scope_beta15_4",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "result_line_emitted",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "l6plus_serial_bound",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "materializer_mode_bound",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "pcd_input_set_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "materializer_request_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "remote_wrapper_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "wrapper_exec_target_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "generated_artifact_hash_bound",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "generated_artifact_ref_safe",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "generated_artifact_ref_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "package_hash_bound",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "package_ref_safe",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "package_ref_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "release_manifest_hash_bound",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "release_manifest_ref_safe",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "release_manifest_ref_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "seal_report_ref_safe",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "seal_report_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "cli_scope_beta15_4",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "result_line_emitted",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "l6plus_serial_bound",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "materializer_mode_bound",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "pcd_input_set_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "materializer_request_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "remote_wrapper_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "wrapper_exec_target_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "generated_artifact_hash_bound",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "generated_artifact_ref_safe",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "generated_artifact_ref_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "package_hash_bound",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "package_ref_safe",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "package_ref_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "release_manifest_hash_bound",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "release_manifest_ref_safe",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "release_manifest_ref_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "seal_report_ref_safe",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "seal_report_pass",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "90d1c4f81ec1ac2401ff49ab28d7a71183be3f8abf16e5c83a0f6ee8ca5d24c2"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "l6_cli_materialization_result_contract",
+    "fnName": "l6_cli_materialization_result_contract",
+    "params": [
+      "cli_scope_beta15_4",
+      "result_line_emitted",
+      "l6plus_serial_bound",
+      "materializer_mode_bound",
+      "pcd_input_set_hash_matches",
+      "materializer_request_hash_matches",
+      "remote_wrapper_hash_matches",
+      "wrapper_exec_target_hash_matches",
+      "generated_artifact_hash_bound",
+      "generated_artifact_ref_safe",
+      "generated_artifact_ref_hash_matches",
+      "package_hash_bound",
+      "package_ref_safe",
+      "package_ref_hash_matches",
+      "release_manifest_hash_bound",
+      "release_manifest_ref_safe",
+      "release_manifest_ref_hash_matches",
+      "seal_report_ref_safe",
+      "seal_report_pass"
+    ],
+    "paramTypes": {
+      "cli_scope_beta15_4": "i64",
+      "result_line_emitted": "i64",
+      "l6plus_serial_bound": "i64",
+      "materializer_mode_bound": "i64",
+      "pcd_input_set_hash_matches": "i64",
+      "materializer_request_hash_matches": "i64",
+      "remote_wrapper_hash_matches": "i64",
+      "wrapper_exec_target_hash_matches": "i64",
+      "generated_artifact_hash_bound": "i64",
+      "generated_artifact_ref_safe": "i64",
+      "generated_artifact_ref_hash_matches": "i64",
+      "package_hash_bound": "i64",
+      "package_ref_safe": "i64",
+      "package_ref_hash_matches": "i64",
+      "release_manifest_hash_bound": "i64",
+      "release_manifest_ref_safe": "i64",
+      "release_manifest_ref_hash_matches": "i64",
+      "seal_report_ref_safe": "i64",
+      "seal_report_pass": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "cli_scope_beta15_4",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "result_line_emitted",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "l6plus_serial_bound",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "materializer_mode_bound",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "pcd_input_set_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "materializer_request_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "remote_wrapper_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "wrapper_exec_target_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "generated_artifact_hash_bound",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "generated_artifact_ref_safe",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "generated_artifact_ref_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "package_hash_bound",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "package_ref_safe",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "package_ref_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "release_manifest_hash_bound",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "release_manifest_ref_safe",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "release_manifest_ref_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "seal_report_ref_safe",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "seal_report_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "cli_scope_beta15_4",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "result_line_emitted",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "l6plus_serial_bound",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "materializer_mode_bound",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "pcd_input_set_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "materializer_request_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "remote_wrapper_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "wrapper_exec_target_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "generated_artifact_hash_bound",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "generated_artifact_ref_safe",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "generated_artifact_ref_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "package_hash_bound",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "package_ref_safe",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "package_ref_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "release_manifest_hash_bound",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "release_manifest_ref_safe",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "release_manifest_ref_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "seal_report_ref_safe",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "seal_report_pass",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "90d1c4f81ec1ac2401ff49ab28d7a71183be3f8abf16e5c83a0f6ee8ca5d24c2"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "l6_cli_materialization_result_contract": {
+        "name": "l6_cli_materialization_result_contract",
+        "params": [
+          "cli_scope_beta15_4",
+          "result_line_emitted",
+          "l6plus_serial_bound",
+          "materializer_mode_bound",
+          "pcd_input_set_hash_matches",
+          "materializer_request_hash_matches",
+          "remote_wrapper_hash_matches",
+          "wrapper_exec_target_hash_matches",
+          "generated_artifact_hash_bound",
+          "generated_artifact_ref_safe",
+          "generated_artifact_ref_hash_matches",
+          "package_hash_bound",
+          "package_ref_safe",
+          "package_ref_hash_matches",
+          "release_manifest_hash_bound",
+          "release_manifest_ref_safe",
+          "release_manifest_ref_hash_matches",
+          "seal_report_ref_safe",
+          "seal_report_pass"
+        ],
+        "paramTypes": {
+          "cli_scope_beta15_4": "i64",
+          "result_line_emitted": "i64",
+          "l6plus_serial_bound": "i64",
+          "materializer_mode_bound": "i64",
+          "pcd_input_set_hash_matches": "i64",
+          "materializer_request_hash_matches": "i64",
+          "remote_wrapper_hash_matches": "i64",
+          "wrapper_exec_target_hash_matches": "i64",
+          "generated_artifact_hash_bound": "i64",
+          "generated_artifact_ref_safe": "i64",
+          "generated_artifact_ref_hash_matches": "i64",
+          "package_hash_bound": "i64",
+          "package_ref_safe": "i64",
+          "package_ref_hash_matches": "i64",
+          "release_manifest_hash_bound": "i64",
+          "release_manifest_ref_safe": "i64",
+          "release_manifest_ref_hash_matches": "i64",
+          "seal_report_ref_safe": "i64",
+          "seal_report_pass": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "cli_scope_beta15_4"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "result_line_emitted"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "l6plus_serial_bound"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "materializer_mode_bound"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "pcd_input_set_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "materializer_request_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "remote_wrapper_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "wrapper_exec_target_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "generated_artifact_hash_bound"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "generated_artifact_ref_safe"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "generated_artifact_ref_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "package_hash_bound"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "package_ref_safe"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "package_ref_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "release_manifest_hash_bound"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "release_manifest_ref_safe"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "release_manifest_ref_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "seal_report_ref_safe"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "seal_report_pass"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "raw": "1",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 19
+      }
+    },
+    "entrypoint": {
+      "name": "l6_cli_materialization_result_contract",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "cli_scope_beta15_4"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "result_line_emitted"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "l6plus_serial_bound"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "materializer_mode_bound"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "pcd_input_set_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "materializer_request_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "remote_wrapper_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "wrapper_exec_target_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "generated_artifact_hash_bound"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "generated_artifact_ref_safe"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "generated_artifact_ref_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "package_hash_bound"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "package_ref_safe"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "package_ref_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "release_manifest_hash_bound"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "release_manifest_ref_safe"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "release_manifest_ref_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "seal_report_ref_safe"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "seal_report_pass"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "raw": "1",
+          "numericType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 19,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

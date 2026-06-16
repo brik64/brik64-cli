@@ -1,0 +1,19 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_4_source_contract: rust_app_polymer_domain_codegen
+PC rust_app_polymer_domain_codegen {
+    fn rust_app_polymer_domain_codegen(
+        core_polymer_generated,
+        extended_polymer_generated,
+        app_polymer_generated,
+        rust_app_polymer_compiles,
+        rust_app_polymer_tests_pass
+    ) {
+        if (core_polymer_generated == 0) { return 0; }
+        if (extended_polymer_generated == 0) { return 0; }
+        if (app_polymer_generated == 0) { return 0; }
+        if (rust_app_polymer_compiles == 0) { return 0; }
+        if (rust_app_polymer_tests_pass == 0) { return 0; }
+        return 1;
+    }
+}

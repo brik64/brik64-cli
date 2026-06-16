@@ -12,7 +12,7 @@
       "skipped": false,
       "args": [
         "--check",
-        "/Users/carlosjperez/Documents/GitHub/brik64-cli-beta15.3/src/brik.js"
+        "/Users/carlosjperez/Documents/GitHub/brik64-cli-beta15.4/src/brik.js"
       ],
       "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -57,7 +57,7 @@
         "pcd/bounded_gate.pcd",
         "--json"
       ],
-      "stdout_sha256": "616a93a540265d2f2d906c693b00d30878882aeab9051c58c2d058b93ae98735",
+      "stdout_sha256": "4eda2da9064e87a592c8a605eb89a236bd0c7b58fe92081ab1a2856ffb4b2fd7",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -98,7 +98,7 @@
         "pcd/bounded_gate.pcd",
         "--json"
       ],
-      "stdout_sha256": "94c169e170d4d0c3c12f3132e6f3eb4d35a9e279b6fefa4f274a911882898280",
+      "stdout_sha256": "984ce3a3dbdf89d053779c8954c8e51b1c3d5a48f5c52cf27fd1d4a288739c53",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },
@@ -279,8 +279,8 @@
       "skipped": false,
       "args": [],
       "stdout_sha256": "6a53c23142b8a7450c8b0098f11af93d8d6900544ef1cc98dec530b9495ab2ce",
-      "stderr_sha256": "576721d9749dd629ff93569e9ac88011af41fde655dd8507e31ab55992554d0a",
-      "stderr_tail": "\nthread 'main' ([pid]) panicked at out-rust/program_test.rs:13:47:\ndomain_out_of_bounds:balance\n"
+      "stderr_sha256": "213e93642e97bda8243fac44574bc3bf6a09da13d8891d649a1e5e3fc0f6f51d",
+      "stderr_tail": "\nthread 'main' ([pid]) panicked at out-rust/program_test.rs:8:78:\ndomain_out_of_bounds:balance\n"
     },
     {
       "name": "polymerize_domain_inputs",
@@ -297,7 +297,7 @@
         "polymer.pcd",
         "--json"
       ],
-      "stdout_sha256": "817cea446ef2a9afbb9742c45b23003802ad7584f0b85bdb12f92b8977e1ce71",
+      "stdout_sha256": "57ddf40b6a6f0a7f85b9858f530c10e014c19a833dd2854d53e19b9896c40c07",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_tail": ""
     },

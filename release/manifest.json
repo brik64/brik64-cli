@@ -1,25 +1,26 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15.2",
-  "version": "0.1.0-beta.15.2",
+  "releaseId": "brik64-0.1.0-beta.15.4",
+  "version": "0.1.0-beta.15.4",
   "channel": "beta",
-  "state": "pre_public_release_candidate",
-  "createdAt": "2026-06-15T17:45:00.000Z",
+  "state": "draft",
+  "createdAt": "2026-06-16T06:30:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta15-2-pre-public-rc",
-    "commit": "16e431b40ca2d0dc342b4b0ab94e3953ad14bb95",
-    "pullRequest": "https://github.com/brik64/brik64-cli/pull/177"
+    "branch": "codex/beta15-4-rust-polymer-l6",
+    "commit": "10e51bfa351e9297b017b44745e03f5682917052",
+    "pullRequest": "https://github.com/brik64/brik64-cli/pull/184",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
     "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
     "verifyCommand": "brik64 --version",
     "package": {
-      "name": "brik64-cli-0.1.0-beta.15.2.tgz",
-      "path": "evidence/beta15_2-package/brik64-cli-0.1.0-beta.15.2.tgz",
-      "sha256": "d52f68e91da5075eb1e463efaa8043378c9a6967c9619e8c3ef2493a05ac1a54",
-      "size_bytes": 499258
+      "name": "brik64-cli-0.1.0-beta.15.4.tgz",
+      "path": "evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz",
+      "sha256": "543be54a4f4848643bb60362901785a0cac2e0d59a332b7bfc2325ec11c9f9be",
+      "size_bytes": 584767
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
@@ -31,56 +32,126 @@
       "rustIndependenceClaimAllowed": false
     }
   },
-  "sdks": {
-    "policy": "no_change_required_for_cli_candidate_hotfix",
-    "npm": "@brik64/core@0.1.0-beta.15",
-    "pypi": "brik64==0.1.0b15",
-    "crates": "brik64-core@0.1.0-beta.15"
+  "sdks": [
+    {
+      "marketplace": "npm",
+      "name": "@brik64/core",
+      "version": "0.1.0-beta.15.4",
+      "publication": "pending_release_train"
+    },
+    {
+      "marketplace": "pypi",
+      "name": "brik64",
+      "version": "0.1.0b15.post4",
+      "publication": "pending_release_train"
+    },
+    {
+      "marketplace": "crates.io",
+      "name": "brik64-core",
+      "version": "0.1.0-beta.15.4",
+      "publication": "pending_release_train"
+    }
+  ],
+  "publicSurfaces": {
+    "githubRelease": {
+      "required": true,
+      "status": "pending_release_train",
+      "tag": "v0.1.0-beta.15.4"
+    },
+    "curlInstaller": {
+      "required": true,
+      "status": "pending_release_train",
+      "url": "https://brik64.com/cli/install.sh"
+    },
+    "channelManifest": {
+      "required": true,
+      "status": "pending_release_train",
+      "url": "https://brik64.com/cli/beta.json"
+    },
+    "web": {
+      "required": true,
+      "status": "pending_release_train",
+      "url": "https://brik64.com/download"
+    },
+    "docs": {
+      "required": true,
+      "status": "pending_release_train",
+      "url": "https://docs.brik64.com"
+    },
+    "skills": {
+      "required": true,
+      "status": "pending_release_train",
+      "repo": "brik64/brik64-tools-skills"
+    }
   },
-  "surfaceSync": {
-    "report": "evidence/beta15_2-surface-sync/report.json",
-    "decision": "PASS_BETA15_2_SURFACE_SYNC_CANDIDATE",
-    "publicationAllowed": false
+  "verification": {
+    "requiredEvidence": [
+      {
+        "id": "beta15_4_rust_polymer_domain",
+        "path": "evidence/beta15_4-rust-polymer-domain/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE"
+      },
+      {
+        "id": "beta15_4_stale_public_surface",
+        "path": "evidence/beta15_4-stale-public-surface/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE"
+      },
+      {
+        "id": "beta15_4_pre_public_rc",
+        "path": "evidence/beta15_4-pre-public-rc/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE"
+      },
+      {
+        "id": "beta15_4_package",
+        "path": "evidence/beta15_4-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT"
+      },
+      {
+        "id": "beta15_4_package_smoke",
+        "path": "evidence/beta15_4-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE"
+      }
+    ]
   },
   "githubReleaseDraft": {
-    "id": "RE_kwDOSvpCcs4UPraN",
-    "tagName": "v0.1.0-beta.15.2",
-    "url": "https://github.com/brik64/brik64-cli/releases/tag/untagged-47e72f9dfbcce7bf5488",
-    "targetCommitish": "d310dee7a0247636db408c0c055b6ef6ab879351",
+    "tagName": "v0.1.0-beta.15.4",
+    "targetCommitish": "10e51bfa351e9297b017b44745e03f5682917052",
     "isDraft": true,
     "isPrerelease": true,
     "assets": [
       {
-        "name": "brik64-cli-0.1.0-beta.15.2.tgz",
-        "sha256": "d52f68e91da5075eb1e463efaa8043378c9a6967c9619e8c3ef2493a05ac1a54",
-        "size_bytes": 499258
+        "name": "brik64-cli-0.1.0-beta.15.4.tgz",
+        "sha256": "be0a8463589ef90be04567b12752cfe9f8b875d0e526414b66b49a60bd1baa06",
+        "size_bytes": 639556
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "f15f2afceb4226d2ceda1339f6df640a8de472cc654067665de0c4b2ece4aa90",
+        "sha256": "518633eaa5d65a93bc6954bd7e3be87d1bd9d9c44df396d12a36687f4db84713",
         "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "01d8426014393fce04c28b00a8bb7a68a07b2fd584e8dae5468ddcb3cead5e63",
-        "size_bytes": 1601
+        "sha256": "b105494eec6e9d0613ece45ed78d827ec92d3bb407cf3840d97ba8b1fb55bae0",
+        "size_bytes": 1925
       }
-    ]
+    ],
+    "targetCommitishBinding": "candidate_base_commit"
   },
-  "requiredPublicSurfaces": [
-    "github_release_v0.1.0-beta.15.2",
-    "curl_installer_beta15_2",
-    "brik64_com_beta_json",
-    "docs_beta15_2",
-    "skills_beta15_2",
-    "web_changelog_beta15_2",
-    "live_install_verify"
-  ],
   "releaseNotes": [
     {
-      "type": "pre_public_candidate_change",
+      "type": "fixed",
       "surface": "cli",
-      "text": "Strengthens bounded-domain checks in generated helpers and tests, and blocks reports that contradict local release eligibility."
+      "text": "Generated Rust app-polymer output keeps domain assertions inside generated function scope."
+    },
+    {
+      "type": "added",
+      "surface": "cli",
+      "text": "Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions."
+    },
+    {
+      "type": "changed",
+      "surface": "release",
+      "text": "Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references."
     }
   ]
 }

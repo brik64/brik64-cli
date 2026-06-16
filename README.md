@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15.3`
+Current beta candidate: `0.1.0-beta.15.4`
 Previous/live public baseline until promotion: `0.1.0-beta.15`
 
 ## Install
@@ -27,15 +27,15 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15.3 Pre-Public Candidate Boundary
+## Beta15.4 Pre-Public Candidate Boundary
 
-`0.1.0-beta.15.3` is staged as a pre-public maintenance candidate for generated
+`0.1.0-beta.15.4` is staged as a pre-public maintenance candidate for generated
 application integrity: tuple monomer emission, cleaner generated Rust, generated
 test execution, certifiable polymer PCD output, local traceability, and
 claim-safe project reports. Public release claims remain closed until atomic
 public-surface verification passes.
 
-## Beta15.3 Candidate Command Surface
+## Beta15.4 Candidate Command Surface
 
 The candidate keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -70,7 +70,7 @@ paths fail closed and keep local artifacts unchanged.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. Beta15.3 SDK marketplace
+SDKs are distributed separately from the CLI. Beta15.4 SDK marketplace
 coordinates are pending release-train synchronization. Until that gate passes,
 use the last published SDK baseline documented by the public release surface:
 
@@ -94,7 +94,7 @@ establish native Windows compatibility.
 
 ## Local Ledger
 
-Beta15.3 records selected workspace actions in `.brik/ledger/events.jsonl` with
+Beta15.4 records selected workspace actions in `.brik/ledger/events.jsonl` with
 a hash chain and `.brik/ledger/head.json` head pointer. Event payloads are
 redacted by default: raw source, raw PCD content, absolute paths, and secrets are
 not written to the ledger event body.

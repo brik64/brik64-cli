@@ -4,7 +4,9 @@ const path = require('path');
 const crypto = require('crypto');
 const childProcess = require('child_process');
 
-const root = path.resolve(__dirname, '..');
+const root = process.env.BRIK64_CLI_ROOT
+  ? path.resolve(process.env.BRIK64_CLI_ROOT)
+  : path.resolve(__dirname, '..');
 const defaultManifest = path.join(root, 'release', 'manifest.json');
 const outDir = path.join(root, 'evidence', 'release-manifest-validate');
 
@@ -32,7 +34,22 @@ function sha256(value) {
 }
 
 function gitOutput(args) {
-  return childProcess.execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
+  return childProcess.execFileSync('git', args, {
+    cwd: root,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore'],
+  }).trim();
+}
+
+function currentGitHead() {
+  if (process.env.BRIK64_RELEASE_MANIFEST_EXPECTED_HEAD) {
+    return process.env.BRIK64_RELEASE_MANIFEST_EXPECTED_HEAD;
+  }
+  try {
+    return gitOutput(['rev-parse', 'HEAD']);
+  } catch {
+    return null;
+  }
 }
 
 function versionSection(changelog, version) {
@@ -102,6 +119,23 @@ function validate() {
   add(manifest.releaseId === `brik64-${manifest.version}`, failures, 'release_id_version_drift');
   add(['draft', 'dry_run_passed', 'publishing', 'public', 'failed', 'superseded'].includes(manifest.state), failures, 'state_invalid');
   add(packageJson.version === manifest.version, failures, `package_version_drift:${packageJson.version}`);
+  const sourceCommit = manifest.source?.commit;
+  const sourceCommitBinding = manifest.source?.commitBinding || null;
+  const head = currentGitHead();
+  add(typeof sourceCommit === 'string' && /^[a-f0-9]{40}$/i.test(sourceCommit), failures, 'source_commit_invalid');
+  if (manifest.state === 'public') {
+    add(sourceCommitBinding === 'release_ref_exact', failures, `source_commit_binding_invalid_for_public:${sourceCommitBinding || 'missing'}`);
+    if (head && sourceCommit) add(sourceCommit === head, failures, `source_commit_not_current_head:${sourceCommit}:${head}`);
+  } else {
+    add(
+      ['candidate_base_commit', 'release_ref_exact'].includes(sourceCommitBinding),
+      failures,
+      `source_commit_binding_invalid_for_candidate:${sourceCommitBinding || 'missing'}`
+    );
+    if (sourceCommitBinding === 'release_ref_exact' && head && sourceCommit) {
+      add(sourceCommit === head, failures, `source_commit_not_current_head:${sourceCommit}:${head}`);
+    }
+  }
   if (manifest.state === 'public') {
     add(readme.includes(`Current public beta: \`${manifest.version}\``), failures, 'readme_current_version_drift');
   } else {
@@ -153,7 +187,12 @@ function validate() {
     if (decision !== item.decision) failures.push(`evidence_decision_drift:${item.id}:${decision || 'missing'}`);
   }
 
-  const status = gitOutput(['status', '--porcelain']);
+  let status = '';
+  try {
+    status = gitOutput(['status', '--porcelain']);
+  } catch (error) {
+    warnings.push('git_status_unavailable');
+  }
   const dirtyFiles = status
     .split('\n')
     .filter(Boolean)

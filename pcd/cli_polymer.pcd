@@ -41,20 +41,17 @@ PC brik_cli_polymer {
         if (command_code == 1) {
             return 0;
         }
-        if (command_code == 2) {
-            if (certificate_present == 0) {
-                return 67;
-            }
-            if (target_code < 1) {
-                return 65;
-            }
-            if (target_code > 3) {
-                return 65;
-            }
-            return 1;
-        }
         if (command_code == 64) {
             return 64;
+        }
+        if (certificate_present == 0) {
+            return 67;
+        }
+        if (target_code == 0) {
+            return 65;
+        }
+        if (command_code == 2) {
+            return 1;
         }
         return 0;
     }

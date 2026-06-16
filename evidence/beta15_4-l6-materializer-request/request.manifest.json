@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "brik64.l6plus_cli_materializer_request_manifest.v1",
+  "version": "0.1.0-beta.15.4",
+  "decision": "PASS_BETA15_4_L6_MATERIALIZER_REQUEST_BUNDLE",
+  "request": {
+    "path": "evidence/beta15_4-l6-materializer-request/request.json",
+    "sha256": "c7c61a7411a116bdbb7976f0fb117e344a3cc87453d40e3d3bd3da21ede4ab80",
+    "bytes": 12212
+  },
+  "requestLine": {
+    "path": "evidence/beta15_4-l6-materializer-request/request.line",
+    "sha256": "1a76d07264d1b9a4a2c98dc9e0ff83ed9d668331762eab8594135decd0dbf296",
+    "bytes": 15711
+  },
+  "pcdInputSetSha256": "33679861b7a5ff74ada9a22aa7ca3500dc996a911069c4ffdb7be43b98ba6a6a",
+  "inputPcds": [
+    {
+      "path": "pcd/beta15_4/release/l6_cli_materialization_contract.pcd",
+      "sha256": "c8e03dd9e4ce64f53e2c5848a444d6b1ef44b45cbbd0efdbd3c0765dfcc38296",
+      "bytes": 810
+    },
+    {
+      "path": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
+      "sha256": "74996e1b4deecd76a26ab6f2f6f68aee2156265d4940b5ddc3b31fed526b245f",
+      "bytes": 2005
+    },
+    {
+      "path": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",
+      "sha256": "a430ce773c9e1dd77d5e15c98f0840afb78efd38611d923b9d3ff7ab577dea9b",
+      "bytes": 690
+    },
+    {
+      "path": "pcd/beta15_4/harness/rust_app_polymer_regression_gate.pcd",
+      "sha256": "4d8269a01bc26a9e1667c72a52b27cdf0da02cf812ca4f17810780d3227a6ddd",
+      "bytes": 550
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+      "bytes": 2047
+    }
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}
