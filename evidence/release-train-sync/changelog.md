@@ -1,12 +1,13 @@
-## 0.1.0-beta.14.6
+## 0.1.0-beta.15.4
+
+### Fixed
+
+- Generated Rust app-polymer output keeps domain assertions inside generated function scope.
 
 ### Added
 
-- Adds bounded domain declarations for parameter ranges, invariants, conditional domains, and technical-sheet parameters.
-- Adds domain inspect, validate, sheet, and add commands for bounded PCD workflows.
+- Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions.
 
 ### Changed
 
-- Requires complete bounded domain contracts by default for local candidate certificates.
-- Generated TypeScript, Python, and Rust outputs now include domain contract hashes and fail-closed precondition checks.
-- Polymer manifests now include source and composite domain contract hashes.
+- Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references.

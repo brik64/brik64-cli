@@ -2,28 +2,28 @@
   "schemaVersion": "brik64.release_train_publish_plan.v1",
   "releaseId": "brik64-0.1.0-beta.15.4",
   "version": "0.1.0-beta.15.4",
-  "manifestDigest": "494bc67a3af77a919ffccf73925857cf6c21bb937c2a344d1aa0067244fff998",
-  "decision": "FAIL_PUBLISH_PREFLIGHT",
-  "dryRunInProgress": false,
+  "manifestDigest": "421bb448bee9fac747ff2bbf20282fb9cb597c1c0f59abbdf1c188b86dbcbbc4",
+  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
+  "dryRunInProgress": true,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.15.4 494bc67a3af77a919ffccf73925857cf6c21bb937c2a344d1aa0067244fff998",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.15.4 421bb448bee9fac747ff2bbf20282fb9cb597c1c0f59abbdf1c188b86dbcbbc4",
   "secretAvailability": {
-    "BRIK64_GITHUB_RELEASE_TOKEN": false,
-    "BRIK64_NPM_TOKEN": false,
-    "BRIK64_PYPI_TOKEN": false,
-    "BRIK64_CRATES_TOKEN": false,
-    "BRIK64_DOCS_DISPATCH_TOKEN": false,
-    "BRIK64_WEB_DEPLOY_TOKEN": false,
-    "BRIK64_SKILLS_REPO_TOKEN": false,
-    "BRIK64_GCP_RELEASE_CREDENTIALS": false,
+    "BRIK64_GITHUB_RELEASE_TOKEN": true,
+    "BRIK64_NPM_TOKEN": true,
+    "BRIK64_PYPI_TOKEN": true,
+    "BRIK64_CRATES_TOKEN": true,
+    "BRIK64_DOCS_DISPATCH_TOKEN": true,
+    "BRIK64_WEB_DEPLOY_TOKEN": true,
+    "BRIK64_SKILLS_REPO_TOKEN": true,
+    "BRIK64_GCP_RELEASE_CREDENTIALS": true,
     "BRIK64_GCP_WORKLOAD_IDENTITY_PROVIDER": false,
     "BRIK64_GCP_SERVICE_ACCOUNT": false
   },
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
     "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "9033ba0fa1ee71438286c9f9ca97ae50c88a446b",
+    "commit": "0cd226ebbc0c3807545fc6367227b6919415f2de",
     "verified": true,
     "reason": "valid"
   },
@@ -96,12 +96,11 @@
     "Create a GitHub Release note amendment that points to the superseding manifest.",
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
-  "failures": [
-    "manifest_state_not_public:draft"
-  ],
+  "failures": [],
   "warnings": [
-    "pre_publish_live_verify_manifest_digest_drift",
-    "manifest_source_commit_not_ancestor:10e51bfa351e9297b017b44745e03f5682917052:0cd226e"
+    "github_verified_signature_commit_drift:0cd226ebbc0c3807545fc6367227b6919415f2de:ee1a1037b2b4ed9abbb28a8f5df08b6840bbb51a",
+    "dry_run_report_currently_being_generated",
+    "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
 }
