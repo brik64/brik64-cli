@@ -1,9 +1,9 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-16T06:06:55.752Z",
+  "generatedAt": "2026-06-16T06:37:03.768Z",
   "version": "0.1.0-beta.15.4",
   "label": "beta15_4",
-  "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
+  "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",
   "policy": {
     "requirement": "Every new public BRIK64 CLI version must include direct L6+N5 generation evidence before release.",
     "acceptedChain": "PCD/polymer -> L6+N5 serial -> generated artifact -> package -> release manifest",
@@ -18,59 +18,52 @@
     "dir": "evidence/beta15_4-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "b308d7adbb891b1d065a711f841631331e5abeee01a0d0004cb9cb965c9d1ff6",
-      "sizeBytes": 6581
+      "sha256": "00adcc4259a1039ee029d87be7508306d3db96e6c2eb0bf4245effd124dfc32e",
+      "sizeBytes": 6690
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "d2dfb022801b811e076f09ca31ca9e075616ad2175a6a7a44a3e456156a803b2",
-      "sizeBytes": 1936
+      "sha256": "6bb236a54c94e439a9cd49939a900843e38fb33c49e21d4336b449e197eeb11b",
+      "sizeBytes": 1712
     },
     "input_pcd_hashes.tsv": {
       "path": "evidence/beta15_4-l6-generation/input_pcd_hashes.tsv",
-      "sha256": "3189975f2bef011a595f954d4eb787dd7a8c534400bb56764b60c65368153e11",
+      "sha256": "33679861b7a5ff74ada9a22aa7ca3500dc996a911069c4ffdb7be43b98ba6a6a",
       "sizeBytes": 685
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "cfef1007211f01a622d1f089f19240d592c55c99a87117d22b7b9da6e3fe41f4",
-      "sizeBytes": 1648
+      "sha256": "da6e21ef113c2bc9aa4c7711c9ac42468946f62285a9229364939467157b6726",
+      "sizeBytes": 1511
     },
     "package.manifest.json": {
       "path": "evidence/beta15_4-l6-generation/package.manifest.json",
-      "sha256": "8b3fc3ee9156a05fecc9e15ed53653dcfb1dfc896dbc5a61c31aee63a49bdc00",
-      "sizeBytes": 389
+      "sha256": "31116bd777cb949c3408b206d1255f93300ba8fe662b3607bc6c7bb39e9495f0",
+      "sizeBytes": 471
     },
     "seal_report.json": {
       "path": "evidence/beta15_4-l6-generation/seal_report.json",
-      "sha256": "66aa756993dea50e256300e235cd5076d35fc0d54e0f5883ac5accb042560d6c",
-      "sizeBytes": 224
+      "sha256": "be44eae41eb1b751c9f94aa0368824f24767ccb2a5b348404d643c6cd571689e",
+      "sizeBytes": 241
     },
     "hashes.json": {
       "path": "evidence/beta15_4-l6-generation/hashes.json",
-      "sha256": "5f0c0bdcdfbc738dbbe7962eb3543cdd4bc27b36fbbc6925e232aa9bbe4e2bbd",
-      "sizeBytes": 1346
+      "sha256": "33e040c9a9548f457ebece487873eba82945a6dad88fcc49204c4f080efbc2a3",
+      "sizeBytes": 1532
     }
   },
   "checks": {
     "gateVersionMatches": true,
-    "gateDecisionPass": false,
-    "gatePublicationAllowed": false,
-    "gateNoBlockers": false,
+    "gateDecisionPass": true,
+    "gatePublicationAllowed": true,
+    "gateNoBlockers": true,
     "noFormalClaimLeak": true,
     "artifactVersionMatches": true,
-    "pcdToArtifactHashBound": false,
+    "pcdToArtifactHashBound": true,
     "packageVersionMatches": true,
-    "artifactToPackageHashBound": false,
-    "packageToReleaseManifestHashBound": false,
+    "artifactToPackageHashBound": true,
+    "packageToReleaseManifestHashBound": true,
     "releaseManifestVersionContext": true
   },
-  "blockers": [
-    "l6_gate_decision_not_pass:BLOCKED_BETA15_4_L6_GENERATION_GATE",
-    "l6_gate_publication_not_allowed",
-    "l6_gate_blockers_present:3",
-    "artifact_manifest_missing_pcd_to_artifact_hash_binding",
-    "package_manifest_missing_artifact_to_package_hash_binding",
-    "package_manifest_missing_package_to_release_manifest_hash_binding"
-  ]
+  "blockers": []
 }

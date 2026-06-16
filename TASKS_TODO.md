@@ -184,10 +184,27 @@
       - Boundary:
         this prevents a future false green gap report; current Beta15.4 remains
         blocked until the L6 endpoint emits a real materialized artifact.
-- [ ] Create L6+N5 generation evidence pack.
-      - Current blocker:
-        `remote_l6plus_materialization_contract_unavailable`.
+- [x] Create L6+N5 generation evidence pack.
+      - Generator:
+        `scripts/beta15_4-l6-generation-attempt.js`.
+      - PCD compatibility fix:
+        Beta15.4 materialization contracts and `pcd/cli_polymer.pcd` were
+        normalized to the route-2 subset accepted by the real L6+N5 emitter.
+      - Evidence:
+        `evidence/beta15_4-l6-generation/gate-report.json`.
+        `evidence/beta15_4-l6-generation/materialization-out.tgz`.
+        `evidence/beta15_4-l6-generation/direct-materialization-summary.json`.
+        `evidence/cli-l6-generation-required/report.json`.
+      - Result:
+        `PASS_BETA15_4_L6_GENERATION_GATE` and
+        `PASS_CLI_L6_GENERATION_REQUIRED_GATE`.
+      - Boundary:
+        this is non-claim L6 route-2 materialization evidence for Beta15.4; it
+        does not assert fixpoint, formal N5, self-hosting or Rust independence.
 - [ ] Publish public surfaces only after L6 and release train gates pass.
+      - Current blocker:
+        `release:train:dry-run` now fails only on dirty worktree state until
+        this iteration is committed.
 
 - [x] Align Beta15.4 candidate manifest and materializer request refs.
       - Request bundle:

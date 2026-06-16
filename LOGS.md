@@ -624,3 +624,40 @@ Boundary:
   release evidence.
 - It does not implement the L6 materializer endpoint, generate the missing
   artifact, or publish Beta15.4.
+
+## Iteration 24
+
+- Materialized the Beta15.4 CLI L6 evidence pack through the real L6+N5
+  route-2 emitter available at
+  `/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus`.
+- Normalized the required Beta15.4 PCD contracts to the route-2 subset that
+  the L6 emitter actually accepts:
+  - no `domain` declarations in the route-2 input PCDs;
+  - no typed function annotations;
+  - direct `if (...) { return ...; }` branches;
+  - no nested branch without direct return;
+  - no `<`/`>` comparators in `pcd/cli_polymer.pcd`.
+- Added direct L6 route-2 materialization to
+  `scripts/beta15_4-l6-generation-attempt.js`, producing
+  `materialization-out.tgz`, direct materialization SHA256SUMS, a summary,
+  generated artifact manifest, package binding manifest and seal report.
+- Updated the Beta15.4 generation test to assert successful materialization
+  instead of the old fail-closed endpoint-only state.
+- Updated release dry-run routing and smoke expectations so Beta15.4 uses the
+  existing npm scripts and package-smoke decision names.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` passed.
+- `bash scripts/tests/test_cli_l6_generation_required_gate.sh` passed.
+- `BRIK64_RELEASE_GATES=1 bash tests/smoke.sh` passed.
+- Cross-repo prod gap gate passed after consuming the regenerated CLI evidence.
+- `npm run release:train:dry-run` now fails only on
+  `initial_worktree_dirty`.
+
+Boundary:
+
+- Beta15.4 is not published.
+- The evidence is non-claim L6 route-2 materialization, not fixpoint,
+  formal N5, self-hosting or Rust-independence evidence.

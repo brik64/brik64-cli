@@ -121,17 +121,17 @@
     "assets": [
       {
         "name": "brik64-cli-0.1.0-beta.15.4.tgz",
-        "sha256": "543be54a4f4848643bb60362901785a0cac2e0d59a332b7bfc2325ec11c9f9be",
-        "size_bytes": 584767
+        "sha256": "be0a8463589ef90be04567b12752cfe9f8b875d0e526414b66b49a60bd1baa06",
+        "size_bytes": 639556
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "10da6d3f7dfa7632391ddd407d61f6b421c5fd4639aa8d3a3d4bf82ec8119ace",
+        "sha256": "518633eaa5d65a93bc6954bd7e3be87d1bd9d9c44df396d12a36687f4db84713",
         "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "b54e1e78557a984ae233ccd718a81b657344615d4ca0e56c107b199a6abecc66",
+        "sha256": "b105494eec6e9d0613ece45ed78d827ec92d3bb407cf3840d97ba8b1fb55bae0",
         "size_bytes": 1925
       }
     ],

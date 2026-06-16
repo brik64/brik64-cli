@@ -631,6 +631,10 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     return candidateBranchCommands(manifest.version);
   }
 
+  if (manifest.version === '0.1.0-beta.15.4') {
+    return candidateBranchCommands(manifest.version);
+  }
+
   return [
     ...(betaNumber(manifest.version) >= 15 ? [cliL6GenerationRequiredGate()] : []),
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),

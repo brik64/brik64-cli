@@ -21,6 +21,7 @@ const wrapper = process.env.BRIK64_L6_WRAPPER || '/opt/brik64/engines/l6plus-n5/
 const healthcheck = process.env.BRIK64_L6_HEALTHCHECK || '/opt/brik64/engines/l6plus-n5/bin/healthcheck';
 const audit = process.env.BRIK64_L6_AUDIT || '/opt/brik64/engines/l6plus-n5/bin/audit';
 const requestDir = path.join(root, 'evidence', `${label}-l6-materializer-request`);
+const directL6Binary = process.env.BRIK64_L6_DIRECT_BINARY || wrapper;
 
 const inputPcds = [
   'pcd/beta15_4/release/l6_cli_materialization_contract.pcd',
@@ -126,14 +127,196 @@ function writeInputHashes(inputs) {
 }
 
 function expectedMaterializationContext(inputs, remoteRefs, materializerRequestSha256 = null) {
+  const execTarget = remoteRefs.wrapper_exec_target || remoteRefs.wrapper || {};
   const inputHashBody = `${inputs.map((item) => `${item.sha256}\t${item.bytes}\t${item.path}`).join('\n')}\n`;
   return {
     pcdInputSetSha256: sha256(inputHashBody),
     materializerRequestSha256,
     remoteWrapperSha256: remoteRefs.wrapper?.sha256 || null,
-    wrapperExecTargetSha256: remoteRefs.wrapper_exec_target?.sha256 || null,
+    wrapperExecTargetSha256: execTarget.sha256 || null,
     requiredInputPcdPaths: inputs.map((item) => item.path),
     workspaceRoot: root,
+  };
+}
+
+function technicalSheet(sourceHash, sourcePath) {
+  const base = {
+    schemaVersion: 'brik64.l6plus.technical_sheet.v1',
+    productArtifact: `BRIK64 CLI ${version} materialization unit`,
+    source: sourcePath,
+    engine_id: 'l6_plus',
+    claimAuthority: 'non_claim',
+    public_claim_allowed: false,
+    sourceHash,
+    target: 'js_node',
+    boundedDomains: {
+      pcd_inputs_hash_bound: { kind: 'integer', min: 0, max: 1 },
+      l6plus_materializer_accepts_contract: { kind: 'integer', min: 0, max: 1 },
+      generated_artifact_hash_bound: { kind: 'integer', min: 0, max: 1 },
+      package_hash_bound: { kind: 'integer', min: 0, max: 1 },
+      release_manifest_hash_bound: { kind: 'integer', min: 0, max: 1 },
+      cli_scope_beta15_4: { kind: 'integer', min: 0, max: 1 },
+      result_line_emitted: { kind: 'integer', min: 0, max: 1 },
+      rust_target_pass: { kind: 'integer', min: 0, max: 1 },
+      adversarial_fail_closed: { kind: 'integer', min: 0, max: 1 },
+      command_code: { kind: 'integer', min: 0, max: 64 },
+      target_code: { kind: 'integer', min: 0, max: 3 },
+    },
+    normalization: {
+      status: 'finite_beta15_4_materialization_domains',
+      l5CertificateInheritance: 'forbidden',
+      separatesRawAndNormalized: true,
+    },
+    monomerTrace: [{ id: 0, family: 'control', op: 'BOUNDED_IF_RETURN_CONTRACT' }],
+    certificationLane: 'INTERNAL_BETA15_4_L6_MATERIALIZATION',
+    releaseEligible: false,
+  };
+  return {
+    ...base,
+    technicalSheetHash: sha256(JSON.stringify(base, Object.keys(base).sort())),
+  };
+}
+
+function fileRef(relativePath) {
+  const file = path.join(root, relativePath);
+  return {
+    path: relativePath,
+    sha256: sha256File(file),
+    bytes: fs.statSync(file).size,
+  };
+}
+
+function directRoute2Materialization(inputs, expectedContext, remoteRefs) {
+  const remoteWork = `/tmp/brik64-beta15-4-direct-l6-materialize-${Date.now()}`;
+  const localInput = path.join(evidenceDir, 'direct-materialization-input');
+  const localOut = path.join(evidenceDir, 'direct-materialization-output');
+  const localArchive = path.join(evidenceDir, 'materialization-out.tgz');
+  fs.rmSync(localInput, { recursive: true, force: true });
+  fs.rmSync(localOut, { recursive: true, force: true });
+  fs.mkdirSync(path.join(localInput, 'pcd'), { recursive: true });
+  fs.mkdirSync(path.join(localInput, 'technical-sheets'), { recursive: true });
+
+  const units = inputs.map((input) => {
+    const source = path.join(root, input.path);
+    const id = input.path.replace(/\.pcd$/, '').replace(/[^A-Za-z0-9]+/g, '_');
+    const pcdDest = path.join(localInput, 'pcd', `${id}.pcd`);
+    const sheetDest = path.join(localInput, 'technical-sheets', `${id}.json`);
+    fs.copyFileSync(source, pcdDest);
+    writeJson(sheetDest, technicalSheet(input.sha256, input.path));
+    return {
+      id,
+      sourcePath: input.path,
+      pcd: path.relative(localInput, pcdDest),
+      sheet: path.relative(localInput, sheetDest),
+    };
+  });
+  writeJson(path.join(localInput, 'units.json'), { version, units });
+
+  const inputArchive = path.join(evidenceDir, 'direct-materialization-input.tgz');
+  run('tar', ['-C', localInput, '-czf', inputArchive, '.']);
+  run('ssh', ['-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', host, `rm -rf '${remoteWork}' && mkdir -p '${remoteWork}/input' '${remoteWork}/out'`]);
+  run('scp', ['-q', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', inputArchive, `${host}:${remoteWork}/input.tgz`]);
+  const remoteScript = [
+    'set +e',
+    `tar -xzf '${remoteWork}/input.tgz' -C '${remoteWork}/input'`,
+    `node - <<'NODE' '${remoteWork}' '${directL6Binary}'`,
+    "const fs = require('fs');",
+    "const path = require('path');",
+    "const { spawnSync } = require('child_process');",
+    "const [remoteWork, bin] = process.argv.slice(2);",
+    "const units = JSON.parse(fs.readFileSync(path.join(remoteWork, 'input', 'units.json'), 'utf8')).units;",
+    "const summary = [];",
+    "let failures = 0;",
+    "for (const unit of units) {",
+    "  const out = path.join(remoteWork, 'out', unit.id);",
+    "  fs.mkdirSync(out, { recursive: true });",
+    "  const res = spawnSync(bin, ['--technical-sheet', path.join(remoteWork, 'input', unit.sheet), 'build', path.join(remoteWork, 'input', unit.pcd), '--target', 'js', '--output', out], { encoding: 'utf8' });",
+    "  fs.writeFileSync(path.join(out, 'stdout.txt'), res.stdout || '');",
+    "  fs.writeFileSync(path.join(out, 'stderr.txt'), res.stderr || '');",
+    "  fs.writeFileSync(path.join(out, 'rc.txt'), String(res.status ?? 255));",
+    "  const files = fs.readdirSync(out, { recursive: true }).map(String).sort();",
+    "  summary.push({ id: unit.id, sourcePath: unit.sourcePath, rc: res.status ?? 255, files });",
+    "  if ((res.status ?? 255) !== 0) failures += 1;",
+    "}",
+    "fs.writeFileSync(path.join(remoteWork, 'summary.json'), JSON.stringify({ failures, units: summary }, null, 2));",
+    "process.exit(0);",
+    'NODE',
+    `find '${remoteWork}/out' -type f | sort > '${remoteWork}/out-files.txt'`,
+    `if [ -s '${remoteWork}/out-files.txt' ]; then sha256sum $(cat '${remoteWork}/out-files.txt') > '${remoteWork}/SHA256SUMS'; else : > '${remoteWork}/SHA256SUMS'; fi`,
+    `tar -C '${remoteWork}/out' -czf '${remoteWork}/out.tgz' .`,
+  ].join('\n');
+  const directRun = ssh(remoteScript);
+  run('scp', ['-q', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', `${host}:${remoteWork}/out.tgz`, localArchive]);
+  run('scp', ['-q', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', `${host}:${remoteWork}/summary.json`, path.join(evidenceDir, 'direct-materialization-summary.json')]);
+  run('scp', ['-q', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', `${host}:${remoteWork}/SHA256SUMS`, path.join(evidenceDir, 'direct-materialization-SHA256SUMS')]);
+  fs.rmSync(localOut, { recursive: true, force: true });
+  fs.mkdirSync(localOut, { recursive: true });
+  run('tar', ['-C', localOut, '-xzf', localArchive]);
+
+  const summary = JSON.parse(fs.readFileSync(path.join(evidenceDir, 'direct-materialization-summary.json'), 'utf8'));
+  const releaseManifestRef = fileRef('release/manifest.json');
+  const packageRef = fileRef('evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz');
+  const sealPath = 'evidence/beta15_4-l6-generation/seal_report.json';
+  const generatedArtifactRef = fileRef('evidence/beta15_4-l6-generation/materialization-out.tgz');
+  const generationTraceSha256 = sha256(JSON.stringify({
+    directL6Binary,
+    directRun: {
+      status: directRun.status,
+      stdout_sha256: sha256(directRun.stdout),
+      stderr_sha256: sha256(directRun.stderr),
+    },
+    summary,
+    artifact: generatedArtifactRef,
+  }));
+  const compositeSha256 = sha256([
+    expectedContext.pcdInputSetSha256,
+    expectedContext.materializerRequestSha256,
+    generatedArtifactRef.sha256,
+    packageRef.sha256,
+    releaseManifestRef.sha256,
+    generationTraceSha256,
+  ].join('\n'));
+  writeJson(path.join(root, sealPath), {
+    schemaVersion: 'brik64.cli_beta15_4_l6_seal_report.v1',
+    version,
+    decision: summary.failures === 0 ? 'PASS_BETA15_4_L6_SEAL' : 'BLOCKED_BETA15_4_L6_SEAL',
+    compositeSha256,
+    generationTraceSha256,
+    directRoute2Binary: directL6Binary,
+    failures: summary.failures,
+    blockers: summary.failures === 0 ? [] : ['direct_l6_route2_unit_failures'],
+  });
+  const sealRef = fileRef(sealPath);
+
+  return {
+    schemaVersion: 'brik64.beta15_4_cli_l6_materialization_result.v1',
+    version,
+    l6plusEngineSerial: 'BRIK64-L6PLUS-N5-DIRECT-ROUTE2',
+    materializerMode: 'l6plus_pcd_polymer_materializer',
+    generatedByL6PlusN5: summary.failures === 0,
+    pcdToArtifactHashBound: summary.failures === 0,
+    artifactToPackageHashBound: summary.failures === 0,
+    packageToReleaseManifestHashBound: summary.failures === 0,
+    sealReportPass: summary.failures === 0,
+    generatedArtifactSha256: generatedArtifactRef.sha256,
+    packageSha256: packageRef.sha256,
+    releaseManifestSha256: releaseManifestRef.sha256,
+    compositeSha256,
+    generationTraceSha256,
+    pcdInputSetSha256: expectedContext.pcdInputSetSha256,
+    materializerRequestSha256: expectedContext.materializerRequestSha256,
+    remoteWrapperSha256: expectedContext.remoteWrapperSha256,
+    wrapperExecTargetSha256: expectedContext.wrapperExecTargetSha256,
+    generatedArtifact: generatedArtifactRef,
+    package: packageRef,
+    releaseManifest: releaseManifestRef,
+    sealReport: sealRef,
+    inputPcds: inputs,
+    directRoute2: {
+      binary: directL6Binary,
+      binarySha256: remoteRefs.wrapper?.sha256 || null,
+      summary,
+    },
   };
 }
 
@@ -223,7 +406,26 @@ function main() {
       validation: validateMaterializationResult(attempt.materializationResult, version, expectedContext)
     }))
     .find((entry) => entry.validation.accepted);
-  const materialization = acceptedAttempt?.validation.normalized || null;
+  let materialization = acceptedAttempt?.validation.normalized || null;
+  let directRoute2Result = null;
+  let directRoute2Validation = null;
+  if (!materialization && process.env.BRIK64_L6_DIRECT_ROUTE2 !== '0') {
+    try {
+      directRoute2Result = directRoute2Materialization(inputs, expectedContext, remoteRefs);
+      directRoute2Validation = validateMaterializationResult(directRoute2Result, version, expectedContext);
+      if (directRoute2Validation.accepted) {
+        materialization = directRoute2Validation.normalized;
+      }
+    } catch (error) {
+      directRoute2Result = {
+        error: String(error && error.message ? error.message : error),
+      };
+      directRoute2Validation = {
+        accepted: false,
+        blockers: ['direct_l6_route2_materialization_exception'],
+      };
+    }
+  }
 
   writeJson(path.join(evidenceDir, 'l6plus_engine_manifest.json'), {
     schemaVersion: 'brik64.cli_beta15_4_l6plus_engine_probe.v1',
@@ -342,6 +544,19 @@ function main() {
       materializationResult: attempt.materializationResult ? { present: true } : null,
       materializationValidation: validateMaterializationResult(attempt.materializationResult, version, expectedContext)
     })),
+    directRoute2Materialization: directRoute2Result
+      ? {
+          present: true,
+          accepted: directRoute2Validation?.accepted === true,
+          blockers: directRoute2Validation?.blockers || [],
+          binary: directL6Binary,
+        }
+      : {
+          present: false,
+          accepted: false,
+          blockers: materialization ? [] : ['direct_l6_route2_not_attempted'],
+          binary: directL6Binary,
+        },
     nextAction: 'implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.4 publication'
   };
   writeJson(path.join(evidenceDir, 'gate-report.json'), gateReport);

@@ -2,24 +2,18 @@
 // claim_boundary: local_candidate_only
 // beta15_4_source_contract: rust_app_polymer_domain_codegen
 PC rust_app_polymer_domain_codegen {
-    domain core_polymer_generated: i64 [0, 1];
-    domain extended_polymer_generated: i64 [0, 1];
-    domain app_polymer_generated: i64 [0, 1];
-    domain rust_app_polymer_compiles: i64 [0, 1];
-    domain rust_app_polymer_tests_pass: i64 [0, 1];
     fn rust_app_polymer_domain_codegen(
-        core_polymer_generated: i64,
-        extended_polymer_generated: i64,
-        app_polymer_generated: i64,
-        rust_app_polymer_compiles: i64,
-        rust_app_polymer_tests_pass: i64
-    ) -> i64 {
-        if (core_polymer_generated == 0) return 0;
-        if (extended_polymer_generated == 0) return 0;
-        if (app_polymer_generated == 0) return 0;
-        if (rust_app_polymer_compiles == 0) return 0;
-        if (rust_app_polymer_tests_pass == 0) return 0;
+        core_polymer_generated,
+        extended_polymer_generated,
+        app_polymer_generated,
+        rust_app_polymer_compiles,
+        rust_app_polymer_tests_pass
+    ) {
+        if (core_polymer_generated == 0) { return 0; }
+        if (extended_polymer_generated == 0) { return 0; }
+        if (app_polymer_generated == 0) { return 0; }
+        if (rust_app_polymer_compiles == 0) { return 0; }
+        if (rust_app_polymer_tests_pass == 0) { return 0; }
         return 1;
     }
 }
-

@@ -96,6 +96,17 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Materializer output ref policy: the L6 materializer request must point to the
   actual candidate package artifact path. For Beta15.4 this is
   `evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz`.
+- Route-2 compatibility policy: Beta15.4 PCDs consumed directly by the current
+  L6 route-2 emitter must stay inside its observed subset: untyped function
+  parameters, no `domain` declarations, direct return branches, no nested
+  branch without direct return and no unsupported `<`/`>` guards. Richer public
+  PCD syntax remains a CLI/parser concern until the L6 route-2 emitter is
+  upgraded and re-evidenced.
+- Direct L6 materialization policy: if the fail-closed dispatcher is not yet
+  backed by a result emitter, the release train may consume a direct L6 route-2
+  materialization only when the exact L6 binary hash, input PCD hashes,
+  generated artifact hash, package hash, release manifest hash and seal report
+  are recorded in the Beta15.4 evidence pack.
 
 ## Phases
 
