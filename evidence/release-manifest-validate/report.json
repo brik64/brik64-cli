@@ -22,14 +22,14 @@
         "path": "evidence/beta15_6-rust-f64-command-lift/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
-        "sha256": "144aa2c504707d01fba4186206fe4d4a8f03095b14aa351ccd5653730785f17a"
+        "sha256": "d6525d0dec22555e58bec1c8200913fa9628e9a133063f7edcb704e5690e8370"
       },
       {
         "id": "beta15_6_pre_public_rc",
         "path": "evidence/beta15_6-pre-public-rc/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
-        "sha256": "3af8503424e3c11d0d2020ae341ec9e08caf009704c20ef97964b0e7d424e186"
+        "sha256": "c885a4f406481ca36e5b22c286909d261364ba4988bd3720f1e55d883dadce82"
       },
       {
         "id": "beta15_6_package",
@@ -48,7 +48,5 @@
     ]
   },
   "failures": [],
-  "warnings": [
-    "worktree_dirty_allowed:2"
-  ]
+  "warnings": []
 }
