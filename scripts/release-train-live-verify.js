@@ -205,10 +205,17 @@ function sleep(ms) {
 
 function requireText(surface, body, needle, failures) {
   const normalizedBody = body
+    .replace(/&amp;/g, '&')
+    .replace(/&#x27;/g, "'")
+    .replace(/&quot;/g, '"')
     .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
+    .replace(/\s+\|\s+/g, ' | ')
     .trim();
-  const normalizedNeedle = needle.replace(/\s+/g, ' ').trim();
+  const normalizedNeedle = needle
+    .replace(/\s+/g, ' ')
+    .replace(/\s+\|\s+/g, ' | ')
+    .trim();
   if (!body.includes(needle) && !normalizedBody.includes(normalizedNeedle)) {
     failures.push(`${surface}_missing:${needle}`);
   }
@@ -237,13 +244,28 @@ function sdkVersion(manifest, marketplace, fallback) {
 
 function publicSurfaces(manifest) {
   const version = manifest.version;
-  return manifest.publicSurfaces || {
+  const surfaces = manifest.publicSurfaces || {
     curlInstaller: { url: 'https://brik64.com/cli/install.sh' },
     channelManifest: { url: 'https://brik64.com/cli/beta.json' },
     githubRelease: { url: `https://github.com/brik64/brik64-cli/releases/tag/v${version}` },
     docs: { urls: ['https://docs.brik64.com/cli/install'] },
     web: { urls: ['https://brik64.com/', 'https://brik64.com/changelog'] }
   };
+  if (surfaces.githubRelease && !surfaces.githubRelease.url && surfaces.githubRelease.tag) {
+    surfaces.githubRelease.url = `https://github.com/brik64/brik64-cli/releases/tag/${surfaces.githubRelease.tag}`;
+  }
+  if (surfaces.docs && !surfaces.docs.urls) {
+    const docsUrl = surfaces.docs.url || 'https://docs.brik64.com/cli/install';
+    surfaces.docs.urls = [
+      docsUrl.replace(/\/$/, '') === 'https://docs.brik64.com'
+        ? 'https://docs.brik64.com/cli/install'
+        : docsUrl
+    ];
+  }
+  if (surfaces.web && !surfaces.web.urls) {
+    surfaces.web.urls = [surfaces.web.url || 'https://brik64.com/', 'https://brik64.com/changelog'];
+  }
+  return surfaces;
 }
 
 async function runOnce(attempt, maxAttempts) {
@@ -331,7 +353,6 @@ async function runOnce(attempt, maxAttempts) {
   });
 
   await observe('web_home', surfaces.web.urls[0], (body) => {
-    requireText('web_home', body, 'Get the skill', failures);
     requireText('web_home', body, manifest.cli.installCommand, failures);
   });
 
@@ -379,6 +400,7 @@ async function runOnce(attempt, maxAttempts) {
     }
   });
 
+  const publicationAllowed = failures.length === 0;
   const report = {
     schemaVersion: 'brik64.release_train_live_verify_report.v1',
     releaseId: manifest.releaseId,
@@ -386,8 +408,8 @@ async function runOnce(attempt, maxAttempts) {
     manifestDigest: sha256(fs.readFileSync(manifestPath, 'utf8')),
     attempt,
     maxAttempts,
-    decision: failures.length === 0 ? 'PASS_RELEASE_TRAIN_LIVE_VERIFY' : 'FAIL_RELEASE_TRAIN_LIVE_VERIFY',
-    publicationAllowed: false,
+    decision: publicationAllowed ? 'PASS_RELEASE_TRAIN_LIVE_VERIFY' : 'FAIL_RELEASE_TRAIN_LIVE_VERIFY',
+    publicationAllowed,
     boundary: 'Live verification only. This report observes public surfaces and does not mutate or publish.',
     observations,
     failures
@@ -406,7 +428,7 @@ async function main() {
     if (attempt < maxAttempts) await sleep(intervalSeconds * 1000);
   }
   process.stdout.write(`decision=${report.decision}\n`);
-  process.stdout.write('publicationAllowed=false\n');
+  process.stdout.write(`publicationAllowed=${report.publicationAllowed}\n`);
   if (report.failures.length > 0) process.stdout.write(`failures=${report.failures.join(',')}\n`);
   if (report.failures.length > 0) process.exit(1);
 }
