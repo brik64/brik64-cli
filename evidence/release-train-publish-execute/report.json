@@ -3,7 +3,7 @@
   "releaseId": "brik64-0.1.0-beta.15.6",
   "version": "0.1.0-beta.15.6",
   "manifestDigest": "c043d44c14061c12c978c6e6e37bde815ec881c4fef7e29ce90dcc16dee5f5f9",
-  "sourceHead": "6bfaf8f",
+  "sourceHead": "b4d363c",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
