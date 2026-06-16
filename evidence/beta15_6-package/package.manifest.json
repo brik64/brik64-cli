@@ -7,8 +7,8 @@
   "generationClaim": "pcd_first_l6_materialized_public_beta",
   "package": {
     "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
-    "sha256": "02207cb73dbf5ba02d4956d15427e65558c50c79d4a26d2aeb6bd01a3f8a30b1",
-    "bytes": 608836
+    "sha256": "e2c714bbd2535e9006583415b488c50158b4f1e53998d7c391b28945caf4bbaf",
+    "bytes": 609348
   },
   "claimBoundary": {
     "publicClaimsAllowed": false,
