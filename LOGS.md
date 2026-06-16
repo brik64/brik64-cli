@@ -415,3 +415,31 @@ Boundary:
 - This closes a file-ref existence/hash bypass in the future materializer
   result acceptance path.
 - It does not implement the materializer endpoint or publish Beta15.4.
+
+## Iteration 18
+
+- Hardened `scripts/beta15_4-l6-materialization-result.js` so, when the
+  caller supplies `workspaceRoot`, each declared `inputPcds[]` ref must:
+  - use a safe relative path;
+  - resolve under the workspace;
+  - exist as a file;
+  - hash to its declared SHA-256.
+- Added parser coverage for:
+  - valid input PCD refs backed by real temp files;
+  - missing input PCD file;
+  - tampered input PCD file hash mismatch;
+  - unsafe input PCD path traversal.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  blockers because no L6-generated artifact/package/release binding exists.
+
+Boundary:
+
+- This closes a per-PCD evidence bypass in the future materializer result
+  acceptance path.
+- It does not implement the materializer endpoint or publish Beta15.4.

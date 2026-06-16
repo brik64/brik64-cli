@@ -160,6 +160,10 @@ const files = {
   releaseManifest: ['release/manifest.json', '{"version":"0.1.0-beta.15.4"}'],
   sealReport: ['evidence/beta15_4-l6-generation/seal_report.json', '{"decision":"PASS"}'],
 };
+const inputPcdFiles = [
+  ['pcd/beta15_4/release/l6_cli_materialization_contract.pcd', 'PC l6_cli_materialization_contract {}'],
+  ['pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd', 'PC l6_cli_materialization_result_contract {}'],
+];
 const withFiles = { ...good };
 for (const [field, [relativePath, body]] of Object.entries(files)) {
   const absolutePath = path.join(workspaceRoot, relativePath);
@@ -170,17 +174,47 @@ for (const [field, [relativePath, body]] of Object.entries(files)) {
 withFiles.generatedArtifactSha256 = withFiles.generatedArtifact.sha256;
 withFiles.packageSha256 = withFiles.package.sha256;
 withFiles.releaseManifestSha256 = withFiles.releaseManifest.sha256;
+withFiles.inputPcds = inputPcdFiles.map(([relativePath, body]) => {
+  const absolutePath = path.join(workspaceRoot, relativePath);
+  fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
+  fs.writeFileSync(absolutePath, body);
+  return { path: relativePath, sha256: sha256(body) };
+});
 assert.strictEqual(validateMaterializationResult(withFiles, good.version, { workspaceRoot }).accepted, true);
 
 fs.rmSync(path.join(workspaceRoot, withFiles.package.path));
 const missingPackageFile = validateMaterializationResult(withFiles, good.version, { workspaceRoot });
 assert.strictEqual(missingPackageFile.accepted, false);
-assert(missingPackageFile.blockers.includes('materialization_result_package_ref_file_missing'));
+assert(missingPackageFile.blockers.includes(`materialization_result_package_ref_file_missing:${withFiles.package.path}`));
 
 fs.writeFileSync(path.join(workspaceRoot, withFiles.package.path), 'tampered-package-body');
 const tamperedPackageFile = validateMaterializationResult(withFiles, good.version, { workspaceRoot });
 assert.strictEqual(tamperedPackageFile.accepted, false);
-assert(tamperedPackageFile.blockers.includes('materialization_result_package_ref_file_sha256_mismatch'));
+assert(tamperedPackageFile.blockers.includes(`materialization_result_package_ref_file_sha256_mismatch:${withFiles.package.path}`));
+
+fs.writeFileSync(path.join(workspaceRoot, withFiles.package.path), files.package[1]);
+const missingInputPcd = { ...withFiles, inputPcds: withFiles.inputPcds.map((item) => ({ ...item })) };
+fs.rmSync(path.join(workspaceRoot, missingInputPcd.inputPcds[0].path));
+const missingInputPcdFile = validateMaterializationResult(missingInputPcd, good.version, { workspaceRoot });
+assert.strictEqual(missingInputPcdFile.accepted, false);
+assert(missingInputPcdFile.blockers.includes(`materialization_result_input_pcd_0_ref_file_missing:${missingInputPcd.inputPcds[0].path}`));
+
+fs.writeFileSync(path.join(workspaceRoot, missingInputPcd.inputPcds[0].path), inputPcdFiles[0][1]);
+fs.writeFileSync(path.join(workspaceRoot, missingInputPcd.inputPcds[1].path), 'tampered input pcd');
+const tamperedInputPcdFile = validateMaterializationResult(missingInputPcd, good.version, { workspaceRoot });
+assert.strictEqual(tamperedInputPcdFile.accepted, false);
+assert(tamperedInputPcdFile.blockers.includes(`materialization_result_input_pcd_1_ref_file_sha256_mismatch:${missingInputPcd.inputPcds[1].path}`));
+
+const unsafeInputPcdRef = {
+  ...withFiles,
+  inputPcds: [
+    { ...withFiles.inputPcds[0], path: '../outside.pcd' },
+    withFiles.inputPcds[1],
+  ],
+};
+const unsafeInputPcdResult = validateMaterializationResult(unsafeInputPcdRef, good.version, { workspaceRoot });
+assert.strictEqual(unsafeInputPcdResult.accepted, false);
+assert(unsafeInputPcdResult.blockers.includes('materialization_result_input_pcd_0_ref_path_invalid'));
 fs.rmSync(workspaceRoot, { recursive: true, force: true });
 
 assert.strictEqual(parseMaterializationResult('no materialization line'), null);

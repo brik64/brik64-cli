@@ -126,6 +126,18 @@
         to files that exist under the workspace and hash to the declared refs.
       - Boundary:
         this hardens future acceptance; no endpoint result currently exists.
+- [x] Verify materialization input PCD refs against workspace files.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        when `workspaceRoot` is present, accepted endpoint results must point
+        every `inputPcds[]` entry to an existing file under the workspace whose
+        SHA-256 matches the declared ref.
+      - Boundary:
+        this closes stale/missing/tampered input PCD evidence acceptance; no
+        L6 endpoint result currently exists.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

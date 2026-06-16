@@ -25,6 +25,10 @@ const REQUIRED_FILE_REFS = [
   ['sealReport', null],
 ];
 
+function blockerFieldName(refField) {
+  return String(refField).replace(/\[[^\]]+\]/g, '').replace(/[^A-Za-z0-9_]/g, '_');
+}
+
 function parseMaterializationResult(text) {
   const source = String(text || '');
   const line = source
@@ -53,30 +57,35 @@ function sha256File(file) {
 
 function validateFileRef(result, refField, hashField, blockers, expected) {
   const ref = result[refField];
+  return validateStandaloneFileRef(ref, refField, hashField ? result[hashField] : null, blockers, expected);
+}
+
+function validateStandaloneFileRef(ref, refField, expectedSha256, blockers, expected) {
+  const blockerField = blockerFieldName(refField);
   if (!ref || typeof ref !== 'object') {
-    blockers.push(`materialization_result_${refField}_ref_missing`);
+    blockers.push(`materialization_result_${blockerField}_ref_missing`);
     return null;
   }
   if (typeof ref.path !== 'string' || ref.path.length === 0 || pathLooksUnsafe(ref.path)) {
-    blockers.push(`materialization_result_${refField}_ref_path_invalid`);
+    blockers.push(`materialization_result_${blockerField}_ref_path_invalid`);
   }
   if (!isSha256(ref.sha256)) {
-    blockers.push(`materialization_result_${refField}_ref_sha256_invalid`);
+    blockers.push(`materialization_result_${blockerField}_ref_sha256_invalid`);
   }
-  if (hashField && isSha256(ref.sha256) && isSha256(result[hashField])) {
-    if (normalizeSha256(ref.sha256) !== normalizeSha256(result[hashField])) {
-      blockers.push(`materialization_result_${refField}_ref_sha256_mismatch`);
+  if (expectedSha256 && isSha256(ref.sha256) && isSha256(expectedSha256)) {
+    if (normalizeSha256(ref.sha256) !== normalizeSha256(expectedSha256)) {
+      blockers.push(`materialization_result_${blockerField}_ref_sha256_mismatch`);
     }
   }
   if (typeof expected.workspaceRoot === 'string' && ref && typeof ref.path === 'string' && !pathLooksUnsafe(ref.path)) {
     const resolved = path.resolve(expected.workspaceRoot, ref.path);
     const root = path.resolve(expected.workspaceRoot);
     if (!(resolved === root || resolved.startsWith(`${root}${path.sep}`))) {
-      blockers.push(`materialization_result_${refField}_ref_path_outside_workspace`);
+      blockers.push(`materialization_result_${blockerField}_ref_path_outside_workspace`);
     } else if (!fs.existsSync(resolved) || !fs.statSync(resolved).isFile()) {
-      blockers.push(`materialization_result_${refField}_ref_file_missing`);
+      blockers.push(`materialization_result_${blockerField}_ref_file_missing:${ref.path}`);
     } else if (isSha256(ref.sha256) && sha256File(resolved) !== normalizeSha256(ref.sha256)) {
-      blockers.push(`materialization_result_${refField}_ref_file_sha256_mismatch`);
+      blockers.push(`materialization_result_${blockerField}_ref_file_sha256_mismatch:${ref.path}`);
     }
   }
   return ref;
@@ -132,11 +141,12 @@ function validateMaterializationResult(result, version, expected = {}) {
     blockers.push('materialization_result_input_pcds_missing');
   }
   if (Array.isArray(result.inputPcds)) {
-    for (const item of result.inputPcds) {
+    for (const [index, item] of result.inputPcds.entries()) {
       if (!item || typeof item.path !== 'string' || !isSha256(item.sha256)) {
         blockers.push('materialization_result_input_pcd_ref_invalid');
         break;
       }
+      validateStandaloneFileRef(item, `input_pcd_${index}`, null, blockers, expected);
     }
     const actualPaths = new Set(result.inputPcds.map((item) => item && item.path).filter(Boolean));
     for (const requiredPath of expected.requiredInputPcdPaths || []) {

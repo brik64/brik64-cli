@@ -64,6 +64,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   the CLI consumer must resolve every declared evidence file ref under the
   active workspace root and verify that the file exists and hashes to the
   declared SHA-256.
+- Materialization input PCD file policy: when validating a real endpoint result,
+  every declared input PCD ref must resolve under the active workspace root,
+  exist as a file and hash to its declared SHA-256. A future endpoint cannot
+  satisfy the aggregate input-set hash with stale, missing, tampered or unsafe
+  per-PCD references.
 
 ## Phases
 
