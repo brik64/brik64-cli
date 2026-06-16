@@ -1,0 +1,49 @@
+{
+  "version": "1.0.0",
+  "generator": "brikc_cli_l6plus route2 bounded emitter",
+  "issuer": "BRIK-64 L6+ internal non-claim",
+  "engine": "l6_plus",
+  "engine_tier": "internal_generation",
+  "lane": "internal_adaptive",
+  "claim_authority": "non_claim",
+  "public_claim_allowed": false,
+  "numeric_domain": {
+    "schema_version": "brik64.numeric_domain_engine_output.v1",
+    "engine_id": "l6_plus",
+    "engine_tier": "internal_generation",
+    "claim_authority": "internal_non_claim",
+    "certifies_tests": false,
+    "analysis_status": "parse_failed",
+    "profile_required": false,
+    "numeric_domain_profile_hashes": [],
+    "validation_issues": [],
+    "guard_stability_findings": [],
+    "backend_profile_required_for_strong_certification": true,
+    "non_claim_reason": "L6+ internal source was not accepted by the canonical parser; numeric evidence is not claim-bearing.",
+    "parse_error": "Syntax error in PCD file: hand parser: Expected ';' at line 4, column 29; pest parser: Parse error: parsing error: expected statement"
+  },
+  "source": {
+    "pc": "public_surface_sync",
+    "function": "public_surface_sync",
+    "hash_sha256": "275ae6f7ac98e0491ecd7b67d554e395ecc4fcb91ead2890aac48312412d6a35",
+    "language": "pcd"
+  },
+  "certification": {
+    "level": "ROUTE2_BOUNDED_INTERNAL",
+    "domain_safe": true,
+    "deterministic": true,
+    "total_statements": 7,
+    "certifies_full_repository": false
+  },
+  "target": {
+    "language": "js",
+    "file": "public_surface_sync.js",
+    "hash_sha256": "ad7331152dbd755c69a763713cd02b366b19865113fa07fee65a75fdf7cd4951"
+  },
+  "non_claims": [
+    "does not certify full repository correctness",
+    "does not certify external source authority",
+    "does not certify security or deployment behavior",
+    "does not certify future changes"
+  ]
+}

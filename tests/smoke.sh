@@ -17,7 +17,7 @@ node "$BRIK" --help | grep -q "verify <file.pcd>"
 node "$BRIK" --help | grep -q "migrate <file.pcd>"
 node "$BRIK" --help | grep -q "explain <file.pcd>"
 node "$BRIK" --help | grep -q "telemetry status"
-node "$BRIK" engine status | grep -q '"runtimeMode": "portable_bir_bundle"'
+node "$BRIK" engine status | grep -q '"runtimeProfile": "portable_local_runtime"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
@@ -26,7 +26,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ] || [ "$BETA_LABEL" = "beta15_4" ]; then
+  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ] || [ "$BETA_LABEL" = "beta15_4" ] || [ "$BETA_LABEL" = "beta15_5" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
@@ -54,7 +54,7 @@ fi
   node "$BRIK" init
   test -f .brik/manifest.json
   test ! -f AGENTS.md
-  node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.engineTierPolicy.registeredManagedRuntime !== "managed_platform") process.exit(1)'
+  node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.engineTierPolicy.managedRuntime !== "managed_platform") process.exit(1)'
   node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.preferred_engine !== "auto" || m.polymer_strategy !== "local_ast" || m.managed_platform.routing !== "local_default") process.exit(1)'
   node "$BRIK" account status | grep -q "tier: free"
   if node "$BRIK" login --token-env BRIK64_MISSING_TOKEN >/tmp/brik-login.out 2>/tmp/brik-login.err; then
@@ -249,12 +249,12 @@ cp program.pcd pcd/program.pcd
 node "$BRIK" lock --files pcd/program.pcd | grep -q "lock=brik64.lock.json"
 test -f brik64.lock.json
 node -e 'const fs=require("fs"); const l=JSON.parse(fs.readFileSync("brik64.lock.json","utf8")); if (l.schemaVersion !== "brik64.cli_lockfile.v1" || l.releaseEligible !== false || l.pcds.length !== 1) process.exit(1)'
-node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); m.engineTierPolicy.l6DistributionAllowed=true; fs.writeFileSync(".brik/manifest.json", JSON.stringify(m,null,2)+"\n")'
+node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); m.engineTierPolicy.publicDistribution=true; fs.writeFileSync(".brik/manifest.json", JSON.stringify(m,null,2)+"\n")'
 if node "$BRIK" doctor >/tmp/brik-bad-tier.out 2>/tmp/brik-bad-tier.err; then
   echo "doctor should fail closed on L6 distribution" >&2
   exit 1
 fi
-grep -q "engine_tier_policy_l6_distribution_open" /tmp/brik-bad-tier.err
+grep -q "engine_tier_policy_public_distribution_open" /tmp/brik-bad-tier.err
 )
 
 cat >"$tmpdir/leaf.pcd" <<'PCD'

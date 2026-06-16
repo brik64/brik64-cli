@@ -1,61 +1,52 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.15.4",
-  "state": "public",
-  "manifestDigest": "29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
+  "version": "0.1.0-beta.15.5",
+  "state": "draft",
+  "manifestDigest": "7e0a21e10036cc7eb52cd34cadb9bf445de908ed9ce3242eda1ecd56eeeec849",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": true,
+  "releaseEligible": false,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
-      "bytes": 4871
+      "sha256": "7e0a21e10036cc7eb52cd34cadb9bf445de908ed9ce3242eda1ecd56eeeec849",
+      "bytes": 4558
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.15.4"
+      "version": "0.1.0-beta.15.5"
     },
     "evidence": [
       {
-        "id": "beta15_4_rust_polymer_domain",
-        "path": "evidence/beta15_4-rust-polymer-domain/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE",
-        "sha256": "7fa6ab3776e880f1ba45431fa151da76bae81ab85e3e8ac81ec3762213a84f02"
+        "id": "beta15_5_rust_f64_command_lift",
+        "path": "evidence/beta15_5-rust-f64-command-lift/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
+        "sha256": "bc217aa1f5b75e39408113f9cf29b098cf608b16389ccc3f71a79a8528614e4b"
       },
       {
-        "id": "beta15_4_stale_public_surface",
-        "path": "evidence/beta15_4-stale-public-surface/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE",
-        "sha256": "b16b7dbc9947628d974467b6a02dd12b79f43801135b5463c53f5ee9967c57bd"
+        "id": "beta15_5_pre_public_rc",
+        "path": "evidence/beta15_5-pre-public-rc/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
+        "sha256": "679295c1bbb9acdfdcfc114ce9489c1c6b211205092d0e3aa93b69073049144c"
       },
       {
-        "id": "beta15_4_pre_public_rc",
-        "path": "evidence/beta15_4-pre-public-rc/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE",
-        "sha256": "2512ea6b373bf35f6d131d3fe7af67002580f3fec2b7b6543624bcb228c06ad4"
+        "id": "beta15_5_package",
+        "path": "evidence/beta15_5-package/package.manifest.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
+        "sha256": "056095c2d2807ba1bd324add6b19a1832f5e13335c018c7409b5f7d926111700"
       },
       {
-        "id": "beta15_4_package",
-        "path": "evidence/beta15_4-package/package.manifest.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT",
-        "sha256": "8cc1201f34c5a9e2b33677f9aedd774804fda9ed4881f7b01a732ff5ab9da80e"
-      },
-      {
-        "id": "beta15_4_package_smoke",
-        "path": "evidence/beta15_4-package-smoke/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE",
-        "sha256": "57bacf15c360ffd70e049bdf80ae13a50fa11746742ed2ccbee71c3e0a419d84"
+        "id": "beta15_5_package_smoke",
+        "path": "evidence/beta15_5-package-smoke/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
+        "sha256": "48e03013d711a29ea4c2ffb7d1a44e746ff42b1469f66616b21546e0807f043f"
       }
     ]
   },
   "failures": [],
-  "warnings": [
-    "worktree_dirty_allowed:1"
-  ]
+  "warnings": []
 }

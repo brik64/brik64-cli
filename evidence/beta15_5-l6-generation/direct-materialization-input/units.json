@@ -1,0 +1,47 @@
+{
+  "version": "0.1.0-beta.15.5",
+  "units": [
+    {
+      "id": "pcd_beta15_5_release_l6_cli_materialization_contract",
+      "sourcePath": "pcd/beta15_5/release/l6_cli_materialization_contract.pcd",
+      "pcd": "pcd/pcd_beta15_5_release_l6_cli_materialization_contract.pcd",
+      "sheet": "technical-sheets/pcd_beta15_5_release_l6_cli_materialization_contract.json"
+    },
+    {
+      "id": "pcd_beta15_5_release_l6_cli_materialization_result_contract",
+      "sourcePath": "pcd/beta15_5/release/l6_cli_materialization_result_contract.pcd",
+      "pcd": "pcd/pcd_beta15_5_release_l6_cli_materialization_result_contract.pcd",
+      "sheet": "technical-sheets/pcd_beta15_5_release_l6_cli_materialization_result_contract.json"
+    },
+    {
+      "id": "pcd_beta15_5_cli_rust_f64_polymer_codegen",
+      "sourcePath": "pcd/beta15_5/cli/rust_f64_polymer_codegen.pcd",
+      "pcd": "pcd/pcd_beta15_5_cli_rust_f64_polymer_codegen.pcd",
+      "sheet": "technical-sheets/pcd_beta15_5_cli_rust_f64_polymer_codegen.json"
+    },
+    {
+      "id": "pcd_beta15_5_harness_lift_roundtrip_gate",
+      "sourcePath": "pcd/beta15_5/harness/lift_roundtrip_gate.pcd",
+      "pcd": "pcd/pcd_beta15_5_harness_lift_roundtrip_gate.pcd",
+      "sheet": "technical-sheets/pcd_beta15_5_harness_lift_roundtrip_gate.json"
+    },
+    {
+      "id": "pcd_beta15_5_release_public_surface_sync",
+      "sourcePath": "pcd/beta15_5/release/public_surface_sync.pcd",
+      "pcd": "pcd/pcd_beta15_5_release_public_surface_sync.pcd",
+      "sheet": "technical-sheets/pcd_beta15_5_release_public_surface_sync.json"
+    },
+    {
+      "id": "pcd_cli_core",
+      "sourcePath": "pcd/cli_core.pcd",
+      "pcd": "pcd/pcd_cli_core.pcd",
+      "sheet": "technical-sheets/pcd_cli_core.json"
+    },
+    {
+      "id": "pcd_cli_polymer",
+      "sourcePath": "pcd/cli_polymer.pcd",
+      "pcd": "pcd/pcd_cli_polymer.pcd",
+      "sheet": "technical-sheets/pcd_cli_polymer.json"
+    }
+  ]
+}

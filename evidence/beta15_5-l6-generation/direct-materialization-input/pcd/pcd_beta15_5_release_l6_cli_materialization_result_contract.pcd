@@ -1,0 +1,47 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_5_source_contract: l6_cli_materialization_result_contract
+PC l6_cli_materialization_result_contract {
+    fn l6_cli_materialization_result_contract(
+        cli_scope_beta15_5,
+        result_line_emitted,
+        l6plus_serial_bound,
+        materializer_mode_bound,
+        pcd_input_set_hash_matches,
+        materializer_request_hash_matches,
+        remote_wrapper_hash_matches,
+        wrapper_exec_target_hash_matches,
+        generated_artifact_hash_bound,
+        generated_artifact_ref_safe,
+        generated_artifact_ref_hash_matches,
+        package_hash_bound,
+        package_ref_safe,
+        package_ref_hash_matches,
+        release_manifest_hash_bound,
+        release_manifest_ref_safe,
+        release_manifest_ref_hash_matches,
+        seal_report_ref_safe,
+        seal_report_pass
+    ) {
+        if (cli_scope_beta15_5 == 0) { return 0; }
+        if (result_line_emitted == 0) { return 0; }
+        if (l6plus_serial_bound == 0) { return 0; }
+        if (materializer_mode_bound == 0) { return 0; }
+        if (pcd_input_set_hash_matches == 0) { return 0; }
+        if (materializer_request_hash_matches == 0) { return 0; }
+        if (remote_wrapper_hash_matches == 0) { return 0; }
+        if (wrapper_exec_target_hash_matches == 0) { return 0; }
+        if (generated_artifact_hash_bound == 0) { return 0; }
+        if (generated_artifact_ref_safe == 0) { return 0; }
+        if (generated_artifact_ref_hash_matches == 0) { return 0; }
+        if (package_hash_bound == 0) { return 0; }
+        if (package_ref_safe == 0) { return 0; }
+        if (package_ref_hash_matches == 0) { return 0; }
+        if (release_manifest_hash_bound == 0) { return 0; }
+        if (release_manifest_ref_safe == 0) { return 0; }
+        if (release_manifest_ref_hash_matches == 0) { return 0; }
+        if (seal_report_ref_safe == 0) { return 0; }
+        if (seal_report_pass == 0) { return 0; }
+        return 1;
+    }
+}

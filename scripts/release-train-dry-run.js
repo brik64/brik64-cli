@@ -227,6 +227,16 @@ function beta15_4L6MaterializerGapGate() {
   });
 }
 
+function blockedSurfaceGate(name, reason) {
+  return run(name, ['node', '-e', `
+    console.error(${JSON.stringify(reason)});
+    process.exit(1);
+  `], {
+    stdoutLimit: 12000,
+    stderrLimit: 12000
+  });
+}
+
 function candidateBranchCommands(version) {
   if (version === '0.1.0-beta.9') {
     return [
@@ -547,6 +557,28 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.15.5') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta15_5_rust_f64_command_lift', ['npm', 'run', 'gate:beta15.5:rust-f64-command-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_5_pre_public_rc', ['npm', 'run', 'gate:beta15.5:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_5_local_package', ['npm', 'run', 'package:beta15.5:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta15_5_package_smoke', ['npm', 'run', 'smoke:beta15.5:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [
@@ -645,6 +677,37 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })
+    ];
+  }
+
+  if (manifest.version === '0.1.0-beta.15.5') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta15_5_rust_f64_command_lift', ['npm', 'run', 'gate:beta15.5:rust-f64-command-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_5_pre_public_rc', ['npm', 'run', 'gate:beta15.5:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_5_local_package', ['npm', 'run', 'package:beta15.5:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(manifest.version),
+      run('beta15_5_package_smoke', ['npm', 'run', 'smoke:beta15.5:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      ...(manifest.state === 'draft'
+        ? []
+        : [
+            blockedSurfaceGate('beta15_5_sdk_sync', 'beta15_5_sdk_sync_pending_public_surface_update'),
+            blockedSurfaceGate('beta15_5_marketplace_packages', 'beta15_5_marketplace_publication_pending'),
+            blockedSurfaceGate('beta15_5_skills_sync', 'beta15_5_skills_sync_pending_public_surface_update'),
+            blockedSurfaceGate('beta15_5_docs_web_sync', 'beta15_5_docs_web_sync_pending_public_surface_update')
+          ])
     ];
   }
 

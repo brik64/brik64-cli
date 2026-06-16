@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "brik64.cli_beta15_5_package_smoke_report.v1",
+  "version": "0.1.0-beta.15.5",
+  "decision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "checked": [
+    "package_sha",
+    "embedded_beta15_5_evidence",
+    "embedded_beta15_5_rust_polymer_domain_gate",
+    "version",
+    "ledger_help",
+    "certify",
+    "polymer_explicit_root",
+    "python_emit_package_layout",
+    "generated_python_tests",
+    "ledger_missing_head_fail_closed",
+    "ledger_tamper_fail_closed",
+    "claim_report_contradiction_fail_closed"
+  ]
+}

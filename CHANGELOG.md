@@ -3,6 +3,35 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.5
+
+### Added
+
+- Adds command-help coverage for project setup, verification, engine status,
+  account status, telemetry, feedback, error handling, domains, and adoption
+  workflows.
+- Adds a generated lift roundtrip gate that emits and runs tests for lifted
+  Python, JavaScript, and Rust candidates across TypeScript, Python, and Rust
+  targets.
+- Adds package smoke coverage for the Beta15.5 candidate archive and evidence
+  bundle.
+
+### Fixed
+
+- Fixes generated Rust output for floating-point polymer domains so clamp bounds
+  and comparisons remain floating-point expressions in generated code.
+- Fixes lifted numeric candidates so generated PCDs include conservative bounded
+  domains by default.
+- Keeps adversarial fixture failures out of normal project doctor checks while
+  preserving full-scope diagnostics for audit workspaces.
+
+### Compatibility
+
+- This beta remains a candidate until public installer, GitHub release, web,
+  docs, SDKs, skills, changelog, and live verification are synchronized.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.4
 
 ### Added

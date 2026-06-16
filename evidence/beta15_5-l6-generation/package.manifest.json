@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "brik64.cli_beta15_5_l6_package_manifest.v1",
+  "version": "0.1.0-beta.15.5",
+  "decision": "PASS_BETA15_5_L6_PACKAGE_MANIFEST",
+  "artifactToPackageHashBound": true,
+  "packageToReleaseManifestHashBound": true,
+  "packageSha256": "0d44d3c88c8594dde4169b9b9bea6034e3735a0ea4c9d5d2b39cd440c3d5dd89",
+  "releaseManifestSha256": "7e0a21e10036cc7eb52cd34cadb9bf445de908ed9ce3242eda1ecd56eeeec849",
+  "releasePublicationAllowed": true,
+  "blockers": []
+}
