@@ -632,7 +632,20 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
   }
 
   if (manifest.version === '0.1.0-beta.15.4') {
-    return candidateBranchCommands(manifest.version);
+    if (manifest.state === 'draft') return candidateBranchCommands(manifest.version);
+    return [
+      cliL6GenerationRequiredGate(),
+      beta15_4L6MaterializerGapGate(),
+      run('beta15_4_pre_public_rc', ['npm', 'run', 'gate:beta15.4:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(manifest.version),
+      run('beta15_4_package_smoke', ['npm', 'run', 'smoke:beta15.4:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
   }
 
   return [

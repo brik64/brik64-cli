@@ -5,14 +5,11 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15.4`
-Previous/live public baseline until promotion: `0.1.0-beta.15`
+Current public beta: `0.1.0-beta.15.4`
 
 ## Install
 
-The public CLI install path remains curl-only. Until the Beta15 release train is
-promoted and live-verified, the live installer may still serve the previous
-public beta:
+The public CLI install path remains curl-only:
 
 ```sh
 curl -fsSL https://brik64.com/cli/install.sh | bash
@@ -27,15 +24,14 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15.4 Pre-Public Candidate Boundary
+## Beta15.4 Boundary
 
-`0.1.0-beta.15.4` is staged as a pre-public maintenance candidate for generated
+`0.1.0-beta.15.4` is a maintenance beta for generated
 application integrity: tuple monomer emission, cleaner generated Rust, generated
 test execution, certifiable polymer PCD output, local traceability, and
-claim-safe project reports. Public release claims remain closed until atomic
-public-surface verification passes.
+claim-safe project reports.
 
-## Beta15.4 Candidate Command Surface
+## Beta15.4 Command Surface
 
 The candidate keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -71,13 +67,12 @@ paths fail closed and keep local artifacts unchanged.
 ## SDK Boundary
 
 SDKs are distributed separately from the CLI. Beta15.4 SDK marketplace
-coordinates are pending release-train synchronization. Until that gate passes,
-use the last published SDK baseline documented by the public release surface:
+coordinates are:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.15.2
-pip install brik64==0.1.0b15.post2
-cargo add brik64-core@0.1.0-beta.15.2
+npm install @brik64/core@0.1.0-beta.15.4
+pip install brik64==0.1.0b15.post4
+cargo add brik64-core@0.1.0-beta.15.4
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed

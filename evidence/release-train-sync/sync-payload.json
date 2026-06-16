@@ -1,55 +1,33 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.14.6",
-  "version": "0.1.0-beta.14.6",
+  "releaseId": "brik64-0.1.0-beta.15.4",
+  "version": "0.1.0-beta.15.4",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "5e01e140d3710c1597f78f461311055090be7fec6455361f496f4d11c0918ab5",
+  "manifestDigest": "29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.14.6",
   "sdkInstall": {
-    "typescript": {
-      "marketplace": "npm",
-      "package": "@brik64/core",
-      "version": "0.1.0-beta.14.6"
-    },
-    "python": {
-      "marketplace": "pypi",
-      "package": "brik64",
-      "version": "0.1.0b14.post6"
-    },
-    "rust": {
+    "undefined": {
       "marketplace": "crates.io",
-      "package": "brik64-core",
-      "version": "0.1.0-beta.14.6"
+      "version": "0.1.0-beta.15.4"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.14.6\n\n### Added\n\n- Adds bounded domain declarations for parameter ranges, invariants, conditional domains, and technical-sheet parameters.\n- Adds domain inspect, validate, sheet, and add commands for bounded PCD workflows.\n\n### Changed\n\n- Requires complete bounded domain contracts by default for local candidate certificates.\n- Generated TypeScript, Python, and Rust outputs now include domain contract hashes and fail-closed precondition checks.\n- Polymer manifests now include source and composite domain contract hashes.\n",
+  "changelogMarkdown": "## 0.1.0-beta.15.4\n\n### Fixed\n\n- Generated Rust app-polymer output keeps domain assertions inside generated function scope.\n\n### Added\n\n- Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions.\n\n### Changed\n\n- Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references.\n",
   "releaseNotes": [
     {
-      "type": "added",
-      "surface": "pcd",
-      "text": "Adds bounded domain declarations for parameter ranges, invariants, conditional domains, and technical-sheet parameters."
+      "type": "fixed",
+      "surface": "cli",
+      "text": "Generated Rust app-polymer output keeps domain assertions inside generated function scope."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Adds domain inspect, validate, sheet, and add commands for bounded PCD workflows."
+      "text": "Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions."
     },
     {
       "type": "changed",
-      "surface": "certify",
-      "text": "Requires complete bounded domain contracts by default for local candidate certificates."
-    },
-    {
-      "type": "changed",
-      "surface": "emit",
-      "text": "Generated TypeScript, Python, and Rust outputs now include domain contract hashes and fail-closed precondition checks."
-    },
-    {
-      "type": "changed",
-      "surface": "polymerize",
-      "text": "Polymer manifests now include source and composite domain contract hashes."
+      "surface": "release",
+      "text": "Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references."
     }
   ]
 }
