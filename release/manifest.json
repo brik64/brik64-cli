@@ -3,14 +3,14 @@
   "releaseId": "brik64-0.1.0-beta.15.5",
   "version": "0.1.0-beta.15.5",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-16T12:00:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "671154d6c38801beb2fabadb820ad54d73dedbc3",
-    "pullRequest": null,
-    "commitBinding": "candidate_base_commit"
+    "commit": "9b16f626011e3a48510af0a2f65fb7e82b6ed7ac",
+    "pullRequest": 188,
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -19,12 +19,12 @@
     "package": {
       "name": "brik64-cli-0.1.0-beta.15.5.tgz",
       "path": "evidence/beta15_5-package/brik64-cli-0.1.0-beta.15.5.tgz",
-      "sha256": "0d44d3c88c8594dde4169b9b9bea6034e3735a0ea4c9d5d2b39cd440c3d5dd89",
-      "size_bytes": 638020
+      "sha256": "d51bb41f2e4b44fb65114afdcdd339064a17271f1129a3c84b74025e85d1bbca",
+      "size_bytes": 597060
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
-      "releasePublicationAllowed": false,
+      "releasePublicationAllowed": true,
       "formalCertificationClaimAllowed": false,
       "fixpointPublicClaimAllowed": false,
       "selfHostingPublicClaimAllowed": false,
@@ -37,50 +37,50 @@
       "marketplace": "npm",
       "name": "@brik64/core",
       "version": "0.1.0-beta.15.5",
-      "publication": "pending_release_train"
+      "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
       "version": "0.1.0b15.post5",
-      "publication": "pending_release_train"
+      "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
       "version": "0.1.0-beta.15.5",
-      "publication": "pending_release_train"
+      "publication": "pending_release_train_publish"
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "status": "pending_release_train",
+      "status": "pending_release_train_publish",
       "tag": "v0.1.0-beta.15.5"
     },
     "curlInstaller": {
       "required": true,
-      "status": "pending_release_train",
+      "status": "pending_release_train_publish",
       "url": "https://brik64.com/cli/install.sh"
     },
     "channelManifest": {
       "required": true,
-      "status": "pending_release_train",
+      "status": "pending_release_train_publish",
       "url": "https://brik64.com/cli/beta.json"
     },
     "web": {
       "required": true,
-      "status": "pending_release_train",
+      "status": "pending_release_train_publish",
       "url": "https://brik64.com/download"
     },
     "docs": {
       "required": true,
-      "status": "pending_release_train",
+      "status": "pending_release_train_publish",
       "url": "https://docs.brik64.com"
     },
     "skills": {
       "required": true,
-      "status": "pending_release_train",
+      "status": "pending_release_train_publish",
       "repo": "brik64/brik64-tools-skills"
     }
   },
@@ -110,27 +110,27 @@
   },
   "githubReleaseDraft": {
     "tagName": "v0.1.0-beta.15.5",
-    "targetCommitish": "671154d6c38801beb2fabadb820ad54d73dedbc3",
-    "isDraft": true,
+    "targetCommitish": "9b16f626011e3a48510af0a2f65fb7e82b6ed7ac",
+    "isDraft": false,
     "isPrerelease": true,
     "assets": [
       {
         "name": "brik64-cli-0.1.0-beta.15.5.tgz",
-        "sha256": "0d44d3c88c8594dde4169b9b9bea6034e3735a0ea4c9d5d2b39cd440c3d5dd89",
-        "size_bytes": 638020
+        "sha256": "d51bb41f2e4b44fb65114afdcdd339064a17271f1129a3c84b74025e85d1bbca",
+        "size_bytes": 597060
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "PENDING_BETA15_5_SHA256SUMS",
-        "size_bytes": 0
+        "sha256": "2508d012d269e15e6cba64af8922328ecea8aa0fc6edc6071cf32c2a4950e145",
+        "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "9967c1c721dfcdef0bd9d7221c8d58421971ae846b84753270f8841797dee252",
+        "sha256": "56e5b2c8d96a7e39d2752ce168cb4f9c2485df26f1ffad1b58404f913932baed",
         "size_bytes": 1929
       }
     ],
-    "targetCommitishBinding": "candidate_base_commit"
+    "targetCommitishBinding": "github_verified_squash_commit"
   },
   "releaseNotes": [
     {

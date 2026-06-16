@@ -1,17 +1,16 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.15.4",
-  "version": "0.1.0-beta.15.4",
-  "manifestDigest": "29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
-  "sourceHead": "e151788",
+  "releaseId": "brik64-0.1.0-beta.15.5",
+  "version": "0.1.0-beta.15.5",
+  "manifestDigest": "ddab39383057e30539a482208ae7c3e3e01f35124bffcd0dd1b39e6d220dc8e1",
+  "sourceHead": "1206db2",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "evidence/beta15_4-pre-public-rc/report.json",
-    "evidence/beta15_4-rust-polymer-domain/report.json",
-    "evidence/beta15_4-stale-public-surface/report.json",
+    "evidence/beta15_5-pre-public-rc/report.json",
+    "evidence/beta15_5-rust-f64-command-lift/report.json",
     "evidence/cli-l6-generation-required/report.json"
   ],
   "commandPreflight": [
@@ -26,7 +25,7 @@
       "mutatesPublicSurface": true,
       "pass": false,
       "failures": [
-        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.4.tgz"
+        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.5.tgz"
       ]
     },
     {
@@ -34,7 +33,7 @@
       "mutatesPublicSurface": true,
       "pass": false,
       "failures": [
-        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post4*"
+        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post5*"
       ]
     },
     {
@@ -82,11 +81,11 @@
   ],
   "executed": [],
   "blockers": [
-    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.4.tgz",
-    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post4*"
+    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.5.tgz",
+    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post5*"
   ],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:4"
+    "worktree_dirty_dry_run:3"
   ]
 }

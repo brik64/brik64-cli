@@ -1,46 +1,46 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.15.4",
-  "version": "0.1.0-beta.15.4",
+  "releaseId": "brik64-0.1.0-beta.15.5",
+  "version": "0.1.0-beta.15.5",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "cc17b069220baf53e01d6feb40f16be5f382824730990c0c2d3e7e97968974ee",
+  "manifestDigest": "ddab39383057e30539a482208ae7c3e3e01f35124bffcd0dd1b39e6d220dc8e1",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.4",
-  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.4",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.5",
+  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.5",
   "sdkInstall": {
     "npm": {
       "name": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.15.4"
+      "version": "0.1.0-beta.15.5"
     },
     "pypi": {
       "name": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b15.post4"
+      "version": "0.1.0b15.post5"
     },
     "crates.io": {
       "name": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.15.4"
+      "version": "0.1.0-beta.15.5"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.15.4\n\n### Fixed\n\n- Generated Rust app-polymer output keeps domain assertions inside generated function scope.\n\n### Added\n\n- Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions.\n\n### Changed\n\n- Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references.\n",
+  "changelogMarkdown": "## 0.1.0-beta.15.5\n\n### Fixed\n\n- Generated Rust polymer output preserves floating-point bounds and comparisons.\n\n### Added\n\n- Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets.\n\n### Changed\n\n- Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics.\n",
   "releaseNotes": [
     {
       "type": "fixed",
       "surface": "cli",
-      "text": "Generated Rust app-polymer output keeps domain assertions inside generated function scope."
+      "text": "Generated Rust polymer output preserves floating-point bounds and comparisons."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions."
+      "text": "Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets."
     },
     {
       "type": "changed",
       "surface": "release",
-      "text": "Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references."
+      "text": "Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics."
     }
   ]
 }

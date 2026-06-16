@@ -5,7 +5,8 @@
   "releaseEligible": false,
   "checked": [
     "package_sha",
-    "embedded_beta15_5_evidence",
+    "external_beta15_5_evidence",
+    "mutable_evidence_excluded_from_package",
     "embedded_beta15_5_rust_polymer_domain_gate",
     "version",
     "ledger_help",

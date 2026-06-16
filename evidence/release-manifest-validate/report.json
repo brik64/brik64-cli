@@ -2,15 +2,15 @@
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.15.5",
-  "state": "draft",
-  "manifestDigest": "7e0a21e10036cc7eb52cd34cadb9bf445de908ed9ce3242eda1ecd56eeeec849",
+  "state": "public",
+  "manifestDigest": "ddab39383057e30539a482208ae7c3e3e01f35124bffcd0dd1b39e6d220dc8e1",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "7e0a21e10036cc7eb52cd34cadb9bf445de908ed9ce3242eda1ecd56eeeec849",
-      "bytes": 4558
+      "sha256": "ddab39383057e30539a482208ae7c3e3e01f35124bffcd0dd1b39e6d220dc8e1",
+      "bytes": 4682
     },
     "packageJson": {
       "path": "package.json",
@@ -22,21 +22,21 @@
         "path": "evidence/beta15_5-rust-f64-command-lift/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
-        "sha256": "bc217aa1f5b75e39408113f9cf29b098cf608b16389ccc3f71a79a8528614e4b"
+        "sha256": "fbb1b84fc570d81e5a1b339fd6f649d1924b558653b4d191b515205cd98ad84b"
       },
       {
         "id": "beta15_5_pre_public_rc",
         "path": "evidence/beta15_5-pre-public-rc/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
-        "sha256": "679295c1bbb9acdfdcfc114ce9489c1c6b211205092d0e3aa93b69073049144c"
+        "sha256": "11111157d4325b96722ed26a6a02bfb89bb13f752cbf321e717a2dc664dbce3e"
       },
       {
         "id": "beta15_5_package",
         "path": "evidence/beta15_5-package/package.manifest.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
-        "sha256": "056095c2d2807ba1bd324add6b19a1832f5e13335c018c7409b5f7d926111700"
+        "sha256": "56e5b2c8d96a7e39d2752ce168cb4f9c2485df26f1ffad1b58404f913932baed"
       },
       {
         "id": "beta15_5_package_smoke",

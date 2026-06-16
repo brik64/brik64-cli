@@ -74,18 +74,23 @@ package_path="$ROOT_DIR/$package_rel"
 [[ "$release_eligible" == "false" ]] || { echo "beta15_5_candidate_should_not_be_public_release_eligible" >&2; exit 1; }
 [[ "$(sha256_file "$package_path")" == "$package_sha" ]] || { echo "package_hash_mismatch" >&2; exit 1; }
 
+jq -e '.decision == "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE"' "$ROOT_DIR/evidence/beta15_5-pre-public-rc/report.json" >/dev/null || {
+  echo "external_beta15_5_pre_public_gate_not_pass" >&2
+  exit 1
+}
+jq -e '.decision == "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE"' "$ROOT_DIR/evidence/beta15_5-rust-f64-command-lift/report.json" >/dev/null || {
+  echo "external_beta15_5_rust_f64_command_lift_gate_not_pass" >&2
+  exit 1
+}
+
 run_pass extract "" tar -xzf "$package_path" -C "$TMP_DIR"
 EXTRACTED="$TMP_DIR/brik64-cli-$VERSION"
 BRIK="$EXTRACTED/src/brik.js"
 WORK_DIR="$TMP_DIR/work"
 mkdir -p "$WORK_DIR"
 
-[[ -f "$EXTRACTED/evidence/beta15_5-pre-public-rc/report.json" ]] || {
-  echo "package_missing_beta15_5_pre_public_evidence" >&2
-  exit 1
-}
-jq -e '.decision == "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE"' "$EXTRACTED/evidence/beta15_5-pre-public-rc/report.json" >/dev/null || {
-  echo "package_beta15_5_pre_public_gate_not_pass" >&2
+[[ ! -e "$EXTRACTED/evidence/beta15_5-pre-public-rc/report.json" ]] || {
+  echo "package_contains_mutable_beta15_5_pre_public_evidence" >&2
   exit 1
 }
 [[ -f "$EXTRACTED/pcd/beta15_5/cli/rust_f64_polymer_codegen.pcd" ]] || {
@@ -100,12 +105,8 @@ jq -e '.decision == "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE"' "$EXTRACTED/e
   echo "package_missing_beta15_5_public_surface_contract" >&2
   exit 1
 }
-[[ -f "$EXTRACTED/evidence/beta15_5-rust-f64-command-lift/report.json" ]] || {
-  echo "package_missing_beta15_5_rust_f64_command_lift_evidence" >&2
-  exit 1
-}
-jq -e '.decision == "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE"' "$EXTRACTED/evidence/beta15_5-rust-f64-command-lift/report.json" >/dev/null || {
-  echo "package_beta15_5_rust_f64_command_lift_gate_not_pass" >&2
+[[ ! -e "$EXTRACTED/evidence/beta15_5-rust-f64-command-lift/report.json" ]] || {
+  echo "package_contains_mutable_beta15_5_rust_f64_command_lift_evidence" >&2
   exit 1
 }
 
@@ -207,7 +208,8 @@ jq -n \
     releaseEligible:false,
     checked:[
       "package_sha",
-      "embedded_beta15_5_evidence",
+      "external_beta15_5_evidence",
+      "mutable_evidence_excluded_from_package",
       "embedded_beta15_5_rust_polymer_domain_gate",
       "version",
       "ledger_help",

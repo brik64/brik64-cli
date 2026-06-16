@@ -86,8 +86,6 @@ inputs=(
   "pcd/beta15_2"
   "pcd/beta15_3"
   "pcd/beta15_5"
-  "evidence/beta15_5-pre-public-rc/report.json"
-  "evidence/beta15_5-rust-f64-command-lift/report.json"
   "engines/l4plus-n5/serial.txt"
   "engines/l4plus-n5/checksums.tsv"
   "engines/l4plus-n5/runtime-bundle.manifest.json"

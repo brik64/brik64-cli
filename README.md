@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15.5`
+Current public beta: `0.1.0-beta.15.5`
 
 ## Install
 
@@ -26,14 +26,14 @@ The npm package namespace is reserved for SDK libraries, not CLI installation.
 
 ## Beta15.5 Boundary
 
-`0.1.0-beta.15.5` is a candidate beta for generated application integrity:
+`0.1.0-beta.15.5` is a public beta for generated application integrity:
 floating-point domain emission in Rust polymers, command help coverage, generated
 test execution across TypeScript, Python, and Rust, certifiable polymer PCD
 output, local traceability, and claim-safe project reports.
 
 ## Beta15.5 Command Surface
 
-The candidate keeps the local workflow focused on explicit bounded-domain PCD
+The public beta keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
 
 - `brik64 init` creates `.brik/manifest.json` plus `.brik/ledger/` local trace
