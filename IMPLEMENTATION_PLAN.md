@@ -88,6 +88,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Candidate release manifest policy: `release/manifest.json` must match the
   active CLI candidate version exactly. Matching `package.json` is not enough;
   a stale release manifest must fail the L6 generation required gate.
+- Source commit binding policy: draft candidate manifests may use
+  `source.commitBinding = candidate_base_commit` because a manifest cannot
+  hash-bind to the commit that contains itself. Public manifests must use
+  `source.commitBinding = release_ref_exact` and match the verified release
+  commit/ref.
 - Materializer output ref policy: the L6 materializer request must point to the
   actual candidate package artifact path. For Beta15.4 this is
   `evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz`.

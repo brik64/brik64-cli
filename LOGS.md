@@ -590,3 +590,37 @@ Boundary:
 - This closes candidate metadata drift and a stale manifest bypass.
 - It does not implement the L6 materializer endpoint, generate the missing
   artifact, or publish Beta15.4.
+
+## Iteration 23
+
+- Added explicit source commit binding semantics to
+  `release/manifest.json`.
+  - Draft/candidate manifests may use `candidate_base_commit`.
+  - Public manifests must use `release_ref_exact`.
+- Hardened `scripts/release-manifest-validate.js`:
+  - candidate manifests reject missing/unknown commit binding;
+  - public manifests reject `candidate_base_commit`;
+  - public manifests reject stale release refs when an expected head/ref is
+    provided or available from git.
+- Added `scripts/tests/test_release_manifest_source_commit_binding.sh` with
+  adversarial coverage for:
+  - draft candidate base commit accepted;
+  - public candidate-base binding rejected;
+  - public stale release ref rejected;
+  - public exact release ref accepted.
+
+Evidence:
+
+- `bash scripts/tests/test_release_manifest_source_commit_binding.sh` passed.
+- `bash scripts/tests/test_cli_l6_generation_required_gate.sh` passed.
+- `node scripts/release-manifest-validate.js --allow-dirty` passed for the
+  draft Beta15.4 manifest.
+- `npm run gate:cli:l6-generation-required` still fails closed on missing
+  L6 artifact/package/release hash bindings.
+
+Boundary:
+
+- This closes the manifest self-reference ambiguity for draft vs public
+  release evidence.
+- It does not implement the L6 materializer endpoint, generate the missing
+  artifact, or publish Beta15.4.

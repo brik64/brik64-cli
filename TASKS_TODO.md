@@ -205,3 +205,15 @@
       - Boundary:
         this closes candidate metadata drift. It does not implement the missing
         L6 materializer endpoint or publish Beta15.4.
+
+- [x] Add explicit release manifest source commit binding rules.
+      - Validator:
+        `scripts/release-manifest-validate.js`.
+      - Test:
+        `scripts/tests/test_release_manifest_source_commit_binding.sh`.
+      - Result:
+        draft manifests may use `candidate_base_commit`; public manifests must
+        use `release_ref_exact` and match the expected release commit/ref.
+      - Boundary:
+        this prevents a draft self-reference workaround from being promoted as
+        a public release hash binding.

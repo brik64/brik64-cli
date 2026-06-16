@@ -9,7 +9,8 @@
     "repo": "brik64/brik64-cli",
     "branch": "codex/beta15-4-rust-polymer-l6",
     "commit": "10e51bfa351e9297b017b44745e03f5682917052",
-    "pullRequest": "https://github.com/brik64/brik64-cli/pull/184"
+    "pullRequest": "https://github.com/brik64/brik64-cli/pull/184",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -133,7 +134,8 @@
         "sha256": "b54e1e78557a984ae233ccd718a81b657344615d4ca0e56c107b199a6abecc66",
         "size_bytes": 1925
       }
-    ]
+    ],
+    "targetCommitishBinding": "candidate_base_commit"
   },
   "releaseNotes": [
     {
