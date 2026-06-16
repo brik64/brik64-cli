@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_6_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.6",
-  "generatedAt": "2026-06-16T21:38:44.088Z",
+  "generatedAt": "2026-06-16T21:43:04.186Z",
   "decision": "PASS_BETA15_6_L6_GENERATION_GATE",
   "publicationAllowed": true,
   "releasePublicationAllowed": true,
@@ -32,7 +32,7 @@
     "materializerContractAccepted": true,
     "expectedMaterializationContext": {
       "pcdInputSetSha256": "7bf8159dcb97e78a7c3fdf8becf3612c8fe1dda4b0a1152df5851c32d6ead45e",
-      "materializerRequestSha256": "a27bf097994543256e3fcddca5c028dbf2330ff97073c319868935059dd09929",
+      "materializerRequestSha256": "9377ce2b1a7c36df7424f1998d7e857a4d8edca29a5b9168984eea12a19789e6",
       "remoteWrapperSha256": "6e35c0d118c2f1d160297040a50d8cf033c6bfa1a8c12ac38980d88d106bb5cd",
       "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
       "requiredInputPcdPaths": [
@@ -55,7 +55,7 @@
         "@@FILE:<l6_cli_materialization_contract.pcd>"
       ],
       "status": 0,
-      "stdout_sha256": "cbde9c71b8274d969febdc965e796fb0a36b1e11c2896d91f857a9e321aea18b",
+      "stdout_sha256": "8d2d8fdff3970260a88558fe8947706d66a93af1c83ff4a8e92ba7d9e1865af6",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "observed": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\teyJzY2hlbWFWZXJzaW9uIjoiYnJpazY0Lmw2cGx1c19jbGlfbWF0ZXJpYWxpemF0aW9uX3Jlc3VsdC52MSIsInZlcnNpb24iOiIwLjEuMC1iZXRhLjE1LjYiLCJsNnBsdXNFbmdpbmVTZXJpYWwiOiJCUklLNjQtTDZQTFVTLU41LTIwMjYwNjA1LUJFVEE2TVAtNjYwZGU5NTciLCJtYXRlcmlhbGl6ZXJNb2RlIjoibDZwbHVzX3BjZF9wb2x5bWVyX21hdGVyaWFsaXplciIsImdlbmVyYXRlZEJ5TDZQbHVzTjUiOnRydWUsInBjZFRvQXJ0aWZhY3RIYXNoQm91bmQiOnRydWUsImFydGlmYWN0VG9QYWNrYWdlSGFzaEJvdW5kIjp0cnVlLCJwYWNrYWdlVG9SZWxlYXNlTWFuaWZlc3RIYXNoQm91bmQiOnRydWUsInNlYWx",
       "materializationResult": {

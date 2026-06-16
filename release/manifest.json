@@ -19,9 +19,9 @@
     "package": {
       "name": "brik64-cli-0.1.0-beta.15.6.tgz",
       "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
-      "sha256": "17fe4445b5081a4fa67e06c5240b67a44273450152d6807aa4cd240383c64e57",
-      "size_bytes": 607300,
-      "bytes": 607300,
+      "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
+      "size_bytes": 608324,
+      "bytes": 608324,
       "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz"
     },
     "claimBoundary": {
@@ -33,7 +33,7 @@
       "n5FormalClaimAllowed": false,
       "rustIndependenceClaimAllowed": false
     },
-    "packageManifestSha256": "189fd428af193e529e8530311c358c1e30a6de2256df7a955284e5c9c9935bfa"
+    "packageManifestSha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5"
   },
   "sdks": [
     {
@@ -119,17 +119,17 @@
     "assets": [
       {
         "name": "brik64-cli-0.1.0-beta.15.6.tgz",
-        "sha256": "17fe4445b5081a4fa67e06c5240b67a44273450152d6807aa4cd240383c64e57",
-        "size_bytes": 607300
+        "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
+        "size_bytes": 608324
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "32c87961a6ecee9c4450b12cef988e513e3bb76e1de46837dc579d98bfaf1017",
+        "sha256": "f118e7e174427db948e8b072fb120da6c511b98a966419466792873fdf312982",
         "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "189fd428af193e529e8530311c358c1e30a6de2256df7a955284e5c9c9935bfa",
+        "sha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5",
         "size_bytes": 1740
       }
     ],
@@ -157,5 +157,5 @@
       "text": "Engine status reports the offline beta runtime profile used by the local CLI."
     }
   ],
-  "generatedAt": "2026-06-16T21:18:32.838Z"
+  "generatedAt": "2026-06-16T21:42:54.379Z"
 }
