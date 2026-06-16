@@ -9,8 +9,8 @@
     },
     {
       "path": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
-      "sha256": "644a60b1675e7948deca308881f1dd76e860b85c38b448daa9e8f50434674920",
-      "bytes": 1782
+      "sha256": "cd518de165a412d4f4d72992f7b9ffc8554162d52447dd711cf8176f816e9f96",
+      "bytes": 2805
     },
     {
       "path": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",
@@ -33,7 +33,7 @@
       "bytes": 2146
     }
   ],
-  "pcdInputSetSha256": "1d71d77c1d006dac52a9c2d95053dfa7b7118a9fced5ac2a0a52e8f089d46d7b",
+  "pcdInputSetSha256": "89f42e453363bd36f31d6fd05f1542fe018c9614bf7292509268683287f8b377",
   "generatedArtifact": null,
   "package": null,
   "releaseManifest": null

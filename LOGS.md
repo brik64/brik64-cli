@@ -349,3 +349,40 @@ Boundary:
 - This closes a detached-hash evidence-pack bypass in the future endpoint
   contract.
 - It does not implement the materializer endpoint or publish Beta15.4.
+
+## Iteration 16
+
+- Updated `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`
+  so the PCD source contract now expresses the same file-ref closure enforced
+  by the CLI parser:
+  - generated artifact ref is safe;
+  - generated artifact ref hash matches;
+  - package ref is safe;
+  - package ref hash matches;
+  - release manifest ref is safe;
+  - release manifest ref hash matches;
+  - seal report ref is safe.
+- Regenerated the local candidate certificate for the result contract PCD.
+- Re-ran the Beta15.4 L6 generation attempt so `input_pcd_hashes.tsv`,
+  `hashes.json`, `generated_artifact_manifest.json` and `gate-report.json`
+  carry the updated result-contract hash.
+
+Evidence:
+
+- `node src/brik.js certify pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`
+  passed.
+- `node src/brik.js verify pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`
+  passed after the certificate was written.
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  blockers because no L6-generated artifact/package/release binding exists.
+- Updated PCD input-set hash:
+  `89f42e453363bd36f31d6fd05f1542fe018c9614bf7292509268683287f8b377`.
+
+Boundary:
+
+- This aligns the PCD source contract with the stricter parser and prod
+  operator packet.
+- It does not implement the materializer endpoint or publish Beta15.4.

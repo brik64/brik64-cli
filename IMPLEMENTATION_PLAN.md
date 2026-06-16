@@ -56,6 +56,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   relative, safe file refs for generated artifact, package, release manifest
   and seal report. The artifact/package/release refs must match the declared
   hashes, so a result cannot pass with detached hash strings only.
+- PCD result-closure policy: `l6_cli_materialization_result_contract.pcd`
+  must encode the same file-ref closure as domains, including safe refs and
+  ref-hash matches for generated artifact, package and release manifest plus a
+  safe seal-report ref.
 
 ## Phases
 

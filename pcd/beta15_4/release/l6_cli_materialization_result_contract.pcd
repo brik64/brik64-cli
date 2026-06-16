@@ -10,8 +10,15 @@ PC l6_cli_materialization_result_contract {
     domain remote_wrapper_hash_matches: i64 [0, 1];
     domain wrapper_exec_target_hash_matches: i64 [0, 1];
     domain generated_artifact_hash_bound: i64 [0, 1];
+    domain generated_artifact_ref_safe: i64 [0, 1];
+    domain generated_artifact_ref_hash_matches: i64 [0, 1];
     domain package_hash_bound: i64 [0, 1];
+    domain package_ref_safe: i64 [0, 1];
+    domain package_ref_hash_matches: i64 [0, 1];
     domain release_manifest_hash_bound: i64 [0, 1];
+    domain release_manifest_ref_safe: i64 [0, 1];
+    domain release_manifest_ref_hash_matches: i64 [0, 1];
+    domain seal_report_ref_safe: i64 [0, 1];
     domain seal_report_pass: i64 [0, 1];
     fn l6_cli_materialization_result_contract(
         cli_scope_beta15_4: i64,
@@ -22,8 +29,15 @@ PC l6_cli_materialization_result_contract {
         remote_wrapper_hash_matches: i64,
         wrapper_exec_target_hash_matches: i64,
         generated_artifact_hash_bound: i64,
+        generated_artifact_ref_safe: i64,
+        generated_artifact_ref_hash_matches: i64,
         package_hash_bound: i64,
+        package_ref_safe: i64,
+        package_ref_hash_matches: i64,
         release_manifest_hash_bound: i64,
+        release_manifest_ref_safe: i64,
+        release_manifest_ref_hash_matches: i64,
+        seal_report_ref_safe: i64,
         seal_report_pass: i64
     ) -> i64 {
         if (cli_scope_beta15_4 == 0) return 0;
@@ -34,8 +48,15 @@ PC l6_cli_materialization_result_contract {
         if (remote_wrapper_hash_matches == 0) return 0;
         if (wrapper_exec_target_hash_matches == 0) return 0;
         if (generated_artifact_hash_bound == 0) return 0;
+        if (generated_artifact_ref_safe == 0) return 0;
+        if (generated_artifact_ref_hash_matches == 0) return 0;
         if (package_hash_bound == 0) return 0;
+        if (package_ref_safe == 0) return 0;
+        if (package_ref_hash_matches == 0) return 0;
         if (release_manifest_hash_bound == 0) return 0;
+        if (release_manifest_ref_safe == 0) return 0;
+        if (release_manifest_ref_hash_matches == 0) return 0;
+        if (seal_report_ref_safe == 0) return 0;
         if (seal_report_pass == 0) return 0;
         return 1;
     }

@@ -102,6 +102,18 @@
       - Boundary:
         this validates the future evidence pack shape; it does not create the
         missing L6-generated artifact.
+- [x] Encode materialization file-ref closure in the Beta15.4 result PCD.
+      - PCD:
+        `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`.
+      - Certificate:
+        `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd.cert.json`.
+      - Result:
+        the PCD now includes domains for safe refs and ref-hash matches for
+        generated artifact, package and release manifest plus a safe seal-report
+        ref.
+      - Boundary:
+        this aligns the source contract with parser behavior; it does not
+        generate the missing artifact.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

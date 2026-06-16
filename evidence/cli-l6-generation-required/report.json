@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-16T00:24:01.507Z",
+  "generatedAt": "2026-06-16T00:33:00.588Z",
   "version": "0.1.0-beta.15.4",
   "label": "beta15_4",
   "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,22 +18,22 @@
     "dir": "evidence/beta15_4-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "72f3d767f1ee713645057f209ecb331f2d6f2a3774f9d84bc3aadc34e3ee7138",
+      "sha256": "bbb8e3b7dc6ee200458194b5cca43f5a01f52993453641deb15f49e4871c6363",
       "sizeBytes": 6395
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "cc2b3feb23427142e23b332e6e8f4106f3d27e1d2a3de417683b9bc580c4b0b3",
+      "sha256": "c8b7b77abb76df32969381fc92d604ca10d7c4852b46ecd767394345a39d2700",
       "sizeBytes": 1629
     },
     "input_pcd_hashes.tsv": {
       "path": "evidence/beta15_4-l6-generation/input_pcd_hashes.tsv",
-      "sha256": "1d71d77c1d006dac52a9c2d95053dfa7b7118a9fced5ac2a0a52e8f089d46d7b",
+      "sha256": "89f42e453363bd36f31d6fd05f1542fe018c9614bf7292509268683287f8b377",
       "sizeBytes": 685
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "86935dbba66a94cebf955662227a3571e854d8cb9fca1aeef55db4ecbe06969c",
+      "sha256": "1e5309cdc5c971c8268fe2f1352dd2218357f5f20c05c67dc465bb762bcd5c5a",
       "sizeBytes": 1648
     },
     "package.manifest.json": {
@@ -48,7 +48,7 @@
     },
     "hashes.json": {
       "path": "evidence/beta15_4-l6-generation/hashes.json",
-      "sha256": "a006eceb5b7c8b0130b31f0fe19f7e8bde030d7bad98398ce4e92e95aec9f310",
+      "sha256": "f2cc87dbdbc99d34715502a9185e3359f58d8a84e0b87407accdc14dc6558ae6",
       "sizeBytes": 1346
     }
   },
