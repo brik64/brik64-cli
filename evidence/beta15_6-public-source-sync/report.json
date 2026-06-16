@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "brik64.cli_beta15_6_public_source_sync_gate.v1",
+  "version": "0.1.0-beta.15.6",
+  "pythonVersion": "0.1.0b15.post6",
+  "decision": "PASS_BETA15_6_PUBLIC_SOURCE_SYNC",
+  "releaseEligible": true,
+  "artifacts": [
+    {
+      "id": "js_sdk",
+      "repo": "brik64-admin/brik64-lib-js",
+      "file": "package.json",
+      "bytes": 1220
+    },
+    {
+      "id": "python_sdk",
+      "repo": "brik64-admin/brik64-lib-python",
+      "file": "pyproject.toml",
+      "bytes": 663
+    },
+    {
+      "id": "rust_sdk",
+      "repo": "brik64-admin/brik64-lib-rust",
+      "file": "Cargo.toml",
+      "bytes": 738
+    },
+    {
+      "id": "skills",
+      "repo": "brik64/brik64-tools-skills",
+      "file": "skills/brik64/SKILL.md",
+      "bytes": 9920
+    },
+    {
+      "id": "docs",
+      "repo": "brik64-admin/brik64-docs-site",
+      "file": "sdks.mdx",
+      "bytes": 1494
+    },
+    {
+      "id": "web",
+      "repo": "brik64-admin/brik64.com",
+      "file": "public/cli/beta.json",
+      "bytes": 362
+    }
+  ],
+  "failures": []
+}

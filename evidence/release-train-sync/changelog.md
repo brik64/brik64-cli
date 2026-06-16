@@ -1,13 +1,14 @@
-## 0.1.0-beta.15.5
+## 0.1.0-beta.15.6
 
 ### Fixed
 
-- Generated Rust polymer output preserves floating-point bounds and comparisons.
+- The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests.
+- Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches.
 
 ### Added
 
-- Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets.
+- Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression.
 
 ### Changed
 
-- Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics.
+- Engine status reports the offline beta runtime profile used by the local CLI.

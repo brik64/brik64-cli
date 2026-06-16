@@ -7,7 +7,7 @@ const https = require('https');
 const root = path.resolve(__dirname, '..');
 const outDir = path.join(root, 'evidence', 'beta15_6-marketplace-packages');
 const version = '0.1.0-beta.15.6';
-const pyVersion = '0.1.0b15.post5';
+const pyVersion = '0.1.0b15.post6';
 
 function run(command, args) {
   const result = childProcess.spawnSync(command, args, { cwd: root, encoding: 'utf8' });

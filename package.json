@@ -257,7 +257,11 @@
     "test:beta15.1-package": "bash scripts/beta15_1-package-smoke.sh",
     "package:beta14.6:local": "bash scripts/build-beta14_6-package.sh",
     "smoke:beta14.6:package": "bash scripts/beta14_6-package-smoke.sh",
-    "test:beta14.6-package": "bash scripts/beta14_6-package-smoke.sh"
+    "test:beta14.6-package": "bash scripts/beta14_6-package-smoke.sh",
+    "gate:beta15.6:marketplace-packages": "node scripts/beta15_6-marketplace-package-gate.js",
+    "gate:beta15.6:public-source-sync": "node scripts/beta15_6-public-source-sync-gate.js",
+    "test:beta15.6-marketplace-packages": "node scripts/beta15_6-marketplace-package-gate.js",
+    "test:beta15.6-public-source-sync": "node scripts/beta15_6-public-source-sync-gate.js"
   },
   "author": {
     "name": "BRIK64 INC",
