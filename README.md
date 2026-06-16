@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.15.4`
+Current beta candidate: `0.1.0-beta.15.5`
 
 ## Install
 
@@ -24,14 +24,14 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15.4 Boundary
+## Beta15.5 Boundary
 
-`0.1.0-beta.15.4` is a maintenance beta for generated
-application integrity: tuple monomer emission, cleaner generated Rust, generated
-test execution, certifiable polymer PCD output, local traceability, and
-claim-safe project reports.
+`0.1.0-beta.15.5` is a candidate beta for generated application integrity:
+floating-point domain emission in Rust polymers, command help coverage, generated
+test execution across TypeScript, Python, and Rust, certifiable polymer PCD
+output, local traceability, and claim-safe project reports.
 
-## Beta15.4 Command Surface
+## Beta15.5 Command Surface
 
 The candidate keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -66,13 +66,13 @@ paths fail closed and keep local artifacts unchanged.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. Beta15.4 SDK marketplace
+SDKs are distributed separately from the CLI. Beta15.5 SDK marketplace
 coordinates are:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.15.4
-pip install brik64==0.1.0b15.post4
-cargo add brik64-core@0.1.0-beta.15.4
+npm install @brik64/core@0.1.0-beta.15.5
+pip install brik64==0.1.0b15.post5
+cargo add brik64-core@0.1.0-beta.15.5
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed
@@ -89,7 +89,7 @@ establish native Windows compatibility.
 
 ## Local Ledger
 
-Beta15.4 records selected workspace actions in `.brik/ledger/events.jsonl` with
+Beta15.5 records selected workspace actions in `.brik/ledger/events.jsonl` with
 a hash chain and `.brik/ledger/head.json` head pointer. Event payloads are
 redacted by default: raw source, raw PCD content, absolute paths, and secrets are
 not written to the ledger event body.

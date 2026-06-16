@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "brik64.cli_beta15_5_l6_hashes.v1",
+  "version": "0.1.0-beta.15.5",
+  "inputPcds": [
+    {
+      "path": "pcd/beta15_5/release/l6_cli_materialization_contract.pcd",
+      "sha256": "8cf3bff3bf2b786dd34b93de6af974324b8e7983f75855b701c3b04e1f80067f",
+      "bytes": 810
+    },
+    {
+      "path": "pcd/beta15_5/release/l6_cli_materialization_result_contract.pcd",
+      "sha256": "503d1820249df7c4967de5da4a48179660cd5477e2974093bee4f3ca8189902a",
+      "bytes": 2005
+    },
+    {
+      "path": "pcd/beta15_5/cli/rust_f64_polymer_codegen.pcd",
+      "sha256": "0c4969cbca34ba3d21b8a533f27ce6a98c17dd59abc1ed7e9e501f6e21434d54",
+      "bytes": 495
+    },
+    {
+      "path": "pcd/beta15_5/harness/lift_roundtrip_gate.pcd",
+      "sha256": "8d34a80582a103db4ab502a5f122f9eeb15235cb414b55bcd1562149355a4538",
+      "bytes": 638
+    },
+    {
+      "path": "pcd/beta15_5/release/public_surface_sync.pcd",
+      "sha256": "275ae6f7ac98e0491ecd7b67d554e395ecc4fcb91ead2890aac48312412d6a35",
+      "bytes": 638
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+      "bytes": 2047
+    }
+  ],
+  "pcdInputSetSha256": "c05293098675effa61d214072ed3ed7de698703282b4010b53e4997801973912",
+  "generatedArtifact": "2b97dfdb9ca58410cde4b7a5328a1f710213d02b5d76a1e19ba544c337a1bdf3",
+  "package": "0d44d3c88c8594dde4169b9b9bea6034e3735a0ea4c9d5d2b39cd440c3d5dd89",
+  "releaseManifest": "7e0a21e10036cc7eb52cd34cadb9bf445de908ed9ce3242eda1ecd56eeeec849"
+}

@@ -1,0 +1,163 @@
+{
+  "schemaVersion": "brik64.cli_beta15_5_l6_generation_gate.v1",
+  "version": "0.1.0-beta.15.5",
+  "generatedAt": "2026-06-16T14:30:59.483Z",
+  "decision": "PASS_BETA15_5_L6_GENERATION_GATE",
+  "publicationAllowed": true,
+  "releasePublicationAllowed": true,
+  "claimBoundary": {
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "blockers": [],
+  "remoteCapability": {
+    "wrapperMode": "unknown",
+    "wrapper": {
+      "sha256": "3ac21ef62d2cdfc3554c4599017415e7fd97ed5152dd2cc83f41cf6f56e4360a",
+      "bytes": 63615392,
+      "target": "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus"
+    },
+    "wrapperExecTarget": null,
+    "current": {
+      "sha256": "95ce6f70f65f1fcf9a2862d185ee8e91be8a50dafc3cc6dee6356b28eb32a45b",
+      "bytes": 0,
+      "target": "/opt/brik64/engines/l6plus-n5/BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957"
+    },
+    "materializerContractAccepted": true,
+    "expectedMaterializationContext": {
+      "pcdInputSetSha256": "c05293098675effa61d214072ed3ed7de698703282b4010b53e4997801973912",
+      "materializerRequestSha256": "6283b130f08d78fe8583fe1efd3e3d7105f21bc57f62a23101a8590a7bc361e6",
+      "remoteWrapperSha256": "3ac21ef62d2cdfc3554c4599017415e7fd97ed5152dd2cc83f41cf6f56e4360a",
+      "wrapperExecTargetSha256": "3ac21ef62d2cdfc3554c4599017415e7fd97ed5152dd2cc83f41cf6f56e4360a",
+      "requiredInputPcdPaths": [
+        "pcd/beta15_5/release/l6_cli_materialization_contract.pcd",
+        "pcd/beta15_5/release/l6_cli_materialization_result_contract.pcd",
+        "pcd/beta15_5/cli/rust_f64_polymer_codegen.pcd",
+        "pcd/beta15_5/harness/lift_roundtrip_gate.pcd",
+        "pcd/beta15_5/release/public_surface_sync.pcd",
+        "pcd/cli_core.pcd",
+        "pcd/cli_polymer.pcd"
+      ],
+      "workspaceRoot": "/private/tmp/brik64-cli-beta15.5"
+    }
+  },
+  "attempts": [
+    {
+      "command": [
+        "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus",
+        "l6-cli-materialize",
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "79cc9a2413fe1140e72e7c9bcb2ff2d2195973a8262cb4e265e28a41e4484628",
+      "observed": "brikc_cli_l6plus: L6+ general compile/certify path is fail-closed outside the bounded route-2 non-claim emitter",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus",
+        "beta15.5-cli-materialize",
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "79cc9a2413fe1140e72e7c9bcb2ff2d2195973a8262cb4e265e28a41e4484628",
+      "observed": "brikc_cli_l6plus: L6+ general compile/certify path is fail-closed outside the bounded route-2 non-claim emitter",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus",
+        "compile",
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "596146ba6dd269a7c8911afec6012dc5050e9b8f35e584bb255b7145ff3290ae",
+      "observed": "brikc_cli_l6plus: options.technicalSheet is required for L6+ internal compile/certification",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus",
+        "route2",
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "79cc9a2413fe1140e72e7c9bcb2ff2d2195973a8262cb4e265e28a41e4484628",
+      "observed": "brikc_cli_l6plus: L6+ general compile/certify path is fail-closed outside the bounded route-2 non-claim emitter",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus",
+        "materialize",
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "79cc9a2413fe1140e72e7c9bcb2ff2d2195973a8262cb4e265e28a41e4484628",
+      "observed": "brikc_cli_l6plus: L6+ general compile/certify path is fail-closed outside the bounded route-2 non-claim emitter",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus",
+        "emit",
+        "@@FILE:<l6_cli_materialization_contract.pcd>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "79cc9a2413fe1140e72e7c9bcb2ff2d2195973a8262cb4e265e28a41e4484628",
+      "observed": "brikc_cli_l6plus: L6+ general compile/certify path is fail-closed outside the bounded route-2 non-claim emitter",
+      "materializationResult": null,
+      "materializationValidation": {
+        "accepted": false,
+        "blockers": [
+          "materialization_result_missing_or_invalid"
+        ]
+      }
+    }
+  ],
+  "directRoute2Materialization": {
+    "present": true,
+    "accepted": true,
+    "blockers": [],
+    "binary": "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus"
+  },
+  "nextAction": "implement or expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest before Beta15.5 publication"
+}

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "brik64.cli_beta15_5_l6plus_engine_probe.v1",
+  "version": "0.1.0-beta.15.5",
+  "generatedAt": "2026-06-16T14:30:59.482Z",
+  "host": "root@89.167.104.236",
+  "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "hostProbe": {
+    "status": 0,
+    "stdout_sha256": "ca724b393fb1ec04ecf86e29f1ca8505d1b77064fe7850c88a2884c2e42e3f9c",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "auditDecision": "PASS"
+  },
+  "remoteRefProbe": {
+    "status": 0,
+    "stdout_sha256": "52d4f70a5a472494025c7833697e9dc16ac13b5972c5481ab85c5ac6da207842",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "remoteRefs": {
+    "wrapper": {
+      "sha256": "3ac21ef62d2cdfc3554c4599017415e7fd97ed5152dd2cc83f41cf6f56e4360a",
+      "bytes": 63615392,
+      "target": "/opt/brik64/builds/brik64-prod-e5d6fdba1-min/target/debug/brikc_cli_l6plus"
+    },
+    "current": {
+      "sha256": "95ce6f70f65f1fcf9a2862d185ee8e91be8a50dafc3cc6dee6356b28eb32a45b",
+      "bytes": 0,
+      "target": "/opt/brik64/engines/l6plus-n5/BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957"
+    }
+  },
+  "wrapperMode": "unknown",
+  "materializerRequest": {
+    "path": "evidence/beta15_5-l6-materializer-request/request.manifest.json",
+    "sha256": "9ad67896316eb9d25005cded19e21c0fc8034d743db441b2aa1ea609bf04e939",
+    "requestLineSha256": "6283b130f08d78fe8583fe1efd3e3d7105f21bc57f62a23101a8590a7bc361e6",
+    "accepted": true
+  }
+}

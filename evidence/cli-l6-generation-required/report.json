@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-16T07:10:01.898Z",
-  "version": "0.1.0-beta.15.4",
-  "label": "beta15_4",
+  "generatedAt": "2026-06-16T14:45:36.283Z",
+  "version": "0.1.0-beta.15.5",
+  "label": "beta15_5",
   "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",
   "policy": {
     "requirement": "Every new public BRIK64 CLI version must include direct L6+N5 generation evidence before release.",
@@ -15,41 +15,41 @@
     ]
   },
   "evidence": {
-    "dir": "evidence/beta15_4-l6-generation",
+    "dir": "evidence/beta15_5-l6-generation",
     "gate-report.json": {
-      "path": "evidence/beta15_4-l6-generation/gate-report.json",
-      "sha256": "b0ae85695f436f57454ca5a38b88939983a3f76996871e200a3f843001fec62c",
-      "sizeBytes": 6690
+      "path": "evidence/beta15_5-l6-generation/gate-report.json",
+      "sha256": "49eb2dcb7055151fdaba0e5a8794c564a4552c32f4b67b3c5547d5d95d718333",
+      "sizeBytes": 6702
     },
     "l6plus_engine_manifest.json": {
-      "path": "evidence/beta15_4-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "5908af29504a2fd07c2246bb5e3a962e0c3c688148427e7d55f6db99b49b8b7f",
+      "path": "evidence/beta15_5-l6-generation/l6plus_engine_manifest.json",
+      "sha256": "40fde5786d961505c44da10ca89bb1a94f870b44ad2ad9d0912c1034acdfb752",
       "sizeBytes": 1712
     },
     "input_pcd_hashes.tsv": {
-      "path": "evidence/beta15_4-l6-generation/input_pcd_hashes.tsv",
-      "sha256": "33679861b7a5ff74ada9a22aa7ca3500dc996a911069c4ffdb7be43b98ba6a6a",
-      "sizeBytes": 685
+      "path": "evidence/beta15_5-l6-generation/input_pcd_hashes.tsv",
+      "sha256": "c05293098675effa61d214072ed3ed7de698703282b4010b53e4997801973912",
+      "sizeBytes": 779
     },
     "generated_artifact_manifest.json": {
-      "path": "evidence/beta15_4-l6-generation/generated_artifact_manifest.json",
-      "sha256": "11cf07ff848604d2b03a125b0cd7d631647a37cacdadb57024618629523113f3",
-      "sizeBytes": 1511
+      "path": "evidence/beta15_5-l6-generation/generated_artifact_manifest.json",
+      "sha256": "19abeb034c54ea7ff7194701a1e8bdda49c71a826e9cb509da00ba6452d14166",
+      "sizeBytes": 1669
     },
     "package.manifest.json": {
-      "path": "evidence/beta15_4-l6-generation/package.manifest.json",
-      "sha256": "283dff404992b7ab6d8db60e45d89e0ea09848ac9e607fb1372afbaea181eaf0",
+      "path": "evidence/beta15_5-l6-generation/package.manifest.json",
+      "sha256": "f645abaff6f109d4b4c5358b54628d62f20903fa3d890cdcdb729467bd21cad1",
       "sizeBytes": 471
     },
     "seal_report.json": {
-      "path": "evidence/beta15_4-l6-generation/seal_report.json",
-      "sha256": "cebaf6e8159df9f7e34f0eeb73dfdb61c85a0a74ef49aedd8f2c70d4b88c8bb9",
+      "path": "evidence/beta15_5-l6-generation/seal_report.json",
+      "sha256": "0da60424e1172e61c02f96e7de0577fb4c833ee050f13d5557f0e5223d64df3c",
       "sizeBytes": 241
     },
     "hashes.json": {
-      "path": "evidence/beta15_4-l6-generation/hashes.json",
-      "sha256": "77e5836c2ee4a35d501b5ea5803d94029f07e302ab43903a6490c3ef81e7011a",
-      "sizeBytes": 1532
+      "path": "evidence/beta15_5-l6-generation/hashes.json",
+      "sha256": "3fbf047e826ab5d920328e922bce6aa3a7b8a56e0ce3784e79fb3e9f4bd88696",
+      "sizeBytes": 1690
     }
   },
   "checks": {

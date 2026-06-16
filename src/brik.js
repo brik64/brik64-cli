@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.4';
+const version = '0.1.0-beta.15.5';
 const RELEASE_STATUS = 'pre_public_candidate';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
@@ -547,12 +547,24 @@ const CORE_MONOMER_BY_KEY = Object.fromEntries(CORE_MONOMERS.map((spec) => [spec
 const CORE_MONOMER_BY_ID = Object.fromEntries(CORE_MONOMERS.map((spec) => [spec.id, spec]));
 
 const COMMAND_HELP = {
+  init: [
+    'init',
+    'Creates the local .brik workspace manifest and append-only evidence ledger.',
+    'Example:',
+    '  brik64 init'
+  ],
   certify: [
     'certify <file.pcd>',
     'Writes a local candidate certificate beside the PCD.',
     'Example:',
     '  brik64 template --type gate --out pcd/order_gate.pcd',
     '  brik64 certify pcd/order_gate.pcd'
+  ],
+  verify: [
+    'verify <file.pcd>',
+    'Checks a local candidate certificate against the current PCD bytes.',
+    'Example:',
+    '  brik64 verify pcd/order_gate.pcd'
   ],
   explain: [
     'explain <file.pcd> [--json]',
@@ -602,10 +614,52 @@ const COMMAND_HELP = {
     '  brik64 lift js src/pricing.js --preview --json'
   ],
   doctor: [
-    'doctor [--json]',
+    'doctor [--json] [--scope <project|all>]',
     'Checks manifest policy, PCD inventory, and PCD parse health.',
     'Example:',
-    '  brik64 doctor --json'
+    '  brik64 doctor --scope project --json'
+  ],
+  engine: [
+    'engine status',
+    'Inspects the packaged public local runtime profile without exposing internal factory details.',
+    'Example:',
+    '  brik64 engine status'
+  ],
+  account: [
+    'account status [--json]',
+    'Shows local account routing state. Default beta routing remains local unless a managed session is present.',
+    'Example:',
+    '  brik64 account status --json'
+  ],
+  telemetry: [
+    'telemetry status [--json]',
+    'Shows local telemetry preference state.',
+    'Example:',
+    '  brik64 telemetry status --json'
+  ],
+  errors: [
+    'errors status [--json]',
+    'Shows local automatic error reporting preference state.',
+    'Example:',
+    '  brik64 errors status --json'
+  ],
+  feedback: [
+    'feedback [--message <text>] [--json]',
+    'Records local beta feedback for explicit user-submitted review.',
+    'Example:',
+    '  brik64 feedback --message "emit worked for my project" --json'
+  ],
+  domain: [
+    'domain inspect <file.pcd> [--json]',
+    'Reports bounded domain declarations and claim-bearing eligibility for a PCD.',
+    'Example:',
+    '  brik64 domain inspect pcd/order_gate.pcd --json'
+  ],
+  adoption: [
+    'adoption report [--json] [--out <file>]',
+    'Summarizes local lift previews and PCD inventory for migration planning.',
+    'Example:',
+    '  brik64 adoption report --json'
   ],
   template: [
     'template --type <gate|utility|numeric-monomer> --out <file.pcd> [--force]',
@@ -1214,13 +1268,17 @@ function expressionTypeCompatible(actualType, expectedType) {
 }
 
 function inferExpressionType(expression, paramTypes) {
-  if (expression.type === 'NumberLiteral') return expression.numericType || (Number.isInteger(expression.value) ? 'i64' : 'f64');
-  if (expression.type === 'ConstLiteral') return expression.literalType || 'i64';
-  if (expression.type === 'Identifier') return paramTypes[expression.name] || 'unknown';
+  function remember(type) {
+    expression.inferredType = type;
+    return type;
+  }
+  if (expression.type === 'NumberLiteral') return remember(expression.numericType || (Number.isInteger(expression.value) ? 'i64' : 'f64'));
+  if (expression.type === 'ConstLiteral') return remember(expression.literalType || 'i64');
+  if (expression.type === 'Identifier') return remember(paramTypes[expression.name] || 'unknown');
   if (expression.type === 'UnaryExpression') {
     const argumentType = inferExpressionType(expression.argument, paramTypes);
     if (!isNumericType(argumentType)) fail(65, 'pcd_parse_error:unary_requires_numeric');
-    return argumentType;
+    return remember(argumentType);
   }
   if (expression.type === 'ListLiteral') {
     for (const element of expression.elements) {
@@ -1228,7 +1286,7 @@ function inferExpressionType(expression, paramTypes) {
         fail(65, 'pcd_parse_error:list_literal_requires_numeric_elements');
       }
     }
-    return 'list_i64';
+    return remember('list_i64');
   }
   if (expression.type === 'MapLiteral') {
     for (const entry of expression.entries) {
@@ -1236,14 +1294,14 @@ function inferExpressionType(expression, paramTypes) {
         fail(65, 'pcd_parse_error:map_literal_requires_numeric_values');
       }
     }
-    return 'map_i64';
+    return remember('map_i64');
   }
   if (expression.type === 'IndexExpression') {
     const objectType = inferExpressionType(expression.object, paramTypes);
     const indexType = inferExpressionType(expression.index, paramTypes);
     if (objectType !== 'list_i64') fail(65, 'pcd_parse_error:index_requires_list');
     if (!isNumericType(indexType)) fail(65, 'pcd_parse_error:index_requires_numeric');
-    return 'i64';
+    return remember('i64');
   }
   if (expression.type === 'MemberExpression') {
     const objectType = inferExpressionType(expression.object, paramTypes);
@@ -1251,17 +1309,17 @@ function inferExpressionType(expression, paramTypes) {
     if (expression.object.type === 'MapLiteral' && !expression.object.entries.some((entry) => entry.key === expression.key)) {
       fail(65, `pcd_parse_error:unknown_map_key:${expression.key}`);
     }
-    return 'i64';
+    return remember('i64');
   }
   if (expression.type === 'LenExpression') {
     const argumentType = inferExpressionType(expression.argument, paramTypes);
     if (argumentType !== 'list_i64') fail(65, 'pcd_parse_error:len_requires_list');
-    return 'i64';
+    return remember('i64');
   }
   if (expression.type === 'HasExpression') {
     const objectType = inferExpressionType(expression.object, paramTypes);
     if (objectType !== 'map_i64') fail(65, 'pcd_parse_error:has_requires_map');
-    return 'i64';
+    return remember('i64');
   }
   if (expression.type === 'CallExpression') {
     for (const argument of expression.args) {
@@ -1269,7 +1327,7 @@ function inferExpressionType(expression, paramTypes) {
         fail(65, `pcd_parse_error:import_call_requires_numeric_args:${expression.callee}`);
       }
     }
-    return 'i64';
+    return remember('i64');
   }
   if (expression.type === 'MonomerCallExpression') {
     for (const argument of expression.args) {
@@ -1280,11 +1338,18 @@ function inferExpressionType(expression, paramTypes) {
     if (expression.boundary === 'contract_external') {
       fail(65, `pcd_parse_error:external_effect_requires_extended_boundary:${expression.monomer}`);
     }
-    if (expression.boundary === 'declared_boundary_contract') return 'i64';
-    if (expression.returnType === 'f64') return 'f64';
-    if (expression.returnType === 'bool') return 'bool';
-    if (expression.returnType === 'tuple_u8_u8') return 'tuple_u8_u8';
-    return isNumericType(expression.returnType) || ['u8', 'i8', 'u64'].includes(expression.returnType) ? 'i64' : expression.returnType;
+    if (expression.boundary === 'declared_boundary_contract' && expression.returnType === 'f64') return remember('f64');
+    if (expression.boundary === 'declared_boundary_contract' && expression.returnType === 'bool') return remember('bool');
+    if (expression.boundary === 'declared_boundary_contract' && expression.returnType === 'tuple_u8_u8') return remember('tuple_u8_u8');
+    if (expression.boundary === 'declared_boundary_contract' && !['f64', 'bool', 'tuple_u8_u8'].includes(expression.returnType)) return remember('i64');
+    if (expression.returnType === 'f64') return remember('f64');
+    if (expression.returnType === 'bool') return remember('bool');
+    if (expression.returnType === 'tuple_u8_u8') return remember('tuple_u8_u8');
+    if (expression.operation === 'clamp') {
+      const argTypes = expression.args.map((argument) => argument.inferredType || inferExpressionType(argument, paramTypes));
+      if (argTypes.includes('f64')) return remember('f64');
+    }
+    return remember(isNumericType(expression.returnType) || ['u8', 'i8', 'u64'].includes(expression.returnType) ? 'i64' : expression.returnType);
   }
   if (expression.type === 'BinaryExpression') {
     const leftType = inferExpressionType(expression.left, paramTypes);
@@ -1293,18 +1358,19 @@ function inferExpressionType(expression, paramTypes) {
       if (!['bool', 'i64', 'i32'].includes(leftType) || !['bool', 'i64', 'i32'].includes(rightType)) {
         fail(65, `pcd_parse_error:logical_requires_scalar:${expression.operator}`);
       }
-      return 'bool';
+      return remember('bool');
     }
     if (['==', '!=', '>', '<', '>=', '<='].includes(expression.operator)) {
       if (!isNumericType(leftType) || !isNumericType(rightType)) {
         fail(65, `pcd_parse_error:comparison_requires_numeric:${expression.operator}`);
       }
-      return 'bool';
+      return remember('bool');
     }
     if (!isNumericType(leftType) || !isNumericType(rightType)) {
       fail(65, `pcd_parse_error:binary_requires_numeric:${expression.operator}`);
     }
-    return leftType === 'i64' || rightType === 'i64' ? 'i64' : 'i32';
+    if (leftType === 'f64' || rightType === 'f64') return remember('f64');
+    return remember(leftType === 'i64' || rightType === 'i64' ? 'i64' : 'i32');
   }
   fail(65, 'pcd_parse_error:unknown_expression_type');
 }
@@ -1442,6 +1508,24 @@ function parseDomainBound(value) {
   fail(65, `pcd_parse_error:unsupported_domain_bound:${trimmed || 'empty'}`);
 }
 
+function validateDomainBoundForType(bound, type, name, side) {
+  if (bound.kind !== 'literal') return;
+  const value = bound.value;
+  if (!Number.isFinite(value)) fail(65, `pcd_parse_error:domain_bound_out_of_range:${name}:${side}`);
+  if (['i64', 'i32', 'u8', 'u64', 'bool'].includes(type)) {
+    if (!Number.isSafeInteger(value)) fail(65, `pcd_parse_error:domain_bound_out_of_range:${name}:${side}`);
+  }
+  if (type === 'i32' && (value < -2147483648 || value > 2147483647)) {
+    fail(65, `pcd_parse_error:domain_bound_out_of_range:${name}:${side}`);
+  }
+  if (type === 'u8' && (value < 0 || value > 255)) {
+    fail(65, `pcd_parse_error:domain_bound_out_of_range:${name}:${side}`);
+  }
+  if (type === 'bool' && ![0, 1].includes(value)) {
+    fail(65, `pcd_parse_error:domain_bound_out_of_range:${name}:${side}`);
+  }
+}
+
 function removeMatchedSlice(source, match) {
   return `${source.slice(0, match.index)}${source.slice(match.index + match[0].length)}`;
 }
@@ -1469,7 +1553,12 @@ function parseDomainContract(pcBody) {
     const [, name, type, minRaw, maxRaw] = match;
     if (domains.some((domain) => domain.name === name)) fail(65, `pcd_parse_error:domain_duplicate:${name}`);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_type:${type}`);
-    domains.push({ name, type, min: parseDomainBound(minRaw), max: parseDomainBound(maxRaw) });
+    const min = parseDomainBound(minRaw);
+    const max = parseDomainBound(maxRaw);
+    validateDomainBoundForType(min, type, name, 'min');
+    validateDomainBoundForType(max, type, name, 'max');
+    if (min.kind === 'literal' && max.kind === 'literal' && min.value > max.value) fail(65, `pcd_parse_error:domain_bounds_reversed:${name}`);
+    domains.push({ name, type, min, max });
     executablePcBody = removeMatchedSlice(executablePcBody, match);
   }
   const invariantPattern = /^\s*invariant\s+([^;]+)\s*;\s*/m;
@@ -1489,9 +1578,14 @@ function parseDomainContract(pcBody) {
     const [, condition, name, type, minRaw, maxRaw] = match;
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_type:${type}`);
     if (/[^A-Za-z0-9_+\-*/%<>=!&|()[\],{}:.\s]/.test(condition)) fail(65, 'pcd_parse_error:unsupported_conditional_domain_expression');
+    const min = parseDomainBound(minRaw);
+    const max = parseDomainBound(maxRaw);
+    validateDomainBoundForType(min, type, name, 'min');
+    validateDomainBoundForType(max, type, name, 'max');
+    if (min.kind === 'literal' && max.kind === 'literal' && min.value > max.value) fail(65, `pcd_parse_error:domain_bounds_reversed:${name}`);
     conditionalDomains.push({
       condition: condition.trim(),
-      domain: { name, type, min: parseDomainBound(minRaw), max: parseDomainBound(maxRaw) }
+      domain: { name, type, min, max }
     });
     executablePcBody = removeMatchedSlice(executablePcBody, match);
   }
@@ -1757,11 +1851,11 @@ function init() {
         routing: 'local_default'
       },
       engineTierPolicy: {
-        publicOfflineRuntime: 'local_runtime',
-        registeredManagedRuntime: 'managed_platform',
-        internalArtifactFactory: 'private_factory',
-        l6DistributionAllowed: false,
-        l5EmbeddedFreeRuntimeAllowed: false
+        runtimeMode: 'local_runtime',
+        managedRuntime: 'managed_platform',
+        artifactFactory: 'private_factory',
+        publicDistribution: false,
+        embeddedManagedRuntime: false
       },
       claimBoundary: {
         releaseAuthorized: false,
@@ -1803,13 +1897,15 @@ function templateCommand(args = []) {
   process.stdout.write(`type=${type}\n`);
 }
 
-function pcdInventory() {
+function pcdInventory(options = {}) {
   const results = [];
   const ignored = new Set(['.git', '.brik', 'node_modules', 'target', 'dist', 'build', 'evidence', 'engines', 'out-ts', 'out-rust', 'out-python']);
+  const projectIgnored = new Set(['adversarial', 'attacks', 'fuzz', 'scratch', 'tmp']);
   function walk(dir) {
     if (!fs.existsSync(dir)) return;
     for (const name of fs.readdirSync(dir).sort()) {
       if (ignored.has(name)) continue;
+      if ((options.scope || 'project') === 'project' && projectIgnored.has(name)) continue;
       const file = path.join(dir, name);
       const stat = fs.lstatSync(file);
       if (stat.isSymbolicLink()) continue;
@@ -1899,7 +1995,7 @@ function scanClaimReportContradictions(manifest) {
   return findings;
 }
 
-function buildDoctorReport() {
+function buildDoctorReport(options = {}) {
   const { manifest, errors, actions } = doctorManifestDiagnostics();
   const warnings = [];
   if (manifest) {
@@ -1908,32 +2004,39 @@ function buildDoctorReport() {
       errors.push('manifest_cli_version_mismatch');
       actions.push('Reinitialize or migrate the workspace manifest for this CLI version.');
     }
-    if (policy.publicOfflineRuntime !== 'local_runtime') {
+    const publicRuntime = policy.runtimeMode || policy.publicOfflineRuntime;
+    const managedRuntime = policy.managedRuntime || policy.registeredManagedRuntime;
+    const artifactFactory = policy.artifactFactory || policy.internalArtifactFactory;
+    const publicDistribution = policy.publicDistribution ?? policy.l6DistributionAllowed;
+    const embeddedManagedRuntime = policy.embeddedManagedRuntime ?? policy.l5EmbeddedFreeRuntimeAllowed;
+    if (publicRuntime !== 'local_runtime') {
       errors.push('engine_tier_policy_missing_local_runtime');
-      actions.push('Restore engineTierPolicy.publicOfflineRuntime to local_runtime.');
+      actions.push('Restore engineTierPolicy.runtimeMode to local_runtime.');
     }
-    if (policy.registeredManagedRuntime !== 'managed_platform') {
+    if (managedRuntime !== 'managed_platform') {
       errors.push('engine_tier_policy_missing_managed_platform');
-      actions.push('Restore engineTierPolicy.registeredManagedRuntime to managed_platform.');
+      actions.push('Restore engineTierPolicy.managedRuntime to managed_platform.');
     }
-    if (policy.internalArtifactFactory !== 'private_factory') {
+    if (artifactFactory !== 'private_factory') {
       errors.push('engine_tier_policy_missing_private_factory');
-      actions.push('Restore engineTierPolicy.internalArtifactFactory to private_factory.');
+      actions.push('Restore engineTierPolicy.artifactFactory to private_factory.');
     }
-    if (policy.l6DistributionAllowed !== false) {
-      errors.push('engine_tier_policy_l6_distribution_open');
-      actions.push('Set engineTierPolicy.l6DistributionAllowed to false.');
+    if (publicDistribution !== false) {
+      errors.push('engine_tier_policy_public_distribution_open');
+      actions.push('Set engineTierPolicy.publicDistribution to false.');
     }
-    if (policy.l5EmbeddedFreeRuntimeAllowed !== false) {
-      errors.push('engine_tier_policy_l5_free_embedding_open');
-      actions.push('Set engineTierPolicy.l5EmbeddedFreeRuntimeAllowed to false.');
+    if (embeddedManagedRuntime !== false) {
+      errors.push('engine_tier_policy_embedded_managed_runtime_open');
+      actions.push('Set engineTierPolicy.embeddedManagedRuntime to false.');
     }
     for (const finding of scanClaimReportContradictions(manifest)) {
       errors.push(`${finding.error}:${finding.file}`);
       actions.push(finding.action);
     }
   }
-  const pcds = pcdInventory();
+  const scope = options.scope || 'project';
+  if (!['project', 'all'].includes(scope)) fail(64, `doctor_scope_unsupported:${scope}`);
+  const pcds = pcdInventory({ scope });
   const pcdValidation = [];
   for (const item of pcds) {
     const validation = validatePcdFileWithExplain(item.file);
@@ -1985,7 +2088,8 @@ function buildDoctorReport() {
     releaseEligible: false,
     localRuntime: 'available',
     managedRuntime: hasManagedSession() ? 'authenticated' : 'not_authenticated',
-    internalArtifactFactory: 'private',
+    artifactFactory: 'private',
+    scanScope: scope,
     pcdCount: pcds.length,
     pcdValidation: {
       valid: pcdValidation.filter((item) => item.status === 'PASS' || item.status === 'WARN').length,
@@ -2070,8 +2174,8 @@ function printDoctorHuman(report) {
 }
 
 function doctor() {
-  const args = parseArgs(process.argv.slice(3), { '--json': 'boolean' });
-  const report = buildDoctorReport();
+  const args = parseArgs(process.argv.slice(3), { '--json': 'boolean', '--scope': 'value' });
+  const report = buildDoctorReport({ scope: args['--scope'] || 'project' });
   if (args['--json']) {
     process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
   } else {
@@ -2234,13 +2338,19 @@ function engineStatus() {
     cliVersion: version,
     status: 'PASS',
     localRuntime: 'available',
-    serial: bundle.serial,
-    runtimeMode: bundle.runtimeMode,
+    runtimeProfile: 'portable_local_runtime',
     nativeExecutableIncluded: bundle.nativeExecutableIncluded,
     artifactCount: bundle.artifacts.length,
     releaseEligible: false,
-    claimBoundary: bundle.claimBoundary,
-    limitations: bundle.limitations
+    claimBoundary: {
+      publicClaimsAllowed: false,
+      universalCorrectnessClaimAllowed: false,
+      platformCertificationAllowed: false
+    },
+    limitations: [
+      'local beta runtime profile',
+      'managed platform execution is not used unless explicitly authenticated'
+    ]
   };
   process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
 }
@@ -2588,6 +2698,15 @@ function renderRustF64(value) {
   return `(${stripOuterParens(value)} as f64)`;
 }
 
+function renderRustExpressionAs(expression, expectedType) {
+  const rendered = renderExpression(expression, 'rust');
+  if (expectedType === 'f64') {
+    if (expression.type === 'NumberLiteral') return rustLiteral(expression.value, 'f64');
+    return renderRustF64(rendered);
+  }
+  return rendered;
+}
+
 function renderBoundaryContractValue(returnType, target) {
   if (returnType === 'bool') return target === 'python' ? 'False' : 'false';
   if (returnType === 'f64') return '0.0';
@@ -2611,7 +2730,7 @@ function renderRustReturnExpression(expression, returnType) {
 
 function renderExpression(expression, target) {
   if (expression.type === 'NumberLiteral') {
-    if (target === 'rust' && expression.numericType === 'f64') return rustLiteral(expression.value, 'f64');
+    if (target === 'rust' && (expression.numericType === 'f64' || expression.inferredType === 'f64')) return rustLiteral(expression.value, 'f64');
     return String(expression.value);
   }
   if (expression.type === 'ConstLiteral') return String(expression.value);
@@ -2686,7 +2805,12 @@ function renderExpression(expression, target) {
     }
     if (expression.operation === 'clamp') {
       if (target === 'python') return `min(max(${args[0]}, ${args[1]}), ${args[2]})`;
-      if (target === 'rust') return `(${args[0]}).max(${args[1]}).min(${args[2]})`;
+      if (target === 'rust') {
+        const argTypes = expression.args.map((argument) => argument.inferredType || argument.numericType);
+        const clampType = expression.inferredType === 'f64' || argTypes.includes('f64') ? 'f64' : 'i64';
+        const rustArgs = expression.args.map((argument) => renderRustExpressionAs(argument, clampType));
+        return `(${rustArgs[0]}).max(${rustArgs[1]}).min(${rustArgs[2]})`;
+      }
       return `Math.min(Math.max(${args[0]}, ${args[1]}), ${args[2]})`;
     }
     if (expression.operation === 'and') return renderU8(`${args[0]} & ${args[1]}`, target);
@@ -2787,8 +2911,13 @@ function renderExpression(expression, target) {
     fail(70, `internal_codegen_error:unknown_monomer_operation:${expression.operation}`);
   }
   if (expression.type === 'BinaryExpression') {
-    const left = renderExpression(expression.left, target);
-    const right = renderExpression(expression.right, target);
+    const rustF64Binary = target === 'rust' && (
+      expression.left.inferredType === 'f64' ||
+      expression.right.inferredType === 'f64' ||
+      expression.inferredType === 'f64'
+    );
+    const left = rustF64Binary ? renderRustExpressionAs(expression.left, 'f64') : renderExpression(expression.left, target);
+    const right = rustF64Binary ? renderRustExpressionAs(expression.right, 'f64') : renderExpression(expression.right, target);
     let operator = expression.operator;
     if (target === 'ts' && operator === '==') operator = '===';
     if (target === 'ts' && operator === '!=') operator = '!==';
@@ -4395,6 +4524,7 @@ function buildCandidatePcd(name, params, expression, options = {}) {
     '// claim_boundary: local_candidate_only',
     ...sourceComment,
     'PC ' + safeName + ' {',
+    ...safeParams.map((param) => `    domain ${param}: i64 [-1000000, 1000000];`),
     `    fn ${safeName}(${signature}) -> i64 {`,
     ...bodyLines,
     '    }',

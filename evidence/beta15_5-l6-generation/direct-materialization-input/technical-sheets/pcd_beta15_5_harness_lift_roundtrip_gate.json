@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.15.5 materialization unit",
+  "source": "pcd/beta15_5/harness/lift_roundtrip_gate.pcd",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "sourceHash": "8d34a80582a103db4ab502a5f122f9eeb15235cb414b55bcd1562149355a4538",
+  "target": "js_node",
+  "boundedDomains": {
+    "pcd_inputs_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "l6plus_materializer_accepts_contract": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "generated_artifact_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "package_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "release_manifest_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "cli_scope_beta15_5": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "result_line_emitted": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "rust_target_pass": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "adversarial_fail_closed": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "command_code": {
+      "kind": "integer",
+      "min": 0,
+      "max": 64
+    },
+    "target_code": {
+      "kind": "integer",
+      "min": 0,
+      "max": 3
+    }
+  },
+  "normalization": {
+    "status": "finite_beta15_5_materialization_domains",
+    "l5CertificateInheritance": "forbidden",
+    "separatesRawAndNormalized": true
+  },
+  "monomerTrace": [
+    {
+      "id": 0,
+      "family": "control",
+      "op": "BOUNDED_IF_RETURN_CONTRACT"
+    }
+  ],
+  "certificationLane": "INTERNAL_BETA15_5_L6_MATERIALIZATION",
+  "releaseEligible": false,
+  "technicalSheetHash": "e2f1c36df62b936f0633e5a8c6671bd96a77ade3ad7422d671e47fab6f1f1948"
+}

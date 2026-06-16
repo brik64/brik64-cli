@@ -1,26 +1,26 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15.4",
-  "version": "0.1.0-beta.15.4",
+  "releaseId": "brik64-0.1.0-beta.15.5",
+  "version": "0.1.0-beta.15.5",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-16T06:30:00.000Z",
+  "state": "draft",
+  "createdAt": "2026-06-16T12:00:00.000Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "main",
-    "commit": "0cd226ebbc0c3807545fc6367227b6919415f2de",
-    "pullRequest": "https://github.com/brik64/brik64-cli/pull/184",
-    "commitBinding": "public_release_base_commit"
+    "commit": "671154d6c38801beb2fabadb820ad54d73dedbc3",
+    "pullRequest": null,
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
     "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
     "verifyCommand": "brik64 --version",
     "package": {
-      "name": "brik64-cli-0.1.0-beta.15.4.tgz",
-      "path": "evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz",
-      "sha256": "61df3ccba85f4ad987b0ca3a5645ef44e50afedccf1c62e079ca9c9728a0bf50",
-      "size_bytes": 639044
+      "name": "brik64-cli-0.1.0-beta.15.5.tgz",
+      "path": "evidence/beta15_5-package/brik64-cli-0.1.0-beta.15.5.tgz",
+      "sha256": "0d44d3c88c8594dde4169b9b9bea6034e3735a0ea4c9d5d2b39cd440c3d5dd89",
+      "size_bytes": 638020
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
@@ -36,19 +36,19 @@
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.15.4",
+      "version": "0.1.0-beta.15.5",
       "publication": "pending_release_train"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b15.post4",
+      "version": "0.1.0b15.post5",
       "publication": "pending_release_train"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.15.4",
+      "version": "0.1.0-beta.15.5",
       "publication": "pending_release_train"
     }
   ],
@@ -56,7 +56,7 @@
     "githubRelease": {
       "required": true,
       "status": "pending_release_train",
-      "tag": "v0.1.0-beta.15.4"
+      "tag": "v0.1.0-beta.15.5"
     },
     "curlInstaller": {
       "required": true,
@@ -87,52 +87,47 @@
   "verification": {
     "requiredEvidence": [
       {
-        "id": "beta15_4_rust_polymer_domain",
-        "path": "evidence/beta15_4-rust-polymer-domain/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE"
+        "id": "beta15_5_rust_f64_command_lift",
+        "path": "evidence/beta15_5-rust-f64-command-lift/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE"
       },
       {
-        "id": "beta15_4_stale_public_surface",
-        "path": "evidence/beta15_4-stale-public-surface/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE"
+        "id": "beta15_5_pre_public_rc",
+        "path": "evidence/beta15_5-pre-public-rc/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE"
       },
       {
-        "id": "beta15_4_pre_public_rc",
-        "path": "evidence/beta15_4-pre-public-rc/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE"
+        "id": "beta15_5_package",
+        "path": "evidence/beta15_5-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT"
       },
       {
-        "id": "beta15_4_package",
-        "path": "evidence/beta15_4-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT"
-      },
-      {
-        "id": "beta15_4_package_smoke",
-        "path": "evidence/beta15_4-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_SMOKE"
+        "id": "beta15_5_package_smoke",
+        "path": "evidence/beta15_5-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE"
       }
     ]
   },
   "githubReleaseDraft": {
-    "tagName": "v0.1.0-beta.15.4",
-    "targetCommitish": "10e51bfa351e9297b017b44745e03f5682917052",
+    "tagName": "v0.1.0-beta.15.5",
+    "targetCommitish": "671154d6c38801beb2fabadb820ad54d73dedbc3",
     "isDraft": true,
     "isPrerelease": true,
     "assets": [
       {
-        "name": "brik64-cli-0.1.0-beta.15.4.tgz",
-        "sha256": "be0a8463589ef90be04567b12752cfe9f8b875d0e526414b66b49a60bd1baa06",
-        "size_bytes": 639556
+        "name": "brik64-cli-0.1.0-beta.15.5.tgz",
+        "sha256": "0d44d3c88c8594dde4169b9b9bea6034e3735a0ea4c9d5d2b39cd440c3d5dd89",
+        "size_bytes": 638020
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "518633eaa5d65a93bc6954bd7e3be87d1bd9d9c44df396d12a36687f4db84713",
-        "size_bytes": 271
+        "sha256": "PENDING_BETA15_5_SHA256SUMS",
+        "size_bytes": 0
       },
       {
         "name": "package.manifest.json",
-        "sha256": "b105494eec6e9d0613ece45ed78d827ec92d3bb407cf3840d97ba8b1fb55bae0",
-        "size_bytes": 1925
+        "sha256": "9967c1c721dfcdef0bd9d7221c8d58421971ae846b84753270f8841797dee252",
+        "size_bytes": 1929
       }
     ],
     "targetCommitishBinding": "candidate_base_commit"
@@ -141,17 +136,17 @@
     {
       "type": "fixed",
       "surface": "cli",
-      "text": "Generated Rust app-polymer output keeps domain assertions inside generated function scope."
+      "text": "Generated Rust polymer output preserves floating-point bounds and comparisons."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions."
+      "text": "Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets."
     },
     {
       "type": "changed",
       "surface": "release",
-      "text": "Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references."
+      "text": "Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics."
     }
   ]
 }
