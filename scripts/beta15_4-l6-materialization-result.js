@@ -47,7 +47,11 @@ function normalizeSha256(value) {
   return String(value || '').replace(/^sha256:/, '').toLowerCase();
 }
 
-function validateFileRef(result, refField, hashField, blockers) {
+function sha256File(file) {
+  return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+}
+
+function validateFileRef(result, refField, hashField, blockers, expected) {
   const ref = result[refField];
   if (!ref || typeof ref !== 'object') {
     blockers.push(`materialization_result_${refField}_ref_missing`);
@@ -62,6 +66,17 @@ function validateFileRef(result, refField, hashField, blockers) {
   if (hashField && isSha256(ref.sha256) && isSha256(result[hashField])) {
     if (normalizeSha256(ref.sha256) !== normalizeSha256(result[hashField])) {
       blockers.push(`materialization_result_${refField}_ref_sha256_mismatch`);
+    }
+  }
+  if (typeof expected.workspaceRoot === 'string' && ref && typeof ref.path === 'string' && !pathLooksUnsafe(ref.path)) {
+    const resolved = path.resolve(expected.workspaceRoot, ref.path);
+    const root = path.resolve(expected.workspaceRoot);
+    if (!(resolved === root || resolved.startsWith(`${root}${path.sep}`))) {
+      blockers.push(`materialization_result_${refField}_ref_path_outside_workspace`);
+    } else if (!fs.existsSync(resolved) || !fs.statSync(resolved).isFile()) {
+      blockers.push(`materialization_result_${refField}_ref_file_missing`);
+    } else if (isSha256(ref.sha256) && sha256File(resolved) !== normalizeSha256(ref.sha256)) {
+      blockers.push(`materialization_result_${refField}_ref_file_sha256_mismatch`);
     }
   }
   return ref;
@@ -102,7 +117,7 @@ function validateMaterializationResult(result, version, expected = {}) {
     }
   }
   for (const [refField, hashField] of REQUIRED_FILE_REFS) {
-    validateFileRef(result, refField, hashField, blockers);
+    validateFileRef(result, refField, hashField, blockers, expected);
   }
   for (const [field, blocker] of [
     ['pcdInputSetSha256', 'materialization_result_pcd_input_set_sha256_mismatch'],
@@ -174,3 +189,6 @@ module.exports = {
   parseMaterializationResult,
   validateMaterializationResult,
 };
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');

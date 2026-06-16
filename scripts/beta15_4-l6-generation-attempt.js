@@ -127,6 +127,7 @@ function expectedMaterializationContext(inputs, remoteRefs) {
     remoteWrapperSha256: remoteRefs.wrapper?.sha256 || null,
     wrapperExecTargetSha256: remoteRefs.wrapper_exec_target?.sha256 || null,
     requiredInputPcdPaths: inputs.map((item) => item.path),
+    workspaceRoot: root,
   };
 }
 

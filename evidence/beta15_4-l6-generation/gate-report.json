@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-16T00:33:09.123Z",
+  "generatedAt": "2026-06-16T00:38:20.151Z",
   "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -45,7 +45,8 @@
         "pcd/beta15_4/harness/rust_app_polymer_regression_gate.pcd",
         "pcd/cli_core.pcd",
         "pcd/cli_polymer.pcd"
-      ]
+      ],
+      "workspaceRoot": "/Users/carlosjperez/Documents/GitHub/brik64-cli-beta15.4"
     }
   },
   "attempts": [

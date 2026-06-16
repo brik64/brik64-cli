@@ -114,6 +114,18 @@
       - Boundary:
         this aligns the source contract with parser behavior; it does not
         generate the missing artifact.
+- [x] Verify materialization file refs against workspace files.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Attempt:
+        `scripts/beta15_4-l6-generation-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        when `workspaceRoot` is present, accepted endpoint results must point
+        to files that exist under the workspace and hash to the declared refs.
+      - Boundary:
+        this hardens future acceptance; no endpoint result currently exists.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

@@ -6,10 +6,18 @@ cd "$ROOT"
 
 node <<'NODE'
 const assert = require('assert');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const crypto = require('crypto');
 const {
   parseMaterializationResult,
   validateMaterializationResult,
 } = require('./scripts/beta15_4-l6-materialization-result');
+
+function sha256(value) {
+  return crypto.createHash('sha256').update(value).digest('hex');
+}
 
 const good = {
   version: '0.1.0-beta.15.4',
@@ -144,6 +152,36 @@ const missingRequiredPcd = validateMaterializationResult(
 );
 assert.strictEqual(missingRequiredPcd.accepted, false);
 assert(missingRequiredPcd.blockers.includes('materialization_result_required_input_pcd_missing:pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd'));
+
+const workspaceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-beta15-4-materialization-'));
+const files = {
+  generatedArtifact: ['evidence/beta15_4-l6-generation/generated/brik64-cli.mjs', 'artifact-body'],
+  package: ['evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tar.gz', 'package-body'],
+  releaseManifest: ['release/manifest.json', '{"version":"0.1.0-beta.15.4"}'],
+  sealReport: ['evidence/beta15_4-l6-generation/seal_report.json', '{"decision":"PASS"}'],
+};
+const withFiles = { ...good };
+for (const [field, [relativePath, body]] of Object.entries(files)) {
+  const absolutePath = path.join(workspaceRoot, relativePath);
+  fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
+  fs.writeFileSync(absolutePath, body);
+  withFiles[field] = { path: relativePath, sha256: sha256(body) };
+}
+withFiles.generatedArtifactSha256 = withFiles.generatedArtifact.sha256;
+withFiles.packageSha256 = withFiles.package.sha256;
+withFiles.releaseManifestSha256 = withFiles.releaseManifest.sha256;
+assert.strictEqual(validateMaterializationResult(withFiles, good.version, { workspaceRoot }).accepted, true);
+
+fs.rmSync(path.join(workspaceRoot, withFiles.package.path));
+const missingPackageFile = validateMaterializationResult(withFiles, good.version, { workspaceRoot });
+assert.strictEqual(missingPackageFile.accepted, false);
+assert(missingPackageFile.blockers.includes('materialization_result_package_ref_file_missing'));
+
+fs.writeFileSync(path.join(workspaceRoot, withFiles.package.path), 'tampered-package-body');
+const tamperedPackageFile = validateMaterializationResult(withFiles, good.version, { workspaceRoot });
+assert.strictEqual(tamperedPackageFile.accepted, false);
+assert(tamperedPackageFile.blockers.includes('materialization_result_package_ref_file_sha256_mismatch'));
+fs.rmSync(workspaceRoot, { recursive: true, force: true });
 
 assert.strictEqual(parseMaterializationResult('no materialization line'), null);
 console.log('PASS beta15.4 L6 materialization result parser');

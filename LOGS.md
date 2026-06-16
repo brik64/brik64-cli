@@ -386,3 +386,32 @@ Boundary:
 - This aligns the PCD source contract with the stricter parser and prod
   operator packet.
 - It does not implement the materializer endpoint or publish Beta15.4.
+
+## Iteration 17
+
+- Hardened `scripts/beta15_4-l6-materialization-result.js` so, when the
+  caller supplies `workspaceRoot`, each declared materialization file ref must:
+  - resolve under the workspace;
+  - exist as a file;
+  - hash to its declared SHA-256.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` to pass the active
+  workspace root inside the expected materialization context.
+- Added parser coverage for:
+  - valid materialization refs backed by real temp files;
+  - missing package evidence file;
+  - tampered package evidence hash mismatch.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  blockers because the endpoint does not emit any accepted materialization
+  result.
+
+Boundary:
+
+- This closes a file-ref existence/hash bypass in the future materializer
+  result acceptance path.
+- It does not implement the materializer endpoint or publish Beta15.4.

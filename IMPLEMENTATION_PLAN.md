@@ -60,6 +60,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   must encode the same file-ref closure as domains, including safe refs and
   ref-hash matches for generated artifact, package and release manifest plus a
   safe seal-report ref.
+- Materialization evidence file policy: when validating a real endpoint result,
+  the CLI consumer must resolve every declared evidence file ref under the
+  active workspace root and verify that the file exists and hashes to the
+  declared SHA-256.
 
 ## Phases
 
