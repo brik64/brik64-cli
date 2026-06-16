@@ -78,7 +78,7 @@ function validateStandaloneFileRef(ref, refField, expectedSha256, blockers, expe
       blockers.push(`materialization_result_${blockerField}_ref_sha256_mismatch`);
     }
   }
-  if (typeof expected.workspaceRoot === 'string' && ref && typeof ref.path === 'string' && !pathLooksUnsafe(ref.path)) {
+  if (typeof expected.workspaceRoot === 'string' && typeof ref.path === 'string' && !pathLooksUnsafe(ref.path)) {
     const resolved = path.resolve(expected.workspaceRoot, ref.path);
     const root = path.resolve(expected.workspaceRoot);
     if (!(resolved === root || resolved.startsWith(`${root}${path.sep}`))) {
