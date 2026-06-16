@@ -579,6 +579,28 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.15.6') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta15_6_rust_f64_command_lift', ['npm', 'run', 'gate:beta15.6:rust-f64-command-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_6_pre_public_rc', ['npm', 'run', 'gate:beta15.6:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_6_local_package', ['npm', 'run', 'package:beta15.6:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta15_6_package_smoke', ['npm', 'run', 'smoke:beta15.6:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   const label = betaLabel(version);
   return label
     ? [
@@ -708,6 +730,41 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
               stderrLimit: 12000
             }),
             run('beta15_5_public_source_sync', ['node', 'scripts/beta15_5-public-source-sync-gate.js'], {
+              stdoutLimit: 12000,
+              stderrLimit: 12000
+            })
+          ])
+    ];
+  }
+
+  if (manifest.version === '0.1.0-beta.15.6') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta15_6_rust_f64_command_lift', ['npm', 'run', 'gate:beta15.6:rust-f64-command-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_6_pre_public_rc', ['npm', 'run', 'gate:beta15.6:pre-public-rc'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta15_6_local_package', ['npm', 'run', 'package:beta15.6:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(manifest.version),
+      run('beta15_6_package_smoke', ['npm', 'run', 'smoke:beta15.6:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      ...(manifest.state === 'draft'
+        ? []
+        : [
+            run('beta15_6_marketplace_packages', ['node', 'scripts/beta15_6-marketplace-package-gate.js'], {
+              stdoutLimit: 12000,
+              stderrLimit: 12000
+            }),
+            run('beta15_6_public_source_sync', ['node', 'scripts/beta15_6-public-source-sync-gate.js'], {
               stdoutLimit: 12000,
               stderrLimit: 12000
             })

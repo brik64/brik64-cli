@@ -1,10 +1,10 @@
 {
   "schemaVersion": "brik64.cli_l4plus_n5_portable_runtime_bundle.v1",
   "decision": "PASS_PORTABLE_L4_BUNDLE_PACKAGED",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "runtimeMode": "portable_bir_bundle",
   "nativeExecutableIncluded": false,
-  "cliVersion": "0.1.0-beta.15",
+  "cliVersion": "0.1.0-beta.15.6",
   "engine": "L4+N5",
   "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
   "sourceRepo": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5",
@@ -18,22 +18,16 @@
   },
   "artifacts": [
     {
-      "path": "engines/l4plus-n5/serial.txt",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/serial.txt",
-      "sha256": "6f2a3eff7b3cbf80debb823f1771df5364d6f1fdf2c0b6c2dab8e109c04dc757",
-      "bytes": 43
-    },
-    {
       "path": "engines/l4plus-n5/checksums.tsv",
       "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/checksums.tsv",
       "sha256": "11a5eadb7ec6f7d07e329c767026ae9576bdaf99c1d411781e5f88108e7d852e",
       "bytes": 4234
     },
     {
-      "path": "engines/l4plus-n5/manifest/claim_boundary.json",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/manifest/claim_boundary.json",
-      "sha256": "9f9f293ddd34a066e36fb28c703f9de810c53517a7b2e34899eb2617294a88c5",
-      "bytes": 372
+      "path": "engines/l4plus-n5/evidence/l4plus_n5_burn_in_report.json",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/evidence/l4plus_n5_burn_in_report.json",
+      "sha256": "f08013a913983ac5f9de3684e6715b46447a5fd1ba9b2c42ed3ad7c75cadb581",
+      "bytes": 4127
     },
     {
       "path": "engines/l4plus-n5/evidence/l4plus_n5_critical_artifact_lock.json",
@@ -54,10 +48,10 @@
       "bytes": 1215
     },
     {
-      "path": "engines/l4plus-n5/evidence/l4plus_n5_burn_in_report.json",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/evidence/l4plus_n5_burn_in_report.json",
-      "sha256": "f08013a913983ac5f9de3684e6715b46447a5fd1ba9b2c42ed3ad7c75cadb581",
-      "bytes": 4127
+      "path": "engines/l4plus-n5/manifest/claim_boundary.json",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/manifest/claim_boundary.json",
+      "sha256": "9f9f293ddd34a066e36fb28c703f9de810c53517a7b2e34899eb2617294a88c5",
+      "bytes": 372
     },
     {
       "path": "engines/l4plus-n5/pcd/engine.manifest.json",
@@ -70,6 +64,18 @@
       "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/engine.pcd",
       "sha256": "8e87f92ce267f33aa1fcd3e8815502e08f887637300030cc8b565e508a7b7668",
       "bytes": 341
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/harness.manifest.json",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/harness.manifest.json",
+      "sha256": "adec2a5f643dc52381d08efae3fa9da791ec1af35e4e44d9a1eb3d9a9195fb63",
+      "bytes": 6061
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/harness.pcd",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/harness.pcd",
+      "sha256": "b9dc97d75637ff69eef7489a2825c166d43ff2cc73d1b59a4e1bef2ee27a6c34",
+      "bytes": 558
     },
     {
       "path": "engines/l4plus-n5/pcd/l4plus_engine_runtime.bir",
@@ -90,28 +96,40 @@
       "bytes": 6611
     },
     {
-      "path": "engines/l4plus-n5/pcd/harness.manifest.json",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/harness.manifest.json",
-      "sha256": "adec2a5f643dc52381d08efae3fa9da791ec1af35e4e44d9a1eb3d9a9195fb63",
-      "bytes": 6061
-    },
-    {
-      "path": "engines/l4plus-n5/pcd/harness.pcd",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/harness.pcd",
-      "sha256": "b9dc97d75637ff69eef7489a2825c166d43ff2cc73d1b59a4e1bef2ee27a6c34",
-      "bytes": 558
-    },
-    {
       "path": "engines/l4plus-n5/pcd/l4plus_n5_harness.bir",
       "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_harness.bir",
       "sha256": "670d64da83a7b606d2b9d1474382df4b1ff73ae2174b74e315edd2783ae782f2",
       "bytes": 378
     },
     {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_harness.bir.asm",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_harness.bir.asm",
+      "sha256": "bdc9d30d0d512ba090f4ce561ec75357b3b1d481ee05a41d6d07f3de6fa48673",
+      "bytes": 622
+    },
+    {
       "path": "engines/l4plus-n5/pcd/l4plus_n5_harness.cert.json",
       "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_harness.cert.json",
       "sha256": "01f560f9e89e616031ede3db46e73e8927b6b18e3fd74702c62520d81e514365",
       "bytes": 6604
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir",
+      "sha256": "9a92f5136cf375eefdddfd926585eca411149b2e4bc5b9653aca9004c85ddee4",
+      "bytes": 521
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir.asm",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir.asm",
+      "sha256": "8639bfcf9e7e7daf105e50b3922ab52a67bd63a28202140615ba3fc322abe249",
+      "bytes": 680
+    },
+    {
+      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.cert.json",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_runtime_adapter.cert.json",
+      "sha256": "628b196cdef72a7c5cf8e50dc350f4f72cabfec3eea1324985e2400fd5eededb",
+      "bytes": 6628
     },
     {
       "path": "engines/l4plus-n5/pcd/runtime_adapter.manifest.json",
@@ -126,16 +144,10 @@
       "bytes": 749
     },
     {
-      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_runtime_adapter.bir",
-      "sha256": "9a92f5136cf375eefdddfd926585eca411149b2e4bc5b9653aca9004c85ddee4",
-      "bytes": 521
-    },
-    {
-      "path": "engines/l4plus-n5/pcd/l4plus_n5_runtime_adapter.cert.json",
-      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/pcd/l4plus_n5_runtime_adapter.cert.json",
-      "sha256": "628b196cdef72a7c5cf8e50dc350f4f72cabfec3eea1324985e2400fd5eededb",
-      "bytes": 6628
+      "path": "engines/l4plus-n5/serial.txt",
+      "sourcePath": "/Users/carlosjperez/Documents/GitHub/brik64-engine-l4plus-n5/serial.txt",
+      "sha256": "6f2a3eff7b3cbf80debb823f1771df5364d6f1fdf2c0b6c2dab8e109c04dc757",
+      "bytes": 43
     }
   ],
   "blockers": [],
@@ -143,5 +155,6 @@
     "This bundle packages portable PCD/BIR/certificate evidence for offline CLI binding.",
     "It does not include a native executable runtime.",
     "It does not authorize universal correctness claims."
-  ]
+  ],
+  "runtimeProfile": "l4plus_n5_local"
 }

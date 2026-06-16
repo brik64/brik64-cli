@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.5';
+const version = '0.1.0-beta.15.6';
 const RELEASE_STATUS = 'public_beta';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
@@ -2338,17 +2338,19 @@ function engineStatus() {
     cliVersion: version,
     status: 'PASS',
     localRuntime: 'available',
-    runtimeProfile: 'portable_local_runtime',
+    runtimeProfile: 'l4plus_n5_local',
+    engine: bundle.engine || 'L4+N5',
+    serial: bundle.serial || null,
     nativeExecutableIncluded: bundle.nativeExecutableIncluded,
     artifactCount: bundle.artifacts.length,
-    releaseEligible: false,
+    releaseEligible: true,
     claimBoundary: {
       publicClaimsAllowed: false,
       universalCorrectnessClaimAllowed: false,
       platformCertificationAllowed: false
     },
     limitations: [
-      'local beta runtime profile',
+      'local L4+N5 beta runtime profile',
       'managed platform execution is not used unless explicitly authenticated'
     ]
   };
@@ -4510,6 +4512,82 @@ function simpleBodyLinesFromSource(body, language) {
   return lines.length > 0 ? lines : null;
 }
 
+function countLiftReturns(sourceBody, language) {
+  if (!sourceBody) return 0;
+  if (language === 'python') return [...sourceBody.matchAll(/^[ \t]*return\s+(.+)$/gm)].length;
+  return [...sourceBody.matchAll(/\breturn\s+([^;]+);?/g)].length;
+}
+
+function countLiftBranches(sourceBody, language) {
+  if (!sourceBody) return 0;
+  if (language === 'python') return [...sourceBody.matchAll(/^[ \t]*if\s+.+?:/gm)].length;
+  return [...sourceBody.matchAll(/\bif\s*(?:\(|\s)/g)].length;
+}
+
+function countGeneratedConditionalReturns(bodyLines) {
+  return (bodyLines || []).filter((line) => /^\s*if\s*\(.+\)\s*return\s+/.test(line)).length;
+}
+
+function analyzeLiftCandidate(name, sourceBody, bodyLines, language) {
+  const warnings = [];
+  const body = String(sourceBody || '');
+  const generated = bodyLines || [];
+  const sourceReturns = countLiftReturns(body, language);
+  const generatedReturns = generated.filter((line) => /\breturn\b/.test(line)).length;
+  const sourceBranches = countLiftBranches(body, language);
+  const generatedBranches = countGeneratedConditionalReturns(generated);
+
+  if (/(["'`])(?:\\.|(?!\1).)*\1/.test(body) || /[=!]==?\s*(["'`])/.test(body)) {
+    warnings.push({ code: 'lift_string_logic_not_represented', function: name, reason: 'string_literal_or_string_comparison_requires_explicit_boundary' });
+  }
+  if (/\b\d+\.\d+\b/.test(body)) {
+    warnings.push({ code: 'lift_float_precision_narrowed', function: name, reason: 'preview PCD domains default to i64 unless float boundary is explicit' });
+  }
+  if (language === 'python' ? /\b(and|or)\b/.test(body) : /(&&|\|\|)/.test(body)) {
+    warnings.push({ code: 'lift_compound_boolean_simplified', function: name, reason: 'compound boolean expressions require explicit decomposition before certification' });
+  }
+  if (sourceBranches > generatedBranches) {
+    warnings.push({
+      code: 'lift_branch_dropped',
+      function: name,
+      reason: 'one_or_more_source_branches_were_not_emitted',
+      sourceBranches,
+      generatedBranches
+    });
+  }
+  if (sourceReturns > generatedReturns) {
+    warnings.push({
+      code: 'lift_return_path_dropped',
+      function: name,
+      reason: 'one_or_more_return_paths_were_not_emitted',
+      sourceReturns,
+      generatedReturns
+    });
+  }
+  const coverageBase = sourceReturns > 0
+    ? Math.floor((Math.min(generatedReturns, sourceReturns) / sourceReturns) * 100)
+    : (generatedReturns > 0 ? 70 : 0);
+  const branchPenalty = sourceBranches > 0
+    ? Math.floor((Math.max(0, sourceBranches - generatedBranches) / sourceBranches) * 35)
+    : 0;
+  const constructPenalty = warnings.some((warning) => ['lift_string_logic_not_represented', 'lift_compound_boolean_simplified'].includes(warning.code)) ? 25 : 0;
+  const semanticCoveragePercent = Math.max(0, Math.min(100, coverageBase - branchPenalty - constructPenalty));
+  if (semanticCoveragePercent < 90) {
+    warnings.push({
+      code: 'lift_semantic_coverage_below_threshold',
+      function: name,
+      reason: 'candidate is preview-only until source semantics are represented with sufficient coverage',
+      semanticCoveragePercent,
+      threshold: 90
+    });
+  }
+  return {
+    warnings,
+    semanticCoveragePercent,
+    certificationEligible: warnings.length === 0 && semanticCoveragePercent >= 90
+  };
+}
+
 function buildCandidatePcd(name, params, expression, options = {}) {
   const safeName = sanitizeCandidateName(name, 'candidate');
   const safeParams = params.map((param) => sanitizeCandidateName(param, 'input'));
@@ -4533,21 +4611,64 @@ function buildCandidatePcd(name, params, expression, options = {}) {
   ].join('\n');
 }
 
+function readBalancedJsBlock(source, openBraceIndex) {
+  let depth = 0;
+  let quote = null;
+  let escaped = false;
+  for (let i = openBraceIndex; i < source.length; i += 1) {
+    const ch = source[i];
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+      } else if (ch === '\\') {
+        escaped = true;
+      } else if (ch === quote) {
+        quote = null;
+      }
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === '`') {
+      quote = ch;
+      continue;
+    }
+    if (ch === '{') depth += 1;
+    if (ch === '}') {
+      depth -= 1;
+      if (depth === 0) {
+        return {
+          body: source.slice(openBraceIndex + 1, i),
+          end: i + 1
+        };
+      }
+    }
+  }
+  return null;
+}
+
 function extractJsLikeLiftCandidates(source, language) {
   const candidates = [];
   const warnings = [];
-  const functionPattern = /\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*(?::\s*[A-Za-z0-9_<>\[\]| ]+)?\s*\{([\s\S]*?)\}/g;
+  const functionPattern = /\bfunction\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)\s*(?::\s*[A-Za-z0-9_<>\[\]| ]+)?\s*\{/g;
   let match;
   while ((match = functionPattern.exec(source))) {
     const name = match[1];
     const params = match[2].split(',').map((param) => param.trim().replace(/:.*/, '').trim()).filter(Boolean);
-    const returnMatch = match[3].match(/\breturn\s+([^;]+);?/);
+    const block = readBalancedJsBlock(source, functionPattern.lastIndex - 1);
+    if (!block) {
+      warnings.push({ code: 'unsupported_construct', function: name, reason: 'unbalanced_function_body' });
+      continue;
+    }
+    functionPattern.lastIndex = block.end;
+    const returnMatch = block.body.match(/\breturn\s+([^;]+);?/);
     const expression = normalizeLiftExpression(returnMatch && returnMatch[1], language);
     if (!expression) {
       warnings.push({ code: 'unsupported_construct', function: name, reason: 'missing_or_unsupported_return_expression' });
       continue;
     }
-    candidates.push({ name, params, expression, bodyLines: simpleBodyLinesFromSource(match[3], language), sourceBody: match[3] });
+    const bodyLines = simpleBodyLinesFromSource(block.body, language);
+    const analysis = analyzeLiftCandidate(name, block.body, bodyLines, language);
+    warnings.push(...analysis.warnings);
+    candidates.push({ name, params, expression, bodyLines, sourceBody: block.body, liftAnalysis: analysis });
   }
   const arrowPattern = /\b(?:const|let|var)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\(?([^)=]*)\)?\s*=>\s*(?:\{[\s\S]*?\breturn\s+([^;]+);?\s*\}|([^;\n]+))/g;
   while ((match = arrowPattern.exec(source))) {
@@ -4558,7 +4679,11 @@ function extractJsLikeLiftCandidates(source, language) {
       warnings.push({ code: 'unsupported_construct', function: name, reason: 'missing_or_unsupported_arrow_expression' });
       continue;
     }
-    candidates.push({ name, params, expression, bodyLines: match[3] ? simpleBodyLinesFromSource(match[3], language) : [`        return ${expression};`], sourceBody: match[3] || match[4] });
+    const sourceBody = match[3] || match[4];
+    const bodyLines = match[3] ? simpleBodyLinesFromSource(match[3], language) : [`        return ${expression};`];
+    const analysis = analyzeLiftCandidate(name, sourceBody, bodyLines, language);
+    warnings.push(...analysis.warnings);
+    candidates.push({ name, params, expression, bodyLines, sourceBody, liftAnalysis: analysis });
   }
   if (/\b(class|async|await|for|while|switch|try|catch)\b/.test(source)) {
     warnings.push({ code: 'unsupported_construct_present', reason: 'control_flow_or_runtime_construct_requires_future_lifter' });
@@ -4580,7 +4705,10 @@ function extractPythonLiftCandidates(source) {
       warnings.push({ code: 'unsupported_construct', function: name, reason: 'missing_or_unsupported_return_expression' });
       continue;
     }
-    candidates.push({ name, params, expression, bodyLines: simpleBodyLinesFromSource(match[3], 'python'), sourceBody: match[3] });
+    const bodyLines = simpleBodyLinesFromSource(match[3], 'python');
+    const analysis = analyzeLiftCandidate(name, match[3], bodyLines, 'python');
+    warnings.push(...analysis.warnings);
+    candidates.push({ name, params, expression, bodyLines, sourceBody: match[3], liftAnalysis: analysis });
   }
   if (/\b(class|async|await|for|while|try|except|with)\b/.test(source)) {
     warnings.push({ code: 'unsupported_construct_present', reason: 'control_flow_or_runtime_construct_requires_future_lifter' });
@@ -4616,7 +4744,10 @@ function extractRustLiftCandidates(source) {
       warnings.push({ code: 'unsupported_construct', function: name, reason: 'missing_or_unsupported_return_expression' });
       continue;
     }
-    candidates.push({ name, params, expression, bodyLines: simpleBodyLinesFromSource(body, 'rust') || [`        return ${expression};`], sourceBody: body });
+    const bodyLines = simpleBodyLinesFromSource(body, 'rust') || [`        return ${expression};`];
+    const analysis = analyzeLiftCandidate(name, body, bodyLines, 'rust');
+    warnings.push(...analysis.warnings);
+    candidates.push({ name, params, expression, bodyLines, sourceBody: body, liftAnalysis: analysis });
   }
   if (/\b(struct|enum|impl|trait|async|await|for|while|loop|match|unsafe)\b/.test(source)) {
     warnings.push({ code: 'unsupported_construct_present', reason: 'rust_complex_construct_requires_future_lifter' });
@@ -4701,7 +4832,10 @@ function lift(language, sourcePath, args = []) {
       function: candidate.name,
       file: path.join('candidates', fileName),
       semantic_pcd_sha256: sha256(pcd),
-      translationStatus: parsed['--stub-only'] ? 'stub' : (candidate.bodyLines ? 'best_effort_simple_body' : 'expression_only')
+      translationStatus: parsed['--stub-only'] ? 'stub' : (candidate.bodyLines ? 'best_effort_simple_body' : 'expression_only'),
+      semanticCoveragePercent: candidate.liftAnalysis?.semanticCoveragePercent ?? (candidate.bodyLines ? 90 : 70),
+      certificationEligible: Boolean(candidate.liftAnalysis?.certificationEligible),
+      warningCodes: [...new Set((candidate.liftAnalysis?.warnings || []).map((warning) => warning.code))].sort()
     });
   }
   const manifest = {
@@ -4723,6 +4857,10 @@ function lift(language, sourcePath, args = []) {
     candidateCount: written.length,
     warningCount: warnings.length,
     candidates: written,
+    semanticCoveragePercent: written.length
+      ? Math.floor(written.reduce((sum, candidate) => sum + (candidate.semanticCoveragePercent || 0), 0) / written.length)
+      : 0,
+    certificationEligibleCandidateCount: written.filter((candidate) => candidate.certificationEligible).length,
     warningCodes: [...new Set(warnings.map((warning) => warning.code))].sort(),
     claimBoundary: 'local_candidate_only'
   };

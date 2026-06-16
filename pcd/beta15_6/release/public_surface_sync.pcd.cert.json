@@ -1,0 +1,746 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.6",
+  "pcd": "pcd/beta15_6/release/public_surface_sync.pcd",
+  "semantic_pcd_sha256": "275ae6f7ac98e0491ecd7b67d554e395ecc4fcb91ead2890aac48312412d6a35",
+  "ast_sha256": "ea050cffd77548fbe13201e74d81368b5d62d45b47516ca0792ffaf4ad41319e",
+  "domain_contract_sha256": "1a27581d2caf392c624f35d37032fa2120eac9d3e0285f37cca7a0d9e8feaaf2",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "cli_package",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "curl_manifest",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "docs",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "web",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "skills",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "sdk",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "cli_package",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "curl_manifest",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "docs",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "web",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "skills",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "sdk",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "1a27581d2caf392c624f35d37032fa2120eac9d3e0285f37cca7a0d9e8feaaf2"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "public_surface_sync",
+    "fnName": "public_surface_sync",
+    "params": [
+      "cli_package",
+      "curl_manifest",
+      "docs",
+      "web",
+      "skills",
+      "sdk"
+    ],
+    "paramTypes": {
+      "cli_package": "i64",
+      "curl_manifest": "i64",
+      "docs": "i64",
+      "web": "i64",
+      "skills": "i64",
+      "sdk": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "cli_package",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "curl_manifest",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "docs",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "web",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "skills",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "sdk",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "cli_package",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "curl_manifest",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "docs",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "web",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "skills",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "sdk",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "1a27581d2caf392c624f35d37032fa2120eac9d3e0285f37cca7a0d9e8feaaf2"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "public_surface_sync": {
+        "name": "public_surface_sync",
+        "params": [
+          "cli_package",
+          "curl_manifest",
+          "docs",
+          "web",
+          "skills",
+          "sdk"
+        ],
+        "paramTypes": {
+          "cli_package": "i64",
+          "curl_manifest": "i64",
+          "docs": "i64",
+          "web": "i64",
+          "skills": "i64",
+          "sdk": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "cli_package",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "curl_manifest",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "docs",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "web",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "skills",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "sdk",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "raw": "1",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 6
+      }
+    },
+    "entrypoint": {
+      "name": "public_surface_sync",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "cli_package",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "curl_manifest",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "docs",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "web",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "skills",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "sdk",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "raw": "1",
+          "numericType": "i64",
+          "inferredType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 6,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

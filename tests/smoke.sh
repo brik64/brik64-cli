@@ -17,7 +17,8 @@ node "$BRIK" --help | grep -q "verify <file.pcd>"
 node "$BRIK" --help | grep -q "migrate <file.pcd>"
 node "$BRIK" --help | grep -q "explain <file.pcd>"
 node "$BRIK" --help | grep -q "telemetry status"
-node "$BRIK" engine status | grep -q '"runtimeProfile": "portable_local_runtime"'
+node "$BRIK" engine status | grep -q '"runtimeProfile": "l4plus_n5_local"'
+node "$BRIK" engine status | grep -q '"engine": "L4+N5"'
 node "$BRIK" engine status | grep -q '"nativeExecutableIncluded": false'
 
 if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
@@ -26,7 +27,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ] || [ "$BETA_LABEL" = "beta15_4" ] || [ "$BETA_LABEL" = "beta15_5" ]; then
+  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ] || [ "$BETA_LABEL" = "beta15_4" ] || [ "$BETA_LABEL" = "beta15_5" ] || [ "$BETA_LABEL" = "beta15_6" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
@@ -41,7 +42,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   fi
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"
   grep -Eq "decision=($SMOKE_DECISION|PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_SMOKE)" <<<"$package_smoke_out"
-  node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = label === "beta15_5" && state === "public"; if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
+node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = label === "beta15_6" ? true : ((label === "beta15_5") && state === "public"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
   if [ "$BETA_NUMBER" = "9" ]; then
     node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (!r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
     beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"

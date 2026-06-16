@@ -1,49 +1,49 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.15.5",
-  "state": "public",
-  "manifestDigest": "969c71530f84c04c94aed782d38ec634aeaf96c49266f40b9b16e50992e1084d",
+  "version": "0.1.0-beta.15.6",
+  "state": "draft",
+  "manifestDigest": "d7ab31f8c4f1eb001b7c0ff8457f2bf5c9cac9e4565540c29dee523885198493",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": true,
+  "releaseEligible": false,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "969c71530f84c04c94aed782d38ec634aeaf96c49266f40b9b16e50992e1084d",
-      "bytes": 4966
+      "sha256": "d7ab31f8c4f1eb001b7c0ff8457f2bf5c9cac9e4565540c29dee523885198493",
+      "bytes": 5297
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.15.5"
+      "version": "0.1.0-beta.15.6"
     },
     "evidence": [
       {
-        "id": "beta15_5_rust_f64_command_lift",
-        "path": "evidence/beta15_5-rust-f64-command-lift/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
-        "sha256": "13aac8c2b013667a537cab46ae576922ee510adbd126c84bdf3ad12fce98cbad"
+        "id": "beta15_6_rust_f64_command_lift",
+        "path": "evidence/beta15_6-rust-f64-command-lift/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
+        "sha256": "0ace497a642d2c12849c5f55d5a6768eadecf03e87a75c6caf0445460e9c3608"
       },
       {
-        "id": "beta15_5_pre_public_rc",
-        "path": "evidence/beta15_5-pre-public-rc/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
-        "sha256": "77bd928cd62f3fba5eb9e18f7335ee33976c0883757513c80707d717e8bf71ca"
+        "id": "beta15_6_pre_public_rc",
+        "path": "evidence/beta15_6-pre-public-rc/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
+        "sha256": "4000721f8e3afbb7e3b49733cf7bacc17fb5650ae28184ccd21b17201ca07283"
       },
       {
-        "id": "beta15_5_package",
-        "path": "evidence/beta15_5-package/package.manifest.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
-        "sha256": "6c86db17ebb52a3145940fbaf992c94a96d987a82862f7f198903bfab628a1f4"
+        "id": "beta15_6_package",
+        "path": "evidence/beta15_6-package/package.manifest.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_BUILT",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_BUILT",
+        "sha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5"
       },
       {
-        "id": "beta15_5_package_smoke",
-        "path": "evidence/beta15_5-package-smoke/report.json",
-        "expectedDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
-        "actualDecision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
-        "sha256": "f7fb7bbb4440f38db8dda465db6e7e3f51a149a368781bc7815289fc541adff2"
+        "id": "beta15_6_package_smoke",
+        "path": "evidence/beta15_6-package-smoke/report.json",
+        "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_SMOKE",
+        "actualDecision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_SMOKE",
+        "sha256": "647b623961cd0da718101188a66fd82e038f8b096f507c9048534cd05cb0cfd3"
       }
     ]
   },

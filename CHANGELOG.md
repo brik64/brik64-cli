@@ -3,6 +3,34 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.6
+
+### Added
+
+- Adds package smoke coverage that verifies the complete offline engine bundle
+  and checksum list from the installable archive.
+- Adds lift preview diagnostics for dropped branches, dropped return paths,
+  string comparisons, compound boolean expressions, and narrowed floating-point
+  expressions.
+- Adds a release gate that checks semantic-loss warnings before a lifted preview
+  can be treated as a certification candidate.
+
+### Fixed
+
+- Fixes the installable archive so local engine status can run from the packaged
+  CLI without missing runtime artifacts.
+- Fixes lift preview reporting so low-coverage candidates are marked not
+  certification eligible instead of appearing clean.
+- Keeps generated TypeScript, Python, and Rust test execution in the Beta15.6
+  release gate for polymers and lifted candidates.
+
+### Compatibility
+
+- This beta remains a candidate until public installer, GitHub release, web,
+  docs, SDKs, skills, changelog, and live verification are synchronized.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.5
 
 ### Added

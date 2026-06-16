@@ -1,0 +1,29 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+// beta15_6_source_contract: l6_cli_materialization_contract
+PC l6_cli_materialization_contract {
+    fn l6_cli_materialization_contract(
+        pcd_inputs_hash_bound,
+        l6plus_materializer_accepts_contract,
+        generated_artifact_hash_bound,
+        package_hash_bound,
+        release_manifest_hash_bound
+    ) {
+        if (pcd_inputs_hash_bound == 0) {
+            return 0;
+        }
+        if (l6plus_materializer_accepts_contract == 0) {
+            return 0;
+        }
+        if (generated_artifact_hash_bound == 0) {
+            return 0;
+        }
+        if (package_hash_bound == 0) {
+            return 0;
+        }
+        if (release_manifest_hash_bound == 0) {
+            return 0;
+        }
+        return 1;
+    }
+}

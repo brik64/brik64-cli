@@ -1,28 +1,28 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15.5",
-  "version": "0.1.0-beta.15.5",
+  "releaseId": "brik64-0.1.0-beta.15.6",
+  "version": "0.1.0-beta.15.6",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-16T12:00:00.000Z",
+  "state": "draft",
+  "createdAt": "2026-06-16T21:18:32.786Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "9b16f626011e3a48510af0a2f65fb7e82b6ed7ac",
-    "pullRequest": 188,
-    "commitBinding": "public_release_base_commit"
+    "branch": "codex/beta15-6-l4-engine-required",
+    "commit": "357550a79bf2274aca991c89cc648aff78c242ac",
+    "pullRequest": null,
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
     "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
     "verifyCommand": "brik64 --version",
     "package": {
-      "name": "brik64-cli-0.1.0-beta.15.5.tgz",
-      "path": "evidence/beta15_5-package/brik64-cli-0.1.0-beta.15.5.tgz",
-      "sha256": "49074bcde3143946957ceea02773ffee734a7f74bf3d7ead1cbb81e3997bbbf0",
-      "size_bytes": 597060,
-      "bytes": 597060,
-      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.5/brik64-cli-0.1.0-beta.15.5.tgz"
+      "name": "brik64-cli-0.1.0-beta.15.6.tgz",
+      "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
+      "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
+      "size_bytes": 608324,
+      "bytes": 608324,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz"
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
@@ -33,25 +33,25 @@
       "n5FormalClaimAllowed": false,
       "rustIndependenceClaimAllowed": false
     },
-    "packageManifestSha256": "6c86db17ebb52a3145940fbaf992c94a96d987a82862f7f198903bfab628a1f4"
+    "packageManifestSha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5"
   },
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.15.5",
+      "version": "0.1.0-beta.15.6",
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b15.post5",
+      "version": "0.1.0b15.post6",
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.15.5",
+      "version": "0.1.0-beta.15.6",
       "publication": "pending_release_train_publish"
     }
   ],
@@ -59,7 +59,7 @@
     "githubRelease": {
       "required": true,
       "status": "pending_release_train_publish",
-      "tag": "v0.1.0-beta.15.5"
+      "tag": "v0.1.0-beta.15.6"
     },
     "curlInstaller": {
       "required": true,
@@ -90,67 +90,72 @@
   "verification": {
     "requiredEvidence": [
       {
-        "id": "beta15_5_rust_f64_command_lift",
-        "path": "evidence/beta15_5-rust-f64-command-lift/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE"
+        "id": "beta15_6_rust_f64_command_lift",
+        "path": "evidence/beta15_6-rust-f64-command-lift/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE"
       },
       {
-        "id": "beta15_5_pre_public_rc",
-        "path": "evidence/beta15_5-pre-public-rc/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE"
+        "id": "beta15_6_pre_public_rc",
+        "path": "evidence/beta15_6-pre-public-rc/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE"
       },
       {
-        "id": "beta15_5_package",
-        "path": "evidence/beta15_5-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT"
+        "id": "beta15_6_package",
+        "path": "evidence/beta15_6-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_BUILT"
       },
       {
-        "id": "beta15_5_package_smoke",
-        "path": "evidence/beta15_5-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE"
+        "id": "beta15_6_package_smoke",
+        "path": "evidence/beta15_6-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_SMOKE"
       }
     ]
   },
   "githubReleaseDraft": {
-    "tagName": "v0.1.0-beta.15.5",
-    "targetCommitish": "9b16f626011e3a48510af0a2f65fb7e82b6ed7ac",
-    "isDraft": false,
+    "tagName": "v0.1.0-beta.15.6",
+    "targetCommitish": "codex/beta15-6-l4-engine-required",
+    "isDraft": true,
     "isPrerelease": true,
     "assets": [
       {
-        "name": "brik64-cli-0.1.0-beta.15.5.tgz",
-        "sha256": "d51bb41f2e4b44fb65114afdcdd339064a17271f1129a3c84b74025e85d1bbca",
-        "size_bytes": 597060
+        "name": "brik64-cli-0.1.0-beta.15.6.tgz",
+        "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
+        "size_bytes": 608324
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "2508d012d269e15e6cba64af8922328ecea8aa0fc6edc6071cf32c2a4950e145",
+        "sha256": "f118e7e174427db948e8b072fb120da6c511b98a966419466792873fdf312982",
         "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "56e5b2c8d96a7e39d2752ce168cb4f9c2485df26f1ffad1b58404f913932baed",
-        "size_bytes": 1929
+        "sha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5",
+        "size_bytes": 1740
       }
     ],
-    "targetCommitishBinding": "github_verified_squash_commit"
+    "targetCommitishBinding": "candidate_branch_until_pr_merge"
   },
   "releaseNotes": [
     {
       "type": "fixed",
       "surface": "cli",
-      "text": "Generated Rust polymer output preserves floating-point bounds and comparisons."
+      "text": "The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests."
+    },
+    {
+      "type": "fixed",
+      "surface": "cli",
+      "text": "Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets."
+      "text": "Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression."
     },
     {
       "type": "changed",
-      "surface": "release",
-      "text": "Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics."
+      "surface": "cli",
+      "text": "Engine status reports the offline beta runtime profile used by the local CLI."
     }
   ],
-  "generatedAt": "2026-06-16T15:50:40.655Z"
+  "generatedAt": "2026-06-16T21:42:54.379Z"
 }
