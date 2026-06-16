@@ -154,6 +154,21 @@
       - Boundary:
         this is request/input evidence only. It does not satisfy release gates
         until L6 emits a matching materialization result.
+- [x] Bind accepted L6 materialization result to exact request hash.
+      - PCD:
+        `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Attempt:
+        `scripts/beta15_4-l6-generation-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        accepted endpoint results must include `materializerRequestSha256`
+        matching the current generated `request.line`.
+      - Boundary:
+        this invalidates stale request/result pairs; it still does not produce
+        the missing L6 artifact.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

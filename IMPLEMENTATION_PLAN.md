@@ -74,6 +74,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   exact canonical input PCDs, per-file hashes, base64 content, output refs,
   required result schema and claim boundary. This is input evidence only; it
   does not satisfy release gates without a matching L6 result.
+- Request-result binding policy: an accepted
+  `BRIK64_L6_CLI_MATERIALIZATION_RESULT` must include
+  `materializerRequestSha256` matching the exact `request.line` generated for
+  the current attempt. A result for a different request, stale request or
+  reconstructed input fails closed.
 
 ## Phases
 

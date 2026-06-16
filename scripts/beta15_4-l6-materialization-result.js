@@ -13,6 +13,7 @@ const REQUIRED_SHA_FIELDS = [
   'compositeSha256',
   'generationTraceSha256',
   'pcdInputSetSha256',
+  'materializerRequestSha256',
   'remoteWrapperSha256',
   'wrapperExecTargetSha256',
 ];
@@ -130,6 +131,7 @@ function validateMaterializationResult(result, version, expected = {}) {
   }
   for (const [field, blocker] of [
     ['pcdInputSetSha256', 'materialization_result_pcd_input_set_sha256_mismatch'],
+    ['materializerRequestSha256', 'materialization_result_materializer_request_sha256_mismatch'],
     ['remoteWrapperSha256', 'materialization_result_remote_wrapper_sha256_mismatch'],
     ['wrapperExecTargetSha256', 'materialization_result_wrapper_exec_target_sha256_mismatch'],
   ]) {
@@ -168,6 +170,7 @@ function validateMaterializationResult(result, version, expected = {}) {
           compositeSha256: normalizeSha256(result.compositeSha256),
           generationTraceSha256: normalizeSha256(result.generationTraceSha256),
           pcdInputSetSha256: normalizeSha256(result.pcdInputSetSha256),
+          materializerRequestSha256: normalizeSha256(result.materializerRequestSha256),
           remoteWrapperSha256: normalizeSha256(result.remoteWrapperSha256),
           wrapperExecTargetSha256: normalizeSha256(result.wrapperExecTargetSha256),
           generatedArtifact: {

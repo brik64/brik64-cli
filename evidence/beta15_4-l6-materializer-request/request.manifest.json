@@ -4,15 +4,15 @@
   "decision": "PASS_BETA15_4_L6_MATERIALIZER_REQUEST_BUNDLE",
   "request": {
     "path": "evidence/beta15_4-l6-materializer-request/request.json",
-    "sha256": "53b90763e703d14c86db7ef233fa5dd324a0dc48b4093f8b4d747a91da495243",
-    "bytes": 14227
+    "sha256": "0d274cefc816de664f9f79008bcb04cd5e299dd095a7c11c05bd24934a81e335",
+    "bytes": 14451
   },
   "requestLine": {
     "path": "evidence/beta15_4-l6-materializer-request/request.line",
-    "sha256": "e68b907a572b9ff6284b1392e0803f37645120abd240c802046af6887c783b74",
-    "bytes": 18399
+    "sha256": "7de557560bc3209649090a1260518e9736ff290000bc1e09c97d122280492f71",
+    "bytes": 18699
   },
-  "pcdInputSetSha256": "89f42e453363bd36f31d6fd05f1542fe018c9614bf7292509268683287f8b377",
+  "pcdInputSetSha256": "3189975f2bef011a595f954d4eb787dd7a8c534400bb56764b60c65368153e11",
   "inputPcds": [
     {
       "path": "pcd/beta15_4/release/l6_cli_materialization_contract.pcd",
@@ -21,8 +21,8 @@
     },
     {
       "path": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
-      "sha256": "cd518de165a412d4f4d72992f7b9ffc8554162d52447dd711cf8176f816e9f96",
-      "bytes": 2805
+      "sha256": "336b2144527d132899478dc88e72935eb80f543b1624392374c7c98e92562451",
+      "bytes": 2973
     },
     {
       "path": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",

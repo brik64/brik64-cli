@@ -480,3 +480,40 @@ Boundary:
 - This creates an exact request input for the missing L6 materializer endpoint.
 - It does not produce the L6-generated CLI artifact and does not publish
   Beta15.4.
+
+## Iteration 20
+
+- Added request-result hash binding to the Beta15.4 L6 materialization result
+  contract.
+- Updated `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`
+  with `materializer_request_hash_matches`.
+- Hardened `scripts/beta15_4-l6-materialization-result.js` so accepted
+  endpoint results must include `materializerRequestSha256`.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` so the expected
+  materialization context includes the SHA-256 of the generated `request.line`.
+- Added parser coverage for:
+  - missing `materializerRequestSha256`;
+  - mismatched `materializerRequestSha256`;
+  - valid request hash binding.
+
+Evidence:
+
+- `node src/brik.js certify pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`
+  passed.
+- `node src/brik.js verify pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  artifact/package/release binding blockers.
+
+Boundary:
+
+- This binds any future materialization result to the exact current request
+  bytes.
+- It changes the Beta15.4 input PCD set hash and therefore requires downstream
+  prod report sync.
+- It does not implement the materializer endpoint or publish Beta15.4.

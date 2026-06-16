@@ -34,6 +34,7 @@ const good = {
   compositeSha256: 'd'.repeat(64),
   generationTraceSha256: '1'.repeat(64),
   pcdInputSetSha256: '2'.repeat(64),
+  materializerRequestSha256: '6'.repeat(64),
   remoteWrapperSha256: '3'.repeat(64),
   wrapperExecTargetSha256: '4'.repeat(64),
   generatedArtifact: {
@@ -63,6 +64,7 @@ assert.deepStrictEqual(parsed.version, good.version);
 assert.strictEqual(validateMaterializationResult(parsed, good.version).accepted, true);
 assert.strictEqual(validateMaterializationResult(parsed, good.version, {
   pcdInputSetSha256: good.pcdInputSetSha256,
+  materializerRequestSha256: good.materializerRequestSha256,
   remoteWrapperSha256: good.remoteWrapperSha256,
   wrapperExecTargetSha256: good.wrapperExecTargetSha256,
   requiredInputPcdPaths: [
@@ -97,6 +99,11 @@ delete missingTrace.generationTraceSha256;
 assert.strictEqual(validateMaterializationResult(missingTrace, good.version).accepted, false);
 assert(validateMaterializationResult(missingTrace, good.version).blockers.includes('materialization_result_generation_trace_sha256_invalid'));
 
+const missingRequestHash = { ...good };
+delete missingRequestHash.materializerRequestSha256;
+assert.strictEqual(validateMaterializationResult(missingRequestHash, good.version).accepted, false);
+assert(validateMaterializationResult(missingRequestHash, good.version).blockers.includes('materialization_result_materializer_request_sha256_invalid'));
+
 const missingArtifactRef = { ...good };
 delete missingArtifactRef.generatedArtifact;
 assert.strictEqual(validateMaterializationResult(missingArtifactRef, good.version).accepted, false);
@@ -123,6 +130,7 @@ assert(wrongInputSet.blockers.includes('materialization_result_pcd_input_set_sha
 
 const wrongWrapper = validateMaterializationResult(good, good.version, {
   pcdInputSetSha256: good.pcdInputSetSha256,
+  materializerRequestSha256: good.materializerRequestSha256,
   remoteWrapperSha256: '9'.repeat(64),
   wrapperExecTargetSha256: good.wrapperExecTargetSha256,
 });
@@ -131,11 +139,21 @@ assert(wrongWrapper.blockers.includes('materialization_result_remote_wrapper_sha
 
 const wrongExecTarget = validateMaterializationResult(good, good.version, {
   pcdInputSetSha256: good.pcdInputSetSha256,
+  materializerRequestSha256: good.materializerRequestSha256,
   remoteWrapperSha256: good.remoteWrapperSha256,
   wrapperExecTargetSha256: '9'.repeat(64),
 });
 assert.strictEqual(wrongExecTarget.accepted, false);
 assert(wrongExecTarget.blockers.includes('materialization_result_wrapper_exec_target_sha256_mismatch'));
+
+const wrongRequestHash = validateMaterializationResult(good, good.version, {
+  pcdInputSetSha256: good.pcdInputSetSha256,
+  materializerRequestSha256: '9'.repeat(64),
+  remoteWrapperSha256: good.remoteWrapperSha256,
+  wrapperExecTargetSha256: good.wrapperExecTargetSha256,
+});
+assert.strictEqual(wrongRequestHash.accepted, false);
+assert(wrongRequestHash.blockers.includes('materialization_result_materializer_request_sha256_mismatch'));
 
 const missingRequiredPcd = validateMaterializationResult(
   {

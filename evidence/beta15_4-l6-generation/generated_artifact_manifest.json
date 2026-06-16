@@ -18,8 +18,8 @@
     },
     {
       "path": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
-      "sha256": "cd518de165a412d4f4d72992f7b9ffc8554162d52447dd711cf8176f816e9f96",
-      "bytes": 2805
+      "sha256": "336b2144527d132899478dc88e72935eb80f543b1624392374c7c98e92562451",
+      "bytes": 2973
     },
     {
       "path": "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",

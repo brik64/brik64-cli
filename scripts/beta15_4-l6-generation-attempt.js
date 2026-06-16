@@ -125,10 +125,11 @@ function writeInputHashes(inputs) {
   return sha256(body);
 }
 
-function expectedMaterializationContext(inputs, remoteRefs) {
+function expectedMaterializationContext(inputs, remoteRefs, materializerRequestSha256 = null) {
   const inputHashBody = `${inputs.map((item) => `${item.sha256}\t${item.bytes}\t${item.path}`).join('\n')}\n`;
   return {
     pcdInputSetSha256: sha256(inputHashBody),
+    materializerRequestSha256,
     remoteWrapperSha256: remoteRefs.wrapper?.sha256 || null,
     wrapperExecTargetSha256: remoteRefs.wrapper_exec_target?.sha256 || null,
     requiredInputPcdPaths: inputs.map((item) => item.path),
@@ -214,7 +215,8 @@ function main() {
   const remoteRefs = parseRemoteRefs(remoteRefProbe.stdout);
   const wrapperMode = parseWrapperMode(remoteRefProbe.stdout);
   const attempts = materializationAttempts();
-  const expectedContext = expectedMaterializationContext(inputs, remoteRefs);
+  const materializerRequestSha256 = sha256File(requestLinePath);
+  const expectedContext = expectedMaterializationContext(inputs, remoteRefs, materializerRequestSha256);
   const acceptedAttempt = attempts
     .map((attempt) => ({
       attempt,
@@ -252,6 +254,7 @@ function main() {
     materializerRequest: {
       path: rel(requestManifestPath),
       sha256: sha256File(requestManifestPath),
+      requestLineSha256: materializerRequestSha256,
       accepted: true
     }
   });

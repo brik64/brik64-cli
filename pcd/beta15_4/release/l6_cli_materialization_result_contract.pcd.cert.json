@@ -2,9 +2,9 @@
   "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
   "cliVersion": "0.1.0-beta.15.4",
   "pcd": "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
-  "semantic_pcd_sha256": "cd518de165a412d4f4d72992f7b9ffc8554162d52447dd711cf8176f816e9f96",
-  "ast_sha256": "16a356ef6e5fcb9738c4f977fcd48a68d8091d2cff3eba687a8f76dbf8a2db06",
-  "domain_contract_sha256": "453307e47595511d92df43d1252e56ea733890d92e7fff0680a86f717471bb42",
+  "semantic_pcd_sha256": "336b2144527d132899478dc88e72935eb80f543b1624392374c7c98e92562451",
+  "ast_sha256": "2c95c1be667f650e793652af941b25df117f265e232fef692594c589249a3535",
+  "domain_contract_sha256": "90d1c4f81ec1ac2401ff49ab28d7a71183be3f8abf16e5c83a0f6ee8ca5d24c2",
   "domainContract": {
     "schemaVersion": "brik64.cli_domain_contract.v1",
     "domains": [
@@ -58,6 +58,18 @@
       },
       {
         "name": "pcd_input_set_hash_matches",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "materializer_request_hash_matches",
         "type": "i64",
         "min": {
           "kind": "literal",
@@ -255,6 +267,11 @@
         "maxValue": 1
       },
       {
+        "name": "materializer_request_hash_matches",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
         "name": "remote_wrapper_hash_matches",
         "minValue": 0,
         "maxValue": 1
@@ -325,7 +342,7 @@
     "unresolvedParams": [],
     "status": "complete",
     "claimBearingEligible": true,
-    "sha256": "453307e47595511d92df43d1252e56ea733890d92e7fff0680a86f717471bb42"
+    "sha256": "90d1c4f81ec1ac2401ff49ab28d7a71183be3f8abf16e5c83a0f6ee8ca5d24c2"
   },
   "ast": {
     "schemaVersion": "brik64.cli_ast.v1",
@@ -337,6 +354,7 @@
       "l6plus_serial_bound",
       "materializer_mode_bound",
       "pcd_input_set_hash_matches",
+      "materializer_request_hash_matches",
       "remote_wrapper_hash_matches",
       "wrapper_exec_target_hash_matches",
       "generated_artifact_hash_bound",
@@ -357,6 +375,7 @@
       "l6plus_serial_bound": "i64",
       "materializer_mode_bound": "i64",
       "pcd_input_set_hash_matches": "i64",
+      "materializer_request_hash_matches": "i64",
       "remote_wrapper_hash_matches": "i64",
       "wrapper_exec_target_hash_matches": "i64",
       "generated_artifact_hash_bound": "i64",
@@ -428,6 +447,18 @@
         },
         {
           "name": "pcd_input_set_hash_matches",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "materializer_request_hash_matches",
           "type": "i64",
           "min": {
             "kind": "literal",
@@ -625,6 +656,11 @@
           "maxValue": 1
         },
         {
+          "name": "materializer_request_hash_matches",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
           "name": "remote_wrapper_hash_matches",
           "minValue": 0,
           "maxValue": 1
@@ -695,7 +731,7 @@
       "unresolvedParams": [],
       "status": "complete",
       "claimBearingEligible": true,
-      "sha256": "453307e47595511d92df43d1252e56ea733890d92e7fff0680a86f717471bb42"
+      "sha256": "90d1c4f81ec1ac2401ff49ab28d7a71183be3f8abf16e5c83a0f6ee8ca5d24c2"
     },
     "boundaryContracts": [],
     "functions": {
@@ -707,6 +743,7 @@
           "l6plus_serial_bound",
           "materializer_mode_bound",
           "pcd_input_set_hash_matches",
+          "materializer_request_hash_matches",
           "remote_wrapper_hash_matches",
           "wrapper_exec_target_hash_matches",
           "generated_artifact_hash_bound",
@@ -727,6 +764,7 @@
           "l6plus_serial_bound": "i64",
           "materializer_mode_bound": "i64",
           "pcd_input_set_hash_matches": "i64",
+          "materializer_request_hash_matches": "i64",
           "remote_wrapper_hash_matches": "i64",
           "wrapper_exec_target_hash_matches": "i64",
           "generated_artifact_hash_bound": "i64",
@@ -867,6 +905,35 @@
               "left": {
                 "type": "Identifier",
                 "name": "pcd_input_set_hash_matches"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64"
+              }
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "materializer_request_hash_matches"
               },
               "right": {
                 "type": "NumberLiteral",
@@ -1294,9 +1361,10 @@
           0,
           0,
           0,
+          0,
           1
         ],
-        "branchCount": 18
+        "branchCount": 19
       }
     },
     "entrypoint": {
@@ -1429,6 +1497,35 @@
           "left": {
             "type": "Identifier",
             "name": "pcd_input_set_hash_matches"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64"
+          }
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "materializer_request_hash_matches"
           },
           "right": {
             "type": "NumberLiteral",
@@ -1856,9 +1953,10 @@
       0,
       0,
       0,
+      0,
       1
     ],
-    "branchCount": 18,
+    "branchCount": 19,
     "expressionDialect": "brik64.cli_expr.v1"
   },
   "offlineEngine": "local-parser-emitter",
