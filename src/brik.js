@@ -4588,6 +4588,23 @@ function analyzeLiftCandidate(name, sourceBody, bodyLines, language) {
   };
 }
 
+function unsupportedLiftConstructs(candidate) {
+  const fragments = [
+    candidate.expression,
+    ...(candidate.bodyLines || [])
+  ].filter(Boolean).map((value) => String(value));
+  const unsupported = [];
+  for (const fragment of fragments) {
+    if (/\bMath\.[A-Za-z_][A-Za-z0-9_]*\s*\(/.test(fragment)) {
+      unsupported.push('js_math_call_not_represented');
+    }
+    if (/\b(?:min|max)\s*\(/.test(fragment)) {
+      unsupported.push('python_min_max_call_not_represented');
+    }
+  }
+  return [...new Set(unsupported)];
+}
+
 function buildCandidatePcd(name, params, expression, options = {}) {
   const safeName = sanitizeCandidateName(name, 'candidate');
   const safeParams = params.map((param) => sanitizeCandidateName(param, 'input'));
@@ -4816,6 +4833,16 @@ function lift(language, sourcePath, args = []) {
   const written = [];
   const warnings = [...extracted.warnings];
   for (const candidate of extracted.candidates) {
+    const unsupported = unsupportedLiftConstructs(candidate);
+    if (unsupported.length > 0) {
+      warnings.push({
+        code: 'unsupported_lift_construct',
+        function: candidate.name,
+        reason: 'candidate_contains_source_construct_not_representable_as_current_pcd',
+        constructs: unsupported
+      });
+      continue;
+    }
     const pcd = buildCandidatePcd(candidate.name, candidate.params, candidate.expression, {
       bodyLines: parsed['--stub-only'] ? [`        return ${candidate.expression};`] : candidate.bodyLines,
       sourceComment: parsed['--include-source-comment'] ? candidate.sourceBody : null

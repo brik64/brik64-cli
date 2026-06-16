@@ -170,6 +170,34 @@ export function validateAccess(role: string, risk: number, emergency: boolean): 
   };
 }
 
+function liftUnsupportedConstructReportRegression() {
+  write('src/unsupported_math.js', `function riskScore(amount, velocity, blocked) {
+  if (blocked || amount > 9000) return 100;
+  if (amount > 1000 && velocity > 5) return Math.min(99, amount / 100 + velocity);
+  return Math.max(0, amount / 200);
+}
+`);
+  write('src/unsupported_math.py', `def risk_score(amount, velocity, blocked):
+    if blocked or amount > 9000:
+        return 100
+    if amount > 1000 and velocity > 5:
+        return min(99, amount / 100 + velocity)
+    return max(0, amount / 200)
+`);
+  const results = [];
+  for (const [language, source] of [['js', 'src/unsupported_math.js'], ['python', 'src/unsupported_math.py']]) {
+    const out = `.brik/lift-preview/unsupported-${language}`;
+    const report = JSON.parse(run(`lift:unsupported_construct_report:${language}`, process.execPath, [cli, 'lift', language, source, '--preview', '--out', out, '--json']).stdout);
+    assert(report.candidateCount === 0, `unsupported_construct_candidate_should_not_be_written:${language}`, report);
+    assert(report.warningCodes.includes('unsupported_lift_construct'), `unsupported_construct_warning_missing:${language}`, report);
+    assert(report.warningCodes.includes('lift_semantic_coverage_below_threshold'), `unsupported_construct_coverage_warning_missing:${language}`, report);
+    const warningsJsonl = fs.readFileSync(path.join(work, out, 'warnings.jsonl'), 'utf8');
+    assert(warningsJsonl.includes('unsupported_lift_construct'), `unsupported_construct_warnings_jsonl_missing:${language}`, warningsJsonl);
+    results.push({ language, warningCodes: report.warningCodes, candidateCount: report.candidateCount });
+  }
+  return results;
+}
+
 fs.mkdirSync(evidenceDir, { recursive: true });
 
 try {
@@ -207,6 +235,7 @@ try {
   assert(doctorAll.status !== 0, 'doctor_all_expected_adversarial_failure');
   const liftMetrics = liftRoundtrip();
   const silentLossMetrics = liftSilentLossRegression();
+  const unsupportedConstructMetrics = liftUnsupportedConstructReportRegression();
 
   const report = {
     schemaVersion: 'brik64.cli_beta15_6_rust_f64_command_lift_gate.v1',
@@ -217,6 +246,7 @@ try {
     workdir: work,
     liftMetrics,
     silentLossMetrics,
+    unsupportedConstructMetrics,
     checked: [
       'version_beta15_6',
       'command_help_matrix',
@@ -226,7 +256,8 @@ try {
       'domain_bound_overflow_fail_closed',
       'doctor_scope_project_pass_all_fail',
       'lift_roundtrip_python_js_rust',
-      'lift_silent_semantic_loss_regression'
+      'lift_silent_semantic_loss_regression',
+      'lift_unsupported_construct_report_regression'
     ],
     records: records.map((record) => ({
       id: record.id,
