@@ -52,6 +52,15 @@ function currentGitHead() {
   }
 }
 
+function isAncestorCommit(candidate, descendant = 'HEAD') {
+  if (!candidate) return false;
+  const result = childProcess.spawnSync('git', ['merge-base', '--is-ancestor', candidate, descendant], {
+    cwd: root,
+    encoding: 'utf8',
+  });
+  return result.status === 0;
+}
+
 function versionSection(changelog, version) {
   const marker = `## ${version}`;
   const start = changelog.indexOf(marker);
@@ -124,8 +133,17 @@ function validate() {
   const head = currentGitHead();
   add(typeof sourceCommit === 'string' && /^[a-f0-9]{40}$/i.test(sourceCommit), failures, 'source_commit_invalid');
   if (manifest.state === 'public') {
-    add(sourceCommitBinding === 'release_ref_exact', failures, `source_commit_binding_invalid_for_public:${sourceCommitBinding || 'missing'}`);
-    if (head && sourceCommit) add(sourceCommit === head, failures, `source_commit_not_current_head:${sourceCommit}:${head}`);
+    add(
+      ['release_ref_exact', 'public_release_base_commit'].includes(sourceCommitBinding),
+      failures,
+      `source_commit_binding_invalid_for_public:${sourceCommitBinding || 'missing'}`
+    );
+    if (head && sourceCommit && sourceCommitBinding === 'release_ref_exact') {
+      add(sourceCommit === head, failures, `source_commit_not_current_head:${sourceCommit}:${head}`);
+    }
+    if (head && sourceCommit && sourceCommitBinding === 'public_release_base_commit') {
+      add(isAncestorCommit(sourceCommit, head), failures, `source_commit_not_ancestor:${sourceCommit}:${head}`);
+    }
   } else {
     add(
       ['candidate_base_commit', 'release_ref_exact'].includes(sourceCommitBinding),

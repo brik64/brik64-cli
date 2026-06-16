@@ -10,7 +10,7 @@
     "branch": "main",
     "commit": "0cd226ebbc0c3807545fc6367227b6919415f2de",
     "pullRequest": "https://github.com/brik64/brik64-cli/pull/184",
-    "commitBinding": "release_ref_exact"
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
