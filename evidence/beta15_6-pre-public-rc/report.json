@@ -23,21 +23,21 @@
     {
       "id": "node_check_cli",
       "status": 0,
-      "elapsedMs": 59,
+      "elapsedMs": 57,
       "stdout": "",
       "stderr": ""
     },
     {
       "id": "node_check_beta15_6_gate",
       "status": 0,
-      "elapsedMs": 61,
+      "elapsedMs": 56,
       "stdout": "",
       "stderr": ""
     },
     {
       "id": "node_check_self",
       "status": 0,
-      "elapsedMs": 59,
+      "elapsedMs": 55,
       "stdout": "",
       "stderr": ""
     },
@@ -51,56 +51,56 @@
     {
       "id": "verify_contract:pcd/beta15_6/cli/rust_f64_polymer_codegen.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 72,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=0c4969cbca34ba3d21b8a533f27ce6a98c17dd59abc1ed7e9e501f6e21434d54\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify_contract:pcd/beta15_6/harness/lift_roundtrip_gate.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 97,
       "stdout": "certificate=pcd/beta15_6/harness/lift_roundtrip_gate.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify_contract:pcd/beta15_6/harness/lift_roundtrip_gate.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 82,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=8d34a80582a103db4ab502a5f122f9eeb15235cb414b55bcd1562149355a4538\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify_contract:pcd/beta15_6/release/public_surface_sync.pcd",
       "status": 0,
-      "elapsedMs": 80,
+      "elapsedMs": 94,
       "stdout": "certificate=pcd/beta15_6/release/public_surface_sync.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify_contract:pcd/beta15_6/release/public_surface_sync.pcd",
       "status": 0,
-      "elapsedMs": 80,
+      "elapsedMs": 79,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=275ae6f7ac98e0491ecd7b67d554e395ecc4fcb91ead2890aac48312412d6a35\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "gate_beta15_6_rust_f64_command_lift",
       "status": 0,
-      "elapsedMs": 11788,
+      "elapsedMs": 16439,
       "stdout": "decision=PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE\n",
       "stderr": ""
     },
     {
       "id": "smoke",
       "status": 0,
-      "elapsedMs": 6436,
+      "elapsedMs": 7972,
       "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=polymer.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=legacy.beta7.pcd.cert.json\ncertificate=variant.pcd.cert.json\ncertificate=root.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
       "stderr": ""
     },
     {
       "id": "monomers_all",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 73,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_monomer_test_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.6\",\n  \"target\": \"registry\",\n  \"scope\": \"all\",\n  \"total\": 128,\n  \"passed\": 128,\n  \"failed\": 0,\n  \"checks\": [\n    {\n      \"key\": \"MC_00.ADD8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_01.SUB8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_02.MUL8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_03.DIV8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_04.INC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_05.DEC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": ",
       "stderr": ""
     }
