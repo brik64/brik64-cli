@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.15.6",
   "state": "public",
-  "manifestDigest": "1c70c150440471e9707aeaaa3f83cf178a26bbcca17005fd4f662549a2994779",
+  "manifestDigest": "c043d44c14061c12c978c6e6e37bde815ec881c4fef7e29ce90dcc16dee5f5f9",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "1c70c150440471e9707aeaaa3f83cf178a26bbcca17005fd4f662549a2994779",
-      "bytes": 5344
+      "sha256": "c043d44c14061c12c978c6e6e37bde815ec881c4fef7e29ce90dcc16dee5f5f9",
+      "bytes": 5371
     },
     "packageJson": {
       "path": "package.json",
@@ -22,14 +22,14 @@
         "path": "evidence/beta15_6-rust-f64-command-lift/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
-        "sha256": "bc26a82e0ad066c25ffc51ec78ca50c049163794b62c5319254b4de511670d0a"
+        "sha256": "7f9c3c1e325dad260d017352e9f03f1f0059315daf0c900a32056df4629d80c2"
       },
       {
         "id": "beta15_6_pre_public_rc",
         "path": "evidence/beta15_6-pre-public-rc/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
-        "sha256": "cf95f10e1330ba586abde58c5b2b7756aa86c38a1ad52e5837402064f64e8c2b"
+        "sha256": "6fdadc726f946ba7795c7c443c6e88f820c3139fe41bb2aeda2d32bd04e87707"
       },
       {
         "id": "beta15_6_package",
@@ -49,6 +49,6 @@
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:20"
+    "worktree_dirty_allowed:7"
   ]
 }

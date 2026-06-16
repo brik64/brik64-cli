@@ -2,23 +2,15 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.15.6",
   "version": "0.1.0-beta.15.6",
-  "manifestDigest": "1c70c150440471e9707aeaaa3f83cf178a26bbcca17005fd4f662549a2994779",
-  "sourceHead": "4ed58a0",
+  "manifestDigest": "c043d44c14061c12c978c6e6e37bde815ec881c4fef7e29ce90dcc16dee5f5f9",
+  "sourceHead": "6bfaf8f",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "README.md",
     "evidence/beta15_6-pre-public-rc/report.json",
-    "evidence/beta15_6-rust-f64-command-lift/report.json",
-    "evidence/release-web-surface-sync/report.json",
-    "package.json",
-    "release/manifest.json",
-    "scripts/beta15_6-marketplace-package-gate.js",
-    "scripts/beta15_6-public-source-sync-gate.js",
-    "evidence/beta15_6-marketplace-packages/",
-    "evidence/beta15_6-public-source-sync/"
+    "evidence/beta15_6-rust-f64-command-lift/report.json"
   ],
   "commandPreflight": [
     {
@@ -93,6 +85,6 @@
   ],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:10"
+    "worktree_dirty_dry_run:2"
   ]
 }
