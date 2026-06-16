@@ -69,6 +69,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   exist as a file and hash to its declared SHA-256. A future endpoint cannot
   satisfy the aggregate input-set hash with stale, missing, tampered or unsafe
   per-PCD references.
+- Materializer request bundle policy: each Beta15.4 L6 attempt must generate a
+  reproducible `BRIK64_L6_CLI_MATERIALIZATION_REQUEST` bundle containing the
+  exact canonical input PCDs, per-file hashes, base64 content, output refs,
+  required result schema and claim boundary. This is input evidence only; it
+  does not satisfy release gates without a matching L6 result.
 
 ## Phases
 

@@ -138,6 +138,22 @@
       - Boundary:
         this closes stale/missing/tampered input PCD evidence acceptance; no
         L6 endpoint result currently exists.
+- [x] Generate reproducible L6 CLI materializer request bundle.
+      - Generator:
+        `scripts/beta15_4-l6-materializer-request-bundle.js`.
+      - Evidence:
+        `evidence/beta15_4-l6-materializer-request/request.json`.
+        `evidence/beta15_4-l6-materializer-request/request.line`.
+        `evidence/beta15_4-l6-materializer-request/request.manifest.json`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh`.
+      - Result:
+        each L6 attempt now has an exact
+        `BRIK64_L6_CLI_MATERIALIZATION_REQUEST` input bundle with input PCD
+        contents, hashes, required output refs and claim boundary.
+      - Boundary:
+        this is request/input evidence only. It does not satisfy release gates
+        until L6 emits a matching materialization result.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

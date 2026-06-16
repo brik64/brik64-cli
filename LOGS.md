@@ -443,3 +443,40 @@ Boundary:
 - This closes a per-PCD evidence bypass in the future materializer result
   acceptance path.
 - It does not implement the materializer endpoint or publish Beta15.4.
+
+## Iteration 19
+
+- Added `scripts/beta15_4-l6-materializer-request-bundle.js` to generate a
+  deterministic `BRIK64_L6_CLI_MATERIALIZATION_REQUEST` bundle for the
+  Beta15.4 L6 endpoint.
+- The bundle includes:
+  - exact input PCD paths;
+  - per-PCD SHA-256 and byte counts;
+  - base64 PCD contents;
+  - PCD input-set hash;
+  - required output refs for generated artifact, package, release manifest and
+    seal report;
+  - public claim boundary set to false.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` so every L6 attempt
+  regenerates the request bundle and records its manifest in
+  `l6plus_engine_manifest.json`.
+- Added adversarial request-bundle coverage for:
+  - valid generated request;
+  - tampered PCD content;
+  - missing required PCD;
+  - unsafe output ref;
+  - mismatched aggregate input-set hash.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  artifact/package/release binding blockers.
+
+Boundary:
+
+- This creates an exact request input for the missing L6 materializer endpoint.
+- It does not produce the L6-generated CLI artifact and does not publish
+  Beta15.4.

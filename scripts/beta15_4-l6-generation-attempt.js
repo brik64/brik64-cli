@@ -7,6 +7,10 @@ const {
   parseMaterializationResult,
   validateMaterializationResult
 } = require('./beta15_4-l6-materialization-result');
+const {
+  buildRequest,
+  validateRequest
+} = require('./beta15_4-l6-materializer-request-bundle');
 
 const root = path.resolve(__dirname, '..');
 const version = '0.1.0-beta.15.4';
@@ -16,6 +20,7 @@ const host = process.env.BRIK64_L6_HOST || 'root@89.167.104.236';
 const wrapper = process.env.BRIK64_L6_WRAPPER || '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5';
 const healthcheck = process.env.BRIK64_L6_HEALTHCHECK || '/opt/brik64/engines/l6plus-n5/bin/healthcheck';
 const audit = process.env.BRIK64_L6_AUDIT || '/opt/brik64/engines/l6plus-n5/bin/audit';
+const requestDir = path.join(root, 'evidence', `${label}-l6-materializer-request`);
 
 const inputPcds = [
   'pcd/beta15_4/release/l6_cli_materialization_contract.pcd',
@@ -132,12 +137,12 @@ function expectedMaterializationContext(inputs, remoteRefs) {
 }
 
 function materializationAttempts() {
-  const contract = fs.readFileSync(path.join(root, 'pcd', 'beta15_4', 'release', 'l6_cli_materialization_contract.pcd'), 'utf8');
-  const encoded = Buffer.from(contract).toString('base64');
+  const requestLinePath = path.join(requestDir, 'request.line');
+  const encoded = fs.readFileSync(requestLinePath, 'utf8').trim().split('\t')[1];
   return ['l6-cli-materialize', 'beta15.4-cli-materialize', 'compile', 'route2', 'materialize', 'emit'].map((command) => {
     const remote = [
       'set -euo pipefail',
-      'tmp="$(mktemp /tmp/brik64-beta15-4-contract.XXXXXX.pcd)"',
+      'tmp="$(mktemp /tmp/brik64-beta15-4-materializer-request.XXXXXX.json)"',
       `printf %s ${JSON.stringify(encoded)} | base64 -d > "$tmp"`,
       `${wrapper} ${command} "@@FILE:$tmp" || true`,
       'rm -f "$tmp"'
@@ -160,6 +165,40 @@ function main() {
 
   const inputs = ensureInputs();
   const pcdInputSetSha256 = writeInputHashes(inputs);
+  fs.rmSync(requestDir, { recursive: true, force: true });
+  fs.mkdirSync(requestDir, { recursive: true });
+  const request = buildRequest();
+  const requestValidation = validateRequest(request);
+  if (!requestValidation.accepted) {
+    throw new Error(`invalid_materializer_request_bundle:${requestValidation.blockers.join(',')}`);
+  }
+  const requestJsonPath = path.join(requestDir, 'request.json');
+  const requestLinePath = path.join(requestDir, 'request.line');
+  const requestManifestPath = path.join(requestDir, 'request.manifest.json');
+  writeJson(requestJsonPath, request);
+  fs.writeFileSync(requestLinePath, `BRIK64_L6_CLI_MATERIALIZATION_REQUEST\t${Buffer.from(JSON.stringify(request)).toString('base64')}\n`);
+  writeJson(requestManifestPath, {
+    schemaVersion: 'brik64.l6plus_cli_materializer_request_manifest.v1',
+    version,
+    decision: 'PASS_BETA15_4_L6_MATERIALIZER_REQUEST_BUNDLE',
+    request: {
+      path: rel(requestJsonPath),
+      sha256: sha256File(requestJsonPath),
+      bytes: fs.statSync(requestJsonPath).size
+    },
+    requestLine: {
+      path: rel(requestLinePath),
+      sha256: sha256File(requestLinePath),
+      bytes: fs.statSync(requestLinePath).size
+    },
+    pcdInputSetSha256: request.pcdInputSetSha256,
+    inputPcds: request.inputPcds.map(({ path: itemPath, sha256: itemSha256, bytes }) => ({
+      path: itemPath,
+      sha256: itemSha256,
+      bytes
+    })),
+    claimBoundary: request.claimBoundary
+  });
 
   const hostProbe = ssh(['set -euo pipefail', `${healthcheck}`, `${wrapper} --version`, `${audit}`].join('; '));
   const remoteRefProbe = ssh([
@@ -209,7 +248,12 @@ function main() {
       stderr_sha256: sha256(remoteRefProbe.stderr)
     },
     remoteRefs,
-    wrapperMode
+    wrapperMode,
+    materializerRequest: {
+      path: rel(requestManifestPath),
+      sha256: sha256File(requestManifestPath),
+      accepted: true
+    }
   });
 
   const blockers = [];

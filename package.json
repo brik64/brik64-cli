@@ -91,6 +91,8 @@
     "release:github-verified-signature": "node scripts/release-github-verified-signature-gate.js",
     "gate:cli:l6-generation-required": "node scripts/cli-l6-generation-required-gate.js",
     "test:cli-l6-generation-required": "node scripts/cli-l6-generation-required-gate.js",
+    "bundle:beta15.4:l6-materializer-request": "node scripts/beta15_4-l6-materializer-request-bundle.js",
+    "test:beta15.4:l6-materializer-request": "bash scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh",
     "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",
     "release:github-signing-key:register": "node scripts/release/register-github-signing-key.js",
     "release:train:gcp-wif": "node scripts/release/configure-gcp-wif.js",
