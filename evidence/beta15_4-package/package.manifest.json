@@ -7,7 +7,7 @@
   "generationClaim": "pcd_first_candidate_blocked_until_l6_materialization",
   "package": {
     "path": "evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz",
-    "sha256": "929e8ff885449e72ec230f409e80931fda5d05c2d212d1c7fad53fdc8bf43946",
+    "sha256": "af5f81f3791a8c918ad64d7524d8dafdf2fe32c6ce328fb2bd1b8d04189c160a",
     "bytes": 639556
   },
   "claimBoundary": {
