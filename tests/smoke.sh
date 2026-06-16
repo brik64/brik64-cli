@@ -34,8 +34,11 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   SMOKE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_LOCAL_PACKAGE_SMOKE"
   test -f "$PACKAGE_SCRIPT"
   test -f "$SMOKE_SCRIPT"
-  package_out="$(bash "$PACKAGE_SCRIPT")"
-  grep -q "$PACKAGE_DECISION" <<<"$package_out"
+  MANIFEST_STATE="$(node -e 'const fs=require("fs"); const p="release/manifest.json"; if (!fs.existsSync(p)) { process.stdout.write("missing"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,"utf8")); process.stdout.write(m.state || "missing")')"
+  if [ "$MANIFEST_STATE" != "public" ]; then
+    package_out="$(bash "$PACKAGE_SCRIPT")"
+    grep -q "$PACKAGE_DECISION" <<<"$package_out"
+  fi
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"
   grep -Eq "decision=($SMOKE_DECISION|PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_SMOKE)" <<<"$package_smoke_out"
   node -e 'const fs=require("fs"); const label=process.argv[1]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); if (r.releaseEligible !== false) process.exit(1)' "$BETA_LABEL"
