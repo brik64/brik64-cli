@@ -3,7 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const root = path.resolve(__dirname, '..');
+const root = process.env.BRIK64_CLI_ROOT
+  ? path.resolve(process.env.BRIK64_CLI_ROOT)
+  : path.resolve(__dirname, '..');
 const outDir = path.join(root, 'evidence', 'cli-l6-generation-required');
 const outPath = path.join(outDir, 'report.json');
 
@@ -139,7 +141,7 @@ function main() {
   }
 
   if (manifest) {
-    checks.releaseManifestVersionContext = manifest.version === version || packageJson.version === version;
+    checks.releaseManifestVersionContext = manifest.version === version;
     if (!checks.releaseManifestVersionContext) blockers.push(`release_manifest_version_context_mismatch:${manifest.version}:${version}`);
   }
 

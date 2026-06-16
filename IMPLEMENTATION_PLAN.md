@@ -85,6 +85,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   report must include coherent L6 attempt checks, exact request-bundle checks,
   package eligibility, materializer request hash context and public-claim
   boundaries before it can unblock publication.
+- Candidate release manifest policy: `release/manifest.json` must match the
+  active CLI candidate version exactly. Matching `package.json` is not enough;
+  a stale release manifest must fail the L6 generation required gate.
+- Materializer output ref policy: the L6 materializer request must point to the
+  actual candidate package artifact path. For Beta15.4 this is
+  `evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz`.
 
 ## Phases
 

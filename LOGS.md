@@ -559,3 +559,34 @@ Boundary:
   could have hidden missing request-bundle evidence.
 - It does not implement the L6 materializer endpoint, generate the missing
   artifact, or publish Beta15.4.
+
+## Iteration 22
+
+- Aligned the Beta15.4 L6 materializer request output refs with the actual
+  candidate package archive path:
+  `evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz`.
+- Replaced the stale Beta15.2 `release/manifest.json` with a draft Beta15.4
+  candidate manifest bound to the local Beta15.4 package and candidate
+  evidence.
+- Hardened `scripts/cli-l6-generation-required-gate.js` so an existing release
+  manifest must match the candidate version exactly. `package.json` can no
+  longer mask a stale release manifest.
+- Added `scripts/tests/test_cli_l6_generation_required_gate.sh`, covering:
+  - stale release manifest fails closed;
+  - matching release manifest passes when all synthetic L6 evidence is valid.
+
+Evidence:
+
+- `bash scripts/tests/test_cli_l6_generation_required_gate.sh` passed.
+- `bash scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed, now without
+  release-manifest drift.
+- `npm run smoke:beta15.4:package` passed.
+- `node scripts/release-manifest-validate.js --allow-dirty` passed for the
+  draft Beta15.4 manifest.
+
+Boundary:
+
+- This closes candidate metadata drift and a stale manifest bypass.
+- It does not implement the L6 materializer endpoint, generate the missing
+  artifact, or publish Beta15.4.

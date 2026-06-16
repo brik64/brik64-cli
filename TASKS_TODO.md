@@ -188,3 +188,20 @@
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.
 - [ ] Publish public surfaces only after L6 and release train gates pass.
+
+- [x] Align Beta15.4 candidate manifest and materializer request refs.
+      - Request bundle:
+        `scripts/beta15_4-l6-materializer-request-bundle.js`.
+      - Release manifest:
+        `release/manifest.json`.
+      - Gate:
+        `scripts/cli-l6-generation-required-gate.js`.
+      - Test:
+        `scripts/tests/test_cli_l6_generation_required_gate.sh`.
+      - Result:
+        the request now points at the actual `.tgz` package path and the L6
+        generation required gate fails closed when `release/manifest.json`
+        points to a stale version.
+      - Boundary:
+        this closes candidate metadata drift. It does not implement the missing
+        L6 materializer endpoint or publish Beta15.4.

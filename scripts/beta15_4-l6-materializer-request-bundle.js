@@ -24,7 +24,7 @@ const inputPcdPaths = [
 
 const outputRefs = {
   generatedArtifact: 'evidence/beta15_4-l6-generation/generated/brik64-cli.mjs',
-  package: 'evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tar.gz',
+  package: 'evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tgz',
   releaseManifest: 'release/manifest.json',
   sealReport: 'evidence/beta15_4-l6-generation/seal_report.json',
 };
@@ -54,6 +54,17 @@ function safeRelativePath(value) {
 }
 
 function gitSha() {
+  const manifestPath = path.join(root, 'release', 'manifest.json');
+  if (fs.existsSync(manifestPath)) {
+    try {
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      if (typeof manifest?.source?.commit === 'string' && manifest.source.commit.length > 0) {
+        return manifest.source.commit;
+      }
+    } catch {
+      // Fall through to git for legacy workspaces.
+    }
+  }
   const result = childProcess.spawnSync('git', ['rev-parse', 'HEAD'], {
     cwd: root,
     encoding: 'utf8',

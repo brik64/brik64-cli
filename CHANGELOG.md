@@ -3,6 +3,32 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.4
+
+### Added
+
+- Adds a Rust app-polymer regression gate covering core polymer, extended
+  polymer, and app-system emission across generated local targets.
+- Adds package smoke coverage for ledger verification, explicit polymer roots,
+  generated Python tests, and local claim-report contradiction handling.
+- Adds a release-manifest freshness check so candidate release metadata cannot
+  point at an older CLI package while the candidate package version advances.
+
+### Fixed
+
+- Fixes generated Rust app-polymer output so domain assertions do not reference
+  domain variables outside their generated function scope.
+- Aligns the candidate package path used by the generation request with the
+  actual Beta15.4 package archive.
+
+### Compatibility
+
+- This beta remains a pre-public candidate. Public release is blocked until
+  GitHub release assets, curl installer, web, docs, SDKs, skills, changelog,
+  public claim scan, and live verification are synchronized.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.3
 
 ### Added
