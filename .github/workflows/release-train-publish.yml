@@ -51,6 +51,11 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
 
+      - name: Setup Python test runtime
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
       - name: Install dependencies when lockfile exists
         shell: bash
         run: |
@@ -60,6 +65,8 @@ jobs:
           else
             npm install --ignore-scripts --no-package-lock
           fi
+          python -m pip install --upgrade pip
+          python -m pip install pytest
 
       - name: Validate release train pre-publication
         env:
