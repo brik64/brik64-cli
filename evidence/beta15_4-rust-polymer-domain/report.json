@@ -4,7 +4,7 @@
   "decision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE",
   "evidenceLevel": "NIVEL 3",
   "releaseEligible": false,
-  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-4-rust-polymer-1sQOSV",
+  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-4-rust-polymer-rpIQWh",
   "checked": [
     "core_polymer_certify_verify",
     "extended_polymer_certify_verify",
@@ -21,203 +21,203 @@
     {
       "id": "version",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 146,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.4\nstatus=pre_public_candidate\n",
       "stderr": ""
     },
     {
       "id": "init",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 141,
       "stdout": "created=.brik/manifest.json\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/core/risk_floor_core.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 157,
       "stdout": "certificate=pcd/core/risk_floor_core.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/core/risk_floor_core.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 129,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=4041b4112ae65bd4bd92e5cd429cb57b9bc559576b015d09cce39f3e04fb0ae0\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/core/risk_limit_core.pcd",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 132,
       "stdout": "certificate=pcd/core/risk_limit_core.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/core/risk_limit_core.pcd",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 118,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=64f63b6fd79f2243535b85a6c9ec2207181b2554e2d639faaf280325868d24a0\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/extended/ratio_extended.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 129,
       "stdout": "certificate=pcd/extended/ratio_extended.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/extended/ratio_extended.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 103,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=f08e46db190cdd72b7e4de7fe91f886f0aae9428634d75af92f60791165cc195\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/extended/sqrt_extended.pcd",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 115,
       "stdout": "certificate=pcd/extended/sqrt_extended.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/extended/sqrt_extended.pcd",
       "status": 0,
-      "elapsedMs": 80,
+      "elapsedMs": 101,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=0ea284a14dd92bde7f7d0b2e5e01109f6156b026535ca4bb590628ac30d774bf\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "polymerize:core",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 110,
       "stdout": "polymer=polymers/core_logic.polymer.pcd\nmanifest=polymers/core_logic.polymer.pcd.manifest.json\n",
       "stderr": ""
     },
     {
       "id": "polymerize:extended",
       "status": 0,
-      "elapsedMs": 80,
+      "elapsedMs": 119,
       "stdout": "polymer=polymers/extended_logic.polymer.pcd\nmanifest=polymers/extended_logic.polymer.pcd.manifest.json\n",
       "stderr": ""
     },
     {
       "id": "polymerize:app_system",
       "status": 0,
-      "elapsedMs": 122,
+      "elapsedMs": 100,
       "stdout": "polymer=polymers/app_system.polymer.pcd\nmanifest=polymers/app_system.polymer.pcd.manifest.json\n",
       "stderr": ""
     },
     {
       "id": "certify:polymers/core_logic.polymer.pcd",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 110,
       "stdout": "certificate=polymers/core_logic.polymer.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:polymers/core_logic.polymer.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 100,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=6798d8f89ae2234d37a9819f8cc524dfe0d7513bdad687a5c5faf84ee2f65347\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify:polymers/extended_logic.polymer.pcd",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 102,
       "stdout": "certificate=polymers/extended_logic.polymer.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:polymers/extended_logic.polymer.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 140,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=bb530581eca913c13e80dd54e5a2f9f1343a390d83eeca29f846def99748829f\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "certify:polymers/app_system.polymer.pcd",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 155,
       "stdout": "certificate=polymers/app_system.polymer.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:polymers/app_system.polymer.pcd",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 152,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=5446fd9facc5a3cf6e8ead40c9b306080fa56fd609b40f2e420a81f53aff5e1c\nclaim=local_candidate_only\n",
       "stderr": ""
     },
     {
       "id": "emit:app:ts",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 166,
       "stdout": "generated=out/app-ts/program.mjs\ntests=out/app-ts/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "test:out/app-ts:ts",
       "status": 0,
-      "elapsedMs": 62,
+      "elapsedMs": 153,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:app:python",
       "status": 0,
-      "elapsedMs": 87,
+      "elapsedMs": 135,
       "stdout": "generated=out/app-python/brik64_generated_app_system_polymer/program.py\ntests=out/app-python/tests/test_app_system_polymer.py\n",
       "stderr": ""
     },
     {
       "id": "test:out/app-python:python",
       "status": 0,
-      "elapsedMs": 42,
+      "elapsedMs": 116,
       "stdout": "brik64 generated python test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:app:rust",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 147,
       "stdout": "generated=out/app-rust/program.rs\ntests=out/app-rust/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "test:out/app-rust:rust",
       "status": 0,
-      "elapsedMs": 1446,
+      "elapsedMs": 5468,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "doctor",
       "status": 0,
-      "elapsedMs": 630,
+      "elapsedMs": 1195,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_doctor_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.4\",\n  \"status\": \"PASS\",\n  \"releaseEligible\": false,\n  \"localRuntime\": \"available\",\n  \"managedRuntime\": \"authenticated\",\n  \"internalArtifactFactory\": \"private\",\n  \"pcdCount\": 7,\n  \"pcdValidation\": {\n    \"valid\": 7,\n    \"invalid\": 0,\n    \"domainIncomplete\": 0,\n    \"files\": [\n      {\n        \"file\": \"pcd/core/risk_floor_core.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"dd0cffc849ecaeebd1a38a59f9b30a9a64535469a01f56c84268b45f14e45f80\"\n      },\n      {\n        \"file\": \"pcd/core/risk_limit_core.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"9ac967ca39c52641ffd727ae8b1e2b983d4f14ab20a6ee7ff173d929f58db930\"\n      },\n      {\n        \"file\": \"pcd/extended/ratio_extended.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"ef9b732ad3c4617c352aca2f915ca84cd4721af56b0670e9119575685b0a22e0\"\n      },\n      {\n        \"file\": \"pcd/extended/sqrt_extended.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"80065258d6dca919001ae31dfbb8a8e6918bd4e7f0f06c3b074125d03fc799dc\"\n      },\n      {\n        \"file\": \"polymers/app_system.polymer.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"c4528890b4548e606a410bc7688e10441a72d2820fa688ba67f22c699ca5db65\"\n      },\n      {\n        \"file\": \"polymers/core_logic.polymer.pcd\",\n        \"status\": \"PASS\",\n        \"d",
       "stderr": ""
     },
     {
       "id": "adversarial:invalid_monomer",
       "status": 65,
-      "elapsedMs": 76,
+      "elapsedMs": 108,
       "stdout": "",
       "stderr": "pcd_parse_error:unsupported_monomer_call:MC_999.NOPE\n"
     },
     {
       "id": "adversarial:path_traversal_emit",
       "status": 64,
-      "elapsedMs": 76,
+      "elapsedMs": 137,
       "stdout": "",
       "stderr": "path_outside_workspace\n"
     },
     {
       "id": "adversarial:stale_cert",
       "status": 68,
-      "elapsedMs": 78,
+      "elapsedMs": 92,
       "stdout": "",
       "stderr": "certificate_hash_mismatch\n"
     }

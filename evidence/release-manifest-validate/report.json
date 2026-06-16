@@ -22,28 +22,28 @@
         "path": "evidence/beta15_4-rust-polymer-domain/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_4_RUST_POLYMER_DOMAIN_GATE",
-        "sha256": "092b7282b77a80bf512ab2a78da49e99b944d5fc56fce296a73c7c1fc2193c87"
+        "sha256": "0bb718fdddb55ddb55c0b090353cd3e9945d7ef1eef555f84e2c7cff140d6d24"
       },
       {
         "id": "beta15_4_stale_public_surface",
         "path": "evidence/beta15_4-stale-public-surface/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_4_STALE_PUBLIC_SURFACE_GATE",
-        "sha256": "ab2ef618e7d7ce3cf401561127b7ef911ec236425b39f1919cc0f699f82f8369"
+        "sha256": "9deaa3a1c68d64a15fefae9a9390c474c02ad2db38b22d31b14980e1d37f0580"
       },
       {
         "id": "beta15_4_pre_public_rc",
         "path": "evidence/beta15_4-pre-public-rc/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_4_PRE_PUBLIC_RC_GATE",
-        "sha256": "6225f4ee830fdadd10f6ab91a277f1c994dcc1eaf9d23208f55f660c5d0c9242"
+        "sha256": "d04315d78f4075dd9d4783c1294165cde3451f2f1c90a4a53296c2a381cdabbf"
       },
       {
         "id": "beta15_4_package",
         "path": "evidence/beta15_4-package/package.manifest.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_4_PACKAGE_BUILT",
-        "sha256": "b105494eec6e9d0613ece45ed78d827ec92d3bb407cf3840d97ba8b1fb55bae0"
+        "sha256": "79792c3a773353185715d8eb5b5b18f057057abca66104773812946fadf1f7f7"
       },
       {
         "id": "beta15_4_package_smoke",
@@ -56,6 +56,6 @@
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:39"
+    "worktree_dirty_allowed:8"
   ]
 }
