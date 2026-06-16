@@ -1,13 +1,13 @@
-## 0.1.0-beta.15.4
+## 0.1.0-beta.15.5
 
 ### Fixed
 
-- Generated Rust app-polymer output keeps domain assertions inside generated function scope.
+- Generated Rust polymer output preserves floating-point bounds and comparisons.
 
 ### Added
 
-- Candidate package smoke checks ledger integrity, explicit polymer roots, generated Python tests, and local report contradictions.
+- Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets.
 
 ### Changed
 
-- Candidate release metadata now tracks the Beta15.4 package archive and blocks stale package references.
+- Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics.

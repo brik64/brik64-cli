@@ -703,10 +703,14 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
       ...(manifest.state === 'draft'
         ? []
         : [
-            blockedSurfaceGate('beta15_5_sdk_sync', 'beta15_5_sdk_sync_pending_public_surface_update'),
-            blockedSurfaceGate('beta15_5_marketplace_packages', 'beta15_5_marketplace_publication_pending'),
-            blockedSurfaceGate('beta15_5_skills_sync', 'beta15_5_skills_sync_pending_public_surface_update'),
-            blockedSurfaceGate('beta15_5_docs_web_sync', 'beta15_5_docs_web_sync_pending_public_surface_update')
+            run('beta15_5_marketplace_packages', ['node', 'scripts/beta15_5-marketplace-package-gate.js'], {
+              stdoutLimit: 12000,
+              stderrLimit: 12000
+            }),
+            run('beta15_5_public_source_sync', ['node', 'scripts/beta15_5-public-source-sync-gate.js'], {
+              stdoutLimit: 12000,
+              stderrLimit: 12000
+            })
           ])
     ];
   }
