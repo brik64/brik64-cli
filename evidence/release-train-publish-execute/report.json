@@ -2,17 +2,13 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.15.5",
   "version": "0.1.0-beta.15.5",
-  "manifestDigest": "ddab39383057e30539a482208ae7c3e3e01f35124bffcd0dd1b39e6d220dc8e1",
-  "sourceHead": "1206db2",
+  "manifestDigest": "969c71530f84c04c94aed782d38ec634aeaf96c49266f40b9b16e50992e1084d",
+  "sourceHead": "bb1f961",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [
-    "evidence/beta15_5-pre-public-rc/report.json",
-    "evidence/beta15_5-rust-f64-command-lift/report.json",
-    "evidence/cli-l6-generation-required/report.json"
-  ],
+  "dirtyFiles": [],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -85,7 +81,5 @@
     "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post5*"
   ],
   "failures": [],
-  "warnings": [
-    "worktree_dirty_dry_run:3"
-  ]
+  "warnings": []
 }
