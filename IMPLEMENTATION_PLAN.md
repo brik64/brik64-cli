@@ -49,6 +49,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `BRIK64_L6_CLI_MATERIALIZATION_RESULT` closure: CLI scope, result emission,
   L6 serial, materializer mode, observed hash matches, artifact/package/release
   bindings and seal pass.
+- Required input PCD policy: the materialization result payload must list every
+  required input PCD path. A payload with the right aggregate hash but missing
+  `inputPcds` entries fails closed.
 
 ## Phases
 

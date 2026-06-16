@@ -126,6 +126,7 @@ function expectedMaterializationContext(inputs, remoteRefs) {
     pcdInputSetSha256: sha256(inputHashBody),
     remoteWrapperSha256: remoteRefs.wrapper?.sha256 || null,
     wrapperExecTargetSha256: remoteRefs.wrapper_exec_target?.sha256 || null,
+    requiredInputPcdPaths: inputs.map((item) => item.path),
   };
 }
 

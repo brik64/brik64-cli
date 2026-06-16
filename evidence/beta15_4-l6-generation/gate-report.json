@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_4_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.4",
-  "generatedAt": "2026-06-15T23:51:44.994Z",
+  "generatedAt": "2026-06-16T00:00:45.545Z",
   "decision": "BLOCKED_BETA15_4_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -37,7 +37,15 @@
     "expectedMaterializationContext": {
       "pcdInputSetSha256": "1d71d77c1d006dac52a9c2d95053dfa7b7118a9fced5ac2a0a52e8f089d46d7b",
       "remoteWrapperSha256": "0377618ff38f71be3e97557b785f25ff73c5d20ce2364ec0d1788eaae3dd3b5c",
-      "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a"
+      "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+      "requiredInputPcdPaths": [
+        "pcd/beta15_4/release/l6_cli_materialization_contract.pcd",
+        "pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd",
+        "pcd/beta15_4/cli/rust_app_polymer_domain_codegen.pcd",
+        "pcd/beta15_4/harness/rust_app_polymer_regression_gate.pcd",
+        "pcd/cli_core.pcd",
+        "pcd/cli_polymer.pcd"
+      ]
     }
   },
   "attempts": [

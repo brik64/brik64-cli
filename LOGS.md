@@ -295,3 +295,27 @@ Boundary:
 
 - This moves more of the materializer acceptance contract into PCD.
 - It does not implement the missing materializer endpoint or publish Beta15.4.
+
+## Iteration 14
+
+- Hardened `scripts/beta15_4-l6-materialization-result.js` so an accepted
+  result must list all required input PCD paths.
+- Updated `scripts/beta15_4-l6-generation-attempt.js` to record
+  `requiredInputPcdPaths` in `remoteCapability.expectedMaterializationContext`.
+- Added adversarial parser coverage for omitting
+  `pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd` from the
+  materialization payload.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  artifact/package/release binding blockers.
+
+Boundary:
+
+- This prevents a future endpoint from satisfying the aggregate input hash
+  while omitting required PCD refs in `inputPcds`.
+- It does not implement the materializer endpoint or publish Beta15.4.

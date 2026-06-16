@@ -77,6 +77,19 @@
       - Boundary:
         this strengthens the contract; it does not generate the missing
         artifact.
+- [x] Require materialization payload to list all input PCD paths.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Attempt:
+        `scripts/beta15_4-l6-generation-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        `expectedMaterializationContext.requiredInputPcdPaths` now blocks a
+        payload that omits any required input PCD, including the result
+        contract PCD.
+      - Boundary:
+        this is acceptance hardening; no artifact has been generated.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

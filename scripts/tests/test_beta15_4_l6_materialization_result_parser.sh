@@ -28,7 +28,10 @@ const good = {
   pcdInputSetSha256: '2'.repeat(64),
   remoteWrapperSha256: '3'.repeat(64),
   wrapperExecTargetSha256: '4'.repeat(64),
-  inputPcds: [{ path: 'pcd/beta15_4/release/l6_cli_materialization_contract.pcd', sha256: 'e'.repeat(64) }],
+  inputPcds: [
+    { path: 'pcd/beta15_4/release/l6_cli_materialization_contract.pcd', sha256: 'e'.repeat(64) },
+    { path: 'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd', sha256: 'f'.repeat(64) },
+  ],
 };
 const encoded = Buffer.from(JSON.stringify(good)).toString('base64');
 const parsed = parseMaterializationResult(`noise\nBRIK64_L6_CLI_MATERIALIZATION_RESULT\t${encoded}\n`);
@@ -38,6 +41,10 @@ assert.strictEqual(validateMaterializationResult(parsed, good.version, {
   pcdInputSetSha256: good.pcdInputSetSha256,
   remoteWrapperSha256: good.remoteWrapperSha256,
   wrapperExecTargetSha256: good.wrapperExecTargetSha256,
+  requiredInputPcdPaths: [
+    'pcd/beta15_4/release/l6_cli_materialization_contract.pcd',
+    'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd',
+  ],
 }).accepted, true);
 
 const badVersion = { ...good, version: '0.1.0-beta.15.3' };
@@ -89,6 +96,22 @@ const wrongExecTarget = validateMaterializationResult(good, good.version, {
 });
 assert.strictEqual(wrongExecTarget.accepted, false);
 assert(wrongExecTarget.blockers.includes('materialization_result_wrapper_exec_target_sha256_mismatch'));
+
+const missingRequiredPcd = validateMaterializationResult(
+  {
+    ...good,
+    inputPcds: good.inputPcds.filter((item) => item.path !== 'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd'),
+  },
+  good.version,
+  {
+    requiredInputPcdPaths: [
+      'pcd/beta15_4/release/l6_cli_materialization_contract.pcd',
+      'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd',
+    ],
+  },
+);
+assert.strictEqual(missingRequiredPcd.accepted, false);
+assert(missingRequiredPcd.blockers.includes('materialization_result_required_input_pcd_missing:pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd'));
 
 assert.strictEqual(parseMaterializationResult('no materialization line'), null);
 console.log('PASS beta15.4 L6 materialization result parser');

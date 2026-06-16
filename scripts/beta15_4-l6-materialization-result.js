@@ -84,6 +84,12 @@ function validateMaterializationResult(result, version, expected = {}) {
         break;
       }
     }
+    const actualPaths = new Set(result.inputPcds.map((item) => item && item.path).filter(Boolean));
+    for (const requiredPath of expected.requiredInputPcdPaths || []) {
+      if (!actualPaths.has(requiredPath)) {
+        blockers.push(`materialization_result_required_input_pcd_missing:${requiredPath}`);
+      }
+    }
   }
 
   return {
