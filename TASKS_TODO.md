@@ -90,6 +90,18 @@
         contract PCD.
       - Boundary:
         this is acceptance hardening; no artifact has been generated.
+- [x] Require materialization payload to include safe file refs for release evidence.
+      - Parser:
+        `scripts/beta15_4-l6-materialization-result.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`.
+      - Result:
+        accepted results must include safe relative refs for generated artifact,
+        package, release manifest and seal report; artifact/package/release
+        refs must match the declared hashes.
+      - Boundary:
+        this validates the future evidence pack shape; it does not create the
+        missing L6-generated artifact.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

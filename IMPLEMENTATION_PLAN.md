@@ -52,6 +52,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Required input PCD policy: the materialization result payload must list every
   required input PCD path. A payload with the right aggregate hash but missing
   `inputPcds` entries fails closed.
+- Result file-ref policy: the materialization result payload must include
+  relative, safe file refs for generated artifact, package, release manifest
+  and seal report. The artifact/package/release refs must match the declared
+  hashes, so a result cannot pass with detached hash strings only.
 
 ## Phases
 

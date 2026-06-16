@@ -28,6 +28,22 @@ const good = {
   pcdInputSetSha256: '2'.repeat(64),
   remoteWrapperSha256: '3'.repeat(64),
   wrapperExecTargetSha256: '4'.repeat(64),
+  generatedArtifact: {
+    path: 'evidence/beta15_4-l6-generation/generated/brik64-cli.mjs',
+    sha256: 'a'.repeat(64),
+  },
+  package: {
+    path: 'evidence/beta15_4-package/brik64-cli-0.1.0-beta.15.4.tar.gz',
+    sha256: 'b'.repeat(64),
+  },
+  releaseManifest: {
+    path: 'release/manifest.json',
+    sha256: 'c'.repeat(64),
+  },
+  sealReport: {
+    path: 'evidence/beta15_4-l6-generation/seal_report.json',
+    sha256: '5'.repeat(64),
+  },
   inputPcds: [
     { path: 'pcd/beta15_4/release/l6_cli_materialization_contract.pcd', sha256: 'e'.repeat(64) },
     { path: 'pcd/beta15_4/release/l6_cli_materialization_result_contract.pcd', sha256: 'f'.repeat(64) },
@@ -72,6 +88,22 @@ const missingTrace = { ...good };
 delete missingTrace.generationTraceSha256;
 assert.strictEqual(validateMaterializationResult(missingTrace, good.version).accepted, false);
 assert(validateMaterializationResult(missingTrace, good.version).blockers.includes('materialization_result_generation_trace_sha256_invalid'));
+
+const missingArtifactRef = { ...good };
+delete missingArtifactRef.generatedArtifact;
+assert.strictEqual(validateMaterializationResult(missingArtifactRef, good.version).accepted, false);
+assert(validateMaterializationResult(missingArtifactRef, good.version).blockers.includes('materialization_result_generatedArtifact_ref_missing'));
+
+const unsafePackageRef = { ...good, package: { ...good.package, path: '../package.tgz' } };
+assert.strictEqual(validateMaterializationResult(unsafePackageRef, good.version).accepted, false);
+assert(validateMaterializationResult(unsafePackageRef, good.version).blockers.includes('materialization_result_package_ref_path_invalid'));
+
+const mismatchedReleaseManifestRef = {
+  ...good,
+  releaseManifest: { ...good.releaseManifest, sha256: '9'.repeat(64) },
+};
+assert.strictEqual(validateMaterializationResult(mismatchedReleaseManifestRef, good.version).accepted, false);
+assert(validateMaterializationResult(mismatchedReleaseManifestRef, good.version).blockers.includes('materialization_result_releaseManifest_ref_sha256_mismatch'));
 
 const wrongInputSet = validateMaterializationResult(good, good.version, {
   pcdInputSetSha256: '9'.repeat(64),

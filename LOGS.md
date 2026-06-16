@@ -319,3 +319,33 @@ Boundary:
 - This prevents a future endpoint from satisfying the aggregate input hash
   while omitting required PCD refs in `inputPcds`.
 - It does not implement the materializer endpoint or publish Beta15.4.
+
+## Iteration 15
+
+- Hardened `scripts/beta15_4-l6-materialization-result.js` so an accepted
+  endpoint result must include safe relative file refs for:
+  - generated artifact;
+  - package;
+  - release manifest;
+  - seal report.
+- The generated artifact, package and release manifest refs must match the
+  declared top-level hashes.
+- Added adversarial parser coverage for:
+  - missing generated artifact ref;
+  - unsafe package ref path traversal;
+  - release manifest ref hash mismatch.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_generation_attempt.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  blockers because the L6+N5 endpoint does not emit the required artifact,
+  package, release manifest or seal refs.
+
+Boundary:
+
+- This closes a detached-hash evidence-pack bypass in the future endpoint
+  contract.
+- It does not implement the materializer endpoint or publish Beta15.4.
