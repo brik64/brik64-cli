@@ -1,0 +1,534 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.6",
+  "pcd": "pcd/beta15_6/harness/lift_roundtrip_gate.pcd",
+  "semantic_pcd_sha256": "8d34a80582a103db4ab502a5f122f9eeb15235cb414b55bcd1562149355a4538",
+  "ast_sha256": "a4ceb56c83a78ea92182de4504172d63ff1c93c8e3e950644810a018d0320ee5",
+  "domain_contract_sha256": "b3f8f94232a3b28821a905e644035996dd26fba9f7e8bb7d273789b879fa834d",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "attempted_modules",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1024
+        }
+      },
+      {
+        "name": "lift_candidates",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 4096
+        }
+      },
+      {
+        "name": "certified_lifted_pcds",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 4096
+        }
+      },
+      {
+        "name": "semantic_roundtrip_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 4096
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "attempted_modules",
+        "minValue": 0,
+        "maxValue": 1024
+      },
+      {
+        "name": "lift_candidates",
+        "minValue": 0,
+        "maxValue": 4096
+      },
+      {
+        "name": "certified_lifted_pcds",
+        "minValue": 0,
+        "maxValue": 4096
+      },
+      {
+        "name": "semantic_roundtrip_pass",
+        "minValue": 0,
+        "maxValue": 4096
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "b3f8f94232a3b28821a905e644035996dd26fba9f7e8bb7d273789b879fa834d"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "lift_roundtrip_gate",
+    "fnName": "lift_roundtrip_gate",
+    "params": [
+      "attempted_modules",
+      "lift_candidates",
+      "certified_lifted_pcds",
+      "semantic_roundtrip_pass"
+    ],
+    "paramTypes": {
+      "attempted_modules": "i64",
+      "lift_candidates": "i64",
+      "certified_lifted_pcds": "i64",
+      "semantic_roundtrip_pass": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "attempted_modules",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1024
+          }
+        },
+        {
+          "name": "lift_candidates",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 4096
+          }
+        },
+        {
+          "name": "certified_lifted_pcds",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 4096
+          }
+        },
+        {
+          "name": "semantic_roundtrip_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 4096
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "attempted_modules",
+          "minValue": 0,
+          "maxValue": 1024
+        },
+        {
+          "name": "lift_candidates",
+          "minValue": 0,
+          "maxValue": 4096
+        },
+        {
+          "name": "certified_lifted_pcds",
+          "minValue": 0,
+          "maxValue": 4096
+        },
+        {
+          "name": "semantic_roundtrip_pass",
+          "minValue": 0,
+          "maxValue": 4096
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "b3f8f94232a3b28821a905e644035996dd26fba9f7e8bb7d273789b879fa834d"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "lift_roundtrip_gate": {
+        "name": "lift_roundtrip_gate",
+        "params": [
+          "attempted_modules",
+          "lift_candidates",
+          "certified_lifted_pcds",
+          "semantic_roundtrip_pass"
+        ],
+        "paramTypes": {
+          "attempted_modules": "i64",
+          "lift_candidates": "i64",
+          "certified_lifted_pcds": "i64",
+          "semantic_roundtrip_pass": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "attempted_modules",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "lift_candidates",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "certified_lifted_pcds",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "semantic_roundtrip_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "raw": "1",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 4
+      }
+    },
+    "entrypoint": {
+      "name": "lift_roundtrip_gate",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "attempted_modules",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "lift_candidates",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "certified_lifted_pcds",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "semantic_roundtrip_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "raw": "1",
+          "numericType": "i64",
+          "inferredType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 4,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

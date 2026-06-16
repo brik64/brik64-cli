@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "brik64.cli_beta15_6_package_manifest.v1",
+  "version": "0.1.0-beta.15.6",
+  "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_BUILT",
+  "releaseEligible": true,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "pcd_first_l6_materialized_public_beta",
+  "package": {
+    "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
+    "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
+    "bytes": 608324
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "publicReleaseAllowed": true,
+    "fixpointClaimAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false,
+    "blocker": null
+  },
+  "inputGates": [
+    {
+      "decision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE",
+      "report": "evidence/beta15_6-pre-public-rc/report.json",
+      "packaged": false
+    },
+    {
+      "decision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE",
+      "report": "evidence/beta15_6-rust-f64-command-lift/report.json",
+      "packaged": false,
+      "blocker": null
+    },
+    {
+      "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",
+      "report": "evidence/cli-l6-generation-required/report.json",
+      "packaged": false,
+      "blocker": null
+    }
+  ],
+  "requiredPublicReleaseGates": [
+    "beta15_6_package_smoke",
+    "github_release_beta15_6",
+    "curl_gcp_installer_beta15_6",
+    "web_docs_changelog_beta15_6",
+    "skills_beta15_6",
+    "sdk_beta15_6_marketplaces_or_deferrals",
+    "public_claim_scan",
+    "live_release_train_verify"
+  ],
+  "boundary": "Beta15.6 public beta package. This manifest describes package assembly and does not assert formal correctness, self-hosting, fixpoint, or toolchain independence."
+}
