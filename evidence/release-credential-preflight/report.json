@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "brik64.release_credential_preflight.v1",
+  "publishRequested": false,
+  "decision": "PASS_RELEASE_CREDENTIAL_PREFLIGHT",
+  "boundary": "Validates release credentials without printing secrets. Some provider tokens can only be fully verified during provider-specific publish or dispatch.",
+  "checks": [
+    {
+      "name": "github_release_token",
+      "present": true,
+      "valid": true,
+      "status": "auth_accepted"
+    },
+    {
+      "name": "npm_token",
+      "present": true,
+      "valid": true,
+      "status": "auth_accepted"
+    },
+    {
+      "name": "pypi_token",
+      "present": true,
+      "valid": null,
+      "status": "present_unverified",
+      "note": "PyPI API tokens are verified by twine upload; preflight avoids printing or probing upload-only credentials."
+    },
+    {
+      "name": "crates_token",
+      "present": true,
+      "valid": null,
+      "status": "present_scoped_or_oidc_publish_token_unverified",
+      "note": "Scoped crates.io publish tokens may not authorize /api/v1/me. Final validation happens at cargo publish."
+    },
+    {
+      "name": "gcp_auth",
+      "present": true,
+      "valid": null,
+      "status": "service_account_json_present"
+    },
+    {
+      "name": "BRIK64_DOCS_DISPATCH_TOKEN",
+      "present": true,
+      "valid": null,
+      "status": "present_unverified_dispatch_token"
+    },
+    {
+      "name": "BRIK64_WEB_DEPLOY_TOKEN",
+      "present": true,
+      "valid": null,
+      "status": "present_unverified_dispatch_token"
+    },
+    {
+      "name": "BRIK64_SKILLS_REPO_TOKEN",
+      "present": true,
+      "valid": null,
+      "status": "present_unverified_dispatch_token"
+    }
+  ],
+  "failures": [],
+  "warnings": [
+    "crates_token_account_probe_auth_rejected",
+    "dry_run_preflight_no_public_mutation"
+  ]
+}
