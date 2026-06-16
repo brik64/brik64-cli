@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-16T21:44:45.635Z",
+  "generatedAt": "2026-06-16T21:49:22.792Z",
   "version": "0.1.0-beta.15.6",
   "label": "beta15_6",
   "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,12 +18,12 @@
     "dir": "evidence/beta15_6-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_6-l6-generation/gate-report.json",
-      "sha256": "857b5e101858e060e8b2dfcc0793b9174653ad9d2938d8182340fd7229ad1a19",
+      "sha256": "6d5bd4a3b792160addfc2a6c46ac27cd0978f482ffb651ece43df05e62875e62",
       "sizeBytes": 7054
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_6-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "638a0df43222c055c3348a2080af9fa4d71dca260add6b90eea2740b8fa504bb",
+      "sha256": "ab732ac960e8a33e1d67bf3a41379db762eebac4c4afda2e9275b7fe940d26d4",
       "sizeBytes": 1936
     },
     "input_pcd_hashes.tsv": {

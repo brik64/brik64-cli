@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const crypto = require('crypto');
-const path = require('path');
 
 const VERSION = '0.1.0-beta.15.6';
 const SERIAL_PATH = '/opt/brik64/engines/l6plus-n5/current/serial.txt';
