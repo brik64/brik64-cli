@@ -79,6 +79,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `materializerRequestSha256` matching the exact `request.line` generated for
   the current attempt. A result for a different request, stale request or
   reconstructed input fails closed.
+- Release-train gap report policy: `release:train:dry-run` must validate the
+  Beta15.4 materializer gap report through a reusable strict validator, not an
+  inline decision-only check. A future `BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS`
+  report must include coherent L6 attempt checks, exact request-bundle checks,
+  package eligibility, materializer request hash context and public-claim
+  boundaries before it can unblock publication.
 
 ## Phases
 

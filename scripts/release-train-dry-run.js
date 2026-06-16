@@ -221,26 +221,7 @@ function beta15_4L6MaterializerGapGate() {
     `]);
   }
   const reportPath = beta15_4L6MaterializerGapReportPath();
-  const script = `
-const fs = require('fs');
-const reportPath = ${JSON.stringify(reportPath)};
-if (!fs.existsSync(reportPath)) {
-  console.error('beta15_4_l6_materializer_gap_report_missing:' + reportPath);
-  process.exit(2);
-}
-const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-if (report.version !== '0.1.0-beta.15.4') {
-  console.error('beta15_4_l6_materializer_gap_version_invalid:' + (report.version || 'missing'));
-  process.exit(2);
-}
-if (report.decision !== 'BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS') {
-  console.error('beta15_4_l6_materializer_gap_not_pass:' + (report.decision || 'missing'));
-  if (Array.isArray(report.blockers)) console.error('blockers=' + report.blockers.join('|'));
-  process.exit(2);
-}
-console.log('decision=PASS_BETA15_4_L6_MATERIALIZER_GAP_GATE');
-`;
-  return run('beta15_4_l6_materializer_gap', ['node', '-e', script], {
+  return run('beta15_4_l6_materializer_gap', ['node', 'scripts/beta15_4-l6-materializer-gap-report-validate.js', reportPath], {
     stdoutLimit: 12000,
     stderrLimit: 12000
   });

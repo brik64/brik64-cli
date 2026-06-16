@@ -169,6 +169,21 @@
       - Boundary:
         this invalidates stale request/result pairs; it still does not produce
         the missing L6 artifact.
+- [x] Harden release train gap-report validation.
+      - Validator:
+        `scripts/beta15_4-l6-materializer-gap-report-validate.js`.
+      - Release train:
+        `scripts/release-train-dry-run.js`.
+      - Test:
+        `scripts/tests/test_beta15_4_l6_materializer_gap_report_validate.sh`.
+      - Result:
+        `release:train:dry-run` now rejects a superficial
+        `BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS` unless the report also proves
+        L6 attempt pass checks, request-bundle hash checks, package eligibility,
+        exact materializer request context and closed public-claim boundaries.
+      - Boundary:
+        this prevents a future false green gap report; current Beta15.4 remains
+        blocked until the L6 endpoint emits a real materialized artifact.
 - [ ] Create L6+N5 generation evidence pack.
       - Current blocker:
         `remote_l6plus_materialization_contract_unavailable`.

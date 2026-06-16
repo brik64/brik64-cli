@@ -517,3 +517,45 @@ Boundary:
 - It changes the Beta15.4 input PCD set hash and therefore requires downstream
   prod report sync.
 - It does not implement the materializer endpoint or publish Beta15.4.
+
+## Iteration 21
+
+- Extracted strict Beta15.4 L6 materializer gap report validation into
+  `scripts/beta15_4-l6-materializer-gap-report-validate.js`.
+- Updated `scripts/release-train-dry-run.js` so the release train calls that
+  validator instead of an inline decision-only script.
+- The validator now requires:
+  - version `0.1.0-beta.15.4`;
+  - decision `BETA15_4_CLI_L6_MATERIALIZER_GAP_PASS`;
+  - closed public claim boundaries;
+  - release publication allowed only after the gap report is actually PASS;
+  - L6 attempt pass checks;
+  - exact materializer request checks, including input-set match;
+  - valid expected PCD input-set, materializer request, wrapper and exec-target
+    hashes;
+  - package pass and release eligibility;
+  - every expected input PCD path present in the materializer request.
+- Added adversarial coverage for:
+  - current real blocked gap report failing closed;
+  - synthetic complete PASS report accepted;
+  - synthetic PASS report with broken request binding rejected.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_4_l6_materializer_gap_report_validate.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_l6_materialization_result_parser.sh`
+  passed.
+- `bash scripts/tests/test_beta15_4_release_train_l6_gap.sh` passed.
+- `npm run gate:cli:l6-generation-required` still fails closed with expected
+  blockers:
+  `artifact_manifest_missing_pcd_to_artifact_hash_binding`,
+  `package_manifest_missing_artifact_to_package_hash_binding`, and
+  `package_manifest_missing_package_to_release_manifest_hash_binding`.
+
+Boundary:
+
+- This closes a release-train bypass where a future superficial gap `PASS`
+  could have hidden missing request-bundle evidence.
+- It does not implement the L6 materializer endpoint, generate the missing
+  artifact, or publish Beta15.4.
