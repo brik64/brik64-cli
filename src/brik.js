@@ -11,7 +11,7 @@ process.stdout.on('error', (error) => {
 });
 
 const version = '0.1.0-beta.15.5';
-const RELEASE_STATUS = 'pre_public_candidate';
+const RELEASE_STATUS = 'public_beta';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';

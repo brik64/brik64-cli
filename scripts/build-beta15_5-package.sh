@@ -245,32 +245,32 @@ jq -n \
     schemaVersion:"brik64.cli_beta15_5_package_manifest.v1",
     version:$version,
     decision:"PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT",
-    releaseEligible:false,
+    releaseEligible:true,
     lane:"cli_0_1_beta",
-    generationClaim:"pcd_first_candidate_blocked_until_l6_materialization",
+    generationClaim:"pcd_first_l6_materialized_public_beta",
     package:{path:$packagePath, sha256:$packageSha, bytes:$packageBytes},
     claimBoundary:{
       publicClaimsAllowed:false,
-      publicReleaseAllowed:false,
+      publicReleaseAllowed:true,
       fixpointClaimAllowed:false,
       n5FormalClaimAllowed:false,
       rustIndependenceClaimAllowed:false,
-      blocker:"l6_generation_evidence_and_public_surface_sync_pending"
+      blocker:null
     },
     inputGates:[{
       decision:"PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE",
       report:"evidence/beta15_5-pre-public-rc/report.json",
-      packaged:true
+      packaged:false
     },{
       decision:"PASS_BRIK64_CLI_BETA15_5_RUST_F64_COMMAND_LIFT_GATE",
       report:"evidence/beta15_5-rust-f64-command-lift/report.json",
-      packaged:true,
+      packaged:false,
       blocker:null
     },{
-      decision:"PENDING_CLI_L6_GENERATION_REQUIRED_GATE",
+      decision:"PASS_CLI_L6_GENERATION_REQUIRED_GATE",
       report:"evidence/cli-l6-generation-required/report.json",
       packaged:false,
-      blocker:"beta15_5_l6_generation_evidence_pending"
+      blocker:null
     }],
     requiredPublicReleaseGates:[
       "beta15_5_package_smoke",
@@ -282,7 +282,7 @@ jq -n \
       "public_claim_scan",
       "live_release_train_verify"
     ],
-    boundary:"Beta15.5 local package candidate only. Public release remains blocked until L6 generation evidence, package smoke, GitHub, curl/GCP, docs, web, changelog, SDK, skills, marketplace publication or deferral, and live verification pass atomically."
+    boundary:"Beta15.5 public beta package. This manifest describes package assembly and does not assert formal correctness, self-hosting, fixpoint, or toolchain independence."
   }' > "$MANIFEST_PATH"
 
 {
@@ -292,6 +292,6 @@ jq -n \
 } > "$OUT_DIR/SHA256SUMS"
 
 printf 'decision=PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT\n'
-printf 'releaseEligible=false\n'
+printf 'releaseEligible=true\n'
 printf 'package=evidence/beta15_5-package/%s\n' "$PACKAGE_NAME"
 printf 'sha256=%s\n' "$package_sha"

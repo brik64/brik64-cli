@@ -2,7 +2,7 @@
   "schemaVersion": "brik64.cli_beta15_5_package_smoke_report.v1",
   "version": "0.1.0-beta.15.5",
   "decision": "PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "checked": [
     "package_sha",
     "external_beta15_5_evidence",

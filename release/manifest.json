@@ -19,8 +19,10 @@
     "package": {
       "name": "brik64-cli-0.1.0-beta.15.5.tgz",
       "path": "evidence/beta15_5-package/brik64-cli-0.1.0-beta.15.5.tgz",
-      "sha256": "d51bb41f2e4b44fb65114afdcdd339064a17271f1129a3c84b74025e85d1bbca",
-      "size_bytes": 597060
+      "sha256": "49074bcde3143946957ceea02773ffee734a7f74bf3d7ead1cbb81e3997bbbf0",
+      "size_bytes": 597060,
+      "bytes": 597060,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.5/brik64-cli-0.1.0-beta.15.5.tgz"
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
@@ -30,7 +32,8 @@
       "selfHostingPublicClaimAllowed": false,
       "n5FormalClaimAllowed": false,
       "rustIndependenceClaimAllowed": false
-    }
+    },
+    "packageManifestSha256": "6c86db17ebb52a3145940fbaf992c94a96d987a82862f7f198903bfab628a1f4"
   },
   "sdks": [
     {
@@ -148,5 +151,6 @@
       "surface": "release",
       "text": "Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics."
     }
-  ]
+  ],
+  "generatedAt": "2026-06-16T15:50:40.655Z"
 }

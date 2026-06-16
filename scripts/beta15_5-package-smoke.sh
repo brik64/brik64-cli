@@ -71,7 +71,7 @@ package_path="$ROOT_DIR/$package_rel"
 
 [[ "$manifest_version" == "$VERSION" ]] || { echo "manifest_version_drift:$manifest_version" >&2; exit 1; }
 [[ "$manifest_decision" == "PASS_BRIK64_CLI_BETA15_5_PACKAGE_BUILT" ]] || { echo "package_decision_drift:$manifest_decision" >&2; exit 1; }
-[[ "$release_eligible" == "false" ]] || { echo "beta15_5_candidate_should_not_be_public_release_eligible" >&2; exit 1; }
+[[ "$release_eligible" == "true" ]] || { echo "beta15_5_public_package_should_be_release_eligible" >&2; exit 1; }
 [[ "$(sha256_file "$package_path")" == "$package_sha" ]] || { echo "package_hash_mismatch" >&2; exit 1; }
 
 jq -e '.decision == "PASS_BRIK64_CLI_BETA15_5_PRE_PUBLIC_RC_GATE"' "$ROOT_DIR/evidence/beta15_5-pre-public-rc/report.json" >/dev/null || {
@@ -205,7 +205,7 @@ jq -n \
     schemaVersion:"brik64.cli_beta15_5_package_smoke_report.v1",
     version:$version,
     decision:"PASS_BRIK64_CLI_BETA15_5_PACKAGE_SMOKE",
-    releaseEligible:false,
+    releaseEligible:true,
     checked:[
       "package_sha",
       "external_beta15_5_evidence",

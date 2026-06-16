@@ -41,7 +41,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   fi
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"
   grep -Eq "decision=($SMOKE_DECISION|PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_SMOKE)" <<<"$package_smoke_out"
-  node -e 'const fs=require("fs"); const label=process.argv[1]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); if (r.releaseEligible !== false) process.exit(1)' "$BETA_LABEL"
+  node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = label === "beta15_5" && state === "public"; if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
   if [ "$BETA_NUMBER" = "9" ]; then
     node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (!r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
     beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
