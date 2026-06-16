@@ -6,7 +6,7 @@ const childProcess = require('child_process');
 const root = path.resolve(__dirname, '..');
 const outDir = path.join(root, 'evidence', 'beta15_6-public-source-sync');
 const version = '0.1.0-beta.15.6';
-const pyVersion = '0.1.0b15.post5';
+const pyVersion = '0.1.0b15.post6';
 
 function ghContent(repo, file) {
   const result = childProcess.spawnSync('gh', ['api', '--method', 'GET', `repos/${repo}/contents/${file}`, '-f', 'ref=main', '--jq', '.content'], {

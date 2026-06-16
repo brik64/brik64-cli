@@ -1,46 +1,51 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.15.5",
-  "version": "0.1.0-beta.15.5",
+  "releaseId": "brik64-0.1.0-beta.15.6",
+  "version": "0.1.0-beta.15.6",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "969c71530f84c04c94aed782d38ec634aeaf96c49266f40b9b16e50992e1084d",
+  "manifestDigest": "c043d44c14061c12c978c6e6e37bde815ec881c4fef7e29ce90dcc16dee5f5f9",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.5",
-  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.5",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.6",
+  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.6",
   "sdkInstall": {
     "npm": {
       "name": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.15.5"
+      "version": "0.1.0-beta.15.6"
     },
     "pypi": {
       "name": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b15.post5"
+      "version": "0.1.0b15.post6"
     },
     "crates.io": {
       "name": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.15.5"
+      "version": "0.1.0-beta.15.6"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.15.5\n\n### Fixed\n\n- Generated Rust polymer output preserves floating-point bounds and comparisons.\n\n### Added\n\n- Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets.\n\n### Changed\n\n- Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics.\n",
+  "changelogMarkdown": "## 0.1.0-beta.15.6\n\n### Fixed\n\n- The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests.\n- Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches.\n\n### Added\n\n- Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression.\n\n### Changed\n\n- Engine status reports the offline beta runtime profile used by the local CLI.\n",
   "releaseNotes": [
     {
       "type": "fixed",
       "surface": "cli",
-      "text": "Generated Rust polymer output preserves floating-point bounds and comparisons."
+      "text": "The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests."
+    },
+    {
+      "type": "fixed",
+      "surface": "cli",
+      "text": "Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches."
     },
     {
       "type": "added",
       "surface": "cli",
-      "text": "Lifted Python, JavaScript, and Rust candidates are emitted and tested across TypeScript, Python, and Rust targets."
+      "text": "Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression."
     },
     {
       "type": "changed",
-      "surface": "release",
-      "text": "Command help and doctor scope behavior now support audit workspaces without hiding full-scope diagnostics."
+      "surface": "cli",
+      "text": "Engine status reports the offline beta runtime profile used by the local CLI."
     }
   ]
 }

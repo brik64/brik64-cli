@@ -3,14 +3,14 @@
   "releaseId": "brik64-0.1.0-beta.15.6",
   "version": "0.1.0-beta.15.6",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-16T21:18:32.786Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "codex/beta15-6-l4-engine-required",
-    "commit": "357550a79bf2274aca991c89cc648aff78c242ac",
-    "pullRequest": null,
-    "commitBinding": "candidate_base_commit"
+    "branch": "main",
+    "commit": "4ed58a0d06ff8c68861b4224446f2209fed353aa",
+    "pullRequest": 193,
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -19,10 +19,11 @@
     "package": {
       "name": "brik64-cli-0.1.0-beta.15.6.tgz",
       "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
-      "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
-      "size_bytes": 608324,
-      "bytes": 608324,
-      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz"
+      "sha256": "02207cb73dbf5ba02d4956d15427e65558c50c79d4a26d2aeb6bd01a3f8a30b1",
+      "size_bytes": 608836,
+      "bytes": 608836,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz",
+      "sizeBytes": 608836
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
@@ -113,8 +114,8 @@
   },
   "githubReleaseDraft": {
     "tagName": "v0.1.0-beta.15.6",
-    "targetCommitish": "codex/beta15-6-l4-engine-required",
-    "isDraft": true,
+    "targetCommitish": "4ed58a0d06ff8c68861b4224446f2209fed353aa",
+    "isDraft": false,
     "isPrerelease": true,
     "assets": [
       {
@@ -133,7 +134,7 @@
         "size_bytes": 1740
       }
     ],
-    "targetCommitishBinding": "candidate_branch_until_pr_merge"
+    "targetCommitishBinding": "github_verified_squash_commit"
   },
   "releaseNotes": [
     {
@@ -157,5 +158,8 @@
       "text": "Engine status reports the offline beta runtime profile used by the local CLI."
     }
   ],
-  "generatedAt": "2026-06-16T21:42:54.379Z"
+  "generatedAt": "2026-06-16T22:00:09.354Z",
+  "metadata": {
+    "updatedAt": "2026-06-16T22:13:41.660Z"
+  }
 }
