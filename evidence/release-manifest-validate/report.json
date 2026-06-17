@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.15.7",
   "state": "draft",
-  "manifestDigest": "5824e025ad0e7f978fe07cb70bd481f1aa0575c4ce2581e7d2108a09d6add6e3",
-  "decision": "FAIL_RELEASE_MANIFEST_VALIDATE",
+  "manifestDigest": "228f0de9bce5d87130feea645d2e3644fae859c12001353b971572ebed21319a",
+  "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": false,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "5824e025ad0e7f978fe07cb70bd481f1aa0575c4ce2581e7d2108a09d6add6e3",
-      "bytes": 6017
+      "sha256": "228f0de9bce5d87130feea645d2e3644fae859c12001353b971572ebed21319a",
+      "bytes": 6009
     },
     "packageJson": {
       "path": "package.json",
@@ -43,14 +43,14 @@
         "path": "evidence/beta15_7-l6-generation/gate-report.json",
         "expectedDecision": "PASS_BETA15_7_L6_GENERATION_GATE",
         "actualDecision": "PASS_BETA15_7_L6_GENERATION_GATE",
-        "sha256": "b7c1f9a2f17845fd436383fff4b1e76117f8360436b846cb6130cf390dbfe7de"
+        "sha256": "0c2b3ea43be0e11ece8b3fdca125789b27793d35d65fe0146ff07accb78e76bb"
       },
       {
         "id": "beta15_7_package",
         "path": "evidence/beta15_7-package/package.manifest.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_BUILT",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_BUILT",
-        "sha256": "c1d12a99b92bbb275b0f3791aa5c2af550d9ac484ece6737a27f6c106aaf9281"
+        "sha256": "b22854f383c0628011f6f329fcf7ab1ec1a3b32165238c33205b59bcb3b178b8"
       },
       {
         "id": "beta15_7_package_smoke",
@@ -61,8 +61,6 @@
       }
     ]
   },
-  "failures": [
-    "worktree_dirty:7"
-  ],
+  "failures": [],
   "warnings": []
 }
