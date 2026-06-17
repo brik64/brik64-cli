@@ -1,0 +1,15 @@
+// brik64.pcd_file.v1
+// claim_boundary: assisted_generation_non_claim
+PC lift_roundtrip_gate {
+    domain attempted_modules: i64 [0, 1024];
+    domain lift_candidates: i64 [0, 4096];
+    domain certified_lifted_pcds: i64 [0, 4096];
+    domain semantic_roundtrip_pass: i64 [0, 4096];
+    fn lift_roundtrip_gate(attempted_modules, lift_candidates, certified_lifted_pcds, semantic_roundtrip_pass) -> i64 {
+        if (attempted_modules == 0) { return 0; }
+        if (lift_candidates == 0) { return 0; }
+        if (certified_lifted_pcds == 0) { return 0; }
+        if (semantic_roundtrip_pass == 0) { return 0; }
+        return 1;
+    }
+}

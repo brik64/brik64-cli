@@ -10,8 +10,9 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.6';
+const version = '0.1.0-beta.15.7';
 const RELEASE_STATUS = 'public_beta';
+const PCD_FILE_HEADER = '// brik64.pcd_file.v1';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
@@ -595,11 +596,12 @@ const COMMAND_HELP = {
     '  brik64 ledger export --redacted'
   ],
   migrate: [
-    'migrate <file.pcd> [--out <file>|--in-place] [--dry-run] [--force|-f] [--json]',
-    'Converts supported legacy PCD syntax into the current PC/fn block form.',
+    'migrate <file.pcd> [--out <file>|--in-place|--write] [--dry-run] [--force|-f] [--json]',
+    'Converts supported legacy PCD syntax into the current PC/fn block form and adds the required PCD header.',
     'Supported legacy inputs: lowercase pc/circuit blocks and pcd function wrappers.',
     'Example:',
-    '  brik64 migrate old.pcd --dry-run --json'
+    '  brik64 migrate old.pcd --dry-run --json',
+    '  brik64 migrate old.pcd --write'
   ],
   polymerize: [
     'polymerize <files.pcd...> [--local] [--inline] [--root <fn>] --out <file> [--json]',
@@ -721,7 +723,7 @@ function help(topic) {
   process.stdout.write('       --token-env <VAR>\n');
   process.stdout.write('  logout               remove managed platform session\n');
   process.stdout.write('  migrate <file.pcd>   convert supported legacy PCD syntax\n');
-  process.stdout.write('       --out <file> | --in-place [--force|-f]\n');
+  process.stdout.write('       --out <file> | --in-place | --write [--force|-f]\n');
   process.stdout.write('  lift <js|ts|python|rust> <path> --preview\n');
   process.stdout.write('       generate local PCD candidates without certification\n');
   process.stdout.write('  adoption report      summarize local lift preview evidence\n');
@@ -1238,10 +1240,27 @@ function parseParam(raw) {
     fail(65, 'pcd_parse_error:invalid_param');
   }
   const [, name, type = 'i64'] = match;
+  assertIdentifierAllowed('param', name);
   if (!isSupportedScalarType(type)) {
     fail(65, `pcd_parse_error:unsupported_param_type:${type}`);
   }
   return { name, type };
+}
+
+const RESERVED_IDENTIFIERS = new Set([
+  'PC', 'pc', 'fn', 'return', 'if', 'else', 'repeat', 'domain', 'domain_param',
+  'invariant', 'when', 'boundary', 'const', 'use', 'true', 'false', 'null',
+  'bool', 'i64', 'i32', 'u8', 'u64', 'f64', 'tuple_u8_u8'
+]);
+
+function assertIdentifierAllowed(kind, name) {
+  if (RESERVED_IDENTIFIERS.has(name)) {
+    fail(65, `pcd_parse_error:reserved_identifier:${kind}:${name}`);
+  }
+}
+
+function hasPcdFileHeader(source) {
+  return String(source || '').replace(/^\uFEFF/, '').startsWith(PCD_FILE_HEADER);
 }
 
 function isSupportedScalarType(type) {
@@ -1250,6 +1269,31 @@ function isSupportedScalarType(type) {
 
 function isNumericType(type) {
   return ['i64', 'i32', 'u8', 'u64', 'bool', 'f64'].includes(type);
+}
+
+function isIntegerScalarType(type) {
+  return ['i64', 'i32', 'u8', 'u64'].includes(type);
+}
+
+function expressionContainsF64Literal(expression) {
+  if (!expression || typeof expression !== 'object') return false;
+  if (expression.type === 'NumberLiteral' && expression.numericType === 'f64') return true;
+  return Object.values(expression).some((value) => {
+    if (Array.isArray(value)) return value.some(expressionContainsF64Literal);
+    return expressionContainsF64Literal(value);
+  });
+}
+
+function assertNoImplicitNumericCoercion(leftType, rightType, operator, leftExpression, rightExpression) {
+  const mixedFloatInteger = (
+    (leftType === 'f64' && isIntegerScalarType(rightType)) ||
+    (rightType === 'f64' && isIntegerScalarType(leftType))
+  );
+  if (!mixedFloatInteger) return;
+  const code = expressionContainsF64Literal(leftExpression) || expressionContainsF64Literal(rightExpression)
+    ? 'numeric_literal_type_mismatch'
+    : 'implicit_numeric_coercion';
+  fail(65, `pcd_parse_error:${code}:${leftType}_${operator}_${rightType}`);
 }
 
 function rustType(type) {
@@ -1264,7 +1308,7 @@ function rustType(type) {
 
 function expressionTypeCompatible(actualType, expectedType) {
   if (actualType === expectedType) return true;
-  return isNumericType(actualType) && isNumericType(expectedType);
+  return isIntegerScalarType(actualType) && isIntegerScalarType(expectedType);
 }
 
 function inferExpressionType(expression, paramTypes) {
@@ -1364,11 +1408,13 @@ function inferExpressionType(expression, paramTypes) {
       if (!isNumericType(leftType) || !isNumericType(rightType)) {
         fail(65, `pcd_parse_error:comparison_requires_numeric:${expression.operator}`);
       }
+      assertNoImplicitNumericCoercion(leftType, rightType, expression.operator, expression.left, expression.right);
       return remember('bool');
     }
     if (!isNumericType(leftType) || !isNumericType(rightType)) {
       fail(65, `pcd_parse_error:binary_requires_numeric:${expression.operator}`);
     }
+    assertNoImplicitNumericCoercion(leftType, rightType, expression.operator, expression.left, expression.right);
     if (leftType === 'f64' || rightType === 'f64') return remember('f64');
     return remember(leftType === 'i64' || rightType === 'i64' ? 'i64' : 'i32');
   }
@@ -1541,6 +1587,7 @@ function parseDomainContract(pcBody) {
     const match = executablePcBody.match(domainParamPattern);
     if (!match) break;
     const [, name, type] = match;
+    assertIdentifierAllowed('domain_param', name);
     if (domainParams.some((param) => param.name === name)) fail(65, `pcd_parse_error:domain_param_duplicate:${name}`);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_param_type:${type}`);
     domainParams.push({ name, type });
@@ -1551,6 +1598,7 @@ function parseDomainContract(pcBody) {
     const match = executablePcBody.match(domainPattern);
     if (!match) break;
     const [, name, type, minRaw, maxRaw] = match;
+    assertIdentifierAllowed('domain', name);
     if (domains.some((domain) => domain.name === name)) fail(65, `pcd_parse_error:domain_duplicate:${name}`);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_type:${type}`);
     const min = parseDomainBound(minRaw);
@@ -1576,6 +1624,7 @@ function parseDomainContract(pcBody) {
     const match = executablePcBody.match(whenPattern);
     if (!match) break;
     const [, condition, name, type, minRaw, maxRaw] = match;
+    assertIdentifierAllowed('domain', name);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_type:${type}`);
     if (/[^A-Za-z0-9_+\-*/%<>=!&|()[\],{}:.\s]/.test(condition)) fail(65, 'pcd_parse_error:unsupported_conditional_domain_expression');
     const min = parseDomainBound(minRaw);
@@ -1666,6 +1715,9 @@ function parsePcd(source, context = {}) {
   if (Buffer.byteLength(source, 'utf8') > 1024 * 1024) {
     fail(65, 'pcd_too_large');
   }
+  if (!context.allowMissingHeader && !hasPcdFileHeader(source)) {
+    fail(65, 'pcd_parse_error:missing_pcd_header; run `brik64 migrate <file> --write`');
+  }
   const baseDir = context.baseDir || process.cwd();
   const importStack = context.importStack || [];
   const stripped = stripPcdComments(source);
@@ -1721,6 +1773,7 @@ function parsePcd(source, context = {}) {
     fail(65, 'pcd_parse_error:malformed_pc_block');
   }
   const pcName = pcMatch[1];
+  assertIdentifierAllowed('pc', pcName);
   const pcBody = pcdSource.slice(pcOpen + 1, pcClose);
   const constants = {};
   const parsedDomainContract = parseDomainContract(pcBody);
@@ -1742,6 +1795,7 @@ function parsePcd(source, context = {}) {
     const constMatch = executablePcBody.match(constPattern);
     if (!constMatch) break;
     const [, name, literal] = constMatch;
+    assertIdentifierAllowed('const', name);
     if (Object.prototype.hasOwnProperty.call(constants, name)) fail(65, `pcd_parse_error:const_duplicate:${name}`);
     if (Object.keys(constants).length >= 64) fail(65, 'pcd_parse_error:const_table_too_large');
     const value = Number(literal);
@@ -1761,6 +1815,7 @@ function parsePcd(source, context = {}) {
   }
   const signatures = {};
   for (const block of fnBlocks) {
+    assertIdentifierAllowed('function', block.name);
     if (Object.prototype.hasOwnProperty.call(signatures, block.name)) {
       fail(65, `pcd_parse_error:duplicate_fn:${block.name}`);
     }
@@ -1796,6 +1851,9 @@ function parsePcd(source, context = {}) {
     const returns = collectReturns(body);
     if (returns.length === 0) {
       fail(65, `pcd_parse_error:missing_return:${block.name}`);
+    }
+    if (!statementsAlwaysReturn(body)) {
+      fail(65, `pcd_parse_error:non_exhaustive_return:${block.name}`);
     }
     parsedFunctions[block.name] = {
       ...signature,
@@ -2700,6 +2758,14 @@ function renderRustF64(value) {
   return `(${stripOuterParens(value)} as f64)`;
 }
 
+function renderNumberLiteral(expression) {
+  const value = Number(expression.value);
+  if ((expression.numericType === 'f64' || expression.inferredType === 'f64') && Number.isInteger(value)) {
+    return `${value}.0`;
+  }
+  return String(expression.value);
+}
+
 function renderRustExpressionAs(expression, expectedType) {
   const rendered = renderExpression(expression, 'rust');
   if (expectedType === 'f64') {
@@ -2733,7 +2799,7 @@ function renderRustReturnExpression(expression, returnType) {
 function renderExpression(expression, target) {
   if (expression.type === 'NumberLiteral') {
     if (target === 'rust' && (expression.numericType === 'f64' || expression.inferredType === 'f64')) return rustLiteral(expression.value, 'f64');
-    return String(expression.value);
+    return renderNumberLiteral(expression);
   }
   if (expression.type === 'ConstLiteral') return String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
@@ -2925,9 +2991,34 @@ function renderExpression(expression, target) {
     if (target === 'ts' && operator === '!=') operator = '!==';
     if (target === 'python' && operator === '&&') operator = 'and';
     if (target === 'python' && operator === '||') operator = 'or';
+    if (expression.operator === '/' && expression.inferredType !== 'f64') {
+      if (target === 'ts') return `brik64IntDiv(${left}, ${right})`;
+      if (target === 'python') return `brik64_int_div(${left}, ${right})`;
+    }
     return `(${left} ${operator} ${right})`;
   }
   fail(70, 'internal_codegen_error:unknown_expression');
+}
+
+function renderTsRuntimeHelpers() {
+  return [
+    'function brik64IntDiv(left, right) {',
+    '  if (right === 0) return 0;',
+    '  return Math.trunc(left / right);',
+    '}',
+    ''
+  ];
+}
+
+function renderPythonRuntimeHelpers() {
+  return [
+    'def brik64_int_div(left, right):',
+    '    if right == 0:',
+    '        return 0',
+    '    quotient = abs(left) // abs(right)',
+    '    return -quotient if (left < 0) != (right < 0) else quotient',
+    ''
+  ];
 }
 
 function stripOuterParens(value) {
@@ -3054,7 +3145,7 @@ function renderLocalFunctions(ast, target) {
 }
 
 function renderPcdExpression(expression) {
-  if (expression.type === 'NumberLiteral') return String(expression.value);
+  if (expression.type === 'NumberLiteral') return renderNumberLiteral(expression);
   if (expression.type === 'ConstLiteral') return expression.name || String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
   if (expression.type === 'UnaryExpression') return `-${renderPcdExpression(expression.argument)}`;
@@ -3446,7 +3537,7 @@ function evaluateExpression(expression, env) {
     if (expression.operator === '+') return left + right;
     if (expression.operator === '-') return left - right;
     if (expression.operator === '*') return left * right;
-    if (expression.operator === '/') return Math.trunc(left / right);
+    if (expression.operator === '/') return expression.inferredType === 'f64' ? left / right : Math.trunc(left / right);
     if (expression.operator === '%') return left % right;
     if (expression.operator === '==') return left === right;
     if (expression.operator === '!=') return left !== right;
@@ -3714,6 +3805,7 @@ function targetSpec(target, ast) {
     `export const pcdAst = ${astJson};`,
     ...tsDomainAssertions,
     ...tsImports,
+    ...renderTsRuntimeHelpers(),
     ...tsHelpers,
     `export function run(${tsParams}) {`,
     `  assertDomain({ ${params.join(', ')} });`,
@@ -3810,6 +3902,7 @@ function targetSpec(target, ast) {
     '',
     ...pythonDomainAssertions,
     ...pythonImports,
+    ...renderPythonRuntimeHelpers(),
     ...pythonHelpers,
     `def run(${pythonParams}):`,
     `    assertDomain(${params.map((param) => `${param}=${param}`).join(', ')})`,
@@ -4333,11 +4426,13 @@ function migrate(file, args = []) {
   const parsed = parseArgs(args.map((arg) => (arg === '-f' ? '--force' : arg)), {
     '--out': 'value',
     '--in-place': 'boolean',
+    '--write': 'boolean',
     '--json': 'boolean',
     '--force': 'boolean',
     '--dry-run': 'boolean'
   });
-  if (parsed['--out'] && parsed['--in-place']) {
+  const writeInPlace = Boolean(parsed['--in-place'] || parsed['--write']);
+  if (parsed['--out'] && writeInPlace) {
     fail(64, 'migrate_output_mode_conflict');
   }
   const source = readFileRequired(file);
@@ -4366,6 +4461,14 @@ function migrate(file, args = []) {
       syntax = 'legacy_pcd_function';
     }
   }
+  if (!hasPcdFileHeader(migrated)) {
+    migrated = [
+      PCD_FILE_HEADER,
+      '// claim_boundary: local_candidate_only',
+      migrated.trimStart()
+    ].join('\n');
+    syntax = syntax === 'beta14' ? 'missing_header' : syntax;
+  }
   if (syntax !== 'beta14' && !/\bdomain\s+[A-Za-z_][A-Za-z0-9_]*\s*:/.test(migrated)) {
     const fnMatch = migrated.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)/m);
     const params = fnMatch ? fnMatch[2].split(',').map((param) => param.trim().split(':')[0].trim()).filter(Boolean) : [];
@@ -4389,7 +4492,7 @@ function migrate(file, args = []) {
   let outPath;
   if (parsed['--dry-run']) {
     outPath = parsed['--out'] ? workspacePath(parsed['--out'], 64, { output: true }) : inputPath;
-  } else if (parsed['--in-place']) {
+  } else if (writeInPlace) {
     const backupPath = `${inputPath}.bak`;
     if (!fs.existsSync(backupPath)) {
       writeFileControlled(backupPath, source);
@@ -4595,6 +4698,9 @@ function unsupportedLiftConstructs(candidate) {
   ].filter(Boolean).map((value) => String(value));
   const unsupported = [];
   for (const fragment of fragments) {
+    if (/\b\d+\.\d+\b/.test(fragment)) {
+      unsupported.push('numeric_literal_type_mismatch');
+    }
     if (/\bMath\.[A-Za-z_][A-Za-z0-9_]*\s*\(/.test(fragment)) {
       unsupported.push('js_math_call_not_represented');
     }
@@ -4835,12 +4941,23 @@ function lift(language, sourcePath, args = []) {
   for (const candidate of extracted.candidates) {
     const unsupported = unsupportedLiftConstructs(candidate);
     if (unsupported.length > 0) {
-      warnings.push({
-        code: 'unsupported_lift_construct',
-        function: candidate.name,
-        reason: 'candidate_contains_source_construct_not_representable_as_current_pcd',
-        constructs: unsupported
-      });
+      if (unsupported.includes('numeric_literal_type_mismatch')) {
+        warnings.push({
+          code: 'numeric_literal_type_mismatch',
+          function: candidate.name,
+          reason: 'lift preview inferred i64 parameters but source contains f64 literals; use explicit f64 PCD or keep this as non-certifiable preview',
+          constructs: unsupported
+        });
+      }
+      const otherUnsupported = unsupported.filter((construct) => construct !== 'numeric_literal_type_mismatch');
+      if (otherUnsupported.length > 0) {
+        warnings.push({
+          code: 'unsupported_lift_construct',
+          function: candidate.name,
+          reason: 'candidate_contains_source_construct_not_representable_as_current_pcd',
+          constructs: otherUnsupported
+        });
+      }
       continue;
     }
     const pcd = buildCandidatePcd(candidate.name, candidate.params, candidate.expression, {

@@ -1,0 +1,534 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.7",
+  "pcd": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+  "semantic_pcd_sha256": "56721c02bc27d3dfd0740a52e131ce5ea6787a80aab9dc78e057473f9d14099d",
+  "ast_sha256": "740161441a75f8c78887443a4417901a777c7edcba0352982573d1369b99fdc1",
+  "domain_contract_sha256": "301dc512a87c01251e5507f5d70ca120b0c8a8a72115080c0a50b8045c7c23d1",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "ts_target_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "python_target_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "rust_target_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "adversarial_fail_closed",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "ts_target_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "python_target_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "rust_target_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "adversarial_fail_closed",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "301dc512a87c01251e5507f5d70ca120b0c8a8a72115080c0a50b8045c7c23d1"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "semantic_correctness_gate",
+    "fnName": "semantic_correctness_gate",
+    "params": [
+      "ts_target_pass",
+      "python_target_pass",
+      "rust_target_pass",
+      "adversarial_fail_closed"
+    ],
+    "paramTypes": {
+      "ts_target_pass": "i64",
+      "python_target_pass": "i64",
+      "rust_target_pass": "i64",
+      "adversarial_fail_closed": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "ts_target_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "python_target_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "rust_target_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "adversarial_fail_closed",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "ts_target_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "python_target_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "rust_target_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "adversarial_fail_closed",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "301dc512a87c01251e5507f5d70ca120b0c8a8a72115080c0a50b8045c7c23d1"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "semantic_correctness_gate": {
+        "name": "semantic_correctness_gate",
+        "params": [
+          "ts_target_pass",
+          "python_target_pass",
+          "rust_target_pass",
+          "adversarial_fail_closed"
+        ],
+        "paramTypes": {
+          "ts_target_pass": "i64",
+          "python_target_pass": "i64",
+          "rust_target_pass": "i64",
+          "adversarial_fail_closed": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "ts_target_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "python_target_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "rust_target_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "adversarial_fail_closed",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "raw": "1",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 4
+      }
+    },
+    "entrypoint": {
+      "name": "semantic_correctness_gate",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "ts_target_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "python_target_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "rust_target_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "adversarial_fail_closed",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "raw": "1",
+          "numericType": "i64",
+          "inferredType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 4,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

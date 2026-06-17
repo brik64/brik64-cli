@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "brik64.l6plus.technical_sheet.v1",
+  "productArtifact": "BRIK64 CLI 0.1.0-beta.15.7 materialization unit",
+  "source": "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
+  "engine_id": "l6_plus",
+  "claimAuthority": "non_claim",
+  "public_claim_allowed": false,
+  "sourceHash": "50a04724a663894cd87aa56568d7ce60818f8ff17b7df5e40d84c59bc769a14f",
+  "target": "js_node",
+  "boundedDomains": {
+    "pcd_inputs_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "l6plus_materializer_accepts_contract": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "generated_artifact_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "package_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "release_manifest_hash_bound": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "cli_scope_beta15_7": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "result_line_emitted": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "rust_target_pass": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "adversarial_fail_closed": {
+      "kind": "integer",
+      "min": 0,
+      "max": 1
+    },
+    "command_code": {
+      "kind": "integer",
+      "min": 0,
+      "max": 64
+    },
+    "target_code": {
+      "kind": "integer",
+      "min": 0,
+      "max": 3
+    }
+  },
+  "normalization": {
+    "status": "finite_beta15_7_materialization_domains",
+    "l5CertificateInheritance": "forbidden",
+    "separatesRawAndNormalized": true
+  },
+  "monomerTrace": [
+    {
+      "id": 0,
+      "family": "control",
+      "op": "BOUNDED_IF_RETURN_CONTRACT"
+    }
+  ],
+  "certificationLane": "INTERNAL_BETA15_7_L6_MATERIALIZATION",
+  "releaseEligible": false,
+  "technicalSheetHash": "e341825f33a257cdade56f01d23a0d51c537c28c932edcefae817dcbecde50f1"
+}

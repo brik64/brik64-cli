@@ -3,6 +3,32 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.7
+
+### Fixed
+
+- Rejects PCD candidates with incompatible return values, implicit numeric
+  coercions, missing file headers, reserved identifiers, and return paths that
+  are not exhaustive.
+- Aligns integer division semantics across generated TypeScript, Python, and
+  Rust output so integer-returning programs use the same golden vectors.
+- Prevents lift previews from silently changing numeric precision; candidates
+  that would lose semantics now fail closed or report actionable warning codes.
+
+### Changed
+
+- Requires the `// brik64.pcd_file.v1` header for certifiable PCD files and
+  updates migration output to add the header for compatible legacy files.
+- Keeps the installable CLI package bound to the offline local runtime bundle
+  and release-generation evidence before the release train can publish.
+
+### Compatibility
+
+- This beta remains a candidate until public installer, GitHub release, web,
+  docs, SDKs, skills, changelog, and live verification are synchronized.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.6
 
 ### Added

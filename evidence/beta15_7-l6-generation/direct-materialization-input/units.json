@@ -1,0 +1,66 @@
+{
+  "version": "0.1.0-beta.15.7",
+  "units": [
+    {
+      "id": "pcd_beta15_7_release_l6_cli_materialization_contract",
+      "sourcePath": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_beta15_7_release_l6_cli_materialization_contract.pcd",
+      "sheet": "technical-sheets/pcd_beta15_7_release_l6_cli_materialization_contract.json"
+    },
+    {
+      "id": "pcd_beta15_7_release_l6_cli_materialization_result_contract",
+      "sourcePath": "pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_beta15_7_release_l6_cli_materialization_result_contract.pcd",
+      "sheet": "technical-sheets/pcd_beta15_7_release_l6_cli_materialization_result_contract.json"
+    },
+    {
+      "id": "pcd_beta15_7_cli_rust_f64_polymer_codegen",
+      "sourcePath": "pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_beta15_7_cli_rust_f64_polymer_codegen.pcd",
+      "sheet": "technical-sheets/pcd_beta15_7_cli_rust_f64_polymer_codegen.json"
+    },
+    {
+      "id": "pcd_beta15_7_harness_lift_roundtrip_gate",
+      "sourcePath": "pcd/beta15_7/harness/lift_roundtrip_gate.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_beta15_7_harness_lift_roundtrip_gate.pcd",
+      "sheet": "technical-sheets/pcd_beta15_7_harness_lift_roundtrip_gate.json"
+    },
+    {
+      "id": "pcd_beta15_7_harness_semantic_correctness_gate",
+      "sourcePath": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+      "route2Projection": {
+        "path": "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
+        "sha256": "50a04724a663894cd87aa56568d7ce60818f8ff17b7df5e40d84c59bc769a14f",
+        "bytes": 605,
+        "projectionOf": "pcd/beta15_7/harness/semantic_correctness_gate.pcd"
+      },
+      "pcd": "pcd/pcd_beta15_7_harness_semantic_correctness_gate.pcd",
+      "sheet": "technical-sheets/pcd_beta15_7_harness_semantic_correctness_gate.json"
+    },
+    {
+      "id": "pcd_beta15_7_release_public_surface_sync",
+      "sourcePath": "pcd/beta15_7/release/public_surface_sync.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_beta15_7_release_public_surface_sync.pcd",
+      "sheet": "technical-sheets/pcd_beta15_7_release_public_surface_sync.json"
+    },
+    {
+      "id": "pcd_cli_core",
+      "sourcePath": "pcd/cli_core.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_cli_core.pcd",
+      "sheet": "technical-sheets/pcd_cli_core.json"
+    },
+    {
+      "id": "pcd_cli_polymer",
+      "sourcePath": "pcd/cli_polymer.pcd",
+      "route2Projection": null,
+      "pcd": "pcd/pcd_cli_polymer.pcd",
+      "sheet": "technical-sheets/pcd_cli_polymer.json"
+    }
+  ]
+}

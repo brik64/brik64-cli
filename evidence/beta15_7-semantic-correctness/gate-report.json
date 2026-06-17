@@ -1,0 +1,505 @@
+{
+  "schemaVersion": "brik64.cli_beta15_7_semantic_correctness_gate.v1",
+  "version": "0.1.0-beta.15.7",
+  "decision": "PASS_BRIK64_CLI_BETA15_7_SEMANTIC_CORRECTNESS_GATE",
+  "evidenceLevel": "NIVEL 3",
+  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+  "checked": [
+    "strict_return_type_mismatch",
+    "implicit_numeric_coercion_rejected",
+    "non_exhaustive_return_rejected",
+    "reserved_identifier_rejected",
+    "pcd_header_required",
+    "migrate_write_repairs_header",
+    "integer_division_parity_ts_python_rust",
+    "f64_division_parity_ts_python_rust",
+    "lift_numeric_precision_blocks_f64_to_i64_candidate",
+    "l4plus_n5_runtime_packaged"
+  ],
+  "records": [
+    {
+      "id": "version",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "--version"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 706,
+      "stdout": "BRIK64 CLI 0.1.0-beta.15.7\nstatus=public_beta\n",
+      "stderr": ""
+    },
+    {
+      "id": "init",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "init"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 354,
+      "stdout": "created=.brik/manifest.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "invalid:type_mismatch_return",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "invalid/type_mismatch_return.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 65,
+      "elapsedMs": 271,
+      "stdout": "",
+      "stderr": "pcd_parse_error:return_type_mismatch:f64_to_i64\n"
+    },
+    {
+      "id": "invalid:i64_f64_coercion",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "invalid/i64_f64_coercion.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 65,
+      "elapsedMs": 581,
+      "stdout": "",
+      "stderr": "pcd_parse_error:numeric_literal_type_mismatch:i64_+_f64\n"
+    },
+    {
+      "id": "invalid:missing_return_path",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "invalid/missing_return_path.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 65,
+      "elapsedMs": 310,
+      "stdout": "",
+      "stderr": "pcd_parse_error:non_exhaustive_return:missing_return_path\n"
+    },
+    {
+      "id": "invalid:reserved_fn_if",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "invalid/reserved_fn_if.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 65,
+      "elapsedMs": 258,
+      "stdout": "",
+      "stderr": "pcd_parse_error:reserved_identifier:function:if\n"
+    },
+    {
+      "id": "invalid:missing_header",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "invalid/missing_header.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 65,
+      "elapsedMs": 269,
+      "stdout": "",
+      "stderr": "pcd_parse_error:missing_pcd_header; run `brik64 migrate <file> --write`\n"
+    },
+    {
+      "id": "certify:valid/i64_division_guarded.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "valid/i64_division_guarded.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 340,
+      "stdout": "certificate=valid/i64_division_guarded.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:valid/i64_division_guarded.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "verify",
+        "valid/i64_division_guarded.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 271,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=c36c8b3fa6cf104102e9d600e48947fc5634665c445a6025ffd674d1de1bb3f8\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:valid/f64_division_guarded.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "valid/f64_division_guarded.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 379,
+      "stdout": "certificate=valid/f64_division_guarded.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:valid/f64_division_guarded.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "verify",
+        "valid/f64_division_guarded.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 589,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=fc77ed948b3a0f4ed5457cf7da8df03c198ffca904624d3464d912adce9d6c6c\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:valid/i64_division_guarded.pcd:ts",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "emit",
+        "valid/i64_division_guarded.pcd",
+        "--target",
+        "ts",
+        "--out",
+        "out/i64-ts",
+        "--tests"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 656,
+      "stdout": "generated=out/i64-ts/program.mjs\ntests=out/i64-ts/program.test.mjs\n",
+      "stderr": ""
+    },
+    {
+      "id": "generated:ts:out/i64-ts",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "program.test.mjs"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ/out/i64-ts",
+      "status": 0,
+      "elapsedMs": 245,
+      "stdout": "brik64 generated ts test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:valid/f64_division_guarded.pcd:ts",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "emit",
+        "valid/f64_division_guarded.pcd",
+        "--target",
+        "ts",
+        "--out",
+        "out/f64-ts",
+        "--tests"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 550,
+      "stdout": "generated=out/f64-ts/program.mjs\ntests=out/f64-ts/program.test.mjs\n",
+      "stderr": ""
+    },
+    {
+      "id": "generated:ts:out/f64-ts",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "program.test.mjs"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ/out/f64-ts",
+      "status": 0,
+      "elapsedMs": 219,
+      "stdout": "brik64 generated ts test: PASS\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:valid/i64_division_guarded.pcd:python",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "emit",
+        "valid/i64_division_guarded.pcd",
+        "--target",
+        "python",
+        "--out",
+        "out/i64-python",
+        "--tests"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 319,
+      "stdout": "generated=out/i64-python/brik64_generated_i64_division_guarded/program.py\ntests=out/i64-python/tests/test_i64_division_guarded.py\n",
+      "stderr": ""
+    },
+    {
+      "id": "generated:python:out/i64-python",
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ/out/i64-python",
+      "status": 0,
+      "elapsedMs": 2888,
+      "stdout": "..                                                                       [100%]\n2 passed in 0.19s\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:valid/f64_division_guarded.pcd:python",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "emit",
+        "valid/f64_division_guarded.pcd",
+        "--target",
+        "python",
+        "--out",
+        "out/f64-python",
+        "--tests"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 422,
+      "stdout": "generated=out/f64-python/brik64_generated_f64_division_guarded/program.py\ntests=out/f64-python/tests/test_f64_division_guarded.py\n",
+      "stderr": ""
+    },
+    {
+      "id": "generated:python:out/f64-python",
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ/out/f64-python",
+      "status": 0,
+      "elapsedMs": 802,
+      "stdout": "..                                                                       [100%]\n2 passed in 0.03s\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:valid/i64_division_guarded.pcd:rust",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "emit",
+        "valid/i64_division_guarded.pcd",
+        "--target",
+        "rust",
+        "--out",
+        "out/i64-rust",
+        "--tests"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 294,
+      "stdout": "generated=out/i64-rust/program.rs\ntests=out/i64-rust/program_test.rs\n",
+      "stderr": ""
+    },
+    {
+      "id": "generated:rust:out/i64-rust",
+      "command": [
+        "cargo",
+        "test",
+        "--quiet"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ/out/i64-rust",
+      "status": 0,
+      "elapsedMs": 2929,
+      "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": ""
+    },
+    {
+      "id": "emit:valid/f64_division_guarded.pcd:rust",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "emit",
+        "valid/f64_division_guarded.pcd",
+        "--target",
+        "rust",
+        "--out",
+        "out/f64-rust",
+        "--tests"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 224,
+      "stdout": "generated=out/f64-rust/program.rs\ntests=out/f64-rust/program_test.rs\n",
+      "stderr": ""
+    },
+    {
+      "id": "generated:rust:out/f64-rust",
+      "command": [
+        "cargo",
+        "test",
+        "--quiet"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ/out/f64-rust",
+      "status": 0,
+      "elapsedMs": 2696,
+      "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderr": ""
+    },
+    {
+      "id": "migrate:dry_run",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "migrate",
+        "legacy/no_header_lowercase.pcd",
+        "--dry-run",
+        "--json"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 1356,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_pcd_migration_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"source\": \"legacy/no_header_lowercase.pcd\",\n  \"output\": \"legacy/no_header_lowercase.pcd\",\n  \"dryRun\": true,\n  \"detectedSyntax\": \"legacy_lowercase_pc\",\n  \"old_sha256\": \"71956251deeca1f5c16285d5e560116bb246a7228395300aa44a162a6bae4c0c\",\n  \"new_sha256\": \"3077e7465991ec2d9a8b26ab792fa942148ee3b60bbed63f341ebf74b731bbc0\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "id": "migrate:write",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "migrate",
+        "legacy/no_header_lowercase.pcd",
+        "--write"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 519,
+      "stdout": "migrated=legacy/no_header_lowercase.pcd\nold_sha256=71956251deeca1f5c16285d5e560116bb246a7228395300aa44a162a6bae4c0c\nnew_sha256=3077e7465991ec2d9a8b26ab792fa942148ee3b60bbed63f341ebf74b731bbc0\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:legacy/no_header_lowercase.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        "legacy/no_header_lowercase.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 328,
+      "stdout": "certificate=legacy/no_header_lowercase.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:legacy/no_header_lowercase.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "verify",
+        "legacy/no_header_lowercase.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 326,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=3077e7465991ec2d9a8b26ab792fa942148ee3b60bbed63f341ebf74b731bbc0\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "lift:rust:i64_literal",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "lift",
+        "rust",
+        "src/temp.rs",
+        "--preview",
+        "--out",
+        ".brik/lift-preview/rust-ok",
+        "--json"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 400,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"language\": \"rust\",\n  \"source\": {\n    \"pathHash\": \"5cecc4b01f11b99d5ae23c9a3a7a660ac516114f947c5a817d23a0f04fc5d9ce\",\n    \"sourceSha256\": \"fcb9973010e21a2d98386bff4187cd6ebbd1ab2e40464fd45cec2cbe500138c1\",\n    \"bytes\": 91,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 1,\n  \"warningCount\": 0,\n  \"candidates\": [\n    {\n      \"function\": \"temp_guard\",\n      \"file\": \"candidates/temp_guard.pcd\",\n      \"semantic_pcd_sha256\": \"7d4ea5d079355367c0603d19877da8481ace4b9fcdaa8d3c51b0339acc679497\",\n      \"translationStatus\": \"best_effort_simple_body\",\n      \"semanticCoveragePercent\": 100,\n      \"certificationEligible\": true,\n      \"warningCodes\": []\n    }\n  ],\n  \"semanticCoveragePercent\": 100,\n  \"certificationEligibleCandidateCount\": 1,\n  \"warningCodes\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "id": "certify:.brik/lift-preview/rust-ok/candidates/temp_guard.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "certify",
+        ".brik/lift-preview/rust-ok/candidates/temp_guard.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 252,
+      "stdout": "certificate=.brik/lift-preview/rust-ok/candidates/temp_guard.pcd.cert.json\n",
+      "stderr": ""
+    },
+    {
+      "id": "verify:.brik/lift-preview/rust-ok/candidates/temp_guard.pcd",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "verify",
+        ".brik/lift-preview/rust-ok/candidates/temp_guard.pcd"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 264,
+      "stdout": "verification=PASS\nmode=local\npcd_sha256=7d4ea5d079355367c0603d19877da8481ace4b9fcdaa8d3c51b0339acc679497\nclaim=local_candidate_only\n",
+      "stderr": ""
+    },
+    {
+      "id": "lift:rust:f64_literal_blocked",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "lift",
+        "rust",
+        "src/temp_float.rs",
+        "--preview",
+        "--out",
+        ".brik/lift-preview/rust-f64",
+        "--json"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 240,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"language\": \"rust\",\n  \"source\": {\n    \"pathHash\": \"b25106f2eec1efce2feccc4fae29ef213cf5c7a8763ce26565976316adf74da7\",\n    \"sourceSha256\": \"658b003d375e7525e1c10b7900cf1fe78e702250fa4db2a385a86d1c286dcfad\",\n    \"bytes\": 93,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 0,\n  \"warningCount\": 2,\n  \"candidates\": [],\n  \"semanticCoveragePercent\": 0,\n  \"certificationEligibleCandidateCount\": 0,\n  \"warningCodes\": [\n    \"lift_float_precision_narrowed\",\n    \"numeric_literal_type_mismatch\"\n  ],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "id": "engine:l4plus_status",
+      "command": [
+        "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
+        "/private/tmp/brik64-cli-beta15.7/src/brik.js",
+        "engine",
+        "status",
+        "--json"
+      ],
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-1GP1AJ",
+      "status": 0,
+      "elapsedMs": 217,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_engine_status_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"status\": \"PASS\",\n  \"localRuntime\": \"available\",\n  \"runtimeProfile\": \"l4plus_n5_local\",\n  \"engine\": \"L4+N5\",\n  \"serial\": \"BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4\",\n  \"nativeExecutableIncluded\": false,\n  \"artifactCount\": 22,\n  \"releaseEligible\": true,\n  \"claimBoundary\": {\n    \"publicClaimsAllowed\": false,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"platformCertificationAllowed\": false\n  },\n  \"limitations\": [\n    \"local L4+N5 beta runtime profile\",\n    \"managed platform execution is not used unless explicitly authenticated\"\n  ]\n}\n",
+      "stderr": ""
+    }
+  ]
+}
