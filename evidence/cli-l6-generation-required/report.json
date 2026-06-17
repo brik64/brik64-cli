@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-17T22:58:40.697Z",
+  "generatedAt": "2026-06-17T23:28:45.434Z",
   "version": "0.1.0-beta.15.7",
   "label": "beta15_7",
   "decision": "BLOCKED_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,12 +18,12 @@
     "dir": "evidence/beta15_7-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_7-l6-generation/gate-report.json",
-      "sha256": "4a0cb31ea66a3bac9bc7c7cd9b14ff30f0b20a50d8f5598537afe23ec9dd4e23",
-      "sizeBytes": 2209
+      "sha256": "a50f17bdccc87b6c0f81138e1f9db577db5be3098ef661efb02b66caf7ac36ec",
+      "sizeBytes": 4657
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_7-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "7cbdb149b110cb81ddcc82fd8bfce04ff28fafd5c5241882951aa7ae134c9e8a",
+      "sha256": "80d1f5ce1eab3cec28ea475bf4d12eda5075431fd83bf7bbff0b394a7cc7f67e",
       "sizeBytes": 1764
     },
     "input_pcd_hashes.tsv": {
@@ -33,13 +33,13 @@
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_7-l6-generation/generated_artifact_manifest.json",
-      "sha256": "c6fe8fe6ea9b4582cbdd952e8f764049f5510266a8dd2aaf9d7249ca17d56033",
-      "sizeBytes": 12380
+      "sha256": "cd93e7cacead2b7be86da46ade46f6e839aa7ddfc1417d0132e778bdea2ff1eb",
+      "sizeBytes": 12218
     },
     "package.manifest.json": {
       "path": "evidence/beta15_7-l6-generation/package.manifest.json",
-      "sha256": "20fecb6190cb0d6075e25aac376ed3e81d34a2c18026f2312e6ec1c31e93e663",
-      "sizeBytes": 609
+      "sha256": "0fd779f01620f7963c5f0a0ab9e69363393df6374ae49a95aa054eaaf59c9931",
+      "sizeBytes": 447
     },
     "seal_report.json": {
       "path": "evidence/beta15_7-l6-generation/seal_report.json",
@@ -63,15 +63,14 @@
     "packageVersionMatches": true,
     "artifactToPackageHashBound": false,
     "packageToReleaseManifestHashBound": false,
-    "releaseManifestVersionContext": false
+    "releaseManifestVersionContext": true
   },
   "blockers": [
     "l6_gate_decision_not_pass:BLOCKED_BETA15_7_L6_GENERATION_GATE",
     "l6_gate_publication_not_allowed",
-    "l6_gate_blockers_present:4",
+    "l6_gate_blockers_present:2",
     "artifact_manifest_missing_pcd_to_artifact_hash_binding",
     "package_manifest_missing_artifact_to_package_hash_binding",
-    "package_manifest_missing_package_to_release_manifest_hash_binding",
-    "release_manifest_version_context_mismatch:0.1.0-beta.15.6:0.1.0-beta.15.7"
+    "package_manifest_missing_package_to_release_manifest_hash_binding"
   ]
 }

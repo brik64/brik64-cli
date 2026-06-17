@@ -835,6 +835,27 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
 
+  if (manifest.version === '0.1.0-beta.15.7') {
+    return [
+      beta15_7SourceCandidateContract(),
+      run('beta15_7_local_package', ['npm', 'run', 'package:beta15.7:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(manifest.version),
+      run('beta15_7_package_smoke', ['npm', 'run', 'smoke:beta15.7:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      ...(manifest.state === 'draft'
+        ? []
+        : [
+            cliL6GenerationRequiredGate(),
+            blockedSurfaceGate('beta15_7_publication_gate', 'beta15.7 public publication requires explicit release train publish evidence')
+          ])
+    ];
+  }
+
   return [
     ...(betaNumber(manifest.version) >= 15 ? [cliL6GenerationRequiredGate()] : []),
     run(`${label}_feature_parity`, ['node', `scripts/${label}-feature-parity-gate.js`]),

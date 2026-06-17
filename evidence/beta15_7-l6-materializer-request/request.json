@@ -4,7 +4,7 @@
   "lane": "cli_0_1_beta",
   "iterId": "beta15.7-l6-cli-materializer-request",
   "materializerMode": "l6plus_pcd_polymer_materializer",
-  "sourceCommit": "69b99896a06862d4ec9f785eb4fd1744831b6872",
+  "sourceCommit": "583c0d5bb30f57cf55dfcb9e163a74d20815d35a",
   "claimBoundary": {
     "publicClaimsAllowed": false,
     "formalN5ClaimAllowed": false,
@@ -62,10 +62,15 @@
     "sealReport": "evidence/beta15_7-l6-generation/seal_report.json"
   },
   "outputArtifacts": {
+    "package": {
+      "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
+      "sha256": "37d1616a1b0eae8062e49bf2827242d6f793b53c437c5adba0e8447b4326610e",
+      "bytes": 625732
+    },
     "releaseManifest": {
       "path": "release/manifest.json",
-      "sha256": "61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048",
-      "bytes": 5371
+      "sha256": "03bf723d7a71a5e3f331a20aa73dd73cff77528ebc3338f36aab73b9bc1b9366",
+      "bytes": 2521
     }
   },
   "requiredBindings": [

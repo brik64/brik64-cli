@@ -6,8 +6,6 @@
   "pcdToArtifactHashBound": false,
   "artifactSha256": null,
   "blockers": [
-    "release_manifest_version_mismatch:0.1.0-beta.15.6:0.1.0-beta.15.7",
-    "missing_package_artifact:evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
     "remote_l6plus_materialization_contract_unavailable",
     "generated_artifact_missing"
   ],

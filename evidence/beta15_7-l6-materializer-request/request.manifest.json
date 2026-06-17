@@ -1,16 +1,16 @@
 {
   "schemaVersion": "brik64.l6plus_cli_materializer_request_manifest.v1",
   "version": "0.1.0-beta.15.7",
-  "decision": "BLOCKED_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE",
+  "decision": "PASS_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE",
   "request": {
     "path": "evidence/beta15_7-l6-materializer-request/request.json",
-    "sha256": "57ebd30ad514a33875c4b2cb6327fa59849e2a6d774401500e4c0b04e2b2d416",
-    "bytes": 13643
+    "sha256": "cda836f99d790323944adda2a3770248a5055a8be66a69c2ca2e621cca61bf49",
+    "bytes": 13847
   },
   "requestLine": {
     "path": "evidence/beta15_7-l6-materializer-request/request.line",
-    "sha256": "495f0dbcec0a3bfc92b2c5fd4caf1f7177d26c6b4053a918ded5799d136981fe",
-    "bytes": 17627
+    "sha256": "aa97a9dc2b5d5bc45e4a397444b1fb84d117492ef2b835be1d8e6636aa8e9835",
+    "bytes": 17851
   },
   "pcdInputSetSha256": "12df1c5c7d1d85aa9e4f6565e4e1cc0f26c75843c492645f7c4a9dc5b14678f1",
   "inputPcds": [
@@ -40,10 +40,7 @@
       "bytes": 2047
     }
   ],
-  "blockers": [
-    "release_manifest_version_mismatch:0.1.0-beta.15.6:0.1.0-beta.15.7",
-    "missing_package_artifact:evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz"
-  ],
+  "blockers": [],
   "claimBoundary": {
     "publicClaimsAllowed": false,
     "formalN5ClaimAllowed": false,

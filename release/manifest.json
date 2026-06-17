@@ -1,58 +1,48 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15.6",
-  "version": "0.1.0-beta.15.6",
-  "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-16T21:18:32.786Z",
+  "releaseId": "brik64-0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7",
+  "state": "draft",
   "source": {
-    "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "4ed58a0d06ff8c68861b4224446f2209fed353aa",
-    "pullRequest": 193,
-    "commitBinding": "public_release_base_commit"
+    "commit": "583c0d5bb30f57cf55dfcb9e163a74d20815d35a",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
-    "packageName": "@brik64/cli",
-    "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-    "verifyCommand": "brik64 --version",
     "package": {
-      "name": "brik64-cli-0.1.0-beta.15.6.tgz",
-      "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
-      "sha256": "e2c714bbd2535e9006583415b488c50158b4f1e53998d7c391b28945caf4bbaf",
-      "size_bytes": 609348,
-      "bytes": 609348,
-      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz",
-      "sizeBytes": 609348
-    },
-    "claimBoundary": {
-      "publicClaimsAllowed": false,
-      "releasePublicationAllowed": true,
-      "formalCertificationClaimAllowed": false,
-      "fixpointPublicClaimAllowed": false,
-      "selfHostingPublicClaimAllowed": false,
-      "n5FormalClaimAllowed": false,
-      "rustIndependenceClaimAllowed": false
-    },
-    "packageManifestSha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5"
+      "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
+      "sha256": "37d1616a1b0eae8062e49bf2827242d6f793b53c437c5adba0e8447b4326610e",
+      "bytes": 625732
+    }
   },
+  "releaseNotes": [
+    {
+      "type": "added",
+      "surface": "CLI package",
+      "text": "Adds a local package candidate for the Beta15.7 offline command-line workflow and embedded engine files."
+    },
+    {
+      "type": "fixed",
+      "surface": "CLI package",
+      "text": "Aligns candidate package metadata with the Beta15.7 command behavior before public release work continues."
+    }
+  ],
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.15.6",
+      "version": "0.1.0-beta.15.7",
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b15.post6",
+      "version": "0.1.0b15.post7",
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.15.6",
+      "version": "0.1.0-beta.15.7",
       "publication": "pending_release_train_publish"
     }
   ],
@@ -60,7 +50,7 @@
     "githubRelease": {
       "required": true,
       "status": "pending_release_train_publish",
-      "tag": "v0.1.0-beta.15.6"
+      "tag": "v0.1.0-beta.15.7"
     },
     "curlInstaller": {
       "required": true,
@@ -89,77 +79,13 @@
     }
   },
   "verification": {
-    "requiredEvidence": [
-      {
-        "id": "beta15_6_rust_f64_command_lift",
-        "path": "evidence/beta15_6-rust-f64-command-lift/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE"
-      },
-      {
-        "id": "beta15_6_pre_public_rc",
-        "path": "evidence/beta15_6-pre-public-rc/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE"
-      },
-      {
-        "id": "beta15_6_package",
-        "path": "evidence/beta15_6-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_BUILT"
-      },
-      {
-        "id": "beta15_6_package_smoke",
-        "path": "evidence/beta15_6-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_SMOKE"
-      }
-    ]
+    "requiredEvidence": []
   },
-  "githubReleaseDraft": {
-    "tagName": "v0.1.0-beta.15.6",
-    "targetCommitish": "4ed58a0d06ff8c68861b4224446f2209fed353aa",
-    "isDraft": false,
-    "isPrerelease": true,
-    "assets": [
-      {
-        "name": "brik64-cli-0.1.0-beta.15.6.tgz",
-        "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
-        "size_bytes": 608324
-      },
-      {
-        "name": "SHA256SUMS",
-        "sha256": "f118e7e174427db948e8b072fb120da6c511b98a966419466792873fdf312982",
-        "size_bytes": 271
-      },
-      {
-        "name": "package.manifest.json",
-        "sha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5",
-        "size_bytes": 1740
-      }
-    ],
-    "targetCommitishBinding": "github_verified_squash_commit"
-  },
-  "releaseNotes": [
-    {
-      "type": "fixed",
-      "surface": "cli",
-      "text": "The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests."
-    },
-    {
-      "type": "fixed",
-      "surface": "cli",
-      "text": "Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression."
-    },
-    {
-      "type": "changed",
-      "surface": "cli",
-      "text": "Engine status reports the offline beta runtime profile used by the local CLI."
-    }
-  ],
-  "generatedAt": "2026-06-16T22:00:09.354Z",
-  "metadata": {
-    "updatedAt": "2026-06-16T22:59:33.314Z"
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
   }
 }
