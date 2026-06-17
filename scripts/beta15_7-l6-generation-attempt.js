@@ -130,6 +130,25 @@ function parseWrapperMode(stdout) {
   return match ? match[1] : null;
 }
 
+function parseEndpointStatus(stdout) {
+  const result = {
+    endpointLine: null,
+    resultLine: null,
+    statusTag: null,
+  };
+  for (const line of String(stdout || '').split(/\r?\n/)) {
+    if (line.startsWith('BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\t') || line.startsWith('BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\t')) {
+      const parts = line.split(/\t|\\t/);
+      result.endpointLine = line;
+      result.statusTag = parts[2] || null;
+    }
+    if (line.startsWith('BRIK64_L6_CLI_MATERIALIZATION_RESULT\t') || line.startsWith('BRIK64_L6_CLI_MATERIALIZATION_RESULT\\t')) {
+      result.resultLine = line;
+    }
+  }
+  return result;
+}
+
 function collectInputs(blockers) {
   const inputs = [];
   for (const relativePath of inputPcdPaths) {
@@ -251,12 +270,15 @@ function probeRemote() {
     `if [ -n "$exec_target" ]; then printf 'BRIK64_REMOTE_REF\\twrapper_exec_target\\t%s\\t%s\\t%s\\n' "$(sha256sum "$exec_target" 2>/dev/null | awk '{print $1}' || printf missing)" "$(stat -c %s "$exec_target" 2>/dev/null || printf missing)" "$exec_target"; fi`,
     `if grep -q 'BRIK64_L6_CLI_MATERIALIZER_ENDPOINT' ${wrapper} 2>/dev/null; then printf 'BRIK64_WRAPPER_MODE\\tcli_materializer_dispatcher\\n'; elif sed -n '1,12p' ${wrapper} 2>/dev/null | grep -q '^exec '; then printf 'BRIK64_WRAPPER_MODE\\tshell_exec_only\\n'; else printf 'BRIK64_WRAPPER_MODE\\tunknown\\n'; fi`,
   ].join('; '));
+  const endpointStatusProbe = ssh(`${wrapper} endpoint-status || ${wrapper} cli-materializer-status || true`);
   return {
     hostProbe,
     remoteRefProbe,
+    endpointStatusProbe,
     auditJson: parseJsonObject(hostProbe.stdout),
     remoteRefs: parseRemoteRefs(remoteRefProbe.stdout),
     wrapperMode: parseWrapperMode(remoteRefProbe.stdout),
+    endpointStatus: parseEndpointStatus(endpointStatusProbe.stdout),
   };
 }
 
@@ -332,9 +354,14 @@ function main() {
   const attempts = blockers.length === 0 ? materializationAttempts(requestLinePath, context) : [];
   const accepted = attempts.find((attempt) => attempt.materializationValidation.accepted);
   const materialization = accepted?.materializationValidation.normalized || null;
+  const versionMismatchAttempt = attempts.find((attempt) => /version_mismatch:0\.1\.0-beta\.15\.7/.test(attempt.observed || ''));
 
   if (remote.hostProbe.status !== 0) blockers.push('remote_l6plus_probe_failed');
   if (!skipRemote && remote.auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
+  if (versionMismatchAttempt) blockers.push('remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7');
+  if (remote.endpointStatus.statusTag && remote.endpointStatus.statusTag !== 'beta15_7_ready') {
+    blockers.push(`remote_l6plus_materializer_endpoint_status:${remote.endpointStatus.statusTag}`);
+  }
   if (remote.wrapperMode === 'shell_exec_only' && !materialization) blockers.push('remote_l6plus_wrapper_has_no_cli_materializer_interface');
   if (!materialization) blockers.push('remote_l6plus_materialization_contract_unavailable');
   if (!materialization) blockers.push('generated_artifact_missing');
@@ -365,6 +392,13 @@ function main() {
       stdout_sha256: sha256(remote.remoteRefProbe.stdout),
       stderr_sha256: sha256(remote.remoteRefProbe.stderr),
       skipped: skipRemote,
+    },
+    endpointStatusProbe: {
+      status: remote.endpointStatusProbe.status,
+      stdout_sha256: sha256(remote.endpointStatusProbe.stdout),
+      stderr_sha256: sha256(remote.endpointStatusProbe.stderr),
+      skipped: skipRemote,
+      statusTag: remote.endpointStatus.statusTag,
     },
     remoteRefs: remote.remoteRefs,
     wrapperMode: remote.wrapperMode,
@@ -439,6 +473,7 @@ function main() {
       wrapperMode: remote.wrapperMode,
       wrapper: remote.remoteRefs.wrapper || null,
       wrapperExecTarget: remote.remoteRefs.wrapper_exec_target || null,
+      endpointStatus: remote.endpointStatus,
       materializerContractAccepted: materialization !== null,
       expectedMaterializationContext: context,
     },

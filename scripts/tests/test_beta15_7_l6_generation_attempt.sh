@@ -87,4 +87,60 @@ jq -e '
   and (.blockers | index("missing_package_artifact:evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz"))
 ' "$ALIGNED_NO_PACKAGE/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
 
+REMOTE_VERSION_GAP="$TMP_DIR/remote-version-gap"
+mkbase "$REMOTE_VERSION_GAP"
+mkdir -p "$REMOTE_VERSION_GAP/evidence/beta15_7-package"
+printf 'beta15.7 package fixture\n' >"$REMOTE_VERSION_GAP/evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz"
+cat >"$REMOTE_VERSION_GAP/release/manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.15.7" }
+JSON
+
+FAKE_BIN="$TMP_DIR/fake-bin"
+mkdir -p "$FAKE_BIN"
+cat >"$FAKE_BIN/ssh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+script="${*: -1}"
+case "$script" in
+  *"healthcheck"*"/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5 --version"*"/opt/brik64/engines/l6plus-n5/bin/audit"*)
+    printf '%s\n' 'serial=BRIK64-L6PLUS-N5-TEST'
+    printf '%s\n' '{"decision":"PASS"}'
+    ;;
+  *"BRIK64_REMOTE_REF"*)
+    printf '%s\n' 'BRIK64_REMOTE_REF	wrapper	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	905	/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5'
+    printf '%s\n' 'BRIK64_REMOTE_REF	wrapper_exec_target	bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb	851	/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus'
+    printf '%s\n' 'BRIK64_WRAPPER_MODE	cli_materializer_dispatcher'
+    ;;
+  *"endpoint-status"*|*"cli-materializer-status"*)
+    printf '%s\n' 'BRIK64_L6_CLI_MATERIALIZER_ENDPOINT	installed	beta15_6_ready'
+    printf '%s\n' 'BRIK64_L6_CLI_MATERIALIZATION_RESULT	available'
+    ;;
+  *"l6-cli-materialize"*)
+    printf '%s\n' 'brik64_l6plus_fail_closed:version_mismatch:0.1.0-beta.15.7' >&2
+    ;;
+  *"beta15.7-cli-materialize"*|*"materialize"*|*"compile"*)
+    printf '%s\n' 'brik64_l6plus_fail_closed:unsupported_or_missing_input' >&2
+    ;;
+  *)
+    printf 'unexpected fake ssh script: %s\n' "$script" >&2
+    exit 64
+    ;;
+esac
+SH
+chmod +x "$FAKE_BIN/ssh"
+
+if PATH="$FAKE_BIN:$PATH" BRIK64_CLI_ROOT="$REMOTE_VERSION_GAP" node "$ROOT/scripts/beta15_7-l6-generation-attempt.js" >/tmp/beta15_7_l6_remote_gap.out 2>/tmp/beta15_7_l6_remote_gap.err; then
+  echo "expected beta15.6-only remote materializer fixture to fail closed" >&2
+  exit 1
+fi
+jq -e '
+  .decision=="BLOCKED_BETA15_7_L6_GENERATION_GATE"
+  and (.blockers | index("remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7"))
+  and (.blockers | index("remote_l6plus_materializer_endpoint_status:beta15_6_ready"))
+  and (.blockers | index("remote_l6plus_materialization_contract_unavailable"))
+  and .remoteCapability.wrapperMode=="cli_materializer_dispatcher"
+  and .remoteCapability.endpointStatus.statusTag=="beta15_6_ready"
+  and (.attempts[] | select(.command[1]=="l6-cli-materialize") | .observed | contains("version_mismatch:0.1.0-beta.15.7"))
+' "$REMOTE_VERSION_GAP/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
+
 echo "PASS beta15.7 L6 generation attempt fail-closed coverage"
