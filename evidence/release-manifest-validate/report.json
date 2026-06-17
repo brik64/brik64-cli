@@ -4,8 +4,8 @@
   "version": "0.1.0-beta.15.7",
   "state": "public",
   "manifestDigest": "3a4fa03ba70d0ccf6926074d49c10e88af8ba02d611df9ae3273d95083261012",
-  "decision": "FAIL_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": false,
+  "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
+  "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
@@ -61,8 +61,6 @@
       }
     ]
   },
-  "failures": [
-    "worktree_dirty:1"
-  ],
+  "failures": [],
   "warnings": []
 }
