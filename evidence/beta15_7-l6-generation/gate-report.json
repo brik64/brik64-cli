@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.7",
-  "generatedAt": "2026-06-17T11:57:18.752Z",
+  "generatedAt": "2026-06-17T12:14:01.238Z",
   "decision": "PASS_BETA15_7_L6_GENERATION_GATE",
   "publicationAllowed": true,
   "releasePublicationAllowed": true,
@@ -28,7 +28,7 @@
     "materializerContractAccepted": true,
     "expectedMaterializationContext": {
       "pcdInputSetSha256": "8c95b3b14a056eee020b61af83a814218f2a7b081aaaad09999856ca7816f291",
-      "materializerRequestSha256": "ab251e1b498ae9041a1eff4a80ac103892281d1a59fe01081ed4c42da95f0625",
+      "materializerRequestSha256": "669a08a54f3b65f2527cf3c7eeb969e54b28ae60023f866c28636b8c3d5d9c44",
       "remoteWrapperSha256": "3ac21ef62d2cdfc3554c4599017415e7fd97ed5152dd2cc83f41cf6f56e4360a",
       "wrapperExecTargetSha256": "3ac21ef62d2cdfc3554c4599017415e7fd97ed5152dd2cc83f41cf6f56e4360a",
       "requiredInputPcdPaths": [

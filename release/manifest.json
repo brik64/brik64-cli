@@ -3,14 +3,14 @@
   "releaseId": "brik64-0.1.0-beta.15.7",
   "version": "0.1.0-beta.15.7",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "createdAt": "2026-06-17T11:15:14.514Z",
   "source": {
     "repo": "brik64/brik64-cli",
     "branch": "codex/beta15-7-semantic-release",
-    "commit": "d7d1d1d762359b8d5a3cedb1c16e4f903a892a3f",
+    "commit": "c85ee9b3d0810c965d00c795e3b3896cdcd52411",
     "pullRequest": 200,
-    "commitBinding": "candidate_base_commit"
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "packageName": "@brik64/cli",
@@ -19,7 +19,7 @@
     "package": {
       "name": "brik64-cli-0.1.0-beta.15.7.tgz",
       "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
-      "sha256": "4889f7a46570e39d1b520173940174affffd45c62941dd3edc3cb7120b1f52aa",
+      "sha256": "8ae50824d5d4405b52058512bb1e8276ba2c35354170d08a8d6e29f0d369b73c",
       "size_bytes": 634436,
       "bytes": 634436,
       "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.7/brik64-cli-0.1.0-beta.15.7.tgz",
@@ -34,7 +34,7 @@
       "n5FormalClaimAllowed": false,
       "rustIndependenceClaimAllowed": false
     },
-    "packageManifestSha256": "b22854f383c0628011f6f329fcf7ab1ec1a3b32165238c33205b59bcb3b178b8"
+    "packageManifestSha256": "4ff67b263dc5e2f141cb67e6649144d945ef6301490dd949f386a4fbb325c66b"
   },
   "sdks": [
     {
@@ -124,27 +124,27 @@
   },
   "githubReleaseDraft": {
     "tagName": "v0.1.0-beta.15.7",
-    "targetCommitish": "d7d1d1d762359b8d5a3cedb1c16e4f903a892a3f",
-    "isDraft": true,
+    "targetCommitish": "c85ee9b3d0810c965d00c795e3b3896cdcd52411",
+    "isDraft": false,
     "isPrerelease": true,
     "assets": [
       {
         "name": "brik64-cli-0.1.0-beta.15.7.tgz",
-        "sha256": "4889f7a46570e39d1b520173940174affffd45c62941dd3edc3cb7120b1f52aa",
+        "sha256": "8ae50824d5d4405b52058512bb1e8276ba2c35354170d08a8d6e29f0d369b73c",
         "size_bytes": 634436
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "1ce336b6e7af8bcaed67b7eded2454a55bbe57b7bcc99d485e1b51559b0f3f93",
+        "sha256": "51b51c6ef11db38c639ff408f93d055365d19246ea448de1ef01e5a3c75171ab",
         "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "b22854f383c0628011f6f329fcf7ab1ec1a3b32165238c33205b59bcb3b178b8",
+        "sha256": "4ff67b263dc5e2f141cb67e6649144d945ef6301490dd949f386a4fbb325c66b",
         "size_bytes": 1740
       }
     ],
-    "targetCommitishBinding": "candidate_base_commit"
+    "targetCommitishBinding": "public_release_base_commit"
   },
   "releaseNotes": [
     {
@@ -173,8 +173,8 @@
       "text": "The installable CLI package includes the offline local runtime bundle and release-generation evidence under conservative public claim boundaries."
     }
   ],
-  "generatedAt": "2026-06-17T12:03:06.524Z",
+  "generatedAt": "2026-06-17T12:14:19.337Z",
   "metadata": {
-    "updatedAt": "2026-06-17T12:03:06.524Z"
+    "updatedAt": "2026-06-17T12:14:19.337Z"
   }
 }
