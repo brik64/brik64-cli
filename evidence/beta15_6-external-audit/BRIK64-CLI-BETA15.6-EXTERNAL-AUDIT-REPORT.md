@@ -1,0 +1,50 @@
+# BRIK64 CLI Beta15.6 External Audit Report
+
+- Version: 0.1.0-beta.15.6
+- Decision: PASS
+- Passed checks: 38
+- Failed checks: 0
+- Workspace: /tmp/brik64-beta15_6-external-audit
+
+## Failures
+None.
+
+## Passed
+- install_public_cli
+- cli_version
+- cli_version_is_beta15_6
+- engine_status
+- engine_is_l4plus_n5
+- engine_release_eligible
+- init
+- template_gate
+- template_numeric
+- certify_core
+- verify_core
+- certify_extended
+- verify_extended
+- emit_ts
+- emit_python
+- emit_rust
+- test_ts
+- test_python
+- test_rust
+- polymerize_core
+- doctor_json
+- monomers_list
+- monomers_test
+- lift_js
+- lift_python
+- lift_rust
+- lift_reports_generated
+- lift_semantic_coverage_reported
+- adv_empty_fail_closed
+- adv_corrupt_fail_closed
+- adv_boundary_missing_fail_closed
+- adv_output_outside_fail_closed
+- npm_sdk
+- pypi_sdk
+- crates_sdk
+- skill_public
+- docs_install
+- web_download
