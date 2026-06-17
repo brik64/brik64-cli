@@ -4,7 +4,7 @@
   "decision": "PASS_BETA15_7_L6_ARTIFACT_MATERIALIZATION",
   "generatedByL6PlusN5": true,
   "pcdToArtifactHashBound": true,
-  "artifactSha256": "add28cb7c4475b2b6b7611a122432c8dc0f16744f983a07b43634342a4cb9039",
+  "artifactSha256": "90fab36c8c9acaf85cc43f027f13ab469be013002b2a1ff3c8db22cb02c49597",
   "blockers": [],
   "requiredNextAction": "bind generated package and release manifest evidence",
   "inputPcds": [

@@ -4,8 +4,8 @@
   "decision": "PASS_BETA15_7_L6_PACKAGE_MANIFEST",
   "artifactToPackageHashBound": true,
   "packageToReleaseManifestHashBound": true,
-  "packageSha256": "b5c3976d5ef55015cc2c96393b22490e3b5488dd7ffd88189b357b0ecdc4f1b3",
-  "releaseManifestSha256": "61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048",
+  "packageSha256": "4889f7a46570e39d1b520173940174affffd45c62941dd3edc3cb7120b1f52aa",
+  "releaseManifestSha256": "5824e025ad0e7f978fe07cb70bd481f1aa0575c4ce2581e7d2108a09d6add6e3",
   "releasePublicationAllowed": true,
   "blockers": []
 }
