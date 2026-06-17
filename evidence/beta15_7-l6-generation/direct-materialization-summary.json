@@ -1,0 +1,85 @@
+{
+  "failures": 8,
+  "units": [
+    {
+      "id": "pcd_beta15_7_release_l6_cli_materialization_contract",
+      "sourcePath": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_7_release_l6_cli_materialization_result_contract",
+      "sourcePath": "pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_7_cli_rust_f64_polymer_codegen",
+      "sourcePath": "pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_7_harness_lift_roundtrip_gate",
+      "sourcePath": "pcd/beta15_7/harness/lift_roundtrip_gate.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_7_harness_semantic_correctness_gate",
+      "sourcePath": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_beta15_7_release_public_surface_sync",
+      "sourcePath": "pcd/beta15_7/release/public_surface_sync.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_cli_core",
+      "sourcePath": "pcd/cli_core.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    },
+    {
+      "id": "pcd_cli_polymer",
+      "sourcePath": "pcd/cli_polymer.pcd",
+      "rc": 65,
+      "files": [
+        "rc.txt",
+        "stderr.txt",
+        "stdout.txt"
+      ]
+    }
+  ]
+}

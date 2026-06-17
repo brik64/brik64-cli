@@ -1,0 +1,852 @@
+{
+  "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
+  "cliVersion": "0.1.0-beta.15.7",
+  "pcd": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+  "semantic_pcd_sha256": "48d35d70380ea3c2bf4218f5d0b0f8e75f748963df71f9fb39e9a8ac3cfe685d",
+  "ast_sha256": "a9a61dbed8e1450ac4f47ce054367b9ec2343d507ab98d28444b2b6fbac89e05",
+  "domain_contract_sha256": "e0164c82e34531081b09dcecbbe461c07856cd28e078c92f2c2b280753fc6edf",
+  "domainContract": {
+    "schemaVersion": "brik64.cli_domain_contract.v1",
+    "domains": [
+      {
+        "name": "type_safety_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "int_division_parity_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "return_exhaustiveness_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "reserved_identifier_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "header_contract_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "lift_precision_pass",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      },
+      {
+        "name": "l4_runtime_packaged",
+        "type": "i64",
+        "min": {
+          "kind": "literal",
+          "value": 0
+        },
+        "max": {
+          "kind": "literal",
+          "value": 1
+        }
+      }
+    ],
+    "domainParams": [],
+    "invariants": [],
+    "conditionalDomains": [],
+    "resolvedDomains": [
+      {
+        "name": "type_safety_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "int_division_parity_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "return_exhaustiveness_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "reserved_identifier_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "header_contract_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "lift_precision_pass",
+        "minValue": 0,
+        "maxValue": 1
+      },
+      {
+        "name": "l4_runtime_packaged",
+        "minValue": 0,
+        "maxValue": 1
+      }
+    ],
+    "resolvedConditionalDomains": [],
+    "missingParams": [],
+    "unresolvedParams": [],
+    "status": "complete",
+    "claimBearingEligible": true,
+    "sha256": "e0164c82e34531081b09dcecbbe461c07856cd28e078c92f2c2b280753fc6edf"
+  },
+  "ast": {
+    "schemaVersion": "brik64.cli_ast.v1",
+    "pcName": "semantic_correctness_gate",
+    "fnName": "semantic_correctness_gate",
+    "params": [
+      "type_safety_pass",
+      "int_division_parity_pass",
+      "return_exhaustiveness_pass",
+      "reserved_identifier_pass",
+      "header_contract_pass",
+      "lift_precision_pass",
+      "l4_runtime_packaged"
+    ],
+    "paramTypes": {
+      "type_safety_pass": "i64",
+      "int_division_parity_pass": "i64",
+      "return_exhaustiveness_pass": "i64",
+      "reserved_identifier_pass": "i64",
+      "header_contract_pass": "i64",
+      "lift_precision_pass": "i64",
+      "l4_runtime_packaged": "i64"
+    },
+    "returnType": "i64",
+    "imports": {},
+    "importGraph": {},
+    "constants": {},
+    "domainContract": {
+      "schemaVersion": "brik64.cli_domain_contract.v1",
+      "domains": [
+        {
+          "name": "type_safety_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "int_division_parity_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "return_exhaustiveness_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "reserved_identifier_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "header_contract_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "lift_precision_pass",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        },
+        {
+          "name": "l4_runtime_packaged",
+          "type": "i64",
+          "min": {
+            "kind": "literal",
+            "value": 0
+          },
+          "max": {
+            "kind": "literal",
+            "value": 1
+          }
+        }
+      ],
+      "domainParams": [],
+      "invariants": [],
+      "conditionalDomains": [],
+      "resolvedDomains": [
+        {
+          "name": "type_safety_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "int_division_parity_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "return_exhaustiveness_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "reserved_identifier_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "header_contract_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "lift_precision_pass",
+          "minValue": 0,
+          "maxValue": 1
+        },
+        {
+          "name": "l4_runtime_packaged",
+          "minValue": 0,
+          "maxValue": 1
+        }
+      ],
+      "resolvedConditionalDomains": [],
+      "missingParams": [],
+      "unresolvedParams": [],
+      "status": "complete",
+      "claimBearingEligible": true,
+      "sha256": "e0164c82e34531081b09dcecbbe461c07856cd28e078c92f2c2b280753fc6edf"
+    },
+    "boundaryContracts": [],
+    "functions": {
+      "semantic_correctness_gate": {
+        "name": "semantic_correctness_gate",
+        "params": [
+          "type_safety_pass",
+          "int_division_parity_pass",
+          "return_exhaustiveness_pass",
+          "reserved_identifier_pass",
+          "header_contract_pass",
+          "lift_precision_pass",
+          "l4_runtime_packaged"
+        ],
+        "paramTypes": {
+          "type_safety_pass": "i64",
+          "int_division_parity_pass": "i64",
+          "return_exhaustiveness_pass": "i64",
+          "reserved_identifier_pass": "i64",
+          "header_contract_pass": "i64",
+          "lift_precision_pass": "i64",
+          "l4_runtime_packaged": "i64"
+        },
+        "returnType": "i64",
+        "body": [
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "type_safety_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "int_division_parity_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "return_exhaustiveness_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "reserved_identifier_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "header_contract_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "lift_precision_pass",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "IfStatement",
+            "condition": {
+              "type": "BinaryExpression",
+              "operator": "==",
+              "left": {
+                "type": "Identifier",
+                "name": "l4_runtime_packaged",
+                "inferredType": "i64"
+              },
+              "right": {
+                "type": "NumberLiteral",
+                "value": 0,
+                "raw": "0",
+                "numericType": "i64",
+                "inferredType": "i64"
+              },
+              "inferredType": "bool"
+            },
+            "consequent": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "NumberLiteral",
+                  "value": 0,
+                  "raw": "0",
+                  "numericType": "i64",
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "alternate": []
+          },
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 1,
+              "raw": "1",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "branchCount": 7
+      }
+    },
+    "entrypoint": {
+      "name": "semantic_correctness_gate",
+      "explicit": true,
+      "fallbackReason": null
+    },
+    "body": [
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "type_safety_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "int_division_parity_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "return_exhaustiveness_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "reserved_identifier_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "header_contract_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "lift_precision_pass",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "IfStatement",
+        "condition": {
+          "type": "BinaryExpression",
+          "operator": "==",
+          "left": {
+            "type": "Identifier",
+            "name": "l4_runtime_packaged",
+            "inferredType": "i64"
+          },
+          "right": {
+            "type": "NumberLiteral",
+            "value": 0,
+            "raw": "0",
+            "numericType": "i64",
+            "inferredType": "i64"
+          },
+          "inferredType": "bool"
+        },
+        "consequent": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "NumberLiteral",
+              "value": 0,
+              "raw": "0",
+              "numericType": "i64",
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "alternate": []
+      },
+      {
+        "type": "ReturnStatement",
+        "argument": {
+          "type": "NumberLiteral",
+          "value": 1,
+          "raw": "1",
+          "numericType": "i64",
+          "inferredType": "i64"
+        }
+      }
+    ],
+    "returnValues": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    "branchCount": 7,
+    "expressionDialect": "brik64.cli_expr.v1"
+  },
+  "offlineEngine": "local-parser-emitter",
+  "certifiesFormalCorrectness": false,
+  "certifiesTests": false,
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "publicBetaAllowed": false,
+    "releaseAllowed": false
+  }
+}

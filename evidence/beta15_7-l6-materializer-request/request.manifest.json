@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "brik64.l6plus_cli_materializer_request_manifest.v1",
+  "version": "0.1.0-beta.15.7",
+  "decision": "PASS_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE",
+  "request": {
+    "path": "evidence/beta15_7-l6-materializer-request/request.json",
+    "sha256": "1a392aa5b6c55203534a0904fa431b94a34b287ac6e26940a9b7d1f8e95389a3",
+    "bytes": 13543
+  },
+  "requestLine": {
+    "path": "evidence/beta15_7-l6-materializer-request/request.line",
+    "sha256": "89a8db5a7fe21cea00a2544ac8efd77850a6808d4d6557d79b08e95dde32b0bf",
+    "bytes": 17323
+  },
+  "pcdInputSetSha256": "24fde7a1d20d20917b7df4360aa0fd9cb65516488ec195c96f9f0657c5fc506d",
+  "inputPcds": [
+    {
+      "path": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
+      "sha256": "39daa7cb1287112d62459128dd4134fb02b699c5e373d8f41ba2a32814a239da",
+      "bytes": 810
+    },
+    {
+      "path": "pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd",
+      "sha256": "abda80ee75cbcceb7c448314ce3a268f786931d381651770eaf6a0d41707c844",
+      "bytes": 2005
+    },
+    {
+      "path": "pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd",
+      "sha256": "0c4969cbca34ba3d21b8a533f27ce6a98c17dd59abc1ed7e9e501f6e21434d54",
+      "bytes": 495
+    },
+    {
+      "path": "pcd/beta15_7/harness/lift_roundtrip_gate.pcd",
+      "sha256": "8d34a80582a103db4ab502a5f122f9eeb15235cb414b55bcd1562149355a4538",
+      "bytes": 638
+    },
+    {
+      "path": "pcd/beta15_7/release/public_surface_sync.pcd",
+      "sha256": "275ae6f7ac98e0491ecd7b67d554e395ecc4fcb91ead2890aac48312412d6a35",
+      "bytes": 638
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+      "bytes": 2047
+    }
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

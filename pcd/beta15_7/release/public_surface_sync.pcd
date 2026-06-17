@@ -1,0 +1,19 @@
+// brik64.pcd_file.v1
+// claim_boundary: assisted_generation_non_claim
+PC public_surface_sync {
+    domain cli_package: i64 [0, 1];
+    domain curl_manifest: i64 [0, 1];
+    domain docs: i64 [0, 1];
+    domain web: i64 [0, 1];
+    domain skills: i64 [0, 1];
+    domain sdk: i64 [0, 1];
+    fn public_surface_sync(cli_package, curl_manifest, docs, web, skills, sdk) -> i64 {
+        if (cli_package == 0) { return 0; }
+        if (curl_manifest == 0) { return 0; }
+        if (docs == 0) { return 0; }
+        if (web == 0) { return 0; }
+        if (skills == 0) { return 0; }
+        if (sdk == 0) { return 0; }
+        return 1;
+    }
+}

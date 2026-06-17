@@ -27,7 +27,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   BETA_DECISION_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' "$PACKAGE_VERSION")"
   PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-beta${BETA_NUMBER}-package.sh"
   SMOKE_SCRIPT="$ROOT_DIR/scripts/beta${BETA_NUMBER}-package-smoke.sh"
-  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ] || [ "$BETA_LABEL" = "beta15_4" ] || [ "$BETA_LABEL" = "beta15_5" ] || [ "$BETA_LABEL" = "beta15_6" ]; then
+  if [ "$BETA_LABEL" = "beta14_3" ] || [ "$BETA_LABEL" = "beta14_4" ] || [ "$BETA_LABEL" = "beta14_5" ] || [ "$BETA_LABEL" = "beta14_6" ] || [ "$BETA_LABEL" = "beta15_2" ] || [ "$BETA_LABEL" = "beta15_4" ] || [ "$BETA_LABEL" = "beta15_5" ] || [ "$BETA_LABEL" = "beta15_6" ] || [ "$BETA_LABEL" = "beta15_7" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
@@ -42,7 +42,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   fi
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"
   grep -Eq "decision=($SMOKE_DECISION|PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_SMOKE)" <<<"$package_smoke_out"
-node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = label === "beta15_6" ? true : ((label === "beta15_5") && state === "public"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
+node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = ["beta15_6","beta15_7"].includes(label) ? true : ((label === "beta15_5") && state === "public"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
   if [ "$BETA_NUMBER" = "9" ]; then
     node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (!r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
     beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
@@ -84,7 +84,8 @@ fi
 )
 
 cat >"$tmpdir/program.pcd" <<'PCD'
-// beta5 minimal valid PCD
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 PC sample {
     domain input: i64 [0, 255];
     fn sample(input: i64) -> i64 {
@@ -219,6 +220,8 @@ node "$BRIK" migrate legacy.pcd --out legacy.beta7.pcd --json | grep -q '"detect
 node "$BRIK" certify legacy.beta7.pcd
 
 cat >variant.pcd <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 PC variant {
     domain input: i64 [0, 255];
     fn variant(input: i64) -> i64 {
@@ -259,6 +262,8 @@ grep -q "engine_tier_policy_public_distribution_open" /tmp/brik-bad-tier.err
 )
 
 cat >"$tmpdir/leaf.pcd" <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 PC leaf {
     const LIMIT: i64 = 3;
     domain input: i64 [0, 255];
@@ -274,6 +279,8 @@ PC leaf {
 PCD
 
 cat >"$tmpdir/mid.pcd" <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 use leaf;
 PC mid {
     const OFFSET: i64 = 2;
@@ -288,6 +295,8 @@ PC mid {
 PCD
 
 cat >"$tmpdir/root.pcd" <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 use mid;
 PC root {
     domain input: i64 [0, 255];
@@ -306,10 +315,14 @@ node "$BRIK" emit root.pcd --target ts --out out-dag --tests >/tmp/brik-emit-dag
 node out-dag/program.test.mjs | grep -q "PASS"
 node "$BRIK" explain root.pcd --json | grep -q '"mid"'
 cat >cycle_a.pcd <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 use cycle_b;
 PC cycle_a { domain input: i64 [0, 255]; fn cycle_a(input: i64) -> i64 { return cycle_b(input); } }
 PCD
 cat >cycle_b.pcd <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 use cycle_a;
 PC cycle_b { domain input: i64 [0, 255]; fn cycle_b(input: i64) -> i64 { return cycle_a(input); } }
 PCD
@@ -319,6 +332,8 @@ if node "$BRIK" certify cycle_a.pcd >/tmp/brik-cycle.out 2>/tmp/brik-cycle.err; 
 fi
 grep -q "import_cycle" /tmp/brik-cycle.err
 cat >bad_const.pcd <<'PCD'
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
 PC bad_const {
     const LIMIT: i64 = input;
     domain input: i64 [0, 255];
