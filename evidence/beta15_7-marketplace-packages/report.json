@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "brik64.cli_beta15_7_marketplace_package_gate.v1",
+  "version": "0.1.0-beta.15.7",
+  "pythonVersion": "0.1.0b15.post7",
+  "decision": "FAIL_BETA15_7_MARKETPLACE_PACKAGES",
+  "marketplacePublicationAllowed": false,
+  "checks": {
+    "npm": {
+      "rc": 1,
+      "stdout": ""
+    },
+    "pypi": {
+      "version": "0.1.0b15.post7"
+    },
+    "crates": {
+      "rc": 0,
+      "stdout": "brik64-core #brik64 #digital-circuitality #pcd #sdk #monomers\nBRIK64 Rust SDK beta with monomer helpers and composition utilities for examples, tests, and application prototypes.\nversion: 0.1.0-beta.15.7\nlicense: Apache-2.0\nrust-version: unknown\ndocumentation: https://docs.rs/brik64-core\nhomepage: https://brik64.com\nrepository: https://github.com/brik64/brik64-lib-rust"
+    }
+  },
+  "failures": [
+    "npm_beta15_7_missing"
+  ]
+}

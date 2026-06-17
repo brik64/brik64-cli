@@ -3,8 +3,8 @@
   "releaseId": "brik64-0.1.0-beta.15.7",
   "version": "0.1.0-beta.15.7",
   "manifestDigest": "3a4fa03ba70d0ccf6926074d49c10e88af8ba02d611df9ae3273d95083261012",
-  "decision": "FAIL_PUBLISH_PREFLIGHT",
-  "dryRunInProgress": false,
+  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
+  "dryRunInProgress": true,
   "publishRequested": false,
   "publicationAllowed": false,
   "expectedConfirm": "PUBLISH 0.1.0-beta.15.7 3a4fa03ba70d0ccf6926074d49c10e88af8ba02d611df9ae3273d95083261012",
@@ -96,10 +96,10 @@
     "Create a GitHub Release note amendment that points to the superseding manifest.",
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
-  "failures": [
-    "dry_run_manifest_digest_drift"
-  ],
+  "failures": [],
   "warnings": [
+    "github_verified_signature_commit_drift:2ff7e6c7054bda64c8647e01d13e20b288f20b65:628565bdd7131309f96241bc8db5f6a0100b4779",
+    "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
