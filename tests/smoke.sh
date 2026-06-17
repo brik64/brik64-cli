@@ -84,6 +84,7 @@ fi
 )
 
 cat >"$tmpdir/program.pcd" <<'PCD'
+// brik64.pcd_file.v1
 // beta5 minimal valid PCD
 PC sample {
     domain input: i64 [0, 255];
@@ -134,10 +135,10 @@ for target in ts rust python; do
   grep -q "tests=" "/tmp/brik-emit-$target.out"
 done
 
-test -f "$tmpdir/out-ts/program.mjs"
-test -f "$tmpdir/out-ts/program.test.mjs"
-test -f "$tmpdir/out-rust/program.rs"
-test -f "$tmpdir/out-rust/program_test.rs"
+test -f "$tmpdir/out-ts/program/program.mjs"
+test -f "$tmpdir/out-ts/program/program.test.mjs"
+test -f "$tmpdir/out-rust/program/program.rs"
+test -f "$tmpdir/out-rust/program/program_test.rs"
 test -f "$tmpdir/out-python/brik64_generated_program/program.py"
 test -f "$tmpdir/out-python/tests/test_program.py"
 test ! -f "$tmpdir/out-python/test_program.py"
@@ -219,6 +220,7 @@ node "$BRIK" migrate legacy.pcd --out legacy.beta7.pcd --json | grep -q '"detect
 node "$BRIK" certify legacy.beta7.pcd
 
 cat >variant.pcd <<'PCD'
+// brik64.pcd_file.v1
 PC variant {
     domain input: i64 [0, 255];
     fn variant(input: i64) -> i64 {
@@ -231,7 +233,7 @@ PC variant {
 PCD
 node "$BRIK" certify variant.pcd
 node "$BRIK" emit variant.pcd --target ts --out out-variant --tests >/tmp/brik-emit-variant.out
-if cmp -s out-ts/program.mjs out-variant/program.mjs; then
+if cmp -s out-ts/program/program.mjs out-variant/variant/program.mjs; then
   echo "different valid PCDs should emit different outputs" >&2
   exit 1
 fi
@@ -259,6 +261,7 @@ grep -q "engine_tier_policy_public_distribution_open" /tmp/brik-bad-tier.err
 )
 
 cat >"$tmpdir/leaf.pcd" <<'PCD'
+// brik64.pcd_file.v1
 PC leaf {
     const LIMIT: i64 = 3;
     domain input: i64 [0, 255];
@@ -274,6 +277,7 @@ PC leaf {
 PCD
 
 cat >"$tmpdir/mid.pcd" <<'PCD'
+// brik64.pcd_file.v1
 use leaf;
 PC mid {
     const OFFSET: i64 = 2;
@@ -288,6 +292,7 @@ PC mid {
 PCD
 
 cat >"$tmpdir/root.pcd" <<'PCD'
+// brik64.pcd_file.v1
 use mid;
 PC root {
     domain input: i64 [0, 255];
@@ -303,13 +308,15 @@ rm -rf .brik
 node "$BRIK" init >/tmp/brik-dag-init.out
 node "$BRIK" certify root.pcd
 node "$BRIK" emit root.pcd --target ts --out out-dag --tests >/tmp/brik-emit-dag.out
-node out-dag/program.test.mjs | grep -q "PASS"
+node out-dag/root/program.test.mjs | grep -q "PASS"
 node "$BRIK" explain root.pcd --json | grep -q '"mid"'
 cat >cycle_a.pcd <<'PCD'
+// brik64.pcd_file.v1
 use cycle_b;
 PC cycle_a { domain input: i64 [0, 255]; fn cycle_a(input: i64) -> i64 { return cycle_b(input); } }
 PCD
 cat >cycle_b.pcd <<'PCD'
+// brik64.pcd_file.v1
 use cycle_a;
 PC cycle_b { domain input: i64 [0, 255]; fn cycle_b(input: i64) -> i64 { return cycle_a(input); } }
 PCD
@@ -319,6 +326,7 @@ if node "$BRIK" certify cycle_a.pcd >/tmp/brik-cycle.out 2>/tmp/brik-cycle.err; 
 fi
 grep -q "import_cycle" /tmp/brik-cycle.err
 cat >bad_const.pcd <<'PCD'
+// brik64.pcd_file.v1
 PC bad_const {
     const LIMIT: i64 = input;
     domain input: i64 [0, 255];
