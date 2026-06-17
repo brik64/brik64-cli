@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6_generation_gate.v1",
   "version": "0.1.0-beta.15.7",
-  "generatedAt": "2026-06-17T23:28:45.183Z",
+  "generatedAt": "2026-06-17T23:43:57.369Z",
   "decision": "BLOCKED_BETA15_7_L6_GENERATION_GATE",
   "publicationAllowed": false,
   "releasePublicationAllowed": false,
@@ -12,6 +12,8 @@
     "rustIndependenceClaimAllowed": false
   },
   "blockers": [
+    "remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7",
+    "remote_l6plus_materializer_endpoint_status:beta15_6_ready",
     "remote_l6plus_materialization_contract_unavailable",
     "generated_artifact_missing"
   ],
@@ -27,10 +29,15 @@
       "bytes": 851,
       "target": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus"
     },
+    "endpointStatus": {
+      "endpointLine": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_6_ready",
+      "resultLine": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\\tavailable",
+      "statusTag": "beta15_6_ready"
+    },
     "materializerContractAccepted": false,
     "expectedMaterializationContext": {
       "pcdInputSetSha256": "12df1c5c7d1d85aa9e4f6565e4e1cc0f26c75843c492645f7c4a9dc5b14678f1",
-      "materializerRequestSha256": "aa97a9dc2b5d5bc45e4a397444b1fb84d117492ef2b835be1d8e6636aa8e9835",
+      "materializerRequestSha256": "3b4cd391c58c0b5810dd51da4cfe9876b18584c8a8d60b1db2a3900abc00c8e2",
       "remoteWrapperSha256": "6e35c0d118c2f1d160297040a50d8cf033c6bfa1a8c12ac38980d88d106bb5cd",
       "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
       "requiredInputPcdPaths": [

@@ -8,6 +8,8 @@
   "releaseManifestSha256": null,
   "releasePublicationAllowed": false,
   "blockers": [
+    "remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7",
+    "remote_l6plus_materializer_endpoint_status:beta15_6_ready",
     "remote_l6plus_materialization_contract_unavailable",
     "generated_artifact_missing"
   ]
