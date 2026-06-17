@@ -23,6 +23,8 @@ const audit = process.env.BRIK64_L6_AUDIT || '/opt/brik64/engines/l6plus-n5/bin/
 const skipRemote = process.env.BRIK64_L6_SKIP_REMOTE === '1';
 
 const inputPcdPaths = [
+  'pcd/beta15_7/release/l6_cli_materialization_contract.pcd',
+  'pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd',
   'pcd/beta15/l6plus_materialization_command.contract.json',
   'pcd/beta15/manifest.json',
   'pcd/beta15/cli_polymer.pcd',
@@ -147,6 +149,54 @@ function parseEndpointStatus(stdout) {
     }
   }
   return result;
+}
+
+function safeRelativePath(value) {
+  const text = String(value || '');
+  return (
+    text.length > 0 &&
+    !text.startsWith('/') &&
+    !text.includes('\0') &&
+    !/^https?:\/\//i.test(text) &&
+    !text.split(/[\\/]+/).some((segment) => segment === '..')
+  );
+}
+
+function hydrateReturnedArtifact(result, refName, contentField, blockers) {
+  if (!result || typeof result !== 'object') return;
+  const ref = result[refName];
+  const encoded = result[contentField];
+  if (!ref || typeof ref !== 'object' || typeof encoded !== 'string') return;
+  if (!safeRelativePath(ref.path)) {
+    blockers.push(`materialization_result_${refName}_hydrate_path_invalid`);
+    return;
+  }
+  let content;
+  try {
+    content = Buffer.from(encoded, 'base64');
+  } catch {
+    blockers.push(`materialization_result_${refName}_hydrate_base64_invalid`);
+    return;
+  }
+  if (sha256(content) !== String(ref.sha256 || '').replace(/^sha256:/, '').toLowerCase()) {
+    blockers.push(`materialization_result_${refName}_hydrate_sha256_mismatch`);
+    return;
+  }
+  const target = path.resolve(root, ref.path);
+  const resolvedRoot = path.resolve(root);
+  if (!(target === resolvedRoot || target.startsWith(`${resolvedRoot}${path.sep}`))) {
+    blockers.push(`materialization_result_${refName}_hydrate_path_outside_workspace`);
+    return;
+  }
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, content);
+}
+
+function hydrateMaterializationResult(result) {
+  const blockers = [];
+  hydrateReturnedArtifact(result, 'generatedArtifact', 'generatedArtifactContentBase64', blockers);
+  hydrateReturnedArtifact(result, 'sealReport', 'sealReportContentBase64', blockers);
+  return blockers;
 }
 
 function collectInputs(blockers) {
@@ -295,7 +345,13 @@ function materializationAttempts(requestLinePath, context) {
     ].join('; ');
     const result = ssh(remote);
     const materializationResult = parseMaterializationResult(`${result.stdout}\n${result.stderr}`);
+    const hydrateBlockers = hydrateMaterializationResult(materializationResult);
     const validation = validateMaterializationResult(materializationResult, version, context);
+    if (hydrateBlockers.length > 0) {
+      validation.accepted = false;
+      validation.blockers = [...new Set([...(validation.blockers || []), ...hydrateBlockers])];
+      validation.normalized = null;
+    }
     return {
       command: [wrapper, command, '@@FILE:<beta15.7-materializer-request>'],
       status: result.status,

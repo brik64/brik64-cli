@@ -36,6 +36,7 @@ const inputs = [
   'pcd/beta15_2',
   'pcd/beta15_3',
   'pcd/beta15_6',
+  'pcd/beta15_7',
   'engines/l4plus-n5/serial.txt',
   'engines/l4plus-n5/checksums.tsv',
   'engines/l4plus-n5/runtime-bundle.manifest.json',

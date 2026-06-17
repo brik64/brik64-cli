@@ -4,16 +4,26 @@
   "decision": "PASS_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE",
   "request": {
     "path": "evidence/beta15_7-l6-materializer-request/request.json",
-    "sha256": "a21bc70dd7bbbb2a6c2376518627b9603bd33d37766eb7ab4ac4002fea101656",
-    "bytes": 13847
+    "sha256": "6a419a8852168088653136d6934a0ac7c58651046d055fe9de5bc9554e75c8f9",
+    "bytes": 18180
   },
   "requestLine": {
     "path": "evidence/beta15_7-l6-materializer-request/request.line",
-    "sha256": "3b4cd391c58c0b5810dd51da4cfe9876b18584c8a8d60b1db2a3900abc00c8e2",
-    "bytes": 17851
+    "sha256": "34a6bf36e3e30e47374f2f04e318f006e1d224ed6da173b175bac5f18a54ca1c",
+    "bytes": 23503
   },
-  "pcdInputSetSha256": "12df1c5c7d1d85aa9e4f6565e4e1cc0f26c75843c492645f7c4a9dc5b14678f1",
+  "pcdInputSetSha256": "1fe950b0efda4d41bc1e160863bf4ca70565c14b461f4a18c9dc7b9a02b7c547",
   "inputPcds": [
+    {
+      "path": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
+      "sha256": "39daa7cb1287112d62459128dd4134fb02b699c5e373d8f41ba2a32814a239da",
+      "bytes": 810
+    },
+    {
+      "path": "pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd",
+      "sha256": "abda80ee75cbcceb7c448314ce3a268f786931d381651770eaf6a0d41707c844",
+      "bytes": 2005
+    },
     {
       "path": "pcd/beta15/l6plus_materialization_command.contract.json",
       "sha256": "84f801025b2c04e5d6b70d8617d0cafd1fa48d1fb415864354285f3953068fba",

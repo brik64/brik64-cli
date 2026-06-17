@@ -8,7 +8,7 @@ trap cleanup EXIT
 
 mkbase() {
   local base="$1"
-  mkdir -p "$base/pcd/beta15" "$base/pcd" "$base/release"
+  mkdir -p "$base/pcd/beta15" "$base/pcd/beta15_7/release" "$base/pcd" "$base/release"
   cat >"$base/package.json" <<'JSON'
 { "version": "0.1.0-beta.15.7" }
 JSON
@@ -21,6 +21,18 @@ JSON
   cat >"$base/pcd/beta15/cli_polymer.pcd" <<'PCD'
 // brik64.pcd_file.v1
 PC beta15_7_cli_polymer {
+  fn run(x: i64) -> i64 { return x; }
+}
+PCD
+  cat >"$base/pcd/beta15_7/release/l6_cli_materialization_contract.pcd" <<'PCD'
+// brik64.pcd_file.v1
+PC l6_cli_materialization_contract {
+  fn run(x: i64) -> i64 { return x; }
+}
+PCD
+  cat >"$base/pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd" <<'PCD'
+// brik64.pcd_file.v1
+PC l6_cli_materialization_result_contract {
   fn run(x: i64) -> i64 { return x; }
 }
 PCD
@@ -62,14 +74,14 @@ done
 
 MISSING_PCD="$TMP_DIR/missing-pcd"
 mkbase "$MISSING_PCD"
-rm "$MISSING_PCD/pcd/beta15/cli_polymer.pcd"
+rm "$MISSING_PCD/pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd"
 if BRIK64_CLI_ROOT="$MISSING_PCD" BRIK64_L6_SKIP_REMOTE=1 node "$ROOT/scripts/beta15_7-l6-generation-attempt.js" >/tmp/beta15_7_l6_missing.out 2>/tmp/beta15_7_l6_missing.err; then
   echo "expected missing PCD fixture to fail closed" >&2
   exit 1
 fi
 jq -e '
   .decision=="BLOCKED_BETA15_7_L6_GENERATION_GATE"
-  and (.blockers | index("missing_input_pcd:pcd/beta15/cli_polymer.pcd"))
+  and (.blockers | index("missing_input_pcd:pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd"))
 ' "$MISSING_PCD/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
 
 ALIGNED_NO_PACKAGE="$TMP_DIR/aligned-no-package"
@@ -142,5 +154,152 @@ jq -e '
   and .remoteCapability.endpointStatus.statusTag=="beta15_6_ready"
   and (.attempts[] | select(.command[1]=="l6-cli-materialize") | .observed | contains("version_mismatch:0.1.0-beta.15.7"))
 ' "$REMOTE_VERSION_GAP/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
+
+REMOTE_READY="$TMP_DIR/remote-ready"
+mkbase "$REMOTE_READY"
+mkdir -p "$REMOTE_READY/evidence/beta15_7-package"
+printf 'beta15.7 package fixture\n' >"$REMOTE_READY/evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz"
+cat >"$REMOTE_READY/release/manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.15.7" }
+JSON
+
+FAKE_READY_BIN="$TMP_DIR/fake-ready-bin"
+mkdir -p "$FAKE_READY_BIN"
+cat >"$FAKE_READY_BIN/ssh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+script="${*: -1}"
+case "$script" in
+  *"healthcheck"*"/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5 --version"*"/opt/brik64/engines/l6plus-n5/bin/audit"*)
+    printf '%s\n' 'serial=BRIK64-L6PLUS-N5-TEST'
+    printf '%s\n' '{"decision":"PASS"}'
+    ;;
+  *"BRIK64_REMOTE_REF"*)
+    printf '%s\n' 'BRIK64_REMOTE_REF	wrapper	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa	905	/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5'
+    printf '%s\n' 'BRIK64_REMOTE_REF	wrapper_exec_target	bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb	851	/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus'
+    printf '%s\n' 'BRIK64_WRAPPER_MODE	cli_materializer_dispatcher'
+    ;;
+  *"endpoint-status"*|*"cli-materializer-status"*)
+    printf '%s\n' 'BRIK64_L6_CLI_MATERIALIZER_ENDPOINT	installed	beta15_7_ready'
+    printf '%s\n' 'BRIK64_L6_CLI_MATERIALIZATION_RESULT	available'
+    ;;
+  *"l6-cli-materialize"*)
+    encoded="$(printf '%s' "$script" | sed -n 's/.*printf %s "\([^"]*\)" | base64.*/\1/p')"
+    node - "$encoded" <<'NODE'
+const crypto = require('crypto');
+const encoded = process.argv[2];
+const request = JSON.parse(Buffer.from(encoded, 'base64').toString('utf8'));
+const sha = (value) => crypto.createHash('sha256').update(value).digest('hex');
+const requestLine = `BRIK64_L6_CLI_MATERIALIZATION_REQUEST\t${Buffer.from(JSON.stringify(request)).toString('base64')}\n`;
+const generatedObject = {
+  schemaVersion: 'brik64.cli_beta15_7_l6_generated_artifact.v1',
+  version: request.version,
+  materializerMode: request.materializerMode,
+  source: {
+    pcdInputSetSha256: request.pcdInputSetSha256,
+    materializerRequestSha256: sha(requestLine),
+    inputPcds: request.inputPcds.map(({ path, sha256, bytes }) => ({ path, sha256, bytes })),
+  },
+  outputBindings: request.outputArtifacts,
+  claimBoundary: request.claimBoundary,
+};
+const generatedArtifactContent = `// brik64 generated materialization unit\nexport const brik64CliMaterialization = ${JSON.stringify(generatedObject, null, 2)};\n`;
+const generatedArtifactSha256 = sha(generatedArtifactContent);
+const packageSha256 = request.outputArtifacts.package.sha256;
+const releaseManifestSha256 = request.outputArtifacts.releaseManifest.sha256;
+const generationTraceSha256 = sha([
+  request.pcdInputSetSha256,
+  sha(requestLine),
+  generatedArtifactSha256,
+  packageSha256,
+  releaseManifestSha256,
+  'a'.repeat(64),
+  'b'.repeat(64),
+].join('\n'));
+const compositeSha256 = sha([
+  request.pcdInputSetSha256,
+  sha(requestLine),
+  generatedArtifactSha256,
+  packageSha256,
+  releaseManifestSha256,
+  generationTraceSha256,
+].join('\n'));
+const sealObject = {
+  schemaVersion: 'brik64.cli_beta15_7_l6_seal_report.v1',
+  version: request.version,
+  decision: 'PASS_BETA15_7_L6_SEAL',
+  compositeSha256,
+  generationTraceSha256,
+  claimBoundary: request.claimBoundary,
+  blockers: [],
+};
+const sealContent = `${JSON.stringify(sealObject, null, 2)}\n`;
+const result = {
+  schemaVersion: 'brik64.l6plus_cli_materialization_result.v1',
+  version: request.version,
+  l6plusEngineSerial: 'BRIK64-L6PLUS-N5-TEST',
+  materializerMode: request.materializerMode,
+  generatedByL6PlusN5: true,
+  pcdToArtifactHashBound: true,
+  artifactToPackageHashBound: true,
+  packageToReleaseManifestHashBound: true,
+  sealReportPass: true,
+  generatedArtifactSha256,
+  packageSha256,
+  releaseManifestSha256,
+  compositeSha256,
+  generationTraceSha256,
+  pcdInputSetSha256: request.pcdInputSetSha256,
+  materializerRequestSha256: sha(requestLine),
+  remoteWrapperSha256: 'a'.repeat(64),
+  wrapperExecTargetSha256: 'b'.repeat(64),
+  generatedArtifact: {
+    path: request.outputRefs.generatedArtifact,
+    sha256: generatedArtifactSha256,
+    bytes: Buffer.byteLength(generatedArtifactContent),
+  },
+  package: request.outputArtifacts.package,
+  releaseManifest: request.outputArtifacts.releaseManifest,
+  sealReport: {
+    path: request.outputRefs.sealReport,
+    sha256: sha(sealContent),
+    bytes: Buffer.byteLength(sealContent),
+  },
+  inputPcds: request.inputPcds.map(({ path, sha256, bytes }) => ({ path, sha256, bytes })),
+  generatedArtifactContentBase64: Buffer.from(generatedArtifactContent).toString('base64'),
+  sealReportContentBase64: Buffer.from(sealContent).toString('base64'),
+  claimBoundary: request.claimBoundary,
+};
+process.stdout.write(`BRIK64_L6_CLI_MATERIALIZATION_RESULT\t${Buffer.from(JSON.stringify(result)).toString('base64')}\n`);
+NODE
+    ;;
+  *"beta15.7-cli-materialize"*|*"materialize"*|*"compile"*)
+    printf '%s\n' 'brik64_l6plus_fail_closed:unsupported_secondary_path' >&2
+    ;;
+  *)
+    printf 'unexpected fake ssh script: %s\n' "$script" >&2
+    exit 64
+    ;;
+esac
+SH
+chmod +x "$FAKE_READY_BIN/ssh"
+
+PATH="$FAKE_READY_BIN:$PATH" BRIK64_CLI_ROOT="$REMOTE_READY" node "$ROOT/scripts/beta15_7-l6-generation-attempt.js" >/tmp/beta15_7_l6_remote_ready.out 2>/tmp/beta15_7_l6_remote_ready.err
+jq -e '
+  .decision=="PASS_BETA15_7_L6_GENERATION_GATE"
+  and .publicationAllowed==true
+  and .releasePublicationAllowed==true
+  and (.blockers | length == 0)
+  and .remoteCapability.endpointStatus.statusTag=="beta15_7_ready"
+  and .remoteCapability.materializerContractAccepted==true
+' "$REMOTE_READY/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
+test -f "$REMOTE_READY/evidence/beta15_7-l6-generation/generated/brik64-cli.mjs"
+test -f "$REMOTE_READY/evidence/beta15_7-l6-generation/seal_report.json"
+jq -e '
+  .generatedByL6PlusN5==true
+  and .pcdToArtifactHashBound==true
+  and ([.inputPcds[].path] | index("pcd/beta15_7/release/l6_cli_materialization_contract.pcd"))
+  and ([.inputPcds[].path] | index("pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd"))
+' "$REMOTE_READY/evidence/beta15_7-l6-generation/generated_artifact_manifest.json" >/dev/null
 
 echo "PASS beta15.7 L6 generation attempt fail-closed coverage"

@@ -8,8 +8,8 @@
   "generationClaim": "source_candidate_pending_l6_materialization",
   "package": {
     "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
-    "sha256": "37d1616a1b0eae8062e49bf2827242d6f793b53c437c5adba0e8447b4326610e",
-    "bytes": 625732
+    "sha256": "2c428664dfe4e90e17a4275f2747775caaa2722abbf80724d4f7477bfaad8e31",
+    "bytes": 629828
   },
   "claimBoundary": {
     "publicReleaseAllowed": false,
@@ -38,6 +38,7 @@
     "pcd/beta15_2",
     "pcd/beta15_3",
     "pcd/beta15_6",
+    "pcd/beta15_7",
     "engines/l4plus-n5/serial.txt",
     "engines/l4plus-n5/checksums.tsv",
     "engines/l4plus-n5/runtime-bundle.manifest.json",
