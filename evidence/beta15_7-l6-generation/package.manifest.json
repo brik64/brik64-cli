@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "brik64.cli_beta15_7_l6_package_manifest.v1",
+  "version": "0.1.0-beta.15.7",
+  "decision": "BLOCKED_BETA15_7_L6_PACKAGE_MANIFEST",
+  "artifactToPackageHashBound": false,
+  "packageToReleaseManifestHashBound": false,
+  "packageSha256": null,
+  "releaseManifestSha256": null,
+  "releasePublicationAllowed": false,
+  "blockers": [
+    "release_manifest_version_mismatch:0.1.0-beta.15.6:0.1.0-beta.15.7",
+    "missing_package_artifact:evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
+    "remote_l6plus_materialization_contract_unavailable",
+    "generated_artifact_missing"
+  ]
+}
