@@ -1,19 +1,19 @@
 {
   "schemaVersion": "brik64.release_web_surface_sync_report.v1",
-  "releaseId": "brik64-0.1.0-beta.15.6",
-  "version": "0.1.0-beta.15.6",
+  "releaseId": "brik64-0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7",
   "publishRequested": true,
   "decision": "PASS_RELEASE_WEB_SURFACE_SYNC",
   "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
   "changedBeforeCommit": true,
-  "commit": "0af0935511522370a301cd28f25e967e8f7af592",
+  "commit": "9e1cb8ebd196d65f0abaede81bae1957ceb5dc75",
   "pushed": true,
   "observations": [
     {
       "id": "web_checkout_main",
       "command": "git checkout main",
       "rc": 0,
-      "stdout": "M\tfunctions/api/download/sdk/[target].ts\nM\tpublic/cli/beta.json\nM\tpublic/cli/install.sh\nM\tsrc/app/changelog/page.tsx\nM\tsrc/app/download/page.tsx\nM\tsrc/app/sdks/page.tsx\nYour branch is up to date with 'origin/main'.",
+      "stdout": "M\tsrc/app/homev3/page.tsx\nM\tsrc/app/lifter/client.tsx\nM\tsrc/app/transpiler/client.tsx\nM\tsrc/app/v3/page.tsx\nM\tsrc/lib/cms/public-content.ts\nYour branch is up to date with 'origin/main'.",
       "stderr": "Already on 'main'"
     },
     {
@@ -25,16 +25,16 @@
     },
     {
       "id": "web_git_add",
-      "command": "git add public/cli/install.sh public/cli/beta.json public/cli/releases/0.1.0-beta.15.6.json src/app/changelog/page.tsx src/app/download/page.tsx src/app/sdks/page.tsx functions/api/download/sdk/[target].ts",
+      "command": "git add public/cli/install.sh public/cli/beta.json public/cli/releases/0.1.0-beta.15.7.json src/app/changelog/page.tsx src/app/download/page.tsx src/app/sdks/page.tsx functions/api/download/sdk/[target].ts",
       "rc": 0,
       "stdout": "",
       "stderr": ""
     },
     {
       "id": "web_git_commit",
-      "command": "git commit -m Align public web surface to 0.1.0-beta.15.6",
+      "command": "git commit -m Align public web surface to 0.1.0-beta.15.7",
       "rc": 0,
-      "stdout": "[main 0af0935] Align public web surface to 0.1.0-beta.15.6\n 7 files changed, 74 insertions(+), 39 deletions(-)\n create mode 100644 public/cli/releases/0.1.0-beta.15.6.json",
+      "stdout": "[main 9e1cb8e] Align public web surface to 0.1.0-beta.15.7\n 2 files changed, 20 insertions(+), 176 deletions(-)",
       "stderr": ""
     },
     {
@@ -42,49 +42,49 @@
       "command": "git push origin HEAD:main",
       "rc": 0,
       "stdout": "",
-      "stderr": "To https://github.com/brik64-admin/brik64.com.git\n   1643320..0af0935  HEAD -> main"
+      "stderr": "To https://github.com/brik64-admin/brik64.com.git\n   fb78361..9e1cb8e  HEAD -> main"
     },
     {
       "id": "install",
       "path": "public/cli/install.sh",
-      "sha256": "e591418c3c1c29b63b1458099005e633001bc3b015e81c029482f406d0928734",
+      "sha256": "3b1c1335ef6497bef37f553e56b82b03019ff150f73939d927e672eab4a768b4",
       "bytes": 3814
     },
     {
       "id": "beta",
       "path": "public/cli/beta.json",
-      "sha256": "c152452b3fce2db9477f873e3394876712dc4042b07f5ed507eff23f22af5851",
+      "sha256": "42fe0d038a4837b5a262caa600d919865a06031cf056a254a03e5821bec09d5b",
       "bytes": 362
     },
     {
       "id": "changelog",
       "path": "src/app/changelog/page.tsx",
-      "sha256": "7aa5d7298fbab2c866d8c310aece02662f3ecfa52a302b847a6d3934b2bca884",
-      "bytes": 11985
+      "sha256": "65c17a987d24e78798e5cc62179d91258fdef37360043c3a206b43b776b3e7a2",
+      "bytes": 11987
     },
     {
       "id": "download",
       "path": "src/app/download/page.tsx",
-      "sha256": "bc7d9997474d5919db4802594f83364f2bebe9ac2805a803b1cf1fd337b5a1c4",
-      "bytes": 14925
+      "sha256": "f5e07fa630fe11845732bb261897787e536f23af85c8dd354e2918a1987e8ad9",
+      "bytes": 14904
     },
     {
       "id": "sdks",
       "path": "src/app/sdks/page.tsx",
-      "sha256": "088b813308382a87c4c86491658516a79d0c8b16f4b1601f1b7ee98764ca376a",
-      "bytes": 13123
+      "sha256": "cf025ef7ef1f70ee3d62ad23fe60938620f642362bb5de4acefb3f5a0efdfd29",
+      "bytes": 13093
     },
     {
       "id": "sdkDownloadApi",
       "path": "functions/api/download/sdk/[target].ts",
-      "sha256": "094aa736eaea537ad1f48c451038829478953a018fe3ca437ecea1fec2def420",
+      "sha256": "7f3f8f1c505b634192e47e27bfd7985e2b2951ccae542c6b9df87b6a7644bd7a",
       "bytes": 2578
     },
     {
       "id": "releaseManifest",
-      "path": "public/cli/releases/0.1.0-beta.15.6.json",
-      "sha256": "901cd9621e773d20a01203c5c1db25188c17005ab2f2381946c0a0407d016b76",
-      "bytes": 1195
+      "path": "public/cli/releases/0.1.0-beta.15.7.json",
+      "sha256": "1ec35986a5cf818026ecae512a50473cc8acab7e30d9d213441dd8026e256d70",
+      "bytes": 1226
     }
   ],
   "failures": [],

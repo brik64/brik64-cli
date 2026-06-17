@@ -22,21 +22,21 @@
         "path": "evidence/beta15_7-semantic-correctness/gate-report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_7_SEMANTIC_CORRECTNESS_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_7_SEMANTIC_CORRECTNESS_GATE",
-        "sha256": "4bd07e808421bd84f11f5f01dd83200655f4ecae0efe7faadf1721a83fe7a448"
+        "sha256": "094c0e07f2a07e2f2e3e44e70d949c4b36e5e21f7ae0cef402d6accf4b80f3da"
       },
       {
         "id": "beta15_7_rust_f64_command_lift",
         "path": "evidence/beta15_7-rust-f64-command-lift/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_7_RUST_F64_COMMAND_LIFT_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_7_RUST_F64_COMMAND_LIFT_GATE",
-        "sha256": "2bc775d3c66ff661a58e1dcfe0eaf9c142aec0845746beb92faa846db1d1541c"
+        "sha256": "1d5a8a0ff81037b1828a1a8345495b1ef4dcd4b06006b3d25fc8b0824ba70ed0"
       },
       {
         "id": "beta15_7_pre_public_rc",
         "path": "evidence/beta15_7-pre-public-rc/report.json",
         "expectedDecision": "PASS_BRIK64_CLI_BETA15_7_PRE_PUBLIC_RC_GATE",
         "actualDecision": "PASS_BRIK64_CLI_BETA15_7_PRE_PUBLIC_RC_GATE",
-        "sha256": "33161c93517962d574324381a8f9fa8da751c72fecc4bc8caf1985ba2809ef52"
+        "sha256": "813cf2a2436641efa3888254204b246998105b8f0363344f48122540f41ccd76"
       },
       {
         "id": "beta15_7_l6_generation",

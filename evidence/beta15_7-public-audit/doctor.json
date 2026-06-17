@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "brik64.cli_doctor_report.v1",
+  "cliVersion": "0.1.0-beta.15.7",
+  "status": "PASS",
+  "releaseEligible": false,
+  "localRuntime": "available",
+  "managedRuntime": "not_authenticated",
+  "artifactFactory": "private",
+  "scanScope": "project",
+  "pcdCount": 1,
+  "pcdValidation": {
+    "valid": 1,
+    "invalid": 0,
+    "domainIncomplete": 0,
+    "files": [
+      {
+        "file": "pcd/division.pcd",
+        "status": "PASS",
+        "domainStatus": "complete",
+        "domain_contract_sha256": "e3a7b4716e7bfdd6eed78803eda66f37d0271ceb341ce9d1132279b970caae84"
+      }
+    ]
+  },
+  "pcdInventorySha256": "dc2851ff32eac5c62bb5a8db1e043fc403dbae80627605aa9f9b7996187d9420",
+  "ledger": {
+    "status": "PASS",
+    "eventCount": 5,
+    "headHash": "5cbf7423b8029b5d49b06175af48855b72a929d5c2f218fc8af29d3d31952910",
+    "tamperDetected": false,
+    "appendOnly": true
+  },
+  "releaseScope": "local_candidate_only",
+  "diagnostics": {
+    "errors": [],
+    "warnings": [],
+    "actions": []
+  }
+}

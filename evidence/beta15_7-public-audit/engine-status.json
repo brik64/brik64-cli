@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "brik64.cli_engine_status_report.v1",
+  "cliVersion": "0.1.0-beta.15.7",
+  "status": "PASS",
+  "localRuntime": "available",
+  "runtimeProfile": "l4plus_n5_local",
+  "engine": "L4+N5",
+  "serial": "BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4",
+  "nativeExecutableIncluded": false,
+  "artifactCount": 22,
+  "releaseEligible": true,
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "platformCertificationAllowed": false
+  },
+  "limitations": [
+    "local L4+N5 beta runtime profile",
+    "managed platform execution is not used unless explicitly authenticated"
+  ]
+}
