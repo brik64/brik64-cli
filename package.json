@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.15.6",
+  "version": "0.1.0-beta.15.7",
   "private": true,
   "description": "BRIK64 CLI beta15.6 with strict L4+N5 local engine bundle, L6+N5 generation gates, lift fidelity gates, and synchronized public release surfaces.",
   "homepage": "https://brik64.com",
