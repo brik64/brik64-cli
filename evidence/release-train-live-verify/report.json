@@ -2,9 +2,9 @@
   "schemaVersion": "brik64.release_train_live_verify_report.v1",
   "releaseId": "brik64-0.1.0-beta.15.6",
   "version": "0.1.0-beta.15.6",
-  "manifestDigest": "c043d44c14061c12c978c6e6e37bde815ec881c4fef7e29ce90dcc16dee5f5f9",
+  "manifestDigest": "61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048",
   "attempt": 1,
-  "maxAttempts": 13,
+  "maxAttempts": 31,
   "decision": "PASS_RELEASE_TRAIN_LIVE_VERIFY",
   "publicationAllowed": true,
   "boundary": "Live verification only. This report observes public surfaces and does not mutate or publish.",
@@ -30,8 +30,8 @@
       "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.6",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "afe6a01bac25f071afb10bf3112c13c025f209e0577b7c6e773e1daf02f8656f",
-      "bytes": 237487
+      "sha256": "a480d9512eea74e40dd58de01c3de118070e73a262760af5cbd0018b21980523",
+      "bytes": 237480
     },
     {
       "id": "docs_install",
@@ -46,16 +46,16 @@
       "url": "https://brik64.com/download",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "4e6722056acb088b514f1c1dd8a2d34adfa47d0af3eef0679fc62f4f6a926852",
-      "bytes": 96104
+      "sha256": "ff9b808e24d61e1085416eb3c3a554f4a0d33bd592f746a325386b0fc33f9a8f",
+      "bytes": 96608
     },
     {
       "id": "web_changelog",
       "url": "https://brik64.com/changelog",
       "statusCode": 200,
       "transport": "curl",
-      "sha256": "11703206b01b5b11a9d74298e15252939074cde6952f8b38eb668e9fbbbadc04",
-      "bytes": 146221
+      "sha256": "a3c195d5c66c338a6fcbbbaf5fccaa9be5a93e051f86633543a2128847bdc30b",
+      "bytes": 146725
     },
     {
       "id": "npm_sdk",

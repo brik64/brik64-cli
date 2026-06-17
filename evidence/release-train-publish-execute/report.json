@@ -3,11 +3,11 @@
   "releaseId": "brik64-0.1.0-beta.15.6",
   "version": "0.1.0-beta.15.6",
   "manifestDigest": "61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048",
-  "sourceHead": "268e02b",
-  "publishRequested": false,
-  "publicationMutated": false,
-  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS",
-  "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
+  "sourceHead": "031cbf0",
+  "publishRequested": true,
+  "publicationMutated": true,
+  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE",
+  "boundary": "Mutation mode executes ordered publication commands after full preflight.",
   "dirtyFiles": [],
   "commandPreflight": [
     {
@@ -19,18 +19,14 @@
     {
       "name": "sdk_npm",
       "mutatesPublicSurface": true,
-      "pass": false,
-      "failures": [
-        "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.6.tgz"
-      ]
+      "pass": true,
+      "failures": []
     },
     {
       "name": "sdk_pypi",
       "mutatesPublicSurface": true,
-      "pass": false,
-      "failures": [
-        "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post6*"
-      ]
+      "pass": true,
+      "failures": []
     },
     {
       "name": "sdk_crates",
@@ -75,11 +71,79 @@
       "failures": []
     }
   ],
-  "executed": [],
-  "blockers": [
-    "path_missing:sdk_npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.6.tgz",
-    "path_missing:sdk_pypi:/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post6*"
+  "executed": [
+    {
+      "name": "github_release",
+      "rc": 0,
+      "elapsedMs": 2747,
+      "stdout": "{\"ref\":\"refs/tags/v0.1.0-beta.15.6\",\"node_id\":\"REF_kwDOSvpCcrpyZWZzL3RhZ3MvdjAuMS4wLWJldGEuMTUuNg\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.15.6\",\"object\":{\"sha\":\"031cbf00c57e9472c0b050180087722413f8f1e6\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/commits/031cbf00c57e9472c0b050180087722413f8f1e6\"}}title:\tBRIK64 CLI 0.1.0-beta.15.6\ntag:\tv0.1.0-beta.15.6\ndraft:\tfalse\nprerelease:\ttrue\nimmutable:\tfalse\nauthor:\tbrik64-admin\ncreated:\t2026-06-16T22:29:10Z\npublished:\t2026-06-16T22:30:40Z\nurl:\thttps://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.6\nasset:\tbrik64-cli-0.1.0-beta.15.6.tgz\nasset:\tpackage.manifest.json\nasset:\tSHA256SUMS\n--\n# Changelog\n\nAll notable BRIK64 CLI changes are recorded here. This file is required for\nevery beta, release candidate, or public release.\n\n## 0.1.0-beta.15.6\n\n### Added\n\n- Adds package smoke coverage that verifies the complete offline engine bundle\n  and checksum list from the installable archive.\n- Adds lift preview diagnostics for dropped branches, dropped return paths,\n  string comparisons, compound boolean expressions, and narrowed floating-point\n  expressions.\n- Adds a release gate that checks semantic-loss warnings before a lifted preview\n  can be treated as a certification candidate.\n\n### Fixed\n\n- Fixes the installable archive so local engine status can run from the packaged\n  CLI without missing runtime artifacts.\n- Fixes lift preview reporting so low-coverage candidates are marked not\n  certification eligible instead of appearing clean.\n- Keeps generated TypeScript, Python, and Rust test execution in the Beta15.6\n  release gate for polymers and lifted candidates.\n\n### Compatibility\n\n- This beta remains a candidate until public installer, GitHub release, web,\n  docs, SDKs, skills, changelog, and live verification are synchronized.\n- This beta does not claim universal correctness, public self-hosting, formal\n  certification, or independent toolchain closure.\n\n## 0.1.0-beta.15.5\n\n### Added\n\n- Adds command-help coverage for project setup, verification, engine status,\n  account status, telemetry, feedback, error handling, domains, and adoption\n  workflows.\n- Adds a generated lift roundtrip gate that emits and runs tests for lifted\n  Python, JavaScript, and Rust candidates across TypeScript, Python, and Rust\n  targets.\n- Adds package smoke coverage for the Beta15.5 candidate archive and evidence\n  bundle.\n\n### Fixed\n\n- Fixes generated Rust output for floating-point polymer domains so clamp bounds\n  and comparisons remain floating-point expressions in generated code.\n- Fixes lifted numeric candidates so generated PCDs include conservative bounded\n  domains by default.\n- Keeps adversarial fixture failures out of normal project doctor checks while\n  preserving full-scope diagnostics for audit workspaces.\n\n### Compatibility\n\n- This beta remains a candidate until public installer, GitHub release, web,\n  docs, SDKs, skills, changelog, and live verification are synchronized.\n- This beta does not claim universal correctness, public self-hosting, formal\n  certification, or independent toolchain closure.\n\n## 0.1.0-beta.15.4\n\n### Added\n\n- Adds a Rust app-polymer regression gate covering core polymer, extended\n  polymer, and app-system emission across generated local targets.\n- Adds package smoke coverage for ledger verification, explicit polymer roots,\n  generated Python tests, and local claim-report contradiction handling.\n- Adds a release-manifest freshness check so candidate release metadata cannot\n  point at an older CLI package while the candidate package version advances.\n\n### Fixed\n\n- Fixes generated Rust app-polymer output so domain assertions do not reference\n  domain variables outside their generated function scope.\n- Aligns the candidate package path used by the generation request with the\n  actual Beta15.4 package archive.\n\n### Compatibility\n\n- This beta remains a pre-public candidate. Public release is blocked until\n  G",
+      "stderr": ""
+    },
+    {
+      "name": "sdk_npm",
+      "rc": 0,
+      "elapsedMs": 477,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "sdk_pypi",
+      "rc": 0,
+      "elapsedMs": 211,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "sdk_crates",
+      "rc": 0,
+      "elapsedMs": 166,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "gcp_curl",
+      "rc": 0,
+      "elapsedMs": 5550,
+      "stdout": "uploaded=true\nversion=0.1.0-beta.15.6\n",
+      "stderr": "Copying file:///home/runner/work/brik64-cli/brik64-cli/evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz to gs://brik64-cli-releases/cli/releases/0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz\n  \n...\nCopying file:///tmp/brik64-gcp-release.lcYQ6o/beta.json to gs://brik64-cli-releases/cli/beta.json\n  \n.\nCopying file:///tmp/brik64-gcp-release.lcYQ6o/install.sh to gs://brik64-cli-releases/cli/install.sh\n  \n.\n"
+    },
+    {
+      "name": "web_static_surface",
+      "rc": 0,
+      "elapsedMs": 8369,
+      "stdout": "decision=PASS_RELEASE_WEB_SURFACE_SYNC\nchangedBeforeCommit=true\n",
+      "stderr": ""
+    },
+    {
+      "name": "web_pages_deploy",
+      "rc": 0,
+      "elapsedMs": 142056,
+      "stdout": "decision=PASS_RELEASE_WEB_PAGES_DEPLOY\nrun=https://github.com/brik64-admin/brik64.com/actions/runs/27654113442\n",
+      "stderr": ""
+    },
+    {
+      "name": "docs_dispatch",
+      "rc": 0,
+      "elapsedMs": 419,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "skills_dispatch",
+      "rc": 0,
+      "elapsedMs": 369,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "post_publish_live_verify",
+      "rc": 0,
+      "elapsedMs": 3433,
+      "stdout": "decision=PASS_RELEASE_TRAIN_LIVE_VERIFY\npublicationAllowed=true\n",
+      "stderr": ""
+    }
   ],
+  "blockers": [],
   "failures": [],
   "warnings": []
 }
