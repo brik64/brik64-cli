@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-17T12:04:03.682Z",
+  "generatedAt": "2026-06-17T12:18:42.438Z",
   "version": "0.1.0-beta.15.7",
   "label": "beta15_7",
   "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",
@@ -18,12 +18,12 @@
     "dir": "evidence/beta15_7-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_7-l6-generation/gate-report.json",
-      "sha256": "0c2b3ea43be0e11ece8b3fdca125789b27793d35d65fe0146ff07accb78e76bb",
+      "sha256": "5d95fd42bccd8d6b48daa4c6e39508be62b9313229d5eba53d4ad555eceeafd9",
       "sizeBytes": 6764
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_7-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "ff25f85f478d2385a852c3ed90bbaf9415b7f556e9a4396886fe5ff8afd353de",
+      "sha256": "6cda5cd94db3c4ac8ff642e2a5c069b4de706576769c374bd49f9c725dc4de12",
       "sizeBytes": 1712
     },
     "input_pcd_hashes.tsv": {
@@ -33,22 +33,22 @@
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_7-l6-generation/generated_artifact_manifest.json",
-      "sha256": "4d434ee75418acd16ae6197ebdc319dbc8b0f07847a94b0b26f62ff84ced628e",
+      "sha256": "8bb6841d633bf25f9e991aeb79bf4f1bceae1414163bfce2467579629f530774",
       "sizeBytes": 2152
     },
     "package.manifest.json": {
       "path": "evidence/beta15_7-l6-generation/package.manifest.json",
-      "sha256": "89e7f35cc6886de57495ab2139a999b09b4d21e20d373af1044b82b247d0f362",
+      "sha256": "e180b47080e22ef1ac86f0fccaab99be415523c384da43a425167594ede9455d",
       "sizeBytes": 471
     },
     "seal_report.json": {
       "path": "evidence/beta15_7-l6-generation/seal_report.json",
-      "sha256": "db4b2e3a37b37e266143c4cec06c67325211d8e87bb08468d1cdbeac5672f228",
+      "sha256": "fad31c1459fa0f42d549163736b7f571173bce9fde309fbca77bf94f0818ea26",
       "sizeBytes": 241
     },
     "hashes.json": {
       "path": "evidence/beta15_7-l6-generation/hashes.json",
-      "sha256": "0a0ad34aa23f2e21d643db9bdd7abdab4489984bbf6513144d8b3e4f22c3ad19",
+      "sha256": "730db7a4b2c0b675f4f2cee8262026ed3d12873f1626e45fcb2f9b209954fbae",
       "sizeBytes": 2173
     }
   },
