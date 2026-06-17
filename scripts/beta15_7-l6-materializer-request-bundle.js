@@ -18,6 +18,8 @@ const inputPcdPaths = [
   'pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd',
   'pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd',
   'pcd/beta15_7/harness/lift_roundtrip_gate.pcd',
+  'pcd/beta15_7/harness/semantic_correctness_gate.pcd',
+  'pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd',
   'pcd/beta15_7/release/public_surface_sync.pcd',
   'pcd/cli_core.pcd',
   'pcd/cli_polymer.pcd',
@@ -213,7 +215,7 @@ function writeBundle() {
   const manifest = {
     schemaVersion: 'brik64.l6plus_cli_materializer_request_manifest.v1',
     version,
-    decision: 'PASS_BETA15_5_L6_MATERIALIZER_REQUEST_BUNDLE',
+    decision: 'PASS_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE',
     request: {
       path: path.relative(root, requestJsonPath),
       sha256: sha256File(requestJsonPath),

@@ -24,8 +24,14 @@
     },
     {
       "path": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
-      "sha256": "48d35d70380ea3c2bf4218f5d0b0f8e75f748963df71f9fb39e9a8ac3cfe685d",
-      "bytes": 1032
+      "sha256": "56721c02bc27d3dfd0740a52e131ce5ea6787a80aab9dc78e057473f9d14099d",
+      "bytes": 619,
+      "route2Projection": {
+        "path": "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
+        "sha256": "50a04724a663894cd87aa56568d7ce60818f8ff17b7df5e40d84c59bc769a14f",
+        "bytes": 605,
+        "projectionOf": "pcd/beta15_7/harness/semantic_correctness_gate.pcd"
+      }
     },
     {
       "path": "pcd/beta15_7/release/public_surface_sync.pcd",
@@ -43,8 +49,8 @@
       "bytes": 2047
     }
   ],
-  "pcdInputSetSha256": "043c42abdb267bc70d31e1153a7f3e2fc12ba41e21af61a9a31b70971aad1398",
-  "generatedArtifact": null,
-  "package": null,
-  "releaseManifest": null
+  "pcdInputSetSha256": "8c95b3b14a056eee020b61af83a814218f2a7b081aaaad09999856ca7816f291",
+  "generatedArtifact": "add28cb7c4475b2b6b7611a122432c8dc0f16744f983a07b43634342a4cb9039",
+  "package": "b5c3976d5ef55015cc2c96393b22490e3b5488dd7ffd88189b357b0ecdc4f1b3",
+  "releaseManifest": "61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048"
 }

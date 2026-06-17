@@ -28,7 +28,10 @@ const inputPcds = [
   'pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd',
   'pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd',
   'pcd/beta15_7/harness/lift_roundtrip_gate.pcd',
-  'pcd/beta15_7/harness/semantic_correctness_gate.pcd',
+  {
+    path: 'pcd/beta15_7/harness/semantic_correctness_gate.pcd',
+    route2ProjectionPath: 'pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd',
+  },
   'pcd/beta15_7/release/public_surface_sync.pcd',
   'pcd/cli_core.pcd',
   'pcd/cli_polymer.pcd'
@@ -111,14 +114,26 @@ function parseWrapperMode(stdout) {
 }
 
 function ensureInputs() {
-  return inputPcds.map((relativePath) => {
+  return inputPcds.map((inputSpec) => {
+    const relativePath = typeof inputSpec === 'string' ? inputSpec : inputSpec.path;
     const file = path.join(root, relativePath);
     if (!fs.existsSync(file)) throw new Error(`missing_input_pcd:${relativePath}`);
-    return {
+    const input = {
       path: relativePath,
       sha256: sha256File(file),
       bytes: fs.statSync(file).size
     };
+    if (typeof inputSpec === 'object' && inputSpec.route2ProjectionPath) {
+      const route2File = path.join(root, inputSpec.route2ProjectionPath);
+      if (!fs.existsSync(route2File)) throw new Error(`missing_route2_projection_pcd:${inputSpec.route2ProjectionPath}`);
+      input.route2Projection = {
+        path: inputSpec.route2ProjectionPath,
+        sha256: sha256File(route2File),
+        bytes: fs.statSync(route2File).size,
+        projectionOf: relativePath,
+      };
+    }
+    return input;
   });
 }
 
@@ -199,15 +214,19 @@ function directRoute2Materialization(inputs, expectedContext, remoteRefs) {
   fs.mkdirSync(path.join(localInput, 'technical-sheets'), { recursive: true });
 
   const units = inputs.map((input) => {
-    const source = path.join(root, input.path);
+    const route2Projection = input.route2Projection || null;
+    const sourcePathForCompile = route2Projection?.path || input.path;
+    const sourceHashForCompile = route2Projection?.sha256 || input.sha256;
+    const source = path.join(root, sourcePathForCompile);
     const id = input.path.replace(/\.pcd$/, '').replace(/[^A-Za-z0-9]+/g, '_');
     const pcdDest = path.join(localInput, 'pcd', `${id}.pcd`);
     const sheetDest = path.join(localInput, 'technical-sheets', `${id}.json`);
     fs.copyFileSync(source, pcdDest);
-    writeJson(sheetDest, technicalSheet(input.sha256, input.path));
+    writeJson(sheetDest, technicalSheet(sourceHashForCompile, sourcePathForCompile));
     return {
       id,
       sourcePath: input.path,
+      route2Projection,
       pcd: path.relative(localInput, pcdDest),
       sheet: path.relative(localInput, sheetDest),
     };

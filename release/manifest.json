@@ -1,29 +1,29 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15.6",
-  "version": "0.1.0-beta.15.6",
+  "releaseId": "brik64-0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7",
   "channel": "beta",
-  "state": "public",
-  "createdAt": "2026-06-16T21:18:32.786Z",
+  "state": "draft",
+  "createdAt": "2026-06-17T11:15:14.514Z",
   "source": {
     "repo": "brik64/brik64-cli",
-    "branch": "main",
-    "commit": "4ed58a0d06ff8c68861b4224446f2209fed353aa",
-    "pullRequest": 193,
-    "commitBinding": "public_release_base_commit"
+    "branch": "codex/beta15-7-semantic-release",
+    "commit": "493b7cc0036e781219bba7a9d7cc14b8c7a1fd63",
+    "pullRequest": 200,
+    "commitBinding": "candidate_commit_before_final_release"
   },
   "cli": {
     "packageName": "@brik64/cli",
     "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
-    "verifyCommand": "brik64 --version",
+    "verifyCommand": "brik64 --version && brik64 engine status --json",
     "package": {
-      "name": "brik64-cli-0.1.0-beta.15.6.tgz",
-      "path": "evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz",
-      "sha256": "e2c714bbd2535e9006583415b488c50158b4f1e53998d7c391b28945caf4bbaf",
-      "size_bytes": 609348,
-      "bytes": 609348,
-      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.6/brik64-cli-0.1.0-beta.15.6.tgz",
-      "sizeBytes": 609348
+      "name": "brik64-cli-0.1.0-beta.15.7.tgz",
+      "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
+      "sha256": "b5c3976d5ef55015cc2c96393b22490e3b5488dd7ffd88189b357b0ecdc4f1b3",
+      "size_bytes": 633412,
+      "bytes": 633412,
+      "url": "https://github.com/brik64/brik64-cli/releases/download/v0.1.0-beta.15.7/brik64-cli-0.1.0-beta.15.7.tgz",
+      "sizeBytes": 633412
     },
     "claimBoundary": {
       "publicClaimsAllowed": false,
@@ -34,25 +34,25 @@
       "n5FormalClaimAllowed": false,
       "rustIndependenceClaimAllowed": false
     },
-    "packageManifestSha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5"
+    "packageManifestSha256": "c1d12a99b92bbb275b0f3791aa5c2af550d9ac484ece6737a27f6c106aaf9281"
   },
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.15.6",
+      "version": "0.1.0-beta.15.7",
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b15.post6",
+      "version": "0.1.0b15.post7",
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.15.6",
+      "version": "0.1.0-beta.15.7",
       "publication": "pending_release_train_publish"
     }
   ],
@@ -60,7 +60,7 @@
     "githubRelease": {
       "required": true,
       "status": "pending_release_train_publish",
-      "tag": "v0.1.0-beta.15.6"
+      "tag": "v0.1.0-beta.15.7"
     },
     "curlInstaller": {
       "required": true,
@@ -91,75 +91,90 @@
   "verification": {
     "requiredEvidence": [
       {
-        "id": "beta15_6_rust_f64_command_lift",
-        "path": "evidence/beta15_6-rust-f64-command-lift/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_RUST_F64_COMMAND_LIFT_GATE"
+        "id": "beta15_7_semantic_correctness",
+        "path": "evidence/beta15_7-semantic-correctness/gate-report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_7_SEMANTIC_CORRECTNESS_GATE"
       },
       {
-        "id": "beta15_6_pre_public_rc",
-        "path": "evidence/beta15_6-pre-public-rc/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_PRE_PUBLIC_RC_GATE"
+        "id": "beta15_7_rust_f64_command_lift",
+        "path": "evidence/beta15_7-rust-f64-command-lift/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_7_RUST_F64_COMMAND_LIFT_GATE"
       },
       {
-        "id": "beta15_6_package",
-        "path": "evidence/beta15_6-package/package.manifest.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_BUILT"
+        "id": "beta15_7_pre_public_rc",
+        "path": "evidence/beta15_7-pre-public-rc/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_7_PRE_PUBLIC_RC_GATE"
       },
       {
-        "id": "beta15_6_package_smoke",
-        "path": "evidence/beta15_6-package-smoke/report.json",
-        "decision": "PASS_BRIK64_CLI_BETA15_6_PACKAGE_SMOKE"
+        "id": "beta15_7_l6_generation",
+        "path": "evidence/beta15_7-l6-generation/gate-report.json",
+        "decision": "PASS_BETA15_7_L6_GENERATION_GATE"
+      },
+      {
+        "id": "beta15_7_package",
+        "path": "evidence/beta15_7-package/package.manifest.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_BUILT"
+      },
+      {
+        "id": "beta15_7_package_smoke",
+        "path": "evidence/beta15_7-package-smoke/report.json",
+        "decision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_SMOKE"
       }
     ]
   },
   "githubReleaseDraft": {
-    "tagName": "v0.1.0-beta.15.6",
-    "targetCommitish": "4ed58a0d06ff8c68861b4224446f2209fed353aa",
-    "isDraft": false,
+    "tagName": "v0.1.0-beta.15.7",
+    "targetCommitish": "493b7cc0036e781219bba7a9d7cc14b8c7a1fd63",
+    "isDraft": true,
     "isPrerelease": true,
     "assets": [
       {
-        "name": "brik64-cli-0.1.0-beta.15.6.tgz",
-        "sha256": "68e126b4a43ca48aa3ee43c05417a53341f7ebef72a198bc70a586f9ff65a72f",
-        "size_bytes": 608324
+        "name": "brik64-cli-0.1.0-beta.15.7.tgz",
+        "sha256": "b5c3976d5ef55015cc2c96393b22490e3b5488dd7ffd88189b357b0ecdc4f1b3",
+        "size_bytes": 633412
       },
       {
         "name": "SHA256SUMS",
-        "sha256": "f118e7e174427db948e8b072fb120da6c511b98a966419466792873fdf312982",
+        "sha256": "9ddb0b106e4101c9d6022da017f07b2e546a737f229f46ed6a54eec46c1cb334",
         "size_bytes": 271
       },
       {
         "name": "package.manifest.json",
-        "sha256": "50f3222ae97475e9ff5a9e2e044e9545923173ce9d631cd0ad6f1b4266b47ec5",
+        "sha256": "c1d12a99b92bbb275b0f3791aa5c2af550d9ac484ece6737a27f6c106aaf9281",
         "size_bytes": 1740
       }
     ],
-    "targetCommitishBinding": "github_verified_squash_commit"
+    "targetCommitishBinding": "candidate_commit_before_final_release"
   },
   "releaseNotes": [
     {
       "type": "fixed",
       "surface": "cli",
-      "text": "The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests."
+      "text": "Certification now rejects return type mismatches, implicit numeric coercions, missing PCD headers, reserved identifiers, and non-exhaustive return paths."
     },
     {
       "type": "fixed",
-      "surface": "cli",
-      "text": "Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches."
-    },
-    {
-      "type": "added",
-      "surface": "cli",
-      "text": "Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression."
+      "surface": "emit",
+      "text": "TypeScript and Python generated code now use deterministic integer division helpers for integer return types, matching Rust golden vectors."
     },
     {
       "type": "changed",
-      "surface": "cli",
-      "text": "Engine status reports the offline beta runtime profile used by the local CLI."
+      "surface": "lift",
+      "text": "Lift previews now fail closed or report warning codes when numeric precision or unsupported constructs would lose semantics."
+    },
+    {
+      "type": "changed",
+      "surface": "format",
+      "text": "PCD files generated by templates and migrations use the brik64.pcd_file.v1 header contract."
+    },
+    {
+      "type": "verified",
+      "surface": "engine",
+      "text": "The installable CLI package includes the offline L4+N5 runtime bundle and Beta15.7 L6 generation evidence under public claim boundaries."
     }
   ],
-  "generatedAt": "2026-06-16T22:00:09.354Z",
+  "generatedAt": "2026-06-17T11:15:14.514Z",
   "metadata": {
-    "updatedAt": "2026-06-16T22:59:33.314Z"
+    "updatedAt": "2026-06-17T11:15:14.514Z"
   }
 }

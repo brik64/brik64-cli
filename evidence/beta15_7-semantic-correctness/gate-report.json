@@ -3,7 +3,7 @@
   "version": "0.1.0-beta.15.7",
   "decision": "PASS_BRIK64_CLI_BETA15_7_SEMANTIC_CORRECTNESS_GATE",
   "evidenceLevel": "NIVEL 3",
-  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
   "checked": [
     "strict_return_type_mismatch",
     "implicit_numeric_coercion_rejected",
@@ -24,9 +24,9 @@
         "/private/tmp/brik64-cli-beta15.7/src/brik.js",
         "--version"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 90,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7\nstatus=public_beta\n",
       "stderr": ""
     },
@@ -37,9 +37,9 @@
         "/private/tmp/brik64-cli-beta15.7/src/brik.js",
         "init"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 88,
       "stdout": "created=.brik/manifest.json\n",
       "stderr": ""
     },
@@ -51,9 +51,9 @@
         "certify",
         "invalid/type_mismatch_return.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 65,
-      "elapsedMs": 79,
+      "elapsedMs": 90,
       "stdout": "",
       "stderr": "pcd_parse_error:return_type_mismatch:f64_to_i64\n"
     },
@@ -65,9 +65,9 @@
         "certify",
         "invalid/i64_f64_coercion.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 65,
-      "elapsedMs": 77,
+      "elapsedMs": 84,
       "stdout": "",
       "stderr": "pcd_parse_error:numeric_literal_type_mismatch:i64_+_f64\n"
     },
@@ -79,9 +79,9 @@
         "certify",
         "invalid/missing_return_path.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 65,
-      "elapsedMs": 73,
+      "elapsedMs": 86,
       "stdout": "",
       "stderr": "pcd_parse_error:non_exhaustive_return:missing_return_path\n"
     },
@@ -93,9 +93,9 @@
         "certify",
         "invalid/reserved_fn_if.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 65,
-      "elapsedMs": 75,
+      "elapsedMs": 78,
       "stdout": "",
       "stderr": "pcd_parse_error:reserved_identifier:function:if\n"
     },
@@ -107,9 +107,9 @@
         "certify",
         "invalid/missing_header.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 65,
-      "elapsedMs": 77,
+      "elapsedMs": 80,
       "stdout": "",
       "stderr": "pcd_parse_error:missing_pcd_header; run `brik64 migrate <file> --write`\n"
     },
@@ -121,9 +121,9 @@
         "certify",
         "valid/i64_division_guarded.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 88,
       "stdout": "certificate=valid/i64_division_guarded.pcd.cert.json\n",
       "stderr": ""
     },
@@ -135,9 +135,9 @@
         "verify",
         "valid/i64_division_guarded.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 87,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=c36c8b3fa6cf104102e9d600e48947fc5634665c445a6025ffd674d1de1bb3f8\nclaim=local_candidate_only\n",
       "stderr": ""
     },
@@ -149,9 +149,9 @@
         "certify",
         "valid/f64_division_guarded.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 90,
       "stdout": "certificate=valid/f64_division_guarded.pcd.cert.json\n",
       "stderr": ""
     },
@@ -163,9 +163,9 @@
         "verify",
         "valid/f64_division_guarded.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 99,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=fc77ed948b3a0f4ed5457cf7da8df03c198ffca904624d3464d912adce9d6c6c\nclaim=local_candidate_only\n",
       "stderr": ""
     },
@@ -182,9 +182,9 @@
         "out/i64-ts",
         "--tests"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 124,
       "stdout": "generated=out/i64-ts/program.mjs\ntests=out/i64-ts/program.test.mjs\n",
       "stderr": ""
     },
@@ -194,9 +194,9 @@
         "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
         "program.test.mjs"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR/out/i64-ts",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp/out/i64-ts",
       "status": 0,
-      "elapsedMs": 62,
+      "elapsedMs": 83,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
@@ -213,9 +213,9 @@
         "out/f64-ts",
         "--tests"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 104,
       "stdout": "generated=out/f64-ts/program.mjs\ntests=out/f64-ts/program.test.mjs\n",
       "stderr": ""
     },
@@ -225,9 +225,9 @@
         "/opt/homebrew/Cellar/node/25.9.0_3/bin/node",
         "program.test.mjs"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR/out/f64-ts",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp/out/f64-ts",
       "status": 0,
-      "elapsedMs": 67,
+      "elapsedMs": 86,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
@@ -244,9 +244,9 @@
         "out/i64-python",
         "--tests"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 84,
+      "elapsedMs": 99,
       "stdout": "generated=out/i64-python/brik64_generated_i64_division_guarded/program.py\ntests=out/i64-python/tests/test_i64_division_guarded.py\n",
       "stderr": ""
     },
@@ -258,9 +258,9 @@
         "pytest",
         "-q"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR/out/i64-python",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp/out/i64-python",
       "status": 0,
-      "elapsedMs": 255,
+      "elapsedMs": 288,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
@@ -277,9 +277,9 @@
         "out/f64-python",
         "--tests"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 91,
+      "elapsedMs": 106,
       "stdout": "generated=out/f64-python/brik64_generated_f64_division_guarded/program.py\ntests=out/f64-python/tests/test_f64_division_guarded.py\n",
       "stderr": ""
     },
@@ -291,9 +291,9 @@
         "pytest",
         "-q"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR/out/f64-python",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp/out/f64-python",
       "status": 0,
-      "elapsedMs": 304,
+      "elapsedMs": 276,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
@@ -310,9 +310,9 @@
         "out/i64-rust",
         "--tests"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 83,
+      "elapsedMs": 117,
       "stdout": "generated=out/i64-rust/program.rs\ntests=out/i64-rust/program_test.rs\n",
       "stderr": ""
     },
@@ -323,9 +323,9 @@
         "test",
         "--quiet"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR/out/i64-rust",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp/out/i64-rust",
       "status": 0,
-      "elapsedMs": 574,
+      "elapsedMs": 1334,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
@@ -342,9 +342,9 @@
         "out/f64-rust",
         "--tests"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 91,
+      "elapsedMs": 104,
       "stdout": "generated=out/f64-rust/program.rs\ntests=out/f64-rust/program_test.rs\n",
       "stderr": ""
     },
@@ -355,9 +355,9 @@
         "test",
         "--quiet"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR/out/f64-rust",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp/out/f64-rust",
       "status": 0,
-      "elapsedMs": 542,
+      "elapsedMs": 679,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
@@ -371,9 +371,9 @@
         "--dry-run",
         "--json"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 87,
+      "elapsedMs": 84,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_pcd_migration_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"source\": \"legacy/no_header_lowercase.pcd\",\n  \"output\": \"legacy/no_header_lowercase.pcd\",\n  \"dryRun\": true,\n  \"detectedSyntax\": \"legacy_lowercase_pc\",\n  \"old_sha256\": \"71956251deeca1f5c16285d5e560116bb246a7228395300aa44a162a6bae4c0c\",\n  \"new_sha256\": \"3077e7465991ec2d9a8b26ab792fa942148ee3b60bbed63f341ebf74b731bbc0\"\n}\n",
       "stderr": ""
     },
@@ -386,7 +386,7 @@
         "legacy/no_header_lowercase.pcd",
         "--write"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
       "elapsedMs": 76,
       "stdout": "migrated=legacy/no_header_lowercase.pcd\nold_sha256=71956251deeca1f5c16285d5e560116bb246a7228395300aa44a162a6bae4c0c\nnew_sha256=3077e7465991ec2d9a8b26ab792fa942148ee3b60bbed63f341ebf74b731bbc0\n",
@@ -400,7 +400,7 @@
         "certify",
         "legacy/no_header_lowercase.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
       "elapsedMs": 78,
       "stdout": "certificate=legacy/no_header_lowercase.pcd.cert.json\n",
@@ -414,9 +414,9 @@
         "verify",
         "legacy/no_header_lowercase.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 80,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=3077e7465991ec2d9a8b26ab792fa942148ee3b60bbed63f341ebf74b731bbc0\nclaim=local_candidate_only\n",
       "stderr": ""
     },
@@ -433,9 +433,9 @@
         ".brik/lift-preview/rust-ok",
         "--json"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 100,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"language\": \"rust\",\n  \"source\": {\n    \"pathHash\": \"5cecc4b01f11b99d5ae23c9a3a7a660ac516114f947c5a817d23a0f04fc5d9ce\",\n    \"sourceSha256\": \"fcb9973010e21a2d98386bff4187cd6ebbd1ab2e40464fd45cec2cbe500138c1\",\n    \"bytes\": 91,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 1,\n  \"warningCount\": 0,\n  \"candidates\": [\n    {\n      \"function\": \"temp_guard\",\n      \"file\": \"candidates/temp_guard.pcd\",\n      \"semantic_pcd_sha256\": \"7d4ea5d079355367c0603d19877da8481ace4b9fcdaa8d3c51b0339acc679497\",\n      \"translationStatus\": \"best_effort_simple_body\",\n      \"semanticCoveragePercent\": 100,\n      \"certificationEligible\": true,\n      \"warningCodes\": []\n    }\n  ],\n  \"semanticCoveragePercent\": 100,\n  \"certificationEligibleCandidateCount\": 1,\n  \"warningCodes\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
@@ -447,9 +447,9 @@
         "certify",
         ".brik/lift-preview/rust-ok/candidates/temp_guard.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 82,
       "stdout": "certificate=.brik/lift-preview/rust-ok/candidates/temp_guard.pcd.cert.json\n",
       "stderr": ""
     },
@@ -461,9 +461,9 @@
         "verify",
         ".brik/lift-preview/rust-ok/candidates/temp_guard.pcd"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 79,
       "stdout": "verification=PASS\nmode=local\npcd_sha256=7d4ea5d079355367c0603d19877da8481ace4b9fcdaa8d3c51b0339acc679497\nclaim=local_candidate_only\n",
       "stderr": ""
     },
@@ -480,9 +480,9 @@
         ".brik/lift-preview/rust-f64",
         "--json"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 82,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"language\": \"rust\",\n  \"source\": {\n    \"pathHash\": \"b25106f2eec1efce2feccc4fae29ef213cf5c7a8763ce26565976316adf74da7\",\n    \"sourceSha256\": \"658b003d375e7525e1c10b7900cf1fe78e702250fa4db2a385a86d1c286dcfad\",\n    \"bytes\": 93,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 0,\n  \"warningCount\": 2,\n  \"candidates\": [],\n  \"semanticCoveragePercent\": 0,\n  \"certificationEligibleCandidateCount\": 0,\n  \"warningCodes\": [\n    \"lift_float_precision_narrowed\",\n    \"numeric_literal_type_mismatch\"\n  ],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
@@ -495,7 +495,7 @@
         "status",
         "--json"
       ],
-      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-2qBarR",
+      "cwd": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-semantic-wCcyGp",
       "status": 0,
       "elapsedMs": 80,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_engine_status_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7\",\n  \"status\": \"PASS\",\n  \"localRuntime\": \"available\",\n  \"runtimeProfile\": \"l4plus_n5_local\",\n  \"engine\": \"L4+N5\",\n  \"serial\": \"BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4\",\n  \"nativeExecutableIncluded\": false,\n  \"artifactCount\": 22,\n  \"releaseEligible\": true,\n  \"claimBoundary\": {\n    \"publicClaimsAllowed\": false,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"platformCertificationAllowed\": false\n  },\n  \"limitations\": [\n    \"local L4+N5 beta runtime profile\",\n    \"managed platform execution is not used unless explicitly authenticated\"\n  ]\n}\n",

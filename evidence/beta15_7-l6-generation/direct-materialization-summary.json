@@ -1,11 +1,13 @@
 {
-  "failures": 8,
+  "failures": 0,
   "units": [
     {
       "id": "pcd_beta15_7_release_l6_cli_materialization_contract",
       "sourcePath": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
+        "l6_cli_materialization_contract.cert.json",
+        "l6_cli_materialization_contract.js",
         "rc.txt",
         "stderr.txt",
         "stdout.txt"
@@ -14,8 +16,10 @@
     {
       "id": "pcd_beta15_7_release_l6_cli_materialization_result_contract",
       "sourcePath": "pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
+        "l6_cli_materialization_result_contract.cert.json",
+        "l6_cli_materialization_result_contract.js",
         "rc.txt",
         "stderr.txt",
         "stdout.txt"
@@ -24,9 +28,11 @@
     {
       "id": "pcd_beta15_7_cli_rust_f64_polymer_codegen",
       "sourcePath": "pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
         "rc.txt",
+        "rust_f64_polymer_codegen.cert.json",
+        "rust_f64_polymer_codegen.js",
         "stderr.txt",
         "stdout.txt"
       ]
@@ -34,8 +40,10 @@
     {
       "id": "pcd_beta15_7_harness_lift_roundtrip_gate",
       "sourcePath": "pcd/beta15_7/harness/lift_roundtrip_gate.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
+        "lift_roundtrip_gate.cert.json",
+        "lift_roundtrip_gate.js",
         "rc.txt",
         "stderr.txt",
         "stdout.txt"
@@ -44,9 +52,11 @@
     {
       "id": "pcd_beta15_7_harness_semantic_correctness_gate",
       "sourcePath": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
         "rc.txt",
+        "semantic_correctness_gate.cert.json",
+        "semantic_correctness_gate.js",
         "stderr.txt",
         "stdout.txt"
       ]
@@ -54,8 +64,10 @@
     {
       "id": "pcd_beta15_7_release_public_surface_sync",
       "sourcePath": "pcd/beta15_7/release/public_surface_sync.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
+        "public_surface_sync.cert.json",
+        "public_surface_sync.js",
         "rc.txt",
         "stderr.txt",
         "stdout.txt"
@@ -64,8 +76,10 @@
     {
       "id": "pcd_cli_core",
       "sourcePath": "pcd/cli_core.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
+        "brik_cli_core.cert.json",
+        "brik_cli_core.js",
         "rc.txt",
         "stderr.txt",
         "stdout.txt"
@@ -74,8 +88,10 @@
     {
       "id": "pcd_cli_polymer",
       "sourcePath": "pcd/cli_polymer.pcd",
-      "rc": 65,
+      "rc": 0,
       "files": [
+        "brik_cli_polymer.cert.json",
+        "brik_cli_polymer.js",
         "rc.txt",
         "stderr.txt",
         "stdout.txt"

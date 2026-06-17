@@ -15,12 +15,14 @@
   "requiredResultLine": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\\t<base64-json>",
   "requiredResultSchema": "brik64.l6plus_cli_materialization_result.v1",
   "requiredResultVersion": "0.1.0-beta.15.7",
-  "pcdInputSetSha256": "24fde7a1d20d20917b7df4360aa0fd9cb65516488ec195c96f9f0657c5fc506d",
+  "pcdInputSetSha256": "9318bbff1f68e29b4b6fdf5296c60277eb06aae72a5fc48c153c768f38c973e4",
   "requiredInputPcdPaths": [
     "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
     "pcd/beta15_7/release/l6_cli_materialization_result_contract.pcd",
     "pcd/beta15_7/cli/rust_f64_polymer_codegen.pcd",
     "pcd/beta15_7/harness/lift_roundtrip_gate.pcd",
+    "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+    "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
     "pcd/beta15_7/release/public_surface_sync.pcd",
     "pcd/cli_core.pcd",
     "pcd/cli_polymer.pcd"
@@ -51,6 +53,18 @@
       "contentBase64": "Ly8gYnJpazY0LnBjZF9maWxlLnYxCi8vIGNsYWltX2JvdW5kYXJ5OiBhc3Npc3RlZF9nZW5lcmF0aW9uX25vbl9jbGFpbQpQQyBsaWZ0X3JvdW5kdHJpcF9nYXRlIHsKICAgIGRvbWFpbiBhdHRlbXB0ZWRfbW9kdWxlczogaTY0IFswLCAxMDI0XTsKICAgIGRvbWFpbiBsaWZ0X2NhbmRpZGF0ZXM6IGk2NCBbMCwgNDA5Nl07CiAgICBkb21haW4gY2VydGlmaWVkX2xpZnRlZF9wY2RzOiBpNjQgWzAsIDQwOTZdOwogICAgZG9tYWluIHNlbWFudGljX3JvdW5kdHJpcF9wYXNzOiBpNjQgWzAsIDQwOTZdOwogICAgZm4gbGlmdF9yb3VuZHRyaXBfZ2F0ZShhdHRlbXB0ZWRfbW9kdWxlcywgbGlmdF9jYW5kaWRhdGVzLCBjZXJ0aWZpZWRfbGlmdGVkX3BjZHMsIHNlbWFudGljX3JvdW5kdHJpcF9wYXNzKSAtPiBpNjQgewogICAgICAgIGlmIChhdHRlbXB0ZWRfbW9kdWxlcyA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGxpZnRfY2FuZGlkYXRlcyA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGNlcnRpZmllZF9saWZ0ZWRfcGNkcyA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKHNlbWFudGljX3JvdW5kdHJpcF9wYXNzID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICByZXR1cm4gMTsKICAgIH0KfQo="
     },
     {
+      "path": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+      "sha256": "56721c02bc27d3dfd0740a52e131ce5ea6787a80aab9dc78e057473f9d14099d",
+      "bytes": 619,
+      "contentBase64": "Ly8gYnJpazY0LnBjZF9maWxlLnYxCi8vIGNsYWltX2JvdW5kYXJ5OiBsb2NhbF9jYW5kaWRhdGVfb25seQpQQyBzZW1hbnRpY19jb3JyZWN0bmVzc19nYXRlIHsKICAgIGRvbWFpbiB0c190YXJnZXRfcGFzczogaTY0IFswLCAxXTsKICAgIGRvbWFpbiBweXRob25fdGFyZ2V0X3Bhc3M6IGk2NCBbMCwgMV07CiAgICBkb21haW4gcnVzdF90YXJnZXRfcGFzczogaTY0IFswLCAxXTsKICAgIGRvbWFpbiBhZHZlcnNhcmlhbF9mYWlsX2Nsb3NlZDogaTY0IFswLCAxXTsKCiAgICBmbiBzZW1hbnRpY19jb3JyZWN0bmVzc19nYXRlKHRzX3RhcmdldF9wYXNzOiBpNjQsIHB5dGhvbl90YXJnZXRfcGFzczogaTY0LCBydXN0X3RhcmdldF9wYXNzOiBpNjQsIGFkdmVyc2FyaWFsX2ZhaWxfY2xvc2VkOiBpNjQpIC0+IGk2NCB7CiAgICAgICAgaWYgKHRzX3RhcmdldF9wYXNzID09IDApIHJldHVybiAwOwogICAgICAgIGlmIChweXRob25fdGFyZ2V0X3Bhc3MgPT0gMCkgcmV0dXJuIDA7CiAgICAgICAgaWYgKHJ1c3RfdGFyZ2V0X3Bhc3MgPT0gMCkgcmV0dXJuIDA7CiAgICAgICAgaWYgKGFkdmVyc2FyaWFsX2ZhaWxfY2xvc2VkID09IDApIHJldHVybiAwOwogICAgICAgIHJldHVybiAxOwogICAgfQp9Cg=="
+    },
+    {
+      "path": "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
+      "sha256": "50a04724a663894cd87aa56568d7ce60818f8ff17b7df5e40d84c59bc769a14f",
+      "bytes": 605,
+      "contentBase64": "Ly8gYnJpazY0LnBjZF9maWxlLnYxCi8vIGNsYWltX2JvdW5kYXJ5OiBsb2NhbF9jYW5kaWRhdGVfb25seQovLyByb3V0ZTJfcHJvamVjdGlvbl9vZjogcGNkL2JldGExNV83L2hhcm5lc3Mvc2VtYW50aWNfY29ycmVjdG5lc3NfZ2F0ZS5wY2QKLy8gcm91dGUyX3Byb2plY3Rpb25fcmVhc29uOiBjdXJyZW50IEw2IHJvdXRlMiBib3VuZGVkIGNvbXBpbGVyIHJlamVjdHMgZG9tYWluIGRlY2xhcmF0aW9ucy4KUEMgc2VtYW50aWNfY29ycmVjdG5lc3NfZ2F0ZSB7CiAgICBmbiBzZW1hbnRpY19jb3JyZWN0bmVzc19nYXRlKHRzX3RhcmdldF9wYXNzLCBweXRob25fdGFyZ2V0X3Bhc3MsIHJ1c3RfdGFyZ2V0X3Bhc3MsIGFkdmVyc2FyaWFsX2ZhaWxfY2xvc2VkKSB7CiAgICAgICAgaWYgKHRzX3RhcmdldF9wYXNzID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAocHl0aG9uX3RhcmdldF9wYXNzID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAocnVzdF90YXJnZXRfcGFzcyA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGFkdmVyc2FyaWFsX2ZhaWxfY2xvc2VkID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICByZXR1cm4gMTsKICAgIH0KfQo="
+    },
+    {
       "path": "pcd/beta15_7/release/public_surface_sync.pcd",
       "sha256": "275ae6f7ac98e0491ecd7b67d554e395ecc4fcb91ead2890aac48312412d6a35",
       "bytes": 638,
@@ -78,8 +92,8 @@
   "outputArtifacts": {
     "package": {
       "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
-      "sha256": "cf486ed2203be786bbb0e5fb4cbdeceae701c623184116c5ffe6cbefe8a82652",
-      "bytes": 640580
+      "sha256": "b5c3976d5ef55015cc2c96393b22490e3b5488dd7ffd88189b357b0ecdc4f1b3",
+      "bytes": 633412
     },
     "releaseManifest": {
       "path": "release/manifest.json",

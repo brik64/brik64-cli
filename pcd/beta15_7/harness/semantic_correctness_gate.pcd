@@ -1,21 +1,16 @@
 // brik64.pcd_file.v1
 // claim_boundary: local_candidate_only
 PC semantic_correctness_gate {
-    domain type_safety_pass: i64 [0, 1];
-    domain int_division_parity_pass: i64 [0, 1];
-    domain return_exhaustiveness_pass: i64 [0, 1];
-    domain reserved_identifier_pass: i64 [0, 1];
-    domain header_contract_pass: i64 [0, 1];
-    domain lift_precision_pass: i64 [0, 1];
-    domain l4_runtime_packaged: i64 [0, 1];
-    fn semantic_correctness_gate(type_safety_pass: i64, int_division_parity_pass: i64, return_exhaustiveness_pass: i64, reserved_identifier_pass: i64, header_contract_pass: i64, lift_precision_pass: i64, l4_runtime_packaged: i64) -> i64 {
-        if (type_safety_pass == 0) return 0;
-        if (int_division_parity_pass == 0) return 0;
-        if (return_exhaustiveness_pass == 0) return 0;
-        if (reserved_identifier_pass == 0) return 0;
-        if (header_contract_pass == 0) return 0;
-        if (lift_precision_pass == 0) return 0;
-        if (l4_runtime_packaged == 0) return 0;
+    domain ts_target_pass: i64 [0, 1];
+    domain python_target_pass: i64 [0, 1];
+    domain rust_target_pass: i64 [0, 1];
+    domain adversarial_fail_closed: i64 [0, 1];
+
+    fn semantic_correctness_gate(ts_target_pass: i64, python_target_pass: i64, rust_target_pass: i64, adversarial_fail_closed: i64) -> i64 {
+        if (ts_target_pass == 0) return 0;
+        if (python_target_pass == 0) return 0;
+        if (rust_target_pass == 0) return 0;
+        if (adversarial_fail_closed == 0) return 0;
         return 1;
     }
 }

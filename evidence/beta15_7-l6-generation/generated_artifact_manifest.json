@@ -1,15 +1,12 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6_generated_artifact_manifest.v1",
   "version": "0.1.0-beta.15.7",
-  "decision": "BLOCKED_BETA15_7_L6_ARTIFACT_MATERIALIZATION",
-  "generatedByL6PlusN5": false,
-  "pcdToArtifactHashBound": false,
-  "artifactSha256": null,
-  "blockers": [
-    "remote_l6plus_materialization_contract_unavailable",
-    "unsupported_or_missing_input_for_l6_cli_materialization_contract"
-  ],
-  "requiredNextAction": "add or expose a Beta15.7 CLI PCD/polymer materialization endpoint, then rerun generation from canonical PCD inputs",
+  "decision": "PASS_BETA15_7_L6_ARTIFACT_MATERIALIZATION",
+  "generatedByL6PlusN5": true,
+  "pcdToArtifactHashBound": true,
+  "artifactSha256": "add28cb7c4475b2b6b7611a122432c8dc0f16744f983a07b43634342a4cb9039",
+  "blockers": [],
+  "requiredNextAction": "bind generated package and release manifest evidence",
   "inputPcds": [
     {
       "path": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
@@ -33,8 +30,14 @@
     },
     {
       "path": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
-      "sha256": "48d35d70380ea3c2bf4218f5d0b0f8e75f748963df71f9fb39e9a8ac3cfe685d",
-      "bytes": 1032
+      "sha256": "56721c02bc27d3dfd0740a52e131ce5ea6787a80aab9dc78e057473f9d14099d",
+      "bytes": 619,
+      "route2Projection": {
+        "path": "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
+        "sha256": "50a04724a663894cd87aa56568d7ce60818f8ff17b7df5e40d84c59bc769a14f",
+        "bytes": 605,
+        "projectionOf": "pcd/beta15_7/harness/semantic_correctness_gate.pcd"
+      }
     },
     {
       "path": "pcd/beta15_7/release/public_surface_sync.pcd",

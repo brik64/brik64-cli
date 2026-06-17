@@ -4,15 +4,15 @@
   "decision": "PASS_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE",
   "request": {
     "path": "evidence/beta15_7-l6-materializer-request/request.json",
-    "sha256": "1a392aa5b6c55203534a0904fa431b94a34b287ac6e26940a9b7d1f8e95389a3",
-    "bytes": 13543
+    "sha256": "c0a07830811567925b2989673d7437dd6cb3a567d4ab085729760504c0d0da17",
+    "bytes": 15731
   },
   "requestLine": {
     "path": "evidence/beta15_7-l6-materializer-request/request.line",
-    "sha256": "89a8db5a7fe21cea00a2544ac8efd77850a6808d4d6557d79b08e95dde32b0bf",
-    "bytes": 17323
+    "sha256": "509a371ebb1a7a89ec5f05a61407a6980496dea52e121a4aba5275ca5d369eea",
+    "bytes": 20115
   },
-  "pcdInputSetSha256": "24fde7a1d20d20917b7df4360aa0fd9cb65516488ec195c96f9f0657c5fc506d",
+  "pcdInputSetSha256": "9318bbff1f68e29b4b6fdf5296c60277eb06aae72a5fc48c153c768f38c973e4",
   "inputPcds": [
     {
       "path": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
@@ -33,6 +33,16 @@
       "path": "pcd/beta15_7/harness/lift_roundtrip_gate.pcd",
       "sha256": "8d34a80582a103db4ab502a5f122f9eeb15235cb414b55bcd1562149355a4538",
       "bytes": 638
+    },
+    {
+      "path": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
+      "sha256": "56721c02bc27d3dfd0740a52e131ce5ea6787a80aab9dc78e057473f9d14099d",
+      "bytes": 619
+    },
+    {
+      "path": "pcd/beta15_7/harness/route2_semantic_correctness_gate.pcd",
+      "sha256": "50a04724a663894cd87aa56568d7ce60818f8ff17b7df5e40d84c59bc769a14f",
+      "bytes": 605
     },
     {
       "path": "pcd/beta15_7/release/public_surface_sync.pcd",

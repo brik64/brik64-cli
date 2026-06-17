@@ -2,14 +2,14 @@
   "schemaVersion": "brik64.cli_local_candidate_certificate.v1",
   "cliVersion": "0.1.0-beta.15.7",
   "pcd": "pcd/beta15_7/harness/semantic_correctness_gate.pcd",
-  "semantic_pcd_sha256": "48d35d70380ea3c2bf4218f5d0b0f8e75f748963df71f9fb39e9a8ac3cfe685d",
-  "ast_sha256": "a9a61dbed8e1450ac4f47ce054367b9ec2343d507ab98d28444b2b6fbac89e05",
-  "domain_contract_sha256": "e0164c82e34531081b09dcecbbe461c07856cd28e078c92f2c2b280753fc6edf",
+  "semantic_pcd_sha256": "56721c02bc27d3dfd0740a52e131ce5ea6787a80aab9dc78e057473f9d14099d",
+  "ast_sha256": "740161441a75f8c78887443a4417901a777c7edcba0352982573d1369b99fdc1",
+  "domain_contract_sha256": "301dc512a87c01251e5507f5d70ca120b0c8a8a72115080c0a50b8045c7c23d1",
   "domainContract": {
     "schemaVersion": "brik64.cli_domain_contract.v1",
     "domains": [
       {
-        "name": "type_safety_pass",
+        "name": "ts_target_pass",
         "type": "i64",
         "min": {
           "kind": "literal",
@@ -21,7 +21,7 @@
         }
       },
       {
-        "name": "int_division_parity_pass",
+        "name": "python_target_pass",
         "type": "i64",
         "min": {
           "kind": "literal",
@@ -33,7 +33,7 @@
         }
       },
       {
-        "name": "return_exhaustiveness_pass",
+        "name": "rust_target_pass",
         "type": "i64",
         "min": {
           "kind": "literal",
@@ -45,43 +45,7 @@
         }
       },
       {
-        "name": "reserved_identifier_pass",
-        "type": "i64",
-        "min": {
-          "kind": "literal",
-          "value": 0
-        },
-        "max": {
-          "kind": "literal",
-          "value": 1
-        }
-      },
-      {
-        "name": "header_contract_pass",
-        "type": "i64",
-        "min": {
-          "kind": "literal",
-          "value": 0
-        },
-        "max": {
-          "kind": "literal",
-          "value": 1
-        }
-      },
-      {
-        "name": "lift_precision_pass",
-        "type": "i64",
-        "min": {
-          "kind": "literal",
-          "value": 0
-        },
-        "max": {
-          "kind": "literal",
-          "value": 1
-        }
-      },
-      {
-        "name": "l4_runtime_packaged",
+        "name": "adversarial_fail_closed",
         "type": "i64",
         "min": {
           "kind": "literal",
@@ -98,37 +62,22 @@
     "conditionalDomains": [],
     "resolvedDomains": [
       {
-        "name": "type_safety_pass",
+        "name": "ts_target_pass",
         "minValue": 0,
         "maxValue": 1
       },
       {
-        "name": "int_division_parity_pass",
+        "name": "python_target_pass",
         "minValue": 0,
         "maxValue": 1
       },
       {
-        "name": "return_exhaustiveness_pass",
+        "name": "rust_target_pass",
         "minValue": 0,
         "maxValue": 1
       },
       {
-        "name": "reserved_identifier_pass",
-        "minValue": 0,
-        "maxValue": 1
-      },
-      {
-        "name": "header_contract_pass",
-        "minValue": 0,
-        "maxValue": 1
-      },
-      {
-        "name": "lift_precision_pass",
-        "minValue": 0,
-        "maxValue": 1
-      },
-      {
-        "name": "l4_runtime_packaged",
+        "name": "adversarial_fail_closed",
         "minValue": 0,
         "maxValue": 1
       }
@@ -138,29 +87,23 @@
     "unresolvedParams": [],
     "status": "complete",
     "claimBearingEligible": true,
-    "sha256": "e0164c82e34531081b09dcecbbe461c07856cd28e078c92f2c2b280753fc6edf"
+    "sha256": "301dc512a87c01251e5507f5d70ca120b0c8a8a72115080c0a50b8045c7c23d1"
   },
   "ast": {
     "schemaVersion": "brik64.cli_ast.v1",
     "pcName": "semantic_correctness_gate",
     "fnName": "semantic_correctness_gate",
     "params": [
-      "type_safety_pass",
-      "int_division_parity_pass",
-      "return_exhaustiveness_pass",
-      "reserved_identifier_pass",
-      "header_contract_pass",
-      "lift_precision_pass",
-      "l4_runtime_packaged"
+      "ts_target_pass",
+      "python_target_pass",
+      "rust_target_pass",
+      "adversarial_fail_closed"
     ],
     "paramTypes": {
-      "type_safety_pass": "i64",
-      "int_division_parity_pass": "i64",
-      "return_exhaustiveness_pass": "i64",
-      "reserved_identifier_pass": "i64",
-      "header_contract_pass": "i64",
-      "lift_precision_pass": "i64",
-      "l4_runtime_packaged": "i64"
+      "ts_target_pass": "i64",
+      "python_target_pass": "i64",
+      "rust_target_pass": "i64",
+      "adversarial_fail_closed": "i64"
     },
     "returnType": "i64",
     "imports": {},
@@ -170,7 +113,7 @@
       "schemaVersion": "brik64.cli_domain_contract.v1",
       "domains": [
         {
-          "name": "type_safety_pass",
+          "name": "ts_target_pass",
           "type": "i64",
           "min": {
             "kind": "literal",
@@ -182,7 +125,7 @@
           }
         },
         {
-          "name": "int_division_parity_pass",
+          "name": "python_target_pass",
           "type": "i64",
           "min": {
             "kind": "literal",
@@ -194,7 +137,7 @@
           }
         },
         {
-          "name": "return_exhaustiveness_pass",
+          "name": "rust_target_pass",
           "type": "i64",
           "min": {
             "kind": "literal",
@@ -206,43 +149,7 @@
           }
         },
         {
-          "name": "reserved_identifier_pass",
-          "type": "i64",
-          "min": {
-            "kind": "literal",
-            "value": 0
-          },
-          "max": {
-            "kind": "literal",
-            "value": 1
-          }
-        },
-        {
-          "name": "header_contract_pass",
-          "type": "i64",
-          "min": {
-            "kind": "literal",
-            "value": 0
-          },
-          "max": {
-            "kind": "literal",
-            "value": 1
-          }
-        },
-        {
-          "name": "lift_precision_pass",
-          "type": "i64",
-          "min": {
-            "kind": "literal",
-            "value": 0
-          },
-          "max": {
-            "kind": "literal",
-            "value": 1
-          }
-        },
-        {
-          "name": "l4_runtime_packaged",
+          "name": "adversarial_fail_closed",
           "type": "i64",
           "min": {
             "kind": "literal",
@@ -259,37 +166,22 @@
       "conditionalDomains": [],
       "resolvedDomains": [
         {
-          "name": "type_safety_pass",
+          "name": "ts_target_pass",
           "minValue": 0,
           "maxValue": 1
         },
         {
-          "name": "int_division_parity_pass",
+          "name": "python_target_pass",
           "minValue": 0,
           "maxValue": 1
         },
         {
-          "name": "return_exhaustiveness_pass",
+          "name": "rust_target_pass",
           "minValue": 0,
           "maxValue": 1
         },
         {
-          "name": "reserved_identifier_pass",
-          "minValue": 0,
-          "maxValue": 1
-        },
-        {
-          "name": "header_contract_pass",
-          "minValue": 0,
-          "maxValue": 1
-        },
-        {
-          "name": "lift_precision_pass",
-          "minValue": 0,
-          "maxValue": 1
-        },
-        {
-          "name": "l4_runtime_packaged",
+          "name": "adversarial_fail_closed",
           "minValue": 0,
           "maxValue": 1
         }
@@ -299,29 +191,23 @@
       "unresolvedParams": [],
       "status": "complete",
       "claimBearingEligible": true,
-      "sha256": "e0164c82e34531081b09dcecbbe461c07856cd28e078c92f2c2b280753fc6edf"
+      "sha256": "301dc512a87c01251e5507f5d70ca120b0c8a8a72115080c0a50b8045c7c23d1"
     },
     "boundaryContracts": [],
     "functions": {
       "semantic_correctness_gate": {
         "name": "semantic_correctness_gate",
         "params": [
-          "type_safety_pass",
-          "int_division_parity_pass",
-          "return_exhaustiveness_pass",
-          "reserved_identifier_pass",
-          "header_contract_pass",
-          "lift_precision_pass",
-          "l4_runtime_packaged"
+          "ts_target_pass",
+          "python_target_pass",
+          "rust_target_pass",
+          "adversarial_fail_closed"
         ],
         "paramTypes": {
-          "type_safety_pass": "i64",
-          "int_division_parity_pass": "i64",
-          "return_exhaustiveness_pass": "i64",
-          "reserved_identifier_pass": "i64",
-          "header_contract_pass": "i64",
-          "lift_precision_pass": "i64",
-          "l4_runtime_packaged": "i64"
+          "ts_target_pass": "i64",
+          "python_target_pass": "i64",
+          "rust_target_pass": "i64",
+          "adversarial_fail_closed": "i64"
         },
         "returnType": "i64",
         "body": [
@@ -332,7 +218,7 @@
               "operator": "==",
               "left": {
                 "type": "Identifier",
-                "name": "type_safety_pass",
+                "name": "ts_target_pass",
                 "inferredType": "i64"
               },
               "right": {
@@ -365,7 +251,7 @@
               "operator": "==",
               "left": {
                 "type": "Identifier",
-                "name": "int_division_parity_pass",
+                "name": "python_target_pass",
                 "inferredType": "i64"
               },
               "right": {
@@ -398,7 +284,7 @@
               "operator": "==",
               "left": {
                 "type": "Identifier",
-                "name": "return_exhaustiveness_pass",
+                "name": "rust_target_pass",
                 "inferredType": "i64"
               },
               "right": {
@@ -431,106 +317,7 @@
               "operator": "==",
               "left": {
                 "type": "Identifier",
-                "name": "reserved_identifier_pass",
-                "inferredType": "i64"
-              },
-              "right": {
-                "type": "NumberLiteral",
-                "value": 0,
-                "raw": "0",
-                "numericType": "i64",
-                "inferredType": "i64"
-              },
-              "inferredType": "bool"
-            },
-            "consequent": [
-              {
-                "type": "ReturnStatement",
-                "argument": {
-                  "type": "NumberLiteral",
-                  "value": 0,
-                  "raw": "0",
-                  "numericType": "i64",
-                  "inferredType": "i64"
-                }
-              }
-            ],
-            "alternate": []
-          },
-          {
-            "type": "IfStatement",
-            "condition": {
-              "type": "BinaryExpression",
-              "operator": "==",
-              "left": {
-                "type": "Identifier",
-                "name": "header_contract_pass",
-                "inferredType": "i64"
-              },
-              "right": {
-                "type": "NumberLiteral",
-                "value": 0,
-                "raw": "0",
-                "numericType": "i64",
-                "inferredType": "i64"
-              },
-              "inferredType": "bool"
-            },
-            "consequent": [
-              {
-                "type": "ReturnStatement",
-                "argument": {
-                  "type": "NumberLiteral",
-                  "value": 0,
-                  "raw": "0",
-                  "numericType": "i64",
-                  "inferredType": "i64"
-                }
-              }
-            ],
-            "alternate": []
-          },
-          {
-            "type": "IfStatement",
-            "condition": {
-              "type": "BinaryExpression",
-              "operator": "==",
-              "left": {
-                "type": "Identifier",
-                "name": "lift_precision_pass",
-                "inferredType": "i64"
-              },
-              "right": {
-                "type": "NumberLiteral",
-                "value": 0,
-                "raw": "0",
-                "numericType": "i64",
-                "inferredType": "i64"
-              },
-              "inferredType": "bool"
-            },
-            "consequent": [
-              {
-                "type": "ReturnStatement",
-                "argument": {
-                  "type": "NumberLiteral",
-                  "value": 0,
-                  "raw": "0",
-                  "numericType": "i64",
-                  "inferredType": "i64"
-                }
-              }
-            ],
-            "alternate": []
-          },
-          {
-            "type": "IfStatement",
-            "condition": {
-              "type": "BinaryExpression",
-              "operator": "==",
-              "left": {
-                "type": "Identifier",
-                "name": "l4_runtime_packaged",
+                "name": "adversarial_fail_closed",
                 "inferredType": "i64"
               },
               "right": {
@@ -572,12 +359,9 @@
           0,
           0,
           0,
-          0,
-          0,
-          0,
           1
         ],
-        "branchCount": 7
+        "branchCount": 4
       }
     },
     "entrypoint": {
@@ -593,7 +377,7 @@
           "operator": "==",
           "left": {
             "type": "Identifier",
-            "name": "type_safety_pass",
+            "name": "ts_target_pass",
             "inferredType": "i64"
           },
           "right": {
@@ -626,7 +410,7 @@
           "operator": "==",
           "left": {
             "type": "Identifier",
-            "name": "int_division_parity_pass",
+            "name": "python_target_pass",
             "inferredType": "i64"
           },
           "right": {
@@ -659,7 +443,7 @@
           "operator": "==",
           "left": {
             "type": "Identifier",
-            "name": "return_exhaustiveness_pass",
+            "name": "rust_target_pass",
             "inferredType": "i64"
           },
           "right": {
@@ -692,106 +476,7 @@
           "operator": "==",
           "left": {
             "type": "Identifier",
-            "name": "reserved_identifier_pass",
-            "inferredType": "i64"
-          },
-          "right": {
-            "type": "NumberLiteral",
-            "value": 0,
-            "raw": "0",
-            "numericType": "i64",
-            "inferredType": "i64"
-          },
-          "inferredType": "bool"
-        },
-        "consequent": [
-          {
-            "type": "ReturnStatement",
-            "argument": {
-              "type": "NumberLiteral",
-              "value": 0,
-              "raw": "0",
-              "numericType": "i64",
-              "inferredType": "i64"
-            }
-          }
-        ],
-        "alternate": []
-      },
-      {
-        "type": "IfStatement",
-        "condition": {
-          "type": "BinaryExpression",
-          "operator": "==",
-          "left": {
-            "type": "Identifier",
-            "name": "header_contract_pass",
-            "inferredType": "i64"
-          },
-          "right": {
-            "type": "NumberLiteral",
-            "value": 0,
-            "raw": "0",
-            "numericType": "i64",
-            "inferredType": "i64"
-          },
-          "inferredType": "bool"
-        },
-        "consequent": [
-          {
-            "type": "ReturnStatement",
-            "argument": {
-              "type": "NumberLiteral",
-              "value": 0,
-              "raw": "0",
-              "numericType": "i64",
-              "inferredType": "i64"
-            }
-          }
-        ],
-        "alternate": []
-      },
-      {
-        "type": "IfStatement",
-        "condition": {
-          "type": "BinaryExpression",
-          "operator": "==",
-          "left": {
-            "type": "Identifier",
-            "name": "lift_precision_pass",
-            "inferredType": "i64"
-          },
-          "right": {
-            "type": "NumberLiteral",
-            "value": 0,
-            "raw": "0",
-            "numericType": "i64",
-            "inferredType": "i64"
-          },
-          "inferredType": "bool"
-        },
-        "consequent": [
-          {
-            "type": "ReturnStatement",
-            "argument": {
-              "type": "NumberLiteral",
-              "value": 0,
-              "raw": "0",
-              "numericType": "i64",
-              "inferredType": "i64"
-            }
-          }
-        ],
-        "alternate": []
-      },
-      {
-        "type": "IfStatement",
-        "condition": {
-          "type": "BinaryExpression",
-          "operator": "==",
-          "left": {
-            "type": "Identifier",
-            "name": "l4_runtime_packaged",
+            "name": "adversarial_fail_closed",
             "inferredType": "i64"
           },
           "right": {
@@ -833,12 +518,9 @@
       0,
       0,
       0,
-      0,
-      0,
-      0,
       1
     ],
-    "branchCount": 7,
+    "branchCount": 4,
     "expressionDialect": "brik64.cli_expr.v1"
   },
   "offlineEngine": "local-parser-emitter",
