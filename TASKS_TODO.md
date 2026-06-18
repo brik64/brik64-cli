@@ -71,6 +71,10 @@
       - Current state:
         local release train dry-run is green, but the manifest is still
         `state=draft` and `publicationAllowed=false`.
+      - Latest Ralph Loop check:
+        `npm run release:train:publish-plan` now supports
+        `0.1.0-beta.15.7.1` and fails closed on the intended blocker:
+        `manifest_state_not_public:draft`.
       - Done when:
         GitHub Release, curl/GCP installer, docs, web, skills, npm, PyPI,
         crates and live verification all point to `0.1.0-beta.15.7.1` with

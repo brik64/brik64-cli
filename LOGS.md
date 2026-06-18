@@ -1,5 +1,35 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 28 - Beta15.7.1 publish-plan hotfix support
+
+Timestamp: `2026-06-18T04:50:00Z`
+
+- Updated `scripts/release-train-publish-plan.js` so release publication
+  planning accepts bounded hotfix versions such as `0.1.0-beta.15.7.1`.
+- Preserved fail-closed behavior for unsupported beta labels and public
+  mutation preflight failures.
+- Verified the current Beta15.7.1 candidate no longer fails with
+  `unsupported_beta_version`.
+
+Evidence:
+
+- `node --check scripts/release-train-publish-plan.js` passed.
+- `npm run release:train:publish-plan` returned `rc=1` with the expected
+  blocker:
+  - `decision=FAIL_PUBLISH_PREFLIGHT`;
+  - `publicationAllowed=false`;
+  - `failures=manifest_state_not_public:draft`.
+
+Boundary:
+
+- This iteration only fixes publication planning for Beta15.7.1 hotfix labels.
+- It does not publish Beta15.7.1.
+- The release manifest remains draft and public mutation is still blocked until
+  SDKs, docs, web, skills, manifests, credentials and live verification are
+  complete.
+- Public N5, fixpoint, self-hosting, Rust-independence and universal
+  correctness claims remain closed.
+
 ## Iteration 27 - Beta15.7.1 L6 materializer version-family closure
 
 Timestamp: `2026-06-18T04:24:00Z`

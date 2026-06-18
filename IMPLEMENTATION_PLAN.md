@@ -19,6 +19,9 @@
   `0.1.0-beta.15.7.1`, `gate:cli:l6-generation-required` passes, and
   `release:train:dry-run -- --allow-dirty` passes with
   `publicationAllowed=false` because the manifest is still draft.
+- Publish-plan status: `release:train:publish-plan` supports
+  `0.1.0-beta.15.7.1` hotfix labels and now fails closed on
+  `manifest_state_not_public:draft` instead of failing on version parsing.
 - Remaining publication work: executing the real mutation train still requires
   public-surface credentials and marketplace artifacts for the SDK versions
   declared in `release/manifest.json`.

@@ -39,7 +39,7 @@ function command(name, description, commandLine, mutatesPublicSurface) {
 }
 
 function betaLabel(version) {
-  const match = String(version).match(/-beta\.(\d+)(?:\.(\d+))?$/);
+  const match = String(version).match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/);
   if (!match) throw new Error(`unsupported_beta_version:${version}`);
   return match[2] ? `beta${match[1]}_${match[2]}` : `beta${match[1]}`;
 }

@@ -20,6 +20,6 @@
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:30"
+    "worktree_dirty_allowed:2"
   ]
 }
