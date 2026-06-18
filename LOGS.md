@@ -945,3 +945,29 @@ Boundary:
 - This does not weaken SDK marketplace publication requirements for the real
   workflow; it only prevents PR dry-run runners without sibling SDK checkouts
   from failing before publication preparation.
+
+## Beta15.7.1 Ralph Loop Iteration - Public manifest source rebind
+
+Task:
+- Fix the GitHub Actions release workflow failure after PR #203 was squash
+  merged. The public manifest still pointed to the pre-squash branch commit
+  `f0fccb0`, which is not an ancestor of the verified squash merge on `main`.
+
+Change:
+- Updated `release/manifest.json` `source.commit` to the verified merge commit
+  `e4411162e67c864a1449de5ac3ce8027d61be978` while preserving
+  `source.commitBinding=public_release_base_commit`.
+
+Evidence:
+- This is a manifest-only rebind required by the existing
+  `release-manifest-validate` and `release-flow-audit` ancestry gates.
+- `node scripts/release-manifest-validate.js --allow-dirty` passed with
+  `PASS_RELEASE_MANIFEST_VALIDATE`.
+- `npm run release:flow:audit` passed with `PASS_RELEASE_FLOW_AUDIT`.
+- `npm run release:train:dry-run -- --allow-dirty` passed with
+  `PASS_RELEASE_TRAIN_DRY_RUN`.
+
+Boundary:
+- This changes the release manifest digest and requires a fresh workflow
+  dispatch confirmation.
+- This does not mutate public surfaces or change CLI package contents.

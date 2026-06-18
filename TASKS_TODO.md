@@ -358,8 +358,10 @@
         dry-run semantics used by the GitHub Actions release workflow.
       - [x] Treat missing sibling SDK repositories/artifacts as warnings only
             while `release:train:dry-run` is actively generating its report.
-      - [ ] Push CI dry-run fix and wait for PR #203 checks to pass.
-      - [ ] Merge through GitHub verified ref.
+      - [x] Push CI dry-run fix and wait for PR #203 checks to pass.
+      - [x] Merge through GitHub verified ref.
+      - [x] Rebind public manifest source commit after squash merge so ancestry
+            gates can validate the verified release base.
       - [ ] Trigger release-train workflow with exact manifest digest.
       - [ ] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
             skills surfaces live.
