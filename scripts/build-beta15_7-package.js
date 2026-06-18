@@ -5,8 +5,13 @@ const crypto = require('crypto');
 const childProcess = require('child_process');
 
 const root = path.resolve(__dirname, '..');
-const version = '0.1.0-beta.15.7';
+const packageJsonPath = path.join(root, 'package.json');
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+const version = process.env.BRIK64_BETA15_7_VERSION || packageJson.version;
+const beta15_7FamilyPattern = /^0\.1\.0-beta\.15\.7(?:\.\d+)?$/;
 const label = 'beta15_7';
+const sdkVersion = '0.1.0-beta.15.7';
+const sdkPythonVersion = '0.1.0b15.post7';
 const outDir = path.join(root, 'evidence', `${label}-package`);
 const stageRoot = path.join(outDir, 'stage');
 const stageName = `brik64-cli-${version}`;
@@ -214,13 +219,13 @@ function writePackage() {
   fs.writeFileSync(packagePath, gzipStored(Buffer.concat(blocks)));
 }
 
-const packageJson = readJson(path.join(root, 'package.json'));
 const brikManifest = readJson(path.join(root, '.brik', 'manifest.json'));
 const source = fs.readFileSync(path.join(root, 'src', 'brik.js'), 'utf8');
 const failures = [];
+if (!beta15_7FamilyPattern.test(version)) failures.push(`unsupported_beta15_7_family_version:${version}`);
 if (packageJson.version !== version) failures.push(`package_version_drift:${packageJson.version}`);
 if (brikManifest.cliVersion !== version) failures.push(`brik_manifest_version_drift:${brikManifest.cliVersion || 'missing'}`);
-if (!source.includes("const version = '0.1.0-beta.15.7'")) failures.push('source_version_missing');
+if (!source.includes(`const version = '${version}'`)) failures.push('source_version_missing');
 if (!fs.existsSync(path.join(root, 'engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) failures.push('l4plus_n5_bundle_missing');
 if (failures.length > 0) fail(failures);
 
@@ -283,18 +288,18 @@ writeJson(releaseManifestPath, {
     {
       type: 'added',
       surface: 'CLI package',
-      text: 'Adds a local package candidate for the Beta15.7 offline command-line workflow and embedded engine files.',
+      text: 'Adds a non-mutating Beta15.7.x CLI package candidate for the offline command-line workflow and embedded engine files.',
     },
     {
       type: 'fixed',
       surface: 'CLI package',
-      text: 'Aligns candidate package metadata with the Beta15.7 command behavior before public release work continues.',
+      text: 'Publishes the follow-up as its own versioned candidate instead of rewriting the existing Beta15.7 archive.',
     },
   ],
   sdks: [
-    { marketplace: 'npm', name: '@brik64/core', version, publication: 'pending_release_train_publish' },
-    { marketplace: 'pypi', name: 'brik64', version: '0.1.0b15.post7', publication: 'pending_release_train_publish' },
-    { marketplace: 'crates.io', name: 'brik64-core', version, publication: 'pending_release_train_publish' },
+    { marketplace: 'npm', name: '@brik64/core', version: sdkVersion, publication: 'unchanged_from_beta15_7_until_sdk_hotfix' },
+    { marketplace: 'pypi', name: 'brik64', version: sdkPythonVersion, publication: 'unchanged_from_beta15_7_until_sdk_hotfix' },
+    { marketplace: 'crates.io', name: 'brik64-core', version: sdkVersion, publication: 'unchanged_from_beta15_7_until_sdk_hotfix' },
   ],
   publicSurfaces: {
     githubRelease: { required: true, status: 'pending_release_train_publish', tag: `v${version}` },

@@ -95,14 +95,18 @@ console.log('decision=PASS_BETA6_COMMITTED_SURFACE_REPORTS');
 }
 
 function betaNumber(version) {
-  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)?$/);
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)*$/);
   return match ? Number(match[1]) : null;
 }
 
 function betaLabel(version) {
-  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.(\d+))?$/);
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/);
   if (!match) return null;
   return match[2] ? `beta${match[1]}_${match[2]}` : `beta${match[1]}`;
+}
+
+function isBeta15_7Family(version) {
+  return /^0\.1\.0-beta\.15\.7(?:\.\d+)?$/.test(String(version));
 }
 
 function packageVersion() {
@@ -241,18 +245,20 @@ function beta15_7SourceCandidateContract() {
   return run('beta15_7_source_candidate_contract', ['node', '-e', `
     const fs = require('fs');
     const path = require('path');
-    const version = '0.1.0-beta.15.7';
+    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    const version = pkg.version;
+    const familyPattern = /^0\\.1\\.0-beta\\.15\\.7(?:\\.\\d+)?$/;
     const outDir = path.join('evidence', 'beta15_7-source-candidate-contract');
     const outPath = path.join(outDir, 'report.json');
     fs.mkdirSync(outDir, { recursive: true });
-    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     const readme = fs.readFileSync('README.md', 'utf8');
     const source = fs.readFileSync(path.join('src', 'brik.js'), 'utf8');
     const blockers = [];
+    if (!familyPattern.test(version)) blockers.push('package_version_not_beta15_7_family:' + version);
     if (pkg.version !== version) blockers.push('package_version_mismatch:' + pkg.version);
     if (!String(pkg.description || '').includes('beta15.7')) blockers.push('package_description_not_beta15_7');
-    if (!readme.includes(version) || /0\\\\.1\\\\.0-beta\\\\.15\\\\.6|Beta15\\\\.6|beta15\\\\.6|0\\\\.1\\\\.0b15\\\\.post6/.test(readme)) blockers.push('readme_beta15_7_metadata_invalid');
-    if (!source.includes("const version = '0.1.0-beta.15.7'")) blockers.push('source_version_missing');
+    if (!readme.includes(version) || /0\\.1\\.0-beta\\.15\\.6|Beta15\\.6|beta15\\.6|0\\.1\\.0b15\\.post6/.test(readme)) blockers.push('readme_beta15_7_metadata_invalid');
+    if (!source.includes("const version = '" + version + "'")) blockers.push('source_version_missing');
     if (!fs.existsSync(path.join('engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) blockers.push('l4plus_n5_bundle_missing');
     const report = {
       schemaVersion: 'brik64.beta15_7_source_candidate_contract.v1',
@@ -273,7 +279,7 @@ function beta15_7SourceCandidateContract() {
         packageVersion: pkg.version,
         packageDescription: pkg.description || null,
         readmeHasTargetVersion: readme.includes(version),
-        sourceVersionPresent: source.includes("const version = '0.1.0-beta.15.7'"),
+        sourceVersionPresent: source.includes("const version = '" + version + "'"),
         l4plusN5BundlePresent: fs.existsSync(path.join('engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))
       },
       blockers
@@ -611,7 +617,7 @@ function candidateBranchCommands(version) {
       })
     ];
   }
-  if (version === '0.1.0-beta.15.7') {
+  if (isBeta15_7Family(version)) {
     return [
       run('smoke_tests', ['bash', '-lc', 'bash -x tests/smoke.sh'], {
         stdoutLimit: 12000,
@@ -835,7 +841,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
 
-  if (manifest.version === '0.1.0-beta.15.7') {
+  if (isBeta15_7Family(manifest.version)) {
     return [
       beta15_7SourceCandidateContract(),
       run('beta15_7_local_package', ['npm', 'run', 'package:beta15.7:local'], {
@@ -1198,7 +1204,7 @@ function main() {
       ) {
         failures.push(`candidate_beta15_4_l6_materializer_gap_invalid:${l6Gap.decision}`);
       }
-    } else if (currentPackageVersion === '0.1.0-beta.15.7') {
+    } else if (isBeta15_7Family(currentPackageVersion)) {
       const sourceCandidatePath = path.join(root, 'evidence', 'beta15_7-source-candidate-contract', 'report.json');
       const sourceCandidate = fs.existsSync(sourceCandidatePath) ? readJson(sourceCandidatePath) : null;
       requiredEvidence.push({

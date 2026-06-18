@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta15_7_source_candidate_contract.v1",
-  "generatedAt": "2026-06-17T23:28:27.033Z",
-  "version": "0.1.0-beta.15.7",
+  "generatedAt": "2026-06-18T03:18:35.698Z",
+  "version": "0.1.0-beta.15.7.1",
   "decision": "PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT",
   "releaseEligible": false,
   "publicationAllowed": false,
@@ -14,8 +14,8 @@
     "rustIndependenceClaimAllowed": false
   },
   "checks": {
-    "packageVersion": "0.1.0-beta.15.7",
-    "packageDescription": "BRIK64 CLI beta15.7 with strict L4+N5 local engine bundle, semantic type gates, deterministic target parity, and synchronized public release surfaces.",
+    "packageVersion": "0.1.0-beta.15.7.1",
+    "packageDescription": "BRIK64 CLI beta15.7.x with strict L4+N5 local engine bundle, semantic type gates, deterministic target parity, and synchronized public release surfaces.",
     "readmeHasTargetVersion": true,
     "sourceVersionPresent": true,
     "l4plusN5BundlePresent": true

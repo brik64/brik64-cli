@@ -93,9 +93,16 @@ function containsForbiddenPublicLanguage(text) {
 }
 
 function pypiVersion(version) {
-  return String(version).replace(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?$/, (_all, base, beta, post) => (
-    post ? `${base}b${beta}.post${post}` : `${base}b${beta}`
-  ));
+  const match = String(version).match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(.*))?$/);
+  if (!match) return String(version);
+  const [, base, beta, suffix] = match;
+  if (!suffix) return `${base}b${beta}`;
+  return `${base}b${beta}.post${suffix.split('.').join('')}`;
+}
+
+function isBeta15_7CliOnlyHotfix(version, sdk) {
+  return /^0\.1\.0-beta\.15\.7(?:\.\d+)?$/.test(String(version))
+    && sdk?.publication === 'unchanged_from_beta15_7_until_sdk_hotfix';
 }
 
 function validate() {
@@ -124,7 +131,7 @@ function validate() {
   const changelogSection = versionSection(changelog, manifest.version);
 
   add(manifest.schemaVersion === 'brik64.release_manifest.v1', failures, 'schema_version_invalid');
-  add(/^0\.\d+\.\d+-(beta|rc)\.\d+(?:\.\d+)?$|^\d+\.\d+\.\d+$/.test(manifest.version), failures, 'version_format_invalid');
+  add(/^0\.\d+\.\d+-(beta|rc)\.\d+(?:\.\d+)*$|^\d+\.\d+\.\d+$/.test(manifest.version), failures, 'version_format_invalid');
   add(manifest.releaseId === `brik64-${manifest.version}`, failures, 'release_id_version_drift');
   add(['draft', 'dry_run_passed', 'publishing', 'public', 'failed', 'superseded'].includes(manifest.state), failures, 'state_invalid');
   add(packageJson.version === manifest.version, failures, `package_version_drift:${packageJson.version}`);
@@ -181,9 +188,27 @@ function validate() {
   }
 
   const sdkByMarketplace = new Map((manifest.sdks || []).map((sdk) => [sdk.marketplace, sdk]));
-  add(sdkByMarketplace.get('npm')?.version === manifest.version, failures, 'npm_sdk_version_drift');
-  add(sdkByMarketplace.get('pypi')?.version === pypiVersion(manifest.version), failures, 'pypi_sdk_version_drift');
-  add(sdkByMarketplace.get('crates.io')?.version === manifest.version, failures, 'rust_sdk_version_drift');
+  const npmSdk = sdkByMarketplace.get('npm');
+  const pypiSdk = sdkByMarketplace.get('pypi');
+  const rustSdk = sdkByMarketplace.get('crates.io');
+  add(
+    npmSdk?.version === manifest.version
+      || (isBeta15_7CliOnlyHotfix(manifest.version, npmSdk) && npmSdk?.version === '0.1.0-beta.15.7'),
+    failures,
+    'npm_sdk_version_drift'
+  );
+  add(
+    pypiSdk?.version === pypiVersion(manifest.version)
+      || (isBeta15_7CliOnlyHotfix(manifest.version, pypiSdk) && pypiSdk?.version === '0.1.0b15.post7'),
+    failures,
+    'pypi_sdk_version_drift'
+  );
+  add(
+    rustSdk?.version === manifest.version
+      || (isBeta15_7CliOnlyHotfix(manifest.version, rustSdk) && rustSdk?.version === '0.1.0-beta.15.7'),
+    failures,
+    'rust_sdk_version_drift'
+  );
 
   const evidence = [];
   for (const item of manifest.verification?.requiredEvidence || []) {

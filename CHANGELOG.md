@@ -3,6 +3,26 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.7.1
+
+### Fixed
+
+- Cuts the Beta15.7 CLI follow-up as a separate versioned package instead of
+  mutating the existing `0.1.0-beta.15.7` release archive.
+- Keeps the Python floor-division lift package-smoke regression in the local
+  archive validation path.
+- Preserves the embedded local runtime bundle checks for package smoke.
+
+### Compatibility
+
+- SDK marketplace coordinates remain at the Beta15.7 SDK release unless a
+  separate SDK hotfix is explicitly cut.
+- This beta remains claim-safe local candidate evidence until public installer,
+  GitHub release, web, docs, skills, changelog, and live verification are
+  synchronized for the follow-up version.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.7
 
 ### Added

@@ -1,8 +1,8 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "private": true,
-  "description": "BRIK64 CLI beta15.7 with strict L4+N5 local engine bundle, semantic type gates, deterministic target parity, and synchronized public release surfaces.",
+  "description": "BRIK64 CLI beta15.7.x with strict L4+N5 local engine bundle, semantic type gates, deterministic target parity, and synchronized public release surfaces.",
   "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
