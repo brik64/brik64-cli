@@ -98,6 +98,15 @@
         `brik64==0.1.0b15.post701`.
       - crates target:
         `brik64-core@0.1.0-beta.15.7.1`.
+      - Current state:
+        metadata is committed and pushed in SDK PRs:
+        JS https://github.com/brik64-admin/brik64-lib-js/pull/11,
+        Python https://github.com/brik64-admin/brik64-lib-python/pull/13,
+        Rust https://github.com/brik64-admin/brik64-lib-rust/pull/15.
+        Local artifacts were generated for the publish-plan preflight.
+      - Remaining:
+        merge SDK PRs and publish the marketplace packages during the atomic
+        release train.
       - Done when:
         package metadata, README public references, built artifacts and
         release-train publish-plan all match `release/manifest.json`.

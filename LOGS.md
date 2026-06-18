@@ -850,3 +850,24 @@ Boundary:
 - This does not publish Beta15.7.1.
 - This does not create SDK artifacts.
 - It makes the SDK blocker explicit and auditable before public mutation.
+
+## Beta15.7.1 Ralph Loop Iteration - SDK metadata and artifact alignment
+
+Task:
+- Align required SDK repositories and local package artifacts with the Beta15.7.1 release manifest before public mutation.
+
+Changes:
+- JS SDK: updated `@brik64/core` metadata and README to `0.1.0-beta.15.7.1`; pushed PR https://github.com/brik64-admin/brik64-lib-js/pull/11.
+- Python SDK: updated `brik64` metadata, `__version__`, and README to `0.1.0b15.post701` aligned with CLI `0.1.0-beta.15.7.1`; pushed PR https://github.com/brik64-admin/brik64-lib-python/pull/13.
+- Rust SDK: updated `brik64-core` metadata, lockfile, workflow default, and README to `0.1.0-beta.15.7.1`; pushed PR https://github.com/brik64-admin/brik64-lib-rust/pull/15.
+
+Evidence:
+- JS: `npm run build`, `npm test`, `npm run test:package-exports`, and `npm pack --pack-destination dist` passed; local artifact `dist/brik64-core-0.1.0-beta.15.7.1.tgz` exists.
+- Python: system `python3` is 3.9.6 and correctly failed against package syntax requiring Python >=3.10; validation reran in a Python 3.13 venv, `pytest` passed 11 tests, and `python -m build` produced wheel/sdist for `0.1.0b15.post701`.
+- Rust: `cargo test` passed 15 unit tests and 34 doc tests; `cargo package --allow-dirty --no-verify` produced `target/package/brik64-core-0.1.0-beta.15.7.1.crate`.
+- CLI publish-plan now fails only on `manifest_state_not_public:draft`; previous SDK version/artifact blockers are gone.
+
+Boundary:
+- SDK PRs are not merged yet.
+- Marketplace publication has not happened yet.
+- Public Beta15.7.1 remains unpublished while the manifest is draft.
