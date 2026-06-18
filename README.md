@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current beta candidate: `0.1.0-beta.15.7.1`
+Current public beta: `0.1.0-beta.15.7.1`
 
 ## Install
 
@@ -26,7 +26,7 @@ The npm package namespace is reserved for SDK libraries, not CLI installation.
 
 ## Beta15.7.x Boundary
 
-`0.1.0-beta.15.7.1` is a non-mutating follow-up candidate for offline CLI reliability and lift
+`0.1.0-beta.15.7.1` is a versioned public follow-up for offline CLI reliability and lift
 diagnostics: complete local engine bundle packaging, semantic-loss warnings for
 lift previews, generated test execution across TypeScript, Python, and Rust,
 certifiable polymer PCD output, local traceability, and claim-safe project

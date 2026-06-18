@@ -1,16 +1,16 @@
 {
   "schemaVersion": "brik64.l6plus_cli_materializer_request_manifest.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "decision": "PASS_BETA15_7_L6_MATERIALIZER_REQUEST_BUNDLE",
   "request": {
     "path": "evidence/beta15_7-l6-materializer-request/request.json",
-    "sha256": "6a419a8852168088653136d6934a0ac7c58651046d055fe9de5bc9554e75c8f9",
-    "bytes": 18180
+    "sha256": "60f1a45515e7ed48913fcd843b678c0d4b81698a00f4c8067fb8fc884ff32d11",
+    "bytes": 18188
   },
   "requestLine": {
     "path": "evidence/beta15_7-l6-materializer-request/request.line",
-    "sha256": "34a6bf36e3e30e47374f2f04e318f006e1d224ed6da173b175bac5f18a54ca1c",
-    "bytes": 23503
+    "sha256": "027f97a13308acb34d69bb7697380f432e80011f23d7513b2d5d336be5f2a093",
+    "bytes": 23515
   },
   "pcdInputSetSha256": "1fe950b0efda4d41bc1e160863bf4ca70565c14b461f4a18c9dc7b9a02b7c547",
   "inputPcds": [

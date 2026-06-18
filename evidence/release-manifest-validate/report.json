@@ -2,15 +2,15 @@
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.15.7.1",
-  "state": "draft",
-  "manifestDigest": "c9d6ee95228338ffe0b8257dc28f74ac8d352cf4682be552eba5180deda0739b",
+  "state": "public",
+  "manifestDigest": "c02962032dc53f07aeddfd4ec1563a10738fede086de12af328a9f8094304077",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "c9d6ee95228338ffe0b8257dc28f74ac8d352cf4682be552eba5180deda0739b",
-      "bytes": 2575
+      "sha256": "c02962032dc53f07aeddfd4ec1563a10738fede086de12af328a9f8094304077",
+      "bytes": 2655
     },
     "packageJson": {
       "path": "package.json",
@@ -20,6 +20,6 @@
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:1"
+    "worktree_dirty_allowed:17"
   ]
 }

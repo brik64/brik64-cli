@@ -12,7 +12,11 @@ const scriptRoot = path.resolve(__dirname, '..');
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
   : scriptRoot;
-const version = '0.1.0-beta.15.7';
+const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+const version = packageJson.version;
+if (!/^0\.1\.0-beta\.15\.7(?:\.\d+)?$/.test(version)) {
+  throw new Error(`unsupported_beta15_7_family_version:${version}`);
+}
 const label = 'beta15_7';
 const evidenceDir = path.join(root, 'evidence', `${label}-l6-generation`);
 const requestDir = path.join(root, 'evidence', `${label}-l6-materializer-request`);
@@ -34,7 +38,7 @@ const inputPcdPaths = [
 
 const outputRefs = {
   generatedArtifact: 'evidence/beta15_7-l6-generation/generated/brik64-cli.mjs',
-  package: 'evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz',
+  package: `evidence/beta15_7-package/brik64-cli-${version}.tgz`,
   releaseManifest: 'release/manifest.json',
   sealReport: 'evidence/beta15_7-l6-generation/seal_report.json',
 };
@@ -149,6 +153,10 @@ function parseEndpointStatus(stdout) {
     }
   }
   return result;
+}
+
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function safeRelativePath(value) {
@@ -410,11 +418,11 @@ function main() {
   const attempts = blockers.length === 0 ? materializationAttempts(requestLinePath, context) : [];
   const accepted = attempts.find((attempt) => attempt.materializationValidation.accepted);
   const materialization = accepted?.materializationValidation.normalized || null;
-  const versionMismatchAttempt = attempts.find((attempt) => /version_mismatch:0\.1\.0-beta\.15\.7/.test(attempt.observed || ''));
+  const versionMismatchAttempt = attempts.find((attempt) => new RegExp(`version_mismatch:${escapeRegExp(version)}`).test(attempt.observed || ''));
 
   if (remote.hostProbe.status !== 0) blockers.push('remote_l6plus_probe_failed');
   if (!skipRemote && remote.auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
-  if (versionMismatchAttempt) blockers.push('remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7');
+  if (versionMismatchAttempt) blockers.push(`remote_l6plus_materializer_version_not_supported:${version}`);
   if (remote.endpointStatus.statusTag && remote.endpointStatus.statusTag !== 'beta15_7_ready') {
     blockers.push(`remote_l6plus_materializer_endpoint_status:${remote.endpointStatus.statusTag}`);
   }

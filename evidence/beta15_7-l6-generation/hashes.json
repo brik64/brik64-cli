@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6_hashes.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "inputPcds": [
     {
       "path": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
@@ -46,7 +46,7 @@
     }
   ],
   "pcdInputSetSha256": "1fe950b0efda4d41bc1e160863bf4ca70565c14b461f4a18c9dc7b9a02b7c547",
-  "generatedArtifact": "8c71ad3fdc1428ccd084f7dfa60d69ad232b0d306158fdf2db1fc8a3400f4c63",
-  "package": "2c428664dfe4e90e17a4275f2747775caaa2722abbf80724d4f7477bfaad8e31",
-  "releaseManifest": "f573e9b800be3fba6cafc6a48443ce36c536a1516f0a694f3b9293c78322f05b"
+  "generatedArtifact": "a00ebf5dc74a00fb1d5dd8f5af65fbb9cabf9615123cdaa0c13703c42f96f51c",
+  "package": "eb65750d271e4e412a65b9256dac78d8cc0cee2ca59cced89234364771986f94",
+  "releaseManifest": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b"
 }

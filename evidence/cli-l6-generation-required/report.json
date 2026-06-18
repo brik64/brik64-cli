@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-06-17T23:58:41.455Z",
-  "version": "0.1.0-beta.15.7",
+  "generatedAt": "2026-06-18T05:29:02.785Z",
+  "version": "0.1.0-beta.15.7.1",
   "label": "beta15_7",
   "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",
   "policy": {
@@ -18,13 +18,13 @@
     "dir": "evidence/beta15_7-l6-generation",
     "gate-report.json": {
       "path": "evidence/beta15_7-l6-generation/gate-report.json",
-      "sha256": "1854a10403599f3e9bc78213ea79339b7895d3428e0e9c570078aabcdb50d619",
-      "sizeBytes": 21995
+      "sha256": "17b3a10bd33f54084497c42b56749247feae491bed5a8b6894de5224d23e431f",
+      "sizeBytes": 22006
     },
     "l6plus_engine_manifest.json": {
       "path": "evidence/beta15_7-l6-generation/l6plus_engine_manifest.json",
-      "sha256": "6832459d7df022febd0ee9e36475fa3f1e306486c43723fbd560fd62fbdc7da9",
-      "sizeBytes": 2047
+      "sha256": "2977a8b04bc4b7cc78326de6167795c1cc3349237e7951b0eebcdfd36d9e654b",
+      "sizeBytes": 2049
     },
     "input_pcd_hashes.tsv": {
       "path": "evidence/beta15_7-l6-generation/input_pcd_hashes.tsv",
@@ -33,23 +33,23 @@
     },
     "generated_artifact_manifest.json": {
       "path": "evidence/beta15_7-l6-generation/generated_artifact_manifest.json",
-      "sha256": "1287eea6504ec03278ef24ce48f854e52070724496c15af69c850c2623ac8913",
-      "sizeBytes": 1562
+      "sha256": "1ce7b94bed7fb5614c1bc76c56f91a4fa2eee34bb2b5855eb7da3ab7d20ccc4a",
+      "sizeBytes": 1564
     },
     "package.manifest.json": {
       "path": "evidence/beta15_7-l6-generation/package.manifest.json",
-      "sha256": "f65c16b07a73b5bf454f7a98dcb520f98add86daf4037c276734c48442156893",
-      "sizeBytes": 471
+      "sha256": "dfaa3c7d838286c302fb35e16b975795de55f4aa4828ae932077e59d12cb9230",
+      "sizeBytes": 473
     },
     "seal_report.json": {
       "path": "evidence/beta15_7-l6-generation/seal_report.json",
-      "sha256": "dd2373c18480d9adbf0c0580a662a97f6482e4c1d74c6de540ce54924138f909",
-      "sizeBytes": 241
+      "sha256": "323dc8303aab3ef55e6f74b6d1ed2319992a3b3c62c92a2151215ff075f385c7",
+      "sizeBytes": 243
     },
     "hashes.json": {
       "path": "evidence/beta15_7-l6-generation/hashes.json",
-      "sha256": "9be9a47588d5f8701f1d45d6db0e2994d394e2473743753e0b11d462f8da5600",
-      "sizeBytes": 16480
+      "sha256": "1f6b06e3d2b6aec00fca60853c76e0df206f00852b233d33f5c26aa244c2e3bd",
+      "sizeBytes": 16482
     }
   },
   "checks": {

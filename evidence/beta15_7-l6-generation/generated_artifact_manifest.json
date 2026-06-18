@@ -1,10 +1,10 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6_generated_artifact_manifest.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "decision": "PASS_BETA15_7_L6_ARTIFACT_MATERIALIZATION",
   "generatedByL6PlusN5": true,
   "pcdToArtifactHashBound": true,
-  "artifactSha256": "8c71ad3fdc1428ccd084f7dfa60d69ad232b0d306158fdf2db1fc8a3400f4c63",
+  "artifactSha256": "a00ebf5dc74a00fb1d5dd8f5af65fbb9cabf9615123cdaa0c13703c42f96f51c",
   "blockers": [],
   "inputPcds": [
     {

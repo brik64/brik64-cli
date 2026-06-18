@@ -93,4 +93,67 @@ jq -e '
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/cli-l6-generation-required/report.json" >/dev/null
 
+PATCH_FIXTURE="$TMP_DIR/patch-fixture"
+mkdir -p "$PATCH_FIXTURE/evidence/beta15_7-l6-generation" "$PATCH_FIXTURE/release"
+
+cat >"$PATCH_FIXTURE/package.json" <<'JSON'
+{
+  "name": "@brik64/cli",
+  "version": "0.1.0-beta.15.7.1"
+}
+JSON
+
+cat >"$PATCH_FIXTURE/release/manifest.json" <<'JSON'
+{
+  "schemaVersion": "brik64.release_manifest.v1",
+  "version": "0.1.0-beta.15.7.1"
+}
+JSON
+
+cat >"$PATCH_FIXTURE/evidence/beta15_7-l6-generation/gate-report.json" <<'JSON'
+{
+  "version": "0.1.0-beta.15.7.1",
+  "decision": "PASS_BETA15_7_L6_GENERATION_GATE",
+  "publicationAllowed": true,
+  "releasePublicationAllowed": true,
+  "blockers": [],
+  "claimBoundary": {
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}
+JSON
+
+cat >"$PATCH_FIXTURE/evidence/beta15_7-l6-generation/generated_artifact_manifest.json" <<'JSON'
+{
+  "version": "0.1.0-beta.15.7.1",
+  "pcdToArtifactHashBound": true
+}
+JSON
+
+cat >"$PATCH_FIXTURE/evidence/beta15_7-l6-generation/package.manifest.json" <<'JSON'
+{
+  "version": "0.1.0-beta.15.7.1",
+  "artifactToPackageHashBound": true,
+  "packageToReleaseManifestHashBound": true
+}
+JSON
+
+for file in l6plus_engine_manifest.json input_pcd_hashes.tsv seal_report.json hashes.json; do
+  printf 'fixture %s\n' "$file" >"$PATCH_FIXTURE/evidence/beta15_7-l6-generation/$file"
+done
+
+BRIK64_CLI_ROOT="$PATCH_FIXTURE" node "$ROOT/scripts/cli-l6-generation-required-gate.js" \
+  >"$TMP_DIR/patch-pass.stdout" 2>"$TMP_DIR/patch-pass.stderr"
+
+jq -e '
+  .version=="0.1.0-beta.15.7.1"
+  and .label=="beta15_7"
+  and .decision=="PASS_CLI_L6_GENERATION_REQUIRED_GATE"
+  and .checks.releaseManifestVersionContext==true
+  and (.blockers | length)==0
+' "$PATCH_FIXTURE/evidence/cli-l6-generation-required/report.json" >/dev/null
+
 echo "PASS cli L6 generation required release manifest drift gate"

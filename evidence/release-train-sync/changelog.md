@@ -1,14 +1,9 @@
-## 0.1.0-beta.15.6
-
-### Fixed
-
-- The local engine bundle now includes all runtime artifacts required by the installable CLI package and verifies their checksums during package smoke tests.
-- Lift previews now report semantic-loss warnings and mark low-coverage candidates as not certification eligible instead of silently dropping source branches.
+## 0.1.0-beta.15.7.1
 
 ### Added
 
-- Release gates now exercise local engine status, Rust floating-point polymer emission, cross-target generated tests, and lift semantic-loss regression.
+- Publishes the Beta15.7.1 CLI package as a versioned follow-up for the offline command-line workflow and embedded engine files.
 
-### Changed
+### Fixed
 
-- Engine status reports the offline beta runtime profile used by the local CLI.
+- Ships the follow-up as its own versioned archive instead of changing the existing Beta15.7 package.

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.release_train_publish_plan.v1",
-  "releaseId": "brik64-0.1.0-beta.15.6",
-  "version": "0.1.0-beta.15.6",
-  "manifestDigest": "61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048",
-  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
-  "dryRunInProgress": true,
+  "releaseId": "brik64-0.1.0-beta.15.7.1",
+  "version": "0.1.0-beta.15.7.1",
+  "manifestDigest": "c02962032dc53f07aeddfd4ec1563a10738fede086de12af328a9f8094304077",
+  "decision": "FAIL_PUBLISH_PREFLIGHT",
+  "dryRunInProgress": false,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.15.6 61ea86a4cb7d68817367f34abdc8253e823b9c4fb309d7f90bc23be020506048",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.15.7.1 c02962032dc53f07aeddfd4ec1563a10738fede086de12af328a9f8094304077",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
     "BRIK64_NPM_TOKEN": false,
@@ -22,34 +22,49 @@
   },
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
-    "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "0cd226ebbc0c3807545fc6367227b6919415f2de",
-    "verified": true,
-    "reason": "valid"
+    "decision": "BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+    "commit": "f0fccb0d38cfcbe6aefb5a539e31c7c2c8909680",
+    "verified": false,
+    "reason": "unsigned"
+  },
+  "sdkPreflight": {
+    "projectVersions": {
+      "npm": "0.1.0-beta.15.7.1",
+      "pypi": "0.1.0b15.post701",
+      "crates": "0.1.0-beta.15.7.1"
+    },
+    "artifacts": {
+      "npm": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.7.1.tgz",
+      "pypi": [
+        "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post701-py3-none-any.whl",
+        "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post701.tar.gz"
+      ],
+      "crates": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml"
+    }
   },
   "commands": [
     {
       "name": "github_release",
       "description": "Create or update the GitHub Release from the manifest version and upload committed assets.",
-      "command": "gh api repos/brik64/brik64-cli/git/ref/tags/v0.1.0-beta.15.6 >/dev/null 2>&1 || gh api repos/brik64/brik64-cli/git/refs -f ref=refs/tags/v0.1.0-beta.15.6 -f sha=$(git rev-parse HEAD); gh api --method PATCH repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.15.6 -f sha=$(git rev-parse HEAD) -F force=true; gh release view v0.1.0-beta.15.6 --repo brik64/brik64-cli || gh release create v0.1.0-beta.15.6 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.15.6\" --notes-file CHANGELOG.md; gh release upload v0.1.0-beta.15.6 --repo brik64/brik64-cli --clobber evidence/beta15_6-package/brik64-cli-0.1.0-beta.15.6.tgz evidence/beta15_6-package/package.manifest.json evidence/beta15_6-package/SHA256SUMS; gh release edit v0.1.0-beta.15.6 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.15.6\" --notes-file CHANGELOG.md --prerelease --draft=false",
+      "command": "gh api repos/brik64/brik64-cli/git/ref/tags/v0.1.0-beta.15.7.1 >/dev/null 2>&1 || gh api repos/brik64/brik64-cli/git/refs -f ref=refs/tags/v0.1.0-beta.15.7.1 -f sha=$(git rev-parse HEAD); gh api --method PATCH repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.15.7.1 -f sha=$(git rev-parse HEAD) -F force=true; gh release view v0.1.0-beta.15.7.1 --repo brik64/brik64-cli || gh release create v0.1.0-beta.15.7.1 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.15.7.1\" --notes-file CHANGELOG.md; gh release upload v0.1.0-beta.15.7.1 --repo brik64/brik64-cli --clobber evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz evidence/beta15_7-package/package.manifest.json evidence/beta15_7-package/SHA256SUMS; gh release edit v0.1.0-beta.15.7.1 --repo brik64/brik64-cli --title \"BRIK64 CLI 0.1.0-beta.15.7.1\" --notes-file CHANGELOG.md --prerelease --draft=false",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_npm",
       "description": "Publish the TypeScript SDK package with the manifest beta version.",
-      "command": "npm view @brik64/core@0.1.0-beta.15.6 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.6.tgz",
+      "command": "npm view @brik64/core@0.1.0-beta.15.7.1 version >/dev/null 2>&1 || npm publish --tag beta /Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.7.1.tgz",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_pypi",
       "description": "Publish the Python SDK package with twine.",
-      "command": "python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post6*\nimport urllib.request\nurllib.request.urlopen('https://pypi.org/pypi/brik64/0.1.0b15.post6/json', timeout=20).close()\nPY",
+      "command": "python3 - <<'PY' || python3 -m twine upload /Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b15.post701*\nimport urllib.request\nurllib.request.urlopen('https://pypi.org/pypi/brik64/0.1.0b15.post701/json', timeout=20).close()\nPY",
       "mutatesPublicSurface": true
     },
     {
       "name": "sdk_crates",
       "description": "Publish the Rust SDK crate.",
-      "command": "cargo info brik64-core@0.1.0-beta.15.6 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --allow-dirty --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
+      "command": "cargo info brik64-core@0.1.0-beta.15.7.1 >/dev/null 2>&1 || CARGO_REGISTRY_TOKEN=\"$BRIK64_CRATES_TOKEN\" cargo publish --allow-dirty --manifest-path /Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml",
       "mutatesPublicSurface": true
     },
     {
@@ -91,15 +106,15 @@
   ],
   "rollback": [
     "Do not delete historical release artifacts.",
-    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.15.6.",
+    "If any channel fails after publication begins, create a superseding manifest with state \"failed\" for 0.1.0-beta.15.7.1.",
     "Restore curl/GCP channel manifest to the previous known-good manifest object.",
     "Create a GitHub Release note amendment that points to the superseding manifest.",
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
-  "failures": [],
+  "failures": [
+    "github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE"
+  ],
   "warnings": [
-    "github_verified_signature_commit_drift:0cd226ebbc0c3807545fc6367227b6919415f2de:268e02b5f3ed4aa64b0248789d96db45708ea41e",
-    "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."

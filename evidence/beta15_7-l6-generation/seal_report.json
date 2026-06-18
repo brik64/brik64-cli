@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6_seal_report.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "decision": "PASS_BETA15_7_L6_SEAL",
-  "compositeSha256": "57c05c5197adbd1a78f094ba7d779c403dd9e8b5bc9b80d1e621ae0a894b692b",
+  "compositeSha256": "4f149beb4a8af3dc1cdc2f4017f40e421bd2327088980438fe37f8eb65c8ee11",
   "blockers": []
 }

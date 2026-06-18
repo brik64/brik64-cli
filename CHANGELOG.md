@@ -20,8 +20,8 @@ every beta, release candidate, or public release.
 - This beta remains claim-safe local candidate evidence until public installer,
   GitHub release, web, docs, skills, changelog, and live verification are
   synchronized for the follow-up version.
-- This beta does not claim universal correctness, public self-hosting, formal
-  certification, or independent toolchain closure.
+- This beta does not present itself as proof of universal correctness,
+  independent toolchain closure, or production readiness.
 
 ## 0.1.0-beta.15.7
 

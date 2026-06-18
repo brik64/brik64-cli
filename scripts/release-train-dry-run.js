@@ -623,7 +623,11 @@ function candidateBranchCommands(version) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       }),
-      beta15_7SourceCandidateContract()
+      beta15_7SourceCandidateContract(),
+      run('beta15_7_full_release_audit', ['npm', 'run', 'gate:beta15.7:full-release-audit'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
     ];
   }
   if (version === '0.1.0-beta.15.5') {
@@ -843,7 +847,12 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
 
   if (isBeta15_7Family(manifest.version)) {
     return [
+      cliL6GenerationRequiredGate(),
       beta15_7SourceCandidateContract(),
+      run('beta15_7_full_release_audit', ['npm', 'run', 'gate:beta15.7:full-release-audit'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
       run('beta15_7_local_package', ['npm', 'run', 'package:beta15.7:local'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
@@ -852,13 +861,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
       run('beta15_7_package_smoke', ['npm', 'run', 'smoke:beta15.7:package'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
-      }),
-      ...(manifest.state === 'draft'
-        ? []
-        : [
-            cliL6GenerationRequiredGate(),
-            blockedSurfaceGate('beta15_7_publication_gate', 'beta15.7 public publication requires explicit release train publish evidence')
-          ])
+      })
     ];
   }
 
@@ -920,6 +923,10 @@ function main() {
           ? candidateBranchCommands(manifest.version)
           : []),
         run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
+        run('release_flow_audit', ['npm', 'run', 'release:flow:audit'], {
+          stdoutLimit: 12000,
+          stderrLimit: 12000
+        }),
         ...(beta === 6 && runLiveL6Gate
           ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
           : []),

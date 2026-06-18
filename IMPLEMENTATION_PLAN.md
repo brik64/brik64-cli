@@ -1,4 +1,48 @@
-# BRIK64 CLI Beta15.4 Implementation Plan
+# BRIK64 CLI Beta15.7.x Implementation Plan
+
+## Beta15.7.1 Ralph Loop Update
+
+- Iteration: `beta15.7.1-publication-readiness-loop`
+- Lane: `cli_0_1_beta`
+- Current focus: prevent a false-green Beta15.7.1 release train while the L6+N5 materializer still only proves the base Beta15.7 path.
+- Full audit policy: every Beta15.7.x candidate must pass
+  `gate:beta15.7:full-release-audit` before any release train can be green.
+  The gate runs direct CLI checks, 128 monomers, TS/Python/Rust emitted tests,
+  polymer app-system output, lift roundtrip, unsupported-lift warnings and
+  adversarial fail-closed vectors in an isolated workspace.
+- Publication policy: fail closed until `evidence/beta15_7-l6-generation/` is regenerated for the exact package version in `package.json` and `release/manifest.json`.
+- Version-family policy: `0.1.0-beta.15.7.x` must use the shared evidence label `beta15_7`, but every report must bind the exact hotfix version.
+- L6 materializer policy: the live endpoint may accept only the bounded
+  `0.1.0-beta.15.7.x` family. It must reject later beta families, unsafe
+  output refs and malformed requests.
+- Current status: the live L6 materializer endpoint accepts
+  `0.1.0-beta.15.7.1`, `gate:cli:l6-generation-required` passes, and
+  `release:train:dry-run -- --allow-dirty` passes with
+  `publicationAllowed=false` because the manifest is still draft.
+- Publish-plan status: `release:train:publish-plan` supports
+  `0.1.0-beta.15.7.1` hotfix labels and now fails closed on
+  `manifest_state_not_public:draft` instead of failing on version parsing.
+- SDK preflight status: the publish plan now inspects the local JS, Python and
+  Rust SDK project versions and required marketplace artifacts before exposing
+  mutation commands. SDK metadata has been aligned and pushed for review in
+  JS PR #11, Python PR #13 and Rust PR #15. Local SDK artifacts now satisfy
+  the publish-plan preflight; marketplace publication remains pending.
+- Remaining publication work: executing the real mutation train still requires
+  public-surface credentials and marketplace publication for the SDK versions
+  declared in `release/manifest.json`. SDK PRs are now merged, but the active
+  1Password service account only exposes vault `C-BIAS`, not `BRIK64`, so the
+  release credential set is not available in this shell.
+- Public manifest status: `release/manifest.json` has been promoted to
+  `state=public` with `source.commitBinding=public_release_base_commit`, and
+  `release:train:dry-run -- --allow-dirty` passes. Local publish-plan remains
+  blocked by the unsigned local branch commit; the next publishable path is a
+  GitHub-verified merge/ref followed by the `release-train-publish.yml`
+  workflow, which has the required repository secrets configured.
+
+## Legacy Plan Context
+
+The earlier Beta15.4 plan below remains historical context for the release-train
+hardening style. Active work is now Beta15.7.x.
 
 ## Goal
 
@@ -115,3 +159,18 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 3. Version, package, and smoke Beta15.4 as a non-public candidate.
 4. Materialize L6+N5 evidence pack for Beta15.4.
 5. Only after all gates pass, synchronize public surfaces and publish atomically.
+
+## Active Beta15.7.1 Release Continuation
+
+- PR: https://github.com/brik64/brik64-cli/pull/203
+- Branch: `codex/beta15-7-1-publication-gate`
+- Current focus: pass PR CI after public manifest promotion without weakening
+  real publication preflight.
+- Dry-run policy: `release:train:dry-run` may run before sibling SDK repos are
+  prepared, so SDK local-artifact preflight is warning-only while
+  `BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1`.
+- Publish policy: `release:train:publish-plan` outside dry-run still fails
+  closed unless SDK artifacts, marketplace credentials, exact confirmation and
+  GitHub verified signature gates pass.
+- Next gate: push the PR dry-run routing fix, wait for PR #203 checks, then
+  merge through GitHub verified ref before dispatching the release workflow.

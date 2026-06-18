@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_l6plus_engine_probe.v1",
-  "version": "0.1.0-beta.15.7",
-  "generatedAt": "2026-06-17T23:58:35.172Z",
+  "version": "0.1.0-beta.15.7.1",
+  "generatedAt": "2026-06-18T04:30:34.772Z",
   "host": "root@89.167.104.236",
   "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
   "claimBoundary": {
@@ -46,8 +46,8 @@
   "wrapperMode": "cli_materializer_dispatcher",
   "materializerRequest": {
     "path": "evidence/beta15_7-l6-materializer-request/request.manifest.json",
-    "sha256": "993003ffcd9016f8b9b161e827c062c9388044e9dd58af8759bb30f24d2b5561",
-    "requestLineSha256": "34a6bf36e3e30e47374f2f04e318f006e1d224ed6da173b175bac5f18a54ca1c",
+    "sha256": "577c9cc9d1b1a5657dc75937a9cf9a2b3449abf85655d2f5d3a0f8c495111f41",
+    "requestLineSha256": "027f97a13308acb34d69bb7697380f432e80011f23d7513b2d5d336be5f2a093",
     "accepted": true
   }
 }

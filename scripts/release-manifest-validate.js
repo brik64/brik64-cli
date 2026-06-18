@@ -93,11 +93,12 @@ function containsForbiddenPublicLanguage(text) {
 }
 
 function pypiVersion(version) {
-  const match = String(version).match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(.*))?$/);
+  const match = String(version).match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?(?:\.(\d+))?$/);
   if (!match) return String(version);
-  const [, base, beta, suffix] = match;
-  if (!suffix) return `${base}b${beta}`;
-  return `${base}b${beta}.post${suffix.split('.').join('')}`;
+  const [, base, beta, post, patch] = match;
+  if (!post) return `${base}b${beta}`;
+  if (!patch) return `${base}b${beta}.post${post}`;
+  return `${base}b${beta}.post${post}${String(patch).padStart(2, '0')}`;
 }
 
 function isBeta15_7CliOnlyHotfix(version, sdk) {

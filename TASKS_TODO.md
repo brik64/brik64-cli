@@ -1,4 +1,155 @@
-# Beta15.4 Tasks
+# Beta15.7.x Tasks
+
+- [x] Make Beta15.7 L6 generation attempts bind the exact hotfix version.
+      - Script:
+        `scripts/beta15_7-l6-generation-attempt.js`.
+      - Tests:
+        `scripts/tests/test_beta15_7_l6_generation_attempt.sh`.
+        `scripts/tests/test_cli_l6_generation_required_gate.sh`.
+      - Result:
+        `0.1.0-beta.15.7.1` now writes L6 request/report/package refs for
+        `0.1.0-beta.15.7.1`, while still using the shared evidence label
+        `beta15_7`.
+      - Boundary:
+        live L6 materialization is still blocked because the remote endpoint
+        rejects the hotfix version.
+
+- [x] Make `release:train:dry-run` consume the Beta15.7.x L6 required gate.
+      - Script:
+        `scripts/release-train-dry-run.js`.
+      - Result:
+        dry-run now fails closed on `cli_l6_generation_required` instead of
+        allowing a draft Beta15.7.1 false-green release train.
+      - Evidence:
+        `npm run release:train:dry-run -- --allow-dirty` fails with
+        `FAIL_RELEASE_TRAIN_DRY_RUN` and the expected L6 blockers.
+
+- [x] Add mandatory Beta15.7.x full release audit gate before publication.
+      - Script:
+        `scripts/beta15_7-full-release-audit-gate.js`.
+      - NPM:
+        `gate:beta15.7:full-release-audit`.
+      - Release train:
+        `scripts/release-train-dry-run.js` now runs the gate for Beta15.7.x.
+      - Coverage:
+        direct CLI commands, L4+N5 engine status, 128 monomers, core/extended
+        certify/verify, TS/Python/Rust generated tests, core/extended/app
+        polymer, lift TS/JS/Python/Rust, unsupported-lift warnings and
+        adversarial fail-closed vectors.
+      - Evidence:
+        `evidence/beta15_7-full-release-audit/report.json` reports
+        `PASS_BRIK64_CLI_BETA15_7_FULL_RELEASE_AUDIT_GATE` with 111 command
+        records.
+      - Boundary:
+        this is local candidate evidence. It does not unblock publication while
+        `gate:cli:l6-generation-required` remains blocked.
+
+- [x] Expose or regenerate L6+N5 materialization support for exact version
+      `0.1.0-beta.15.7.1`.
+      - Scripts:
+        `scripts/remote_l6_beta15_7_cli_materializer.js`.
+        `scripts/tests/test_remote_l6_beta15_7_cli_materializer.sh`.
+      - Result:
+        the remote materializer now accepts only the bounded
+        `0.1.0-beta.15.7.x` family, rejects out-of-family versions such as
+        `0.1.0-beta.15.8`, and keeps unsafe output refs fail-closed.
+      - Evidence:
+        `npm run attempt:beta15.7:l6-generation` passed with
+        `PASS_BETA15_7_L6_GENERATION_GATE`.
+        `npm run gate:cli:l6-generation-required` passed with
+        `PASS_CLI_L6_GENERATION_REQUIRED_GATE`.
+        `npm run release:train:dry-run -- --allow-dirty` passed with
+        `PASS_RELEASE_TRAIN_DRY_RUN`.
+      - Done when:
+        `npm run attempt:beta15.7:l6-generation`,
+        `npm run gate:cli:l6-generation-required` and
+        `npm run release:train:dry-run -- --allow-dirty` all pass after
+        deterministic package regeneration without opening public
+        fixpoint/N5/self-hosting claims.
+
+- [ ] Execute public mutation train for Beta15.7.1.
+      - Current state:
+        local release train dry-run is green with `release/manifest.json`
+        promoted to `state=public`, but publication mutation still requires a
+        GitHub-verified release commit/ref.
+      - Latest Ralph Loop check:
+        `npm run release:train:publish-plan` now supports
+        `0.1.0-beta.15.7.1` and fails closed on the intended blocker:
+        `manifest_state_not_public:draft`.
+      - SDK preflight hardening:
+        `scripts/release-train-publish-plan.js` now validates the required SDK
+        project versions and local marketplace artifacts declared by
+        `release/manifest.json` before presenting the mutation commands.
+      - Current explicit blockers:
+        npm SDK project is `0.1.0-beta.15.7` and has no
+        `brik64-core-0.1.0-beta.15.7.1.tgz` artifact.
+        Python SDK project is `0.1.0b15.post4` and has no
+        `brik64-0.1.0b15.post701*` artifact.
+        Rust SDK project is `0.1.0-beta.15.4`.
+      - Done when:
+        GitHub Release, curl/GCP installer, docs, web, skills, npm, PyPI,
+        crates and live verification all point to `0.1.0-beta.15.7.1` with
+        fresh evidence and no claim overreach.
+
+- [ ] Align SDK repositories and artifacts to Beta15.7.1 before public
+      mutation.
+      - npm target:
+        `@brik64/core@0.1.0-beta.15.7.1`.
+      - PyPI target:
+        `brik64==0.1.0b15.post701`.
+      - crates target:
+        `brik64-core@0.1.0-beta.15.7.1`.
+      - Current state:
+        metadata is committed and pushed in SDK PRs:
+        JS https://github.com/brik64-admin/brik64-lib-js/pull/11,
+        Python https://github.com/brik64-admin/brik64-lib-python/pull/13,
+        Rust https://github.com/brik64-admin/brik64-lib-rust/pull/15.
+        Local artifacts were generated for the publish-plan preflight.
+      - Remaining:
+        merge SDK PRs and publish the marketplace packages during the atomic
+        release train.
+      - Updated state:
+        SDK PRs are merged:
+        JS #11, Python #13, Rust #15. Local artifacts still exist for the
+        publish-plan preflight.
+      - Done when:
+        package metadata, README public references, built artifacts and
+        release-train publish-plan all match `release/manifest.json`.
+
+- [ ] Restore/export release credentials for the atomic Beta15.7.1 mutation
+      train.
+      - Current blocker:
+        `op whoami` works, but the active service account only lists vault
+        `C-BIAS`; it does not list `BRIK64`. The only matching C-BIAS item
+        found was `Service Account Auth Token: BRIK64-FLEET`, not the
+        marketplace/publication token set.
+      - Publish preflight currently fails on missing:
+        `BRIK64_GITHUB_RELEASE_TOKEN`, `BRIK64_NPM_TOKEN`,
+        `BRIK64_PYPI_TOKEN`, `BRIK64_CRATES_TOKEN`,
+        `BRIK64_DOCS_DISPATCH_TOKEN`, `BRIK64_WEB_DEPLOY_TOKEN`,
+        `BRIK64_SKILLS_REPO_TOKEN` and GCP release auth.
+      - Done when:
+        release credentials are available to the publish workflow without
+        printing secrets, and `npm run release:train:publish-plan -- --publish`
+        fails only on intentional confirmation/manifest gates or passes after
+        manifest promotion.
+
+- [ ] Merge CLI PR through GitHub and dispatch release workflow from verified
+      main commit.
+      - Current blocker:
+        local `release:github-verified-signature` reports the current branch
+        commit as `unsigned`, so local publish-plan fails with
+        `github_verified_signature_not_pass`.
+      - Reason:
+        public mutation requires GitHub-verified release identity. A GitHub
+        merge/squash commit on `main` is expected to provide the verified ref
+        that the workflow checks before publishing.
+      - Done when:
+        PR #203 is merged, `release:github-verified-signature` passes on the
+        release ref, and `release-train-publish.yml` is dispatched with the
+        manifest digest and confirmation string.
+
+## Legacy Beta15.4 Tasks
 
 - [x] Create clean checkout from `origin/main`.
 - [x] Identify Rust app-polymer domain assertion scope defect.
@@ -203,8 +354,15 @@
         does not assert fixpoint, formal N5, self-hosting or Rust independence.
 - [ ] Publish public surfaces only after L6 and release train gates pass.
       - Current blocker:
-        `release:train:dry-run` now fails only on dirty worktree state until
-        this iteration is committed.
+        PR CI must pass `Validate manifest and release train` with the same
+        dry-run semantics used by the GitHub Actions release workflow.
+      - [x] Treat missing sibling SDK repositories/artifacts as warnings only
+            while `release:train:dry-run` is actively generating its report.
+      - [ ] Push CI dry-run fix and wait for PR #203 checks to pass.
+      - [ ] Merge through GitHub verified ref.
+      - [ ] Trigger release-train workflow with exact manifest digest.
+      - [ ] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
+            skills surfaces live.
 
 - [x] Align Beta15.4 candidate manifest and materializer request refs.
       - Request bundle:

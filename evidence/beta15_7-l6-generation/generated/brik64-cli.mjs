@@ -1,12 +1,12 @@
 // brik64 generated materialization unit
 export const brik64CliMaterialization = {
   "schemaVersion": "brik64.cli_beta15_7_l6_generated_artifact.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "materializerMode": "l6plus_pcd_polymer_materializer",
   "generatedBy": "l6plus_n5_remote_cli_materializer_endpoint",
   "source": {
     "pcdInputSetSha256": "1fe950b0efda4d41bc1e160863bf4ca70565c14b461f4a18c9dc7b9a02b7c547",
-    "materializerRequestSha256": "34a6bf36e3e30e47374f2f04e318f006e1d224ed6da173b175bac5f18a54ca1c",
+    "materializerRequestSha256": "027f97a13308acb34d69bb7697380f432e80011f23d7513b2d5d336be5f2a093",
     "inputPcds": [
       {
         "path": "pcd/beta15_7/release/l6_cli_materialization_contract.pcd",
@@ -47,14 +47,14 @@ export const brik64CliMaterialization = {
   },
   "outputBindings": {
     "package": {
-      "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
-      "sha256": "2c428664dfe4e90e17a4275f2747775caaa2722abbf80724d4f7477bfaad8e31",
-      "bytes": 629828
+      "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz",
+      "sha256": "eb65750d271e4e412a65b9256dac78d8cc0cee2ca59cced89234364771986f94",
+      "bytes": 631876
     },
     "releaseManifest": {
       "path": "release/manifest.json",
-      "sha256": "f573e9b800be3fba6cafc6a48443ce36c536a1516f0a694f3b9293c78322f05b",
-      "bytes": 2521
+      "sha256": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
+      "bytes": 2641
     }
   },
   "claimBoundary": {
