@@ -269,7 +269,17 @@ const packageManifest = {
 writeJson(manifestPath, packageManifest);
 fs.writeFileSync(sumsPath, `${packageSha}  ${packageName}\n${sha256(stageChecksums)}  stage-checksums.tsv\n`);
 
-const sourceCommit = gitHead();
+let previousReleaseManifest = null;
+try {
+  previousReleaseManifest = fs.existsSync(releaseManifestPath) ? readJson(releaseManifestPath) : null;
+} catch {
+  previousReleaseManifest = null;
+}
+const previousCandidateCommit = previousReleaseManifest?.source?.commitBinding === 'candidate_base_commit'
+  && /^[a-f0-9]{40}$/i.test(previousReleaseManifest?.source?.commit || '')
+  ? previousReleaseManifest.source.commit
+  : null;
+const sourceCommit = previousCandidateCommit || gitHead();
 writeJson(releaseManifestPath, {
   schemaVersion: 'brik64.release_manifest.v1',
   releaseId: `brik64-${version}`,
