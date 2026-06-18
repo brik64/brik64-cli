@@ -366,8 +366,14 @@
             check after the real workflow failed before public mutation.
       - [x] Fix public-surface version parsers for patch beta labels after
             `gcp_curl` rejected `0.1.0-beta.15.7.1`.
+      - [x] Sync public docs and skill surfaces to `0.1.0-beta.15.7.1`.
+            External commits:
+            docs `f41b748`, skills `b6fbe7f`.
+      - [x] Harden live verifier install-command fallback so a manifest
+            missing `cli.installCommand` produces deterministic verification
+            instead of an opaque `undefined.replace` runtime error.
       - [ ] Trigger release-train workflow with exact manifest digest.
-      - [ ] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
+      - [x] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
             skills surfaces live.
 
 - [x] Align Beta15.4 candidate manifest and materializer request refs.
