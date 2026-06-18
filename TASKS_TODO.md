@@ -107,9 +107,31 @@
       - Remaining:
         merge SDK PRs and publish the marketplace packages during the atomic
         release train.
+      - Updated state:
+        SDK PRs are merged:
+        JS #11, Python #13, Rust #15. Local artifacts still exist for the
+        publish-plan preflight.
       - Done when:
         package metadata, README public references, built artifacts and
         release-train publish-plan all match `release/manifest.json`.
+
+- [ ] Restore/export release credentials for the atomic Beta15.7.1 mutation
+      train.
+      - Current blocker:
+        `op whoami` works, but the active service account only lists vault
+        `C-BIAS`; it does not list `BRIK64`. The only matching C-BIAS item
+        found was `Service Account Auth Token: BRIK64-FLEET`, not the
+        marketplace/publication token set.
+      - Publish preflight currently fails on missing:
+        `BRIK64_GITHUB_RELEASE_TOKEN`, `BRIK64_NPM_TOKEN`,
+        `BRIK64_PYPI_TOKEN`, `BRIK64_CRATES_TOKEN`,
+        `BRIK64_DOCS_DISPATCH_TOKEN`, `BRIK64_WEB_DEPLOY_TOKEN`,
+        `BRIK64_SKILLS_REPO_TOKEN` and GCP release auth.
+      - Done when:
+        release credentials are available to the publish workflow without
+        printing secrets, and `npm run release:train:publish-plan -- --publish`
+        fails only on intentional confirmation/manifest gates or passes after
+        manifest promotion.
 
 ## Legacy Beta15.4 Tasks
 

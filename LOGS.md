@@ -871,3 +871,28 @@ Boundary:
 - SDK PRs are not merged yet.
 - Marketplace publication has not happened yet.
 - Public Beta15.7.1 remains unpublished while the manifest is draft.
+
+## Beta15.7.1 Ralph Loop Iteration - SDK PR merge and credential preflight
+
+Task:
+- Merge SDK source alignment and check whether the public mutation train can publish Beta15.7.1 atomically.
+
+Changes:
+- Rewrote SDK PR branches onto current `origin/main` to remove old branch conflicts.
+- JS PR https://github.com/brik64-admin/brik64-lib-js/pull/11 merged.
+- Python PR https://github.com/brik64-admin/brik64-lib-python/pull/13 merged.
+- Rust PR https://github.com/brik64-admin/brik64-lib-rust/pull/15 merged.
+- Fixed JS SDK package allowlist during rebase so the npm tarball no longer embeds historical `.tgz` files from `dist/`.
+
+Evidence:
+- JS: `npm run build`, `npm test`, `npm run test:package-exports`, and `npm pack --pack-destination dist` passed after the allowlist fix; tarball size returned to ~20.8 kB and no nested tarballs appeared in npm notice contents.
+- Python: Python 3.13 venv validation passed 11 tests and built `brik64-0.1.0b15.post701` wheel/sdist.
+- Rust: `cargo test` passed 15 unit tests and 34 doc tests; `cargo package --allow-dirty --no-verify` passed.
+- `npm run release:train:publish-plan` now fails only on `manifest_state_not_public:draft` for non-mutating mode.
+- `npm run release:train:publish-plan -- --publish` fails closed on missing confirmation, draft manifest and missing release credentials.
+- 1Password check inside tmux: `op whoami` works, but active service account lists only vault `C-BIAS`; BRIK64 vault is not visible. The only matching C-BIAS item found was `Service Account Auth Token: BRIK64-FLEET`.
+
+Boundary:
+- SDK source is merged, but SDK marketplace publication has not happened.
+- Beta15.7.1 public mutation is blocked until the release credential set is exported or the 1Password service account scope is corrected.
+- No secrets were printed.

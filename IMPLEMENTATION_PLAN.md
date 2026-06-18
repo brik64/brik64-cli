@@ -28,8 +28,10 @@
   JS PR #11, Python PR #13 and Rust PR #15. Local SDK artifacts now satisfy
   the publish-plan preflight; marketplace publication remains pending.
 - Remaining publication work: executing the real mutation train still requires
-  public-surface credentials, merged SDK PRs and marketplace publication for
-  the SDK versions declared in `release/manifest.json`.
+  public-surface credentials and marketplace publication for the SDK versions
+  declared in `release/manifest.json`. SDK PRs are now merged, but the active
+  1Password service account only exposes vault `C-BIAS`, not `BRIK64`, so the
+  release credential set is not available in this shell.
 
 ## Legacy Plan Context
 

@@ -5,7 +5,7 @@
   "manifestDigest": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
   "decision": "FAIL_PUBLISH_PREFLIGHT",
   "dryRunInProgress": false,
-  "publishRequested": false,
+  "publishRequested": true,
   "publicationAllowed": false,
   "expectedConfirm": "PUBLISH 0.1.0-beta.15.7.1 8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
   "secretAvailability": {
@@ -112,7 +112,16 @@
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
   "failures": [
-    "manifest_state_not_public:draft"
+    "manifest_state_not_public:draft",
+    "publish_confirmation_missing_or_invalid",
+    "required_secret_missing:BRIK64_GITHUB_RELEASE_TOKEN",
+    "required_secret_missing:BRIK64_NPM_TOKEN",
+    "required_secret_missing:BRIK64_PYPI_TOKEN",
+    "required_secret_missing:BRIK64_CRATES_TOKEN",
+    "required_secret_missing:BRIK64_DOCS_DISPATCH_TOKEN",
+    "required_secret_missing:BRIK64_WEB_DEPLOY_TOKEN",
+    "required_secret_missing:BRIK64_SKILLS_REPO_TOKEN",
+    "required_gcp_auth_missing:BRIK64_GCP_RELEASE_CREDENTIALS_or_WORKLOAD_IDENTITY"
   ],
   "warnings": [
     "pre_publish_live_verify_manifest_digest_drift"
