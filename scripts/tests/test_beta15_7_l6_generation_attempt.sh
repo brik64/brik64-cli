@@ -99,6 +99,30 @@ jq -e '
   and (.blockers | index("missing_package_artifact:evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz"))
 ' "$ALIGNED_NO_PACKAGE/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
 
+PATCH_VERSION="$TMP_DIR/patch-version"
+mkbase "$PATCH_VERSION"
+cat >"$PATCH_VERSION/package.json" <<'JSON'
+{ "version": "0.1.0-beta.15.7.1" }
+JSON
+cat >"$PATCH_VERSION/release/manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.15.7.1" }
+JSON
+if BRIK64_CLI_ROOT="$PATCH_VERSION" BRIK64_L6_SKIP_REMOTE=1 node "$ROOT/scripts/beta15_7-l6-generation-attempt.js" >/tmp/beta15_7_l6_patch_version.out 2>/tmp/beta15_7_l6_patch_version.err; then
+  echo "expected patch-version fixture without package to fail closed" >&2
+  exit 1
+fi
+jq -e '
+  .version=="0.1.0-beta.15.7.1"
+  and .decision=="BLOCKED_BETA15_7_L6_GENERATION_GATE"
+  and (.blockers | index("release_manifest_version_mismatch:0.1.0-beta.15.6:0.1.0-beta.15.7") | not)
+  and (.blockers | index("missing_package_artifact:evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz"))
+' "$PATCH_VERSION/evidence/beta15_7-l6-generation/gate-report.json" >/dev/null
+jq -e '
+  .version=="0.1.0-beta.15.7.1"
+  and .requiredResultVersion=="0.1.0-beta.15.7.1"
+  and .outputRefs.package=="evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz"
+' "$PATCH_VERSION/evidence/beta15_7-l6-materializer-request/request.json" >/dev/null
+
 REMOTE_VERSION_GAP="$TMP_DIR/remote-version-gap"
 mkbase "$REMOTE_VERSION_GAP"
 mkdir -p "$REMOTE_VERSION_GAP/evidence/beta15_7-package"

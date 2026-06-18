@@ -1,4 +1,40 @@
-# Beta15.4 Tasks
+# Beta15.7.x Tasks
+
+- [x] Make Beta15.7 L6 generation attempts bind the exact hotfix version.
+      - Script:
+        `scripts/beta15_7-l6-generation-attempt.js`.
+      - Tests:
+        `scripts/tests/test_beta15_7_l6_generation_attempt.sh`.
+        `scripts/tests/test_cli_l6_generation_required_gate.sh`.
+      - Result:
+        `0.1.0-beta.15.7.1` now writes L6 request/report/package refs for
+        `0.1.0-beta.15.7.1`, while still using the shared evidence label
+        `beta15_7`.
+      - Boundary:
+        live L6 materialization is still blocked because the remote endpoint
+        rejects the hotfix version.
+
+- [x] Make `release:train:dry-run` consume the Beta15.7.x L6 required gate.
+      - Script:
+        `scripts/release-train-dry-run.js`.
+      - Result:
+        dry-run now fails closed on `cli_l6_generation_required` instead of
+        allowing a draft Beta15.7.1 false-green release train.
+      - Evidence:
+        `npm run release:train:dry-run -- --allow-dirty` fails with
+        `FAIL_RELEASE_TRAIN_DRY_RUN` and the expected L6 blockers.
+
+- [ ] Expose or regenerate L6+N5 materialization support for exact version
+      `0.1.0-beta.15.7.1`.
+      - Current blocker:
+        `remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7.1`.
+      - Done when:
+        `npm run attempt:beta15.7:l6-generation`,
+        `npm run gate:cli:l6-generation-required` and
+        `npm run release:train:dry-run` all pass on a clean worktree without
+        opening public fixpoint/N5/self-hosting claims.
+
+## Legacy Beta15.4 Tasks
 
 - [x] Create clean checkout from `origin/main`.
 - [x] Identify Rust app-polymer domain assertion scope defect.

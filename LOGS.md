@@ -1,4 +1,48 @@
-# Beta15.4 Ralph Loop Log
+# BRIK64 CLI Ralph Loop Log
+
+## Iteration 25 - Beta15.7.1 exact-version L6 publication gate
+
+Timestamp: `2026-06-18T03:55:19Z`
+
+- Fixed `scripts/beta15_7-l6-generation-attempt.js` so the L6 materialization
+  request and evidence reports read the exact version from `package.json`
+  instead of hardcoding `0.1.0-beta.15.7`.
+- Fixed `scripts/cli-l6-generation-required-gate.js` so hotfix versions such
+  as `0.1.0-beta.15.7.1` resolve to the shared `beta15_7` evidence directory
+  while preserving exact version checks inside the reports.
+- Hardened `scripts/release-train-dry-run.js` so Beta15.7.x draft releases run
+  the L6 required gate and cannot pass dry-run while L6 materialization is
+  blocked.
+- Removed stale generated Beta15.7 evidence from the active Beta15.7.1 L6
+  evidence pack by rerunning the exact-version materialization attempt; the
+  current pack fails closed instead of retaining a mismatched artifact.
+- Added test coverage for:
+  - patch-version request/package refs for `0.1.0-beta.15.7.1`;
+  - hotfix label resolution to `beta15_7`;
+  - existing remote version-mismatch fail-closed behavior.
+
+Evidence:
+
+- `bash scripts/tests/test_beta15_7_l6_generation_attempt.sh` passed.
+- `bash scripts/tests/test_cli_l6_generation_required_gate.sh` passed.
+- `node --check scripts/cli-l6-generation-required-gate.js` passed.
+- `node --check scripts/beta15_7-l6-generation-attempt.js` passed.
+- `npm run attempt:beta15.7:l6-generation` failed closed with:
+  - `remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7.1`;
+  - `remote_l6plus_materialization_contract_unavailable`;
+  - `generated_artifact_missing`.
+- `npm run gate:cli:l6-generation-required` failed closed on the same missing
+  L6 artifact/package/release bindings.
+- `npm run release:train:dry-run -- --allow-dirty` failed closed on
+  `command_failed:cli_l6_generation_required:1`.
+
+Boundary:
+
+- Beta15.7.1 is still not publicly releasable.
+- This iteration removes a false-green release-train path; it does not publish
+  GitHub/curl/GCP/docs/skills/SDKs.
+- Public N5, fixpoint, self-hosting, Rust-independence and pure BRIK64-chain
+  claims remain closed.
 
 ## Iteration 1
 

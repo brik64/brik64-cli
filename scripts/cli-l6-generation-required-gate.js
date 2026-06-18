@@ -22,7 +22,7 @@ function rel(file) {
 }
 
 function betaLabel(version) {
-  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.(\d+))?$/);
+  const match = String(version).match(/^0\.1\.0-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/);
   if (!match) return null;
   return match[2] ? `beta${match[1]}_${match[2]}` : `beta${match[1]}`;
 }

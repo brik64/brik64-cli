@@ -843,6 +843,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
 
   if (isBeta15_7Family(manifest.version)) {
     return [
+      cliL6GenerationRequiredGate(),
       beta15_7SourceCandidateContract(),
       run('beta15_7_local_package', ['npm', 'run', 'package:beta15.7:local'], {
         stdoutLimit: 12000,
@@ -856,7 +857,6 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
       ...(manifest.state === 'draft'
         ? []
         : [
-            cliL6GenerationRequiredGate(),
             blockedSurfaceGate('beta15_7_publication_gate', 'beta15.7 public publication requires explicit release train publish evidence')
           ])
     ];
