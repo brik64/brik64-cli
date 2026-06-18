@@ -4,7 +4,7 @@
   "version": "0.1.0-beta.15.7.1",
   "state": "draft",
   "source": {
-    "commit": "69f9e576c8725b76a0e70966ee6708c77c9dbdaa",
+    "commit": "5a337c1297e0d98b410669eeeee72eb48625e976",
     "commitBinding": "candidate_base_commit"
   },
   "cli": {

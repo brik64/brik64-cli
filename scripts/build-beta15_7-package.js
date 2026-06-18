@@ -97,8 +97,8 @@ function gitHead() {
 }
 
 function fail(failures) {
-  fs.rmSync(outDir, { recursive: true, force: true });
   fs.mkdirSync(outDir, { recursive: true });
+  fs.rmSync(stageRoot, { recursive: true, force: true });
   writeJson(manifestPath, {
     schemaVersion: 'brik64.cli_beta15_7_package_manifest.v1',
     version,
@@ -229,7 +229,9 @@ if (!source.includes(`const version = '${version}'`)) failures.push('source_vers
 if (!fs.existsSync(path.join(root, 'engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) failures.push('l4plus_n5_bundle_missing');
 if (failures.length > 0) fail(failures);
 
-fs.rmSync(outDir, { recursive: true, force: true });
+fs.mkdirSync(outDir, { recursive: true });
+fs.rmSync(stageRoot, { recursive: true, force: true });
+fs.rmSync(packagePath, { force: true });
 fs.mkdirSync(stageDir, { recursive: true });
 for (const input of inputs) copyInput(input);
 writePackage();
