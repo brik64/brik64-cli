@@ -8,7 +8,7 @@
   "generationClaim": "source_candidate_pending_l6_materialization",
   "package": {
     "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
-    "sha256": "2c428664dfe4e90e17a4275f2747775caaa2722abbf80724d4f7477bfaad8e31",
+    "sha256": "506cdafd28884588d34471082a2435dab2edf5bddfdd1c57030c7c8ec28dee63",
     "bytes": 629828
   },
   "claimBoundary": {

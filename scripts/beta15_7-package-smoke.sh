@@ -169,6 +169,37 @@ if count == 0:
     raise SystemExit("no_generated_tests_executed")
 print(f"generated_python_tests={count}")
 PY
+  cat > source_floor_div.py <<'PY'
+def floor_div_gate(x: int, y: int) -> int:
+    if x > 10:
+        return x // y
+    return x + 1
+PY
+  run_pass lift_python_floor_div "" env BRIK64_NO_BANNER=1 node "$BRIK" lift python source_floor_div.py --preview --json
+  if grep -q 'pcd_parse_error:malformed_expression' "$TMP_DIR/lift_python_floor_div.stdout" "$TMP_DIR/lift_python_floor_div.stderr"; then
+    echo "python_floor_division_lift_malformed_expression" >&2
+    exit 1
+  fi
+  jq -e '
+    .language=="python"
+    and .candidateCount >= 1
+    and .certificationEligibleCandidateCount >= 1
+    and ([.candidates[] | select(.function=="floor_div_gate" and .certificationEligible==true)] | length) >= 1
+  ' "$TMP_DIR/lift_python_floor_div.stdout" >/dev/null || {
+    echo "python_floor_division_lift_candidate_not_certification_eligible" >&2
+    cat "$TMP_DIR/lift_python_floor_div.stdout" >&2
+    exit 1
+  }
+  floor_div_candidate="$(find .brik/lift-preview -name floor_div_gate.pcd -print -quit)"
+  [[ -n "$floor_div_candidate" && -f "$floor_div_candidate" ]] || {
+    echo "python_floor_division_lift_candidate_missing" >&2
+    exit 1
+  }
+  grep -q 'return x / y;' "$floor_div_candidate" || {
+    echo "python_floor_division_lift_integer_division_missing" >&2
+    exit 1
+  }
+  run_pass certify_lifted_floor_div "certificate=" env BRIK64_NO_BANNER=1 node "$BRIK" certify "$floor_div_candidate"
   run_pass ledger_verify '"status": "PASS"' env BRIK64_NO_BANNER=1 node "$BRIK" ledger verify --json
   cp .brik/ledger/events.jsonl .brik/ledger/events.jsonl.bak
   python3 - <<'PY'
@@ -202,6 +233,7 @@ jq -n \
       "verify",
       "python_emit_package_layout",
       "generated_python_tests",
+      "python_floor_division_lift_package_regression",
       "ledger_verify",
       "ledger_tamper_fail_closed"
     ]

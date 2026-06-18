@@ -15,6 +15,7 @@
     "verify",
     "python_emit_package_layout",
     "generated_python_tests",
+    "python_floor_division_lift_package_regression",
     "ledger_verify",
     "ledger_tamper_fail_closed"
   ]
