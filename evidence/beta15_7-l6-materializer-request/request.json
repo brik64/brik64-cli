@@ -4,7 +4,7 @@
   "lane": "cli_0_1_beta",
   "iterId": "beta15.7-l6-cli-materializer-request",
   "materializerMode": "l6plus_pcd_polymer_materializer",
-  "sourceCommit": "873a25849d825fbe1b5b1f13a6fcf04ea47e93fc",
+  "sourceCommit": "020c33b4f7a5579a2ef939d233b261a42f8a0d02",
   "claimBoundary": {
     "publicClaimsAllowed": false,
     "formalN5ClaimAllowed": false,
@@ -78,13 +78,13 @@
   "outputArtifacts": {
     "package": {
       "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz",
-      "sha256": "0e23917543b81d83efecce872f1e0d1d319428d70e2e9e514b5b34ce547908ed",
-      "bytes": 631364
+      "sha256": "eb65750d271e4e412a65b9256dac78d8cc0cee2ca59cced89234364771986f94",
+      "bytes": 631876
     },
     "releaseManifest": {
       "path": "release/manifest.json",
-      "sha256": "c9d6ee95228338ffe0b8257dc28f74ac8d352cf4682be552eba5180deda0739b",
-      "bytes": 2575
+      "sha256": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
+      "bytes": 2641
     }
   },
   "requiredBindings": [

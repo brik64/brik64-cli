@@ -222,9 +222,11 @@ function requireText(surface, body, needle, failures) {
 }
 
 function betaToPypiVersion(version) {
-  const match = version.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?$/);
+  const match = version.match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?(?:\.(\d+))?$/);
   if (!match) return version;
-  return `${match[1]}b${match[2]}${match[3] ? `.post${match[3]}` : ''}`;
+  if (!match[3]) return `${match[1]}b${match[2]}`;
+  if (!match[4]) return `${match[1]}b${match[2]}.post${match[3]}`;
+  return `${match[1]}b${match[2]}.post${match[3]}${String(match[4]).padStart(2, '0')}`;
 }
 
 function sdkVersion(manifest, marketplace, fallback) {

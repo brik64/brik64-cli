@@ -46,7 +46,7 @@
     }
   ],
   "pcdInputSetSha256": "1fe950b0efda4d41bc1e160863bf4ca70565c14b461f4a18c9dc7b9a02b7c547",
-  "generatedArtifact": null,
-  "package": null,
-  "releaseManifest": null
+  "generatedArtifact": "a00ebf5dc74a00fb1d5dd8f5af65fbb9cabf9615123cdaa0c13703c42f96f51c",
+  "package": "eb65750d271e4e412a65b9256dac78d8cc0cee2ca59cced89234364771986f94",
+  "releaseManifest": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b"
 }

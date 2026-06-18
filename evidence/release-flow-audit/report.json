@@ -2,8 +2,8 @@
   "schemaVersion": "brik64.release_flow_audit_report.v1",
   "releaseId": "brik64-0.1.0-beta.15.7.1",
   "version": "0.1.0-beta.15.7.1",
-  "manifestDigest": "22d72f2cedef40781b17949556c21bdedf8e0e8ca49e972a7214ad54fc93a3d4",
-  "decision": "FAIL_RELEASE_FLOW_AUDIT",
+  "manifestDigest": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
+  "decision": "PASS_RELEASE_FLOW_AUDIT",
   "publicationAllowed": false,
   "boundary": "Static and local release-flow hardening audit. It verifies publication gates, public-surface coverage, and changelog hygiene without publishing.",
   "observations": [
@@ -11,7 +11,7 @@
       "releaseId": "brik64-0.1.0-beta.15.7.1",
       "version": "0.1.0-beta.15.7.1",
       "state": "draft",
-      "manifestDigest": "22d72f2cedef40781b17949556c21bdedf8e0e8ca49e972a7214ad54fc93a3d4",
+      "manifestDigest": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
       "currentBetaLabel": "beta15_7",
       "requiredSurfaces": [
         "githubRelease",
@@ -23,19 +23,12 @@
       ],
       "requiredMarketplaces": {
         "npm": "0.1.0-beta.15.7.1",
-        "pypi": "0.1.0-beta.15.7.1",
+        "pypi": "0.1.0b15.post701",
         "crates.io": "0.1.0-beta.15.7.1"
       },
       "boundary": "Carril A release-flow audit only. Does not mutate public surfaces and does not assert L6+N5 fixpoint."
     }
   ],
-  "failures": [
-    "sdk_surface_not_required:npm",
-    "sdk_version_drift:npm:0.1.0-beta.15.7",
-    "sdk_surface_not_required:pypi",
-    "sdk_version_drift:pypi:0.1.0b15.post7",
-    "sdk_surface_not_required:crates.io",
-    "sdk_version_drift:crates.io:0.1.0-beta.15.7"
-  ],
+  "failures": [],
   "warnings": []
 }

@@ -10,8 +10,8 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 const version = process.env.BRIK64_BETA15_7_VERSION || packageJson.version;
 const beta15_7FamilyPattern = /^0\.1\.0-beta\.15\.7(?:\.\d+)?$/;
 const label = 'beta15_7';
-const sdkVersion = '0.1.0-beta.15.7';
-const sdkPythonVersion = '0.1.0b15.post7';
+const sdkVersion = version;
+const sdkPythonVersion = pypiVersion(version);
 const outDir = path.join(root, 'evidence', `${label}-package`);
 const stageRoot = path.join(outDir, 'stage');
 const stageName = `brik64-cli-${version}`;
@@ -94,6 +94,15 @@ function gitHead() {
     encoding: 'utf8',
   });
   return result.status === 0 ? result.stdout.trim() : null;
+}
+
+function pypiVersion(value) {
+  const match = String(value).match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?(?:\.(\d+))?$/);
+  if (!match) return value;
+  const [, base, beta, post, patch] = match;
+  if (!post) return `${base}b${beta}`;
+  if (!patch) return `${base}b${beta}.post${post}`;
+  return `${base}b${beta}.post${post}${String(patch).padStart(2, '0')}`;
 }
 
 function gitCommitIsAncestor(commit) {
@@ -320,9 +329,9 @@ writeJson(releaseManifestPath, {
     },
   ],
   sdks: [
-    { marketplace: 'npm', name: '@brik64/core', version: sdkVersion, publication: 'unchanged_from_beta15_7_until_sdk_hotfix' },
-    { marketplace: 'pypi', name: 'brik64', version: sdkPythonVersion, publication: 'unchanged_from_beta15_7_until_sdk_hotfix' },
-    { marketplace: 'crates.io', name: 'brik64-core', version: sdkVersion, publication: 'unchanged_from_beta15_7_until_sdk_hotfix' },
+    { marketplace: 'npm', name: '@brik64/core', version: sdkVersion, required: true, publication: 'pending_release_train_publish' },
+    { marketplace: 'pypi', name: 'brik64', version: sdkPythonVersion, required: true, publication: 'pending_release_train_publish' },
+    { marketplace: 'crates.io', name: 'brik64-core', version: sdkVersion, required: true, publication: 'pending_release_train_publish' },
   ],
   publicSurfaces: {
     githubRelease: { required: true, status: 'pending_release_train_publish', tag: `v${version}` },

@@ -55,9 +55,12 @@ function add(condition, failures, code) {
 }
 
 function pypiVersion(version) {
-  return String(version).replace(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?$/, (_all, base, beta, post) => (
-    post ? `${base}b${beta}.post${post}` : `${base}b${beta}`
-  ));
+  const match = String(version).match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?(?:\.(\d+))?$/);
+  if (!match) return version;
+  const [, base, beta, post, patch] = match;
+  if (!post) return `${base}b${beta}`;
+  if (!patch) return `${base}b${beta}.post${post}`;
+  return `${base}b${beta}.post${post}${String(patch).padStart(2, '0')}`;
 }
 
 function textContainsAll(text, needles, failures, prefix) {

@@ -12,7 +12,16 @@
   adversarial fail-closed vectors in an isolated workspace.
 - Publication policy: fail closed until `evidence/beta15_7-l6-generation/` is regenerated for the exact package version in `package.json` and `release/manifest.json`.
 - Version-family policy: `0.1.0-beta.15.7.x` must use the shared evidence label `beta15_7`, but every report must bind the exact hotfix version.
-- Observed blocker: the live L6 materializer endpoint reports `beta15_7_ready` but rejects `0.1.0-beta.15.7.1` materialization, so `release:train:dry-run` must fail before any public mutation.
+- L6 materializer policy: the live endpoint may accept only the bounded
+  `0.1.0-beta.15.7.x` family. It must reject later beta families, unsafe
+  output refs and malformed requests.
+- Current status: the live L6 materializer endpoint accepts
+  `0.1.0-beta.15.7.1`, `gate:cli:l6-generation-required` passes, and
+  `release:train:dry-run -- --allow-dirty` passes with
+  `publicationAllowed=false` because the manifest is still draft.
+- Remaining publication work: executing the real mutation train still requires
+  public-surface credentials and marketplace artifacts for the SDK versions
+  declared in `release/manifest.json`.
 
 ## Legacy Plan Context
 

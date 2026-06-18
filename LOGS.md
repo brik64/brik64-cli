@@ -1,5 +1,50 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 27 - Beta15.7.1 L6 materializer version-family closure
+
+Timestamp: `2026-06-18T04:24:00Z`
+
+- Updated `scripts/remote_l6_beta15_7_cli_materializer.js` so the internal
+  L6+N5 materializer accepts the bounded `0.1.0-beta.15.7.x` family instead
+  of only `0.1.0-beta.15.7`.
+- Added environment-overridable serial, wrapper and exec-target paths for
+  deterministic local tests without changing the remote production defaults.
+- Added `scripts/tests/test_remote_l6_beta15_7_cli_materializer.sh` and npm
+  script `test:remote-l6-beta15.7-materializer`.
+- Deployed the updated materializer to Hetzner after creating a timestamped
+  backup of the previous script.
+- Regenerated exact-version L6 evidence for `0.1.0-beta.15.7.1`.
+- Aligned Beta15.7.1 release manifest SDK coordinates:
+  - npm/crates: `0.1.0-beta.15.7.1`;
+  - PyPI: `0.1.0b15.post701`.
+- Wired `release:train:dry-run` to consume `release:flow:audit`, preventing a
+  dry-run from going green while SDK/public-surface contracts are stale.
+
+Evidence:
+
+- `bash scripts/tests/test_remote_l6_beta15_7_cli_materializer.sh` passed.
+- `bash scripts/tests/test_beta15_7_l6_generation_attempt.sh` passed.
+- `npm run attempt:beta15.7:l6-generation` passed with
+  `PASS_BETA15_7_L6_GENERATION_GATE`.
+- `npm run gate:cli:l6-generation-required` passed with
+  `PASS_CLI_L6_GENERATION_REQUIRED_GATE`.
+- `npm run release:flow:audit` passed.
+- `node scripts/release-manifest-validate.js --allow-dirty` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed with
+  `publicationAllowed=false`.
+- Validation order matters: package regeneration must precede L6
+  materialization. Running package rebuild and L6 attempt concurrently creates
+  expected hash drift and must be treated as an invalid run, not as evidence.
+
+Boundary:
+
+- This closes the L6 exact-version blocker for the local candidate.
+- This does not publish Beta15.7.1.
+- Public mutation still requires executing the release train, publishing SDKs,
+  updating public surfaces and passing live verification.
+- Public N5, fixpoint, self-hosting, Rust-independence and universal
+  correctness claims remain closed.
+
 ## Iteration 26 - Beta15.7.x mandatory full release audit gate
 
 Timestamp: `2026-06-18T04:47:00Z`

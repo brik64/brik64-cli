@@ -2,10 +2,10 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const VERSION = '0.1.0-beta.15.7';
-const SERIAL_PATH = '/opt/brik64/engines/l6plus-n5/current/serial.txt';
-const WRAPPER_PATH = '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5';
-const EXEC_TARGET = '/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus';
+const VERSION_FAMILY = /^0\.1\.0-beta\.15\.7(?:\.\d+)?$/;
+const SERIAL_PATH = process.env.BRIK64_L6_SERIAL_PATH || '/opt/brik64/engines/l6plus-n5/current/serial.txt';
+const WRAPPER_PATH = process.env.BRIK64_L6_WRAPPER_PATH || '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5';
+const EXEC_TARGET = process.env.BRIK64_L6_EXEC_TARGET || '/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus';
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -46,10 +46,16 @@ function ref(pathValue, content) {
   };
 }
 
+function requestVersion(request) {
+  const value = request.version || 'missing';
+  if (!VERSION_FAMILY.test(value)) throw new Error(`version_mismatch:${value}`);
+  return value;
+}
+
 function main() {
   const requestPath = argFile();
   const request = JSON.parse(fs.readFileSync(requestPath, 'utf8'));
-  if (request.version !== VERSION) throw new Error(`version_mismatch:${request.version || 'missing'}`);
+  const version = requestVersion(request);
   if (request.materializerMode !== 'l6plus_pcd_polymer_materializer') throw new Error('materializer_mode_invalid');
   for (const item of request.inputPcds || []) {
     if (!safeRel(item.path)) throw new Error(`unsafe_input_pcd:${item.path || 'missing'}`);
@@ -79,7 +85,7 @@ function main() {
   const materializerRequestSha256 = requestLineSha256(request);
   const generatedArtifactObject = {
     schemaVersion: 'brik64.cli_beta15_7_l6_generated_artifact.v1',
-    version: VERSION,
+    version,
     materializerMode: 'l6plus_pcd_polymer_materializer',
     generatedBy: 'l6plus_n5_remote_cli_materializer_endpoint',
     source: {
@@ -114,7 +120,7 @@ function main() {
   ].join('\n'));
   const sealObject = {
     schemaVersion: 'brik64.cli_beta15_7_l6_seal_report.v1',
-    version: VERSION,
+    version,
     decision: 'PASS_BETA15_7_L6_SEAL',
     compositeSha256,
     generationTraceSha256,
@@ -125,7 +131,7 @@ function main() {
   const sealReport = ref(request.outputRefs.sealReport, sealContent);
   const result = {
     schemaVersion: 'brik64.l6plus_cli_materialization_result.v1',
-    version: VERSION,
+    version,
     l6plusEngineSerial: serial,
     materializerMode: 'l6plus_pcd_polymer_materializer',
     generatedByL6PlusN5: true,

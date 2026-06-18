@@ -928,6 +928,10 @@ function main() {
           ? candidateBranchCommands(manifest.version)
           : []),
         run('manifest_validate', ['node', 'scripts/release-manifest-validate.js', '--allow-dirty']),
+        run('release_flow_audit', ['npm', 'run', 'release:flow:audit'], {
+          stdoutLimit: 12000,
+          stderrLimit: 12000
+        }),
         ...(beta === 6 && runLiveL6Gate
           ? [run('beta6_l6_hetzner_generation_gate', ['node', 'scripts/beta6-l6-hetzner-generation-gate.js'])]
           : []),

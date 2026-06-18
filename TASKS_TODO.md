@@ -44,15 +44,37 @@
         this is local candidate evidence. It does not unblock publication while
         `gate:cli:l6-generation-required` remains blocked.
 
-- [ ] Expose or regenerate L6+N5 materialization support for exact version
+- [x] Expose or regenerate L6+N5 materialization support for exact version
       `0.1.0-beta.15.7.1`.
-      - Current blocker:
-        `remote_l6plus_materializer_version_not_supported:0.1.0-beta.15.7.1`.
+      - Scripts:
+        `scripts/remote_l6_beta15_7_cli_materializer.js`.
+        `scripts/tests/test_remote_l6_beta15_7_cli_materializer.sh`.
+      - Result:
+        the remote materializer now accepts only the bounded
+        `0.1.0-beta.15.7.x` family, rejects out-of-family versions such as
+        `0.1.0-beta.15.8`, and keeps unsafe output refs fail-closed.
+      - Evidence:
+        `npm run attempt:beta15.7:l6-generation` passed with
+        `PASS_BETA15_7_L6_GENERATION_GATE`.
+        `npm run gate:cli:l6-generation-required` passed with
+        `PASS_CLI_L6_GENERATION_REQUIRED_GATE`.
+        `npm run release:train:dry-run -- --allow-dirty` passed with
+        `PASS_RELEASE_TRAIN_DRY_RUN`.
       - Done when:
         `npm run attempt:beta15.7:l6-generation`,
         `npm run gate:cli:l6-generation-required` and
-        `npm run release:train:dry-run` all pass on a clean worktree without
-        opening public fixpoint/N5/self-hosting claims.
+        `npm run release:train:dry-run -- --allow-dirty` all pass after
+        deterministic package regeneration without opening public
+        fixpoint/N5/self-hosting claims.
+
+- [ ] Execute public mutation train for Beta15.7.1.
+      - Current state:
+        local release train dry-run is green, but the manifest is still
+        `state=draft` and `publicationAllowed=false`.
+      - Done when:
+        GitHub Release, curl/GCP installer, docs, web, skills, npm, PyPI,
+        crates and live verification all point to `0.1.0-beta.15.7.1` with
+        fresh evidence and no claim overreach.
 
 ## Legacy Beta15.4 Tasks
 

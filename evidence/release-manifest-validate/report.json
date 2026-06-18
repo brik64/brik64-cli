@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.15.7.1",
   "state": "draft",
-  "manifestDigest": "22d72f2cedef40781b17949556c21bdedf8e0e8ca49e972a7214ad54fc93a3d4",
+  "manifestDigest": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": false,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "22d72f2cedef40781b17949556c21bdedf8e0e8ca49e972a7214ad54fc93a3d4",
-      "bytes": 2596
+      "sha256": "8ffe19376ac61a70ea99244759c83a9e2485b391684edb283858630adb05e10b",
+      "bytes": 2641
     },
     "packageJson": {
       "path": "package.json",
@@ -20,6 +20,6 @@
   },
   "failures": [],
   "warnings": [
-    "worktree_dirty_allowed:18"
+    "worktree_dirty_allowed:30"
   ]
 }
