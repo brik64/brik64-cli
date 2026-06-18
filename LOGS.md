@@ -998,3 +998,29 @@ Boundary:
 - Real publication still requires clean preflight, exact manifest digest,
   valid confirmation, credentials, GitHub verified signature and command
   preflight.
+
+## Beta15.7.1 Ralph Loop Iteration - Patch-version public surface parsers
+
+Task:
+- Fix the second real publication failure. The workflow had already published
+  GitHub release assets plus npm, PyPI and crates SDKs, then failed on
+  `gcp_curl` with `unsupported beta version: 0.1.0-beta.15.7.1`.
+
+Change:
+- Updated `scripts/release/upload-gcp-curl-surface.sh` to accept patch beta
+  versions such as `0.1.0-beta.15.7.1` while still resolving package evidence
+  to `beta15_7`.
+- Updated `scripts/release/sync-web-release-surface.js` to accept multi-part
+  beta labels for web/download/changelog sync.
+
+Evidence:
+- `node --check scripts/release/sync-web-release-surface.js` passed.
+- `bash -n scripts/release/upload-gcp-curl-surface.sh` passed.
+- `BRIK64_RELEASE_DRY_RUN=1 scripts/release/upload-gcp-curl-surface.sh release/manifest.json`
+  passed and resolved the package object under
+  `cli/releases/0.1.0-beta.15.7.1/`.
+
+Boundary:
+- This is a catch-up fix after partial public mutation.
+- Previously executed channels are idempotent in the publish plan and should
+  be skipped/read as already published on rerun.

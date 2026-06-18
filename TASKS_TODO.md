@@ -364,6 +364,8 @@
             gates can validate the verified release base.
       - [x] Allow generated Beta15.7.1 audit reports in publish-execute dirty
             check after the real workflow failed before public mutation.
+      - [x] Fix public-surface version parsers for patch beta labels after
+            `gcp_curl` rejected `0.1.0-beta.15.7.1`.
       - [ ] Trigger release-train workflow with exact manifest digest.
       - [ ] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
             skills surfaces live.
