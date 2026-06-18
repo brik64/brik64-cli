@@ -3,6 +3,32 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.15.7
+
+### Added
+
+- Adds a complete local package candidate for the offline CLI bundle, including
+  the embedded local engine runtime files required by `brik64 engine status`.
+- Adds candidate package smoke coverage for version output, engine status,
+  workspace initialization, certification, verification, Python emission with
+  generated tests, and local ledger verification.
+- Adds source-candidate metadata checks so README, package metadata, and source
+  version markers stay aligned before release work continues.
+
+### Fixed
+
+- Aligns the candidate package metadata with the Beta15.7 CLI version so local
+  package checks no longer rely on Beta15.6 release metadata.
+- Keeps the candidate package non-public until the remaining release train
+  checks, public surfaces, SDKs, skills, docs, and external audit are complete.
+
+### Compatibility
+
+- This beta remains a candidate until the public installer, GitHub release, web,
+  docs, SDKs, skills, changelog, and live verification are synchronized.
+- This beta does not claim universal correctness, public self-hosting, formal
+  certification, or independent toolchain closure.
+
 ## 0.1.0-beta.15.6
 
 ### Added

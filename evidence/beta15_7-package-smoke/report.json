@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "brik64.cli_beta15_7_package_smoke_report.v1",
+  "version": "0.1.0-beta.15.7",
+  "decision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_SMOKE",
+  "releaseEligible": false,
+  "publicationAllowed": false,
+  "checked": [
+    "package_sha",
+    "mutable_evidence_excluded_from_package",
+    "l4plus_n5_runtime_bundle_integrity",
+    "version",
+    "engine_status",
+    "init",
+    "certify",
+    "verify",
+    "python_emit_package_layout",
+    "generated_python_tests",
+    "python_floor_division_lift_package_regression",
+    "ledger_verify",
+    "ledger_tamper_fail_closed"
+  ]
+}

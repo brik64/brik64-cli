@@ -237,6 +237,60 @@ function blockedSurfaceGate(name, reason) {
   });
 }
 
+function beta15_7SourceCandidateContract() {
+  return run('beta15_7_source_candidate_contract', ['node', '-e', `
+    const fs = require('fs');
+    const path = require('path');
+    const version = '0.1.0-beta.15.7';
+    const outDir = path.join('evidence', 'beta15_7-source-candidate-contract');
+    const outPath = path.join(outDir, 'report.json');
+    fs.mkdirSync(outDir, { recursive: true });
+    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    const readme = fs.readFileSync('README.md', 'utf8');
+    const source = fs.readFileSync(path.join('src', 'brik.js'), 'utf8');
+    const blockers = [];
+    if (pkg.version !== version) blockers.push('package_version_mismatch:' + pkg.version);
+    if (!String(pkg.description || '').includes('beta15.7')) blockers.push('package_description_not_beta15_7');
+    if (!readme.includes(version) || /0\\\\.1\\\\.0-beta\\\\.15\\\\.6|Beta15\\\\.6|beta15\\\\.6|0\\\\.1\\\\.0b15\\\\.post6/.test(readme)) blockers.push('readme_beta15_7_metadata_invalid');
+    if (!source.includes("const version = '0.1.0-beta.15.7'")) blockers.push('source_version_missing');
+    if (!fs.existsSync(path.join('engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) blockers.push('l4plus_n5_bundle_missing');
+    const report = {
+      schemaVersion: 'brik64.beta15_7_source_candidate_contract.v1',
+      generatedAt: new Date().toISOString(),
+      version,
+      decision: blockers.length === 0 ? 'PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT' : 'BLOCKED_BETA15_7_SOURCE_CANDIDATE_CONTRACT',
+      releaseEligible: false,
+      publicationAllowed: false,
+      claimBoundary: {
+        publicReleaseAllowed: false,
+        l6MaterializationClaimAllowed: false,
+        formalN5ClaimAllowed: false,
+        fixpointClaimAllowed: false,
+        selfHostingClaimAllowed: false,
+        rustIndependenceClaimAllowed: false
+      },
+      checks: {
+        packageVersion: pkg.version,
+        packageDescription: pkg.description || null,
+        readmeHasTargetVersion: readme.includes(version),
+        sourceVersionPresent: source.includes("const version = '0.1.0-beta.15.7'"),
+        l4plusN5BundlePresent: fs.existsSync(path.join('engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))
+      },
+      blockers
+    };
+    fs.writeFileSync(outPath, JSON.stringify(report, null, 2) + String.fromCharCode(10));
+    console.log('decision=' + report.decision);
+    console.log('publicationAllowed=false');
+    if (blockers.length) {
+      console.error(blockers.join('\\\\n'));
+      process.exit(1);
+    }
+  `], {
+    stdoutLimit: 12000,
+    stderrLimit: 12000
+  });
+}
+
 function candidateBranchCommands(version) {
   if (version === '0.1.0-beta.9') {
     return [
@@ -557,6 +611,15 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.15.7') {
+    return [
+      run('smoke_tests', ['bash', '-lc', 'bash -x tests/smoke.sh'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      beta15_7SourceCandidateContract()
+    ];
+  }
   if (version === '0.1.0-beta.15.5') {
     return [
       cliL6GenerationRequiredGate(),
@@ -768,6 +831,27 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
               stdoutLimit: 12000,
               stderrLimit: 12000
             })
+          ])
+    ];
+  }
+
+  if (manifest.version === '0.1.0-beta.15.7') {
+    return [
+      beta15_7SourceCandidateContract(),
+      run('beta15_7_local_package', ['npm', 'run', 'package:beta15.7:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(manifest.version),
+      run('beta15_7_package_smoke', ['npm', 'run', 'smoke:beta15.7:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      ...(manifest.state === 'draft'
+        ? []
+        : [
+            cliL6GenerationRequiredGate(),
+            blockedSurfaceGate('beta15_7_publication_gate', 'beta15.7 public publication requires explicit release train publish evidence')
           ])
     ];
   }
@@ -1113,6 +1197,24 @@ function main() {
         && !(isPullRequestDryRun() && l6Gap.decision === 'BETA15_4_CLI_L6_MATERIALIZER_GAP_BLOCKED')
       ) {
         failures.push(`candidate_beta15_4_l6_materializer_gap_invalid:${l6Gap.decision}`);
+      }
+    } else if (currentPackageVersion === '0.1.0-beta.15.7') {
+      const sourceCandidatePath = path.join(root, 'evidence', 'beta15_7-source-candidate-contract', 'report.json');
+      const sourceCandidate = fs.existsSync(sourceCandidatePath) ? readJson(sourceCandidatePath) : null;
+      requiredEvidence.push({
+        id: 'beta15_7_source_candidate_contract',
+        path: 'evidence/beta15_7-source-candidate-contract/report.json',
+        expectedDecision: 'PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT',
+        actualDecision: sourceCandidate?.decision || null,
+        pass: sourceCandidate?.decision === 'PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT'
+          && sourceCandidate?.releaseEligible === false
+          && sourceCandidate?.publicationAllowed === false
+          && sourceCandidate?.claimBoundary?.publicReleaseAllowed === false
+      });
+      if (!sourceCandidate) failures.push('candidate_readiness_missing:beta15_7_source_candidate_contract');
+      else if (sourceCandidate.decision !== 'PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT') failures.push(`candidate_beta15_7_source_candidate_contract_invalid:${sourceCandidate.decision}`);
+      else if (sourceCandidate.releaseEligible !== false || sourceCandidate.publicationAllowed !== false || sourceCandidate.claimBoundary?.publicReleaseAllowed !== false) {
+        failures.push('candidate_beta15_7_source_candidate_boundary_invalid');
       }
     }
   } else {

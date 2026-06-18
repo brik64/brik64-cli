@@ -1,8 +1,8 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.15.6",
+  "version": "0.1.0-beta.15.7",
   "private": true,
-  "description": "BRIK64 CLI beta15.6 with strict L4+N5 local engine bundle, L6+N5 generation gates, lift fidelity gates, and synchronized public release surfaces.",
+  "description": "BRIK64 CLI beta15.7 with strict L4+N5 local engine bundle, semantic type gates, deterministic target parity, and synchronized public release surfaces.",
   "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
@@ -228,6 +228,7 @@
     "gate:beta15.6:rust-f64-command-lift": "node scripts/beta15_6-rust-f64-command-lift-gate.js",
     "gate:beta15.6:pre-public-rc": "node scripts/beta15_6-pre-public-rc-gate.js",
     "attempt:beta15.6:l6-generation": "node scripts/beta15_6-l6-generation-attempt.js",
+    "attempt:beta15.7:l6-generation": "node scripts/beta15_7-l6-generation-attempt.js",
     "attempt:beta15.4:l6-generation": "node scripts/beta15_4-l6-generation-attempt.js",
     "test:beta15.2-pre-public-rc": "node scripts/beta15_2-pre-public-rc-gate.js",
     "test:beta15.3-pre-public-rc": "node scripts/beta15_3-pre-public-rc-gate.js",
@@ -239,6 +240,7 @@
     "test:beta15.6-rust-f64-command-lift": "node scripts/beta15_6-rust-f64-command-lift-gate.js",
     "test:beta15.6-pre-public-rc": "node scripts/beta15_6-pre-public-rc-gate.js",
     "test:beta15.6-l6-generation-attempt": "node scripts/beta15_6-l6-generation-attempt.js",
+    "test:beta15.7-l6-generation-attempt": "bash scripts/tests/test_beta15_7_l6_generation_attempt.sh",
     "test:beta15.4-l6-generation-attempt": "node scripts/beta15_4-l6-generation-attempt.js",
     "package:beta15.6:local": "bash scripts/build-beta15_6-package.sh",
     "smoke:beta15.6:package": "bash scripts/beta15_6-package-smoke.sh",
@@ -261,7 +263,10 @@
     "gate:beta15.6:marketplace-packages": "node scripts/beta15_6-marketplace-package-gate.js",
     "gate:beta15.6:public-source-sync": "node scripts/beta15_6-public-source-sync-gate.js",
     "test:beta15.6-marketplace-packages": "node scripts/beta15_6-marketplace-package-gate.js",
-    "test:beta15.6-public-source-sync": "node scripts/beta15_6-public-source-sync-gate.js"
+    "test:beta15.6-public-source-sync": "node scripts/beta15_6-public-source-sync-gate.js",
+    "package:beta15.7:local": "node scripts/build-beta15_7-package.js",
+    "smoke:beta15.7:package": "bash scripts/beta15_7-package-smoke.sh",
+    "test:beta15.7-package": "bash scripts/beta15_7-package-smoke.sh"
   },
   "author": {
     "name": "BRIK64 INC",

@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.15.6`
+Current beta candidate: `0.1.0-beta.15.7`
 
 ## Install
 
@@ -24,15 +24,15 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15.6 Boundary
+## Beta15.7 Boundary
 
-`0.1.0-beta.15.6` is a beta candidate for offline CLI reliability and lift
+`0.1.0-beta.15.7` is a beta candidate for offline CLI reliability and lift
 diagnostics: complete local engine bundle packaging, semantic-loss warnings for
 lift previews, generated test execution across TypeScript, Python, and Rust,
 certifiable polymer PCD output, local traceability, and claim-safe project
 reports.
 
-## Beta15.6 Command Surface
+## Beta15.7 Command Surface
 
 The public beta keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -67,13 +67,13 @@ paths fail closed and keep local artifacts unchanged.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. Beta15.6 SDK marketplace
+SDKs are distributed separately from the CLI. Beta15.7 SDK marketplace
 coordinates are:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.15.6
-pip install brik64==0.1.0b15.post6
-cargo add brik64-core@0.1.0-beta.15.6
+npm install @brik64/core@0.1.0-beta.15.7
+pip install brik64==0.1.0b15.post7
+cargo add brik64-core@0.1.0-beta.15.7
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed
@@ -90,7 +90,7 @@ establish native Windows compatibility.
 
 ## Local Ledger
 
-Beta15.6 records selected workspace actions in `.brik/ledger/events.jsonl` with
+Beta15.7 records selected workspace actions in `.brik/ledger/events.jsonl` with
 a hash chain and `.brik/ledger/head.json` head pointer. Event payloads are
 redacted by default: raw source, raw PCD content, absolute paths, and secrets are
 not written to the ledger event body.

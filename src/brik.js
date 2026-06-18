@@ -10,8 +10,9 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.15.6';
+const version = '0.1.0-beta.15.7';
 const RELEASE_STATUS = 'public_beta';
+const PCD_FILE_HEADER = '// brik64.pcd_file.v1';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
 const TELEMETRY_SCHEMA = 'brik64.cli_telemetry_local_status.v1';
 const ERROR_REPORT_SCHEMA = 'brik64.cli_error_report_local.v1';
@@ -595,11 +596,12 @@ const COMMAND_HELP = {
     '  brik64 ledger export --redacted'
   ],
   migrate: [
-    'migrate <file.pcd> [--out <file>|--in-place] [--dry-run] [--force|-f] [--json]',
-    'Converts supported legacy PCD syntax into the current PC/fn block form.',
+    'migrate <file.pcd> [--out <file>|--in-place|--write] [--dry-run] [--force|-f] [--json]',
+    'Converts supported legacy PCD syntax into the current PC/fn block form and adds the required PCD header.',
     'Supported legacy inputs: lowercase pc/circuit blocks and pcd function wrappers.',
     'Example:',
-    '  brik64 migrate old.pcd --dry-run --json'
+    '  brik64 migrate old.pcd --dry-run --json',
+    '  brik64 migrate old.pcd --write'
   ],
   polymerize: [
     'polymerize <files.pcd...> [--local] [--inline] [--root <fn>] --out <file> [--json]',
@@ -682,7 +684,7 @@ const COMMAND_HELP = {
   monomers: [
     'monomers list --scope <core|extended|all> [--json]',
     'monomers explain MC_00.ADD8 [--json]',
-    'monomers test --all [--target <registry|ts|python|rust>] [--json]',
+    'monomers test --all [--target <registry|pcd|ts|python|rust>] [--json]',
     'Inspects the public monomer registry understood by this CLI.',
     'Example:',
     '  brik64 monomers explain MC_00.ADD8 --json',
@@ -721,7 +723,7 @@ function help(topic) {
   process.stdout.write('       --token-env <VAR>\n');
   process.stdout.write('  logout               remove managed platform session\n');
   process.stdout.write('  migrate <file.pcd>   convert supported legacy PCD syntax\n');
-  process.stdout.write('       --out <file> | --in-place [--force|-f]\n');
+  process.stdout.write('       --out <file> | --in-place | --write [--force|-f]\n');
   process.stdout.write('  lift <js|ts|python|rust> <path> --preview\n');
   process.stdout.write('       generate local PCD candidates without certification\n');
   process.stdout.write('  adoption report      summarize local lift preview evidence\n');
@@ -1238,10 +1240,27 @@ function parseParam(raw) {
     fail(65, 'pcd_parse_error:invalid_param');
   }
   const [, name, type = 'i64'] = match;
+  assertIdentifierAllowed('param', name);
   if (!isSupportedScalarType(type)) {
     fail(65, `pcd_parse_error:unsupported_param_type:${type}`);
   }
   return { name, type };
+}
+
+const RESERVED_IDENTIFIERS = new Set([
+  'PC', 'pc', 'fn', 'return', 'if', 'else', 'repeat', 'domain', 'domain_param',
+  'invariant', 'when', 'boundary', 'const', 'use', 'true', 'false', 'null',
+  'bool', 'i64', 'i32', 'u8', 'u64', 'f64', 'tuple_u8_u8'
+]);
+
+function assertIdentifierAllowed(kind, name) {
+  if (RESERVED_IDENTIFIERS.has(name)) {
+    fail(65, `pcd_parse_error:reserved_identifier:${kind}:${name}`);
+  }
+}
+
+function hasPcdFileHeader(source) {
+  return String(source || '').replace(/^\uFEFF/, '').startsWith(PCD_FILE_HEADER);
 }
 
 function isSupportedScalarType(type) {
@@ -1250,6 +1269,31 @@ function isSupportedScalarType(type) {
 
 function isNumericType(type) {
   return ['i64', 'i32', 'u8', 'u64', 'bool', 'f64'].includes(type);
+}
+
+function isIntegerScalarType(type) {
+  return ['i64', 'i32', 'u8', 'u64'].includes(type);
+}
+
+function expressionContainsF64Literal(expression) {
+  if (!expression || typeof expression !== 'object') return false;
+  if (expression.type === 'NumberLiteral' && expression.numericType === 'f64') return true;
+  return Object.values(expression).some((value) => {
+    if (Array.isArray(value)) return value.some(expressionContainsF64Literal);
+    return expressionContainsF64Literal(value);
+  });
+}
+
+function assertNoImplicitNumericCoercion(leftType, rightType, operator, leftExpression, rightExpression) {
+  const mixedFloatInteger = (
+    (leftType === 'f64' && isIntegerScalarType(rightType)) ||
+    (rightType === 'f64' && isIntegerScalarType(leftType))
+  );
+  if (!mixedFloatInteger) return;
+  const code = expressionContainsF64Literal(leftExpression) || expressionContainsF64Literal(rightExpression)
+    ? 'numeric_literal_type_mismatch'
+    : 'implicit_numeric_coercion';
+  fail(65, `pcd_parse_error:${code}:${leftType}_${operator}_${rightType}`);
 }
 
 function rustType(type) {
@@ -1264,7 +1308,7 @@ function rustType(type) {
 
 function expressionTypeCompatible(actualType, expectedType) {
   if (actualType === expectedType) return true;
-  return isNumericType(actualType) && isNumericType(expectedType);
+  return isIntegerScalarType(actualType) && isIntegerScalarType(expectedType);
 }
 
 function inferExpressionType(expression, paramTypes) {
@@ -1364,11 +1408,13 @@ function inferExpressionType(expression, paramTypes) {
       if (!isNumericType(leftType) || !isNumericType(rightType)) {
         fail(65, `pcd_parse_error:comparison_requires_numeric:${expression.operator}`);
       }
+      assertNoImplicitNumericCoercion(leftType, rightType, expression.operator, expression.left, expression.right);
       return remember('bool');
     }
     if (!isNumericType(leftType) || !isNumericType(rightType)) {
       fail(65, `pcd_parse_error:binary_requires_numeric:${expression.operator}`);
     }
+    assertNoImplicitNumericCoercion(leftType, rightType, expression.operator, expression.left, expression.right);
     if (leftType === 'f64' || rightType === 'f64') return remember('f64');
     return remember(leftType === 'i64' || rightType === 'i64' ? 'i64' : 'i32');
   }
@@ -1541,6 +1587,7 @@ function parseDomainContract(pcBody) {
     const match = executablePcBody.match(domainParamPattern);
     if (!match) break;
     const [, name, type] = match;
+    assertIdentifierAllowed('domain_param', name);
     if (domainParams.some((param) => param.name === name)) fail(65, `pcd_parse_error:domain_param_duplicate:${name}`);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_param_type:${type}`);
     domainParams.push({ name, type });
@@ -1551,6 +1598,7 @@ function parseDomainContract(pcBody) {
     const match = executablePcBody.match(domainPattern);
     if (!match) break;
     const [, name, type, minRaw, maxRaw] = match;
+    assertIdentifierAllowed('domain', name);
     if (domains.some((domain) => domain.name === name)) fail(65, `pcd_parse_error:domain_duplicate:${name}`);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_type:${type}`);
     const min = parseDomainBound(minRaw);
@@ -1576,6 +1624,7 @@ function parseDomainContract(pcBody) {
     const match = executablePcBody.match(whenPattern);
     if (!match) break;
     const [, condition, name, type, minRaw, maxRaw] = match;
+    assertIdentifierAllowed('domain', name);
     if (!isSupportedScalarType(type)) fail(65, `pcd_parse_error:unsupported_domain_type:${type}`);
     if (/[^A-Za-z0-9_+\-*/%<>=!&|()[\],{}:.\s]/.test(condition)) fail(65, 'pcd_parse_error:unsupported_conditional_domain_expression');
     const min = parseDomainBound(minRaw);
@@ -1666,6 +1715,9 @@ function parsePcd(source, context = {}) {
   if (Buffer.byteLength(source, 'utf8') > 1024 * 1024) {
     fail(65, 'pcd_too_large');
   }
+  if (!context.allowMissingHeader && !hasPcdFileHeader(source)) {
+    fail(65, 'pcd_parse_error:missing_pcd_header; run `brik64 migrate <file> --write`');
+  }
   const baseDir = context.baseDir || process.cwd();
   const importStack = context.importStack || [];
   const stripped = stripPcdComments(source);
@@ -1721,6 +1773,7 @@ function parsePcd(source, context = {}) {
     fail(65, 'pcd_parse_error:malformed_pc_block');
   }
   const pcName = pcMatch[1];
+  assertIdentifierAllowed('pc', pcName);
   const pcBody = pcdSource.slice(pcOpen + 1, pcClose);
   const constants = {};
   const parsedDomainContract = parseDomainContract(pcBody);
@@ -1742,6 +1795,7 @@ function parsePcd(source, context = {}) {
     const constMatch = executablePcBody.match(constPattern);
     if (!constMatch) break;
     const [, name, literal] = constMatch;
+    assertIdentifierAllowed('const', name);
     if (Object.prototype.hasOwnProperty.call(constants, name)) fail(65, `pcd_parse_error:const_duplicate:${name}`);
     if (Object.keys(constants).length >= 64) fail(65, 'pcd_parse_error:const_table_too_large');
     const value = Number(literal);
@@ -1761,6 +1815,7 @@ function parsePcd(source, context = {}) {
   }
   const signatures = {};
   for (const block of fnBlocks) {
+    assertIdentifierAllowed('function', block.name);
     if (Object.prototype.hasOwnProperty.call(signatures, block.name)) {
       fail(65, `pcd_parse_error:duplicate_fn:${block.name}`);
     }
@@ -1796,6 +1851,9 @@ function parsePcd(source, context = {}) {
     const returns = collectReturns(body);
     if (returns.length === 0) {
       fail(65, `pcd_parse_error:missing_return:${block.name}`);
+    }
+    if (!statementsAlwaysReturn(body)) {
+      fail(65, `pcd_parse_error:non_exhaustive_return:${block.name}`);
     }
     parsedFunctions[block.name] = {
       ...signature,
@@ -2386,6 +2444,121 @@ function publicMonomerRecord(spec) {
   };
 }
 
+function monomerPcdTypeIssue(spec) {
+  const supportedParamTypes = ['i64', 'i32', 'u8', 'u64', 'bool', 'f64'];
+  for (const type of spec.params) {
+    if (!supportedParamTypes.includes(type)) return `unsupported_input_type:${type}`;
+  }
+  if (!isSupportedScalarType(spec.returnType)) return `unsupported_return_type:${spec.returnType}`;
+  return null;
+}
+
+function monomerPcdNeedsBoundary(spec) {
+  return spec.executable !== true || spec.boundary === 'contract_external' || spec.operation === 'effect_boundary';
+}
+
+function monomerPcdDomainBounds(type) {
+  if (type === 'bool') return ['0', '1'];
+  if (type === 'f64') return ['0.0', '2.0'];
+  if (type === 'i32' || type === 'i64') return ['-10', '10'];
+  return ['0', '255'];
+}
+
+function monomerPcdFixtureSource(spec) {
+  const safeName = `${spec.id}_${spec.name}`.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+  const params = spec.params.map((type, index) => ({ name: `arg${index + 1}`, type }));
+  const domains = params.map((param) => {
+    const [min, max] = monomerPcdDomainBounds(param.type);
+    return `    domain ${param.name}: ${param.type} [${min}, ${max}];`;
+  });
+  const boundary = monomerPcdNeedsBoundary(spec) ? [`    boundary ${spec.key};`] : [];
+  const call = `${spec.key}(${params.map((param) => param.name).join(', ')})`;
+  return `${PCD_FILE_HEADER}
+// claim_boundary: local_candidate_only
+PC ${safeName}_gate {
+${[...domains, ...boundary].join('\n')}
+    fn ${safeName}_gate(${params.map((param) => `${param.name}: ${param.type}`).join(', ')}) -> ${spec.returnType} {
+        return ${call};
+    }
+}
+`;
+}
+
+function monomerPcdCertifyChecks(candidates) {
+  const tmpRoot = fs.mkdtempSync(path.join(process.env.TMPDIR || '/tmp', 'brik64-monomer-pcd-'));
+  const pcdDir = path.join(tmpRoot, 'pcd');
+  fs.mkdirSync(pcdDir, { recursive: true });
+  const cliEntrypoint = process.argv[1] || __filename;
+  const env = { ...process.env, BRIK64_NO_BANNER: '1' };
+  const init = spawnSync(process.execPath, [cliEntrypoint, 'init'], {
+    cwd: tmpRoot,
+    env,
+    encoding: 'utf8'
+  });
+  if (init.status !== 0) {
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+    fail(70, 'internal_monomer_pcd_gate_init_failed');
+  }
+  try {
+    return candidates.map((spec) => {
+      const record = publicMonomerRecord(spec);
+      const typeIssue = monomerPcdTypeIssue(spec);
+      const needsBoundary = monomerPcdNeedsBoundary(spec);
+      if (typeIssue) {
+        return {
+          key: spec.key,
+          status: 'PASS',
+          pcdStatus: 'unsupported_pcd_type',
+          tier: spec.scope,
+          target: 'pcd',
+          boundary: record.boundary,
+          boundaryRequired: needsBoundary,
+          classifiedReason: typeIssue,
+          certifyEligible: false
+        };
+      }
+      const source = monomerPcdFixtureSource(spec);
+      const fixtureName = `${spec.id}_${spec.name}`.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+      const fixtureFile = path.join(pcdDir, `${fixtureName}.pcd`);
+      fs.writeFileSync(fixtureFile, source);
+      const certify = spawnSync(process.execPath, [cliEntrypoint, 'certify', path.relative(tmpRoot, fixtureFile), '--prototype-non-claim'], {
+        cwd: tmpRoot,
+        env,
+        encoding: 'utf8'
+      });
+      const stderr = String(certify.stderr || '').replaceAll(tmpRoot, '<tmp>');
+      if (certify.status === 0) {
+        return {
+          key: spec.key,
+          status: 'PASS',
+          pcdStatus: needsBoundary ? 'boundary_certify_pass' : 'certify_pass',
+          tier: spec.scope,
+          target: 'pcd',
+          boundary: needsBoundary ? 'declared_boundary_contract' : record.boundary,
+          boundaryRequired: needsBoundary,
+          fixtureSha256: sha256(source),
+          certifyEligible: true
+        };
+      }
+      return {
+        key: spec.key,
+        status: 'FAIL',
+        pcdStatus: 'unexpected_certify_fail',
+        tier: spec.scope,
+        target: 'pcd',
+        boundary: needsBoundary ? 'declared_boundary_contract' : record.boundary,
+        boundaryRequired: needsBoundary,
+        fixtureSha256: sha256(source),
+        certifyEligible: true,
+        exitCode: certify.status,
+        stderrTail: stderr.split('\n').filter(Boolean).slice(-3)
+      };
+    });
+  } finally {
+    fs.rmSync(tmpRoot, { recursive: true, force: true });
+  }
+}
+
 function monomersCommand(args = []) {
   const [subcommand, maybeValue, ...tail] = args;
   const value = maybeValue && !maybeValue.startsWith('--') ? maybeValue : null;
@@ -2441,28 +2614,38 @@ function monomersCommand(args = []) {
   if (subcommand === 'test') {
     const target = parsed['--target'] || 'registry';
     const subject = value || null;
-    if (!['registry', 'ts', 'python', 'rust'].includes(target)) fail(64, `monomer_test_target_unsupported:${target}`);
+    if (!['registry', 'pcd', 'ts', 'python', 'rust'].includes(target)) fail(64, `monomer_test_target_unsupported:${target}`);
     const candidates = subject && subject !== '--all'
       ? MONOMERS.filter((spec) => spec.id === subject || spec.key === subject)
       : MONOMERS;
     if (candidates.length === 0) fail(65, `monomer_not_found:${subject}`);
-    const checks = candidates.map((spec) => {
-      const record = publicMonomerRecord(spec);
-      const missing = [];
-      for (const field of ['id', 'name', 'tier', 'family', 'signature', 'inputTypes', 'outputType', 'determinism', 'pcdExecutable', 'sdkExecutable', 'emitTargets', 'boundary', 'fixtures']) {
-        if (record[field] === undefined || record[field] === null) missing.push(field);
-      }
-      if (!record.emitTargets.includes(target) && target !== 'registry') missing.push(`emitTarget:${target}`);
-      return {
-        key: spec.key,
-        status: missing.length === 0 ? 'PASS' : 'FAIL',
-        tier: spec.scope,
-        target,
-        boundary: record.boundary,
-        missing
-      };
-    });
+    const checks = target === 'pcd'
+      ? monomerPcdCertifyChecks(candidates)
+      : candidates.map((spec) => {
+        const record = publicMonomerRecord(spec);
+        const missing = [];
+        for (const field of ['id', 'name', 'tier', 'family', 'signature', 'inputTypes', 'outputType', 'determinism', 'pcdExecutable', 'sdkExecutable', 'emitTargets', 'boundary', 'fixtures']) {
+          if (record[field] === undefined || record[field] === null) missing.push(field);
+        }
+        if (!record.emitTargets.includes(target) && target !== 'registry') missing.push(`emitTarget:${target}`);
+        return {
+          key: spec.key,
+          status: missing.length === 0 ? 'PASS' : 'FAIL',
+          tier: spec.scope,
+          target,
+          boundary: record.boundary,
+          missing
+        };
+      });
     const failed = checks.filter((check) => check.status !== 'PASS');
+    const pcdSummary = target === 'pcd' ? {
+      certifyPassed: checks.filter((check) => check.pcdStatus === 'certify_pass').length,
+      boundaryCertifyPassed: checks.filter((check) => check.pcdStatus === 'boundary_certify_pass').length,
+      unsupportedPcdType: checks.filter((check) => check.pcdStatus === 'unsupported_pcd_type').length,
+      unexpectedCertifyFailed: checks.filter((check) => check.pcdStatus === 'unexpected_certify_fail').length,
+      classified: checks.length - failed.length,
+      claimBoundary: 'classification_gate_only_not_128_executable_claim'
+    } : null;
     const report = {
       schemaVersion: 'brik64.cli_monomer_test_report.v1',
       cliVersion: version,
@@ -2471,6 +2654,7 @@ function monomersCommand(args = []) {
       total: checks.length,
       passed: checks.length - failed.length,
       failed: failed.length,
+      ...(pcdSummary ? { summary: pcdSummary } : {}),
       checks
     };
     if (parsed['--json']) {
@@ -2700,6 +2884,14 @@ function renderRustF64(value) {
   return `(${stripOuterParens(value)} as f64)`;
 }
 
+function renderNumberLiteral(expression) {
+  const value = Number(expression.value);
+  if ((expression.numericType === 'f64' || expression.inferredType === 'f64') && Number.isInteger(value)) {
+    return `${value}.0`;
+  }
+  return String(expression.value);
+}
+
 function renderRustExpressionAs(expression, expectedType) {
   const rendered = renderExpression(expression, 'rust');
   if (expectedType === 'f64') {
@@ -2733,7 +2925,7 @@ function renderRustReturnExpression(expression, returnType) {
 function renderExpression(expression, target) {
   if (expression.type === 'NumberLiteral') {
     if (target === 'rust' && (expression.numericType === 'f64' || expression.inferredType === 'f64')) return rustLiteral(expression.value, 'f64');
-    return String(expression.value);
+    return renderNumberLiteral(expression);
   }
   if (expression.type === 'ConstLiteral') return String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
@@ -2925,9 +3117,34 @@ function renderExpression(expression, target) {
     if (target === 'ts' && operator === '!=') operator = '!==';
     if (target === 'python' && operator === '&&') operator = 'and';
     if (target === 'python' && operator === '||') operator = 'or';
+    if (expression.operator === '/' && expression.inferredType !== 'f64') {
+      if (target === 'ts') return `brik64IntDiv(${left}, ${right})`;
+      if (target === 'python') return `brik64_int_div(${left}, ${right})`;
+    }
     return `(${left} ${operator} ${right})`;
   }
   fail(70, 'internal_codegen_error:unknown_expression');
+}
+
+function renderTsRuntimeHelpers() {
+  return [
+    'function brik64IntDiv(left, right) {',
+    '  if (right === 0) return 0;',
+    '  return Math.trunc(left / right);',
+    '}',
+    ''
+  ];
+}
+
+function renderPythonRuntimeHelpers() {
+  return [
+    'def brik64_int_div(left, right):',
+    '    if right == 0:',
+    '        return 0',
+    '    quotient = abs(left) // abs(right)',
+    '    return -quotient if (left < 0) != (right < 0) else quotient',
+    ''
+  ];
 }
 
 function stripOuterParens(value) {
@@ -3054,7 +3271,7 @@ function renderLocalFunctions(ast, target) {
 }
 
 function renderPcdExpression(expression) {
-  if (expression.type === 'NumberLiteral') return String(expression.value);
+  if (expression.type === 'NumberLiteral') return renderNumberLiteral(expression);
   if (expression.type === 'ConstLiteral') return expression.name || String(expression.value);
   if (expression.type === 'Identifier') return expression.name;
   if (expression.type === 'UnaryExpression') return `-${renderPcdExpression(expression.argument)}`;
@@ -3138,6 +3355,73 @@ function renderPcdDomainContract(contract, indentLevel = 1) {
   return lines;
 }
 
+function renamePcdExpression(expression, renameMap) {
+  if (!expression || typeof expression !== 'object') return expression;
+  if (expression.type === 'Identifier' && renameMap[expression.name]) {
+    return { ...expression, name: renameMap[expression.name] };
+  }
+  if (expression.type === 'UnaryExpression') {
+    return { ...expression, argument: renamePcdExpression(expression.argument, renameMap) };
+  }
+  if (expression.type === 'ListLiteral') {
+    return { ...expression, elements: expression.elements.map((element) => renamePcdExpression(element, renameMap)) };
+  }
+  if (expression.type === 'MapLiteral') {
+    return { ...expression, entries: expression.entries.map((entry) => ({ ...entry, value: renamePcdExpression(entry.value, renameMap) })) };
+  }
+  if (expression.type === 'IndexExpression') {
+    return {
+      ...expression,
+      object: renamePcdExpression(expression.object, renameMap),
+      index: renamePcdExpression(expression.index, renameMap)
+    };
+  }
+  if (expression.type === 'MemberExpression') {
+    return { ...expression, object: renamePcdExpression(expression.object, renameMap) };
+  }
+  if (expression.type === 'LenExpression') {
+    return { ...expression, argument: renamePcdExpression(expression.argument, renameMap) };
+  }
+  if (expression.type === 'HasExpression') {
+    return { ...expression, object: renamePcdExpression(expression.object, renameMap) };
+  }
+  if (expression.type === 'CallExpression' || expression.type === 'MonomerCallExpression') {
+    return { ...expression, args: expression.args.map((argument) => renamePcdExpression(argument, renameMap)) };
+  }
+  if (expression.type === 'BinaryExpression') {
+    return {
+      ...expression,
+      left: renamePcdExpression(expression.left, renameMap),
+      right: renamePcdExpression(expression.right, renameMap)
+    };
+  }
+  return { ...expression };
+}
+
+function renamePcdStatements(statements, renameMap) {
+  return (statements || []).map((statement) => {
+    if (statement.type === 'ReturnStatement') {
+      return { ...statement, argument: renamePcdExpression(statement.argument, renameMap) };
+    }
+    if (statement.type === 'IfStatement') {
+      return {
+        ...statement,
+        condition: renamePcdExpression(statement.condition, renameMap),
+        consequent: renamePcdStatements(statement.consequent, renameMap),
+        alternate: renamePcdStatements(statement.alternate, renameMap)
+      };
+    }
+    if (statement.type === 'RepeatStatement') {
+      return { ...statement, body: renamePcdStatements(statement.body, renameMap) };
+    }
+    return { ...statement };
+  });
+}
+
+function inlineParamName(fnName, param) {
+  return `${fnName}_${param}`;
+}
+
 function renderPcdBoundaryContracts(boundaryContracts = [], indentLevel = 1) {
   const indent = '    '.repeat(indentLevel);
   return [...boundaryContracts].sort().map((boundary) => `${indent}boundary ${boundary};`);
@@ -3179,7 +3463,6 @@ function renderSemanticPolymer(rootUnit, units) {
 
 function renderInlinePolymer(units, rootName) {
   const names = new Set();
-  const domainKeys = new Map();
   const mergedContract = {
     domains: [],
     domainParams: [],
@@ -3189,13 +3472,15 @@ function renderInlinePolymer(units, rootName) {
   const boundaryContracts = new Set();
   for (const unit of units) {
     const domainContract = unit.ast.domainContract || {};
-    for (const domain of domainContract.domains || []) {
-      const key = JSON.stringify(domain);
-      const prior = domainKeys.get(domain.name);
-      if (prior && prior !== key) fail(65, `polymer_inline_domain_conflict:${domain.name}`);
-      if (!prior) {
-        domainKeys.set(domain.name, key);
-        mergedContract.domains.push(domain);
+    const functions = Object.values(unit.ast.functions || {});
+    for (const fn of functions) {
+      for (const domain of domainContract.domains || []) {
+        if (!fn.params.includes(domain.name)) continue;
+        const renamed = { ...domain, name: inlineParamName(fn.name, domain.name) };
+        const key = JSON.stringify(renamed);
+        if (!mergedContract.domains.some((item) => JSON.stringify(item) === key)) {
+          mergedContract.domains.push(renamed);
+        }
       }
     }
     for (const invariant of domainContract.invariants || []) {
@@ -3229,9 +3514,13 @@ function renderInlinePolymer(units, rootName) {
     for (const fn of Object.values(unit.ast.functions || {})) {
       if (names.has(fn.name)) fail(65, `polymer_inline_name_collision:${fn.name}`);
       names.add(fn.name);
-      const params = fn.params.map((param) => `${param}: ${fn.paramTypes[param] || 'i64'}`).join(', ');
+      const renameMap = Object.fromEntries(fn.params.map((param) => [param, inlineParamName(fn.name, param)]));
+      const renamedParams = fn.params.map((param) => renameMap[param]);
+      const renamedParamTypes = Object.fromEntries(fn.params.map((param) => [renameMap[param], fn.paramTypes[param] || 'i64']));
+      const renamedBody = renamePcdStatements(fn.body, renameMap);
+      const params = renamedParams.map((param) => `${param}: ${renamedParamTypes[param] || 'i64'}`).join(', ');
       lines.push(`    fn ${fn.name}(${params}) -> ${fn.returnType} {`);
-      lines.push(...renderPcdStatements(fn.body, 2));
+      lines.push(...renderPcdStatements(renamedBody, 2));
       lines.push('    }');
       lines.push('');
     }
@@ -3446,7 +3735,7 @@ function evaluateExpression(expression, env) {
     if (expression.operator === '+') return left + right;
     if (expression.operator === '-') return left - right;
     if (expression.operator === '*') return left * right;
-    if (expression.operator === '/') return Math.trunc(left / right);
+    if (expression.operator === '/') return expression.inferredType === 'f64' ? left / right : Math.trunc(left / right);
     if (expression.operator === '%') return left % right;
     if (expression.operator === '==') return left === right;
     if (expression.operator === '!=') return left !== right;
@@ -3714,6 +4003,7 @@ function targetSpec(target, ast) {
     `export const pcdAst = ${astJson};`,
     ...tsDomainAssertions,
     ...tsImports,
+    ...renderTsRuntimeHelpers(),
     ...tsHelpers,
     `export function run(${tsParams}) {`,
     `  assertDomain({ ${params.join(', ')} });`,
@@ -3810,6 +4100,7 @@ function targetSpec(target, ast) {
     '',
     ...pythonDomainAssertions,
     ...pythonImports,
+    ...renderPythonRuntimeHelpers(),
     ...pythonHelpers,
     `def run(${pythonParams}):`,
     `    assertDomain(${params.map((param) => `${param}=${param}`).join(', ')})`,
@@ -3822,11 +4113,16 @@ function targetSpec(target, ast) {
     '',
     `cases = ${JSON.stringify(cases)}`,
     '',
+    'def brik64_python_values_equal(actual, expected):',
+    '    if isinstance(actual, float) or isinstance(expected, float):',
+    '        return abs(actual - expected) <= max(1e-12, 1e-12 * max(abs(actual), abs(expected)))',
+    '    return actual == expected',
+    '',
     'def test_generated_cases_pass():',
     `    assert PCD_SHA256 == "${hash}"`,
     '    for case in cases:',
     `        actual = run(${params.map((param) => `case["args"]["${param}"]`).join(', ')})`,
-    '        assert actual == case["expected"], f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
+    '        assert brik64_python_values_equal(actual, case["expected"]), f"case {case[\'input\']} expected {case[\'expected\']} got {actual}"',
     ...(domainFailures.length > 0 ? [
       '',
       'def test_domain_failure_case_fails():',
@@ -3847,6 +4143,7 @@ function targetSpec(target, ast) {
   ].join('\n');
   const specs = {
     ts: {
+      safeName,
       program: 'program.mjs',
       extension: '.mjs',
       test: 'program.test.mjs',
@@ -3875,6 +4172,7 @@ function targetSpec(target, ast) {
       })
     },
     rust: {
+      safeName,
       program: 'program.rs',
       extension: '.rs',
       test: 'program_test.rs',
@@ -3896,6 +4194,7 @@ function targetSpec(target, ast) {
       })
     },
     python: {
+      safeName,
       packageDir: `brik64_generated_${safeName}`,
       program: `${safeName}.py`,
       extension: '.py',
@@ -3944,11 +4243,12 @@ function emitPaths(outArg, spec, target) {
         testPath: path.join(resolved, 'tests', spec.test)
       };
     }
+    const artifactDir = path.join(resolved, spec.safeName || path.basename(resolved));
     return {
       mode: 'directory',
-      outDir: resolved,
-      programPath: path.join(resolved, spec.program),
-      testPath: path.join(resolved, spec.test)
+      outDir: artifactDir,
+      programPath: path.join(artifactDir, spec.program),
+      testPath: path.join(artifactDir, spec.test)
     };
   }
   const expected = target === 'ts' ? new Set(['.mjs', '.js', '.ts']) : new Set([spec.extension]);
@@ -4333,11 +4633,13 @@ function migrate(file, args = []) {
   const parsed = parseArgs(args.map((arg) => (arg === '-f' ? '--force' : arg)), {
     '--out': 'value',
     '--in-place': 'boolean',
+    '--write': 'boolean',
     '--json': 'boolean',
     '--force': 'boolean',
     '--dry-run': 'boolean'
   });
-  if (parsed['--out'] && parsed['--in-place']) {
+  const writeInPlace = Boolean(parsed['--in-place'] || parsed['--write']);
+  if (parsed['--out'] && writeInPlace) {
     fail(64, 'migrate_output_mode_conflict');
   }
   const source = readFileRequired(file);
@@ -4366,6 +4668,14 @@ function migrate(file, args = []) {
       syntax = 'legacy_pcd_function';
     }
   }
+  if (!hasPcdFileHeader(migrated)) {
+    migrated = [
+      PCD_FILE_HEADER,
+      '// claim_boundary: local_candidate_only',
+      migrated.trimStart()
+    ].join('\n');
+    syntax = syntax === 'beta14' ? 'missing_header' : syntax;
+  }
   if (syntax !== 'beta14' && !/\bdomain\s+[A-Za-z_][A-Za-z0-9_]*\s*:/.test(migrated)) {
     const fnMatch = migrated.match(/\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\)/m);
     const params = fnMatch ? fnMatch[2].split(',').map((param) => param.trim().split(':')[0].trim()).filter(Boolean) : [];
@@ -4389,7 +4699,7 @@ function migrate(file, args = []) {
   let outPath;
   if (parsed['--dry-run']) {
     outPath = parsed['--out'] ? workspacePath(parsed['--out'], 64, { output: true }) : inputPath;
-  } else if (parsed['--in-place']) {
+  } else if (writeInPlace) {
     const backupPath = `${inputPath}.bak`;
     if (!fs.existsSync(backupPath)) {
       writeFileControlled(backupPath, source);
@@ -4458,6 +4768,7 @@ function normalizeLiftExpression(expression, language) {
     .replace(/\btrue\b/gi, '1')
     .replace(/\bfalse\b/gi, '0');
   value = rewriteClampExpression(value);
+  value = value.replace(/\bbrik64_int_div\s*\(\s*(.+?)\s*,\s*(.+?)\s*\)/g, '($1 / $2)');
   value = value
     .replace(/\bMath\.abs\s*\(/g, 'MC_06.ABS(')
     .replace(/\babs\s*\(/g, 'MC_06.ABS(')
@@ -4465,6 +4776,7 @@ function normalizeLiftExpression(expression, language) {
     .replace(/\bfloor\s*\(/g, 'MC_79.FLOOR(');
   if (language === 'python') {
     value = value.replace(/\band\b/g, '&&').replace(/\bor\b/g, '||');
+    value = value.replace(/\/\//g, '/');
   }
   if (/[^A-Za-z0-9_+\-*/%<>=!&|()[\],{}:.\s]/.test(value)) return null;
   return value;
@@ -4477,13 +4789,16 @@ function sanitizeCandidateName(name, fallback) {
 
 function simpleBodyLinesFromSource(body, language) {
   const lines = [];
+  const sourceBody = language === 'python'
+    ? body
+    : String(body || '').replace(/\bif\s*\(\s*\(([^()\n]+)\)\s*\)/g, 'if ($1)');
   const inlineIfPattern = language === 'python'
     ? /^[ \t]*if\s+(.+?)\s*:\s*\n[ \t]+return\s+(.+)$/gm
     : language === 'rust'
       ? /\bif\s+([^{}\n]+?)\s*\{\s*return\s+([^;]+);?\s*\}/g
       : /\bif\s*\(([^)]+)\)\s*return\s+([^;]+);?/g;
   let match;
-  while ((match = inlineIfPattern.exec(body))) {
+  while ((match = inlineIfPattern.exec(sourceBody))) {
     const condition = normalizeLiftExpression(match[1], language);
     const value = normalizeLiftExpression(match[2], language);
     if (condition && value) lines.push(`        if (${condition}) return ${value};`);
@@ -4493,7 +4808,7 @@ function simpleBodyLinesFromSource(body, language) {
     : language === 'rust'
       ? /\bif\s+([^{}\n]+?)\s*\{\s*return\s+([^;]+);?\s*\}(?:\s*else\s*\{\s*return\s+([^;]+);?\s*\})?/g
       : /\bif\s*\(([^)]+)\)\s*\{\s*return\s+([^;]+);?\s*\}(?:\s*else\s*\{\s*return\s+([^;]+);?\s*\})?/g;
-  while ((match = blockIfPattern.exec(body))) {
+  while ((match = blockIfPattern.exec(sourceBody))) {
     const condition = normalizeLiftExpression(match[1], language);
     const consequent = normalizeLiftExpression(match[2], language);
     const alternate = match[3] ? normalizeLiftExpression(match[3], language) : null;
@@ -4504,7 +4819,7 @@ function simpleBodyLinesFromSource(body, language) {
       lines.push(`        return ${alternate};`);
     }
   }
-  const returns = [...body.matchAll(language === 'python' ? /^[ \t]*return\s+(.+)$/gm : /\breturn\s+([^;]+);?/g)];
+  const returns = [...sourceBody.matchAll(language === 'python' ? /^[ \t]*return\s+(.+)$/gm : /\breturn\s+([^;]+);?/g)];
   if (returns.length > 0) {
     const final = normalizeLiftExpression(returns[returns.length - 1][1], language);
     if (final && !lines.includes(`        return ${final};`)) lines.push(`        return ${final};`);
@@ -4595,6 +4910,9 @@ function unsupportedLiftConstructs(candidate) {
   ].filter(Boolean).map((value) => String(value));
   const unsupported = [];
   for (const fragment of fragments) {
+    if (/\b\d+\.\d+\b/.test(fragment)) {
+      unsupported.push('numeric_literal_type_mismatch');
+    }
     if (/\bMath\.[A-Za-z_][A-Za-z0-9_]*\s*\(/.test(fragment)) {
       unsupported.push('js_math_call_not_represented');
     }
@@ -4604,6 +4922,18 @@ function unsupportedLiftConstructs(candidate) {
   }
   return [...new Set(unsupported)];
 }
+
+const GENERATED_LIFT_HELPER_NAMES = new Set([
+  'assertDomain',
+  'assert_domain',
+  'assert_domain_value',
+  'brik64IntDiv',
+  'brik64_int_div',
+  'brik64_python_values_equal',
+  'test_generated_cases_pass',
+  'test_domain_failure_case_fails',
+  'main'
+]);
 
 function buildCandidatePcd(name, params, expression, options = {}) {
   const safeName = sanitizeCandidateName(name, 'candidate');
@@ -4669,7 +4999,7 @@ function extractJsLikeLiftCandidates(source, language) {
   let match;
   while ((match = functionPattern.exec(source))) {
     const name = match[1];
-    const params = match[2].split(',').map((param) => param.trim().replace(/:.*/, '').trim()).filter(Boolean);
+    const params = match[2].split(',').map((param) => param.trim().replace(/:.*/, '').replace(/=.*/, '').trim()).filter(Boolean);
     const block = readBalancedJsBlock(source, functionPattern.lastIndex - 1);
     if (!block) {
       warnings.push({ code: 'unsupported_construct', function: name, reason: 'unbalanced_function_body' });
@@ -4690,7 +5020,7 @@ function extractJsLikeLiftCandidates(source, language) {
   const arrowPattern = /\b(?:const|let|var)\s+([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\(?([^)=]*)\)?\s*=>\s*(?:\{[\s\S]*?\breturn\s+([^;]+);?\s*\}|([^;\n]+))/g;
   while ((match = arrowPattern.exec(source))) {
     const name = match[1];
-    const params = match[2].split(',').map((param) => param.trim().replace(/:.*/, '').trim()).filter(Boolean);
+    const params = match[2].split(',').map((param) => param.trim().replace(/:.*/, '').replace(/=.*/, '').trim()).filter(Boolean);
     const expression = normalizeLiftExpression(match[3] || match[4], language);
     if (!expression) {
       warnings.push({ code: 'unsupported_construct', function: name, reason: 'missing_or_unsupported_arrow_expression' });
@@ -4777,14 +5107,14 @@ function liftSourceFiles(resolved, language) {
   if (!stat.isDirectory()) return [resolved];
   const extensions = {
     js: new Set(['.js', '.mjs', '.cjs']),
-    ts: new Set(['.ts', '.tsx']),
+    ts: new Set(['.ts', '.tsx', '.mts', '.cts', '.js', '.mjs', '.cjs']),
     python: new Set(['.py']),
     rust: new Set(['.rs'])
   }[language];
   const files = [];
   function walk(dir) {
     for (const name of fs.readdirSync(dir).sort()) {
-      if (['.git', '.brik', 'node_modules', 'target', 'dist', 'build'].includes(name)) continue;
+      if (['.git', '.brik', 'node_modules', 'target', 'dist', 'build', 'tests', '__tests__', 'coverage'].includes(name)) continue;
       const file = path.join(dir, name);
       const childStat = fs.lstatSync(file);
       if (childStat.isSymbolicLink()) continue;
@@ -4792,6 +5122,7 @@ function liftSourceFiles(resolved, language) {
         walk(file);
         continue;
       }
+      if (/(^|[._-])test\.[A-Za-z0-9]+$/.test(name) || /\.spec\.[A-Za-z0-9]+$/.test(name)) continue;
       if (extensions.has(path.extname(name))) files.push(file);
     }
   }
@@ -4831,16 +5162,45 @@ function lift(language, sourcePath, args = []) {
   const candidatesDir = path.join(outDir, 'candidates');
   mkdirControlled(candidatesDir);
   const written = [];
-  const warnings = [...extracted.warnings];
+  const writtenCandidateNames = new Set();
+  const warnings = extracted.warnings.filter((warning) => !GENERATED_LIFT_HELPER_NAMES.has(warning.function));
   for (const candidate of extracted.candidates) {
+    if (GENERATED_LIFT_HELPER_NAMES.has(candidate.name)) {
+      warnings.push({
+        code: 'generated_helper_skipped',
+        function: candidate.name,
+        reason: 'generated_runtime_helper_is_not_domain_logic'
+      });
+      continue;
+    }
+    const fileName = `${sanitizeCandidateName(candidate.name, 'candidate')}.pcd`;
+    if (writtenCandidateNames.has(fileName)) {
+      warnings.push({
+        code: 'duplicate_candidate_skipped',
+        function: candidate.name,
+        reason: 'candidate_with_same_output_name_already_emitted'
+      });
+      continue;
+    }
     const unsupported = unsupportedLiftConstructs(candidate);
     if (unsupported.length > 0) {
-      warnings.push({
-        code: 'unsupported_lift_construct',
-        function: candidate.name,
-        reason: 'candidate_contains_source_construct_not_representable_as_current_pcd',
-        constructs: unsupported
-      });
+      if (unsupported.includes('numeric_literal_type_mismatch')) {
+        warnings.push({
+          code: 'numeric_literal_type_mismatch',
+          function: candidate.name,
+          reason: 'lift preview inferred i64 parameters but source contains f64 literals; use explicit f64 PCD or keep this as non-certifiable preview',
+          constructs: unsupported
+        });
+      }
+      const otherUnsupported = unsupported.filter((construct) => construct !== 'numeric_literal_type_mismatch');
+      if (otherUnsupported.length > 0) {
+        warnings.push({
+          code: 'unsupported_lift_construct',
+          function: candidate.name,
+          reason: 'candidate_contains_source_construct_not_representable_as_current_pcd',
+          constructs: otherUnsupported
+        });
+      }
       continue;
     }
     const pcd = buildCandidatePcd(candidate.name, candidate.params, candidate.expression, {
@@ -4853,8 +5213,8 @@ function lift(language, sourcePath, args = []) {
       warnings.push({ code: 'candidate_validation_failed', function: candidate.name });
       continue;
     }
-    const fileName = `${sanitizeCandidateName(candidate.name, 'candidate')}.pcd`;
     writeFileControlled(path.join(candidatesDir, fileName), pcd);
+    writtenCandidateNames.add(fileName);
     written.push({
       function: candidate.name,
       file: path.join('candidates', fileName),
