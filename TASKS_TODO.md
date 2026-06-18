@@ -362,6 +362,8 @@
       - [x] Merge through GitHub verified ref.
       - [x] Rebind public manifest source commit after squash merge so ancestry
             gates can validate the verified release base.
+      - [x] Allow generated Beta15.7.1 audit reports in publish-execute dirty
+            check after the real workflow failed before public mutation.
       - [ ] Trigger release-train workflow with exact manifest digest.
       - [ ] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
             skills surfaces live.

@@ -971,3 +971,30 @@ Boundary:
 - This changes the release manifest digest and requires a fresh workflow
   dispatch confirmation.
 - This does not mutate public surfaces or change CLI package contents.
+
+## Beta15.7.1 Ralph Loop Iteration - Publish execute generated evidence allowlist
+
+Task:
+- Fix the real `execute_publication=true` workflow failure after all
+  pre-publication gates and credentials passed. `release-train-publish-execute`
+  failed closed on `worktree_dirty:3`.
+
+Finding:
+- The failed workflow artifact showed only generated evidence files as dirty:
+  `evidence/beta15_7-full-release-audit/report.json`,
+  `evidence/beta15_7-source-candidate-contract/report.json`, and
+  `evidence/release-flow-audit/report.json`.
+- `publicationMutated=false`; no public surface was mutated before the failure.
+- `release-train-publish-plan` had already reached
+  `PASS_PUBLISH_PREFLIGHT_READY_TO_MUTATE`.
+
+Change:
+- Allowlisted those generated reports in
+  `scripts/release-train-publish-execute.js` as controlled release-train
+  evidence, matching the existing pattern for other generated gate reports.
+
+Boundary:
+- This does not weaken arbitrary dirty-worktree protection.
+- Real publication still requires clean preflight, exact manifest digest,
+  valid confirmation, credentials, GitHub verified signature and command
+  preflight.
