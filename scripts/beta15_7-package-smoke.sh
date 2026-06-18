@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="0.1.0-beta.15.7"
+VERSION="$(cd "$ROOT_DIR" && node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("package.json","utf8")).version)')"
 PKG_DIR="$ROOT_DIR/evidence/beta15_7-package"
 OUT_DIR="$ROOT_DIR/evidence/beta15_7-package-smoke"
 MANIFEST="$PKG_DIR/package.manifest.json"

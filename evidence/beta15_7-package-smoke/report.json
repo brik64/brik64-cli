@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_package_smoke_report.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "decision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_SMOKE",
   "releaseEligible": false,
   "publicationAllowed": false,

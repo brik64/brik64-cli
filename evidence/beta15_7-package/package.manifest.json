@@ -1,15 +1,15 @@
 {
   "schemaVersion": "brik64.cli_beta15_7_package_manifest.v1",
-  "version": "0.1.0-beta.15.7",
+  "version": "0.1.0-beta.15.7.1",
   "decision": "PASS_BRIK64_CLI_BETA15_7_PACKAGE_BUILT",
   "releaseEligible": false,
   "publicationAllowed": false,
   "lane": "cli_0_1_beta",
   "generationClaim": "source_candidate_pending_l6_materialization",
   "package": {
-    "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.tgz",
-    "sha256": "506cdafd28884588d34471082a2435dab2edf5bddfdd1c57030c7c8ec28dee63",
-    "bytes": 629828
+    "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz",
+    "sha256": "0e23917543b81d83efecce872f1e0d1d319428d70e2e9e514b5b34ce547908ed",
+    "bytes": 631364
   },
   "claimBoundary": {
     "publicReleaseAllowed": false,
