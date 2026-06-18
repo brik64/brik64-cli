@@ -3,15 +3,15 @@
   "releaseId": "brik64-0.1.0-beta.15.7.1",
   "version": "0.1.0-beta.15.7.1",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "source": {
-    "commit": "a99af2dcc9e0f5a341803846e42418de16cc0699",
-    "commitBinding": "candidate_base_commit"
+    "commit": "f0fccb0d38cfcbe6aefb5a539e31c7c2c8909680",
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "package": {
       "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz",
-      "sha256": "eb65750d271e4e412a65b9256dac78d8cc0cee2ca59cced89234364771986f94",
+      "sha256": "9c542f4589741192157b511c56ec2e03957b73bf9ac3cf80371a702b2d2977ff",
       "bytes": 631876
     }
   },
@@ -19,12 +19,12 @@
     {
       "type": "added",
       "surface": "CLI package",
-      "text": "Adds a non-mutating Beta15.7.x CLI package candidate for the offline command-line workflow and embedded engine files."
+      "text": "Publishes the Beta15.7.1 CLI package as a versioned follow-up for the offline command-line workflow and embedded engine files."
     },
     {
       "type": "fixed",
-      "surface": "CLI package",
-      "text": "Publishes the follow-up as its own versioned candidate instead of rewriting the existing Beta15.7 archive."
+      "surface": "Release packaging",
+      "text": "Ships the follow-up as its own versioned archive instead of changing the existing Beta15.7 package."
     }
   ],
   "sdks": [

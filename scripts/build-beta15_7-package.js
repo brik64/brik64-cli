@@ -298,16 +298,37 @@ const previousCandidateCommit = previousReleaseManifest?.source?.commitBinding =
   && gitCommitIsAncestor(previousReleaseManifest.source.commit)
   ? previousReleaseManifest.source.commit
   : null;
-const sourceCommit = previousCandidateCommit || gitHead();
+const existingPublicManifest = previousReleaseManifest?.version === version
+  && previousReleaseManifest?.state === 'public';
+const sourceCommit = existingPublicManifest
+  ? previousReleaseManifest.source.commit
+  : previousCandidateCommit || gitHead();
+const sourceCommitBinding = existingPublicManifest
+  ? previousReleaseManifest.source.commitBinding
+  : 'candidate_base_commit';
+const releaseNotes = existingPublicManifest && Array.isArray(previousReleaseManifest.releaseNotes)
+  ? previousReleaseManifest.releaseNotes
+  : [
+      {
+        type: 'added',
+        surface: 'CLI package',
+        text: 'Adds a non-mutating Beta15.7.x CLI package candidate for the offline command-line workflow and embedded engine files.',
+      },
+      {
+        type: 'fixed',
+        surface: 'CLI package',
+        text: 'Publishes the follow-up as its own versioned candidate instead of rewriting the existing Beta15.7 archive.',
+      },
+    ];
 writeJson(releaseManifestPath, {
   schemaVersion: 'brik64.release_manifest.v1',
   releaseId: `brik64-${version}`,
   version,
   channel: 'beta',
-  state: 'draft',
+  state: existingPublicManifest ? 'public' : 'draft',
   source: {
     commit: sourceCommit,
-    commitBinding: 'candidate_base_commit',
+    commitBinding: sourceCommitBinding,
   },
   cli: {
     package: {
@@ -316,18 +337,7 @@ writeJson(releaseManifestPath, {
       bytes: fileSize(packagePath),
     },
   },
-  releaseNotes: [
-    {
-      type: 'added',
-      surface: 'CLI package',
-      text: 'Adds a non-mutating Beta15.7.x CLI package candidate for the offline command-line workflow and embedded engine files.',
-    },
-    {
-      type: 'fixed',
-      surface: 'CLI package',
-      text: 'Publishes the follow-up as its own versioned candidate instead of rewriting the existing Beta15.7 archive.',
-    },
-  ],
+  releaseNotes,
   sdks: [
     { marketplace: 'npm', name: '@brik64/core', version: sdkVersion, required: true, publication: 'pending_release_train_publish' },
     { marketplace: 'pypi', name: 'brik64', version: sdkPythonVersion, required: true, publication: 'pending_release_train_publish' },

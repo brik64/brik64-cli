@@ -32,6 +32,12 @@
   declared in `release/manifest.json`. SDK PRs are now merged, but the active
   1Password service account only exposes vault `C-BIAS`, not `BRIK64`, so the
   release credential set is not available in this shell.
+- Public manifest status: `release/manifest.json` has been promoted to
+  `state=public` with `source.commitBinding=public_release_base_commit`, and
+  `release:train:dry-run -- --allow-dirty` passes. Local publish-plan remains
+  blocked by the unsigned local branch commit; the next publishable path is a
+  GitHub-verified merge/ref followed by the `release-train-publish.yml`
+  workflow, which has the required repository secrets configured.
 
 ## Legacy Plan Context
 

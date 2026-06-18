@@ -69,8 +69,9 @@
 
 - [ ] Execute public mutation train for Beta15.7.1.
       - Current state:
-        local release train dry-run is green, but the manifest is still
-        `state=draft` and `publicationAllowed=false`.
+        local release train dry-run is green with `release/manifest.json`
+        promoted to `state=public`, but publication mutation still requires a
+        GitHub-verified release commit/ref.
       - Latest Ralph Loop check:
         `npm run release:train:publish-plan` now supports
         `0.1.0-beta.15.7.1` and fails closed on the intended blocker:
@@ -132,6 +133,21 @@
         printing secrets, and `npm run release:train:publish-plan -- --publish`
         fails only on intentional confirmation/manifest gates or passes after
         manifest promotion.
+
+- [ ] Merge CLI PR through GitHub and dispatch release workflow from verified
+      main commit.
+      - Current blocker:
+        local `release:github-verified-signature` reports the current branch
+        commit as `unsigned`, so local publish-plan fails with
+        `github_verified_signature_not_pass`.
+      - Reason:
+        public mutation requires GitHub-verified release identity. A GitHub
+        merge/squash commit on `main` is expected to provide the verified ref
+        that the workflow checks before publishing.
+      - Done when:
+        PR #203 is merged, `release:github-verified-signature` passes on the
+        release ref, and `release-train-publish.yml` is dispatched with the
+        manifest digest and confirmation string.
 
 ## Legacy Beta15.4 Tasks
 

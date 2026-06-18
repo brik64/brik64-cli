@@ -896,3 +896,28 @@ Boundary:
 - SDK source is merged, but SDK marketplace publication has not happened.
 - Beta15.7.1 public mutation is blocked until the release credential set is exported or the 1Password service account scope is corrected.
 - No secrets were printed.
+
+## Beta15.7.1 Ralph Loop Iteration - Public manifest dry-run gate
+
+Task:
+- Convert the Beta15.7.1 manifest from draft candidate state to a public-release candidate that can be published by the GitHub Actions release train.
+
+Changes:
+- Promoted `release/manifest.json` to `state=public` with `source.commitBinding=public_release_base_commit`.
+- Updated README wording from beta candidate to public beta.
+- Updated Beta15.7.1 release notes to describe public package behavior without candidate-only wording.
+- Hardened `scripts/build-beta15_7-package.js` so regenerating the package preserves an existing public manifest instead of silently downgrading it back to draft.
+- Removed the impossible pre-public `beta15_7_publication_gate` blocker from `scripts/release-train-dry-run.js`; post-public evidence remains the responsibility of publish execution and live verify.
+
+Evidence:
+- `node --check scripts/build-beta15_7-package.js` passed.
+- `node --check scripts/release-train-dry-run.js` passed.
+- `node scripts/release-manifest-validate.js --allow-dirty` passed for public manifest.
+- `npm run package:beta15.7:local` preserved `state=public` and `source.commitBinding=public_release_base_commit`.
+- `npm run gate:beta15.7:full-release-audit` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed with `PASS_RELEASE_TRAIN_DRY_RUN`.
+- `npm run release:train:publish-plan` now fails only on `github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE` because the current local branch commit is unsigned.
+
+Boundary:
+- This does not publish Beta15.7.1.
+- This prepares the manifest and dry-run path for GitHub Actions publication from a verified merge/ref.

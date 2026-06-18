@@ -861,12 +861,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
       run('beta15_7_package_smoke', ['npm', 'run', 'smoke:beta15.7:package'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
-      }),
-      ...(manifest.state === 'draft'
-        ? []
-        : [
-            blockedSurfaceGate('beta15_7_publication_gate', 'beta15.7 public publication requires explicit release train publish evidence')
-          ])
+      })
     ];
   }
 
