@@ -63,13 +63,13 @@ function replaceOptional(file, pattern, replacement) {
 }
 
 function currentBetaNumber(version) {
-  const match = version.match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)?$/);
+  const match = version.match(/^0\.1\.0-beta\.(\d+)(?:\.\d+)*$/);
   if (!match) throw new Error(`unsupported_cli_beta_version:${version}`);
   return Number(match[1]);
 }
 
 function betaDisplayLabel(version) {
-  const match = version.match(/^0\.1\.0-beta\.(\d+(?:\.\d+)?)$/);
+  const match = version.match(/^0\.1\.0-beta\.(\d+(?:\.\d+)*)$/);
   if (!match) throw new Error(`unsupported_cli_beta_version:${version}`);
   return `Beta${match[1]}`;
 }
