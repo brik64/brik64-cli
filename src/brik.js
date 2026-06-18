@@ -4776,6 +4776,7 @@ function normalizeLiftExpression(expression, language) {
     .replace(/\bfloor\s*\(/g, 'MC_79.FLOOR(');
   if (language === 'python') {
     value = value.replace(/\band\b/g, '&&').replace(/\bor\b/g, '||');
+    value = value.replace(/\/\//g, '/');
   }
   if (/[^A-Za-z0-9_+\-*/%<>=!&|()[\],{}:.\s]/.test(value)) return null;
   return value;
