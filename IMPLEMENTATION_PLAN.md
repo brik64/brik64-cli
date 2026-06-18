@@ -5,6 +5,11 @@
 - Iteration: `beta15.7.1-publication-readiness-loop`
 - Lane: `cli_0_1_beta`
 - Current focus: prevent a false-green Beta15.7.1 release train while the L6+N5 materializer still only proves the base Beta15.7 path.
+- Full audit policy: every Beta15.7.x candidate must pass
+  `gate:beta15.7:full-release-audit` before any release train can be green.
+  The gate runs direct CLI checks, 128 monomers, TS/Python/Rust emitted tests,
+  polymer app-system output, lift roundtrip, unsupported-lift warnings and
+  adversarial fail-closed vectors in an isolated workspace.
 - Publication policy: fail closed until `evidence/beta15_7-l6-generation/` is regenerated for the exact package version in `package.json` and `release/manifest.json`.
 - Version-family policy: `0.1.0-beta.15.7.x` must use the shared evidence label `beta15_7`, but every report must bind the exact hotfix version.
 - Observed blocker: the live L6 materializer endpoint reports `beta15_7_ready` but rejects `0.1.0-beta.15.7.1` materialization, so `release:train:dry-run` must fail before any public mutation.

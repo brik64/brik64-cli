@@ -623,7 +623,11 @@ function candidateBranchCommands(version) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       }),
-      beta15_7SourceCandidateContract()
+      beta15_7SourceCandidateContract(),
+      run('beta15_7_full_release_audit', ['npm', 'run', 'gate:beta15.7:full-release-audit'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
     ];
   }
   if (version === '0.1.0-beta.15.5') {
@@ -845,6 +849,10 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     return [
       cliL6GenerationRequiredGate(),
       beta15_7SourceCandidateContract(),
+      run('beta15_7_full_release_audit', ['npm', 'run', 'gate:beta15.7:full-release-audit'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
       run('beta15_7_local_package', ['npm', 'run', 'package:beta15.7:local'], {
         stdoutLimit: 12000,
         stderrLimit: 12000

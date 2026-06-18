@@ -96,6 +96,15 @@ function gitHead() {
   return result.status === 0 ? result.stdout.trim() : null;
 }
 
+function gitCommitIsAncestor(commit) {
+  if (!commit) return false;
+  const result = childProcess.spawnSync('git', ['merge-base', '--is-ancestor', commit, 'HEAD'], {
+    cwd: root,
+    encoding: 'utf8',
+  });
+  return result.status === 0;
+}
+
 function fail(failures) {
   fs.mkdirSync(outDir, { recursive: true });
   fs.rmSync(stageRoot, { recursive: true, force: true });
@@ -277,6 +286,7 @@ try {
 }
 const previousCandidateCommit = previousReleaseManifest?.source?.commitBinding === 'candidate_base_commit'
   && /^[a-f0-9]{40}$/i.test(previousReleaseManifest?.source?.commit || '')
+  && gitCommitIsAncestor(previousReleaseManifest.source.commit)
   ? previousReleaseManifest.source.commit
   : null;
 const sourceCommit = previousCandidateCommit || gitHead();
@@ -284,6 +294,7 @@ writeJson(releaseManifestPath, {
   schemaVersion: 'brik64.release_manifest.v1',
   releaseId: `brik64-${version}`,
   version,
+  channel: 'beta',
   state: 'draft',
   source: {
     commit: sourceCommit,

@@ -24,6 +24,26 @@
         `npm run release:train:dry-run -- --allow-dirty` fails with
         `FAIL_RELEASE_TRAIN_DRY_RUN` and the expected L6 blockers.
 
+- [x] Add mandatory Beta15.7.x full release audit gate before publication.
+      - Script:
+        `scripts/beta15_7-full-release-audit-gate.js`.
+      - NPM:
+        `gate:beta15.7:full-release-audit`.
+      - Release train:
+        `scripts/release-train-dry-run.js` now runs the gate for Beta15.7.x.
+      - Coverage:
+        direct CLI commands, L4+N5 engine status, 128 monomers, core/extended
+        certify/verify, TS/Python/Rust generated tests, core/extended/app
+        polymer, lift TS/JS/Python/Rust, unsupported-lift warnings and
+        adversarial fail-closed vectors.
+      - Evidence:
+        `evidence/beta15_7-full-release-audit/report.json` reports
+        `PASS_BRIK64_CLI_BETA15_7_FULL_RELEASE_AUDIT_GATE` with 111 command
+        records.
+      - Boundary:
+        this is local candidate evidence. It does not unblock publication while
+        `gate:cli:l6-generation-required` remains blocked.
+
 - [ ] Expose or regenerate L6+N5 materialization support for exact version
       `0.1.0-beta.15.7.1`.
       - Current blocker:

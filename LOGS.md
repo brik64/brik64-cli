@@ -1,5 +1,49 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 26 - Beta15.7.x mandatory full release audit gate
+
+Timestamp: `2026-06-18T04:47:00Z`
+
+- Added `scripts/beta15_7-full-release-audit-gate.js` as a mandatory local
+  candidate audit before Beta15.7.x publication.
+- Exposed the gate through:
+  - `gate:beta15.7:full-release-audit`;
+  - `test:beta15.7-full-release-audit`.
+- Wired `scripts/release-train-dry-run.js` so Beta15.7.x candidates run the
+  full audit gate as part of release train dry-run.
+- The gate creates an isolated workspace and verifies:
+  - version and L4+N5 local engine status;
+  - command help matrix;
+  - 128 monomer matrix;
+  - core/extended PCD certify and verify;
+  - TS/Python/Rust emit plus generated tests;
+  - core, extended and app-system polymers;
+  - lift roundtrip for TS, JS, Python and Rust;
+  - unsupported-lift warning behavior;
+  - fail-closed adversarial vectors for header, type mismatch, numeric
+    coercion, non-exhaustive return, reserved identifiers, invalid monomers,
+    missing boundary, empty PCD, path traversal, symlink traversal, stale
+    certificate and ledger tampering.
+
+Evidence:
+
+- `npm run gate:beta15.7:full-release-audit` passed with
+  `PASS_BRIK64_CLI_BETA15_7_FULL_RELEASE_AUDIT_GATE`.
+- `evidence/beta15_7-full-release-audit/report.json` records 111 command
+  records.
+- `node --check scripts/beta15_7-full-release-audit-gate.js` passed.
+- `node --check scripts/release-train-dry-run.js` passed.
+- `npm run release:train:dry-run -- --allow-dirty` still fails closed on
+  `cli_l6_generation_required`, while also recording the full audit gate as
+  passing.
+
+Boundary:
+
+- Beta15.7.1 remains not publicly releasable.
+- The full release audit gate is NIVEL 3 local candidate evidence.
+- It does not satisfy L6+N5 materialization, formal certification, N5,
+  fixpoint, self-hosting or Rust-independence claims.
+
 ## Iteration 25 - Beta15.7.1 exact-version L6 publication gate
 
 Timestamp: `2026-06-18T03:55:19Z`
