@@ -137,16 +137,17 @@ function main() {
     warnings.push(`manifest_source_commit_not_ancestor:${manifest.source.commit}:${currentHead}`);
   }
 
+  const sdkFailureSink = dryRunInProgress ? warnings : failures;
   if (npmSdk?.required !== false) {
-    if (sdkProjectVersions.npm !== npmSdk.version) failures.push(`sdk_project_version_mismatch:npm:${sdkProjectVersions.npm || 'missing'}:${npmSdk.version}`);
-    if (!fileExists(jsSdkPackagePath)) failures.push(`sdk_artifact_missing:npm:${jsSdkPackagePath}`);
+    if (sdkProjectVersions.npm !== npmSdk.version) sdkFailureSink.push(`sdk_project_version_mismatch:npm:${sdkProjectVersions.npm || 'missing'}:${npmSdk.version}`);
+    if (!fileExists(jsSdkPackagePath)) sdkFailureSink.push(`sdk_artifact_missing:npm:${jsSdkPackagePath}`);
   }
   if (pypiSdk?.required !== false) {
-    if (sdkProjectVersions.pypi !== pypiSdk.version) failures.push(`sdk_project_version_mismatch:pypi:${sdkProjectVersions.pypi || 'missing'}:${pypiSdk.version}`);
-    if (pythonSdkArtifacts.length === 0) failures.push(`sdk_artifact_missing:pypi:brik64-${pythonSdkVersion}*`);
+    if (sdkProjectVersions.pypi !== pypiSdk.version) sdkFailureSink.push(`sdk_project_version_mismatch:pypi:${sdkProjectVersions.pypi || 'missing'}:${pypiSdk.version}`);
+    if (pythonSdkArtifacts.length === 0) sdkFailureSink.push(`sdk_artifact_missing:pypi:brik64-${pythonSdkVersion}*`);
   }
   if (cratesSdk?.required !== false) {
-    if (sdkProjectVersions.crates !== cratesSdk.version) failures.push(`sdk_project_version_mismatch:crates.io:${sdkProjectVersions.crates || 'missing'}:${cratesSdk.version}`);
+    if (sdkProjectVersions.crates !== cratesSdk.version) sdkFailureSink.push(`sdk_project_version_mismatch:crates.io:${sdkProjectVersions.crates || 'missing'}:${cratesSdk.version}`);
   }
 
   const publishRequested = process.argv.includes('--publish');

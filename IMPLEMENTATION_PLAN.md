@@ -159,3 +159,18 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 3. Version, package, and smoke Beta15.4 as a non-public candidate.
 4. Materialize L6+N5 evidence pack for Beta15.4.
 5. Only after all gates pass, synchronize public surfaces and publish atomically.
+
+## Active Beta15.7.1 Release Continuation
+
+- PR: https://github.com/brik64/brik64-cli/pull/203
+- Branch: `codex/beta15-7-1-publication-gate`
+- Current focus: pass PR CI after public manifest promotion without weakening
+  real publication preflight.
+- Dry-run policy: `release:train:dry-run` may run before sibling SDK repos are
+  prepared, so SDK local-artifact preflight is warning-only while
+  `BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1`.
+- Publish policy: `release:train:publish-plan` outside dry-run still fails
+  closed unless SDK artifacts, marketplace credentials, exact confirmation and
+  GitHub verified signature gates pass.
+- Next gate: push the PR dry-run routing fix, wait for PR #203 checks, then
+  merge through GitHub verified ref before dispatching the release workflow.

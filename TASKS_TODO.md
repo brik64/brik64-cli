@@ -354,8 +354,15 @@
         does not assert fixpoint, formal N5, self-hosting or Rust independence.
 - [ ] Publish public surfaces only after L6 and release train gates pass.
       - Current blocker:
-        `release:train:dry-run` now fails only on dirty worktree state until
-        this iteration is committed.
+        PR CI must pass `Validate manifest and release train` with the same
+        dry-run semantics used by the GitHub Actions release workflow.
+      - [x] Treat missing sibling SDK repositories/artifacts as warnings only
+            while `release:train:dry-run` is actively generating its report.
+      - [ ] Push CI dry-run fix and wait for PR #203 checks to pass.
+      - [ ] Merge through GitHub verified ref.
+      - [ ] Trigger release-train workflow with exact manifest digest.
+      - [ ] Verify public curl/GitHub/GCP, SDK marketplaces, docs/web and
+            skills surfaces live.
 
 - [x] Align Beta15.4 candidate manifest and materializer request refs.
       - Request bundle:

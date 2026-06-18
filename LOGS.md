@@ -921,3 +921,27 @@ Evidence:
 Boundary:
 - This does not publish Beta15.7.1.
 - This prepares the manifest and dry-run path for GitHub Actions publication from a verified merge/ref.
+
+## Beta15.7.1 Ralph Loop Iteration - PR dry-run SDK preflight routing
+
+Task:
+- Fix the PR CI `Validate manifest and release train` failure caused by the
+  dry-run publish-plan checking sibling SDK repositories/artifacts before the
+  GitHub Actions publication workflow has prepared them.
+
+Change:
+- Updated `scripts/release-train-publish-plan.js` so SDK project-version and
+  artifact checks remain fatal for the real publish plan, but are routed to
+  warnings when `BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1`.
+
+Evidence:
+- `node --check scripts/release-train-publish-plan.js` passed.
+- `BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js` passed with `PASS_PUBLISH_PLAN_DRY_RUN` and `failures=[]`.
+- `npm run release:train:dry-run -- --allow-dirty` passed with `PASS_RELEASE_TRAIN_DRY_RUN`.
+- `npm run release:train:publish-plan` still fails closed with `github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE`, proving the real publication preflight still requires a verified GitHub release ref.
+
+Boundary:
+- This does not publish Beta15.7.1.
+- This does not weaken SDK marketplace publication requirements for the real
+  workflow; it only prevents PR dry-run runners without sibling SDK checkouts
+  from failing before publication preparation.
