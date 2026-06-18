@@ -1024,3 +1024,38 @@ Boundary:
 - This is a catch-up fix after partial public mutation.
 - Previously executed channels are idempotent in the publish plan and should
   be skipped/read as already published on rerun.
+
+## Beta15.7.1 Ralph Loop Iteration - Public docs/skills sync and live verifier fallback
+
+Task:
+- Close the remaining live verification blocker after the partial public
+  Beta15.7.1 release train mutation. Public `beta.json`, GitHub release, GCP
+  installer and SDK marketplaces were already on `0.1.0-beta.15.7.1`; docs and
+  the public skill still exposed `0.1.0-beta.15.7`.
+
+Change:
+- Synced public docs from a clean `brik64-docs-site` clone and pushed
+  `f41b748` to `main`.
+- Synced public `brik64-tools-skills` from a clean clone and pushed `b6fbe7f`
+  to `main`.
+- Hardened `scripts/release-train-live-verify.js` so `requireText()` fails
+  closed on non-text bodies or missing needles and uses the public curl
+  installer URL as the install-command fallback when `release/manifest.json`
+  does not carry `cli.installCommand`.
+
+Evidence:
+- Docs local verification passed:
+  `python3 scripts/verify-public-surface.py` reported
+  `public surface verification passed`.
+- Public probes observed `0.1.0-beta.15.7.1` on
+  `https://docs.brik64.com/llms.txt` and on the raw public skill.
+- `node --check scripts/release-train-live-verify.js` passed.
+- `npm run release:train:live-verify -- --wait-seconds 1` passed with
+  `PASS_RELEASE_TRAIN_LIVE_VERIFY` and `publicationAllowed=true`.
+
+Boundary:
+- This is live public-surface verification, not a new compiler correctness or
+  fixpoint claim.
+- The live verifier hardening does not mutate public release assets; it makes
+  the verifier deterministic for manifests that omit optional install-command
+  metadata.

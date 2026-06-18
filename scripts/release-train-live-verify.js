@@ -204,6 +204,14 @@ function sleep(ms) {
 }
 
 function requireText(surface, body, needle, failures) {
+  if (typeof body !== 'string') {
+    failures.push(`${surface}_body_not_text`);
+    return;
+  }
+  if (typeof needle !== 'string' || needle.length === 0) {
+    failures.push(`${surface}_needle_missing`);
+    return;
+  }
   const normalizedBody = body
     .replace(/&amp;/g, '&')
     .replace(/&#x27;/g, "'")
@@ -278,6 +286,9 @@ async function runOnce(attempt, maxAttempts) {
   const version = manifest.version;
   const pypiVersion = sdkVersion(manifest, 'pypi', betaToPypiVersion(version));
   const surfaces = publicSurfaces(manifest);
+  const installCommand = typeof manifest.cli?.installCommand === 'string' && manifest.cli.installCommand.length > 0
+    ? manifest.cli.installCommand
+    : `curl -fsSL ${surfaces.curlInstaller.url} | bash`;
 
   async function observe(id, url, checker) {
     try {
@@ -351,11 +362,11 @@ async function runOnce(attempt, maxAttempts) {
 
   await observe('docs_install', surfaces.docs.urls[0], (body) => {
     requireText('docs_install', body, version, failures);
-    requireText('docs_install', body, manifest.cli.installCommand, failures);
+    requireText('docs_install', body, installCommand, failures);
   });
 
   await observe('web_home', surfaces.web.urls[0], (body) => {
-    requireText('web_home', body, manifest.cli.installCommand, failures);
+    requireText('web_home', body, installCommand, failures);
   });
 
   await observe('web_changelog', surfaces.web.urls[1], (body) => {

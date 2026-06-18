@@ -38,6 +38,12 @@
   blocked by the unsigned local branch commit; the next publishable path is a
   GitHub-verified merge/ref followed by the `release-train-publish.yml`
   workflow, which has the required repository secrets configured.
+- Public surface closure update: docs and public skills were synced manually
+  from clean clones after the release workflow partially published Beta15.7.1.
+  `release:train:live-verify` now passes against live public surfaces. The live
+  verifier must keep the curl installer fallback for manifests that omit
+  optional `cli.installCommand` metadata, so future public checks fail closed
+  with verifier failures instead of JavaScript runtime exceptions.
 
 ## Legacy Plan Context
 
