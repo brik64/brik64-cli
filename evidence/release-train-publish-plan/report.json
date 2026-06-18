@@ -27,6 +27,18 @@
     "verified": true,
     "reason": "valid"
   },
+  "sdkPreflight": {
+    "projectVersions": {
+      "npm": "0.1.0-beta.15.7",
+      "pypi": "0.1.0b15.post4",
+      "crates": "0.1.0-beta.15.4"
+    },
+    "artifacts": {
+      "npm": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.7.1.tgz",
+      "pypi": [],
+      "crates": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml"
+    }
+  },
   "commands": [
     {
       "name": "github_release",
@@ -97,7 +109,12 @@
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
   "failures": [
-    "manifest_state_not_public:draft"
+    "manifest_state_not_public:draft",
+    "sdk_project_version_mismatch:npm:0.1.0-beta.15.7:0.1.0-beta.15.7.1",
+    "sdk_artifact_missing:npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.7.1.tgz",
+    "sdk_project_version_mismatch:pypi:0.1.0b15.post4:0.1.0b15.post701",
+    "sdk_artifact_missing:pypi:brik64-0.1.0b15.post701*",
+    "sdk_project_version_mismatch:crates.io:0.1.0-beta.15.4:0.1.0-beta.15.7.1"
   ],
   "warnings": [
     "pre_publish_live_verify_manifest_digest_drift"

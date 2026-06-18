@@ -75,10 +75,32 @@
         `npm run release:train:publish-plan` now supports
         `0.1.0-beta.15.7.1` and fails closed on the intended blocker:
         `manifest_state_not_public:draft`.
+      - SDK preflight hardening:
+        `scripts/release-train-publish-plan.js` now validates the required SDK
+        project versions and local marketplace artifacts declared by
+        `release/manifest.json` before presenting the mutation commands.
+      - Current explicit blockers:
+        npm SDK project is `0.1.0-beta.15.7` and has no
+        `brik64-core-0.1.0-beta.15.7.1.tgz` artifact.
+        Python SDK project is `0.1.0b15.post4` and has no
+        `brik64-0.1.0b15.post701*` artifact.
+        Rust SDK project is `0.1.0-beta.15.4`.
       - Done when:
         GitHub Release, curl/GCP installer, docs, web, skills, npm, PyPI,
         crates and live verification all point to `0.1.0-beta.15.7.1` with
         fresh evidence and no claim overreach.
+
+- [ ] Align SDK repositories and artifacts to Beta15.7.1 before public
+      mutation.
+      - npm target:
+        `@brik64/core@0.1.0-beta.15.7.1`.
+      - PyPI target:
+        `brik64==0.1.0b15.post701`.
+      - crates target:
+        `brik64-core@0.1.0-beta.15.7.1`.
+      - Done when:
+        package metadata, README public references, built artifacts and
+        release-train publish-plan all match `release/manifest.json`.
 
 ## Legacy Beta15.4 Tasks
 

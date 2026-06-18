@@ -5,7 +5,7 @@
   "evidenceLevel": "NIVEL 3",
   "releaseEligible": false,
   "publicationAllowed": false,
-  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-full-audit-nSWP19",
+  "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta15-7-full-audit-QnLFhu",
   "checked": [
     "version_and_l4plus_n5_engine_status",
     "command_help_matrix",
@@ -52,778 +52,778 @@
     {
       "id": "version",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 101,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n",
       "stderr": ""
     },
     {
       "id": "engine_status",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 111,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_engine_status_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"localRuntime\": \"available\",\n  \"runtimeProfile\": \"l4plus_n5_local\",\n  \"engine\": \"L4+N5\",\n  \"serial\": \"BRIK64-L4PLUS-N5-20260525-12d8e4662dec74a4\",\n  \"nativeExecutableIncluded\": false,\n  \"artifactCount\": 22,\n  \"releaseEligible\": true,\n  \"claimBoundary\": {\n    \"publicClaimsAllowed\": false,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"platformCertificationAllowed\": false\n  },\n  \"limitations\": [\n    \"local L4+N5 beta runtime profile\",\n    \"managed platform execution is not used unless explicitly authenticated\"\n  ]\n}\n",
       "stderr": ""
     },
     {
       "id": "help:init",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 103,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\ninit\nCreates the local .brik workspace manifest and append-only evidence ledger.\nExample:\n  brik64 init\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:doctor",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 107,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\ndoctor [--json] [--scope <project|all>]\nChecks manifest policy, PCD inventory, and PCD parse health.\nExample:\n  brik64 doctor --scope project --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:engine",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 117,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nengine status\nInspects the packaged public local runtime profile without exposing internal factory details.\nExample:\n  brik64 engine status\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:account",
       "status": 0,
-      "elapsedMs": 72,
+      "elapsedMs": 107,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\naccount status [--json]\nShows local account routing state. Default beta routing remains local unless a managed session is present.\nExample:\n  brik64 account status --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:certify",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 101,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\ncertify <file.pcd>\nWrites a local candidate certificate beside the PCD.\nExample:\n  brik64 template --type gate --out pcd/order_gate.pcd\n  brik64 certify pcd/order_gate.pcd\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:verify",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 102,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nverify <file.pcd>\nChecks a local candidate certificate against the current PCD bytes.\nExample:\n  brik64 verify pcd/order_gate.pcd\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:emit",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 106,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nemit <file.pcd> --target <ts|rust|python> --out <dir|file> [--tests]\nEmits executable local code only after a local candidate certificate exists.\nExample:\n  brik64 certify pcd/order_gate.pcd\n  brik64 emit pcd/order_gate.pcd --target ts --out out-ts --tests\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:polymerize",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 106,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\npolymerize <files.pcd...> [--local] [--inline] [--root <fn>] --out <file> [--json]\nDefault local mode writes a root_dag_reference polymer. --inline writes all source functions into one PC.\nExample:\n  brik64 polymerize pcd/a.pcd pcd/b.pcd --inline --root run_pipeline --out polymer.pcd\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:monomers",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 100,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nmonomers list --scope <core|extended|all> [--json]\nmonomers explain MC_00.ADD8 [--json]\nmonomers test --all [--target <registry|pcd|ts|python|rust>] [--json]\nInspects the public monomer registry understood by this CLI.\nExample:\n  brik64 monomers explain MC_00.ADD8 --json\n  brik64 monomers test --all --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:lift",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 98,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nlift <js|ts|python|rust> <path> --preview [--stub-only] [--include-source-comment] [--json]\nCreates local PCD candidates. The current parser translates simple deterministic if/return patterns.\nExample:\n  brik64 lift js src/pricing.js --preview --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:template",
       "status": 0,
-      "elapsedMs": 72,
+      "elapsedMs": 101,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\ntemplate --type <gate|utility|numeric-monomer> --out <file.pcd> [--force]\nWrites a starter PCD matching the current public parser profile.\nExample:\n  brik64 template --type numeric-monomer --out pcd/add8.pcd\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:update",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 96,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nupdate --check | --print-command | --install\nChecks brik64.com release metadata. --install updates only supported ~/.brik64/bin installs after SHA verification.\nExample:\n  brik64 update --check\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:ledger",
       "status": 0,
-      "elapsedMs": 71,
+      "elapsedMs": 97,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nledger <status|verify|append|snapshot|tombstone|export|repair> [options]\nMaintains the local .brik append-only evidence ledger. Events are hash-chained and never deleted.\nExample:\n  brik64 ledger status --json\n  brik64 ledger append --type note --ref pcd/order_gate.pcd\n  brik64 ledger tombstone <eventHash> --reason superseded\n  brik64 ledger export --redacted\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:lock",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 105,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nlock [--files <a.pcd,b.pcd>|<files...>] [--skip-errors] [--json]\nWrites brik64.lock.json for valid PCDs. Default mode fails closed on the first parse error.\nExample:\n  brik64 lock --files pcd/a.pcd,pdc/b.pcd --skip-errors --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:domain",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 96,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\ndomain inspect <file.pcd> [--json]\nReports bounded domain declarations and claim-bearing eligibility for a PCD.\nExample:\n  brik64 domain inspect pcd/order_gate.pcd --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:adoption",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 121,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nadoption report [--json] [--out <file>]\nSummarizes local lift previews and PCD inventory for migration planning.\nExample:\n  brik64 adoption report --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:explain",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 101,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nexplain <file.pcd> [--json]\nParses a PCD and reports PC, function, branch, import, and action diagnostics.\nExample:\n  brik64 explain pcd/order_gate.pcd\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:skill",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 108,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nskill check-version [--path <SKILL.md>] [--json]\nCompares installed public BRIK64 skill text with this CLI version.\nExample:\n  brik64 skill check-version --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:telemetry",
       "status": 0,
-      "elapsedMs": 72,
+      "elapsedMs": 105,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\ntelemetry status [--json]\nShows local telemetry preference state.\nExample:\n  brik64 telemetry status --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:errors",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 95,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nerrors status [--json]\nShows local automatic error reporting preference state.\nExample:\n  brik64 errors status --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:feedback",
       "status": 0,
-      "elapsedMs": 71,
+      "elapsedMs": 101,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nfeedback [--message <text>] [--json]\nRecords local beta feedback for explicit user-submitted review.\nExample:\n  brik64 feedback --message \"emit worked for my project\" --json\n\nCommon parser profile:\n  PC name { fn name(input: i64) -> i64 { if (input > 0) return input; return 0; } }\n  Core monomer calls use MC_XX.NAME(args). Effectful or non-scalar monomers fail closed unless a boundary exists.\n",
       "stderr": ""
     },
     {
       "id": "help:exit-codes",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 113,
       "stdout": "BRIK64 CLI 0.1.0-beta.15.7.1\nstatus=public_beta\n\nhelp exit-codes\nShows process exit code meanings for CI and scripts.\n  0  success\n  2  unknown command\n  64  policy or option gate\n  65  PCD parse or validation error\n  66  file not found\n  67  certificate required\n  68  hash mismatch\n  69  managed endpoint unavailable\n  70  internal guarded error\n  73  output exists\n  74  filesystem error\n",
       "stderr": ""
     },
     {
       "id": "init",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 153,
       "stdout": "created=.brik/manifest.json\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/core/integer_division_gate.pcd",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 122,
       "stdout": "certificate=pcd/core/integer_division_gate.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/core/integer_division_gate.pcd",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 113,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \"pcd/core/integer_division_gate.pcd\",\n  \"semantic_pcd_sha256\": \"775b2bbf4d99bd233a05d1312bd832dbd5d09f58e39ec33e43c590face8523d5\",\n  \"ast_sha256\": \"1351185c5b54d51c740f18be608d2fdaba5f8fe4dbf4a8695a1b0eae579e19ba\",\n  \"domain_contract_sha256\": \"a399ce1a8a27fe67a854b4c9ccf54636cb41d856804317005defb0f56c9bd5f6\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/core/local_function_gate.pcd",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 112,
       "stdout": "certificate=pcd/core/local_function_gate.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/core/local_function_gate.pcd",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 108,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \"pcd/core/local_function_gate.pcd\",\n  \"semantic_pcd_sha256\": \"477f724ea9db669eaca25b630b391e7e254039dfc62755edb904c463dff18701\",\n  \"ast_sha256\": \"54fa36490aee66600541219575b4280258848e33eb1ee828a46014e71f37b5b1\",\n  \"domain_contract_sha256\": \"245868654c05b4f7a13978c5e16f7040280397dfdddc6c903f46ebc959cdbed1\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:pcd/extended/float_amount_gate.pcd",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 108,
       "stdout": "certificate=pcd/extended/float_amount_gate.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:pcd/extended/float_amount_gate.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 115,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \"pcd/extended/float_amount_gate.pcd\",\n  \"semantic_pcd_sha256\": \"3301c03ef27ae95dc7d64d493755c3e4726e94165555cc3edf29bddab40210f4\",\n  \"ast_sha256\": \"f328b8ae9603b1a742eaaa2621b2350d8581e59bb01f10845cdb623a2cfb9d5a\",\n  \"domain_contract_sha256\": \"39999308bebbb6dd6690bf6aa1a0279b6f9150470375dcb23b80326281846f45\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "monomers_all",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 119,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_monomer_test_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"target\": \"registry\",\n  \"scope\": \"all\",\n  \"total\": 128,\n  \"passed\": 128,\n  \"failed\": 0,\n  \"checks\": [\n    {\n      \"key\": \"MC_00.ADD8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_01.SUB8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_02.MUL8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_03.DIV8\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_04.INC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_05.DEC\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_06.ABS\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n    },\n    {\n      \"key\": \"MC_07.CLAMP\",\n      \"status\": \"PASS\",\n      \"tier\": \"core\",\n      \"target\": \"registry\",\n      \"boundary\": \"pure_local_candidate\",\n      \"missing\": []\n  ",
       "stderr": ""
     },
     {
       "id": "doctor_project",
       "status": 0,
-      "elapsedMs": 315,
-      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_doctor_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"releaseEligible\": false,\n  \"localRuntime\": \"available\",\n  \"managedRuntime\": \"authenticated\",\n  \"artifactFactory\": \"private\",\n  \"scanScope\": \"project\",\n  \"pcdCount\": 3,\n  \"pcdValidation\": {\n    \"valid\": 3,\n    \"invalid\": 0,\n    \"domainIncomplete\": 0,\n    \"files\": [\n      {\n        \"file\": \"pcd/core/integer_division_gate.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"a399ce1a8a27fe67a854b4c9ccf54636cb41d856804317005defb0f56c9bd5f6\"\n      },\n      {\n        \"file\": \"pcd/core/local_function_gate.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"245868654c05b4f7a13978c5e16f7040280397dfdddc6c903f46ebc959cdbed1\"\n      },\n      {\n        \"file\": \"pcd/extended/float_amount_gate.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"39999308bebbb6dd6690bf6aa1a0279b6f9150470375dcb23b80326281846f45\"\n      }\n    ]\n  },\n  \"pcdInventorySha256\": \"4d242e8e1d8ffb6d1913aa01afe36d23a9f7525cbf3ca8aceb46eead43f171d4\",\n  \"ledger\": {\n    \"status\": \"PASS\",\n    \"eventCount\": 4,\n    \"headHash\": \"ef5dd85968c77275c57e94b51835594f8cd7c5402903cbbfdf71d06b1cbd9d53\",\n    \"tamperDetected\": false,\n    \"appendOnly\": true\n  },\n  \"releaseScope\": \"local_candidate_only\",\n  \"diagnostics\": {\n    \"errors\": [],\n    \"warnings\": [],\n    \"actions\": []\n  }\n}\n",
+      "elapsedMs": 423,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_doctor_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"releaseEligible\": false,\n  \"localRuntime\": \"available\",\n  \"managedRuntime\": \"authenticated\",\n  \"artifactFactory\": \"private\",\n  \"scanScope\": \"project\",\n  \"pcdCount\": 3,\n  \"pcdValidation\": {\n    \"valid\": 3,\n    \"invalid\": 0,\n    \"domainIncomplete\": 0,\n    \"files\": [\n      {\n        \"file\": \"pcd/core/integer_division_gate.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"a399ce1a8a27fe67a854b4c9ccf54636cb41d856804317005defb0f56c9bd5f6\"\n      },\n      {\n        \"file\": \"pcd/core/local_function_gate.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"245868654c05b4f7a13978c5e16f7040280397dfdddc6c903f46ebc959cdbed1\"\n      },\n      {\n        \"file\": \"pcd/extended/float_amount_gate.pcd\",\n        \"status\": \"PASS\",\n        \"domainStatus\": \"complete\",\n        \"domain_contract_sha256\": \"39999308bebbb6dd6690bf6aa1a0279b6f9150470375dcb23b80326281846f45\"\n      }\n    ]\n  },\n  \"pcdInventorySha256\": \"4d242e8e1d8ffb6d1913aa01afe36d23a9f7525cbf3ca8aceb46eead43f171d4\",\n  \"ledger\": {\n    \"status\": \"PASS\",\n    \"eventCount\": 4,\n    \"headHash\": \"e8794d194fe48883660472e6c14e31103badf55af55257ffcd982b8777703e6f\",\n    \"tamperDetected\": false,\n    \"appendOnly\": true\n  },\n  \"releaseScope\": \"local_candidate_only\",\n  \"diagnostics\": {\n    \"errors\": [],\n    \"warnings\": [],\n    \"actions\": []\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "emit:pcd/core/integer_division_gate.pcd:ts",
       "status": 0,
-      "elapsedMs": 80,
+      "elapsedMs": 109,
       "stdout": "generated=out/integer_division_gate-ts/integer_division_gate/program.mjs\ntests=out/integer_division_gate-ts/integer_division_gate/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/integer_division_gate-ts:ts",
       "status": 0,
-      "elapsedMs": 63,
+      "elapsedMs": 85,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:pcd/core/integer_division_gate.pcd:python",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 129,
       "stdout": "generated=out/integer_division_gate-python/brik64_generated_integer_division_gate/program.py\ntests=out/integer_division_gate-python/tests/test_integer_division_gate.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/integer_division_gate-python:python",
       "status": 0,
-      "elapsedMs": 374,
+      "elapsedMs": 705,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:pcd/core/integer_division_gate.pcd:rust",
       "status": 0,
-      "elapsedMs": 82,
+      "elapsedMs": 144,
       "stdout": "generated=out/integer_division_gate-rust/integer_division_gate/program.rs\ntests=out/integer_division_gate-rust/integer_division_gate/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/integer_division_gate-rust:rust",
       "status": 0,
-      "elapsedMs": 1471,
+      "elapsedMs": 1950,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "emit:pcd/extended/float_amount_gate.pcd:ts",
       "status": 0,
-      "elapsedMs": 86,
+      "elapsedMs": 113,
       "stdout": "generated=out/float_amount_gate-ts/float_amount_gate/program.mjs\ntests=out/float_amount_gate-ts/float_amount_gate/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/float_amount_gate-ts:ts",
       "status": 0,
-      "elapsedMs": 62,
+      "elapsedMs": 81,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:pcd/extended/float_amount_gate.pcd:python",
       "status": 0,
-      "elapsedMs": 84,
+      "elapsedMs": 106,
       "stdout": "generated=out/float_amount_gate-python/brik64_generated_float_amount_gate/program.py\ntests=out/float_amount_gate-python/tests/test_float_amount_gate.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/float_amount_gate-python:python",
       "status": 0,
-      "elapsedMs": 224,
+      "elapsedMs": 333,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:pcd/extended/float_amount_gate.pcd:rust",
       "status": 0,
-      "elapsedMs": 84,
+      "elapsedMs": 117,
       "stdout": "generated=out/float_amount_gate-rust/float_amount_gate/program.rs\ntests=out/float_amount_gate-rust/float_amount_gate/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/float_amount_gate-rust:rust",
       "status": 0,
-      "elapsedMs": 498,
+      "elapsedMs": 1399,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "polymerize_core",
       "status": 0,
-      "elapsedMs": 84,
+      "elapsedMs": 141,
       "stdout": "polymer=polymer/core.polymer.pcd\nmanifest=polymer/core.polymer.pcd.manifest.json\n",
       "stderr": ""
     },
     {
       "id": "polymerize_extended",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 112,
       "stdout": "polymer=polymer/extended.polymer.pcd\nmanifest=polymer/extended.polymer.pcd.manifest.json\n",
       "stderr": ""
     },
     {
       "id": "polymerize_app",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 130,
       "stdout": "polymer=polymer/app.polymer.pcd\nmanifest=polymer/app.polymer.pcd.manifest.json\n",
       "stderr": ""
     },
     {
       "id": "certify:polymer/core.polymer.pcd",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 124,
       "stdout": "certificate=polymer/core.polymer.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:polymer/core.polymer.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 124,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \"polymer/core.polymer.pcd\",\n  \"semantic_pcd_sha256\": \"daa17c764780baa8e21a7c2a702fbb881f6c2b3be6d83880a47d7dd67c0a9617\",\n  \"ast_sha256\": \"882a6d311dccbd3fd3bde65ff0193764e14198ff1593fb950f59058a2f6476e7\",\n  \"domain_contract_sha256\": \"74edb3586120e49d2b239d67089d988fec1f863a7099fd48aff666d5303836f3\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:polymer/extended.polymer.pcd",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 137,
       "stdout": "certificate=polymer/extended.polymer.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:polymer/extended.polymer.pcd",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 123,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \"polymer/extended.polymer.pcd\",\n  \"semantic_pcd_sha256\": \"2ac9407ef104e570d00858c055230f5eea20686125421f7376c22ad8a131c9d6\",\n  \"ast_sha256\": \"c5a2873b2f04c19de4151ac89569e92d3bada2d7c1def977686314c8163ff785\",\n  \"domain_contract_sha256\": \"00b129512e5b6725326362c338cd0fc29c4577cfe0d040c48ffc95cc8aac1787\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:polymer/app.polymer.pcd",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 119,
       "stdout": "certificate=polymer/app.polymer.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:polymer/app.polymer.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 112,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \"polymer/app.polymer.pcd\",\n  \"semantic_pcd_sha256\": \"eca94c7e219b3c766810c677b2c9c36b5452043abef77ea9287937c0ff442935\",\n  \"ast_sha256\": \"05b7345e5bf93bbef0dad70709402ef76c0f20b021748192a53c8478ca4b055c\",\n  \"domain_contract_sha256\": \"4bf0c2ad1fede12b0c43114f2199836edf7f8c206abaec3401f5503f6c3824c5\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "emit:polymer/app.polymer.pcd:ts",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 129,
       "stdout": "generated=out/app-polymer-ts/app_polymer/program.mjs\ntests=out/app-polymer-ts/app_polymer/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/app-polymer-ts:ts",
       "status": 0,
-      "elapsedMs": 62,
+      "elapsedMs": 94,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:polymer/app.polymer.pcd:python",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 119,
       "stdout": "generated=out/app-polymer-python/brik64_generated_app_polymer/program.py\ntests=out/app-polymer-python/tests/test_app_polymer.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/app-polymer-python:python",
       "status": 0,
-      "elapsedMs": 209,
+      "elapsedMs": 384,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:polymer/app.polymer.pcd:rust",
       "status": 0,
-      "elapsedMs": 82,
+      "elapsedMs": 125,
       "stdout": "generated=out/app-polymer-rust/app_polymer/program.rs\ntests=out/app-polymer-rust/app_polymer/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/app-polymer-rust:rust",
       "status": 0,
-      "elapsedMs": 515,
+      "elapsedMs": 1028,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "lift:ts",
       "status": 0,
-      "elapsedMs": 82,
+      "elapsedMs": 152,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"language\": \"ts\",\n  \"source\": {\n    \"pathHash\": \"8dfc26626124f6b6a66f16f045f2c3db9c1acb1926440e1b8ea49953c8ade838\",\n    \"sourceSha256\": \"f19f051b225e6f5f095ef4c8ba720a4b8847a3a3ebc26f4369447e46a1557f7a\",\n    \"bytes\": 80,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 1,\n  \"warningCount\": 0,\n  \"candidates\": [\n    {\n      \"function\": \"score\",\n      \"file\": \"candidates/score.pcd\",\n      \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n      \"translationStatus\": \"best_effort_simple_body\",\n      \"semanticCoveragePercent\": 100,\n      \"certificationEligible\": true,\n      \"warningCodes\": []\n    }\n  ],\n  \"semanticCoveragePercent\": 100,\n  \"certificationEligibleCandidateCount\": 1,\n  \"warningCodes\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:.brik/lift-preview/ts/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 139,
       "stdout": "certificate=.brik/lift-preview/ts/candidates/score.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:.brik/lift-preview/ts/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 73,
+      "elapsedMs": 122,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \".brik/lift-preview/ts/candidates/score.pcd\",\n  \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n  \"ast_sha256\": \"0f2e58cc85b458e7a06d116b5acd36cdf8dcbd3d30380aac15f2768c9070ebf7\",\n  \"domain_contract_sha256\": \"561cd124415960ee7530af51267a14a0f435836af7dad62c7391c487efdfc347\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/ts/candidates/score.pcd:ts",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 137,
       "stdout": "generated=out/lift-ts-ts/score/program.mjs\ntests=out/lift-ts-ts/score/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-ts-ts:ts",
       "status": 0,
-      "elapsedMs": 62,
+      "elapsedMs": 109,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/ts/candidates/score.pcd:python",
       "status": 0,
-      "elapsedMs": 78,
+      "elapsedMs": 131,
       "stdout": "generated=out/lift-ts-python/brik64_generated_score/program.py\ntests=out/lift-ts-python/tests/test_score.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-ts-python:python",
       "status": 0,
-      "elapsedMs": 203,
+      "elapsedMs": 373,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/ts/candidates/score.pcd:rust",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 130,
       "stdout": "generated=out/lift-ts-rust/score/program.rs\ntests=out/lift-ts-rust/score/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-ts-rust:rust",
       "status": 0,
-      "elapsedMs": 517,
+      "elapsedMs": 1413,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "lift:js",
       "status": 0,
-      "elapsedMs": 82,
+      "elapsedMs": 126,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"language\": \"js\",\n  \"source\": {\n    \"pathHash\": \"4c955410ddd1e2fd79ae07c90a75ecf59449c9696bcc7e64a567d7cb1e86bcb2\",\n    \"sourceSha256\": \"632bf9891a757bcb2c2c1b1ca3ff460b1bf3310121454569660219a0509f96ae\",\n    \"bytes\": 57,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 1,\n  \"warningCount\": 0,\n  \"candidates\": [\n    {\n      \"function\": \"score\",\n      \"file\": \"candidates/score.pcd\",\n      \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n      \"translationStatus\": \"best_effort_simple_body\",\n      \"semanticCoveragePercent\": 100,\n      \"certificationEligible\": true,\n      \"warningCodes\": []\n    }\n  ],\n  \"semanticCoveragePercent\": 100,\n  \"certificationEligibleCandidateCount\": 1,\n  \"warningCodes\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:.brik/lift-preview/js/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 110,
       "stdout": "certificate=.brik/lift-preview/js/candidates/score.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:.brik/lift-preview/js/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 106,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \".brik/lift-preview/js/candidates/score.pcd\",\n  \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n  \"ast_sha256\": \"0f2e58cc85b458e7a06d116b5acd36cdf8dcbd3d30380aac15f2768c9070ebf7\",\n  \"domain_contract_sha256\": \"561cd124415960ee7530af51267a14a0f435836af7dad62c7391c487efdfc347\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/js/candidates/score.pcd:ts",
       "status": 0,
-      "elapsedMs": 88,
+      "elapsedMs": 111,
       "stdout": "generated=out/lift-js-ts/score/program.mjs\ntests=out/lift-js-ts/score/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-js-ts:ts",
       "status": 0,
-      "elapsedMs": 74,
+      "elapsedMs": 90,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/js/candidates/score.pcd:python",
       "status": 0,
-      "elapsedMs": 105,
+      "elapsedMs": 261,
       "stdout": "generated=out/lift-js-python/brik64_generated_score/program.py\ntests=out/lift-js-python/tests/test_score.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-js-python:python",
       "status": 0,
-      "elapsedMs": 273,
+      "elapsedMs": 360,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/js/candidates/score.pcd:rust",
       "status": 0,
-      "elapsedMs": 92,
+      "elapsedMs": 124,
       "stdout": "generated=out/lift-js-rust/score/program.rs\ntests=out/lift-js-rust/score/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-js-rust:rust",
       "status": 0,
-      "elapsedMs": 941,
+      "elapsedMs": 1111,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "lift:python",
       "status": 0,
-      "elapsedMs": 92,
+      "elapsedMs": 108,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"language\": \"python\",\n  \"source\": {\n    \"pathHash\": \"e6cb3329e87fa747408c3bf51ebb05ada76ef8665d24dd35267125e16ef0e9e7\",\n    \"sourceSha256\": \"01c7cc24bcae83c1a6507a74ad2c5f2fedf4839e83bbdfa286374b3fc0f0b649\",\n    \"bytes\": 74,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 1,\n  \"warningCount\": 0,\n  \"candidates\": [\n    {\n      \"function\": \"score\",\n      \"file\": \"candidates/score.pcd\",\n      \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n      \"translationStatus\": \"best_effort_simple_body\",\n      \"semanticCoveragePercent\": 100,\n      \"certificationEligible\": true,\n      \"warningCodes\": []\n    }\n  ],\n  \"semanticCoveragePercent\": 100,\n  \"certificationEligibleCandidateCount\": 1,\n  \"warningCodes\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:.brik/lift-preview/python/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 105,
       "stdout": "certificate=.brik/lift-preview/python/candidates/score.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:.brik/lift-preview/python/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 102,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \".brik/lift-preview/python/candidates/score.pcd\",\n  \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n  \"ast_sha256\": \"0f2e58cc85b458e7a06d116b5acd36cdf8dcbd3d30380aac15f2768c9070ebf7\",\n  \"domain_contract_sha256\": \"561cd124415960ee7530af51267a14a0f435836af7dad62c7391c487efdfc347\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/python/candidates/score.pcd:ts",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 112,
       "stdout": "generated=out/lift-python-ts/score/program.mjs\ntests=out/lift-python-ts/score/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-python-ts:ts",
       "status": 0,
-      "elapsedMs": 63,
+      "elapsedMs": 81,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/python/candidates/score.pcd:python",
       "status": 0,
-      "elapsedMs": 76,
+      "elapsedMs": 107,
       "stdout": "generated=out/lift-python-python/brik64_generated_score/program.py\ntests=out/lift-python-python/tests/test_score.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-python-python:python",
       "status": 0,
-      "elapsedMs": 215,
+      "elapsedMs": 281,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/python/candidates/score.pcd:rust",
       "status": 0,
-      "elapsedMs": 84,
+      "elapsedMs": 121,
       "stdout": "generated=out/lift-python-rust/score/program.rs\ntests=out/lift-python-rust/score/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-python-rust:rust",
       "status": 0,
-      "elapsedMs": 521,
+      "elapsedMs": 631,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "lift:rust",
       "status": 0,
-      "elapsedMs": 89,
+      "elapsedMs": 106,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"language\": \"rust\",\n  \"source\": {\n    \"pathHash\": \"7bcbb18a29c891a377f63df1624ec92c57ae34bc63012f88ebecd446ca5aa1d5\",\n    \"sourceSha256\": \"d7373750cdddf345767aab5aed25a05c7123e72d5c5af1fde52fa8a9437aa6d4\",\n    \"bytes\": 69,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 1,\n  \"warningCount\": 0,\n  \"candidates\": [\n    {\n      \"function\": \"score\",\n      \"file\": \"candidates/score.pcd\",\n      \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n      \"translationStatus\": \"best_effort_simple_body\",\n      \"semanticCoveragePercent\": 100,\n      \"certificationEligible\": true,\n      \"warningCodes\": []\n    }\n  ],\n  \"semanticCoveragePercent\": 100,\n  \"certificationEligibleCandidateCount\": 1,\n  \"warningCodes\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
     {
       "id": "certify:.brik/lift-preview/rust/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 111,
       "stdout": "certificate=.brik/lift-preview/rust/candidates/score.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "verify:.brik/lift-preview/rust/candidates/score.pcd",
       "status": 0,
-      "elapsedMs": 75,
+      "elapsedMs": 101,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_local_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"mode\": \"local\",\n  \"pcd\": \".brik/lift-preview/rust/candidates/score.pcd\",\n  \"semantic_pcd_sha256\": \"d5fd606a5fe84f733694051c36d705f488558c8b34d8390197f810a195d5baa0\",\n  \"ast_sha256\": \"0f2e58cc85b458e7a06d116b5acd36cdf8dcbd3d30380aac15f2768c9070ebf7\",\n  \"domain_contract_sha256\": \"561cd124415960ee7530af51267a14a0f435836af7dad62c7391c487efdfc347\",\n  \"domainStatus\": \"complete\",\n  \"checks\": {\n    \"parseable\": true,\n    \"certificatePresent\": true,\n    \"certificateHashMatches\": true,\n    \"astHashMatches\": true,\n    \"domainHashMatches\": true\n  },\n  \"claimBoundary\": {\n    \"localCandidateOnly\": true,\n    \"universalCorrectnessClaimAllowed\": false,\n    \"managedClaimIssued\": false\n  }\n}\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/rust/candidates/score.pcd:ts",
       "status": 0,
-      "elapsedMs": 82,
+      "elapsedMs": 100,
       "stdout": "generated=out/lift-rust-ts/score/program.mjs\ntests=out/lift-rust-ts/score/program.test.mjs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-rust-ts:ts",
       "status": 0,
-      "elapsedMs": 63,
+      "elapsedMs": 91,
       "stdout": "brik64 generated ts test: PASS\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/rust/candidates/score.pcd:python",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 114,
       "stdout": "generated=out/lift-rust-python/brik64_generated_score/program.py\ntests=out/lift-rust-python/tests/test_score.py\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-rust-python:python",
       "status": 0,
-      "elapsedMs": 256,
+      "elapsedMs": 291,
       "stdout": "..                                                                       [100%]\n2 passed in 0.01s\n",
       "stderr": ""
     },
     {
       "id": "emit:.brik/lift-preview/rust/candidates/score.pcd:rust",
       "status": 0,
-      "elapsedMs": 93,
+      "elapsedMs": 113,
       "stdout": "generated=out/lift-rust-rust/score/program.rs\ntests=out/lift-rust-rust/score/program_test.rs\n",
       "stderr": ""
     },
     {
       "id": "generated:out/lift-rust-rust:rust",
       "status": 0,
-      "elapsedMs": 522,
+      "elapsedMs": 688,
       "stdout": "\nrunning 1 test\n.\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
       "stderr": ""
     },
     {
       "id": "lift:unsupported_warning",
       "status": 0,
-      "elapsedMs": 81,
+      "elapsedMs": 109,
       "stdout": "{\n  \"schemaVersion\": \"brik64.cli_lift_preview.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"language\": \"ts\",\n  \"source\": {\n    \"pathHash\": \"d6a55089b78b083f069e597468d1a188f179c0949374295deb2e2d95b08f5549\",\n    \"sourceSha256\": \"b252e61f279bacac863ff1202a80c346a5cde2da7b8f7c1280e4daf9912ce1c5\",\n    \"bytes\": 138,\n    \"fileCount\": 1,\n    \"rawSourceIncluded\": false,\n    \"rawSourceCommentIncluded\": false,\n    \"absolutePathIncluded\": false\n  },\n  \"previewOnly\": true,\n  \"certificatesGenerated\": false,\n  \"networkSent\": false,\n  \"candidateCount\": 0,\n  \"warningCount\": 7,\n  \"candidates\": [],\n  \"semanticCoveragePercent\": 0,\n  \"certificationEligibleCandidateCount\": 0,\n  \"warningCodes\": [\n    \"lift_branch_dropped\",\n    \"lift_compound_boolean_simplified\",\n    \"lift_float_precision_narrowed\",\n    \"lift_return_path_dropped\",\n    \"lift_semantic_coverage_below_threshold\",\n    \"lift_string_logic_not_represented\",\n    \"numeric_literal_type_mismatch\"\n  ],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
     {
       "id": "adversarial:missing_header",
       "status": 65,
-      "elapsedMs": 74,
+      "elapsedMs": 105,
       "stdout": "",
       "stderr": "pcd_parse_error:missing_pcd_header; run `brik64 migrate <file> --write`\n"
     },
     {
       "id": "adversarial:return_type_mismatch",
       "status": 65,
-      "elapsedMs": 78,
+      "elapsedMs": 111,
       "stdout": "",
       "stderr": "pcd_parse_error:return_type_mismatch:f64_to_i64\n"
     },
     {
       "id": "adversarial:implicit_numeric_coercion",
       "status": 65,
-      "elapsedMs": 75,
+      "elapsedMs": 105,
       "stdout": "",
       "stderr": "pcd_parse_error:numeric_literal_type_mismatch:i64_+_f64\n"
     },
     {
       "id": "adversarial:non_exhaustive_return",
       "status": 65,
-      "elapsedMs": 79,
+      "elapsedMs": 103,
       "stdout": "",
       "stderr": "pcd_parse_error:non_exhaustive_return:nonret\n"
     },
     {
       "id": "adversarial:reserved_identifier",
       "status": 65,
-      "elapsedMs": 80,
+      "elapsedMs": 103,
       "stdout": "",
       "stderr": "pcd_parse_error:reserved_identifier:function:if\n"
     },
     {
       "id": "adversarial:unsupported_monomer",
       "status": 65,
-      "elapsedMs": 75,
+      "elapsedMs": 100,
       "stdout": "",
       "stderr": "pcd_parse_error:unsupported_monomer_call:MC_999.NOPE\n"
     },
     {
       "id": "adversarial:boundary_missing",
       "status": 65,
-      "elapsedMs": 75,
+      "elapsedMs": 112,
       "stdout": "",
       "stderr": "pcd_parse_error:external_effect_requires_extended_boundary:MC_85.HTTP_GET\n"
     },
     {
       "id": "adversarial:empty_pcd",
       "status": 65,
-      "elapsedMs": 75,
+      "elapsedMs": 103,
       "stdout": "",
       "stderr": "pcd_empty\n"
     },
     {
       "id": "adversarial:path_traversal_emit",
       "status": 64,
-      "elapsedMs": 80,
+      "elapsedMs": 110,
       "stdout": "",
       "stderr": "path_outside_workspace\n"
     },
     {
       "id": "adversarial:symlink_outside",
       "status": 64,
-      "elapsedMs": 73,
+      "elapsedMs": 102,
       "stdout": "",
       "stderr": "path_outside_workspace\n"
     },
     {
       "id": "adversarial:certify_stale_source",
       "status": 0,
-      "elapsedMs": 77,
+      "elapsedMs": 103,
       "stdout": "certificate=adversarial/stale.pcd.cert.json\n",
       "stderr": ""
     },
     {
       "id": "adversarial:stale_cert_emit",
       "status": 68,
-      "elapsedMs": 75,
+      "elapsedMs": 109,
       "stdout": "",
       "stderr": "certificate_hash_mismatch\n"
     },
     {
       "id": "ledger_verify_before_tamper",
       "status": 0,
-      "elapsedMs": 73,
-      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_ledger_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"appendOnly\": true,\n  \"eventCount\": 36,\n  \"headHash\": \"654bf0426a6e646c159c4a53c6be69d21993d760303ef13049a579d700a531ec\",\n  \"tamperDetected\": false,\n  \"errors\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
+      "elapsedMs": 105,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_ledger_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"PASS\",\n  \"appendOnly\": true,\n  \"eventCount\": 36,\n  \"headHash\": \"fc94129f9a4bc5c58b50f8f39ce0ff669128410629992d15a7cedc721d9f8ac5\",\n  \"tamperDetected\": false,\n  \"errors\": [],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     },
     {
       "id": "adversarial:ledger_tamper",
       "status": 65,
-      "elapsedMs": 74,
-      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_ledger_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"FAIL\",\n  \"appendOnly\": true,\n  \"eventCount\": 36,\n  \"headHash\": \"654bf0426a6e646c159c4a53c6be69d21993d760303ef13049a579d700a531ec\",\n  \"tamperDetected\": true,\n  \"errors\": [\n    \"ledger_event_hash_mismatch:1\"\n  ],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
+      "elapsedMs": 110,
+      "stdout": "{\n  \"schemaVersion\": \"brik64.cli_ledger_verify_report.v1\",\n  \"cliVersion\": \"0.1.0-beta.15.7.1\",\n  \"status\": \"FAIL\",\n  \"appendOnly\": true,\n  \"eventCount\": 36,\n  \"headHash\": \"fc94129f9a4bc5c58b50f8f39ce0ff669128410629992d15a7cedc721d9f8ac5\",\n  \"tamperDetected\": true,\n  \"errors\": [\n    \"ledger_event_hash_mismatch:1\"\n  ],\n  \"claimBoundary\": \"local_candidate_only\"\n}\n",
       "stderr": ""
     }
   ],

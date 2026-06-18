@@ -22,6 +22,12 @@
 - Publish-plan status: `release:train:publish-plan` supports
   `0.1.0-beta.15.7.1` hotfix labels and now fails closed on
   `manifest_state_not_public:draft` instead of failing on version parsing.
+- SDK preflight status: the publish plan now inspects the local JS, Python and
+  Rust SDK project versions and required marketplace artifacts before exposing
+  mutation commands. Current blockers are explicit: JS is still
+  `0.1.0-beta.15.7`, Python is still `0.1.0b15.post4`, Rust is still
+  `0.1.0-beta.15.4`, and the Beta15.7.1 SDK artifacts required by the
+  manifest are missing.
 - Remaining publication work: executing the real mutation train still requires
   public-surface credentials and marketplace artifacts for the SDK versions
   declared in `release/manifest.json`.

@@ -38,6 +38,34 @@ function command(name, description, commandLine, mutatesPublicSurface) {
   return { name, description, command: commandLine, mutatesPublicSurface };
 }
 
+function fileExists(file) {
+  try {
+    return fs.statSync(file).isFile();
+  } catch {
+    return false;
+  }
+}
+
+function findProjectVersion(projectFile, fallbackPattern) {
+  if (!fileExists(projectFile)) return null;
+  const text = readText(projectFile);
+  if (projectFile.endsWith('package.json')) {
+    return JSON.parse(text).version || null;
+  }
+  const match = text.match(fallbackPattern);
+  return match ? match[1] : null;
+}
+
+function findPythonArtifacts(version) {
+  const distDir = '/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist';
+  if (!fs.existsSync(distDir)) return [];
+  return fs.readdirSync(distDir)
+    .filter((entry) => entry.startsWith(`brik64-${version}`))
+    .map((entry) => path.join(distDir, entry))
+    .filter(fileExists)
+    .sort();
+}
+
 function betaLabel(version) {
   const match = String(version).match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/);
   if (!match) throw new Error(`unsupported_beta_version:${version}`);
@@ -62,12 +90,21 @@ function main() {
   const packageDir = `evidence/${label}-package`;
   const packageManifest = readJson(path.join(root, packageDir, 'package.manifest.json'));
   const packagePath = packageManifest.package.path;
+  const npmSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'npm');
+  const pypiSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi');
+  const cratesSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'crates.io');
   const jsSdkPackageCandidates = [
     `/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-${manifest.version}.tgz`,
     `/Users/carlosjperez/Documents/GitHub/brik64-lib-js/evidence-${label}-pack/brik64-core-${manifest.version}.tgz`
   ];
   const jsSdkPackagePath = jsSdkPackageCandidates.find((candidate) => fs.existsSync(candidate)) || jsSdkPackageCandidates[0];
-  const pythonSdkVersion = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi').version;
+  const pythonSdkVersion = pypiSdk.version;
+  const pythonSdkArtifacts = findPythonArtifacts(pythonSdkVersion);
+  const sdkProjectVersions = {
+    npm: findProjectVersion('/Users/carlosjperez/Documents/GitHub/brik64-lib-js/package.json'),
+    pypi: findProjectVersion('/Users/carlosjperez/Documents/GitHub/brik64-lib-python/pyproject.toml', /^\s*version\s*=\s*"([^"]+)"/m),
+    crates: findProjectVersion('/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml', /^\s*version\s*=\s*"([^"]+)"/m)
+  };
   const genericSignatureReportPath = path.join(root, 'evidence', 'release-github-verified-signature', 'report.json');
   const legacySignatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
   const signatureReportPath = fs.existsSync(genericSignatureReportPath) ? genericSignatureReportPath : legacySignatureReportPath;
@@ -98,6 +135,18 @@ function main() {
 
   if (manifest.source.commit !== currentHead && gitStatus(['merge-base', '--is-ancestor', manifest.source.commit, 'HEAD']) !== 0) {
     warnings.push(`manifest_source_commit_not_ancestor:${manifest.source.commit}:${currentHead}`);
+  }
+
+  if (npmSdk?.required !== false) {
+    if (sdkProjectVersions.npm !== npmSdk.version) failures.push(`sdk_project_version_mismatch:npm:${sdkProjectVersions.npm || 'missing'}:${npmSdk.version}`);
+    if (!fileExists(jsSdkPackagePath)) failures.push(`sdk_artifact_missing:npm:${jsSdkPackagePath}`);
+  }
+  if (pypiSdk?.required !== false) {
+    if (sdkProjectVersions.pypi !== pypiSdk.version) failures.push(`sdk_project_version_mismatch:pypi:${sdkProjectVersions.pypi || 'missing'}:${pypiSdk.version}`);
+    if (pythonSdkArtifacts.length === 0) failures.push(`sdk_artifact_missing:pypi:brik64-${pythonSdkVersion}*`);
+  }
+  if (cratesSdk?.required !== false) {
+    if (sdkProjectVersions.crates !== cratesSdk.version) failures.push(`sdk_project_version_mismatch:crates.io:${sdkProjectVersions.crates || 'missing'}:${cratesSdk.version}`);
   }
 
   const publishRequested = process.argv.includes('--publish');
@@ -236,6 +285,14 @@ PY`,
           reason: signatureReport.verification?.reason || ''
         }
       : null,
+    sdkPreflight: {
+      projectVersions: sdkProjectVersions,
+      artifacts: {
+        npm: jsSdkPackagePath,
+        pypi: pythonSdkArtifacts,
+        crates: '/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml'
+      }
+    },
     commands,
     rollback,
     failures,

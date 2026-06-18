@@ -824,3 +824,29 @@ Boundary:
 - Beta15.4 is not published.
 - The evidence is non-claim L6 route-2 materialization, not fixpoint,
   formal N5, self-hosting or Rust-independence evidence.
+
+## Beta15.7.1 Ralph Loop Iteration - SDK publish preflight hardening
+
+Task:
+- Prevent a false-green public mutation plan when `release/manifest.json` declares SDK versions whose repository metadata and artifacts are not present locally.
+
+Change:
+- Hardened `scripts/release-train-publish-plan.js` to inspect required SDK project versions and artifacts for npm, PyPI and crates.io before exposing public mutation commands.
+- Added `sdkPreflight` evidence to `evidence/release-train-publish-plan/report.json`.
+- Updated `TASKS_TODO.md` and `IMPLEMENTATION_PLAN.md` with the explicit SDK blockers for Beta15.7.1.
+
+Evidence:
+- `node --check scripts/release-train-publish-plan.js` passed.
+- `npm run release:train:publish-plan` fails closed with:
+  - `manifest_state_not_public:draft`
+  - `sdk_project_version_mismatch:npm:0.1.0-beta.15.7:0.1.0-beta.15.7.1`
+  - `sdk_artifact_missing:npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.15.7.1.tgz`
+  - `sdk_project_version_mismatch:pypi:0.1.0b15.post4:0.1.0b15.post701`
+  - `sdk_artifact_missing:pypi:brik64-0.1.0b15.post701*`
+  - `sdk_project_version_mismatch:crates.io:0.1.0-beta.15.4:0.1.0-beta.15.7.1`
+- `npm run release:train:dry-run -- --allow-dirty` passed with `publicationAllowed=false`.
+
+Boundary:
+- This does not publish Beta15.7.1.
+- This does not create SDK artifacts.
+- It makes the SDK blocker explicit and auditable before public mutation.
