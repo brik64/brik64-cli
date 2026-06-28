@@ -62,6 +62,8 @@ function gitDirtyFiles() {
     .filter(Boolean)
     .map((line) => line.slice(3))
     .filter((file) => ![
+      'evidence/cli-l6-generation-required/report.json',
+      'evidence/release-flow-audit/report.json',
       'evidence/release-manifest-validate/report.json',
       'evidence/release-train-dry-run/report.json'
     ].includes(file));
@@ -630,6 +632,24 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.16.1') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta16_1_full_release_audit', ['npm', 'run', 'gate:beta16.1:full-release-audit'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta16_1_local_package', ['npm', 'run', 'package:beta16.1:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(version),
+      run('beta16_1_package_smoke', ['npm', 'run', 'smoke:beta16.1:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   if (version === '0.1.0-beta.15.5') {
     return [
       cliL6GenerationRequiredGate(),
@@ -859,6 +879,24 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
       }),
       committedPackageShaGate(manifest.version),
       run('beta15_7_package_smoke', ['npm', 'run', 'smoke:beta15.7:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
+  if (manifest.version === '0.1.0-beta.16.1') {
+    return [
+      cliL6GenerationRequiredGate(),
+      run('beta16_1_full_release_audit', ['npm', 'run', 'gate:beta16.1:full-release-audit'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta16_1_local_package', ['npm', 'run', 'package:beta16.1:local'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      committedPackageShaGate(manifest.version),
+      run('beta16_1_package_smoke', ['npm', 'run', 'smoke:beta16.1:package'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })

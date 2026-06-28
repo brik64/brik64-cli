@@ -242,6 +242,8 @@ function validate() {
     .filter(Boolean)
     .map((line) => line.slice(3))
     .filter((file) => ![
+      'evidence/cli-l6-generation-required/report.json',
+      'evidence/release-flow-audit/report.json',
       'evidence/release-manifest-validate/report.json',
       'evidence/release-train-dry-run/report.json'
     ].includes(file));
