@@ -1261,3 +1261,31 @@ Evidence:
 Boundary:
 - This script can record a blocked remote attempt. It does not itself deploy a
   remote L6+N5 dispatcher or create claim-bearing evidence.
+
+## Beta17 Ralph Loop Iteration - Remote attempt transcript retention
+
+Task:
+- Preserve full stdout/stderr transcripts from Beta17 remote probes and
+  materialization attempts for auditability.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to write
+  transcript files under `evidence/beta17-fixpoint-remote-attempt/transcripts/`
+  and bind their hashes in the attempt report.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert transcript presence in skip mode.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- Transcript retention improves auditability only. It does not create Stage1,
+  Stage2 or fixpoint evidence.

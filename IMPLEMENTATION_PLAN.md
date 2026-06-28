@@ -222,8 +222,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Remote stage attempt: `npm run attempt:beta17:fixpoint:remote-stage` consumes
   the Beta17 stage request, probes the configured L6+N5 wrapper and accepts
   only a valid `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`. In skip or unavailable
-  modes it writes `evidence/beta17-fixpoint-remote-attempt/report.json` with a
-  blocked decision and keeps publication disabled.
+  modes it writes `evidence/beta17-fixpoint-remote-attempt/report.json` and
+  probe/attempt transcripts with a blocked decision and keeps publication
+  disabled.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and

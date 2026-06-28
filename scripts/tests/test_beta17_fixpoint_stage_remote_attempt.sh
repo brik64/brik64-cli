@@ -32,7 +32,15 @@ jq -e '
   and (.blockers | index("remote_l6plus_probe_failed"))
   and (.blockers | index("remote_l6plus_beta17_stage_result_unavailable"))
   and .request.path=="evidence/beta17-fixpoint-stage-request/request.json"
+  and (.remote.transcripts.hostProbeStderr.path=="evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stderr.txt")
+  and (.remote.transcripts.hostProbeStderr.bytes > 0)
+  and (.remote.transcripts.remoteRefStderr.path=="evidence/beta17-fixpoint-remote-attempt/transcripts/remote-ref.stderr.txt")
+  and (.remote.transcripts.endpointStatusStderr.path=="evidence/beta17-fixpoint-remote-attempt/transcripts/endpoint-status.stderr.txt")
 ' evidence/beta17-fixpoint-remote-attempt/report.json >/dev/null
+
+test -f evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stderr.txt
+grep -q "remote probe skipped by BRIK64_L6_SKIP_REMOTE=1" \
+  evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stderr.txt
 
 rm -rf evidence/beta17-fixpoint-stage-request evidence/beta17-fixpoint-remote-attempt
 

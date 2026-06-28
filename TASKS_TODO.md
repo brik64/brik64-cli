@@ -516,3 +516,14 @@
       - Boundary:
         skip/unavailable mode must write blocked evidence and cannot publish
         or prove fixpoint.
+
+- [x] Beta17 remote attempt transcript retention.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Goal:
+        retain probe and attempt stdout/stderr as hash-bound transcript files
+        for future L6+N5 audit.
+      - Boundary:
+        transcripts are diagnostic evidence, not fixpoint proof.

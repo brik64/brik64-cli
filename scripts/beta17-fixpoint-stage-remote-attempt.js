@@ -30,6 +30,11 @@ function writeJson(file, value) {
   fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
 }
 
+function writeText(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, value);
+}
+
 function rel(file) {
   return path.relative(root, file);
 }
@@ -144,10 +149,56 @@ function attemptRemote(request) {
     return {
       command: [wrapper, command, '@@FILE:<beta17-stage-request>'],
       status: result.status,
+      stdout: result.stdout,
+      stderr: result.stderr,
       stdout_sha256: sha256(result.stdout),
       stderr_sha256: sha256(result.stderr),
       observed: `${result.stdout}${result.stderr}`.trim().slice(0, 500) || null,
       stageResult: stageResult ? { present: true } : null,
+    };
+  });
+}
+
+function transcriptRef(file) {
+  return {
+    path: rel(file),
+    sha256: sha256File(file),
+    bytes: fs.statSync(file).size,
+  };
+}
+
+function persistProbeTranscripts(remote) {
+  const transcriptDir = path.join(evidenceDir, 'transcripts');
+  const files = {
+    hostProbeStdout: path.join(transcriptDir, 'host-probe.stdout.txt'),
+    hostProbeStderr: path.join(transcriptDir, 'host-probe.stderr.txt'),
+    remoteRefStdout: path.join(transcriptDir, 'remote-ref.stdout.txt'),
+    remoteRefStderr: path.join(transcriptDir, 'remote-ref.stderr.txt'),
+    endpointStatusStdout: path.join(transcriptDir, 'endpoint-status.stdout.txt'),
+    endpointStatusStderr: path.join(transcriptDir, 'endpoint-status.stderr.txt'),
+  };
+  writeText(files.hostProbeStdout, remote.hostProbe.stdout);
+  writeText(files.hostProbeStderr, remote.hostProbe.stderr);
+  writeText(files.remoteRefStdout, remote.remoteRefProbe.stdout);
+  writeText(files.remoteRefStderr, remote.remoteRefProbe.stderr);
+  writeText(files.endpointStatusStdout, remote.endpointStatusProbe.stdout);
+  writeText(files.endpointStatusStderr, remote.endpointStatusProbe.stderr);
+  return Object.fromEntries(Object.entries(files).map(([key, file]) => [key, transcriptRef(file)]));
+}
+
+function persistAttemptTranscripts(attempts) {
+  const transcriptDir = path.join(evidenceDir, 'transcripts');
+  return attempts.map((attempt, index) => {
+    const stdoutFile = path.join(transcriptDir, `attempt-${index + 1}.stdout.txt`);
+    const stderrFile = path.join(transcriptDir, `attempt-${index + 1}.stderr.txt`);
+    writeText(stdoutFile, attempt.stdout || '');
+    writeText(stderrFile, attempt.stderr || '');
+    return {
+      ...attempt,
+      stdout: undefined,
+      stderr: undefined,
+      stdoutTranscript: transcriptRef(stdoutFile),
+      stderrTranscript: transcriptRef(stderrFile),
     };
   });
 }
@@ -169,6 +220,7 @@ function main() {
     blockers.push(`remote_l6plus_wrapper_mode_not_beta17_stage:${remote.wrapperMode || 'missing'}`);
   }
   const attempts = request ? attemptRemote(request) : [];
+  const persistedAttempts = persistAttemptTranscripts(attempts);
   const expectedContext = request
     ? {
         workspaceRoot: root,
@@ -179,7 +231,7 @@ function main() {
         requiredInputPcdPaths: request.requiredInputPcdPaths,
       }
     : {};
-  const validations = attempts.map((attempt) => {
+  const validations = persistedAttempts.map((attempt) => {
     const raw = attempt.observed || '';
     const stageResult = parseStageResult(raw);
     const validation = validateStageResult(stageResult, expectedContext);
@@ -188,6 +240,7 @@ function main() {
   const accepted = validations.find((attempt) => attempt.stageResultValidation.accepted);
   if (!accepted) blockers.push('remote_l6plus_beta17_stage_result_unavailable');
   const uniqueBlockers = [...new Set(blockers)];
+  const probeTranscripts = persistProbeTranscripts(remote);
   const report = {
     schemaVersion: 'brik64.beta17_fixpoint.remote_attempt.v1',
     version: '0.1.0-beta.17',
@@ -214,22 +267,23 @@ function main() {
     remote: {
       hostProbe: {
         status: remote.hostProbe.status,
-        stdout_sha256: sha256(remote.hostProbe.stdout),
-        stderr_sha256: sha256(remote.hostProbe.stderr),
+        stdout_sha256: probeTranscripts.hostProbeStdout.sha256,
+        stderr_sha256: probeTranscripts.hostProbeStderr.sha256,
         auditDecision: remote.auditJson?.decision || null,
       },
       remoteRefProbe: {
         status: remote.remoteRefProbe.status,
-        stdout_sha256: sha256(remote.remoteRefProbe.stdout),
-        stderr_sha256: sha256(remote.remoteRefProbe.stderr),
+        stdout_sha256: probeTranscripts.remoteRefStdout.sha256,
+        stderr_sha256: probeTranscripts.remoteRefStderr.sha256,
       },
       endpointStatusProbe: {
         status: remote.endpointStatusProbe.status,
-        stdout_sha256: sha256(remote.endpointStatusProbe.stdout),
-        stderr_sha256: sha256(remote.endpointStatusProbe.stderr),
+        stdout_sha256: probeTranscripts.endpointStatusStdout.sha256,
+        stderr_sha256: probeTranscripts.endpointStatusStderr.sha256,
       },
       wrapperMode: remote.wrapperMode,
       remoteRefs: remote.remoteRefs,
+      transcripts: probeTranscripts,
     },
     expectedContext,
     attempts: validations,
