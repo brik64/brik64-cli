@@ -466,6 +466,39 @@ function main() {
     if (!checks.byteIdentityBindsStage2Artifact) blockers.push('byte_identity_stage2_artifact_sha256_mismatch');
     if (!checks.byteIdentityStageSizesMatch) blockers.push('byte_identity_stage_artifact_size_mismatch');
   }
+  if (stage1) {
+    const stage1ArtifactSha = firstValueAt(stage1, [
+      'stage1ArtifactSha256',
+      'artifactSha256',
+      'artifact.sha256',
+      'materialization.artifactSha256',
+      'bindings.stage1ArtifactSha256',
+    ]);
+    checks.stage1ManifestBindsArtifact = isSha256(stage1ArtifactSha)
+      && evidence.remote_promotion_stage1Artifact?.sha256 === String(stage1ArtifactSha).toLowerCase();
+    if (!checks.stage1ManifestBindsArtifact) blockers.push('stage1_manifest_artifact_sha256_mismatch');
+  }
+  if (stage2) {
+    const stage2ArtifactSha = firstValueAt(stage2, [
+      'stage2ArtifactSha256',
+      'artifactSha256',
+      'artifact.sha256',
+      'regeneration.artifactSha256',
+      'bindings.stage2ArtifactSha256',
+    ]);
+    const generatedFromStage1Sha = firstValueAt(stage2, [
+      'generatedFromStage1ArtifactSha256',
+      'stage1ArtifactSha256',
+      'regeneration.stage1ArtifactSha256',
+      'bindings.stage1ArtifactSha256',
+    ]);
+    checks.stage2ManifestBindsArtifact = isSha256(stage2ArtifactSha)
+      && evidence.remote_promotion_stage2Artifact?.sha256 === String(stage2ArtifactSha).toLowerCase();
+    checks.stage2ManifestBindsStage1Artifact = isSha256(generatedFromStage1Sha)
+      && evidence.remote_promotion_stage1Artifact?.sha256 === String(generatedFromStage1Sha).toLowerCase();
+    if (!checks.stage2ManifestBindsArtifact) blockers.push('stage2_manifest_artifact_sha256_mismatch');
+    if (!checks.stage2ManifestBindsStage1Artifact) blockers.push('stage2_manifest_stage1_artifact_sha256_mismatch');
+  }
   if (seal) {
     const sealedStage1Sha = firstValueAt(seal, ['stage1ArtifactSha256', 'seal.stage1ArtifactSha256', 'bindings.stage1ArtifactSha256']);
     const sealedStage2Sha = firstValueAt(seal, ['stage2ArtifactSha256', 'seal.stage2ArtifactSha256', 'bindings.stage2ArtifactSha256']);

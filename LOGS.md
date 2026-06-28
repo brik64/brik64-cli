@@ -1931,3 +1931,33 @@ Boundary:
 - This prevents unbound byte-identity reports from satisfying readiness. It
   does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage manifest artifact bindings
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require Beta17 Stage1/Stage2 manifests to bind promoted artifacts.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so Stage1 manifest must
+  bind the promoted Stage1 artifact SHA-256.
+- Updated the same gate so Stage2 regeneration manifest must bind the promoted
+  Stage2 artifact SHA-256 and the promoted Stage1 artifact SHA-256 it claims
+  to regenerate from.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with Stage
+  manifest artifact bindings.
+- Added an adversarial Stage2-from-Stage1 SHA mismatch case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This prevents detached Stage manifests from satisfying readiness. It does
+  not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.

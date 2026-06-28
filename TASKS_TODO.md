@@ -253,6 +253,20 @@
         this validates byte-identity evidence bindings. It does not create
         real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
+- [x] Bind Beta17 Stage manifests to promoted artifacts.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        Stage1 manifest must bind the promoted Stage1 artifact SHA-256.
+        Stage2 manifest must bind the promoted Stage2 artifact SHA-256 and
+        the promoted Stage1 artifact SHA-256 it claims to regenerate from.
+      - Boundary:
+        this closes detached Stage manifest evidence. It does not create
+        claim-bearing L6+N5 Stage1/Stage2 artifacts or prove fixpoint.
+
 - [x] Require explicit Beta17 public-surface sync matrix.
       - Script:
         `scripts/beta17-fixpoint-readiness-gate.js`.

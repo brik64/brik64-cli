@@ -235,6 +235,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   remote promotion manifest to include Stage1 and Stage2 artifact refs. Those
   refs must use safe workspace-relative paths, point to existing files and
   match the declared SHA-256.
+- Stage manifest artifact binding: `gate:beta17:fixpoint-readiness` requires
+  the Stage1 artifact manifest to bind the promoted Stage1 artifact SHA-256,
+  and the Stage2 regeneration manifest to bind both the promoted Stage2
+  artifact SHA-256 and the promoted Stage1 artifact SHA-256 it claims to
+  regenerate from.
 - Seal binding: `gate:beta17:fixpoint-readiness` requires `seal_report.json`
   to hash-bind the promoted Stage1 artifact, promoted Stage2 artifact and
   `input_pcd_hashes.tsv`. A generic `sealed=true` report is insufficient.

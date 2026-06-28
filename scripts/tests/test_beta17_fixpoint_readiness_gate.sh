@@ -133,6 +133,21 @@ stage1_artifact_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/generate
 stage2_artifact_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs" | awk '{print $1}')"
 stage1_artifact_bytes="$(wc -c <"$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" | tr -d ' ')"
 stage2_artifact_bytes="$(wc -c <"$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs" | tr -d ' ')"
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByL6PlusN5": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha"
+}
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByStage1": true,
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "generatedFromStage1ArtifactSha256": "$stage1_artifact_sha"
+}
+JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<JSON
 {
   "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
@@ -243,6 +258,9 @@ jq -e '
   and .checks.byteIdentityBindsStage1Artifact==true
   and .checks.byteIdentityBindsStage2Artifact==true
   and .checks.byteIdentityStageSizesMatch==true
+  and .checks.stage1ManifestBindsArtifact==true
+  and .checks.stage2ManifestBindsArtifact==true
+  and .checks.stage2ManifestBindsStage1Artifact==true
   and .checks.harnessHasAdversarial==true
   and .checks.remotePromotionPass==true
   and .checks.remotePromotionClaimsClosed==true
@@ -284,6 +302,53 @@ cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<JSON
   "stage2ArtifactBytes": $stage2_artifact_bytes
 }
 JSON
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
+import hashlib, json, pathlib, sys
+stage2_path = pathlib.Path(sys.argv[1])
+promotion_path = pathlib.Path(sys.argv[2])
+stage2 = json.load(open(stage2_path))
+stage2["generatedFromStage1ArtifactSha256"] = "0" * 64
+json.dump(stage2, open(stage2_path, "w"), indent=2)
+promotion = json.load(open(promotion_path))
+promotion["promoted"]["stage2RegenerationManifest"]["sha256"] = hashlib.sha256(stage2_path.read_bytes()).hexdigest()
+json.dump(promotion, open(promotion_path, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/stage2-from-stage1-mismatch.stdout" 2>"$TMP_DIR/stage2-from-stage1-mismatch.stderr"
+stage2_from_stage1_mismatch_rc=$?
+set -e
+
+if [[ "$stage2_from_stage1_mismatch_rc" -eq 0 ]]; then
+  echo "stage2_from_stage1_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("stage2_manifest_stage1_artifact_sha256_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByStage1": true,
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "generatedFromStage1ArtifactSha256": "$stage1_artifact_sha"
+}
+JSON
+python3 - "$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
+import hashlib, json, pathlib, sys
+stage2_path = pathlib.Path(sys.argv[1])
+promotion_path = pathlib.Path(sys.argv[2])
+promotion = json.load(open(promotion_path))
+promotion["promoted"]["stage2RegenerationManifest"]["sha256"] = hashlib.sha256(stage2_path.read_bytes()).hexdigest()
+json.dump(promotion, open(promotion_path, "w"), indent=2)
+PY
 write_evidence_pack_manifest "$FIXTURE"
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'PY'
@@ -601,11 +666,20 @@ jq -e '
   and (.blockers | index("seal_fixture_materializer_not_claim_bearing"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
-cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
-{ "version": "0.1.0-beta.17", "generatedByL6PlusN5": true }
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByL6PlusN5": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha"
+}
 JSON
-cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<'JSON'
-{ "version": "0.1.0-beta.17", "generatedByStage1": true }
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByStage1": true,
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "generatedFromStage1ArtifactSha256": "$stage1_artifact_sha"
+}
 JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<JSON
 {

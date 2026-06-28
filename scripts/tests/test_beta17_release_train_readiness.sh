@@ -146,6 +146,21 @@ stage1_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage1/b
 stage2_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs | awk '{print $1}')"
 stage1_artifact_bytes="$(wc -c <evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs | tr -d ' ')"
 stage2_artifact_bytes="$(wc -c <evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs | tr -d ' ')"
+cat >evidence/beta17-fixpoint/stage1_artifact_manifest.json <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByL6PlusN5": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha"
+}
+JSON
+cat >evidence/beta17-fixpoint/stage2_regeneration_manifest.json <<JSON
+{
+  "version": "0.1.0-beta.17",
+  "generatedByStage1": true,
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "generatedFromStage1ArtifactSha256": "$stage1_artifact_sha"
+}
+JSON
 cat >evidence/beta17-fixpoint/byte_identical_report.json <<JSON
 {
   "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
