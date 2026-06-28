@@ -2014,3 +2014,29 @@ Boundary:
 - This prevents a stale or tampered Stage result ref from entering promotion.
   It does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion request context binding
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Bind remote promotion expected context to the actual Stage request file.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` to validate the
+  remote attempt's `request` ref, rerun `validateRequest` and recompute the
+  `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST` line SHA-256.
+- Stage result revalidation now uses request-derived `pcdInputSetSha256`,
+  `materializerRequestSha256` and required input PCD paths.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` with
+  an adversarial fabricated `expectedContext.materializerRequestSha256` case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This prevents fabricated expected context from authorizing remote promotion.
+  It does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.

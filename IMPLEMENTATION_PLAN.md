@@ -281,6 +281,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `validateStageResult` with the remote attempt's expected context. A stale or
   tampered `stage-result.json` cannot be promoted merely because the attempt
   report says `accepted=true`.
+- Remote promotion request binding: the promotion gate validates the remote
+  attempt's `request` ref, reruns `validateRequest`, recomputes the
+  `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST` line SHA-256 and uses request-derived
+  context when revalidating the accepted Stage result. A fabricated
+  `expectedContext` cannot authorize promotion.
 - Remote result promotion: `npm run promote:beta17:fixpoint:remote-result`
   copies only a promotion-gate-passing remote Stage1/Stage2 result into the
   canonical `evidence/beta17-fixpoint/` paths. It writes

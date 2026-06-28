@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { validateRequest } = require('./beta17-fixpoint-stage-request-bundle');
 const { validateStageResult } = require('./beta17-fixpoint-stage-result');
 
 const root = process.env.BRIK64_CLI_ROOT
@@ -21,6 +22,13 @@ function rel(file) {
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function requestLineSha256(request) {
+  return crypto
+    .createHash('sha256')
+    .update(`BRIK64_BETA17_FIXPOINT_STAGE_REQUEST\t${Buffer.from(JSON.stringify(request)).toString('base64')}\n`)
+    .digest('hex');
 }
 
 function boolAt(object, dottedPath) {
@@ -124,6 +132,27 @@ function main() {
     }
     if (report.skipped === true) blockers.push('remote_attempt_was_skipped');
 
+    let validatedRequest = null;
+    const requestRef = fileRefExists(report.request, blockers, 'remote_attempt_request_ref');
+    if (requestRef) {
+      evidence.remoteAttemptRequest = requestRef;
+      validatedRequest = readJson(path.resolve(root, report.request.path));
+      const requestValidation = validateRequest(validatedRequest);
+      evidence.remoteAttemptRequestValidation = {
+        accepted: requestValidation.accepted,
+        blockers: requestValidation.blockers,
+      };
+      if (!requestValidation.accepted) {
+        blockers.push(`remote_attempt_request_invalid:${requestValidation.blockers.join('|')}`);
+      }
+      if (report.request?.pcdInputSetSha256 !== validatedRequest.pcdInputSetSha256) {
+        blockers.push('remote_attempt_request_pcd_input_set_sha256_mismatch');
+      }
+      if (report.expectedContext?.materializerRequestSha256 !== requestLineSha256(validatedRequest)) {
+        blockers.push('remote_attempt_expected_context_request_sha256_mismatch');
+      }
+    }
+
     const probeTranscripts = report.remote?.transcripts || {};
     for (const key of [
       'hostProbeStdout',
@@ -162,10 +191,16 @@ function main() {
         if (stageResult.version !== '0.1.0-beta.17') {
           blockers.push(`accepted_stage_result_version_mismatch:${stageResult.version || 'missing'}`);
         }
-        const revalidation = validateStageResult(stageResult, {
+        const expectedContext = {
           ...(report.expectedContext || {}),
           workspaceRoot: root,
-        });
+        };
+        if (validatedRequest) {
+          expectedContext.pcdInputSetSha256 = validatedRequest.pcdInputSetSha256;
+          expectedContext.materializerRequestSha256 = requestLineSha256(validatedRequest);
+          expectedContext.requiredInputPcdPaths = validatedRequest.requiredInputPcdPaths;
+        }
+        const revalidation = validateStageResult(stageResult, expectedContext);
         evidence.acceptedAttemptStageResultRevalidation = {
           accepted: revalidation.accepted,
           blockers: revalidation.blockers,

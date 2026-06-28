@@ -72,6 +72,16 @@ sha_ref() {
     '{path:$path,sha256:$sha,bytes:$bytes}'
 }
 
+request_ref_json="$(sha_ref "$FIXTURE/evidence/beta17-fixpoint-stage-request/request.json")"
+request_pcd_input_set_sha="$(jq -r '.pcdInputSetSha256' "$FIXTURE/evidence/beta17-fixpoint-stage-request/request.json")"
+request_line_sha="$(node -e '
+const fs = require("fs");
+const crypto = require("crypto");
+const request = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+const line = `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST\t${Buffer.from(JSON.stringify(request)).toString("base64")}\n`;
+process.stdout.write(crypto.createHash("sha256").update(line).digest("hex"));
+' "$FIXTURE/evidence/beta17-fixpoint-stage-request/request.json")"
+
 jq -n \
   --arg host_stdout_path "evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stdout.txt" \
   --slurpfile hostStdout <(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stdout.txt") \
@@ -83,7 +93,10 @@ jq -n \
   --slurpfile attemptStdout <(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt") \
   --slurpfile attemptStderr <(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stderr.txt") \
   --slurpfile resultRef <(sha_ref "$fixture_result_json") \
-  --slurpfile stageResult "$fixture_result_json" '
+  --slurpfile stageResult "$fixture_result_json" \
+  --slurpfile requestRef <(printf "%s\n" "$request_ref_json") \
+  --arg pcdInputSetSha "$request_pcd_input_set_sha" \
+  --arg requestLineSha "$request_line_sha" '
   {
     schemaVersion:"brik64.beta17_fixpoint.remote_attempt.v1",
     version:"0.1.0-beta.17",
@@ -95,6 +108,19 @@ jq -n \
       definitiveFixpointAllowed:false,
       formalN5ClaimAllowed:false,
       universalCorrectnessClaimAllowed:false
+    },
+    request:($requestRef[0] + {pcdInputSetSha256:$pcdInputSetSha}),
+    expectedContext:{
+      pcdInputSetSha256:$pcdInputSetSha,
+      materializerRequestSha256:$requestLineSha,
+      remoteWrapperSha256:"5",
+      wrapperExecTargetSha256:"6",
+      requiredInputPcdPaths:[
+        "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
+        "pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd",
+        "pcd/cli_core.pcd",
+        "pcd/cli_polymer.pcd"
+      ]
     },
     remote:{
       transcripts:{
@@ -165,6 +191,42 @@ attempt["stageResultValidation"]["normalized"] = stage
 report["decision"] = "PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT"
 report["blockers"] = []
 with open(report_path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+report = json.load(open(path))
+report["expectedContext"]["materializerRequestSha256"] = "0" * 64
+with open(path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-promotion-gate.js" \
+  >"$TMP_DIR/request-context-mismatch.stdout" 2>"$TMP_DIR/request-context-mismatch.stderr"
+request_context_mismatch_rc=$?
+set -e
+
+if [[ "$request_context_mismatch_rc" -eq 0 ]]; then
+  echo "request_context_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE"
+  and (.blockers | index("remote_attempt_expected_context_request_sha256_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$request_line_sha" <<'PY'
+import json, sys
+path, request_line_sha = sys.argv[1], sys.argv[2]
+report = json.load(open(path))
+report["expectedContext"]["materializerRequestSha256"] = request_line_sha
+with open(path, "w", encoding="utf-8") as fh:
     json.dump(report, fh, indent=2)
     fh.write("\n")
 PY

@@ -767,6 +767,19 @@
         this protects promotion from tampered or stale Stage result refs. It
         does not create real L6+N5 Stage1/Stage2 artifacts.
 
+- [x] Beta17 remote promotion derives expected context from request file.
+      - Script:
+        `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+      - Result:
+        promotion now validates the remote attempt's `request` ref, reruns
+        `validateRequest`, recomputes the materializer request line SHA-256
+        and uses the request-derived context for Stage result revalidation.
+      - Boundary:
+        this prevents fabricated expected context in remote attempts. It does
+        not create real L6+N5 Stage1/Stage2 artifacts.
+
 - [x] Beta17 release-train readiness binding.
       - Release train:
         `scripts/release-train-dry-run.js`.
