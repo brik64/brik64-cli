@@ -6,6 +6,13 @@ cd "$ROOT"
 
 rm -rf evidence/beta17-fixpoint-stage-request evidence/beta17-fixpoint-remote-attempt
 
+grep -q "stageResultRaw" scripts/beta17-fixpoint-stage-remote-attempt.js
+grep -q "resultRef" scripts/beta17-fixpoint-stage-remote-attempt.js
+if grep -q "parseStageResult(raw)" scripts/beta17-fixpoint-stage-remote-attempt.js; then
+  echo "remote_attempt_must_not_validate_truncated_observed_output" >&2
+  exit 1
+fi
+
 node scripts/beta17-fixpoint-stage-request-bundle.js >/tmp/brik64-beta17-stage-request.out
 
 set +e

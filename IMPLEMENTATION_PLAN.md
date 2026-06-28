@@ -218,7 +218,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
   Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
   Fixture evidence may test the contract, but it can never authorize Beta17
-  publication or a fixpoint claim.
+  publication.
+- Remote attempt transcript policy: accepted remote attempts must validate the
+  complete parsed `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`, not the truncated
+  human `observed` preview. The full parsed stage result is persisted as a
+  hash-bound transcript ref so a long Stage1/Stage2 payload can be promoted
+  only after independent validation.
 - Remote stage attempt: `npm run attempt:beta17:fixpoint:remote-stage` consumes
   the Beta17 stage request, probes the configured L6+N5 wrapper and accepts
   only a valid `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`. In skip or unavailable

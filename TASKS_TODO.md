@@ -149,6 +149,36 @@
         release ref, and `release-train-publish.yml` is dispatched with the
         manifest digest and confirmation string.
 
+# Beta17 Fixpoint Tasks
+
+- [x] Preserve complete Beta17 remote stage results before readiness promotion.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Result:
+        the remote attempt validator no longer validates Stage1/Stage2 output
+        from the truncated `observed` preview. It validates the full parsed
+        `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` and persists the complete parsed
+        result as a transcript ref when present.
+      - Boundary:
+        this does not make Beta17 public-release-ready. It prevents a real
+        long remote result from being dropped or replaced by a short preview.
+
+- [ ] Merge PR #223 after review.
+      - Current state:
+        PR #223 is open at `d213b04`, CI checks are green, and GitHub reports
+        `reviewDecision=REVIEW_REQUIRED`.
+      - Done when:
+        PR #223 is merged into the verified release branch/ref.
+
+- [ ] Run real L6+N5 Beta17 Stage1/Stage2 materialization.
+      - Done when:
+        `evidence/beta17-fixpoint/` contains non-fixture, non-template,
+        hash-bound Stage1, Stage2, byte-identity, harness, seal, public sync
+        and external audit reports, and `gate:beta17:fixpoint-readiness`
+        passes.
+
 ## Legacy Beta15.4 Tasks
 
 - [x] Create clean checkout from `origin/main`.

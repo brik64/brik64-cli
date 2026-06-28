@@ -1,5 +1,35 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 29 - Beta17 remote stage result preservation
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Fixed `scripts/beta17-fixpoint-stage-remote-attempt.js` so accepted remote
+  Stage1/Stage2 results are validated from the complete parsed
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload instead of the truncated
+  `observed` preview.
+- Persisted complete parsed stage results as transcript refs when present,
+  keeping report JSON bounded while preserving hash-bound evidence.
+- Added regression assertions to the remote-stage test so the script keeps
+  `stageResultRaw` / `resultRef` handling and does not reintroduce validation
+  from a truncated preview.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+
+Boundary:
+
+- This is Beta17 readiness hardening only.
+- It does not create Stage1/Stage2 materialization evidence.
+- It does not publish Beta17.
+- Definitive fixpoint, formal N5, universal correctness, Rust-independence and
+  self-hosting claims remain closed until fresh evidence passes the full gate.
+
 ## Iteration 28 - Beta15.7.1 publish-plan hotfix support
 
 Timestamp: `2026-06-18T04:50:00Z`

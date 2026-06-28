@@ -145,7 +145,8 @@ function attemptRemote(request) {
       'rm -f "$tmp"',
     ].join('; ');
     const result = ssh(remote);
-    const stageResult = parseStageResult(`${result.stdout}\n${result.stderr}`);
+    const combinedOutput = `${result.stdout}\n${result.stderr}`;
+    const stageResult = parseStageResult(combinedOutput);
     return {
       command: [wrapper, command, '@@FILE:<beta17-stage-request>'],
       status: result.status,
@@ -154,7 +155,7 @@ function attemptRemote(request) {
       stdout_sha256: sha256(result.stdout),
       stderr_sha256: sha256(result.stderr),
       observed: `${result.stdout}${result.stderr}`.trim().slice(0, 500) || null,
-      stageResult: stageResult ? { present: true } : null,
+      stageResult: stageResult ? { present: true, result: stageResult } : null,
     };
   });
 }
@@ -191,12 +192,20 @@ function persistAttemptTranscripts(attempts) {
   return attempts.map((attempt, index) => {
     const stdoutFile = path.join(transcriptDir, `attempt-${index + 1}.stdout.txt`);
     const stderrFile = path.join(transcriptDir, `attempt-${index + 1}.stderr.txt`);
+    const resultFile = path.join(transcriptDir, `attempt-${index + 1}.stage-result.json`);
     writeText(stdoutFile, attempt.stdout || '');
     writeText(stderrFile, attempt.stderr || '');
+    if (attempt.stageResult?.result) {
+      writeJson(resultFile, attempt.stageResult.result);
+    }
     return {
       ...attempt,
       stdout: undefined,
       stderr: undefined,
+      stageResult: attempt.stageResult?.result
+        ? { present: true, resultRef: transcriptRef(resultFile) }
+        : attempt.stageResult,
+      stageResultRaw: attempt.stageResult?.result || null,
       stdoutTranscript: transcriptRef(stdoutFile),
       stderrTranscript: transcriptRef(stderrFile),
     };
@@ -232,10 +241,10 @@ function main() {
       }
     : {};
   const validations = persistedAttempts.map((attempt) => {
-    const raw = attempt.observed || '';
-    const stageResult = parseStageResult(raw);
+    const stageResult = attempt.stageResultRaw || null;
     const validation = validateStageResult(stageResult, expectedContext);
-    return { ...attempt, stageResultValidation: validation };
+    const { stageResultRaw, ...reportAttempt } = attempt;
+    return { ...reportAttempt, stageResultValidation: validation };
   });
   const accepted = validations.find((attempt) => attempt.stageResultValidation.accepted);
   if (!accepted) blockers.push('remote_l6plus_beta17_stage_result_unavailable');
