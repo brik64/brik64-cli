@@ -1476,3 +1476,33 @@ Evidence:
 
 Boundary:
 - This is readiness-gate hardening. It does not run the external audit, produce real L6+N5 fixpoint evidence, publish Beta17 or authorize public fixpoint claims.
+
+## Beta17 Ralph Loop Iteration - External audit prompt contract
+
+Timestamp: 2026-06-28T21:43:24Z
+
+Task:
+- Add a canonical external audit prompt that produces the exact Beta17 audit JSON contract required by readiness.
+
+Change:
+- Added `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` with clean public install, functional CLI, generated-code, adversarial, public-surface and claim-safe scan requirements.
+- Updated `scripts/beta17-fixpoint-evidence-pack-init.js` so the external audit template points to the prompt and exposes the required contract fields.
+- Added `scripts/tests/test_beta17_external_audit_prompt_contract.sh` and npm script `test:beta17:external-audit-prompt`.
+- Extended `scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh` to verify the audit template references the prompt and required contract.
+
+Evidence:
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This is an audit-instruction hardening patch. It does not perform the external audit, materialize Stage1/Stage2, prove fixpoint or authorize Beta17 publication.

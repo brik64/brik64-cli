@@ -93,6 +93,7 @@
     "test:cli-l6-generation-required": "node scripts/cli-l6-generation-required-gate.js",
     "gate:beta17:fixpoint-readiness": "node scripts/beta17-fixpoint-readiness-gate.js --version 0.1.0-beta.17",
     "test:beta17:fixpoint-readiness": "bash scripts/tests/test_beta17_fixpoint_readiness_gate.sh",
+    "test:beta17:external-audit-prompt": "bash scripts/tests/test_beta17_external_audit_prompt_contract.sh",
     "beta17:fixpoint:evidence:init": "node scripts/beta17-fixpoint-evidence-pack-init.js",
     "test:beta17:fixpoint:evidence:init": "bash scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh",
     "gate:beta17:fixpoint:stage-contract": "node scripts/beta17-fixpoint-stage-contract-gate.js",

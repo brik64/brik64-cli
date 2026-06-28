@@ -258,8 +258,13 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   clean public install, functional CLI tests, generated-code tests,
   adversarial tests, public-surface scan and claim-safe scan before Beta17 can
   become release-ready.
+- External audit prompt: `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` is the
+  canonical instruction packet for producing `external_audit_report.json`.
+  The evidence-pack template points auditors to this prompt and exposes the
+  same required contract fields used by the readiness gate.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
+  `npm run test:beta17:external-audit-prompt` and
   `npm run test:beta17:fixpoint:stage-contract` and
   `npm run test:beta17:fixpoint:stage-request` and
   `npm run test:beta17:fixpoint:stage-result` and

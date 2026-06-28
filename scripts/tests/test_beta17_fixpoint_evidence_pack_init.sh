@@ -45,6 +45,22 @@ jq -e '
   and (.written | length) >= 11
 ' "$FIXTURE/evidence/beta17-fixpoint/template_summary.json" >/dev/null
 
+jq -e '
+  .decision=="TEMPLATE_NON_CLAIM"
+  and (.requiredReplacement | contains("docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md"))
+' "$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" >/dev/null
+
+jq -e '
+  .requiredContract.cleanPublicInstall==false
+  and .requiredContract.functionalTests==false
+  and .requiredContract.generatedCodeTests==false
+  and .requiredContract.adversarialTests==false
+  and .requiredContract.publicSurfaceScan==false
+  and .requiredContract.claimSafeScan==false
+' "$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" >/dev/null
+
+grep -q "docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md" "$FIXTURE/evidence/beta17-fixpoint/README.md"
+
 set +e
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
   >"$TMP_DIR/gate.stdout" 2>"$TMP_DIR/gate.stderr"

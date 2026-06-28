@@ -637,3 +637,17 @@
       - Boundary:
         this validates audit evidence shape. It does not perform the external
         audit or create claim-bearing L6+N5 Stage1/Stage2 artifacts.
+
+- [x] Beta17 external audit prompt contract.
+      - Prompt:
+        `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md`.
+      - Evidence pack:
+        `scripts/beta17-fixpoint-evidence-pack-init.js`.
+      - Test:
+        `scripts/tests/test_beta17_external_audit_prompt_contract.sh`.
+      - Goal:
+        give external agents a canonical instruction packet that produces the
+        exact `external_audit_report.json` contract enforced by readiness.
+      - Boundary:
+        this creates the audit instruction contract only. It does not execute
+        the audit, publish Beta17 or prove fixpoint.

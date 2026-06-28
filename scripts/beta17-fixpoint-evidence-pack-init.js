@@ -170,7 +170,15 @@ function main() {
       ...templateBase('external_audit_report'),
       decision: 'TEMPLATE_NON_CLAIM',
       pass: false,
-      requiredReplacement: 'Replace with the clean external audit result from public surfaces.',
+      requiredReplacement: 'Replace with the clean external audit result from public surfaces following docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md.',
+      requiredContract: {
+        cleanPublicInstall: false,
+        functionalTests: false,
+        generatedCodeTests: false,
+        adversarialTests: false,
+        publicSurfaceScan: false,
+        claimSafeScan: false,
+      },
     })
   );
   record(
@@ -194,7 +202,7 @@ function main() {
         '- passing harness with adversarial coverage;',
         '- seal report;',
         '- public surface synchronization;',
-        '- clean external audit.',
+        '- clean external audit following docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md.',
         '',
       ].join('\n')
     )
