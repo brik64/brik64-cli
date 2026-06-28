@@ -69,6 +69,25 @@ function checkHashList(file, blockers, evidence, key) {
   if (rows.length === 0) blockers.push(`${key}_empty:${rel(file)}`);
 }
 
+function checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, blockers) {
+  const promoted = remotePromotion?.promoted?.[promotedKey];
+  if (!promoted || typeof promoted !== 'object') {
+    blockers.push(`remote_promotion_missing_promoted_ref:${promotedKey}`);
+    return;
+  }
+  const evaluated = evidence[evidenceKey];
+  if (!evaluated) {
+    blockers.push(`remote_promotion_missing_evaluated_ref:${evidenceKey}`);
+    return;
+  }
+  if (promoted.path !== evaluated.path) {
+    blockers.push(`remote_promotion_ref_path_mismatch:${promotedKey}:${promoted.path || 'missing'}:${evaluated.path}`);
+  }
+  if (String(promoted.sha256 || '').toLowerCase() !== String(evaluated.sha256 || '').toLowerCase()) {
+    blockers.push(`remote_promotion_ref_sha256_mismatch:${promotedKey}`);
+  }
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -207,6 +226,15 @@ function main() {
       blockers.push(`remote_promotion_not_pass:${remotePromotion.decision || 'missing'}`);
     }
     if (!checks.remotePromotionClaimsClosed) blockers.push('remote_promotion_claim_boundary_open');
+    for (const [promotedKey, evidenceKey] of [
+      ['stage1ArtifactManifest', 'stage1_artifact_manifest'],
+      ['stage2RegenerationManifest', 'stage2_regeneration_manifest'],
+      ['byteIdenticalReport', 'byte_identical_report'],
+      ['harnessReport', 'harness_report'],
+      ['sealReport', 'seal_report'],
+    ]) {
+      checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, blockers);
+    }
   }
   if (publicSync) {
     checks.publicSurfaceSyncPass = publicSync.decision === 'PASS_BETA17_PUBLIC_SURFACE_SYNC'

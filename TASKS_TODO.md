@@ -204,6 +204,17 @@
         manually placed Stage1/Stage2 evidence cannot satisfy readiness without
         the promotion-chain manifest.
 
+- [x] Bind promoted refs to readiness-evaluated evidence files.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Result:
+        readiness compares promoted Stage1, Stage2, byte-identity, harness and
+        seal refs to the exact files and SHA-256 values being evaluated.
+      - Boundary:
+        detached or manually swapped evidence files fail closed.
+
 - [ ] Merge PR #223 after review.
       - Current state:
         PR #223 is open at `d213b04`, CI checks are green, and GitHub reports

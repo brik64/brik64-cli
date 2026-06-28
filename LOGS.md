@@ -1,5 +1,27 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 33 - Beta17 readiness binds promoted refs
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so readiness compares
+  `remote_promotion_manifest.json` promoted refs against the exact Stage1,
+  Stage2, byte-identity, harness and seal files it evaluates.
+- Added a readiness test mutation that corrupts the promoted Stage1 SHA and
+  expects `remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest`.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+
+- This prevents detached or manually swapped evidence from satisfying
+  readiness.
+- It does not produce real L6+N5 Stage1/Stage2 artifacts.
+- It does not publish Beta17 or open fixpoint claims.
+
 ## Iteration 32 - Beta17 readiness requires promotion manifest
 
 Timestamp: `2026-06-28T00:00:00Z`

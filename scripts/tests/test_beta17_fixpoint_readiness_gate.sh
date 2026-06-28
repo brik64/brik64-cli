@@ -69,9 +69,47 @@ cat >"$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'JSON'
     "publicReleaseAllowed": false,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false
+  },
+  "promoted": {
+    "stage1ArtifactManifest": {
+      "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "sha256": "__STAGE1_SHA__"
+    },
+    "stage2RegenerationManifest": {
+      "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "sha256": "__STAGE2_SHA__"
+    },
+    "byteIdenticalReport": {
+      "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+      "sha256": "__BYTE_SHA__"
+    },
+    "harnessReport": {
+      "path": "evidence/beta17-fixpoint/harness_report.json",
+      "sha256": "__HARNESS_SHA__"
+    },
+    "sealReport": {
+      "path": "evidence/beta17-fixpoint/seal_report.json",
+      "sha256": "__SEAL_SHA__"
+    }
   }
 }
 JSON
+python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
+import hashlib, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+manifest = root / "remote_promotion_manifest.json"
+text = manifest.read_text()
+for token, filename in {
+    "__STAGE1_SHA__": "stage1_artifact_manifest.json",
+    "__STAGE2_SHA__": "stage2_regeneration_manifest.json",
+    "__BYTE_SHA__": "byte_identical_report.json",
+    "__HARNESS_SHA__": "harness_report.json",
+    "__SEAL_SHA__": "seal_report.json",
+}.items():
+    digest = hashlib.sha256((root / filename).read_bytes()).hexdigest()
+    text = text.replace(token, digest)
+manifest.write_text(text)
+PY
 cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON'
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
@@ -93,6 +131,39 @@ jq -e '
   and .checks.remotePromotionClaimsClosed==true
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["promoted"]["stage1ArtifactManifest"]["sha256"] = "0" * 64
+json.dump(data, open(path, "w"), indent=2)
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/promotion-mismatch.stdout" 2>"$TMP_DIR/promotion-mismatch.stderr"
+promotion_mismatch_rc=$?
+set -e
+
+if [[ "$promotion_mismatch_rc" -eq 0 ]]; then
+  echo "promotion_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+manifest = root / "remote_promotion_manifest.json"
+data = json.load(open(manifest))
+data["promoted"]["stage1ArtifactManifest"]["sha256"] = hashlib.sha256((root / "stage1_artifact_manifest.json").read_bytes()).hexdigest()
+json.dump(data, open(manifest, "w"), indent=2)
+PY
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByL6PlusN5": true, "fixtureMaterializer": true }

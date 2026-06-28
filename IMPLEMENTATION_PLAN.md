@@ -244,6 +244,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `evidence/beta17-fixpoint/remote_promotion_manifest.json` to pass with all
   public/fixpoint/formal claim boundaries closed. Manually placed Stage1/Stage2
   evidence is not enough.
+- Promotion ref binding: readiness compares the promotion manifest's promoted
+  Stage1, Stage2, byte-identity, harness and seal refs against the exact files
+  it evaluates, including SHA-256. Detached or manually swapped evidence fails
+  closed.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and
