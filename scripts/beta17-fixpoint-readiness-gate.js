@@ -18,6 +18,10 @@ function sha256File(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }
 
+function sha256Text(text) {
+  return crypto.createHash('sha256').update(text).digest('hex');
+}
+
 function rel(file) {
   return path.relative(root, file);
 }
@@ -99,6 +103,7 @@ function checkEvidencePackManifest(manifest, evidence, blockers) {
   }
   if (
     manifest.claimBoundary?.publicReleaseAllowed !== false
+    || manifest.claimBoundary?.definitiveFixpointAllowed !== false
     || manifest.claimBoundary?.formalN5ClaimAllowed !== false
     || manifest.claimBoundary?.universalCorrectnessClaimAllowed !== false
   ) {
@@ -110,6 +115,10 @@ function checkEvidencePackManifest(manifest, evidence, blockers) {
     return;
   }
   const refs = new Map(files.map((entry) => [entry.path, entry.sha256]));
+  const expectedPackSha256 = sha256Text(`${JSON.stringify({ files }, null, 2)}\n`);
+  if (String(manifest.packSha256 || '').toLowerCase() !== expectedPackSha256.toLowerCase()) {
+    blockers.push('evidence_pack_manifest_pack_sha256_mismatch');
+  }
   for (const evidenceKey of [
     'canonical_motor_manifest',
     'canonical_harness_manifest',

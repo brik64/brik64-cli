@@ -223,6 +223,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   validates that the current evidence directory still matches
   `evidence_pack_manifest.json`. A stale manifest must fail closed before any
   release-readiness or publication path can treat the pack as current.
+- Evidence aggregate binding: `gate:beta17:fixpoint-readiness` validates the
+  manifest's aggregate `packSha256` over its file refs and requires all public,
+  definitive fixpoint, formal N5 and universal correctness boundaries to stay
+  closed inside the evidence-pack manifest.
 - Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
   Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
   Fixture evidence may test the contract, but it can never authorize Beta17

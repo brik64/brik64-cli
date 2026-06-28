@@ -180,6 +180,20 @@
         this detects stale evidence indexes. It does not prove Stage1/Stage2
         fixpoint, run external audit or publish Beta17.
 
+- [x] Bind Beta17 readiness to the evidence-pack aggregate digest.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Result:
+        readiness now validates `evidence_pack_manifest.packSha256` and the
+        closed `definitiveFixpointAllowed=false` manifest boundary. A manifest
+        with correct-looking file refs but a tampered aggregate pack digest
+        fails closed before release readiness.
+      - Boundary:
+        this strengthens evidence-pack integrity checks. It does not produce
+        the missing real Stage1/Stage2 L6+N5 materialization.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.

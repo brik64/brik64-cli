@@ -1704,3 +1704,40 @@ Evidence:
 Boundary:
 - This catches stale evidence indexes after file tampering. It does not create
   real L6+N5 Stage1/Stage2 evidence, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence manifest aggregate digest
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Bind Beta17 readiness to the evidence-pack manifest aggregate digest.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to validate
+  `evidence_pack_manifest.packSha256` and the manifest
+  `definitiveFixpointAllowed=false` boundary.
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with an
+  adversarial `packSha256` tamper case that must fail closed with
+  `evidence_pack_manifest_pack_sha256_mismatch`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This closes a manifest-integrity gap. It does not create real L6+N5
+  Stage1/Stage2 evidence, prove fixpoint or publish Beta17.

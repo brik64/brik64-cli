@@ -197,6 +197,32 @@ python3 - "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" <<'PY'
 import json, sys
 path = sys.argv[1]
 data = json.load(open(path))
+data["packSha256"] = "0" * 64
+json.dump(data, open(path, "w"), indent=2)
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/pack-digest-mismatch.stdout" 2>"$TMP_DIR/pack-digest-mismatch.stderr"
+pack_digest_mismatch_rc=$?
+set -e
+
+if [[ "$pack_digest_mismatch_rc" -eq 0 ]]; then
+  echo "pack_digest_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("evidence_pack_manifest_pack_sha256_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
 for entry in data["files"]:
     if entry["path"] == "evidence/beta17-fixpoint/stage1_artifact_manifest.json":
         entry["sha256"] = "0" * 64
