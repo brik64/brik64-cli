@@ -11,7 +11,7 @@
   "cli": {
     "package": {
       "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
-      "sha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+      "sha256": "dfbdc01b222517243566af594f1e28d624e51d9da54046cb19bdf2555631b4ee",
       "bytes": 631876
     }
   },

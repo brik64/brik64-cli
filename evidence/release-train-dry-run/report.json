@@ -1,130 +1,80 @@
 {
   "schemaVersion": "brik64.release_train_dry_run_report.v1",
-  "releaseId": "brik64-0.1.0-beta.15.7.1",
-  "version": "0.1.0-beta.15.7.1",
-  "packageVersion": "0.1.0-beta.15.7.1",
+  "releaseId": "brik64-0.1.0-beta.16.1",
+  "version": "0.1.0-beta.16.1",
+  "packageVersion": "0.1.0-beta.16.1",
   "candidateBranchMode": false,
   "minimalReleaseManifestMode": false,
   "channel": "beta",
-  "state": "public",
-  "manifestDigest": "c02962032dc53f07aeddfd4ec1563a10738fede086de12af328a9f8094304077",
-  "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
+  "state": "draft",
+  "manifestDigest": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+  "decision": "FAIL_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [
-    "README.md",
-    "evidence/beta15_7-full-release-audit/report.json",
-    "evidence/beta15_7-package/SHA256SUMS",
-    "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz",
-    "evidence/beta15_7-package/package.manifest.json",
-    "evidence/beta15_7-package/stage-checksums.tsv",
-    "evidence/beta15_7-source-candidate-contract/report.json",
-    "evidence/cli-l6-generation-required/report.json",
-    "evidence/release-flow-audit/report.json",
-    "evidence/release-train-publish-execute/report.json",
-    "evidence/release-train-publish-plan/report.json",
-    "evidence/release-train-sync/changelog.md",
-    "evidence/release-train-sync/report.json",
-    "evidence/release-train-sync/sync-payload.json",
-    "release/manifest.json",
-    "scripts/build-beta15_7-package.js",
-    "scripts/release-train-dry-run.js"
-  ],
+  "initialDirtyFiles": [],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 550,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.15.7.1\nwarnings=worktree_dirty_allowed:17\n",
+      "elapsedMs": 1828,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.16.1\n",
       "stderr": ""
     },
     {
       "name": "release_flow_audit",
       "command": "npm run release:flow:audit",
       "rc": 0,
-      "elapsedMs": 1517,
-      "stdout": "\n> @brik64/cli@0.1.0-beta.15.7.1 release:flow:audit\n> node scripts/release-flow-audit.js\n\ndecision=PASS_RELEASE_FLOW_AUDIT\npublicationAllowed=false\n",
+      "elapsedMs": 5019,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.16.1 release:flow:audit\n> node scripts/release-flow-audit.js\n\ndecision=PASS_RELEASE_FLOW_AUDIT\npublicationAllowed=false\n",
       "stderr": ""
     },
     {
       "name": "smoke_tests",
       "command": "bash -lc BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh",
-      "rc": 0,
-      "elapsedMs": 23584,
-      "stdout": "created=.brik/manifest.json\ncertificate=program.pcd.cert.json\ncertificate=polymer.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=legacy.beta7.pcd.cert.json\ncertificate=variant.pcd.cert.json\ncertificate=root.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
-      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/private/tmp/brik64-cli-beta15_7_1\n+ BRIK=/private/tmp/brik64-cli-beta15_7_1/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.15.7.1\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/config\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.15.7.1'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (s.includes(\"█████████████\") || !s.includes(\"BRIK64 CLI\")) process.exit(1); });'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --help\n+ grep -Eq 'status=(pre_public_candidate|public_beta)'\n+ grep -q 'polymerize <files>'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --help\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --help\n+ grep -q 'verify <file.pcd>'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --help\n+ grep -q 'migrate <file.pcd>'\n+ grep -q 'explain <file.pcd>'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --help\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js --help\n+ grep -q 'telemetry status'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js engine status\n+ grep -q '\"runtimeProfile\": \"l4plus_n5_local\"'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js engine status\n+ grep -q '\"engine\": \"L4+N5\"'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[1])' 0.1.0-beta.15.7.1\n+ BETA_NUMBER=15\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' 0.1.0-beta.15.7.1\n+ BETA_LABEL=beta15_7\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' 0.1.0-beta.15.7.1\n+ BETA_DECISION_LABEL=BETA15_7\n+ PACKAGE_SCRIPT=/private/tmp/brik64-cli-beta15_7_1/scripts/build-beta15-package.sh\n+ SMOKE_SCRIPT=/private/tmp/brik64-cli-beta15_7_1/scripts/beta15-package-smoke.sh\n+ '[' beta15_7 = beta14_3 ']'\n+ '[' beta15_7 = beta14_4 ']'\n+ '[' beta15_7 = beta14_5 ']'\n+ '[' beta15_7 = beta14_6 ']'\n+ '[' beta15_7 = beta15_2 ']'\n+ '[' beta15_7 = beta15_4 ']'\n+ '[' beta15_7 = beta15_5 ']'\n+ '[' beta15_7 = beta15_6 ']'\n+ '[' beta15_7 = beta15_7 ']'\n+ PACKAGE_SCRIPT=/private/tmp/brik64-cli-beta15_7_1/scripts/build-beta15_7-package.sh\n+ SMOKE_SCRIPT=/private/tmp/brik64-cli-beta15_7_1/scripts/beta15_7-package-smoke.sh\n+ PACKAGE_DECISION=PASS_BRIK64_CLI_BETA15_7_PACKAGE_BUILT\n+ SMOKE_DECISION=PASS_BRIK64_CLI_BETA15_7_LOCAL_PACKAGE_SMOKE\n+ test -f /private/tmp/brik64-cli-beta15_7_1/scripts/build-beta15_7-package.sh\n+ test -f /private/tmp/brik64-cli-beta15_7_1/scripts/beta15_7-package-smoke.sh\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' public '!=' public ']'\n++ bash /private/tmp/brik64-cli-beta15_7_1/scripts/beta15_7-package-smoke.sh\n+ package_smoke_out='l4_bundle_integrity=PASS artifacts=22\ndecision=PASS_BRIK64_CLI_BETA15_7_PACKAGE_SMOKE'\n+ grep -Eq 'decision=(PASS_BRIK64_CLI_BETA15_7_LOCAL_PACKAGE_SMOKE|PASS_BRIK64_CLI_BETA15_7_PACKAGE_SMOKE)'\n+ node -e 'const fs=require(\"fs\"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,\"utf8\")); const expected = label === \"beta15_6\" ? true : ((label === \"beta15_5\") && state === \"public\"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' beta15_7 public\n+ '[' 15 = 9 ']'\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js init\n+ test -f .brik/manifest.json\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.managedRuntime !== \"managed_platform\") process.exit(1)'\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.preferred_engine !== \"auto\" || m.polymer_strategy !== \"local_ast\" || m.managed_platform.routing !== \"local_default\") process.exit(1)'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js account status\n+ grep -q 'tier: free'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js login --token-env BRIK64_MISSING_TOKEN\n+ grep -q login_token_env_missing /tmp/brik-login.err\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry status\n+ grep -q '\"enabled\": false'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry explain\n+ grep -q networkSent=false\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry enable\n+ grep -q telemetry=enabled\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry status\n+ grep -q '\"enabled\": true'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry export\n+ grep -q '\"rawSourceIncluded\": false'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js feedback --category bug --message 'token=abc carlos@example.com /Users/carlosjperez/private'\n+ grep -q '\\[redacted'\n+ test -f .brik/feedback-preview.json\n+ grep -q '\\[redacted_email\\]' .brik/feedback-preview.json\n+ grep -q '\\[redacted_path\\]' .brik/feedback-preview.json\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry purge-local\n+ grep -q purged=local_telemetry_feedback\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js telemetry disable\n+ grep -q telemetry=disabled\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ grep -q '\"lastReportPresent\": true'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js errors status\n+ grep -q '\"rawPcdIncluded\": false'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js errors explain-last\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify program.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js explain program.pcd\n+ grep -q 'status: PASS'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js explain program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_explain_report.v1\"'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js verify program.pcd\n+ grep -q verification=PASS\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js verify program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_local_verify_report.v1\"'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js verify program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-verify-cloud.err\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js polymerize program.pcd --out polymer.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_polymer_manifest.v1\"'\n+ test -f polymer.pcd\n+ test -f polymer.pcd.manifest.json\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify polymer.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js polymerize program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-poly-cloud.err\n+ for target in ts rust python\n+ out=out-ts\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-ts/program/program.mjs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-ts/program/program.test.mjs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-rust/program/program.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-rust/program/program_test.rs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-python/brik64_generated_program/program.py\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-python/tests/test_program.py\n+ test '!' -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/out-python/test_program.py\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js ledger verify --json\n+ grep -q '\"status\": \"PASS\"'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js ledger status\n+ grep -q ledger_status=PASS\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd --target go --out out-go --tests\n+ grep -q unsupported_target /tmp/brik-emit-go.err\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd --target ts --out ../escaped-out --tests\n+ grep -q path_outside_workspace /tmp/brik-out-traversal.err\n+ test '!' -e /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v/escaped-out/program.mjs\n+ echo 'PC outside { fn outside(input) { return 99; } }'\n+ ln -s /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.ENYrkfhM3v-outside.pcd symlink-outside.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify symlink-outside.pcd\n+ grep -q path_outside_workspace /tmp/brik-symlink-cert.err\n+ test '!' -f symlink-outside.pcd.cert.json\n+ mkdir readonly\n+ chmod 500 readonly\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit program.pcd --target ts --out readonly/child --tests\n+ chmod 700 readonly\n+ grep -q filesystem_mkdir_error /tmp/brik-readonly.err\n+ grep -q 'at Object\\.mkdirSync\\|Node\\.js' /tmp/brik-readonly.err\n+ cp program.pcd stale.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify stale.pcd\n+ perl -0pi -e 's/return 2;/return 3;/' stale.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit stale.pcd\n+ grep -q certificate_hash_mismatch /tmp/brik-stale.err\n+ touch empty.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify empty.pcd\n+ grep -q pcd_empty /tmp/brik-empty.err\n+ printf 'not a pcd\\n'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify corrupt.pcd\n+ grep -q pcd_parse_error /tmp/brik-corrupt.err\n+ cat\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify legacy.pcd\n+ grep -q 'brik64 migrate' /tmp/brik-legacy-cert.err\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js migrate legacy.pcd --out legacy.beta7.pcd --json\n+ grep -q '\"detectedSyntax\": \"legacy_lowercase_pc\"'\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify legacy.beta7.pcd\n+ cat\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js certify variant.pcd\n+ node /private/tmp/brik64-cli-beta15_7_1/src/brik.js emit variant.pcd --target ts --out out-variant --tests\n+ cmp -s out-"
+      "rc": 1,
+      "elapsedMs": 10475,
+      "stdout": "",
+      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/private/tmp/brik64-cli-beta16-1\n+ BRIK=/private/tmp/brik64-cli-beta16-1/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.16.1\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.eAAcNyVDUc\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.eAAcNyVDUc/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.eAAcNyVDUc/config\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.16.1'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (s.includes(\"█████████████\") || !s.includes(\"BRIK64 CLI\")) process.exit(1); });'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --help\n+ grep -Eq 'status=(pre_public_candidate|public_beta)'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --help\n+ grep -q 'polymerize <files>'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --help\n+ grep -q 'verify <file.pcd>'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --help\n+ grep -q 'migrate <file.pcd>'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --help\n+ grep -q 'explain <file.pcd>'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js --help\n+ grep -q 'telemetry status'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js engine status\n+ grep -q '\"runtimeProfile\": \"l4plus_n5_local\"'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js engine status\n+ grep -q '\"engine\": \"L4+N5\"'\n+ node /private/tmp/brik64-cli-beta16-1/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[1])' 0.1.0-beta.16.1\n+ BETA_NUMBER=16\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' 0.1.0-beta.16.1\n+ BETA_LABEL=beta16_1\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' 0.1.0-beta.16.1\n+ BETA_DECISION_LABEL=BETA16_1\n+ PACKAGE_SCRIPT=/private/tmp/brik64-cli-beta16-1/scripts/build-beta16-package.sh\n+ SMOKE_SCRIPT=/private/tmp/brik64-cli-beta16-1/scripts/beta16-package-smoke.sh\n+ '[' beta16_1 = beta14_3 ']'\n+ '[' beta16_1 = beta14_4 ']'\n+ '[' beta16_1 = beta14_5 ']'\n+ '[' beta16_1 = beta14_6 ']'\n+ '[' beta16_1 = beta15_2 ']'\n+ '[' beta16_1 = beta15_4 ']'\n+ '[' beta16_1 = beta15_5 ']'\n+ '[' beta16_1 = beta15_6 ']'\n+ '[' beta16_1 = beta15_7 ']'\n+ PACKAGE_DECISION=PASS_BRIK64_CLI_BETA16_1_PACKAGE_BUILT\n+ SMOKE_DECISION=PASS_BRIK64_CLI_BETA16_1_LOCAL_PACKAGE_SMOKE\n+ test -f /private/tmp/brik64-cli-beta16-1/scripts/build-beta16-package.sh\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.eAAcNyVDUc\n"
     },
     {
       "name": "cli_l6_generation_required",
       "command": "npm run gate:cli:l6-generation-required",
       "rc": 0,
-      "elapsedMs": 2765,
-      "stdout": "\n> @brik64/cli@0.1.0-beta.15.7.1 gate:cli:l6-generation-required\n> node scripts/cli-l6-generation-required-gate.js\n\nPASS_CLI_L6_GENERATION_REQUIRED_GATE evidence/cli-l6-generation-required/report.json\n",
+      "elapsedMs": 2065,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.16.1 gate:cli:l6-generation-required\n> node scripts/cli-l6-generation-required-gate.js\n\nPASS_CLI_L6_GENERATION_REQUIRED_GATE evidence/cli-l6-generation-required/report.json\n",
       "stderr": ""
     },
     {
-      "name": "beta15_7_source_candidate_contract",
-      "command": "node -e \n    const fs = require('fs');\n    const path = require('path');\n    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));\n    const version = pkg.version;\n    const familyPattern = /^0\\.1\\.0-beta\\.15\\.7(?:\\.\\d+)?$/;\n    const outDir = path.join('evidence', 'beta15_7-source-candidate-contract');\n    const outPath = path.join(outDir, 'report.json');\n    fs.mkdirSync(outDir, { recursive: true });\n    const readme = fs.readFileSync('README.md', 'utf8');\n    const source = fs.readFileSync(path.join('src', 'brik.js'), 'utf8');\n    const blockers = [];\n    if (!familyPattern.test(version)) blockers.push('package_version_not_beta15_7_family:' + version);\n    if (pkg.version !== version) blockers.push('package_version_mismatch:' + pkg.version);\n    if (!String(pkg.description || '').includes('beta15.7')) blockers.push('package_description_not_beta15_7');\n    if (!readme.includes(version) || /0\\.1\\.0-beta\\.15\\.6|Beta15\\.6|beta15\\.6|0\\.1\\.0b15\\.post6/.test(readme)) blockers.push('readme_beta15_7_metadata_invalid');\n    if (!source.includes(\"const version = '\" + version + \"'\")) blockers.push('source_version_missing');\n    if (!fs.existsSync(path.join('engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) blockers.push('l4plus_n5_bundle_missing');\n    const report = {\n      schemaVersion: 'brik64.beta15_7_source_candidate_contract.v1',\n      generatedAt: new Date().toISOString(),\n      version,\n      decision: blockers.length === 0 ? 'PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT' : 'BLOCKED_BETA15_7_SOURCE_CANDIDATE_CONTRACT',\n      releaseEligible: false,\n      publicationAllowed: false,\n      claimBoundary: {\n        publicReleaseAllowed: false,\n        l6MaterializationClaimAllowed: false,\n        formalN5ClaimAllowed: false,\n        fixpointClaimAllowed: false,\n        selfHostingClaimAllowed: false,\n        rustIndependenceClaimAllowed: false\n      },\n      checks: {\n        packageVersion: pkg.version,\n        packageDescription: pkg.description || null,\n        readmeHasTargetVersion: readme.includes(version),\n        sourceVersionPresent: source.includes(\"const version = '\" + version + \"'\"),\n        l4plusN5BundlePresent: fs.existsSync(path.join('engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))\n      },\n      blockers\n    };\n    fs.writeFileSync(outPath, JSON.stringify(report, null, 2) + String.fromCharCode(10));\n    console.log('decision=' + report.decision);\n    console.log('publicationAllowed=false');\n    if (blockers.length) {\n      console.error(blockers.join('\\\\n'));\n      process.exit(1);\n    }\n  ",
+      "name": "beta16_1_full_release_audit",
+      "command": "npm run gate:beta16.1:full-release-audit",
       "rc": 0,
-      "elapsedMs": 217,
-      "stdout": "decision=PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT\npublicationAllowed=false\n",
+      "elapsedMs": 165839,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.16.1 gate:beta16.1:full-release-audit\n> node scripts/beta16_1-full-release-audit-gate.js\n\ndecision=PASS_BRIK64_CLI_BETA16_1_FULL_RELEASE_AUDIT_GATE\n",
       "stderr": ""
     },
     {
-      "name": "beta15_7_full_release_audit",
-      "command": "npm run gate:beta15.7:full-release-audit",
+      "name": "beta16_1_local_package",
+      "command": "npm run package:beta16.1:local",
       "rc": 0,
-      "elapsedMs": 40181,
-      "stdout": "\n> @brik64/cli@0.1.0-beta.15.7.1 gate:beta15.7:full-release-audit\n> node scripts/beta15_7-full-release-audit-gate.js\n\ndecision=PASS_BRIK64_CLI_BETA15_7_FULL_RELEASE_AUDIT_GATE\n",
+      "elapsedMs": 9842,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.16.1 package:beta16.1:local\n> node scripts/build-beta16_1-package.js\n\ndecision=PASS_BRIK64_CLI_BETA16_1_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz\n",
       "stderr": ""
     },
     {
-      "name": "beta15_7_local_package",
-      "command": "npm run package:beta15.7:local",
+      "name": "beta16_1_committed_package_sha",
+      "command": "node -e \nconst fs = require('fs');\nconst crypto = require('crypto');\n\tconst manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));\n\tconst pkg = JSON.parse(fs.readFileSync('evidence/beta16_1-package/package.manifest.json', 'utf8'));\n\tconst tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');\n\tif (pkg.version !== manifest.version) {\n\t  if (pkg.version !== '0.1.0-beta.16.1' || pkg.releaseEligible !== false || pkg.claimBoundary?.publicReleaseAllowed !== false) {\n\t    console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);\n\t    process.exit(1);\n\t  }\n\t}\n\tif (pkg.package.sha256 !== tarballSha) {\n\t  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);\n\t  process.exit(1);\n\t}\n\tif (pkg.version === manifest.version && manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {\n\t  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);\n\t  process.exit(1);\n\t}\nconsole.log('decision=PASS_COMMITTED_BETA16_1_PACKAGE_SHA_GATE');\n",
       "rc": 0,
-      "elapsedMs": 726,
-      "stdout": "\n> @brik64/cli@0.1.0-beta.15.7.1 package:beta15.7:local\n> node scripts/build-beta15_7-package.js\n\ndecision=PASS_BRIK64_CLI_BETA15_7_PACKAGE_BUILT\nreleaseEligible=false\npackage=evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz\n",
+      "elapsedMs": 624,
+      "stdout": "decision=PASS_COMMITTED_BETA16_1_PACKAGE_SHA_GATE\n",
       "stderr": ""
     },
     {
-      "name": "beta15_7_committed_package_sha",
-      "command": "node -e \nconst fs = require('fs');\nconst crypto = require('crypto');\n\tconst manifest = JSON.parse(fs.readFileSync('release/manifest.json', 'utf8'));\n\tconst pkg = JSON.parse(fs.readFileSync('evidence/beta15_7-package/package.manifest.json', 'utf8'));\n\tconst tarballSha = crypto.createHash('sha256').update(fs.readFileSync(pkg.package.path)).digest('hex');\n\tif (pkg.version !== manifest.version) {\n\t  if (pkg.version !== '0.1.0-beta.15.7.1' || pkg.releaseEligible !== false || pkg.claimBoundary?.publicReleaseAllowed !== false) {\n\t    console.error('cli_package_version_drift:' + pkg.version + ':' + manifest.version);\n\t    process.exit(1);\n\t  }\n\t}\n\tif (pkg.package.sha256 !== tarballSha) {\n\t  console.error('cli_package_internal_sha_drift:' + pkg.package.sha256 + ':' + tarballSha);\n\t  process.exit(1);\n\t}\n\tif (pkg.version === manifest.version && manifest.state !== 'draft' && tarballSha !== manifest.cli.package.sha256) {\n\t  console.error('cli_package_sha_drift:' + pkg.package.sha256 + ':' + tarballSha + ':' + manifest.cli.package.sha256);\n\t  process.exit(1);\n\t}\nconsole.log('decision=PASS_COMMITTED_BETA15_7_PACKAGE_SHA_GATE');\n",
+      "name": "beta16_1_package_smoke",
+      "command": "npm run smoke:beta16.1:package",
       "rc": 0,
-      "elapsedMs": 104,
-      "stdout": "decision=PASS_COMMITTED_BETA15_7_PACKAGE_SHA_GATE\n",
-      "stderr": ""
-    },
-    {
-      "name": "beta15_7_package_smoke",
-      "command": "npm run smoke:beta15.7:package",
-      "rc": 0,
-      "elapsedMs": 3304,
-      "stdout": "\n> @brik64/cli@0.1.0-beta.15.7.1 smoke:beta15.7:package\n> bash scripts/beta15_7-package-smoke.sh\n\nl4_bundle_integrity=PASS artifacts=22\ndecision=PASS_BRIK64_CLI_BETA15_7_PACKAGE_SMOKE\n",
-      "stderr": ""
-    },
-    {
-      "name": "sync_surfaces",
-      "command": "node scripts/release-train-sync-surfaces.js",
-      "rc": 0,
-      "elapsedMs": 1542,
-      "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
-      "stderr": ""
-    },
-    {
-      "name": "publish_plan",
-      "command": "bash -lc BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js",
-      "rc": 0,
-      "elapsedMs": 5090,
-      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=github_verified_signature_commit_drift:0cd226ebbc0c3807545fc6367227b6919415f2de:f0fccb0d38cfcbe6aefb5a539e31c7c2c8909680,dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift\n",
-      "stderr": ""
-    },
-    {
-      "name": "publish_execute_dry_run",
-      "command": "node scripts/release-train-publish-execute.js",
-      "rc": 0,
-      "elapsedMs": 1434,
-      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:7\n",
+      "elapsedMs": 12588,
+      "stdout": "\n> @brik64/cli@0.1.0-beta.16.1 smoke:beta16.1:package\n> bash scripts/beta16_1-package-smoke.sh\n\nl4_bundle_integrity=PASS artifacts=22\ndecision=PASS_BRIK64_CLI_BETA16_1_PACKAGE_SMOKE\n",
       "stderr": ""
     }
   ],
@@ -137,5 +87,7 @@
       "pass": true
     }
   ],
-  "failures": []
+  "failures": [
+    "command_failed:smoke_tests:1"
+  ]
 }
