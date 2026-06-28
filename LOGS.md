@@ -1603,3 +1603,34 @@ Evidence:
 
 Boundary:
 - This indexes and verifies evidence files by SHA-256. It does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence pack manifest adversarial tests
+
+Timestamp: 2026-06-28T22:18:27Z
+
+Task:
+- Add adversarial coverage for Beta17 evidence pack manifest validation.
+
+Change:
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with two break attempts:
+  - mutate the manifest SHA-256 for `stage1_artifact_manifest.json` and require `evidence_pack_manifest_sha256_mismatch`;
+  - remove the manifest ref for `external_audit_report.json` and require `evidence_pack_manifest_missing_ref`.
+
+Evidence:
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This increases adversarial coverage for the manifest gate. It does not generate real L6+N5 evidence, prove fixpoint or publish Beta17.

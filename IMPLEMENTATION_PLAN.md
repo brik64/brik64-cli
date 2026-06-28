@@ -275,6 +275,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   inventories the Beta17 evidence pack with path/SHA-256 refs. Readiness
   validates the manifest schema, version, closed public/formal claim boundaries
   and SHA-256 agreement for every evidence file it evaluates.
+- Evidence pack manifest adversarial coverage: readiness tests now mutate the
+  manifest to prove SHA-256 mismatch and missing-ref cases fail closed before
+  any Beta17 release train can pass.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:external-audit-prompt` and

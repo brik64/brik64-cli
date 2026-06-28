@@ -697,3 +697,13 @@
       - Boundary:
         this creates and validates the pack index. It does not create real
         claim-bearing Stage1/Stage2 evidence.
+
+- [x] Beta17 evidence pack manifest adversarial tests.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Goal:
+        prove readiness rejects a manifest SHA-256 mismatch and a manifest with
+        a missing evidence ref.
+      - Boundary:
+        this is adversarial gate coverage only. It does not create or validate
+        real L6+N5 Stage1/Stage2 artifacts.
