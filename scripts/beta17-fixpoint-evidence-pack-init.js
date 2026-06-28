@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { writeEvidencePackManifest } = require('./beta17-fixpoint-evidence-pack-manifest');
 
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
@@ -21,10 +22,6 @@ function writeJson(file, object) {
 function writeText(file, text) {
   fs.writeFileSync(file, text);
   return sha256Text(text);
-}
-
-function sha256Json(object) {
-  return sha256Text(`${JSON.stringify(object, null, 2)}\n`);
 }
 
 function rel(file) {
@@ -219,28 +216,8 @@ function main() {
     )
   );
 
-  const manifestFiles = written.map((entry) => ({
-    path: entry.path,
-    sha256: entry.sha256,
-  }));
-  const evidencePackManifest = {
-    schemaVersion: 'brik64.beta17_fixpoint.evidence_pack_manifest.v1',
-    version: '0.1.0-beta.17',
-    status: 'TEMPLATE_NON_CLAIM',
-    generatedAt: new Date().toISOString(),
-    files: manifestFiles,
-    packSha256: sha256Json({ files: manifestFiles }),
-    claimBoundary: {
-      publicReleaseAllowed: false,
-      definitiveFixpointAllowed: false,
-      formalN5ClaimAllowed: false,
-      universalCorrectnessClaimAllowed: false,
-    },
-  };
-  record(
-    path.join(outDir, 'evidence_pack_manifest.json'),
-    writeJson(path.join(outDir, 'evidence_pack_manifest.json'), evidencePackManifest)
-  );
+  const evidencePackManifest = writeEvidencePackManifest({ status: 'TEMPLATE_NON_CLAIM' });
+  record(path.join(root, evidencePackManifest.path), evidencePackManifest.sha256);
 
   const summary = {
     schemaVersion: 'brik64.beta17_fixpoint.evidence_pack_template_summary.v1',

@@ -151,6 +151,21 @@
 
 # Beta17 Fixpoint Tasks
 
+- [x] Extract reusable Beta17 evidence pack manifest generation.
+      - Script:
+        `scripts/beta17-fixpoint-evidence-pack-manifest.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh`.
+      - Result:
+        evidence-pack manifest generation is now a reusable command/module
+        instead of inline init logic. The generator hashes every current
+        `evidence/beta17-fixpoint/` file except the manifest itself, closes
+        public/fixpoint/formal claim boundaries by default and produces a
+        deterministic pack hash over the file refs.
+      - Boundary:
+        this strengthens evidence indexing only. It does not create real
+        Stage1/Stage2 materialization evidence or authorize Beta17 publication.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.

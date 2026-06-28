@@ -215,6 +215,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   fixture artifacts. This is test infrastructure only; readiness must remain
   blocked until fixture/template reports are replaced by real L6+N5 Stage1 and
   Stage2 evidence plus public sync and external audit.
+- Evidence manifest generator: `npm run beta17:fixpoint:evidence:manifest`
+  regenerates the Beta17 evidence-pack manifest as a reusable command. The
+  init flow now consumes the same generator, so future promotion/live-audit
+  steps can refresh file/SHA refs without duplicating manifest semantics.
 - Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
   Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
   Fixture evidence may test the contract, but it can never authorize Beta17

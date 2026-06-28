@@ -1634,3 +1634,39 @@ Evidence:
 
 Boundary:
 - This increases adversarial coverage for the manifest gate. It does not generate real L6+N5 evidence, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Reusable evidence manifest generator
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Extract evidence-pack manifest creation into a reusable Beta17 command/module.
+
+Change:
+- Added `scripts/beta17-fixpoint-evidence-pack-manifest.js`.
+- Updated `scripts/beta17-fixpoint-evidence-pack-init.js` to call the reusable manifest writer.
+- Added `npm run beta17:fixpoint:evidence:manifest`.
+- Added `npm run test:beta17:fixpoint:evidence:manifest`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-manifest.js` passed.
+- `node --check scripts/beta17-fixpoint-evidence-pack-init.js` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This removes duplicated manifest logic and strengthens the evidence-pack
+  maintenance path. It does not generate real L6+N5 Stage1/Stage2 evidence,
+  prove fixpoint or publish Beta17.
