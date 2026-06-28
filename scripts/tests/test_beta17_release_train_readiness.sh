@@ -138,6 +138,10 @@ JSON
 cat >evidence/beta17-fixpoint/stage2_regeneration_manifest.json <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByStage1": true }
 JSON
+mkdir -p evidence/beta17-fixpoint/generated/stage1 evidence/beta17-fixpoint/generated/stage2
+printf 'beta17 stage artifact\n' >evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs
+cp evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs \
+  evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs
 cat >evidence/beta17-fixpoint/byte_identical_report.json <<'JSON'
 { "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true }
 JSON
@@ -176,6 +180,14 @@ cat >evidence/beta17-fixpoint/remote_promotion_manifest.json <<'JSON'
     "sealReport": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
       "sha256": "__SEAL_SHA__"
+    },
+    "stage1Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+      "sha256": "__STAGE1_ARTIFACT_SHA__"
+    },
+    "stage2Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+      "sha256": "__STAGE2_ARTIFACT_SHA__"
     }
   }
 }
@@ -191,6 +203,8 @@ for token, filename in {
     "__BYTE_SHA__": "byte_identical_report.json",
     "__HARNESS_SHA__": "harness_report.json",
     "__SEAL_SHA__": "seal_report.json",
+    "__STAGE1_ARTIFACT_SHA__": "generated/stage1/brik64-cli-stage1.mjs",
+    "__STAGE2_ARTIFACT_SHA__": "generated/stage2/brik64-cli-stage2.mjs",
 }.items():
     text = text.replace(token, hashlib.sha256((root / filename).read_bytes()).hexdigest())
 manifest.write_text(text)

@@ -133,6 +133,36 @@ function checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, b
   }
 }
 
+function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) {
+  const promoted = remotePromotion?.promoted?.[promotedKey];
+  if (!promoted || typeof promoted !== 'object') {
+    blockers.push(`remote_promotion_missing_promoted_ref:${promotedKey}`);
+    return;
+  }
+  if (!isSafeRelativePath(promoted.path)) {
+    blockers.push(`remote_promotion_ref_path_unsafe:${promotedKey}:${promoted.path || 'missing'}`);
+    return;
+  }
+  if (!isSha256(promoted.sha256)) {
+    blockers.push(`remote_promotion_ref_sha256_invalid:${promotedKey}`);
+    return;
+  }
+  const file = path.join(root, promoted.path);
+  if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
+    blockers.push(`remote_promotion_ref_file_missing:${promotedKey}:${promoted.path}`);
+    return;
+  }
+  const actualSha = sha256File(file);
+  evidence[`remote_promotion_${promotedKey}`] = {
+    path: promoted.path,
+    sha256: actualSha,
+    sizeBytes: fs.statSync(file).size,
+  };
+  if (actualSha.toLowerCase() !== String(promoted.sha256 || '').toLowerCase()) {
+    blockers.push(`remote_promotion_ref_file_sha256_mismatch:${promotedKey}:${promoted.path}`);
+  }
+}
+
 function checkEvidencePackManifest(manifest, evidence, blockers) {
   if (!manifest || typeof manifest !== 'object') return;
   if (manifest.schemaVersion !== 'brik64.beta17_fixpoint.evidence_pack_manifest.v1') {
@@ -339,6 +369,8 @@ function main() {
     ]) {
       checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, blockers);
     }
+    checkPromotedFileRef(remotePromotion, 'stage1Artifact', evidence, blockers);
+    checkPromotedFileRef(remotePromotion, 'stage2Artifact', evidence, blockers);
   }
   if (publicSync) {
     checks.publicSurfaceSyncPass = publicSync.decision === 'PASS_BETA17_PUBLIC_SURFACE_SYNC'

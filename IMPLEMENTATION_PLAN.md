@@ -231,6 +231,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `input_pcd_hashes.tsv` as a concrete file/hash contract. Each non-comment row
   must contain a safe relative PCD path, a valid SHA-256 and an existing file
   whose hash matches. Placeholder hashes cannot satisfy readiness.
+- Promoted artifact binding: `gate:beta17:fixpoint-readiness` requires the
+  remote promotion manifest to include Stage1 and Stage2 artifact refs. Those
+  refs must use safe workspace-relative paths, point to existing files and
+  match the declared SHA-256.
 - Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
   Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
   Fixture evidence may test the contract, but it can never authorize Beta17

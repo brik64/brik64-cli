@@ -209,6 +209,21 @@
         this validates input PCD references. It does not materialize Stage1 or
         Stage2 artifacts.
 
+- [x] Require promoted Stage1/Stage2 artifacts in Beta17 readiness.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        readiness now requires `remote_promotion_manifest.promoted.stage1Artifact`
+        and `stage2Artifact` to reference safe, existing files whose SHA-256
+        matches the promotion manifest. A declarative Stage1/Stage2 manifest
+        without promoted artifacts can no longer satisfy the gate.
+      - Boundary:
+        this verifies promoted artifact refs. It does not create real L6+N5
+        artifacts.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.

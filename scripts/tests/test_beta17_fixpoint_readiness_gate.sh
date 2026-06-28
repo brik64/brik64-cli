@@ -125,6 +125,12 @@ JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByStage1": true }
 JSON
+mkdir -p "$FIXTURE/evidence/beta17-fixpoint/generated/stage1" "$FIXTURE/evidence/beta17-fixpoint/generated/stage2"
+printf 'beta17 stage artifact\n' >"$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs"
+cp "$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" \
+  "$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs"
+stage1_artifact_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" | awk '{print $1}')"
+stage2_artifact_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs" | awk '{print $1}')"
 cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'JSON'
 { "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true }
 JSON
@@ -163,6 +169,14 @@ cat >"$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'JSON'
     "sealReport": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
       "sha256": "__SEAL_SHA__"
+    },
+    "stage1Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+      "sha256": "__STAGE1_ARTIFACT_SHA__"
+    },
+    "stage2Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+      "sha256": "__STAGE2_ARTIFACT_SHA__"
     }
   }
 }
@@ -178,6 +192,8 @@ for token, filename in {
     "__BYTE_SHA__": "byte_identical_report.json",
     "__HARNESS_SHA__": "harness_report.json",
     "__SEAL_SHA__": "seal_report.json",
+    "__STAGE1_ARTIFACT_SHA__": "generated/stage1/brik64-cli-stage1.mjs",
+    "__STAGE2_ARTIFACT_SHA__": "generated/stage2/brik64-cli-stage2.mjs",
 }.items():
     digest = hashlib.sha256((root / filename).read_bytes()).hexdigest()
     text = text.replace(token, digest)
@@ -285,6 +301,40 @@ jq -e '
   and (.blockers | index("evidence_pack_manifest_missing_ref:evidence/beta17-fixpoint/external_audit_report.json"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["promoted"]["stage2Artifact"]["sha256"] = "0" * 64
+json.dump(data, open(path, "w"), indent=2)
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/artifact-mismatch.stdout" 2>"$TMP_DIR/artifact-mismatch.stderr"
+artifact_mismatch_rc=$?
+set -e
+
+if [[ "$artifact_mismatch_rc" -eq 0 ]]; then
+  echo "artifact_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("remote_promotion_ref_file_sha256_mismatch:stage2Artifact:evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+manifest = root / "remote_promotion_manifest.json"
+data = json.load(open(manifest))
+data["promoted"]["stage2Artifact"]["sha256"] = hashlib.sha256((root / "generated/stage2/brik64-cli-stage2.mjs").read_bytes()).hexdigest()
+json.dump(data, open(manifest, "w"), indent=2)
+PY
 write_evidence_pack_manifest "$FIXTURE"
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/input_pcd_hashes.tsv" <<'EOF_HASHES'
