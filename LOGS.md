@@ -1084,3 +1084,26 @@ Evidence:
 Boundary:
 - This is a release safety gate. It does not generate Beta17, publish Beta17,
   or prove fixpoint by itself.
+
+## Beta17 Ralph Loop Iteration - Fixpoint evidence pack template
+
+Task:
+- Add a reproducible Beta17 evidence-pack scaffold so the fixpoint campaign has
+  a concrete file contract before materialization.
+
+Change:
+- Added `scripts/beta17-fixpoint-evidence-pack-init.js`.
+- Added `scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh`.
+- Added npm scripts `beta17:fixpoint:evidence:init` and
+  `test:beta17:fixpoint:evidence:init`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-init.js` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- Generated evidence-pack files are templates marked `TEMPLATE_NON_CLAIM`.
+  They are intentionally rejected by `gate:beta17:fixpoint-readiness` until
+  replaced by real Stage1/Stage2 byte-identical evidence.

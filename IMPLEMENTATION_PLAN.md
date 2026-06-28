@@ -191,4 +191,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   PCD/polymer manifests, Stage1 L6+N5 artifact, Stage2 regeneration by Stage1,
   byte-identical comparison, harness report, seal report, public surface sync
   report, and external audit report are all present and passing.
-- Next gate: `npm run test:beta17:fixpoint-readiness`.
+- Evidence pack scaffold: `npm run beta17:fixpoint:evidence:init` creates
+  `evidence/beta17-fixpoint/` template files only. Those files are marked
+  `TEMPLATE_NON_CLAIM` and must remain rejected by
+  `gate:beta17:fixpoint-readiness` until replaced by fresh claim-bearing
+  artifacts.
+- Next gate: `npm run test:beta17:fixpoint-readiness` and
+  `npm run test:beta17:fixpoint:evidence:init`.

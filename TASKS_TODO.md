@@ -417,3 +417,27 @@
       - Boundary:
         this gate does not generate Beta17 or prove fixpoint; it prevents
         publication/claim drift while the fixpoint campaign is incomplete.
+
+- [x] Beta17 fixpoint evidence pack template.
+      - Script:
+        `scripts/beta17-fixpoint-evidence-pack-init.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh`.
+      - Goal:
+        create the exact `evidence/beta17-fixpoint/` file layout that the
+        readiness gate expects, while marking every generated file
+        `TEMPLATE_NON_CLAIM`.
+      - Boundary:
+        template files are operational scaffolding only. They must keep
+        `gate:beta17:fixpoint-readiness` blocked until replaced by fresh
+        Stage1/Stage2 byte-identical evidence.
+
+- [ ] Generate Beta17 claim-bearing evidence pack.
+      - Depends on:
+        canonical Beta17 PCD/polymer inputs and an authorized L6+N5
+        materialization run.
+      - Required output:
+        replace every `TEMPLATE_NON_CLAIM` file under
+        `evidence/beta17-fixpoint/` with passing claim-bearing reports.
+      - Gate:
+        `npm run gate:beta17:fixpoint-readiness`.
