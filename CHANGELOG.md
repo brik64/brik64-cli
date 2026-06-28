@@ -3,20 +3,20 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
-## 0.1.0-beta.15.7.1
+## 0.1.0-beta.16.1
 
 ### Fixed
 
-- Cuts the Beta15.7 CLI follow-up as a separate versioned package instead of
-  mutating the existing `0.1.0-beta.15.7` release archive.
+- Prepares the Beta16.1 CLI follow-up as a separate versioned package instead
+  of mutating the existing public beta16 archive.
 - Keeps the Python floor-division lift package-smoke regression in the local
   archive validation path.
 - Preserves the embedded local runtime bundle checks for package smoke.
 
 ### Compatibility
 
-- SDK marketplace coordinates remain at the Beta15.7 SDK release unless a
-  separate SDK hotfix is explicitly cut.
+- SDK marketplace coordinates move to the Beta16.1 SDK release only when the
+  SDK publication gates complete.
 - This beta remains claim-safe local candidate evidence until public installer,
   GitHub release, web, docs, skills, changelog, and live verification are
   synchronized for the follow-up version.
@@ -46,7 +46,7 @@ every beta, release candidate, or public release.
 
 - This beta remains a candidate until the public installer, GitHub release, web,
   docs, SDKs, skills, changelog, and live verification are synchronized.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15.6
@@ -74,7 +74,7 @@ every beta, release candidate, or public release.
 
 - This beta remains a candidate until public installer, GitHub release, web,
   docs, SDKs, skills, changelog, and live verification are synchronized.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15.5
@@ -103,7 +103,7 @@ every beta, release candidate, or public release.
 
 - This beta remains a candidate until public installer, GitHub release, web,
   docs, SDKs, skills, changelog, and live verification are synchronized.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15.4
@@ -129,7 +129,7 @@ every beta, release candidate, or public release.
 - This beta remains a pre-public candidate. Public release is blocked until
   GitHub release assets, curl installer, web, docs, SDKs, skills, changelog,
   public claim scan, and live verification are synchronized.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15.3
@@ -163,7 +163,7 @@ every beta, release candidate, or public release.
   public claim scan, and live verification are synchronized.
 - The L6+N5 check included with this candidate is a non-claim preflight only; it
   does not prove Beta15.3 artifact materialization by L6+N5.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15.2
@@ -190,7 +190,7 @@ every beta, release candidate, or public release.
 - macOS and Linux continue to use the portable Node.js CLI package and require
   Node.js 20 or newer.
 - Windows native executables are not published in this beta.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15.1
@@ -224,7 +224,7 @@ every beta, release candidate, or public release.
 - macOS and Linux continue to use the portable Node.js CLI package and require
   Node.js 20 or newer.
 - Windows native executables are not published in this beta.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.15
@@ -253,7 +253,7 @@ every beta, release candidate, or public release.
 - macOS and Linux continue to use the portable Node.js CLI package and require
   Node.js 20 or newer.
 - Windows native executables are not published in this beta.
-- This beta does not claim universal correctness, public self-hosting, formal
+- This beta does not claim universal correctness, formal
   certification, or independent toolchain closure.
 
 ## 0.1.0-beta.14.6
@@ -303,7 +303,7 @@ every beta, release candidate, or public release.
   Node.js 20 or newer.
 - Windows native executables are not published in this beta.
 - This beta does not claim formal certification for arbitrary user code,
-  universal correctness, self-hosting, or independent toolchain closure.
+  universal correctness, or independent toolchain closure.
 
 ## 0.1.0-beta.14.4
 
@@ -329,7 +329,7 @@ every beta, release candidate, or public release.
   Node.js 20 or newer.
 - Windows native executables are not published in this beta.
 - This beta does not claim formal certification for arbitrary user code,
-  universal correctness, self-hosting, or independent toolchain closure.
+  universal correctness, or independent toolchain closure.
 
 ## 0.1.0-beta.14.3
 
@@ -354,7 +354,7 @@ every beta, release candidate, or public release.
   Node.js 20 or newer.
 - Windows native executables are not published in this beta.
 - This beta does not claim formal certification for arbitrary user code,
-  universal correctness, self-hosting, or independent toolchain closure.
+  universal correctness, or independent toolchain closure.
 
 ## 0.1.0-beta.14.2
 

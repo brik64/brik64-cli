@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "brik64.cli_beta16_1_l6plus_engine_probe.v1",
+  "version": "0.1.0-beta.16.1",
+  "generatedAt": "2026-06-28T10:18:07.791Z",
+  "host": "root@89.167.104.236",
+  "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "n5FormalClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "hostProbe": {
+    "status": 0,
+    "stdout_sha256": "5d89b620851b7fff75efae61d54739722b6ef3713a886108cb6a16d68266058f",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "auditDecision": "PASS",
+    "skipped": false
+  },
+  "remoteRefProbe": {
+    "status": 0,
+    "stdout_sha256": "b4fad79b529835a04878462cf7a7a6f4c00bd48b5a59f869d0e90432d513ef73",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "skipped": false
+  },
+  "endpointStatusProbe": {
+    "status": 0,
+    "stdout_sha256": "bf96f0d6be15fd5a83a7bfb4049bb58ec81eecbcebfcd8c94678686eb14e09aa",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "skipped": false,
+    "statusTag": "beta15_7_ready,beta16_native_ready"
+  },
+  "remoteRefs": {
+    "wrapper": {
+      "sha256": "2d7f10894bb34696b848db942005712fa609eee0c150c4ae2de8d7463275e3d8",
+      "bytes": 1506,
+      "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
+    },
+    "wrapper_exec_target": {
+      "sha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+      "bytes": 851,
+      "target": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus"
+    }
+  },
+  "wrapperMode": "cli_materializer_dispatcher",
+  "materializerRequest": {
+    "path": "evidence/beta16_1-l6-materializer-request/request.manifest.json",
+    "sha256": "72cb290a521d7453e7d5455fc898443dbb9d78f97bf2b0a269b7fd10fbaf8612",
+    "requestLineSha256": "4bf13fa4ac66b816290c23e0bb40f19f42a31e41e8193c60dc3dad089f5cb9b3",
+    "accepted": false
+  }
+}

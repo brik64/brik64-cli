@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.15.7.1`
+Current beta candidate: `0.1.0-beta.16.1`
 
 ## Install
 
@@ -24,19 +24,19 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta15.7.x Boundary
+## Beta16.1.x Boundary
 
-`0.1.0-beta.15.7.1` is a versioned public follow-up for offline CLI reliability and lift
+`0.1.0-beta.16.1` is a versioned public follow-up for offline CLI reliability and lift
 diagnostics: complete local engine bundle packaging, semantic-loss warnings for
 lift previews, generated test execution across TypeScript, Python, and Rust,
 certifiable polymer PCD output, local traceability, and claim-safe project
 reports.
 
-The `0.1.0-beta.15.7` public tag and archive are not rewritten by this
-follow-up. Beta15.7.1 must publish as its own versioned CLI package and public
-manifest entry.
+The existing public beta16 package and archive are not rewritten by this
+follow-up. Beta16.1 must publish as its own versioned CLI package and public
+manifest entry after all release-train gates pass.
 
-## Beta15.7.x Command Surface
+## Beta16.1.x Command Surface
 
 The public beta keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -72,13 +72,13 @@ paths fail closed and keep local artifacts unchanged.
 ## SDK Boundary
 
 SDKs are distributed separately from the CLI. This CLI-only follow-up does not
-change SDK marketplace coordinates unless a separate SDK package release is
-cut. The active Beta15.7 SDK coordinates are:
+change SDK marketplace coordinates until the SDK release train publishes the
+aligned packages. The target Beta16.1 SDK coordinates are:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.15.7
-pip install brik64==0.1.0b15.post7
-cargo add brik64-core@0.1.0-beta.15.7
+npm install @brik64/core@0.1.0-beta.16.1
+pip install brik64==0.1.0b16.post1
+cargo add brik64-core@0.1.0-beta.16.1
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed
@@ -95,7 +95,7 @@ establish native Windows compatibility.
 
 ## Local Ledger
 
-Beta15.7.x records selected workspace actions in `.brik/ledger/events.jsonl` with
+Beta16.1.x records selected workspace actions in `.brik/ledger/events.jsonl` with
 a hash chain and `.brik/ledger/head.json` head pointer. Event payloads are
 redacted by default: raw source, raw PCD content, absolute paths, and secrets are
 not written to the ledger event body.
