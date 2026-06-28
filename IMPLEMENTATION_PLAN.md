@@ -235,6 +235,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   It requires exactly one accepted attempt, complete transcript refs, a
   complete parsed stage-result ref, closed claim boundaries and no
   `fixtureMaterializer` evidence.
+- Remote result promotion: `npm run promote:beta17:fixpoint:remote-result`
+  copies only a promotion-gate-passing remote Stage1/Stage2 result into the
+  canonical `evidence/beta17-fixpoint/` paths. It writes
+  `remote_promotion_manifest.json` and keeps public/fixpoint claims closed
+  until the full readiness gate and external audit pass.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and
@@ -242,4 +247,5 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `npm run test:beta17:fixpoint:stage-result` and
   `npm run test:beta17:fixpoint:stage-fixture` and
   `npm run test:beta17:fixpoint:remote-stage` and
-  `npm run test:beta17:fixpoint:remote-promotion`.
+  `npm run test:beta17:fixpoint:remote-promotion` and
+  `npm run test:beta17:fixpoint:remote-result-promotion`.

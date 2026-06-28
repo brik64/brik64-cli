@@ -178,6 +178,20 @@
         fixture materializer results remain blocked even if their internal
         stage-result validation says accepted.
 
+- [x] Add controlled remote-result promotion into the Beta17 evidence pack.
+      - Script:
+        `scripts/beta17-fixpoint-promote-remote-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+      - Result:
+        the final `evidence/beta17-fixpoint/` Stage1, Stage2,
+        byte-identity, harness, seal and generated artifact paths can be
+        populated only after `gate:beta17:fixpoint:remote-promotion` passes.
+      - Boundary:
+        the promotion manifest keeps public release and definitive fixpoint
+        claims closed until canonical manifests, public sync, external audit
+        and readiness gate also pass.
+
 - [ ] Merge PR #223 after review.
       - Current state:
         PR #223 is open at `d213b04`, CI checks are green, and GitHub reports

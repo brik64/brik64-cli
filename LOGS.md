@@ -1,5 +1,30 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 31 - Beta17 controlled remote-result promotion
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Added `scripts/beta17-fixpoint-promote-remote-result.js`.
+- Added npm scripts:
+  - `promote:beta17:fixpoint:remote-result`;
+  - `test:beta17:fixpoint:remote-result-promotion`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+- The script reruns the remote promotion gate before copying any Stage1,
+  Stage2, byte-identity, harness, seal or generated artifact refs into the
+  canonical `evidence/beta17-fixpoint/` paths.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+
+Boundary:
+
+- The promotion path remains blocked without a real non-fixture remote result.
+- The promotion manifest keeps public release and definitive fixpoint claims
+  closed until readiness, public sync and external audit pass.
+- This does not generate L6+N5 Stage1/Stage2 artifacts or publish Beta17.
+
 ## Iteration 30 - Beta17 remote promotion gate
 
 Timestamp: `2026-06-28T00:00:00Z`
