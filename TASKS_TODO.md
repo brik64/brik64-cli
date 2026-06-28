@@ -894,3 +894,17 @@
       - Boundary:
         this is adversarial gate coverage only. It does not create or validate
         real L6+N5 Stage1/Stage2 artifacts.
+
+- [x] Beta17 promoted target-copy verification.
+      - Script:
+        `scripts/beta17-fixpoint-promote-remote-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+      - Goal:
+        after remote evidence refs are promoted into canonical
+        `evidence/beta17-fixpoint/` paths, re-hash the copied target files and
+        record target refs in `remote_promotion_manifest.json`.
+      - Boundary:
+        this proves copy integrity for promoted evidence refs. It does not
+        create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+        Beta17.

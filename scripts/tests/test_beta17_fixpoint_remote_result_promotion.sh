@@ -274,6 +274,11 @@ jq -e '
   and (.blockers | length)==0
   and .promoted.stage1Artifact.path=="evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs"
   and .promoted.stage2Artifact.path=="evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs"
+  and .promoted.stage1Artifact.target.sha256==.promoted.stage1Artifact.sha256
+  and .promoted.stage1Artifact.target.bytes==.promoted.stage1Artifact.bytes
+  and .promoted.stage2Artifact.target.sha256==.promoted.stage2Artifact.sha256
+  and .promoted.stage2Artifact.target.bytes==.promoted.stage2Artifact.bytes
+  and .promoted.byteIdenticalReport.target.sha256==.promoted.byteIdenticalReport.sha256
 ' "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" >/dev/null
 
 test -f "$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json"

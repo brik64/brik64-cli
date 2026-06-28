@@ -2068,3 +2068,30 @@ Boundary:
 - This validates final promotion mechanics for clean external workspaces. It
   does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Promoted target copy verification
+
+Timestamp: 2026-06-28T23:50:15Z
+
+Task:
+- Verify canonical target files after remote-result promotion copies evidence
+  refs into `evidence/beta17-fixpoint/`.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` to re-hash each
+  promoted target file after copy, record target path/SHA-256/bytes in
+  `remote_promotion_manifest.json` and block on any source/target mismatch.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh` so
+  the positive external-workspace fixture asserts the promoted target refs
+  match the promoted source refs.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+
+Boundary:
+- This proves target-copy integrity for promoted evidence refs. It does not
+  generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.

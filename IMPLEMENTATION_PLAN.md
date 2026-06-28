@@ -291,6 +291,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   canonical `evidence/beta17-fixpoint/` paths. It writes
   `remote_promotion_manifest.json` and keeps public/fixpoint claims closed
   until the full readiness gate and external audit pass.
+- Remote result target verification: after copying promoted evidence files into
+  canonical paths, the promotion manifest records the target file path, bytes
+  and SHA-256 and blocks if the copied target does not match the source ref.
+  This keeps the final promotion boundary tied to the actual canonical files,
+  not only the remote source refs.
 - External workspace promotion: remote result promotion invokes its gate by
   absolute script path while using `BRIK64_CLI_ROOT` as the evidence workspace.
   This allows clean external audit workspaces to promote evidence without

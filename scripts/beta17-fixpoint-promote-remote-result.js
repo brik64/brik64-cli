@@ -182,6 +182,16 @@ function main() {
     for (const item of copyPlan) {
       fs.mkdirSync(path.dirname(item.targetFile), { recursive: true });
       fs.copyFileSync(item.sourceFile, item.targetFile);
+      const targetSha256 = sha256File(item.targetFile);
+      const targetBytes = fs.statSync(item.targetFile).size;
+      item.target = {
+        path: item.path,
+        sha256: targetSha256,
+        bytes: targetBytes,
+      };
+      if (targetSha256 !== item.sha256 || targetBytes !== item.bytes) {
+        blockers.push(`promoted_target_copy_mismatch:${item.path}`);
+      }
       delete item.sourceFile;
       delete item.targetFile;
     }
