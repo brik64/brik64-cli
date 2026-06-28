@@ -286,7 +286,8 @@
     "gate:beta17:fixpoint:remote-promotion": "node scripts/beta17-fixpoint-remote-promotion-gate.js",
     "test:beta17:fixpoint:remote-promotion": "bash scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh",
     "promote:beta17:fixpoint:remote-result": "node scripts/beta17-fixpoint-promote-remote-result.js",
-    "test:beta17:fixpoint:remote-result-promotion": "bash scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh"
+    "test:beta17:fixpoint:remote-result-promotion": "bash scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh",
+    "test:beta17:release-train-readiness": "bash scripts/tests/test_beta17_release_train_readiness.sh"
   },
   "author": {
     "name": "BRIK64 INC",

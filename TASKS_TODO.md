@@ -607,3 +607,17 @@
         for future L6+N5 audit.
       - Boundary:
         transcripts are diagnostic evidence, not fixpoint proof.
+
+- [x] Beta17 release-train readiness binding.
+      - Release train:
+        `scripts/release-train-dry-run.js`.
+      - Test:
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Goal:
+        ensure a `0.1.0-beta.17` candidate cannot dry-run as green unless
+        `gate:beta17:fixpoint-readiness` passes and the readiness report is
+        recorded as required evidence with closed formal/universal claim
+        boundaries.
+      - Boundary:
+        this connects the release train to the readiness gate. It does not
+        create claim-bearing Stage1/Stage2 L6+N5 evidence or publish Beta17.

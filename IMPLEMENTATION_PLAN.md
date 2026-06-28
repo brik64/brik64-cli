@@ -248,6 +248,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   Stage1, Stage2, byte-identity, harness and seal refs against the exact files
   it evaluates, including SHA-256. Detached or manually swapped evidence fails
   closed.
+- Release train binding: `release:train:dry-run` routes `0.1.0-beta.17`
+  candidate branches and manifest-driven runs through
+  `gate:beta17:fixpoint-readiness`. In candidate mode it also records
+  `beta17_fixpoint_readiness` as required evidence and rejects missing,
+  blocked or claim-boundary-invalid readiness reports.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and
@@ -256,4 +261,5 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `npm run test:beta17:fixpoint:stage-fixture` and
   `npm run test:beta17:fixpoint:remote-stage` and
   `npm run test:beta17:fixpoint:remote-promotion` and
-  `npm run test:beta17:fixpoint:remote-result-promotion`.
+  `npm run test:beta17:fixpoint:remote-result-promotion` and
+  `npm run test:beta17:release-train-readiness`.

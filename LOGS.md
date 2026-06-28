@@ -1417,3 +1417,33 @@ Evidence:
 Boundary:
 - Transcript retention improves auditability only. It does not create Stage1,
   Stage2 or fixpoint evidence.
+
+## Beta17 Ralph Loop Iteration - Release train readiness binding
+
+Timestamp: 2026-06-28T21:25:42Z
+
+Task:
+- Bind the Beta17 release train dry-run to the Beta17 fixpoint readiness gate.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` so `0.1.0-beta.17` candidate and manifest-driven dry-runs execute `gate:beta17:fixpoint-readiness`.
+- Added candidate required evidence validation for `evidence/beta17-fixpoint-readiness/report.json` with explicit claim-boundary checks.
+- Added `scripts/tests/test_beta17_release_train_readiness.sh` and npm script `test:beta17:release-train-readiness`.
+- The regression test proves both paths: missing/blocked readiness fails dry-run, and a complete promoted evidence set passes dry-run while keeping `publicationAllowed=false`.
+
+Evidence:
+- `node --check scripts/release-train-dry-run.js` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This is release-train hardening. It does not materialize Beta17, prove fixpoint, or authorize publication without fresh L6+N5 Stage1/Stage2 evidence and external audit.
