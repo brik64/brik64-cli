@@ -215,6 +215,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   fixture artifacts. This is test infrastructure only; readiness must remain
   blocked until fixture/template reports are replaced by real L6+N5 Stage1 and
   Stage2 evidence plus public sync and external audit.
+- Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
+  Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
+  Fixture evidence may test the contract, but it can never authorize Beta17
+  publication or a fixpoint claim.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and

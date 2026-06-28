@@ -493,3 +493,14 @@
       - Boundary:
         fixture output is not L6+N5 evidence and must keep
         `gate:beta17:fixpoint-readiness` blocked.
+
+- [x] Beta17 readiness gate rejects fixture evidence.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Goal:
+        ensure local fixture reports cannot be promoted into claim-bearing
+        fixpoint evidence.
+      - Boundary:
+        this is a release safety hardening patch, not L6+N5 materialization.

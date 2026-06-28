@@ -47,6 +47,13 @@ function boolAt(object, dottedPath) {
   }, object) === true;
 }
 
+function rejectFixtureEvidence(report, key, blockers) {
+  if (!report || typeof report !== 'object') return;
+  if (boolAt(report, 'fixtureMaterializer') || boolAt(report, 'materialization.fixtureMaterializer') || boolAt(report, 'regeneration.fixtureMaterializer')) {
+    blockers.push(`${key}_fixture_materializer_not_claim_bearing`);
+  }
+}
+
 function checkHashList(file, blockers, evidence, key) {
   if (!fs.existsSync(file)) {
     blockers.push(`missing_${key}:${rel(file)}`);
@@ -147,24 +154,28 @@ function main() {
     if (!checks.canonicalHarnessPcdBound) blockers.push('canonical_harness_not_pcd_bound');
   }
   if (stage1) {
+    rejectFixtureEvidence(stage1, 'stage1', blockers);
     checks.stage1GeneratedByL6 = boolAt(stage1, 'generatedByL6PlusN5') || boolAt(stage1, 'materialization.generatedByL6PlusN5');
     checks.stage1VersionMatches = stage1.version === expectedVersion || stage1.cliVersion === expectedVersion;
     if (!checks.stage1GeneratedByL6) blockers.push('stage1_not_generated_by_l6plus_n5');
     if (!checks.stage1VersionMatches) blockers.push(`stage1_version_mismatch:${stage1.version || stage1.cliVersion || 'missing'}`);
   }
   if (stage2) {
+    rejectFixtureEvidence(stage2, 'stage2', blockers);
     checks.stage2GeneratedByStage1 = boolAt(stage2, 'generatedByStage1') || boolAt(stage2, 'regeneration.generatedByStage1');
     checks.stage2VersionMatches = stage2.version === expectedVersion || stage2.cliVersion === expectedVersion;
     if (!checks.stage2GeneratedByStage1) blockers.push('stage2_not_regenerated_by_stage1');
     if (!checks.stage2VersionMatches) blockers.push(`stage2_version_mismatch:${stage2.version || stage2.cliVersion || 'missing'}`);
   }
   if (byteIdentity) {
+    rejectFixtureEvidence(byteIdentity, 'byte_identity', blockers);
     checks.byteIdentical = byteIdentity.decision === 'PASS_BYTE_IDENTICAL_REGENERATION'
       || byteIdentity.byteIdentical === true
       || boolAt(byteIdentity, 'comparison.byteIdentical');
     if (!checks.byteIdentical) blockers.push(`byte_identity_not_proven:${byteIdentity.decision || 'missing'}`);
   }
   if (harness) {
+    rejectFixtureEvidence(harness, 'harness', blockers);
     checks.harnessPass = harness.decision === 'PASS_BETA17_FIXPOINT_HARNESS'
       || harness.status === 'PASS'
       || harness.pass === true;
@@ -173,6 +184,7 @@ function main() {
     if (!checks.harnessHasAdversarial) blockers.push('harness_missing_adversarial_triad');
   }
   if (seal) {
+    rejectFixtureEvidence(seal, 'seal', blockers);
     checks.sealPass = seal.decision === 'PASS_BETA17_FIXPOINT_SEAL'
       || seal.status === 'PASS'
       || seal.sealed === true;

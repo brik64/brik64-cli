@@ -1207,3 +1207,30 @@ Evidence:
 Boundary:
 - This is deterministic local fixture infrastructure. It is deliberately not
   L6+N5 evidence and must not satisfy fixpoint readiness.
+
+## Beta17 Ralph Loop Iteration - Reject fixture evidence in readiness gate
+
+Task:
+- Prevent local fixture reports from being mistaken for claim-bearing Beta17
+  fixpoint evidence.
+
+Change:
+- Hardened `scripts/beta17-fixpoint-readiness-gate.js` to reject
+  `fixtureMaterializer` reports for Stage1, Stage2, byte identity, harness and
+  seal evidence.
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with a
+  fixture-evidence bypass attempt.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is safety hardening only. It does not run L6+N5 or produce
+  claim-bearing Beta17 evidence.

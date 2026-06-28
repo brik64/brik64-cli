@@ -80,6 +80,58 @@ jq -e '
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.17", "generatedByL6PlusN5": true, "fixtureMaterializer": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.17", "generatedByStage1": true, "fixtureMaterializer": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'JSON'
+{ "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true, "fixtureMaterializer": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/harness_report.json" <<'JSON'
+{ "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3, "fixtureMaterializer": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<'JSON'
+{ "decision": "PASS_BETA17_FIXPOINT_SEAL", "sealed": true, "fixtureMaterializer": true }
+JSON
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/fixture.stdout" 2>"$TMP_DIR/fixture.stderr"
+fixture_rc=$?
+set -e
+
+if [[ "$fixture_rc" -eq 0 ]]; then
+  echo "fixture_evidence_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("stage1_fixture_materializer_not_claim_bearing"))
+  and (.blockers | index("stage2_fixture_materializer_not_claim_bearing"))
+  and (.blockers | index("byte_identity_fixture_materializer_not_claim_bearing"))
+  and (.blockers | index("harness_fixture_materializer_not_claim_bearing"))
+  and (.blockers | index("seal_fixture_materializer_not_claim_bearing"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.17", "generatedByL6PlusN5": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<'JSON'
+{ "version": "0.1.0-beta.17", "generatedByStage1": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'JSON'
+{ "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/harness_report.json" <<'JSON'
+{ "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }
+JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<'JSON'
+{ "decision": "PASS_BETA17_FIXPOINT_SEAL", "sealed": true }
+JSON
+
 set +e
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
   --version 0.1.0-beta.16.1 >"$TMP_DIR/wrong-version.stdout" 2>"$TMP_DIR/wrong-version.stderr"
