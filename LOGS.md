@@ -1181,3 +1181,29 @@ Evidence:
 Boundary:
 - This is result-shape validation only. It does not execute L6+N5, generate
   Stage1/Stage2 artifacts, prove byte identity or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Fixture stage materializer
+
+Task:
+- Exercise the Beta17 Stage1/Stage2 request/result contract end-to-end before
+  implementing or invoking a real L6+N5 materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-fixture-materializer.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_fixture_materializer.sh`.
+- Added npm scripts `fixture:beta17:fixpoint:stage-materializer` and
+  `test:beta17:fixpoint:stage-fixture`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-fixture-materializer.js` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is deterministic local fixture infrastructure. It is deliberately not
+  L6+N5 evidence and must not satisfy fixpoint readiness.

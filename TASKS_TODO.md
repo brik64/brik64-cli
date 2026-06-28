@@ -481,3 +481,15 @@
       - Boundary:
         this validates result shape only. It does not create a real L6+N5
         result or prove fixpoint.
+
+- [x] Beta17 Stage1/Stage2 fixture materializer.
+      - Script:
+        `scripts/beta17-fixpoint-stage-fixture-materializer.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_fixture_materializer.sh`.
+      - Goal:
+        exercise the Beta17 request/result contract end-to-end with local,
+        deterministic, byte-identical fixture artifacts.
+      - Boundary:
+        fixture output is not L6+N5 evidence and must keep
+        `gate:beta17:fixpoint-readiness` blocked.
