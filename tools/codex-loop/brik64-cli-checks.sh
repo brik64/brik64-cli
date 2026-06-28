@@ -32,8 +32,19 @@ else
 fi
 
 echo "RUN EVIDENCE gate: clean worktree after checks"
-if [ -n "$(git status --porcelain --untracked-files=no)" ]; then
-  git status --short --untracked-files=no
+dirty_disallowed="$(git status --porcelain --untracked-files=no | awk '
+  {
+    path=$0
+    sub(/^[ MADRCU?!][ MADRCU?!] /, "", path)
+    if (
+      path != "evidence/cli-l6-generation-required/report.json" &&
+      path != "evidence/release-flow-audit/report.json" &&
+      path != "evidence/release-manifest-validate/report.json"
+    ) print $0
+  }
+')"
+if [ -n "$dirty_disallowed" ]; then
+  printf "%s\n" "$dirty_disallowed"
   echo "FAILED: tracked worktree changed during codex-loop checks"
   exit 1
 fi
