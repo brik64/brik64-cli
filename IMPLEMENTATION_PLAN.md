@@ -253,6 +253,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `gate:beta17:fixpoint-readiness`. In candidate mode it also records
   `beta17_fixpoint_readiness` as required evidence and rejects missing,
   blocked or claim-boundary-invalid readiness reports.
+- External audit contract: `gate:beta17:fixpoint-readiness` rejects superficial
+  external audit reports. A passing `external_audit_report.json` must prove a
+  clean public install, functional CLI tests, generated-code tests,
+  adversarial tests, public-surface scan and claim-safe scan before Beta17 can
+  become release-ready.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and

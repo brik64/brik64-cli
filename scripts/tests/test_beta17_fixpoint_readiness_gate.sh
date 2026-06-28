@@ -114,7 +114,15 @@ cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" <<'JSON'
-{ "decision": "PASS_BETA17_EXTERNAL_AUDIT", "pass": true }
+{
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
+  "cleanPublicInstall": { "pass": true },
+  "functionalTests": { "pass": true },
+  "generatedCodeTests": { "pass": true },
+  "adversarialTests": { "pass": true },
+  "publicSurfaceScan": { "pass": true },
+  "claimSafeScan": { "pass": true }
+}
 JSON
 
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
@@ -164,6 +172,43 @@ data = json.load(open(manifest))
 data["promoted"]["stage1ArtifactManifest"]["sha256"] = hashlib.sha256((root / "stage1_artifact_manifest.json").read_bytes()).hexdigest()
 json.dump(data, open(manifest, "w"), indent=2)
 PY
+
+cat >"$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" <<'JSON'
+{ "decision": "PASS_BETA17_EXTERNAL_AUDIT", "pass": true }
+JSON
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/weak-external-audit.stdout" 2>"$TMP_DIR/weak-external-audit.stderr"
+weak_external_audit_rc=$?
+set -e
+
+if [[ "$weak_external_audit_rc" -eq 0 ]]; then
+  echo "weak_external_audit_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("external_audit_missing_clean_public_install"))
+  and (.blockers | index("external_audit_missing_functional_tests"))
+  and (.blockers | index("external_audit_missing_generated_code_tests"))
+  and (.blockers | index("external_audit_missing_adversarial_tests"))
+  and (.blockers | index("external_audit_missing_public_surface_scan"))
+  and (.blockers | index("external_audit_missing_claim_safe_scan"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+cat >"$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" <<'JSON'
+{
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
+  "cleanPublicInstall": { "pass": true },
+  "functionalTests": { "pass": true },
+  "generatedCodeTests": { "pass": true },
+  "adversarialTests": { "pass": true },
+  "publicSurfaceScan": { "pass": true },
+  "claimSafeScan": { "pass": true }
+}
+JSON
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByL6PlusN5": true, "fixtureMaterializer": true }

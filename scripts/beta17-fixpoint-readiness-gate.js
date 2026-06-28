@@ -88,6 +88,38 @@ function checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, b
   }
 }
 
+function checkExternalAuditContract(externalAudit, checks, blockers) {
+  checks.externalAuditPass = externalAudit.decision === 'PASS_BETA17_EXTERNAL_AUDIT'
+    || externalAudit.status === 'PASS'
+    || externalAudit.pass === true;
+  checks.externalAuditCleanPublicInstall = boolAt(externalAudit, 'cleanPublicInstall.pass')
+    || boolAt(externalAudit, 'cleanInstall.pass')
+    || boolAt(externalAudit, 'cleanPublicInstall');
+  checks.externalAuditFunctionalTests = boolAt(externalAudit, 'functionalTests.pass')
+    || boolAt(externalAudit, 'cliFunctionalTests.pass')
+    || boolAt(externalAudit, 'functionalTests');
+  checks.externalAuditGeneratedCodeTests = boolAt(externalAudit, 'generatedCodeTests.pass')
+    || boolAt(externalAudit, 'generatedCode.pass')
+    || boolAt(externalAudit, 'generatedCodeTests');
+  checks.externalAuditAdversarialTests = boolAt(externalAudit, 'adversarialTests.pass')
+    || boolAt(externalAudit, 'adversarial.pass')
+    || boolAt(externalAudit, 'adversarialTests');
+  checks.externalAuditPublicSurfaceScan = boolAt(externalAudit, 'publicSurfaceScan.pass')
+    || boolAt(externalAudit, 'publicSurfaces.pass')
+    || boolAt(externalAudit, 'publicSurfaceScan');
+  checks.externalAuditClaimSafeScan = boolAt(externalAudit, 'claimSafeScan.pass')
+    || boolAt(externalAudit, 'claims.pass')
+    || boolAt(externalAudit, 'claimSafeScan');
+
+  if (!checks.externalAuditPass) blockers.push(`external_audit_not_pass:${externalAudit.decision || externalAudit.status || 'missing'}`);
+  if (!checks.externalAuditCleanPublicInstall) blockers.push('external_audit_missing_clean_public_install');
+  if (!checks.externalAuditFunctionalTests) blockers.push('external_audit_missing_functional_tests');
+  if (!checks.externalAuditGeneratedCodeTests) blockers.push('external_audit_missing_generated_code_tests');
+  if (!checks.externalAuditAdversarialTests) blockers.push('external_audit_missing_adversarial_tests');
+  if (!checks.externalAuditPublicSurfaceScan) blockers.push('external_audit_missing_public_surface_scan');
+  if (!checks.externalAuditClaimSafeScan) blockers.push('external_audit_missing_claim_safe_scan');
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -243,10 +275,7 @@ function main() {
     if (!checks.publicSurfaceSyncPass) blockers.push(`public_surface_sync_not_pass:${publicSync.decision || publicSync.status || 'missing'}`);
   }
   if (externalAudit) {
-    checks.externalAuditPass = externalAudit.decision === 'PASS_BETA17_EXTERNAL_AUDIT'
-      || externalAudit.status === 'PASS'
-      || externalAudit.pass === true;
-    if (!checks.externalAuditPass) blockers.push(`external_audit_not_pass:${externalAudit.decision || externalAudit.status || 'missing'}`);
+    checkExternalAuditContract(externalAudit, checks, blockers);
   }
 
   const report = {

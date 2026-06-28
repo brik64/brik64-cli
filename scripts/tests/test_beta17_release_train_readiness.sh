@@ -137,7 +137,15 @@ cat >evidence/beta17-fixpoint/public_surface_sync_report.json <<'JSON'
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
 cat >evidence/beta17-fixpoint/external_audit_report.json <<'JSON'
-{ "decision": "PASS_BETA17_EXTERNAL_AUDIT", "pass": true }
+{
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
+  "cleanPublicInstall": { "pass": true },
+  "functionalTests": { "pass": true },
+  "generatedCodeTests": { "pass": true },
+  "adversarialTests": { "pass": true },
+  "publicSurfaceScan": { "pass": true },
+  "claimSafeScan": { "pass": true }
+}
 JSON
 
 node scripts/release-train-dry-run.js --allow-dirty >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"

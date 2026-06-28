@@ -621,3 +621,19 @@
       - Boundary:
         this connects the release train to the readiness gate. It does not
         create claim-bearing Stage1/Stage2 L6+N5 evidence or publish Beta17.
+
+- [x] Beta17 external audit contract hardening.
+      - Gate:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Goal:
+        prevent a superficial `external_audit_report.json` with only
+        `pass=true` from authorizing Beta17 readiness.
+      - Required audit proof:
+        clean public install, functional CLI tests, generated-code tests,
+        adversarial tests, public surface scan and claim-safe scan.
+      - Boundary:
+        this validates audit evidence shape. It does not perform the external
+        audit or create claim-bearing L6+N5 Stage1/Stage2 artifacts.
