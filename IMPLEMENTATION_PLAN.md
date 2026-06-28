@@ -238,6 +238,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Seal binding: `gate:beta17:fixpoint-readiness` requires `seal_report.json`
   to hash-bind the promoted Stage1 artifact, promoted Stage2 artifact and
   `input_pcd_hashes.tsv`. A generic `sealed=true` report is insufficient.
+- Byte-identity binding: `gate:beta17:fixpoint-readiness` requires
+  `byte_identical_report.json` to hash-bind Stage1 and Stage2 artifact SHA-256
+  values and byte sizes to the promoted artifact files. A generic
+  `byteIdentical=true` report is insufficient.
 - Public-surface sync matrix: `gate:beta17:fixpoint-readiness` requires
   `public_surface_sync_report.json` to include passing `surfaceChecks` for
   `cli_installer`, `cli_manifest`, `docs`, `web_changelog` and `skills`, each

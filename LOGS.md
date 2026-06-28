@@ -1902,3 +1902,32 @@ Boundary:
 - This checks declared public-surface sync evidence. It does not deploy
   public surfaces, run the final external audit, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Byte identity artifact bindings
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require Beta17 byte-identical comparison evidence to bind promoted Stage
+  artifacts.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so
+  `byte_identical_report.json` must include Stage1 and Stage2 artifact
+  SHA-256 values plus byte sizes matching the promoted artifact files.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with
+  byte-identity artifact bindings.
+- Added an adversarial Stage2 byte-identity SHA mismatch case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This prevents unbound byte-identity reports from satisfying readiness. It
+  does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.

@@ -131,8 +131,17 @@ cp "$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" \
   "$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs"
 stage1_artifact_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" | awk '{print $1}')"
 stage2_artifact_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs" | awk '{print $1}')"
-cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'JSON'
-{ "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true }
+stage1_artifact_bytes="$(wc -c <"$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" | tr -d ' ')"
+stage2_artifact_bytes="$(wc -c <"$FIXTURE/evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs" | tr -d ' ')"
+cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<JSON
+{
+  "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
+  "byteIdentical": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "stage1ArtifactBytes": $stage1_artifact_bytes,
+  "stage2ArtifactBytes": $stage2_artifact_bytes
+}
 JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/harness_report.json" <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }
@@ -231,11 +240,51 @@ jq -e '
   and .claimBoundary.publicReleaseAllowed==true
   and .claimBoundary.formalN5ClaimAllowed==false
   and .checks.byteIdentical==true
+  and .checks.byteIdentityBindsStage1Artifact==true
+  and .checks.byteIdentityBindsStage2Artifact==true
+  and .checks.byteIdentityStageSizesMatch==true
   and .checks.harnessHasAdversarial==true
   and .checks.remotePromotionPass==true
   and .checks.remotePromotionClaimsClosed==true
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["stage2ArtifactSha256"] = "0" * 64
+json.dump(data, open(path, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/byte-mismatch.stdout" 2>"$TMP_DIR/byte-mismatch.stderr"
+byte_mismatch_rc=$?
+set -e
+
+if [[ "$byte_mismatch_rc" -eq 0 ]]; then
+  echo "byte_identity_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("byte_identity_stage2_artifact_sha256_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<JSON
+{
+  "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
+  "byteIdentical": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "stage1ArtifactBytes": $stage1_artifact_bytes,
+  "stage2ArtifactBytes": $stage2_artifact_bytes
+}
+JSON
+write_evidence_pack_manifest "$FIXTURE"
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'PY'
 import json, sys
@@ -558,8 +607,15 @@ JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage2_regeneration_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByStage1": true }
 JSON
-cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'JSON'
-{ "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true }
+cat >"$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<JSON
+{
+  "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
+  "byteIdentical": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "stage1ArtifactBytes": $stage1_artifact_bytes,
+  "stage2ArtifactBytes": $stage2_artifact_bytes
+}
 JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/harness_report.json" <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }

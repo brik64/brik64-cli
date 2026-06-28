@@ -142,14 +142,23 @@ mkdir -p evidence/beta17-fixpoint/generated/stage1 evidence/beta17-fixpoint/gene
 printf 'beta17 stage artifact\n' >evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs
 cp evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs \
   evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs
-cat >evidence/beta17-fixpoint/byte_identical_report.json <<'JSON'
-{ "decision": "PASS_BYTE_IDENTICAL_REGENERATION", "byteIdentical": true }
+stage1_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs | awk '{print $1}')"
+stage2_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs | awk '{print $1}')"
+stage1_artifact_bytes="$(wc -c <evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs | tr -d ' ')"
+stage2_artifact_bytes="$(wc -c <evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs | tr -d ' ')"
+cat >evidence/beta17-fixpoint/byte_identical_report.json <<JSON
+{
+  "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
+  "byteIdentical": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "stage1ArtifactBytes": $stage1_artifact_bytes,
+  "stage2ArtifactBytes": $stage2_artifact_bytes
+}
 JSON
 cat >evidence/beta17-fixpoint/harness_report.json <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }
 JSON
-stage1_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs | awk '{print $1}')"
-stage2_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs | awk '{print $1}')"
 input_pcd_set_sha="$(shasum -a 256 evidence/beta17-fixpoint/input_pcd_hashes.tsv | awk '{print $1}')"
 cat >evidence/beta17-fixpoint/seal_report.json <<JSON
 {

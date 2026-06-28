@@ -426,6 +426,46 @@ function main() {
     checkPromotedFileRef(remotePromotion, 'stage1Artifact', evidence, blockers);
     checkPromotedFileRef(remotePromotion, 'stage2Artifact', evidence, blockers);
   }
+  if (byteIdentity) {
+    const byteStage1Sha = firstValueAt(byteIdentity, [
+      'stage1ArtifactSha256',
+      'stage1.sha256',
+      'comparison.stage1ArtifactSha256',
+      'bindings.stage1ArtifactSha256',
+    ]);
+    const byteStage2Sha = firstValueAt(byteIdentity, [
+      'stage2ArtifactSha256',
+      'stage2.sha256',
+      'comparison.stage2ArtifactSha256',
+      'bindings.stage2ArtifactSha256',
+    ]);
+    const byteStage1Bytes = Number(firstValueAt(byteIdentity, [
+      'stage1ArtifactBytes',
+      'stage1.bytes',
+      'comparison.stage1ArtifactBytes',
+      'bindings.stage1ArtifactBytes',
+    ]));
+    const byteStage2Bytes = Number(firstValueAt(byteIdentity, [
+      'stage2ArtifactBytes',
+      'stage2.bytes',
+      'comparison.stage2ArtifactBytes',
+      'bindings.stage2ArtifactBytes',
+    ]));
+    const promotedStage1Size = evidence.remote_promotion_stage1Artifact?.sizeBytes;
+    const promotedStage2Size = evidence.remote_promotion_stage2Artifact?.sizeBytes;
+    checks.byteIdentityBindsStage1Artifact = isSha256(byteStage1Sha)
+      && evidence.remote_promotion_stage1Artifact?.sha256 === String(byteStage1Sha).toLowerCase();
+    checks.byteIdentityBindsStage2Artifact = isSha256(byteStage2Sha)
+      && evidence.remote_promotion_stage2Artifact?.sha256 === String(byteStage2Sha).toLowerCase();
+    checks.byteIdentityStageSizesMatch = Number.isInteger(byteStage1Bytes)
+      && Number.isInteger(byteStage2Bytes)
+      && byteStage1Bytes === promotedStage1Size
+      && byteStage2Bytes === promotedStage2Size
+      && byteStage1Bytes === byteStage2Bytes;
+    if (!checks.byteIdentityBindsStage1Artifact) blockers.push('byte_identity_stage1_artifact_sha256_mismatch');
+    if (!checks.byteIdentityBindsStage2Artifact) blockers.push('byte_identity_stage2_artifact_sha256_mismatch');
+    if (!checks.byteIdentityStageSizesMatch) blockers.push('byte_identity_stage_artifact_size_mismatch');
+  }
   if (seal) {
     const sealedStage1Sha = firstValueAt(seal, ['stage1ArtifactSha256', 'seal.stage1ArtifactSha256', 'bindings.stage1ArtifactSha256']);
     const sealedStage2Sha = firstValueAt(seal, ['stage2ArtifactSha256', 'seal.stage2ArtifactSha256', 'bindings.stage2ArtifactSha256']);

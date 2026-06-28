@@ -238,6 +238,21 @@
         this validates seal bindings. It does not produce the missing L6+N5
         artifacts.
 
+- [x] Bind Beta17 byte-identity report to promoted Stage artifacts.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        `byte_identical_report.json` must now bind Stage1 and Stage2 artifact
+        SHA-256 values and byte sizes to the promoted artifact files evaluated
+        by the readiness gate. A generic `byteIdentical=true` report can no
+        longer satisfy readiness by itself.
+      - Boundary:
+        this validates byte-identity evidence bindings. It does not create
+        real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
 - [x] Require explicit Beta17 public-surface sync matrix.
       - Script:
         `scripts/beta17-fixpoint-readiness-gate.js`.
