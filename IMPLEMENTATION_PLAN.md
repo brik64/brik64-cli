@@ -262,9 +262,14 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   canonical instruction packet for producing `external_audit_report.json`.
   The evidence-pack template points auditors to this prompt and exposes the
   same required contract fields used by the readiness gate.
+- External audit validator: `scripts/beta17-external-audit-report-validate.js`
+  is the reusable validator for `external_audit_report.json`. Readiness imports
+  it instead of duplicating the contract inline, so external agents, CI and the
+  release gate share one decision boundary.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:external-audit-prompt` and
+  `npm run test:beta17:external-audit-report` and
   `npm run test:beta17:fixpoint:stage-contract` and
   `npm run test:beta17:fixpoint:stage-request` and
   `npm run test:beta17:fixpoint:stage-result` and

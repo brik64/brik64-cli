@@ -651,3 +651,17 @@
       - Boundary:
         this creates the audit instruction contract only. It does not execute
         the audit, publish Beta17 or prove fixpoint.
+
+- [x] Beta17 standalone external audit report validator.
+      - Validator:
+        `scripts/beta17-external-audit-report-validate.js`.
+      - Test:
+        `scripts/tests/test_beta17_external_audit_report_validate.sh`.
+      - Integration:
+        `scripts/beta17-fixpoint-readiness-gate.js` imports the validator.
+      - Goal:
+        make the `external_audit_report.json` decision boundary reusable by
+        external agents, CI and readiness without duplicating logic.
+      - Boundary:
+        this validates the audit report shape and section pass states. It does
+        not run the audit or convert a report into fixpoint evidence by itself.
