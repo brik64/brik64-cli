@@ -61,12 +61,23 @@ function gitDirtyFiles() {
     .split('\n')
     .filter(Boolean)
     .map((line) => String(line || '').replace(/^[ MADRCU?!]{1,2}\s+/, ''))
-    .filter((file) => ![
-      'evidence/cli-l6-generation-required/report.json',
-      'evidence/release-flow-audit/report.json',
-      'evidence/release-manifest-validate/report.json',
-      'evidence/release-train-dry-run/report.json'
-    ].includes(file));
+    .filter((file) => !isAllowedGeneratedEvidenceDirtyFile(file));
+}
+
+function isAllowedGeneratedEvidenceDirtyFile(file) {
+  return [
+    'evidence/beta16_1-full-release-audit/report.json',
+    'evidence/cli-l6-generation-required/report.json',
+    'evidence/release-flow-audit/report.json',
+    'evidence/release-github-verified-signature/report.json',
+    'evidence/release-manifest-validate/report.json',
+    'evidence/release-train-dry-run/report.json',
+    'evidence/release-train-publish-execute/report.json',
+    'evidence/release-train-publish-plan/report.json',
+    'evidence/release-train-sync/changelog.md',
+    'evidence/release-train-sync/report.json',
+    'evidence/release-train-sync/sync-payload.json'
+  ].includes(file);
 }
 
 function committedSurfaceReportCommand() {

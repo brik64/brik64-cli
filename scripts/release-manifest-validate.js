@@ -78,6 +78,22 @@ function porcelainPath(line) {
   return String(line || '').replace(/^[ MADRCU?!]{1,2}\s+/, '');
 }
 
+function isAllowedGeneratedEvidenceDirtyFile(file) {
+  return [
+    'evidence/beta16_1-full-release-audit/report.json',
+    'evidence/cli-l6-generation-required/report.json',
+    'evidence/release-flow-audit/report.json',
+    'evidence/release-github-verified-signature/report.json',
+    'evidence/release-manifest-validate/report.json',
+    'evidence/release-train-dry-run/report.json',
+    'evidence/release-train-publish-execute/report.json',
+    'evidence/release-train-publish-plan/report.json',
+    'evidence/release-train-sync/changelog.md',
+    'evidence/release-train-sync/report.json',
+    'evidence/release-train-sync/sync-payload.json'
+  ].includes(file);
+}
+
 function containsForbiddenPublicLanguage(text) {
   const patterns = [
     /\bL[456]\+?N5\b/i,
@@ -245,12 +261,7 @@ function validate() {
     .split('\n')
     .filter(Boolean)
     .map(porcelainPath)
-    .filter((file) => ![
-      'evidence/cli-l6-generation-required/report.json',
-      'evidence/release-flow-audit/report.json',
-      'evidence/release-manifest-validate/report.json',
-      'evidence/release-train-dry-run/report.json'
-    ].includes(file));
+    .filter((file) => !isAllowedGeneratedEvidenceDirtyFile(file));
   const allowDirty = process.argv.includes('--allow-dirty');
   if (dirtyFiles.length > 0 && !allowDirty) failures.push(`worktree_dirty:${dirtyFiles.length}`);
   if (dirtyFiles.length > 0 && allowDirty) warnings.push(`worktree_dirty_allowed:${dirtyFiles.length}`);
