@@ -42,6 +42,35 @@ write_external_audit_report() {
 JSON
 }
 
+write_evidence_pack_manifest() {
+  local base="$1"
+  python3 - "$base" <<'PY'
+import hashlib, json, pathlib, sys
+base = pathlib.Path(sys.argv[1])
+root = base / "evidence" / "beta17-fixpoint"
+files = []
+for path in sorted(root.rglob("*")):
+    if not path.is_file() or path.name == "evidence_pack_manifest.json":
+        continue
+    rel = path.relative_to(base).as_posix()
+    files.append({"path": rel, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+pack = {
+    "schemaVersion": "brik64.beta17_fixpoint.evidence_pack_manifest.v1",
+    "version": "0.1.0-beta.17",
+    "status": "TEST_FIXTURE_CLAIM_BOUNDARY_CLOSED",
+    "files": files,
+    "claimBoundary": {
+        "publicReleaseAllowed": False,
+        "definitiveFixpointAllowed": False,
+        "formalN5ClaimAllowed": False,
+        "universalCorrectnessClaimAllowed": False,
+    },
+}
+pack["packSha256"] = hashlib.sha256((json.dumps({"files": files}, indent=2) + "\n").encode()).hexdigest()
+(root / "evidence_pack_manifest.json").write_text(json.dumps(pack, indent=2) + "\n")
+PY
+}
+
 cat >"$FIXTURE/package.json" <<'JSON'
 {
   "name": "@brik64/cli",
@@ -147,6 +176,7 @@ cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
 write_external_audit_report "$FIXTURE"
+write_evidence_pack_manifest "$FIXTURE"
 
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
   >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"
@@ -195,6 +225,7 @@ data = json.load(open(manifest))
 data["promoted"]["stage1ArtifactManifest"]["sha256"] = hashlib.sha256((root / "stage1_artifact_manifest.json").read_bytes()).hexdigest()
 json.dump(data, open(manifest, "w"), indent=2)
 PY
+write_evidence_pack_manifest "$FIXTURE"
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" <<'JSON'
 { "decision": "PASS_BETA17_EXTERNAL_AUDIT", "pass": true }
@@ -222,6 +253,7 @@ jq -e '
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
 write_external_audit_report "$FIXTURE"
+write_evidence_pack_manifest "$FIXTURE"
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByL6PlusN5": true, "fixtureMaterializer": true }

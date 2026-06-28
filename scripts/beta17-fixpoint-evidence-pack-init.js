@@ -23,6 +23,10 @@ function writeText(file, text) {
   return sha256Text(text);
 }
 
+function sha256Json(object) {
+  return sha256Text(`${JSON.stringify(object, null, 2)}\n`);
+}
+
 function rel(file) {
   return path.relative(root, file);
 }
@@ -213,6 +217,29 @@ function main() {
         '',
       ].join('\n')
     )
+  );
+
+  const manifestFiles = written.map((entry) => ({
+    path: entry.path,
+    sha256: entry.sha256,
+  }));
+  const evidencePackManifest = {
+    schemaVersion: 'brik64.beta17_fixpoint.evidence_pack_manifest.v1',
+    version: '0.1.0-beta.17',
+    status: 'TEMPLATE_NON_CLAIM',
+    generatedAt: new Date().toISOString(),
+    files: manifestFiles,
+    packSha256: sha256Json({ files: manifestFiles }),
+    claimBoundary: {
+      publicReleaseAllowed: false,
+      definitiveFixpointAllowed: false,
+      formalN5ClaimAllowed: false,
+      universalCorrectnessClaimAllowed: false,
+    },
+  };
+  record(
+    path.join(outDir, 'evidence_pack_manifest.json'),
+    writeJson(path.join(outDir, 'evidence_pack_manifest.json'), evidencePackManifest)
   );
 
   const summary = {

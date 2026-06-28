@@ -32,6 +32,7 @@ for required in \
   seal_report.json \
   public_surface_sync_report.json \
   external_audit_report.json \
+  evidence_pack_manifest.json \
   template_summary.json \
   README.md
 do
@@ -44,6 +45,15 @@ jq -e '
   and .claimBoundary.definitiveFixpointAllowed==false
   and (.written | length) >= 11
 ' "$FIXTURE/evidence/beta17-fixpoint/template_summary.json" >/dev/null
+
+jq -e '
+  .schemaVersion=="brik64.beta17_fixpoint.evidence_pack_manifest.v1"
+  and .version=="0.1.0-beta.17"
+  and .claimBoundary.publicReleaseAllowed==false
+  and .claimBoundary.formalN5ClaimAllowed==false
+  and ([.files[] | select(.path=="evidence/beta17-fixpoint/canonical_motor_manifest.json")] | length)==1
+  and ([.files[] | select(.path=="evidence/beta17-fixpoint/external_audit_report.json")] | length)==1
+' "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" >/dev/null
 
 jq -e '
   .decision=="TEMPLATE_NON_CLAIM"

@@ -1571,3 +1571,35 @@ Evidence:
 
 Boundary:
 - This binds future audit evidence files by path and SHA-256. It does not run the external audit, materialize Stage1/Stage2, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence pack manifest
+
+Timestamp: 2026-06-28T22:10:37Z
+
+Task:
+- Add a hash-bound manifest for the Beta17 fixpoint evidence pack.
+
+Change:
+- Updated `scripts/beta17-fixpoint-evidence-pack-init.js` to create `evidence_pack_manifest.json` with path/SHA-256 refs for generated template evidence files.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to require and validate the evidence pack manifest schema, version, closed public/formal claim boundaries and SHA-256 agreement for evaluated evidence files.
+- Updated Beta17 readiness and release-train tests to generate a manifest for simulated passing evidence packs.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-init.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This indexes and verifies evidence files by SHA-256. It does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

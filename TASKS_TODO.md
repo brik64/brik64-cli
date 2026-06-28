@@ -681,3 +681,19 @@
       - Boundary:
         this binds audit evidence files by path and SHA-256. It does not
         generate those real audit files or approve Beta17 publication.
+
+- [x] Beta17 evidence pack manifest.
+      - Generator:
+        `scripts/beta17-fixpoint-evidence-pack-init.js`.
+      - Gate:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh`,
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Goal:
+        inventory the Beta17 evidence pack with path/SHA-256 refs and make
+        readiness reject missing or mismatched refs for evaluated evidence.
+      - Boundary:
+        this creates and validates the pack index. It does not create real
+        claim-bearing Stage1/Stage2 evidence.

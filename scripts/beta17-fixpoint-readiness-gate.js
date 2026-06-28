@@ -89,6 +89,51 @@ function checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, b
   }
 }
 
+function checkEvidencePackManifest(manifest, evidence, blockers) {
+  if (!manifest || typeof manifest !== 'object') return;
+  if (manifest.schemaVersion !== 'brik64.beta17_fixpoint.evidence_pack_manifest.v1') {
+    blockers.push(`evidence_pack_manifest_schema_invalid:${manifest.schemaVersion || 'missing'}`);
+  }
+  if (manifest.version !== '0.1.0-beta.17') {
+    blockers.push(`evidence_pack_manifest_version_mismatch:${manifest.version || 'missing'}`);
+  }
+  if (
+    manifest.claimBoundary?.publicReleaseAllowed !== false
+    || manifest.claimBoundary?.formalN5ClaimAllowed !== false
+    || manifest.claimBoundary?.universalCorrectnessClaimAllowed !== false
+  ) {
+    blockers.push('evidence_pack_manifest_claim_boundary_open');
+  }
+  const files = Array.isArray(manifest.files) ? manifest.files : [];
+  if (files.length === 0) {
+    blockers.push('evidence_pack_manifest_files_empty');
+    return;
+  }
+  const refs = new Map(files.map((entry) => [entry.path, entry.sha256]));
+  for (const evidenceKey of [
+    'canonical_motor_manifest',
+    'canonical_harness_manifest',
+    'input_pcd_hashes',
+    'stage1_artifact_manifest',
+    'stage2_regeneration_manifest',
+    'byte_identical_report',
+    'harness_report',
+    'seal_report',
+    'remote_promotion_manifest',
+    'public_surface_sync_report',
+    'external_audit_report',
+  ]) {
+    const evaluated = evidence[evidenceKey];
+    if (!evaluated) continue;
+    const manifestSha = refs.get(evaluated.path);
+    if (!manifestSha) {
+      blockers.push(`evidence_pack_manifest_missing_ref:${evaluated.path}`);
+    } else if (String(manifestSha).toLowerCase() !== String(evaluated.sha256).toLowerCase()) {
+      blockers.push(`evidence_pack_manifest_sha256_mismatch:${evaluated.path}`);
+    }
+  }
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -113,6 +158,12 @@ function main() {
     blockers,
     evidence,
     'canonical_motor_manifest'
+  );
+  const evidencePackManifest = existsJson(
+    path.join(fixpointDir, 'evidence_pack_manifest.json'),
+    blockers,
+    evidence,
+    'evidence_pack_manifest'
   );
   const canonicalHarness = existsJson(
     path.join(fixpointDir, 'canonical_harness_manifest.json'),
@@ -174,6 +225,9 @@ function main() {
   if (canonicalMotor) {
     checks.canonicalMotorPcdBound = boolAt(canonicalMotor, 'pcdBound') || boolAt(canonicalMotor, 'canonical.pcdBound');
     if (!checks.canonicalMotorPcdBound) blockers.push('canonical_motor_not_pcd_bound');
+  }
+  if (evidencePackManifest) {
+    checkEvidencePackManifest(evidencePackManifest, evidence, blockers);
   }
   if (canonicalHarness) {
     checks.canonicalHarnessPcdBound = boolAt(canonicalHarness, 'pcdBound') || boolAt(canonicalHarness, 'canonical.pcdBound');
