@@ -120,6 +120,7 @@ function isAllowedGeneratedDirtyFile(file) {
   if (/^evidence\/beta\d+_\d+-(domain-contracts|package-smoke|package)\//.test(file)) return true;
   if (/^evidence\/beta\d+_\d+-(domain-contracts|package-smoke)\/report\.json$/.test(file)) return true;
   if (/^evidence\/beta15_7-(full-release-audit|source-candidate-contract)\/report\.json$/.test(file)) return true;
+  if (file === 'evidence/beta16_1-full-release-audit/report.json') return true;
   if (/^evidence\/beta15_[56]-(pre-public-rc|rust-f64-command-lift)\/report\.json$/.test(file)) return true;
   if (file === 'evidence/cli-l6-generation-required/report.json') return true;
   if (file === 'evidence/release-flow-audit/report.json') return true;
