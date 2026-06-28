@@ -1059,3 +1059,28 @@ Boundary:
 - The live verifier hardening does not mutate public release assets; it makes
   the verifier deterministic for manifests that omit optional install-command
   metadata.
+
+## Beta17 Ralph Loop Iteration - Fixpoint readiness gate
+
+Task:
+- Start the Beta17 fixpoint lane with a fail-closed gate that prevents
+  publication or fixpoint claims without fresh Stage1/Stage2 byte-identical
+  evidence.
+
+Change:
+- Added `scripts/beta17-fixpoint-readiness-gate.js`.
+- Added `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+- Added npm scripts `gate:beta17:fixpoint-readiness` and
+  `test:beta17:fixpoint-readiness`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run gate:beta17:fixpoint-readiness` correctly returned
+  `BLOCKED_BETA17_FIXPOINT_READINESS_GATE` against the current repository
+  because fresh `evidence/beta17-fixpoint/` Stage1/Stage2 fixpoint evidence is
+  not present yet.
+
+Boundary:
+- This is a release safety gate. It does not generate Beta17, publish Beta17,
+  or prove fixpoint by itself.

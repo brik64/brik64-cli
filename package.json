@@ -91,6 +91,8 @@
     "release:github-verified-signature": "node scripts/release-github-verified-signature-gate.js",
     "gate:cli:l6-generation-required": "node scripts/cli-l6-generation-required-gate.js",
     "test:cli-l6-generation-required": "node scripts/cli-l6-generation-required-gate.js",
+    "gate:beta17:fixpoint-readiness": "node scripts/beta17-fixpoint-readiness-gate.js --version 0.1.0-beta.17",
+    "test:beta17:fixpoint-readiness": "bash scripts/tests/test_beta17_fixpoint_readiness_gate.sh",
     "bundle:beta15.4:l6-materializer-request": "node scripts/beta15_4-l6-materializer-request-bundle.js",
     "test:beta15.4:l6-materializer-request": "bash scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh",
     "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",

@@ -180,3 +180,15 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   GitHub verified signature gates pass.
 - Next gate: push the PR dry-run routing fix, wait for PR #203 checks, then
   merge through GitHub verified ref before dispatching the release workflow.
+
+## Active Beta17 Fixpoint Ralph Loop
+
+- Lane: `l6plus_n5_self_host_fixpoint`.
+- Branch: `codex/beta17-fixpoint-readiness-gate`.
+- Current focus: add a fail-closed readiness gate before any Beta17 fixpoint
+  publication attempt.
+- Policy: Beta17 is not public-release-ready until canonical motor and harness
+  PCD/polymer manifests, Stage1 L6+N5 artifact, Stage2 regeneration by Stage1,
+  byte-identical comparison, harness report, seal report, public surface sync
+  report, and external audit report are all present and passing.
+- Next gate: `npm run test:beta17:fixpoint-readiness`.

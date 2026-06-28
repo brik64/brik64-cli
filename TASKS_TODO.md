@@ -404,3 +404,16 @@
       - Boundary:
         this prevents a draft self-reference workaround from being promoted as
         a public release hash binding.
+
+- [x] Beta17 fixpoint readiness gate.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Goal:
+        fail closed until Beta17 has canonical PCD/polymer manifests,
+        Stage1/Stage2 byte-identical evidence, harness, seal, public sync and
+        external audit.
+      - Boundary:
+        this gate does not generate Beta17 or prove fixpoint; it prevents
+        publication/claim drift while the fixpoint campaign is incomplete.
