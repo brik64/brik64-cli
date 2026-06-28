@@ -282,7 +282,9 @@
     "test:beta15.6-public-source-sync": "node scripts/beta15_6-public-source-sync-gate.js",
     "package:beta16.1:local": "node scripts/build-beta16_1-package.js",
     "smoke:beta16.1:package": "bash scripts/beta16_1-package-smoke.sh",
-    "test:beta16.1-package": "bash scripts/beta16_1-package-smoke.sh"
+    "test:beta16.1-package": "bash scripts/beta16_1-package-smoke.sh",
+    "gate:beta17:fixpoint:remote-promotion": "node scripts/beta17-fixpoint-remote-promotion-gate.js",
+    "test:beta17:fixpoint:remote-promotion": "bash scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh"
   },
   "author": {
     "name": "BRIK64 INC",

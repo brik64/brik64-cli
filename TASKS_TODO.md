@@ -165,6 +165,19 @@
         this does not make Beta17 public-release-ready. It prevents a real
         long remote result from being dropped or replaced by a short preview.
 
+- [x] Add Beta17 remote promotion gate before final evidence-pack promotion.
+      - Script:
+        `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+      - Result:
+        a remote attempt must be PASS, unskipped, claim-closed, transcript-bound
+        and include exactly one accepted full stage-result ref before it can be
+        considered promotable toward `evidence/beta17-fixpoint/`.
+      - Boundary:
+        fixture materializer results remain blocked even if their internal
+        stage-result validation says accepted.
+
 - [ ] Merge PR #223 after review.
       - Current state:
         PR #223 is open at `d213b04`, CI checks are green, and GitHub reports

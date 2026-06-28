@@ -1,5 +1,32 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 30 - Beta17 remote promotion gate
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Added `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+- Added npm scripts:
+  - `gate:beta17:fixpoint:remote-promotion`;
+  - `test:beta17:fixpoint:remote-promotion`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+- The gate blocks missing remote reports, skipped/non-pass attempts, open
+  claim boundaries, missing transcript refs, missing full stage-result refs
+  and fixture materializer evidence.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+
+- This gate is pre-promotion hardening only.
+- It does not copy evidence into `evidence/beta17-fixpoint/`.
+- It does not generate Stage1/Stage2 artifacts.
+- It does not publish Beta17 or open public fixpoint/N5/self-hosting claims.
+
 ## Iteration 29 - Beta17 remote stage result preservation
 
 Timestamp: `2026-06-28T00:00:00Z`

@@ -230,10 +230,16 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   modes it writes `evidence/beta17-fixpoint-remote-attempt/report.json` and
   probe/attempt transcripts with a blocked decision and keeps publication
   disabled.
+- Remote promotion gate: `npm run gate:beta17:fixpoint:remote-promotion`
+  validates a passing remote attempt before any final evidence-pack promotion.
+  It requires exactly one accepted attempt, complete transcript refs, a
+  complete parsed stage-result ref, closed claim boundaries and no
+  `fixtureMaterializer` evidence.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and
   `npm run test:beta17:fixpoint:stage-request` and
   `npm run test:beta17:fixpoint:stage-result` and
   `npm run test:beta17:fixpoint:stage-fixture` and
-  `npm run test:beta17:fixpoint:remote-stage`.
+  `npm run test:beta17:fixpoint:remote-stage` and
+  `npm run test:beta17:fixpoint:remote-promotion`.
