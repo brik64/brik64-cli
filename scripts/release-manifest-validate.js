@@ -86,6 +86,7 @@ function isAllowedGeneratedEvidenceDirtyFile(file) {
     'evidence/release-github-verified-signature/report.json',
     'evidence/release-manifest-validate/report.json',
     'evidence/release-train-dry-run/report.json',
+    'evidence/release-train-live-verify/report.json',
     'evidence/release-train-publish-execute/report.json',
     'evidence/release-train-publish-plan/report.json',
     'evidence/release-train-sync/changelog.md',
