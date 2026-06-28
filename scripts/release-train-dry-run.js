@@ -60,7 +60,7 @@ function gitDirtyFiles() {
   return status
     .split('\n')
     .filter(Boolean)
-    .map((line) => line.slice(3))
+    .map((line) => String(line || '').replace(/^[ MADRCU?!]{1,2}\s+/, ''))
     .filter((file) => ![
       'evidence/cli-l6-generation-required/report.json',
       'evidence/release-flow-audit/report.json',
