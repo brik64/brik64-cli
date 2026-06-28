@@ -19,6 +19,10 @@ function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
+function inputSetHash(inputPcds) {
+  return sha256(`${inputPcds.map((item) => `${item.sha256}\t${item.bytes}\t${item.path}`).join('\n')}\n`);
+}
+
 const artifactBody = 'stage artifact body';
 const artifactSha = sha256(artifactBody);
 const good = {
@@ -52,8 +56,8 @@ const good = {
   harnessReport: { path: 'evidence/beta17-fixpoint/harness_report.json', sha256: 'a'.repeat(64) },
   sealReport: { path: 'evidence/beta17-fixpoint/seal_report.json', sha256: 'b'.repeat(64) },
   inputPcds: [
-    { path: 'pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd', sha256: 'c'.repeat(64) },
-    { path: 'pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd', sha256: 'd'.repeat(64) },
+    { path: 'pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd', sha256: 'c'.repeat(64), bytes: 101 },
+    { path: 'pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd', sha256: 'd'.repeat(64), bytes: 102 },
   ],
   claimBoundary: {
     publicReleaseAllowed: false,
@@ -61,6 +65,7 @@ const good = {
     universalCorrectnessClaimAllowed: false,
   },
 };
+good.pcdInputSetSha256 = inputSetHash(good.inputPcds);
 
 const encoded = Buffer.from(JSON.stringify(good)).toString('base64');
 const parsed = parseStageResult(`noise\nBRIK64_BETA17_FIXPOINT_STAGE_RESULT\t${encoded}\n`);
@@ -106,6 +111,12 @@ const missingRequiredPcd = validateStageResult(
 assert.strictEqual(missingRequiredPcd.accepted, false);
 assert(missingRequiredPcd.blockers.includes('stage_result_required_input_pcd_missing:pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd'));
 
+const detachedInputSet = structuredClone(good);
+detachedInputSet.inputPcds[0].bytes += 1;
+const detachedInputSetResult = validateStageResult(detachedInputSet);
+assert.strictEqual(detachedInputSetResult.accepted, false);
+assert(detachedInputSetResult.blockers.includes('stage_result_input_pcd_set_sha256_mismatch'));
+
 const workspaceRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-beta17-stage-result-'));
 const withFiles = structuredClone(good);
 const files = [
@@ -137,7 +148,9 @@ for (const item of withFiles.inputPcds) {
   fs.mkdirSync(path.dirname(absolute), { recursive: true });
   fs.writeFileSync(absolute, item.path);
   item.sha256 = sha256(item.path);
+  item.bytes = Buffer.byteLength(item.path);
 }
+withFiles.pcdInputSetSha256 = inputSetHash(withFiles.inputPcds);
 assert.strictEqual(validateStageResult(withFiles, { workspaceRoot }).accepted, true);
 
 const stage2ManifestPath = path.join(workspaceRoot, withFiles.stage2Manifest.path);

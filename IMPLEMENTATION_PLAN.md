@@ -215,6 +215,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   that do not bind the Stage artifact SHA-256 values declared by the result.
   Stage2 must also bind the Stage1 artifact SHA-256 it claims to regenerate
   from before any promotion gate can consume the result.
+- Stage result input-set binding: the Stage result validator recomputes
+  `pcdInputSetSha256` from the result's own `inputPcds` path/SHA-256/bytes
+  table. Detached or silently altered PCD input sets fail before promotion.
 - Fixture stage materializer: `npm run test:beta17:fixpoint:stage-fixture`
   exercises the request/result contract end-to-end with deterministic local
   fixture artifacts. This is test infrastructure only; readiness must remain

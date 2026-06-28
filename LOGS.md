@@ -2095,3 +2095,27 @@ Boundary:
 - This proves target-copy integrity for promoted evidence refs. It does not
   generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage result input-set self-consistency
+
+Timestamp: 2026-06-28T23:56:30Z
+
+Task:
+- Make `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` self-consistent with its own
+  declared PCD input table before remote promotion can consume it.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-result.js` to require `bytes` for
+  each `inputPcds` entry and recompute `pcdInputSetSha256` from
+  path/SHA-256/bytes rows.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_result.sh` with a valid
+  set-hash fixture and an adversarial detached-input-set mutation.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_result.sh` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+
+Boundary:
+- This validates Stage result input-set integrity. It does not generate real
+  L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

@@ -908,3 +908,16 @@
         this proves copy integrity for promoted evidence refs. It does not
         create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
         Beta17.
+
+- [x] Beta17 Stage result input-set self-consistency.
+      - Validator:
+        `scripts/beta17-fixpoint-stage-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_result.sh`.
+      - Goal:
+        recompute `pcdInputSetSha256` from the Stage result's own `inputPcds`
+        path/SHA-256/bytes table and reject detached or silently altered PCD
+        input sets.
+      - Boundary:
+        this validates the Stage result evidence contract. It does not create
+        real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

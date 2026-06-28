@@ -60,6 +60,18 @@ function sha256File(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }
 
+function sha256Text(value) {
+  return crypto.createHash('sha256').update(value).digest('hex');
+}
+
+function inputHashBody(inputPcds) {
+  return `${inputPcds.map((item) => `${normalizeSha256(item.sha256)}\t${item.bytes}\t${item.path}`).join('\n')}\n`;
+}
+
+function pcdInputSetSha256(inputPcds) {
+  return sha256Text(inputHashBody(inputPcds));
+}
+
 function pathLooksUnsafe(value) {
   const text = String(value || '');
   return (
@@ -227,13 +239,22 @@ function validateStageResult(result, expected = {}) {
   }
   if (Array.isArray(result.inputPcds)) {
     const actualPaths = new Set();
+    let inputPcdSetHashEligible = true;
     for (const [index, item] of result.inputPcds.entries()) {
       if (!item || typeof item.path !== 'string' || !isSha256(item.sha256)) {
         blockers.push('stage_result_input_pcd_ref_invalid');
+        inputPcdSetHashEligible = false;
         break;
+      }
+      if (!Number.isInteger(item.bytes) || item.bytes < 1) {
+        blockers.push(`stage_result_input_pcd_${index}_bytes_invalid`);
+        inputPcdSetHashEligible = false;
       }
       actualPaths.add(item.path);
       validateStandaloneFileRef(item, `input_pcd_${index}`, null, blockers, expected);
+    }
+    if (inputPcdSetHashEligible && pcdInputSetSha256(result.inputPcds) !== normalizeSha256(result.pcdInputSetSha256)) {
+      blockers.push('stage_result_input_pcd_set_sha256_mismatch');
     }
     for (const requiredPath of expected.requiredInputPcdPaths || []) {
       if (!actualPaths.has(requiredPath)) blockers.push(`stage_result_required_input_pcd_missing:${requiredPath}`);
