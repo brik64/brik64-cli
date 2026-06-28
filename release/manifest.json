@@ -3,10 +3,10 @@
   "releaseId": "brik64-0.1.0-beta.16.1",
   "version": "0.1.0-beta.16.1",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "source": {
-    "commit": "1bc6b44fad2422990c7647c48ecbca0aa128c744",
-    "commitBinding": "candidate_base_commit"
+    "commit": "2dcd17ff5e5069e60d14717c9fb5f8530842e197",
+    "commitBinding": "release_ref_exact"
   },
   "cli": {
     "package": {
