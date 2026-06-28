@@ -1989,3 +1989,28 @@ Boundary:
 - This prevents detached Stage manifests from entering promotion through the
   Stage result validator. It does not generate real L6+N5 Stage1/Stage2
   artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion Stage result revalidation
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Revalidate the accepted Stage result file inside the remote promotion gate.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` to import and
+  rerun `validateStageResult` against the referenced Stage result JSON with
+  the remote attempt's expected context.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` with
+  an adversarial case where the remote-attempt report says accepted, but the
+  referenced Stage result file is tampered.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This prevents a stale or tampered Stage result ref from entering promotion.
+  It does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.

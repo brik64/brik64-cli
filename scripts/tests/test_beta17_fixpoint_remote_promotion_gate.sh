@@ -137,6 +137,64 @@ jq -e '
   and (.blockers | index("accepted_stage_result_file_fixture_materializer_not_claim_bearing"))
 ' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
 
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$fixture_result_json" <<'PY'
+import json, sys
+report_path, stage_path = sys.argv[1], sys.argv[2]
+report = json.load(open(report_path))
+stage = json.load(open(stage_path))
+
+def strip_fixture(value):
+    if isinstance(value, dict):
+        value.pop("fixtureMaterializer", None)
+        for child in value.values():
+            strip_fixture(child)
+    elif isinstance(value, list):
+        for child in value:
+            strip_fixture(child)
+
+strip_fixture(stage)
+with open(stage_path, "w", encoding="utf-8") as fh:
+    json.dump(stage, fh, indent=2)
+    fh.write("\n")
+
+attempt = report["attempts"][0]
+strip_fixture(attempt)
+attempt["stageResultValidation"]["accepted"] = True
+attempt["stageResultValidation"]["blockers"] = []
+attempt["stageResultValidation"]["normalized"] = stage
+report["decision"] = "PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT"
+report["blockers"] = []
+with open(report_path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+python3 - "$fixture_result_json" <<'PY'
+import json, sys
+path = sys.argv[1]
+stage = json.load(open(path))
+stage["stage2ArtifactSha256"] = "e" * 64
+with open(path, "w", encoding="utf-8") as fh:
+    json.dump(stage, fh, indent=2)
+    fh.write("\n")
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-promotion-gate.js" \
+  >"$TMP_DIR/tampered-result.stdout" 2>"$TMP_DIR/tampered-result.stderr"
+tampered_result_rc=$?
+set -e
+
+if [[ "$tampered_result_rc" -eq 0 ]]; then
+  echo "tampered_stage_result_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE"
+  and ([.blockers[] | select(startswith("accepted_stage_result_revalidation_failed:"))] | length)==1
+' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
+
 rm -rf "$ROOT/evidence/beta17-fixpoint-stage-request" "$ROOT/evidence/beta17-fixpoint"
 
 echo "PASS beta17 fixpoint remote promotion gate"

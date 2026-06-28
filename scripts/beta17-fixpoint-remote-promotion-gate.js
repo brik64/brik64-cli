@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { validateStageResult } = require('./beta17-fixpoint-stage-result');
 
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
@@ -160,6 +161,17 @@ function main() {
         }
         if (stageResult.version !== '0.1.0-beta.17') {
           blockers.push(`accepted_stage_result_version_mismatch:${stageResult.version || 'missing'}`);
+        }
+        const revalidation = validateStageResult(stageResult, {
+          ...(report.expectedContext || {}),
+          workspaceRoot: root,
+        });
+        evidence.acceptedAttemptStageResultRevalidation = {
+          accepted: revalidation.accepted,
+          blockers: revalidation.blockers,
+        };
+        if (!revalidation.accepted) {
+          blockers.push(`accepted_stage_result_revalidation_failed:${revalidation.blockers.join('|')}`);
         }
       }
     }

@@ -753,6 +753,20 @@
       - Boundary:
         transcripts are diagnostic evidence, not fixpoint proof.
 
+- [x] Beta17 remote promotion independently revalidates Stage result file.
+      - Script:
+        `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+      - Result:
+        promotion no longer trusts only `stageResultValidation.accepted` from
+        the remote-attempt report. It reloads the referenced Stage result JSON
+        from disk and reruns `validateStageResult` with the expected context
+        before accepting promotion.
+      - Boundary:
+        this protects promotion from tampered or stale Stage result refs. It
+        does not create real L6+N5 Stage1/Stage2 artifacts.
+
 - [x] Beta17 release-train readiness binding.
       - Release train:
         `scripts/release-train-dry-run.js`.
