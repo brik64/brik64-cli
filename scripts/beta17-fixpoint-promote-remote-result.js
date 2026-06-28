@@ -88,7 +88,7 @@ function validateCopyRef(sourceRef, targetRelativePath, blockers, key) {
 }
 
 function runGate() {
-  const result = childProcess.spawnSync('node', ['scripts/beta17-fixpoint-remote-promotion-gate.js'], {
+  const result = childProcess.spawnSync('node', [path.join(__dirname, 'beta17-fixpoint-remote-promotion-gate.js')], {
     cwd: root,
     encoding: 'utf8',
     maxBuffer: 1024 * 1024 * 8,

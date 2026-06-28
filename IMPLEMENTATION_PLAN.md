@@ -291,6 +291,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   canonical `evidence/beta17-fixpoint/` paths. It writes
   `remote_promotion_manifest.json` and keeps public/fixpoint claims closed
   until the full readiness gate and external audit pass.
+- External workspace promotion: remote result promotion invokes its gate by
+  absolute script path while using `BRIK64_CLI_ROOT` as the evidence workspace.
+  This allows clean external audit workspaces to promote evidence without
+  requiring a local `scripts/` directory inside the evidence root.
 - Readiness promotion binding: `gate:beta17:fixpoint-readiness` requires
   `evidence/beta17-fixpoint/remote_promotion_manifest.json` to pass with all
   public/fixpoint/formal claim boundaries closed. Manually placed Stage1/Stage2

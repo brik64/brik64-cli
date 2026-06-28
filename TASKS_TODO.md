@@ -780,6 +780,21 @@
         this prevents fabricated expected context in remote attempts. It does
         not create real L6+N5 Stage1/Stage2 artifacts.
 
+- [x] Beta17 remote result promotion supports external evidence workspaces.
+      - Script:
+        `scripts/beta17-fixpoint-promote-remote-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+      - Result:
+        final promotion now invokes the promotion gate by absolute script path,
+        so `BRIK64_CLI_ROOT` can point at an external audit/evidence workspace.
+        The test now includes a positive non-fixture promotion fixture that
+        copies source evidence refs into the canonical `evidence/beta17-fixpoint/`
+        pack.
+      - Boundary:
+        this validates promotion mechanics in an external workspace. It does
+        not create real L6+N5 Stage1/Stage2 artifacts.
+
 - [x] Beta17 release-train readiness binding.
       - Release train:
         `scripts/release-train-dry-run.js`.

@@ -2040,3 +2040,31 @@ Boundary:
 - This prevents fabricated expected context from authorizing remote promotion.
   It does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - External workspace result promotion
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Make final remote-result promotion work against external evidence
+  workspaces.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` so it invokes
+  `beta17-fixpoint-remote-promotion-gate.js` by absolute script path instead
+  of assuming the target evidence workspace contains `scripts/`.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh` with
+  a positive non-fixture promotion fixture. The test now builds a Stage
+  request inside an external workspace, creates source evidence refs, promotes
+  them into `evidence/beta17-fixpoint/` and verifies the promotion manifest.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+
+Boundary:
+- This validates final promotion mechanics for clean external workspaces. It
+  does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
