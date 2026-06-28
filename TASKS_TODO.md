@@ -504,3 +504,15 @@
         fixpoint evidence.
       - Boundary:
         this is a release safety hardening patch, not L6+N5 materialization.
+
+- [x] Beta17 remote Stage1/Stage2 attempt script.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Goal:
+        probe the configured L6+N5 wrapper and accept only a valid
+        `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`.
+      - Boundary:
+        skip/unavailable mode must write blocked evidence and cannot publish
+        or prove fixpoint.

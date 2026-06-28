@@ -1234,3 +1234,30 @@ Evidence:
 Boundary:
 - This is safety hardening only. It does not run L6+N5 or produce
   claim-bearing Beta17 evidence.
+
+## Beta17 Ralph Loop Iteration - Remote stage attempt script
+
+Task:
+- Add a fail-closed attempt script for the future real L6+N5 Beta17 Stage1/Stage2
+  materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+- Added npm scripts `attempt:beta17:fixpoint:remote-stage` and
+  `test:beta17:fixpoint:remote-stage`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This script can record a blocked remote attempt. It does not itself deploy a
+  remote L6+N5 dispatcher or create claim-bearing evidence.
