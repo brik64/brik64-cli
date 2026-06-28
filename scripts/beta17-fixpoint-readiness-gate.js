@@ -244,7 +244,7 @@ function main() {
     if (!checks.publicSurfaceSyncPass) blockers.push(`public_surface_sync_not_pass:${publicSync.decision || publicSync.status || 'missing'}`);
   }
   if (externalAudit) {
-    const externalAuditValidation = validateBeta17ExternalAuditReport(externalAudit);
+    const externalAuditValidation = validateBeta17ExternalAuditReport(externalAudit, { rootDir: root });
     Object.assign(checks, externalAuditValidation.checks);
     blockers.push(...externalAuditValidation.blockers);
   }

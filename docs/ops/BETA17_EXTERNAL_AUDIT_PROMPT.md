@@ -16,6 +16,9 @@ claim safety, and write a machine-readable audit report at:
 evidence/beta17-fixpoint/external_audit_report.json
 ```
 
+Also write an audit execution log and reference it from the output JSON
+`artifacts.auditLog` with a SHA-256 digest.
+
 ## Hard Rules
 
 - Do not use local checkout artifacts as proof of public install success.
@@ -88,6 +91,9 @@ Record generated-code quality findings:
 - readability and maintainability issues;
 - any manual intervention required.
 
+Write the generated-code quality report to a file and reference it from the
+output JSON `artifacts.generatedCodeQuality` with a SHA-256 digest.
+
 ## Required Adversarial Tests
 
 At minimum, test these fail-closed cases:
@@ -108,6 +114,9 @@ At minimum, test these fail-closed cases:
 - tampered `.brik` ledger or manifest;
 - public installer unavailable or version drift.
 
+Write adversarial results to a file and reference it from the output JSON
+`artifacts.adversarialResults` with a SHA-256 digest.
+
 ## Required Public Surface Scan
 
 Inspect public surfaces:
@@ -123,6 +132,9 @@ Inspect public surfaces:
 Fail if active public surfaces point to a stale release or contradict the
 Beta17 artifact.
 
+Write the public-surface scan to a file and reference it from the output JSON
+`artifacts.publicSurfaceScan` with a SHA-256 digest.
+
 ## Required Claim-Safe Scan
 
 Scan public docs, web, changelog, SDK READMEs and skills for unsupported claims.
@@ -135,6 +147,9 @@ Fail if public surfaces claim any of the following without exact evidence:
 - independence from all toolchains;
 - production certification;
 - perfect or bug-free behavior.
+
+Write the claim-safe scan to a file and reference it from the output JSON
+`artifacts.claimSafeScan` with a SHA-256 digest.
 
 ## Required Output JSON
 
@@ -156,6 +171,28 @@ Write this exact top-level contract:
   "adversarialTests": { "pass": true, "evidence": [] },
   "publicSurfaceScan": { "pass": true, "evidence": [] },
   "claimSafeScan": { "pass": true, "evidence": [] },
+  "artifacts": {
+    "auditLog": {
+      "path": "evidence/beta17-fixpoint/audit-artifacts/audit-log.json",
+      "sha256": "64 lowercase hex characters"
+    },
+    "generatedCodeQuality": {
+      "path": "evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json",
+      "sha256": "64 lowercase hex characters"
+    },
+    "adversarialResults": {
+      "path": "evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json",
+      "sha256": "64 lowercase hex characters"
+    },
+    "publicSurfaceScan": {
+      "path": "evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json",
+      "sha256": "64 lowercase hex characters"
+    },
+    "claimSafeScan": {
+      "path": "evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json",
+      "sha256": "64 lowercase hex characters"
+    }
+  },
   "findings": [],
   "blockers": []
 }
@@ -175,4 +212,3 @@ and set the relevant section `pass` to `false`.
 
 The readiness gate accepts the audit only when all required section `pass`
 values are true and `decision` is `PASS_BETA17_EXTERNAL_AUDIT`.
-

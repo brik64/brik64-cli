@@ -1538,3 +1538,36 @@ Evidence:
 
 Boundary:
 - This extracts and verifies the audit report decision boundary. It does not execute the external audit, materialize Stage1/Stage2, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - External audit artifact refs
+
+Timestamp: 2026-06-28T22:00:26Z
+
+Task:
+- Require hash-bound artifact references in Beta17 external audit reports.
+
+Change:
+- Updated `scripts/beta17-external-audit-report-validate.js` to require `artifacts.auditLog`, `artifacts.generatedCodeQuality`, `artifacts.adversarialResults`, `artifacts.publicSurfaceScan` and `artifacts.claimSafeScan` refs.
+- The validator now checks safe relative paths, SHA-256 format, file existence and actual SHA-256 matches when run with an evidence root.
+- Updated `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` so external auditors must emit those artifact refs.
+- Updated evidence-pack templates and Beta17 readiness/release-train tests to use hash-bound audit artifacts.
+
+Evidence:
+- `node --check scripts/beta17-external-audit-report-validate.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This binds future audit evidence files by path and SHA-256. It does not run the external audit, materialize Stage1/Stage2, prove fixpoint or publish Beta17.

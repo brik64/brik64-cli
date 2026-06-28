@@ -665,3 +665,19 @@
       - Boundary:
         this validates the audit report shape and section pass states. It does
         not run the audit or convert a report into fixpoint evidence by itself.
+
+- [x] Beta17 external audit artifact refs.
+      - Validator:
+        `scripts/beta17-external-audit-report-validate.js`.
+      - Prompt:
+        `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md`.
+      - Tests:
+        `scripts/tests/test_beta17_external_audit_report_validate.sh`,
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Goal:
+        require hash-bound refs for audit log, generated-code quality,
+        adversarial results, public-surface scan and claim-safe scan.
+      - Boundary:
+        this binds audit evidence files by path and SHA-256. It does not
+        generate those real audit files or approve Beta17 publication.

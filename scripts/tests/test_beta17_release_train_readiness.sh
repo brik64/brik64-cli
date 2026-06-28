@@ -24,6 +24,38 @@ cleanup() {
 }
 trap cleanup EXIT
 
+write_external_audit_report() {
+  mkdir -p evidence/beta17-fixpoint/audit-artifacts
+  for artifact in audit-log generated-code-quality adversarial-results public-surface-scan claim-safe-scan
+  do
+    echo "beta17 $artifact evidence" >"evidence/beta17-fixpoint/audit-artifacts/$artifact.json"
+  done
+  local audit_log_sha generated_code_sha adversarial_sha public_surface_sha claim_safe_sha
+  audit_log_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/audit-log.json | awk '{print $1}')"
+  generated_code_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json | awk '{print $1}')"
+  adversarial_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json | awk '{print $1}')"
+  public_surface_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json | awk '{print $1}')"
+  claim_safe_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json | awk '{print $1}')"
+  cat >evidence/beta17-fixpoint/external_audit_report.json <<JSON
+{
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
+  "cleanPublicInstall": { "pass": true },
+  "functionalTests": { "pass": true },
+  "generatedCodeTests": { "pass": true },
+  "adversarialTests": { "pass": true },
+  "publicSurfaceScan": { "pass": true },
+  "claimSafeScan": { "pass": true },
+  "artifacts": {
+    "auditLog": { "path": "evidence/beta17-fixpoint/audit-artifacts/audit-log.json", "sha256": "$audit_log_sha" },
+    "generatedCodeQuality": { "path": "evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json", "sha256": "$generated_code_sha" },
+    "adversarialResults": { "path": "evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json", "sha256": "$adversarial_sha" },
+    "publicSurfaceScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json", "sha256": "$public_surface_sha" },
+    "claimSafeScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json", "sha256": "$claim_safe_sha" }
+  }
+}
+JSON
+}
+
 cp package.json "$TMP_DIR/package.json"
 if [[ -f evidence/release-train-dry-run/report.json ]]; then
   cp evidence/release-train-dry-run/report.json "$TMP_DIR/release-train-dry-run-report.json"
@@ -136,17 +168,7 @@ PY
 cat >evidence/beta17-fixpoint/public_surface_sync_report.json <<'JSON'
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
-cat >evidence/beta17-fixpoint/external_audit_report.json <<'JSON'
-{
-  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
-  "cleanPublicInstall": { "pass": true },
-  "functionalTests": { "pass": true },
-  "generatedCodeTests": { "pass": true },
-  "adversarialTests": { "pass": true },
-  "publicSurfaceScan": { "pass": true },
-  "claimSafeScan": { "pass": true }
-}
-JSON
+write_external_audit_report
 
 node scripts/release-train-dry-run.js --allow-dirty >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"
 

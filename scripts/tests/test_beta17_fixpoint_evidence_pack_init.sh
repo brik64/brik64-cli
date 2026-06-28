@@ -57,6 +57,11 @@ jq -e '
   and .requiredContract.adversarialTests==false
   and .requiredContract.publicSurfaceScan==false
   and .requiredContract.claimSafeScan==false
+  and .requiredContract.artifactRefs.auditLog==false
+  and .requiredContract.artifactRefs.generatedCodeQuality==false
+  and .requiredContract.artifactRefs.adversarialResults==false
+  and .requiredContract.artifactRefs.publicSurfaceScan==false
+  and .requiredContract.artifactRefs.claimSafeScan==false
 ' "$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" >/dev/null
 
 grep -q "docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md" "$FIXTURE/evidence/beta17-fixpoint/README.md"

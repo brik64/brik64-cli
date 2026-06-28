@@ -178,6 +178,13 @@ function main() {
         adversarialTests: false,
         publicSurfaceScan: false,
         claimSafeScan: false,
+        artifactRefs: {
+          auditLog: false,
+          generatedCodeQuality: false,
+          adversarialResults: false,
+          publicSurfaceScan: false,
+          claimSafeScan: false,
+        },
       },
     })
   );

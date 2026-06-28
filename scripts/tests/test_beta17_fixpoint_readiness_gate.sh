@@ -9,6 +9,39 @@ trap cleanup EXIT
 FIXTURE="$TMP_DIR/fixture"
 mkdir -p "$FIXTURE/evidence/beta17-fixpoint" "$FIXTURE/release"
 
+write_external_audit_report() {
+  local base="$1"
+  mkdir -p "$base/evidence/beta17-fixpoint/audit-artifacts"
+  for artifact in audit-log generated-code-quality adversarial-results public-surface-scan claim-safe-scan
+  do
+    echo "beta17 $artifact evidence" >"$base/evidence/beta17-fixpoint/audit-artifacts/$artifact.json"
+  done
+  local audit_log_sha generated_code_sha adversarial_sha public_surface_sha claim_safe_sha
+  audit_log_sha="$(shasum -a 256 "$base/evidence/beta17-fixpoint/audit-artifacts/audit-log.json" | awk '{print $1}')"
+  generated_code_sha="$(shasum -a 256 "$base/evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json" | awk '{print $1}')"
+  adversarial_sha="$(shasum -a 256 "$base/evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json" | awk '{print $1}')"
+  public_surface_sha="$(shasum -a 256 "$base/evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json" | awk '{print $1}')"
+  claim_safe_sha="$(shasum -a 256 "$base/evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json" | awk '{print $1}')"
+  cat >"$base/evidence/beta17-fixpoint/external_audit_report.json" <<JSON
+{
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
+  "cleanPublicInstall": { "pass": true },
+  "functionalTests": { "pass": true },
+  "generatedCodeTests": { "pass": true },
+  "adversarialTests": { "pass": true },
+  "publicSurfaceScan": { "pass": true },
+  "claimSafeScan": { "pass": true },
+  "artifacts": {
+    "auditLog": { "path": "evidence/beta17-fixpoint/audit-artifacts/audit-log.json", "sha256": "$audit_log_sha" },
+    "generatedCodeQuality": { "path": "evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json", "sha256": "$generated_code_sha" },
+    "adversarialResults": { "path": "evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json", "sha256": "$adversarial_sha" },
+    "publicSurfaceScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json", "sha256": "$public_surface_sha" },
+    "claimSafeScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json", "sha256": "$claim_safe_sha" }
+  }
+}
+JSON
+}
+
 cat >"$FIXTURE/package.json" <<'JSON'
 {
   "name": "@brik64/cli",
@@ -113,17 +146,7 @@ PY
 cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON'
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
-cat >"$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" <<'JSON'
-{
-  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
-  "cleanPublicInstall": { "pass": true },
-  "functionalTests": { "pass": true },
-  "generatedCodeTests": { "pass": true },
-  "adversarialTests": { "pass": true },
-  "publicSurfaceScan": { "pass": true },
-  "claimSafeScan": { "pass": true }
-}
-JSON
+write_external_audit_report "$FIXTURE"
 
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
   >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"
@@ -198,17 +221,7 @@ jq -e '
   and (.blockers | index("external_audit_missing_claim_safe_scan"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
-cat >"$FIXTURE/evidence/beta17-fixpoint/external_audit_report.json" <<'JSON'
-{
-  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
-  "cleanPublicInstall": { "pass": true },
-  "functionalTests": { "pass": true },
-  "generatedCodeTests": { "pass": true },
-  "adversarialTests": { "pass": true },
-  "publicSurfaceScan": { "pass": true },
-  "claimSafeScan": { "pass": true }
-}
-JSON
+write_external_audit_report "$FIXTURE"
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByL6PlusN5": true, "fixtureMaterializer": true }

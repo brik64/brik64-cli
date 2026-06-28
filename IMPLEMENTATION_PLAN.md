@@ -266,6 +266,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   is the reusable validator for `external_audit_report.json`. Readiness imports
   it instead of duplicating the contract inline, so external agents, CI and the
   release gate share one decision boundary.
+- External audit artifact binding: a passing `external_audit_report.json` must
+  include hash-bound artifact refs for the audit log, generated-code quality
+  report, adversarial results, public-surface scan and claim-safe scan. The
+  validator verifies safe relative paths, file existence and SHA-256 matches
+  when run from the evidence workspace.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:external-audit-prompt` and

@@ -14,6 +14,10 @@ for required in \
   "adversarialTests" \
   "publicSurfaceScan" \
   "claimSafeScan" \
+  "\"artifacts\"" \
+  "\"auditLog\"" \
+  "\"generatedCodeQuality\"" \
+  "\"adversarialResults\"" \
   "PASS_BETA17_EXTERNAL_AUDIT" \
   "FAIL_BETA17_EXTERNAL_AUDIT" \
   "curl -fsSL https://brik64.com/cli/install.sh | bash" \
