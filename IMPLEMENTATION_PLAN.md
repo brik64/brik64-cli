@@ -235,6 +235,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   remote promotion manifest to include Stage1 and Stage2 artifact refs. Those
   refs must use safe workspace-relative paths, point to existing files and
   match the declared SHA-256.
+- Seal binding: `gate:beta17:fixpoint-readiness` requires `seal_report.json`
+  to hash-bind the promoted Stage1 artifact, promoted Stage2 artifact and
+  `input_pcd_hashes.tsv`. A generic `sealed=true` report is insufficient.
 - Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
   Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
   Fixture evidence may test the contract, but it can never authorize Beta17

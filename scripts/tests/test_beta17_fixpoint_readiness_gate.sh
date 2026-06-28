@@ -137,8 +137,15 @@ JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/harness_report.json" <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }
 JSON
-cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<'JSON'
-{ "decision": "PASS_BETA17_FIXPOINT_SEAL", "sealed": true }
+input_pcd_set_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/input_pcd_hashes.tsv" | awk '{print $1}')"
+cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<JSON
+{
+  "decision": "PASS_BETA17_FIXPOINT_SEAL",
+  "sealed": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "inputPcdSetSha256": "$input_pcd_set_sha"
+}
 JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'JSON'
 {
@@ -244,6 +251,41 @@ jq -e '
   and (.blockers | index("evidence_pack_manifest_pack_sha256_mismatch"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["stage2ArtifactSha256"] = "0" * 64
+json.dump(data, open(path, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/seal-mismatch.stdout" 2>"$TMP_DIR/seal-mismatch.stderr"
+seal_mismatch_rc=$?
+set -e
+
+if [[ "$seal_mismatch_rc" -eq 0 ]]; then
+  echo "seal_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("seal_stage2_artifact_sha256_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+seal = root / "seal_report.json"
+data = json.load(open(seal))
+data["stage2ArtifactSha256"] = hashlib.sha256((root / "generated/stage2/brik64-cli-stage2.mjs").read_bytes()).hexdigest()
+json.dump(data, open(seal, "w"), indent=2)
+PY
 write_evidence_pack_manifest "$FIXTURE"
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" <<'PY'
@@ -474,8 +516,14 @@ JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/harness_report.json" <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }
 JSON
-cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<'JSON'
-{ "decision": "PASS_BETA17_FIXPOINT_SEAL", "sealed": true }
+cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<JSON
+{
+  "decision": "PASS_BETA17_FIXPOINT_SEAL",
+  "sealed": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "inputPcdSetSha256": "$input_pcd_set_sha"
+}
 JSON
 
 set +e

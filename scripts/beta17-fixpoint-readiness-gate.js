@@ -163,6 +163,21 @@ function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) 
   }
 }
 
+function valueAt(object, dottedPath) {
+  return dottedPath.split('.').reduce((current, key) => {
+    if (current === null || current === undefined) return undefined;
+    return current[key];
+  }, object);
+}
+
+function firstValueAt(object, dottedPaths) {
+  for (const dottedPath of dottedPaths) {
+    const value = valueAt(object, dottedPath);
+    if (value !== undefined && value !== null) return value;
+  }
+  return undefined;
+}
+
 function checkEvidencePackManifest(manifest, evidence, blockers) {
   if (!manifest || typeof manifest !== 'object') return;
   if (manifest.schemaVersion !== 'brik64.beta17_fixpoint.evidence_pack_manifest.v1') {
@@ -371,6 +386,20 @@ function main() {
     }
     checkPromotedFileRef(remotePromotion, 'stage1Artifact', evidence, blockers);
     checkPromotedFileRef(remotePromotion, 'stage2Artifact', evidence, blockers);
+  }
+  if (seal) {
+    const sealedStage1Sha = firstValueAt(seal, ['stage1ArtifactSha256', 'seal.stage1ArtifactSha256', 'bindings.stage1ArtifactSha256']);
+    const sealedStage2Sha = firstValueAt(seal, ['stage2ArtifactSha256', 'seal.stage2ArtifactSha256', 'bindings.stage2ArtifactSha256']);
+    const sealedInputSha = firstValueAt(seal, ['inputPcdSetSha256', 'pcdInputSetSha256', 'seal.inputPcdSetSha256', 'bindings.inputPcdSetSha256']);
+    checks.sealBindsStage1Artifact = isSha256(sealedStage1Sha)
+      && evidence.remote_promotion_stage1Artifact?.sha256 === String(sealedStage1Sha).toLowerCase();
+    checks.sealBindsStage2Artifact = isSha256(sealedStage2Sha)
+      && evidence.remote_promotion_stage2Artifact?.sha256 === String(sealedStage2Sha).toLowerCase();
+    checks.sealBindsInputPcdSet = isSha256(sealedInputSha)
+      && evidence.input_pcd_hashes?.sha256 === String(sealedInputSha).toLowerCase();
+    if (!checks.sealBindsStage1Artifact) blockers.push('seal_stage1_artifact_sha256_mismatch');
+    if (!checks.sealBindsStage2Artifact) blockers.push('seal_stage2_artifact_sha256_mismatch');
+    if (!checks.sealBindsInputPcdSet) blockers.push('seal_input_pcd_set_sha256_mismatch');
   }
   if (publicSync) {
     checks.publicSurfaceSyncPass = publicSync.decision === 'PASS_BETA17_PUBLIC_SURFACE_SYNC'

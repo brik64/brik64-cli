@@ -148,8 +148,17 @@ JSON
 cat >evidence/beta17-fixpoint/harness_report.json <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_HARNESS", "adversarialCases": 3 }
 JSON
-cat >evidence/beta17-fixpoint/seal_report.json <<'JSON'
-{ "decision": "PASS_BETA17_FIXPOINT_SEAL", "sealed": true }
+stage1_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs | awk '{print $1}')"
+stage2_artifact_sha="$(shasum -a 256 evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs | awk '{print $1}')"
+input_pcd_set_sha="$(shasum -a 256 evidence/beta17-fixpoint/input_pcd_hashes.tsv | awk '{print $1}')"
+cat >evidence/beta17-fixpoint/seal_report.json <<JSON
+{
+  "decision": "PASS_BETA17_FIXPOINT_SEAL",
+  "sealed": true,
+  "stage1ArtifactSha256": "$stage1_artifact_sha",
+  "stage2ArtifactSha256": "$stage2_artifact_sha",
+  "inputPcdSetSha256": "$input_pcd_set_sha"
+}
 JSON
 cat >evidence/beta17-fixpoint/remote_promotion_manifest.json <<'JSON'
 {

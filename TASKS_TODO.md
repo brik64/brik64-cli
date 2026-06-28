@@ -224,6 +224,20 @@
         this verifies promoted artifact refs. It does not create real L6+N5
         artifacts.
 
+- [x] Bind Beta17 seal report to artifacts and input PCD set.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        readiness now requires `seal_report.json` to bind Stage1 artifact,
+        Stage2 artifact and `input_pcd_hashes.tsv` by SHA-256. A passing seal
+        decision without matching hash bindings fails closed.
+      - Boundary:
+        this validates seal bindings. It does not produce the missing L6+N5
+        artifacts.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.
