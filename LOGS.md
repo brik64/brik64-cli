@@ -1157,3 +1157,27 @@ Evidence:
 Boundary:
 - This is request/input evidence only. It does not produce Stage1 or Stage2
   artifacts and must not satisfy fixpoint readiness without a real result.
+
+## Beta17 Ralph Loop Iteration - Stage result validator
+
+Task:
+- Define and test the expected `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload
+  before implementing a real remote materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-result.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_result.sh`.
+- Added npm script `test:beta17:fixpoint:stage-result`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is result-shape validation only. It does not execute L6+N5, generate
+  Stage1/Stage2 artifacts, prove byte identity or publish Beta17.

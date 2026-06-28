@@ -99,6 +99,7 @@
     "test:beta17:fixpoint:stage-contract": "bash scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh",
     "bundle:beta17:fixpoint:stage-request": "node scripts/beta17-fixpoint-stage-request-bundle.js",
     "test:beta17:fixpoint:stage-request": "bash scripts/tests/test_beta17_fixpoint_stage_request_bundle.sh",
+    "test:beta17:fixpoint:stage-result": "bash scripts/tests/test_beta17_fixpoint_stage_result.sh",
     "bundle:beta15.4:l6-materializer-request": "node scripts/beta15_4-l6-materializer-request-bundle.js",
     "test:beta15.4:l6-materializer-request": "bash scripts/tests/test_beta15_4_l6_materializer_request_bundle.sh",
     "preflight:github-signing-key": "node scripts/release/github-signing-key-preflight.js",

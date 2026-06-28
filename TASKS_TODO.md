@@ -469,3 +469,15 @@
       - Boundary:
         this creates only request/input evidence. It does not materialize
         Stage1, regenerate Stage2, compare bytes or publish Beta17.
+
+- [x] Beta17 Stage1/Stage2 result validator.
+      - Script:
+        `scripts/beta17-fixpoint-stage-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_result.sh`.
+      - Goal:
+        reject weak or unsafe `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payloads
+        before any result can feed the readiness gate.
+      - Boundary:
+        this validates result shape only. It does not create a real L6+N5
+        result or prove fixpoint.
