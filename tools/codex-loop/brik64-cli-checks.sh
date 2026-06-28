@@ -32,17 +32,20 @@ else
 fi
 
 echo "RUN EVIDENCE gate: clean worktree after checks"
-dirty_disallowed="$(git status --porcelain --untracked-files=no | awk '
-  {
-    path=$0
-    sub(/^[ MADRCU?!][ MADRCU?!] /, "", path)
-    if (
-      path != "evidence/cli-l6-generation-required/report.json" &&
-      path != "evidence/release-flow-audit/report.json" &&
-      path != "evidence/release-manifest-validate/report.json"
-    ) print $0
-  }
-')"
+dirty_disallowed=""
+while IFS= read -r line; do
+  [ -z "$line" ] && continue
+  path="${line:3}"
+  case "$path" in
+    evidence/cli-l6-generation-required/report.json|\
+    evidence/release-flow-audit/report.json|\
+    evidence/release-manifest-validate/report.json)
+      ;;
+    *)
+      dirty_disallowed="${dirty_disallowed}${line}"$'\n'
+      ;;
+  esac
+done < <(git status --porcelain --untracked-files=no)
 if [ -n "$dirty_disallowed" ]; then
   printf "%s\n" "$dirty_disallowed"
   echo "FAILED: tracked worktree changed during codex-loop checks"
