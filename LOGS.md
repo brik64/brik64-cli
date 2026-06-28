@@ -1133,3 +1133,27 @@ Boundary:
 - This validates the PCD source-contract shape only. It does not materialize
   Stage1, regenerate Stage2, prove byte identity, publish Beta17 or authorize
   a public fixpoint claim.
+
+## Beta17 Ralph Loop Iteration - Stage request bundle
+
+Task:
+- Create a hash-bound non-claim request bundle for the future Beta17 L6+N5
+  Stage1/Stage2 materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-request-bundle.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_request_bundle.sh`.
+- Added npm scripts `bundle:beta17:fixpoint:stage-request` and
+  `test:beta17:fixpoint:stage-request`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-request-bundle.js` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is request/input evidence only. It does not produce Stage1 or Stage2
+  artifacts and must not satisfy fixpoint readiness without a real result.

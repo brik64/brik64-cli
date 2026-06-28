@@ -456,3 +456,16 @@
       - Boundary:
         this is source-contract validation only. It does not run L6+N5,
         generate Stage1, regenerate Stage2 or publish Beta17.
+
+- [x] Beta17 Stage1/Stage2 materializer request bundle.
+      - Script:
+        `scripts/beta17-fixpoint-stage-request-bundle.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_request_bundle.sh`.
+      - Goal:
+        produce a hash-bound non-claim request for an L6+N5 fixpoint
+        materializer, including Stage1/Stage2 contracts, CLI PCD inputs, safe
+        output refs and required result bindings.
+      - Boundary:
+        this creates only request/input evidence. It does not materialize
+        Stage1, regenerate Stage2, compare bytes or publish Beta17.

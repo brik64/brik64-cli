@@ -200,6 +200,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   the Beta17 Stage1 and Stage2 PCD contracts before any materialization script
   can be treated as release-relevant. Stage2 must explicitly bind regeneration
   from Stage1 and byte-identical hash/size comparison.
+- Stage request bundle: `npm run bundle:beta17:fixpoint:stage-request`
+  creates a non-claim request for an L6+N5 fixpoint materializer. It includes
+  canonical Stage1/Stage2 contracts, CLI core/polymer PCD inputs, safe output
+  refs and required result bindings for Stage1, Stage2, byte identity, harness
+  and seal evidence.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
-  `npm run test:beta17:fixpoint:stage-contract`.
+  `npm run test:beta17:fixpoint:stage-contract` and
+  `npm run test:beta17:fixpoint:stage-request`.
