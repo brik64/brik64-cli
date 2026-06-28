@@ -132,6 +132,12 @@ function main() {
     evidence,
     'seal_report'
   );
+  const remotePromotion = existsJson(
+    path.join(fixpointDir, 'remote_promotion_manifest.json'),
+    blockers,
+    evidence,
+    'remote_promotion_manifest'
+  );
   const publicSync = existsJson(
     path.join(fixpointDir, 'public_surface_sync_report.json'),
     blockers,
@@ -190,6 +196,18 @@ function main() {
       || seal.sealed === true;
     if (!checks.sealPass) blockers.push(`seal_not_pass:${seal.decision || seal.status || 'missing'}`);
   }
+  if (remotePromotion) {
+    rejectFixtureEvidence(remotePromotion, 'remote_promotion', blockers);
+    checks.remotePromotionPass = remotePromotion.decision === 'PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION';
+    checks.remotePromotionClaimsClosed = remotePromotion.claimBoundary?.definitiveFixpointAllowed === false
+      && remotePromotion.claimBoundary?.publicReleaseAllowed === false
+      && remotePromotion.claimBoundary?.formalN5ClaimAllowed === false
+      && remotePromotion.claimBoundary?.universalCorrectnessClaimAllowed === false;
+    if (!checks.remotePromotionPass) {
+      blockers.push(`remote_promotion_not_pass:${remotePromotion.decision || 'missing'}`);
+    }
+    if (!checks.remotePromotionClaimsClosed) blockers.push('remote_promotion_claim_boundary_open');
+  }
   if (publicSync) {
     checks.publicSurfaceSyncPass = publicSync.decision === 'PASS_BETA17_PUBLIC_SURFACE_SYNC'
       || publicSync.status === 'PASS'
@@ -226,6 +244,7 @@ function main() {
       'byte-identical Stage1/Stage2 comparison',
       'harness with adversarial triad',
       'seal report',
+      'remote promotion manifest',
       'public surface sync report',
       'external audit report'
     ],

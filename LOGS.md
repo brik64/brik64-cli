@@ -1,5 +1,29 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 32 - Beta17 readiness requires promotion manifest
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so final readiness
+  requires `evidence/beta17-fixpoint/remote_promotion_manifest.json`.
+- The remote promotion manifest must report
+  `PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION` with public release,
+  definitive fixpoint, formal N5 and universal correctness claim boundaries
+  closed.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` to assert
+  the missing-manifest blocker and the PASS path.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+
+- This closes a manual-evidence bypass in readiness.
+- It does not produce real Stage1/Stage2 evidence.
+- It does not publish Beta17 or open fixpoint claims.
+
 ## Iteration 31 - Beta17 controlled remote-result promotion
 
 Timestamp: `2026-06-28T00:00:00Z`

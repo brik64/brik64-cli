@@ -33,6 +33,7 @@ jq -e '
   and .claimBoundary.publicReleaseAllowed==false
   and (.blockers | index("missing_canonical_motor_manifest:evidence/beta17-fixpoint/canonical_motor_manifest.json"))
   and (.blockers | index("missing_stage2_regeneration_manifest:evidence/beta17-fixpoint/stage2_regeneration_manifest.json"))
+  and (.blockers | index("missing_remote_promotion_manifest:evidence/beta17-fixpoint/remote_promotion_manifest.json"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
 cat >"$FIXTURE/evidence/beta17-fixpoint/canonical_motor_manifest.json" <<'JSON'
@@ -60,6 +61,17 @@ JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/seal_report.json" <<'JSON'
 { "decision": "PASS_BETA17_FIXPOINT_SEAL", "sealed": true }
 JSON
+cat >"$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'JSON'
+{
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION",
+  "claimBoundary": {
+    "definitiveFixpointAllowed": false,
+    "publicReleaseAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  }
+}
+JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON'
 { "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
 JSON
@@ -77,6 +89,8 @@ jq -e '
   and .claimBoundary.formalN5ClaimAllowed==false
   and .checks.byteIdentical==true
   and .checks.harnessHasAdversarial==true
+  and .checks.remotePromotionPass==true
+  and .checks.remotePromotionClaimsClosed==true
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 

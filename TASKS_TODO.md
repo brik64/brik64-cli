@@ -192,6 +192,18 @@
         claims closed until canonical manifests, public sync, external audit
         and readiness gate also pass.
 
+- [x] Bind Beta17 readiness to the remote promotion manifest.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Result:
+        readiness now requires `remote_promotion_manifest.json` to PASS with
+        public/fixpoint/formal claim boundaries closed.
+      - Boundary:
+        manually placed Stage1/Stage2 evidence cannot satisfy readiness without
+        the promotion-chain manifest.
+
 - [ ] Merge PR #223 after review.
       - Current state:
         PR #223 is open at `d213b04`, CI checks are green, and GitHub reports

@@ -240,6 +240,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   canonical `evidence/beta17-fixpoint/` paths. It writes
   `remote_promotion_manifest.json` and keeps public/fixpoint claims closed
   until the full readiness gate and external audit pass.
+- Readiness promotion binding: `gate:beta17:fixpoint-readiness` requires
+  `evidence/beta17-fixpoint/remote_promotion_manifest.json` to pass with all
+  public/fixpoint/formal claim boundaries closed. Manually placed Stage1/Stage2
+  evidence is not enough.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
   `npm run test:beta17:fixpoint:evidence:init` and
   `npm run test:beta17:fixpoint:stage-contract` and
