@@ -1,27 +1,22 @@
 {
   "schemaVersion": "brik64.cli_beta16_1_l6_generation_gate.v1",
   "version": "0.1.0-beta.16.1",
-  "generatedAt": "2026-06-28T10:18:07.851Z",
-  "decision": "BLOCKED_BETA16_1_L6_GENERATION_GATE",
-  "publicationAllowed": false,
-  "releasePublicationAllowed": false,
+  "generatedAt": "2026-06-28T10:43:39.204Z",
+  "decision": "PASS_BETA16_1_L6_GENERATION_GATE",
+  "publicationAllowed": true,
+  "releasePublicationAllowed": true,
   "claimBoundary": {
     "formalN5ClaimAllowed": false,
     "fixpointClaimAllowed": false,
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   },
-  "blockers": [
-    "remote_l6plus_materializer_version_not_supported:0.1.0-beta.16.1",
-    "remote_l6plus_materializer_endpoint_status:beta15_7_ready,beta16_native_ready",
-    "remote_l6plus_materialization_contract_unavailable",
-    "generated_artifact_missing"
-  ],
+  "blockers": [],
   "remoteCapability": {
     "wrapperMode": "cli_materializer_dispatcher",
     "wrapper": {
-      "sha256": "2d7f10894bb34696b848db942005712fa609eee0c150c4ae2de8d7463275e3d8",
-      "bytes": 1506,
+      "sha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+      "bytes": 1546,
       "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
     },
     "wrapperExecTarget": {
@@ -30,15 +25,15 @@
       "target": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus"
     },
     "endpointStatus": {
-      "endpointLine": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_7_ready,beta16_native_ready",
+      "endpointLine": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_7_ready,beta16_native_ready,beta16_1_ready",
       "resultLine": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\\tavailable",
-      "statusTag": "beta15_7_ready,beta16_native_ready"
+      "statusTag": "beta15_7_ready,beta16_native_ready,beta16_1_ready"
     },
-    "materializerContractAccepted": false,
+    "materializerContractAccepted": true,
     "expectedMaterializationContext": {
       "pcdInputSetSha256": "a9860c4fe9e36d596b4300cf6c9154400b77ce8d1b894036c3f3e7eb270a2dd0",
-      "materializerRequestSha256": "4bf13fa4ac66b816290c23e0bb40f19f42a31e41e8193c60dc3dad089f5cb9b3",
-      "remoteWrapperSha256": "2d7f10894bb34696b848db942005712fa609eee0c150c4ae2de8d7463275e3d8",
+      "materializerRequestSha256": "cc89e2705e2c55e316a0f486f5585f582e4e47dcecfa4ed5eba4a79b6a51fe10",
+      "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
       "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
       "requiredInputPcdPaths": [
         "pcd/beta16_1/release/l6_cli_materialization_contract.pcd",
@@ -60,15 +55,101 @@
         "@@FILE:<beta16.1-materializer-request>"
       ],
       "status": 0,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "932691c221db63ddcd9dfce1e497c04c4962603ff75633768728f9bc1cfa0c18",
-      "observed": "brik64_l6plus_fail_closed:version_mismatch:0.1.0-beta.16.1",
-      "materializationResult": null,
+      "stdout_sha256": "bc709bf1c4aebb0c16874221a632ae6e6a671873bb58f897d4724a813a9d5bd0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\teyJzY2hlbWFWZXJzaW9uIjoiYnJpazY0Lmw2cGx1c19jbGlfbWF0ZXJpYWxpemF0aW9uX3Jlc3VsdC52MSIsInZlcnNpb24iOiIwLjEuMC1iZXRhLjE2LjEiLCJsNnBsdXNFbmdpbmVTZXJpYWwiOiJCUklLNjQtTDZQTFVTLU41LTIwMjYwNjA1LUJFVEE2TVAtNjYwZGU5NTciLCJtYXRlcmlhbGl6ZXJNb2RlIjoibDZwbHVzX3BjZF9wb2x5bWVyX21hdGVyaWFsaXplciIsImdlbmVyYXRlZEJ5TDZQbHVzTjUiOnRydWUsInBjZFRvQXJ0aWZhY3RIYXNoQm91bmQiOnRydWUsImFydGlmYWN0VG9QYWNrYWdlSGFzaEJvdW5kIjp0cnVlLCJwYWNrYWdlVG9SZWxlYXNlTWFuaWZlc3RIYXNoQm91bmQiOnRydWUsInNlYWx",
+      "materializationResult": {
+        "present": true
+      },
       "materializationValidation": {
-        "accepted": false,
-        "blockers": [
-          "materialization_result_missing_or_invalid"
-        ]
+        "accepted": true,
+        "blockers": [],
+        "normalized": {
+          "schemaVersion": "brik64.l6plus_cli_materialization_result.v1",
+          "version": "0.1.0-beta.16.1",
+          "l6plusEngineSerial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+          "materializerMode": "l6plus_pcd_polymer_materializer",
+          "generatedByL6PlusN5": true,
+          "pcdToArtifactHashBound": true,
+          "artifactToPackageHashBound": true,
+          "packageToReleaseManifestHashBound": true,
+          "sealReportPass": true,
+          "generatedArtifactSha256": "b4ec2091489632f9c870226622ba102518e438032aa89ab4b772909c3ba7e8f4",
+          "packageSha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+          "releaseManifestSha256": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+          "compositeSha256": "e29a25522e48a40bbaf47fd8d71ac557236ab10f0052d396683901cb5724b13b",
+          "generationTraceSha256": "c63c72b274e14c50e23789b82744d5acdd2a1345a691549106598d37a7a3f5ea",
+          "pcdInputSetSha256": "a9860c4fe9e36d596b4300cf6c9154400b77ce8d1b894036c3f3e7eb270a2dd0",
+          "materializerRequestSha256": "cc89e2705e2c55e316a0f486f5585f582e4e47dcecfa4ed5eba4a79b6a51fe10",
+          "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+          "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+          "generatedArtifact": {
+            "path": "evidence/beta16_1-l6-generation/generated/brik64-cli.mjs",
+            "sha256": "b4ec2091489632f9c870226622ba102518e438032aa89ab4b772909c3ba7e8f4",
+            "bytes": 2426
+          },
+          "package": {
+            "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
+            "sha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+            "bytes": 631876
+          },
+          "releaseManifest": {
+            "path": "release/manifest.json",
+            "sha256": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+            "bytes": 2627
+          },
+          "sealReport": {
+            "path": "evidence/beta16_1-l6-generation/seal_report.json",
+            "sha256": "79be93f6a4d273a59941fcffa1c0cd216a328052f3d51278dfb829b6b7cb715b",
+            "bytes": 546
+          },
+          "inputPcds": [
+            {
+              "path": "pcd/beta16_1/release/l6_cli_materialization_contract.pcd",
+              "sha256": "14ea8a96adb539e3d036c4c60ae58a7be54d115725403665d11b5fd9f2eec736",
+              "bytes": 810
+            },
+            {
+              "path": "pcd/beta16_1/release/l6_cli_materialization_result_contract.pcd",
+              "sha256": "adf2ef19b7d13a33ac6e9f2ff84fa3987681cb2f465c2c7867df175058c74fb4",
+              "bytes": 2005
+            },
+            {
+              "path": "pcd/beta15/l6plus_materialization_command.contract.json",
+              "sha256": "84f801025b2c04e5d6b70d8617d0cafd1fa48d1fb415864354285f3953068fba",
+              "bytes": 3597
+            },
+            {
+              "path": "pcd/beta15/manifest.json",
+              "sha256": "ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+              "bytes": 872
+            },
+            {
+              "path": "pcd/beta15/cli_polymer.pcd",
+              "sha256": "ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+              "bytes": 822
+            },
+            {
+              "path": "pcd/cli_core.pcd",
+              "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+              "bytes": 813
+            },
+            {
+              "path": "pcd/cli_polymer.pcd",
+              "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+              "bytes": 2047
+            }
+          ],
+          "generatedArtifactContentBase64": "Ly8gYnJpazY0IGdlbmVyYXRlZCBtYXRlcmlhbGl6YXRpb24gdW5pdApleHBvcnQgY29uc3QgYnJpazY0Q2xpTWF0ZXJpYWxpemF0aW9uID0gewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5jbGlfYmV0YTE2XzFfbDZfZ2VuZXJhdGVkX2FydGlmYWN0LnYxIiwKICAidmVyc2lvbiI6ICIwLjEuMC1iZXRhLjE2LjEiLAogICJtYXRlcmlhbGl6ZXJNb2RlIjogImw2cGx1c19wY2RfcG9seW1lcl9tYXRlcmlhbGl6ZXIiLAogICJnZW5lcmF0ZWRCeSI6ICJsNnBsdXNfbjVfcmVtb3RlX2NsaV9tYXRlcmlhbGl6ZXJfZW5kcG9pbnQiLAogICJzb3VyY2UiOiB7CiAgICAicGNkSW5wdXRTZXRTaGEyNTYiOiAiYTk4NjBjNGZlOWUzNmQ1OTZiNDMwMGNmNmM5MTU0NDAwYjc3Y2U4ZDFiODk0MDM2YzNmM2U3ZWIyNzBhMmRkMCIsCiAgICAibWF0ZXJpYWxpemVyUmVxdWVzdFNoYTI1NiI6ICJjYzg5ZTI3MDVlMmM1NWUzMTZhMGY0ODZmNTU4NWY1ODJlNGU0N2RjZWNmYTRlZDVlYmE0YTc5YjZhNTFmZTEwIiwKICAgICJpbnB1dFBjZHMiOiBbCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvYmV0YTE2XzEvcmVsZWFzZS9sNl9jbGlfbWF0ZXJpYWxpemF0aW9uX2NvbnRyYWN0LnBjZCIsCiAgICAgICAgInNoYTI1NiI6ICIxNGVhOGE5NmFkYjUzOWUzZDAzNmM0YzYwYWU1OGE3YmU1NGQxMTU3MjU0MDM2NjVkMTFiNWZkOWYyZWVjNzM2IiwKICAgICAgICAiYnl0ZXMiOiA4MTAKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9iZXRhMTZfMS9yZWxlYXNlL2w2X2NsaV9tYXRlcmlhbGl6YXRpb25fcmVzdWx0X2NvbnRyYWN0LnBjZCIsCiAgICAgICAgInNoYTI1NiI6ICJhZGYyZWYxOWI3ZDEzYTMzYWM2ZTlmMmZmODRmYTM5ODc2ODFjYjJmNDY1YzJjNzg2N2RmMTc1MDU4Yzc0ZmI0IiwKICAgICAgICAiYnl0ZXMiOiAyMDA1CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvYmV0YTE1L2w2cGx1c19tYXRlcmlhbGl6YXRpb25fY29tbWFuZC5jb250cmFjdC5qc29uIiwKICAgICAgICAic2hhMjU2IjogIjg0ZjgwMTAyNWIyYzA0ZTVkNmI3MGQ4NjE3ZDBjYWZkMWZhNDhkMWZiNDE1ODY0MzU0Mjg1ZjM5NTMwNjhmYmEiLAogICAgICAgICJieXRlcyI6IDM1OTcKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9iZXRhMTUvbWFuaWZlc3QuanNvbiIsCiAgICAgICAgInNoYTI1NiI6ICJhZTRlNjljNmI0YWExYjdhZTQzODZkMTlhNzEwNmIzZGY1NDkyMTJkZjg5OWYwYTZiMzg4MmQ1MjdkNmY2YWEwIiwKICAgICAgICAiYnl0ZXMiOiA4NzIKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9iZXRhMTUvY2xpX3BvbHltZXIucGNkIiwKICAgICAgICAic2hhMjU2IjogImFlMWIyNWQ5NDViMDk0NTc0ODJiYTcwY2Y0MzRlNTNhZjU3YjIyYzZlMTlkZDI0MTAxMzgwZmVmNjk4YTBhMjQiLAogICAgICAgICJieXRlcyI6IDgyMgogICAgICB9LAogICAgICB7CiAgICAgICAgInBhdGgiOiAicGNkL2NsaV9jb3JlLnBjZCIsCiAgICAgICAgInNoYTI1NiI6ICJmZjQ4ZWFlYjM4NDhlMzljNTQwMGZjYmI5ZmMyOTNlNWZmZmI2NDlkYjJlMzI0NTRmOTAwMDgwYmU2NjBlZjFjIiwKICAgICAgICAiYnl0ZXMiOiA4MTMKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9jbGlfcG9seW1lci5wY2QiLAogICAgICAgICJzaGEyNTYiOiAiMDQxYTgwOWY4YTJiZGI4MGUwY2RiZTFmMTc0NDVjYTk5MWMzMGI1YjQ3NWFkNjY2ZmQyYTIwYWRkOTE5OTE0NiIsCiAgICAgICAgImJ5dGVzIjogMjA0NwogICAgICB9CiAgICBdCiAgfSwKICAib3V0cHV0QmluZGluZ3MiOiB7CiAgICAicGFja2FnZSI6IHsKICAgICAgInBhdGgiOiAiZXZpZGVuY2UvYmV0YTE2XzEtcGFja2FnZS9icmlrNjQtY2xpLTAuMS4wLWJldGEuMTYuMS50Z3oiLAogICAgICAic2hhMjU2IjogIjkxMjVkMzY5ZGZiMWJhZDE0MDhmYWMwNWI1NTFkYzg5MDg2N2MzNzYzOTI0NTAwYjljY2I0M2MxOTMwZThmNjUiLAogICAgICAiYnl0ZXMiOiA2MzE4NzYKICAgIH0sCiAgICAicmVsZWFzZU1hbmlmZXN0IjogewogICAgICAicGF0aCI6ICJyZWxlYXNlL21hbmlmZXN0Lmpzb24iLAogICAgICAic2hhMjU2IjogIjAyNzczZmUxZjYxMGYzNjg4NTZiNjdlNWJkMDQ2OTg1ODc4YzhkOTljYTIwOGQ5ZGVlYjM3OTUxZTE1ZTU5NjMiLAogICAgICAiYnl0ZXMiOiAyNjI3CiAgICB9CiAgfSwKICAiY2xhaW1Cb3VuZGFyeSI6IHsKICAgICJwdWJsaWNDbGFpbXNBbGxvd2VkIjogZmFsc2UsCiAgICAiZm9ybWFsTjVDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJmaXhwb2ludENsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInNlbGZIb3N0aW5nQ2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAicnVzdEluZGVwZW5kZW5jZUNsYWltQWxsb3dlZCI6IGZhbHNlCiAgfQp9Owo=",
+          "sealReportContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5jbGlfYmV0YTE2XzFfbDZfc2VhbF9yZXBvcnQudjEiLAogICJ2ZXJzaW9uIjogIjAuMS4wLWJldGEuMTYuMSIsCiAgImRlY2lzaW9uIjogIlBBU1NfQkVUQTE2XzFfTDZfU0VBTCIsCiAgImNvbXBvc2l0ZVNoYTI1NiI6ICJlMjlhMjU1MjJlNDhhNDBiYmFmNDdmZDhkNzFhYzU1NzIzNmFiMTBmMDA1MmQzOTY2ODM5MDFjYjU3MjRiMTNiIiwKICAiZ2VuZXJhdGlvblRyYWNlU2hhMjU2IjogImM2M2M3MmIyNzRlMTRjNTBlMjM3ODliODI3NDRkNWFjZGQyYTEzNDVhNjkxNTQ5MTA2NTk4ZDM3YTdhM2Y1ZWEiLAogICJjbGFpbUJvdW5kYXJ5IjogewogICAgInB1YmxpY0NsYWltc0FsbG93ZWQiOiBmYWxzZSwKICAgICJmb3JtYWxONUNsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgImZpeHBvaW50Q2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAic2VsZkhvc3RpbmdDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJydXN0SW5kZXBlbmRlbmNlQ2xhaW1BbGxvd2VkIjogZmFsc2UKICB9LAogICJibG9ja2VycyI6IFtdCn0K",
+          "claimBoundary": {
+            "publicClaimsAllowed": false,
+            "formalN5ClaimAllowed": false,
+            "fixpointClaimAllowed": false,
+            "selfHostingClaimAllowed": false,
+            "rustIndependenceClaimAllowed": false
+          }
+        }
       }
     },
     {
@@ -78,15 +159,101 @@
         "@@FILE:<beta16.1-materializer-request>"
       ],
       "status": 0,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
-      "materializationResult": null,
+      "stdout_sha256": "bc709bf1c4aebb0c16874221a632ae6e6a671873bb58f897d4724a813a9d5bd0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\teyJzY2hlbWFWZXJzaW9uIjoiYnJpazY0Lmw2cGx1c19jbGlfbWF0ZXJpYWxpemF0aW9uX3Jlc3VsdC52MSIsInZlcnNpb24iOiIwLjEuMC1iZXRhLjE2LjEiLCJsNnBsdXNFbmdpbmVTZXJpYWwiOiJCUklLNjQtTDZQTFVTLU41LTIwMjYwNjA1LUJFVEE2TVAtNjYwZGU5NTciLCJtYXRlcmlhbGl6ZXJNb2RlIjoibDZwbHVzX3BjZF9wb2x5bWVyX21hdGVyaWFsaXplciIsImdlbmVyYXRlZEJ5TDZQbHVzTjUiOnRydWUsInBjZFRvQXJ0aWZhY3RIYXNoQm91bmQiOnRydWUsImFydGlmYWN0VG9QYWNrYWdlSGFzaEJvdW5kIjp0cnVlLCJwYWNrYWdlVG9SZWxlYXNlTWFuaWZlc3RIYXNoQm91bmQiOnRydWUsInNlYWx",
+      "materializationResult": {
+        "present": true
+      },
       "materializationValidation": {
-        "accepted": false,
-        "blockers": [
-          "materialization_result_missing_or_invalid"
-        ]
+        "accepted": true,
+        "blockers": [],
+        "normalized": {
+          "schemaVersion": "brik64.l6plus_cli_materialization_result.v1",
+          "version": "0.1.0-beta.16.1",
+          "l6plusEngineSerial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+          "materializerMode": "l6plus_pcd_polymer_materializer",
+          "generatedByL6PlusN5": true,
+          "pcdToArtifactHashBound": true,
+          "artifactToPackageHashBound": true,
+          "packageToReleaseManifestHashBound": true,
+          "sealReportPass": true,
+          "generatedArtifactSha256": "b4ec2091489632f9c870226622ba102518e438032aa89ab4b772909c3ba7e8f4",
+          "packageSha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+          "releaseManifestSha256": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+          "compositeSha256": "e29a25522e48a40bbaf47fd8d71ac557236ab10f0052d396683901cb5724b13b",
+          "generationTraceSha256": "c63c72b274e14c50e23789b82744d5acdd2a1345a691549106598d37a7a3f5ea",
+          "pcdInputSetSha256": "a9860c4fe9e36d596b4300cf6c9154400b77ce8d1b894036c3f3e7eb270a2dd0",
+          "materializerRequestSha256": "cc89e2705e2c55e316a0f486f5585f582e4e47dcecfa4ed5eba4a79b6a51fe10",
+          "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+          "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+          "generatedArtifact": {
+            "path": "evidence/beta16_1-l6-generation/generated/brik64-cli.mjs",
+            "sha256": "b4ec2091489632f9c870226622ba102518e438032aa89ab4b772909c3ba7e8f4",
+            "bytes": 2426
+          },
+          "package": {
+            "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
+            "sha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+            "bytes": 631876
+          },
+          "releaseManifest": {
+            "path": "release/manifest.json",
+            "sha256": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+            "bytes": 2627
+          },
+          "sealReport": {
+            "path": "evidence/beta16_1-l6-generation/seal_report.json",
+            "sha256": "79be93f6a4d273a59941fcffa1c0cd216a328052f3d51278dfb829b6b7cb715b",
+            "bytes": 546
+          },
+          "inputPcds": [
+            {
+              "path": "pcd/beta16_1/release/l6_cli_materialization_contract.pcd",
+              "sha256": "14ea8a96adb539e3d036c4c60ae58a7be54d115725403665d11b5fd9f2eec736",
+              "bytes": 810
+            },
+            {
+              "path": "pcd/beta16_1/release/l6_cli_materialization_result_contract.pcd",
+              "sha256": "adf2ef19b7d13a33ac6e9f2ff84fa3987681cb2f465c2c7867df175058c74fb4",
+              "bytes": 2005
+            },
+            {
+              "path": "pcd/beta15/l6plus_materialization_command.contract.json",
+              "sha256": "84f801025b2c04e5d6b70d8617d0cafd1fa48d1fb415864354285f3953068fba",
+              "bytes": 3597
+            },
+            {
+              "path": "pcd/beta15/manifest.json",
+              "sha256": "ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+              "bytes": 872
+            },
+            {
+              "path": "pcd/beta15/cli_polymer.pcd",
+              "sha256": "ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+              "bytes": 822
+            },
+            {
+              "path": "pcd/cli_core.pcd",
+              "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+              "bytes": 813
+            },
+            {
+              "path": "pcd/cli_polymer.pcd",
+              "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+              "bytes": 2047
+            }
+          ],
+          "generatedArtifactContentBase64": "Ly8gYnJpazY0IGdlbmVyYXRlZCBtYXRlcmlhbGl6YXRpb24gdW5pdApleHBvcnQgY29uc3QgYnJpazY0Q2xpTWF0ZXJpYWxpemF0aW9uID0gewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5jbGlfYmV0YTE2XzFfbDZfZ2VuZXJhdGVkX2FydGlmYWN0LnYxIiwKICAidmVyc2lvbiI6ICIwLjEuMC1iZXRhLjE2LjEiLAogICJtYXRlcmlhbGl6ZXJNb2RlIjogImw2cGx1c19wY2RfcG9seW1lcl9tYXRlcmlhbGl6ZXIiLAogICJnZW5lcmF0ZWRCeSI6ICJsNnBsdXNfbjVfcmVtb3RlX2NsaV9tYXRlcmlhbGl6ZXJfZW5kcG9pbnQiLAogICJzb3VyY2UiOiB7CiAgICAicGNkSW5wdXRTZXRTaGEyNTYiOiAiYTk4NjBjNGZlOWUzNmQ1OTZiNDMwMGNmNmM5MTU0NDAwYjc3Y2U4ZDFiODk0MDM2YzNmM2U3ZWIyNzBhMmRkMCIsCiAgICAibWF0ZXJpYWxpemVyUmVxdWVzdFNoYTI1NiI6ICJjYzg5ZTI3MDVlMmM1NWUzMTZhMGY0ODZmNTU4NWY1ODJlNGU0N2RjZWNmYTRlZDVlYmE0YTc5YjZhNTFmZTEwIiwKICAgICJpbnB1dFBjZHMiOiBbCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvYmV0YTE2XzEvcmVsZWFzZS9sNl9jbGlfbWF0ZXJpYWxpemF0aW9uX2NvbnRyYWN0LnBjZCIsCiAgICAgICAgInNoYTI1NiI6ICIxNGVhOGE5NmFkYjUzOWUzZDAzNmM0YzYwYWU1OGE3YmU1NGQxMTU3MjU0MDM2NjVkMTFiNWZkOWYyZWVjNzM2IiwKICAgICAgICAiYnl0ZXMiOiA4MTAKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9iZXRhMTZfMS9yZWxlYXNlL2w2X2NsaV9tYXRlcmlhbGl6YXRpb25fcmVzdWx0X2NvbnRyYWN0LnBjZCIsCiAgICAgICAgInNoYTI1NiI6ICJhZGYyZWYxOWI3ZDEzYTMzYWM2ZTlmMmZmODRmYTM5ODc2ODFjYjJmNDY1YzJjNzg2N2RmMTc1MDU4Yzc0ZmI0IiwKICAgICAgICAiYnl0ZXMiOiAyMDA1CiAgICAgIH0sCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvYmV0YTE1L2w2cGx1c19tYXRlcmlhbGl6YXRpb25fY29tbWFuZC5jb250cmFjdC5qc29uIiwKICAgICAgICAic2hhMjU2IjogIjg0ZjgwMTAyNWIyYzA0ZTVkNmI3MGQ4NjE3ZDBjYWZkMWZhNDhkMWZiNDE1ODY0MzU0Mjg1ZjM5NTMwNjhmYmEiLAogICAgICAgICJieXRlcyI6IDM1OTcKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9iZXRhMTUvbWFuaWZlc3QuanNvbiIsCiAgICAgICAgInNoYTI1NiI6ICJhZTRlNjljNmI0YWExYjdhZTQzODZkMTlhNzEwNmIzZGY1NDkyMTJkZjg5OWYwYTZiMzg4MmQ1MjdkNmY2YWEwIiwKICAgICAgICAiYnl0ZXMiOiA4NzIKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9iZXRhMTUvY2xpX3BvbHltZXIucGNkIiwKICAgICAgICAic2hhMjU2IjogImFlMWIyNWQ5NDViMDk0NTc0ODJiYTcwY2Y0MzRlNTNhZjU3YjIyYzZlMTlkZDI0MTAxMzgwZmVmNjk4YTBhMjQiLAogICAgICAgICJieXRlcyI6IDgyMgogICAgICB9LAogICAgICB7CiAgICAgICAgInBhdGgiOiAicGNkL2NsaV9jb3JlLnBjZCIsCiAgICAgICAgInNoYTI1NiI6ICJmZjQ4ZWFlYjM4NDhlMzljNTQwMGZjYmI5ZmMyOTNlNWZmZmI2NDlkYjJlMzI0NTRmOTAwMDgwYmU2NjBlZjFjIiwKICAgICAgICAiYnl0ZXMiOiA4MTMKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9jbGlfcG9seW1lci5wY2QiLAogICAgICAgICJzaGEyNTYiOiAiMDQxYTgwOWY4YTJiZGI4MGUwY2RiZTFmMTc0NDVjYTk5MWMzMGI1YjQ3NWFkNjY2ZmQyYTIwYWRkOTE5OTE0NiIsCiAgICAgICAgImJ5dGVzIjogMjA0NwogICAgICB9CiAgICBdCiAgfSwKICAib3V0cHV0QmluZGluZ3MiOiB7CiAgICAicGFja2FnZSI6IHsKICAgICAgInBhdGgiOiAiZXZpZGVuY2UvYmV0YTE2XzEtcGFja2FnZS9icmlrNjQtY2xpLTAuMS4wLWJldGEuMTYuMS50Z3oiLAogICAgICAic2hhMjU2IjogIjkxMjVkMzY5ZGZiMWJhZDE0MDhmYWMwNWI1NTFkYzg5MDg2N2MzNzYzOTI0NTAwYjljY2I0M2MxOTMwZThmNjUiLAogICAgICAiYnl0ZXMiOiA2MzE4NzYKICAgIH0sCiAgICAicmVsZWFzZU1hbmlmZXN0IjogewogICAgICAicGF0aCI6ICJyZWxlYXNlL21hbmlmZXN0Lmpzb24iLAogICAgICAic2hhMjU2IjogIjAyNzczZmUxZjYxMGYzNjg4NTZiNjdlNWJkMDQ2OTg1ODc4YzhkOTljYTIwOGQ5ZGVlYjM3OTUxZTE1ZTU5NjMiLAogICAgICAiYnl0ZXMiOiAyNjI3CiAgICB9CiAgfSwKICAiY2xhaW1Cb3VuZGFyeSI6IHsKICAgICJwdWJsaWNDbGFpbXNBbGxvd2VkIjogZmFsc2UsCiAgICAiZm9ybWFsTjVDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJmaXhwb2ludENsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInNlbGZIb3N0aW5nQ2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAicnVzdEluZGVwZW5kZW5jZUNsYWltQWxsb3dlZCI6IGZhbHNlCiAgfQp9Owo=",
+          "sealReportContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5jbGlfYmV0YTE2XzFfbDZfc2VhbF9yZXBvcnQudjEiLAogICJ2ZXJzaW9uIjogIjAuMS4wLWJldGEuMTYuMSIsCiAgImRlY2lzaW9uIjogIlBBU1NfQkVUQTE2XzFfTDZfU0VBTCIsCiAgImNvbXBvc2l0ZVNoYTI1NiI6ICJlMjlhMjU1MjJlNDhhNDBiYmFmNDdmZDhkNzFhYzU1NzIzNmFiMTBmMDA1MmQzOTY2ODM5MDFjYjU3MjRiMTNiIiwKICAiZ2VuZXJhdGlvblRyYWNlU2hhMjU2IjogImM2M2M3MmIyNzRlMTRjNTBlMjM3ODliODI3NDRkNWFjZGQyYTEzNDVhNjkxNTQ5MTA2NTk4ZDM3YTdhM2Y1ZWEiLAogICJjbGFpbUJvdW5kYXJ5IjogewogICAgInB1YmxpY0NsYWltc0FsbG93ZWQiOiBmYWxzZSwKICAgICJmb3JtYWxONUNsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgImZpeHBvaW50Q2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAic2VsZkhvc3RpbmdDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJydXN0SW5kZXBlbmRlbmNlQ2xhaW1BbGxvd2VkIjogZmFsc2UKICB9LAogICJibG9ja2VycyI6IFtdCn0K",
+          "claimBoundary": {
+            "publicClaimsAllowed": false,
+            "formalN5ClaimAllowed": false,
+            "fixpointClaimAllowed": false,
+            "selfHostingClaimAllowed": false,
+            "rustIndependenceClaimAllowed": false
+          }
+        }
       }
     },
     {
@@ -126,5 +293,5 @@
       }
     }
   ],
-  "nextAction": "build Beta16.1 package and release manifest, then expose L6+N5 CLI artifact materializer for PCD/polymer -> artifact -> package -> release manifest"
+  "nextAction": "bind Beta16.1 package and release manifest to public release train"
 }

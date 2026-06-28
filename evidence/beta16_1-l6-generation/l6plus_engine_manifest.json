@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.cli_beta16_1_l6plus_engine_probe.v1",
   "version": "0.1.0-beta.16.1",
-  "generatedAt": "2026-06-28T10:18:07.791Z",
+  "generatedAt": "2026-06-28T10:43:39.198Z",
   "host": "root@89.167.104.236",
   "serial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
   "claimBoundary": {
@@ -20,21 +20,21 @@
   },
   "remoteRefProbe": {
     "status": 0,
-    "stdout_sha256": "b4fad79b529835a04878462cf7a7a6f4c00bd48b5a59f869d0e90432d513ef73",
+    "stdout_sha256": "36913969675d07c18c6aff4045f80ce00fd3bca44cb255eca3c2947e447e60d2",
     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "skipped": false
   },
   "endpointStatusProbe": {
     "status": 0,
-    "stdout_sha256": "bf96f0d6be15fd5a83a7bfb4049bb58ec81eecbcebfcd8c94678686eb14e09aa",
+    "stdout_sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
     "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "skipped": false,
-    "statusTag": "beta15_7_ready,beta16_native_ready"
+    "statusTag": "beta15_7_ready,beta16_native_ready,beta16_1_ready"
   },
   "remoteRefs": {
     "wrapper": {
-      "sha256": "2d7f10894bb34696b848db942005712fa609eee0c150c4ae2de8d7463275e3d8",
-      "bytes": 1506,
+      "sha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+      "bytes": 1546,
       "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
     },
     "wrapper_exec_target": {
@@ -46,8 +46,8 @@
   "wrapperMode": "cli_materializer_dispatcher",
   "materializerRequest": {
     "path": "evidence/beta16_1-l6-materializer-request/request.manifest.json",
-    "sha256": "72cb290a521d7453e7d5455fc898443dbb9d78f97bf2b0a269b7fd10fbaf8612",
-    "requestLineSha256": "4bf13fa4ac66b816290c23e0bb40f19f42a31e41e8193c60dc3dad089f5cb9b3",
-    "accepted": false
+    "sha256": "b2f059dcf93ecb923e0535d0f95f91fd13696f78bee641387f98e3cf931f23b5",
+    "requestLineSha256": "cc89e2705e2c55e316a0f486f5585f582e4e47dcecfa4ed5eba4a79b6a51fe10",
+    "accepted": true
   }
 }

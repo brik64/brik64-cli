@@ -4,7 +4,7 @@
   "lane": "cli_0_1_beta",
   "iterId": "beta16.1-l6-cli-materializer-request",
   "materializerMode": "l6plus_pcd_polymer_materializer",
-  "sourceCommit": "1bc6b44fad2422990c7647c48ecbca0aa128c744",
+  "sourceCommit": "0f3f304eaa4e0482a747674d934e7d1551ea6660",
   "claimBoundary": {
     "publicClaimsAllowed": false,
     "formalN5ClaimAllowed": false,

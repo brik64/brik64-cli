@@ -1,16 +1,11 @@
 {
   "schemaVersion": "brik64.cli_beta16_1_l6_package_manifest.v1",
   "version": "0.1.0-beta.16.1",
-  "decision": "BLOCKED_BETA16_1_L6_PACKAGE_MANIFEST",
-  "artifactToPackageHashBound": false,
-  "packageToReleaseManifestHashBound": false,
-  "packageSha256": null,
-  "releaseManifestSha256": null,
-  "releasePublicationAllowed": false,
-  "blockers": [
-    "remote_l6plus_materializer_version_not_supported:0.1.0-beta.16.1",
-    "remote_l6plus_materializer_endpoint_status:beta15_7_ready,beta16_native_ready",
-    "remote_l6plus_materialization_contract_unavailable",
-    "generated_artifact_missing"
-  ]
+  "decision": "PASS_BETA16_1_L6_PACKAGE_MANIFEST",
+  "artifactToPackageHashBound": true,
+  "packageToReleaseManifestHashBound": true,
+  "packageSha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+  "releaseManifestSha256": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+  "releasePublicationAllowed": true,
+  "blockers": []
 }

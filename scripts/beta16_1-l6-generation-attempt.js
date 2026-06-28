@@ -423,7 +423,7 @@ function main() {
   if (remote.hostProbe.status !== 0) blockers.push('remote_l6plus_probe_failed');
   if (!skipRemote && remote.auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
   if (versionMismatchAttempt) blockers.push(`remote_l6plus_materializer_version_not_supported:${version}`);
-  if (remote.endpointStatus.statusTag && remote.endpointStatus.statusTag !== 'beta16_1_ready') {
+  if (remote.endpointStatus.statusTag && !String(remote.endpointStatus.statusTag).split(',').includes('beta16_1_ready')) {
     blockers.push(`remote_l6plus_materializer_endpoint_status:${remote.endpointStatus.statusTag}`);
   }
   if (remote.wrapperMode === 'shell_exec_only' && !materialization) blockers.push('remote_l6plus_wrapper_has_no_cli_materializer_interface');
