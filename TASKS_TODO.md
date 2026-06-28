@@ -693,6 +693,20 @@
         this validates result shape only. It does not create a real L6+N5
         result or prove fixpoint.
 
+- [x] Beta17 Stage result validator enforces Stage manifest artifact bindings.
+      - Script:
+        `scripts/beta17-fixpoint-stage-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_result.sh`.
+      - Result:
+        when the result validator has a workspace root, it now reads
+        Stage1/Stage2 manifest refs and rejects manifests that do not bind the
+        artifact SHA-256 values declared by the Stage result. Stage2 must also
+        bind the Stage1 artifact SHA-256 it claims to regenerate from.
+      - Boundary:
+        this rejects detached remote result manifests before promotion. It
+        does not generate real L6+N5 Stage1/Stage2 artifacts.
+
 - [x] Beta17 Stage1/Stage2 fixture materializer.
       - Script:
         `scripts/beta17-fixpoint-stage-fixture-materializer.js`.

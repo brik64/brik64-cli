@@ -104,6 +104,34 @@ function validateStandaloneFileRef(ref, refField, expectedSha256, blockers, expe
   }
 }
 
+function readWorkspaceJsonRef(ref, refField, blockers, expected) {
+  if (typeof expected.workspaceRoot !== 'string' || !ref || typeof ref.path !== 'string' || pathLooksUnsafe(ref.path)) {
+    return null;
+  }
+  const root = path.resolve(expected.workspaceRoot);
+  const resolved = path.resolve(root, ref.path);
+  if (!(resolved === root || resolved.startsWith(`${root}${path.sep}`))) return null;
+  if (!fs.existsSync(resolved) || !fs.statSync(resolved).isFile()) return null;
+  try {
+    return JSON.parse(fs.readFileSync(resolved, 'utf8'));
+  } catch {
+    blockers.push(`stage_result_${blockerFieldName(refField)}_json_parse_failed:${ref.path}`);
+    return null;
+  }
+}
+
+function firstShaValue(source, paths) {
+  for (const pathSpec of paths) {
+    const parts = pathSpec.split('.');
+    let current = source;
+    for (const part of parts) {
+      current = current && typeof current === 'object' ? current[part] : undefined;
+    }
+    if (isSha256(current)) return normalizeSha256(current);
+  }
+  return null;
+}
+
 function validateStageResult(result, expected = {}) {
   const blockers = [];
   if (!result || typeof result !== 'object') {
@@ -148,6 +176,41 @@ function validateStageResult(result, expected = {}) {
 
   for (const [refField, hashField] of REQUIRED_FILE_REFS) {
     validateStandaloneFileRef(result[refField], refField, hashField ? result[hashField] : null, blockers, expected);
+  }
+  const stage1Manifest = readWorkspaceJsonRef(result.stage1Manifest, 'stage1Manifest', blockers, expected);
+  if (stage1Manifest) {
+    const boundStage1Sha = firstShaValue(stage1Manifest, [
+      'stage1ArtifactSha256',
+      'artifactSha256',
+      'artifact.sha256',
+      'materialization.artifactSha256',
+      'bindings.stage1ArtifactSha256',
+    ]);
+    if (boundStage1Sha !== normalizeSha256(result.stage1ArtifactSha256)) {
+      blockers.push('stage_result_stage1_manifest_artifact_sha256_mismatch');
+    }
+  }
+  const stage2Manifest = readWorkspaceJsonRef(result.stage2Manifest, 'stage2Manifest', blockers, expected);
+  if (stage2Manifest) {
+    const boundStage2Sha = firstShaValue(stage2Manifest, [
+      'stage2ArtifactSha256',
+      'artifactSha256',
+      'artifact.sha256',
+      'regeneration.artifactSha256',
+      'bindings.stage2ArtifactSha256',
+    ]);
+    const boundStage1Sha = firstShaValue(stage2Manifest, [
+      'generatedFromStage1ArtifactSha256',
+      'stage1ArtifactSha256',
+      'regeneration.stage1ArtifactSha256',
+      'bindings.stage1ArtifactSha256',
+    ]);
+    if (boundStage2Sha !== normalizeSha256(result.stage2ArtifactSha256)) {
+      blockers.push('stage_result_stage2_manifest_artifact_sha256_mismatch');
+    }
+    if (boundStage1Sha !== normalizeSha256(result.stage1ArtifactSha256)) {
+      blockers.push('stage_result_stage2_manifest_stage1_artifact_sha256_mismatch');
+    }
   }
   for (const [field, blocker] of [
     ['pcdInputSetSha256', 'stage_result_pcd_input_set_sha256_mismatch'],

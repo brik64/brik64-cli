@@ -1961,3 +1961,31 @@ Boundary:
 - This prevents detached Stage manifests from satisfying readiness. It does
   not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage result manifest binding
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Reject detached Stage manifests at the Stage result validation boundary.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-result.js` so
+  `validateStageResult(..., { workspaceRoot })` reads the Stage1 and Stage2
+  manifest refs and checks artifact SHA-256 bindings.
+- Stage1 manifest must bind the Stage1 artifact SHA-256 declared by the
+  result.
+- Stage2 manifest must bind the Stage2 artifact SHA-256 and the Stage1
+  artifact SHA-256 it claims to regenerate from.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_result.sh` with a
+  Stage2 manifest Stage1 SHA mismatch adversarial case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_result.sh` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+
+Boundary:
+- This prevents detached Stage manifests from entering promotion through the
+  Stage result validator. It does not generate real L6+N5 Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.

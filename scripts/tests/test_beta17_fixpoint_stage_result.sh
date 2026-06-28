@@ -111,8 +111,17 @@ const withFiles = structuredClone(good);
 const files = [
   [withFiles.stage1Artifact, artifactBody],
   [withFiles.stage2Artifact, artifactBody],
-  [withFiles.stage1Manifest, '{"version":"0.1.0-beta.17"}'],
-  [withFiles.stage2Manifest, '{"generatedByStage1":true}'],
+  [withFiles.stage1Manifest, JSON.stringify({
+    version: '0.1.0-beta.17',
+    generatedByL6PlusN5: true,
+    stage1ArtifactSha256: withFiles.stage1ArtifactSha256,
+  })],
+  [withFiles.stage2Manifest, JSON.stringify({
+    version: '0.1.0-beta.17',
+    generatedByStage1: true,
+    stage2ArtifactSha256: withFiles.stage2ArtifactSha256,
+    generatedFromStage1ArtifactSha256: withFiles.stage1ArtifactSha256,
+  })],
   [withFiles.byteIdenticalReport, '{"byteIdentical":true}'],
   [withFiles.harnessReport, '{"decision":"PASS"}'],
   [withFiles.sealReport, '{"decision":"PASS"}'],
@@ -130,6 +139,25 @@ for (const item of withFiles.inputPcds) {
   item.sha256 = sha256(item.path);
 }
 assert.strictEqual(validateStageResult(withFiles, { workspaceRoot }).accepted, true);
+
+const stage2ManifestPath = path.join(workspaceRoot, withFiles.stage2Manifest.path);
+fs.writeFileSync(stage2ManifestPath, JSON.stringify({
+  version: '0.1.0-beta.17',
+  generatedByStage1: true,
+  stage2ArtifactSha256: withFiles.stage2ArtifactSha256,
+  generatedFromStage1ArtifactSha256: '0'.repeat(64),
+}));
+withFiles.stage2Manifest.sha256 = sha256(fs.readFileSync(stage2ManifestPath));
+const detachedStage2Manifest = validateStageResult(withFiles, { workspaceRoot });
+assert.strictEqual(detachedStage2Manifest.accepted, false);
+assert(detachedStage2Manifest.blockers.includes('stage_result_stage2_manifest_stage1_artifact_sha256_mismatch'));
+fs.writeFileSync(stage2ManifestPath, JSON.stringify({
+  version: '0.1.0-beta.17',
+  generatedByStage1: true,
+  stage2ArtifactSha256: withFiles.stage2ArtifactSha256,
+  generatedFromStage1ArtifactSha256: withFiles.stage1ArtifactSha256,
+}));
+withFiles.stage2Manifest.sha256 = sha256(fs.readFileSync(stage2ManifestPath));
 
 fs.writeFileSync(path.join(workspaceRoot, withFiles.stage2Artifact.path), 'tampered');
 const tamperedFile = validateStageResult(withFiles, { workspaceRoot });
