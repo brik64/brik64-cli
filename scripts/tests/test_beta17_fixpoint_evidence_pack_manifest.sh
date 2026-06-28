@@ -47,4 +47,16 @@ jq -e '
   ([.files[] | select(.path=="evidence/beta17-fixpoint/evidence_pack_manifest.json")] | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" >/dev/null
 
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-evidence-pack-manifest.js" \
+  --check >"$TMP_DIR/check.stdout" 2>"$TMP_DIR/check.stderr"
+grep -q "BETA17_EVIDENCE_PACK_MANIFEST_CHECK_PASS" "$TMP_DIR/check.stdout"
+
+printf 'tampered stage1 artifact\n' >"$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs"
+if BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-evidence-pack-manifest.js" \
+  --check >"$TMP_DIR/stale.stdout" 2>"$TMP_DIR/stale.stderr"; then
+  echo "expected stale manifest check to fail" >&2
+  exit 1
+fi
+grep -q "evidence_pack_manifest_stale" "$TMP_DIR/stale.stderr"
+
 echo "PASS beta17 evidence pack manifest generator"

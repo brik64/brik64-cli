@@ -166,6 +166,20 @@
         this strengthens evidence indexing only. It does not create real
         Stage1/Stage2 materialization evidence or authorize Beta17 publication.
 
+- [x] Add stale-manifest check for the Beta17 evidence pack.
+      - Script:
+        `scripts/beta17-fixpoint-evidence-pack-manifest.js --check`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh`.
+      - Result:
+        CI and operators can now verify that
+        `evidence/beta17-fixpoint/evidence_pack_manifest.json` still matches
+        the current evidence directory. The check fails closed if a referenced
+        evidence file changes without regenerating the manifest.
+      - Boundary:
+        this detects stale evidence indexes. It does not prove Stage1/Stage2
+        fixpoint, run external audit or publish Beta17.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.

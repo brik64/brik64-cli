@@ -63,6 +63,43 @@ function writeEvidencePackManifest(options = {}) {
   };
 }
 
+function comparableManifest(manifest) {
+  return {
+    schemaVersion: manifest.schemaVersion,
+    version: manifest.version,
+    status: manifest.status,
+    files: manifest.files,
+    packSha256: manifest.packSha256,
+    claimBoundary: manifest.claimBoundary,
+  };
+}
+
+function checkEvidencePackManifest() {
+  if (!fs.existsSync(outPath)) {
+    return {
+      ok: false,
+      reason: 'evidence_pack_manifest_missing',
+      path: rel(outPath),
+    };
+  }
+  const existing = JSON.parse(fs.readFileSync(outPath, 'utf8'));
+  const expected = buildEvidencePackManifest({
+    status: existing.status || 'CANDIDATE_NON_CLAIM',
+  });
+  const existingComparable = comparableManifest(existing);
+  const expectedComparable = comparableManifest(expected);
+  const ok = JSON.stringify(existingComparable) === JSON.stringify(expectedComparable);
+  return {
+    ok,
+    reason: ok ? 'evidence_pack_manifest_current' : 'evidence_pack_manifest_stale',
+    path: rel(outPath),
+    expectedPackSha256: expected.packSha256,
+    observedPackSha256: existing.packSha256 || null,
+    expectedFileCount: expected.files.length,
+    observedFileCount: Array.isArray(existing.files) ? existing.files.length : null,
+  };
+}
+
 function argValue(name, fallback) {
   const index = process.argv.indexOf(name);
   if (index === -1) return fallback;
@@ -70,6 +107,18 @@ function argValue(name, fallback) {
 }
 
 function main() {
+  if (process.argv.includes('--check')) {
+    const result = checkEvidencePackManifest();
+    if (!result.ok) {
+      console.error(`BETA17_EVIDENCE_PACK_MANIFEST_CHECK_FAIL ${result.reason}`);
+      console.error(JSON.stringify(result, null, 2));
+      process.exit(1);
+    }
+    console.log(`BETA17_EVIDENCE_PACK_MANIFEST_CHECK_PASS ${result.path}`);
+    console.log(`packSha256=${result.observedPackSha256}`);
+    console.log(`files=${result.observedFileCount}`);
+    return;
+  }
   const status = argValue('--status', 'CANDIDATE_NON_CLAIM');
   const result = writeEvidencePackManifest({ status });
   console.log(`BETA17_EVIDENCE_PACK_MANIFEST_READY ${result.path}`);
@@ -83,5 +132,6 @@ if (require.main === module) {
 
 module.exports = {
   buildEvidencePackManifest,
+  checkEvidencePackManifest,
   writeEvidencePackManifest,
 };

@@ -1670,3 +1670,37 @@ Boundary:
 - This removes duplicated manifest logic and strengthens the evidence-pack
   maintenance path. It does not generate real L6+N5 Stage1/Stage2 evidence,
   prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence manifest freshness check
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Add a fail-closed freshness check for the Beta17 evidence-pack manifest.
+
+Change:
+- Added `--check` mode to `scripts/beta17-fixpoint-evidence-pack-manifest.js`.
+- Extended `scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh` so a
+  fresh manifest passes and a tampered evidence file produces
+  `evidence_pack_manifest_stale`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-manifest.js` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This catches stale evidence indexes after file tampering. It does not create
+  real L6+N5 Stage1/Stage2 evidence, prove fixpoint or publish Beta17.
