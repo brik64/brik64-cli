@@ -31,13 +31,21 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.sh"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
+  if [ "$BETA_LABEL" = "beta16_1" ]; then
+    PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.js"
+    SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
+  fi
   PACKAGE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_BUILT"
   SMOKE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_LOCAL_PACKAGE_SMOKE"
   test -f "$PACKAGE_SCRIPT"
   test -f "$SMOKE_SCRIPT"
   MANIFEST_STATE="$(node -e 'const fs=require("fs"); const p="release/manifest.json"; if (!fs.existsSync(p)) { process.stdout.write("missing"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,"utf8")); process.stdout.write(m.state || "missing")')"
   if [ "$MANIFEST_STATE" != "public" ]; then
-    package_out="$(bash "$PACKAGE_SCRIPT")"
+    if [[ "$PACKAGE_SCRIPT" == *.js ]]; then
+      package_out="$(node "$PACKAGE_SCRIPT")"
+    else
+      package_out="$(bash "$PACKAGE_SCRIPT")"
+    fi
     grep -q "$PACKAGE_DECISION" <<<"$package_out"
   fi
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"

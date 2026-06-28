@@ -74,6 +74,10 @@ function add(condition, failures, code) {
   if (!condition) failures.push(code);
 }
 
+function porcelainPath(line) {
+  return String(line || '').replace(/^[ MADRCU?!]{1,2}\s+/, '');
+}
+
 function containsForbiddenPublicLanguage(text) {
   const patterns = [
     /\bL[456]\+?N5\b/i,
@@ -240,8 +244,10 @@ function validate() {
   const dirtyFiles = status
     .split('\n')
     .filter(Boolean)
-    .map((line) => line.slice(3))
+    .map(porcelainPath)
     .filter((file) => ![
+      'evidence/cli-l6-generation-required/report.json',
+      'evidence/release-flow-audit/report.json',
       'evidence/release-manifest-validate/report.json',
       'evidence/release-train-dry-run/report.json'
     ].includes(file));

@@ -122,6 +122,14 @@ function requiredBetaScripts(label) {
       'smoke:beta15.7:package'
     ];
   }
+  if (label === 'beta16_1') {
+    return [
+      'gate:cli:l6-generation-required',
+      'gate:beta16.1:full-release-audit',
+      'package:beta16.1:local',
+      'smoke:beta16.1:package'
+    ];
+  }
   return [
     `gate:${label}:feature-parity`,
     `package:${label}:local`,

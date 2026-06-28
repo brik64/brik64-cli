@@ -1,0 +1,35 @@
+max_cycles: 5
+
+checks:
+  level_1:
+    - name: cli-safe-checks
+      command: bash tools/codex-loop/brik64-cli-checks.sh
+  level_2:
+    - name: cli-public-beta-audit
+      command: bash tools/codex-loop/brik64-cli-public-beta-audit.sh
+  evidence_boundary:
+    - name: cli-claim-audit
+      command: bash tools/codex-loop/brik64-cli-claim-audit.sh
+
+evidence_policy:
+  final_report: required
+  verification_statement: required
+  nivel_required: required
+  public_artifact_separate_from_local_checkout: required
+  stale_evidence_is_baseline_only: required
+  release_train_atomicity_required: required
+  no_fixpoint_claim_without_fresh_fixpoint_evidence: required
+  no_claim_beyond_checks: required
+
+stop_rules:
+  - same_failure_twice
+  - max_cycles
+  - weakened_tests
+  - new_regression
+  - user_changes_at_risk
+  - insufficient_evidence
+  - unsupported_claim
+  - formal_surface_changed_without_tests_fixtures_docs_reports
+  - generated_artifact_treated_as_source_of_truth
+  - public_artifact_not_bound_to_manifest
+  - sdk_docs_skills_surface_drift

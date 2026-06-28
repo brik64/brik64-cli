@@ -1,17 +1,17 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.15.7.1",
-  "version": "0.1.0-beta.15.7.1",
+  "releaseId": "brik64-0.1.0-beta.16.1",
+  "version": "0.1.0-beta.16.1",
   "channel": "beta",
-  "state": "public",
+  "state": "draft",
   "source": {
-    "commit": "e4411162e67c864a1449de5ac3ce8027d61be978",
-    "commitBinding": "public_release_base_commit"
+    "commit": "1bc6b44fad2422990c7647c48ecbca0aa128c744",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
-      "path": "evidence/beta15_7-package/brik64-cli-0.1.0-beta.15.7.1.tgz",
-      "sha256": "9c542f4589741192157b511c56ec2e03957b73bf9ac3cf80371a702b2d2977ff",
+      "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
+      "sha256": "dfbdc01b222517243566af594f1e28d624e51d9da54046cb19bdf2555631b4ee",
       "bytes": 631876
     }
   },
@@ -19,33 +19,33 @@
     {
       "type": "added",
       "surface": "CLI package",
-      "text": "Publishes the Beta15.7.1 CLI package as a versioned follow-up for the offline command-line workflow and embedded engine files."
+      "text": "Adds a non-mutating Beta16.1.x CLI package candidate for the offline command-line workflow and embedded engine files."
     },
     {
       "type": "fixed",
-      "surface": "Release packaging",
-      "text": "Ships the follow-up as its own versioned archive instead of changing the existing Beta15.7 package."
+      "surface": "CLI package",
+      "text": "Publishes the follow-up as its own versioned candidate instead of rewriting the existing Beta16.1 archive."
     }
   ],
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.15.7.1",
+      "version": "0.1.0-beta.16.1",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b15.post701",
+      "version": "0.1.0b16.post1",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.15.7.1",
+      "version": "0.1.0-beta.16.1",
       "required": true,
       "publication": "pending_release_train_publish"
     }
@@ -54,7 +54,7 @@
     "githubRelease": {
       "required": true,
       "status": "pending_release_train_publish",
-      "tag": "v0.1.0-beta.15.7.1"
+      "tag": "v0.1.0-beta.16.1"
     },
     "curlInstaller": {
       "required": true,

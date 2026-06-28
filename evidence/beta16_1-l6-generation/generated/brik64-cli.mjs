@@ -1,0 +1,67 @@
+// brik64 generated materialization unit
+export const brik64CliMaterialization = {
+  "schemaVersion": "brik64.cli_beta16_1_l6_generated_artifact.v1",
+  "version": "0.1.0-beta.16.1",
+  "materializerMode": "l6plus_pcd_polymer_materializer",
+  "generatedBy": "l6plus_n5_remote_cli_materializer_endpoint",
+  "source": {
+    "pcdInputSetSha256": "a9860c4fe9e36d596b4300cf6c9154400b77ce8d1b894036c3f3e7eb270a2dd0",
+    "materializerRequestSha256": "cc89e2705e2c55e316a0f486f5585f582e4e47dcecfa4ed5eba4a79b6a51fe10",
+    "inputPcds": [
+      {
+        "path": "pcd/beta16_1/release/l6_cli_materialization_contract.pcd",
+        "sha256": "14ea8a96adb539e3d036c4c60ae58a7be54d115725403665d11b5fd9f2eec736",
+        "bytes": 810
+      },
+      {
+        "path": "pcd/beta16_1/release/l6_cli_materialization_result_contract.pcd",
+        "sha256": "adf2ef19b7d13a33ac6e9f2ff84fa3987681cb2f465c2c7867df175058c74fb4",
+        "bytes": 2005
+      },
+      {
+        "path": "pcd/beta15/l6plus_materialization_command.contract.json",
+        "sha256": "84f801025b2c04e5d6b70d8617d0cafd1fa48d1fb415864354285f3953068fba",
+        "bytes": 3597
+      },
+      {
+        "path": "pcd/beta15/manifest.json",
+        "sha256": "ae4e69c6b4aa1b7ae4386d19a7106b3df549212df899f0a6b3882d527d6f6aa0",
+        "bytes": 872
+      },
+      {
+        "path": "pcd/beta15/cli_polymer.pcd",
+        "sha256": "ae1b25d945b09457482ba70cf434e53af57b22c6e19dd24101380fef698a0a24",
+        "bytes": 822
+      },
+      {
+        "path": "pcd/cli_core.pcd",
+        "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+        "bytes": 813
+      },
+      {
+        "path": "pcd/cli_polymer.pcd",
+        "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+        "bytes": 2047
+      }
+    ]
+  },
+  "outputBindings": {
+    "package": {
+      "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
+      "sha256": "9125d369dfb1bad1408fac05b551dc890867c3763924500b9ccb43c1930e8f65",
+      "bytes": 631876
+    },
+    "releaseManifest": {
+      "path": "release/manifest.json",
+      "sha256": "02773fe1f610f368856b67e5bd046985878c8d99ca208d9deeb37951e15e5963",
+      "bytes": 2627
+    }
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+};
