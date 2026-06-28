@@ -227,6 +227,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   manifest's aggregate `packSha256` over its file refs and requires all public,
   definitive fixpoint, formal N5 and universal correctness boundaries to stay
   closed inside the evidence-pack manifest.
+- Input PCD binding: `gate:beta17:fixpoint-readiness` treats
+  `input_pcd_hashes.tsv` as a concrete file/hash contract. Each non-comment row
+  must contain a safe relative PCD path, a valid SHA-256 and an existing file
+  whose hash matches. Placeholder hashes cannot satisfy readiness.
 - Readiness hardening: `gate:beta17:fixpoint-readiness` rejects any Stage1,
   Stage2, byte-identity, harness or seal report marked `fixtureMaterializer`.
   Fixture evidence may test the contract, but it can never authorize Beta17

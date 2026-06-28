@@ -194,6 +194,21 @@
         this strengthens evidence-pack integrity checks. It does not produce
         the missing real Stage1/Stage2 L6+N5 materialization.
 
+- [x] Validate Beta17 input PCD hash list against real files.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        `input_pcd_hashes.tsv` now requires safe relative paths, valid SHA-256
+        values, existing files and exact file/hash agreement. Release-train
+        fixtures now bind to real Beta17 PCD contract files instead of
+        placeholder hashes.
+      - Boundary:
+        this validates input PCD references. It does not materialize Stage1 or
+        Stage2 artifacts.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.

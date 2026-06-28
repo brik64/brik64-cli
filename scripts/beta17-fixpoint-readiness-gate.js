@@ -59,19 +59,59 @@ function rejectFixtureEvidence(report, key, blockers) {
   }
 }
 
+function isSafeRelativePath(ref) {
+  if (typeof ref !== 'string' || ref.length === 0) return false;
+  if (path.isAbsolute(ref)) return false;
+  const normalized = path.normalize(ref);
+  if (normalized === '..' || normalized.startsWith(`..${path.sep}`)) return false;
+  return normalized === ref || normalized.replaceAll(path.sep, '/') === ref;
+}
+
+function isSha256(value) {
+  return /^[a-f0-9]{64}$/i.test(String(value || ''));
+}
+
 function checkHashList(file, blockers, evidence, key) {
   if (!fs.existsSync(file)) {
     blockers.push(`missing_${key}:${rel(file)}`);
     return;
   }
   const text = fs.readFileSync(file, 'utf8');
-  const rows = text.split(/\r?\n/).filter(Boolean);
+  const rows = text
+    .split(/\r?\n/)
+    .map((row) => row.trim())
+    .filter((row) => row && !row.startsWith('#'));
   evidence[key] = {
     path: rel(file),
     sha256: sha256File(file),
     rows: rows.length,
   };
   if (rows.length === 0) blockers.push(`${key}_empty:${rel(file)}`);
+  rows.forEach((row, index) => {
+    const parts = row.split(/\t/);
+    if (parts.length !== 2) {
+      blockers.push(`${key}_invalid_row:${index + 1}`);
+      return;
+    }
+    const [pcdRef, expectedSha] = parts;
+    if (!isSafeRelativePath(pcdRef)) {
+      blockers.push(`${key}_unsafe_path:${index + 1}:${pcdRef || 'missing'}`);
+      return;
+    }
+    if (!isSha256(expectedSha)) {
+      blockers.push(`${key}_invalid_sha256:${index + 1}:${expectedSha || 'missing'}`);
+      return;
+    }
+    const pcdFile = path.join(root, pcdRef);
+    if (!fs.existsSync(pcdFile) || !fs.statSync(pcdFile).isFile()) {
+      blockers.push(`${key}_missing_file:${pcdRef}`);
+      return;
+    }
+    const actualSha = sha256File(pcdFile);
+    if (actualSha.toLowerCase() !== expectedSha.toLowerCase()) {
+      blockers.push(`${key}_sha256_mismatch:${pcdRef}`);
+    }
+  });
 }
 
 function checkPromotedRef(remotePromotion, promotedKey, evidenceKey, evidence, blockers) {

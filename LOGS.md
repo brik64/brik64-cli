@@ -1741,3 +1741,43 @@ Evidence:
 Boundary:
 - This closes a manifest-integrity gap. It does not create real L6+N5
   Stage1/Stage2 evidence, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Input PCD hash validation
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Make Beta17 readiness validate `input_pcd_hashes.tsv` as a real input-file
+  contract.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to reject unsafe PCD
+  refs, malformed SHA-256 values, missing files and file/hash mismatches.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with real
+  fixture PCD files plus a mismatch break attempt.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` to bind the
+  release-train fixture to existing Beta17 PCD contract files instead of
+  placeholder hashes.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This prevents placeholder or stale PCD input hashes from satisfying
+  readiness. It does not generate the real L6+N5 Stage1/Stage2 artifacts,
+  prove fixpoint or publish Beta17.

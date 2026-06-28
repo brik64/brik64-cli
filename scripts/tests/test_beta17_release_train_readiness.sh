@@ -126,10 +126,12 @@ JSON
 cat >evidence/beta17-fixpoint/canonical_harness_manifest.json <<'JSON'
 { "pcdBound": true }
 JSON
-cat >evidence/beta17-fixpoint/input_pcd_hashes.tsv <<'EOF_HASHES'
-pcd/beta17/motor.pcd	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-pcd/beta17/harness.pcd	bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-EOF_HASHES
+stage1_contract_sha="$(shasum -a 256 pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd | awk '{print $1}')"
+stage2_contract_sha="$(shasum -a 256 pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd | awk '{print $1}')"
+{
+  printf 'pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd\t%s\n' "$stage1_contract_sha"
+  printf 'pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd\t%s\n' "$stage2_contract_sha"
+} >evidence/beta17-fixpoint/input_pcd_hashes.tsv
 cat >evidence/beta17-fixpoint/stage1_artifact_manifest.json <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByL6PlusN5": true }
 JSON

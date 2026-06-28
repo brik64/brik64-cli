@@ -104,10 +104,21 @@ JSON
 cat >"$FIXTURE/evidence/beta17-fixpoint/canonical_harness_manifest.json" <<'JSON'
 { "pcdBound": true }
 JSON
+mkdir -p "$FIXTURE/pcd/beta17"
+cat >"$FIXTURE/pcd/beta17/motor.pcd" <<'PCD'
+PC beta17_motor { fn run() -> i64 { return 17; } }
+PCD
+cat >"$FIXTURE/pcd/beta17/harness.pcd" <<'PCD'
+PC beta17_harness { fn run() -> i64 { return 1; } }
+PCD
+motor_pcd_sha="$(shasum -a 256 "$FIXTURE/pcd/beta17/motor.pcd" | awk '{print $1}')"
+harness_pcd_sha="$(shasum -a 256 "$FIXTURE/pcd/beta17/harness.pcd" | awk '{print $1}')"
 cat >"$FIXTURE/evidence/beta17-fixpoint/input_pcd_hashes.tsv" <<'EOF_HASHES'
-pcd/beta17/motor.pcd	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-pcd/beta17/harness.pcd	bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 EOF_HASHES
+{
+  printf 'pcd/beta17/motor.pcd\t%s\n' "$motor_pcd_sha"
+  printf 'pcd/beta17/harness.pcd\t%s\n' "$harness_pcd_sha"
+} >>"$FIXTURE/evidence/beta17-fixpoint/input_pcd_hashes.tsv"
 cat >"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" <<'JSON'
 { "version": "0.1.0-beta.17", "generatedByL6PlusN5": true }
 JSON
@@ -274,6 +285,33 @@ jq -e '
   and (.blockers | index("evidence_pack_manifest_missing_ref:evidence/beta17-fixpoint/external_audit_report.json"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
+write_evidence_pack_manifest "$FIXTURE"
+
+cat >"$FIXTURE/evidence/beta17-fixpoint/input_pcd_hashes.tsv" <<'EOF_HASHES'
+pcd/beta17/motor.pcd	0000000000000000000000000000000000000000000000000000000000000000
+EOF_HASHES
+write_evidence_pack_manifest "$FIXTURE"
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/input-pcd-mismatch.stdout" 2>"$TMP_DIR/input-pcd-mismatch.stderr"
+input_pcd_mismatch_rc=$?
+set -e
+
+if [[ "$input_pcd_mismatch_rc" -eq 0 ]]; then
+  echo "input_pcd_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("input_pcd_hashes_sha256_mismatch:pcd/beta17/motor.pcd"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+{
+  printf 'pcd/beta17/motor.pcd\t%s\n' "$motor_pcd_sha"
+  printf 'pcd/beta17/harness.pcd\t%s\n' "$harness_pcd_sha"
+} >"$FIXTURE/evidence/beta17-fixpoint/input_pcd_hashes.tsv"
 write_evidence_pack_manifest "$FIXTURE"
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
