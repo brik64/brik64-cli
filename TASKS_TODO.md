@@ -238,6 +238,21 @@
         this validates seal bindings. It does not produce the missing L6+N5
         artifacts.
 
+- [x] Require explicit Beta17 public-surface sync matrix.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        `public_surface_sync_report.json` must now include passing
+        `surfaceChecks` for CLI installer, CLI manifest, docs, web changelog
+        and skills, each pinned to `0.1.0-beta.17`. A stale public surface
+        version fails readiness.
+      - Boundary:
+        this validates declared public-surface sync evidence. It does not
+        deploy the public surfaces.
+
 - [x] Preserve complete Beta17 remote stage results before readiness promotion.
       - Script:
         `scripts/beta17-fixpoint-stage-remote-attempt.js`.

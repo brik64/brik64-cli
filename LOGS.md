@@ -1861,3 +1861,44 @@ Boundary:
 - This prevents unbound seal reports from satisfying readiness. It does not
   generate the real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Public surface sync matrix
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require explicit public-surface sync evidence before Beta17 readiness.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so
+  `public_surface_sync_report.json` must contain passing `surfaceChecks` for
+  `cli_installer`, `cli_manifest`, `docs`, `web_changelog` and `skills`, all
+  pinned to `0.1.0-beta.17`.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with the
+  required matrix.
+- Added an adversarial stale docs version case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This checks declared public-surface sync evidence. It does not deploy
+  public surfaces, run the final external audit, prove fixpoint or publish
+  Beta17.

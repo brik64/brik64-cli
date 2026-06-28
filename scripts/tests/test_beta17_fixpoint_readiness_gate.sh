@@ -207,7 +207,17 @@ for token, filename in {
 manifest.write_text(text)
 PY
 cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON'
-{ "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
+{
+  "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
+  "synced": true,
+  "surfaceChecks": [
+    { "id": "cli_installer", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "cli_manifest", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "docs", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "web_changelog", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "skills", "version": "0.1.0-beta.17", "pass": true }
+  ]
+}
 JSON
 write_external_audit_report "$FIXTURE"
 write_evidence_pack_manifest "$FIXTURE"
@@ -226,6 +236,44 @@ jq -e '
   and .checks.remotePromotionClaimsClosed==true
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+for entry in data["surfaceChecks"]:
+    if entry["id"] == "docs":
+        entry["version"] = "0.1.0-beta.16.1"
+json.dump(data, open(path, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/public-sync-mismatch.stdout" 2>"$TMP_DIR/public-sync-mismatch.stderr"
+public_sync_mismatch_rc=$?
+set -e
+
+if [[ "$public_sync_mismatch_rc" -eq 0 ]]; then
+  echo "public_sync_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("public_surface_sync_version_mismatch:docs:0.1.0-beta.16.1"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+for entry in data["surfaceChecks"]:
+    if entry["id"] == "docs":
+        entry["version"] = "0.1.0-beta.17"
+json.dump(data, open(path, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" <<'PY'
 import json, sys

@@ -219,7 +219,17 @@ for token, filename in {
 manifest.write_text(text)
 PY
 cat >evidence/beta17-fixpoint/public_surface_sync_report.json <<'JSON'
-{ "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC", "synced": true }
+{
+  "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
+  "synced": true,
+  "surfaceChecks": [
+    { "id": "cli_installer", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "cli_manifest", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "docs", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "web_changelog", "version": "0.1.0-beta.17", "pass": true },
+    { "id": "skills", "version": "0.1.0-beta.17", "pass": true }
+  ]
+}
 JSON
 write_external_audit_report
 write_evidence_pack_manifest

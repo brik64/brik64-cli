@@ -178,6 +178,45 @@ function firstValueAt(object, dottedPaths) {
   return undefined;
 }
 
+function checkPublicSurfaceSyncReport(publicSync, checks, blockers) {
+  checks.publicSurfaceSyncPass = publicSync.decision === 'PASS_BETA17_PUBLIC_SURFACE_SYNC'
+    || publicSync.status === 'PASS'
+    || publicSync.synced === true;
+  if (!checks.publicSurfaceSyncPass) {
+    blockers.push(`public_surface_sync_not_pass:${publicSync.decision || publicSync.status || 'missing'}`);
+    return;
+  }
+  const requiredSurfaces = [
+    'cli_installer',
+    'cli_manifest',
+    'docs',
+    'web_changelog',
+    'skills',
+  ];
+  const surfaces = Array.isArray(publicSync.surfaceChecks)
+    ? publicSync.surfaceChecks
+    : Array.isArray(publicSync.surfaces)
+      ? publicSync.surfaces
+      : [];
+  if (surfaces.length === 0) {
+    blockers.push('public_surface_sync_checks_missing');
+    return;
+  }
+  for (const surfaceId of requiredSurfaces) {
+    const surface = surfaces.find((entry) => entry && entry.id === surfaceId);
+    if (!surface) {
+      blockers.push(`public_surface_sync_missing:${surfaceId}`);
+      continue;
+    }
+    if (surface.pass !== true && surface.synced !== true) {
+      blockers.push(`public_surface_sync_surface_not_pass:${surfaceId}`);
+    }
+    if (surface.version !== '0.1.0-beta.17') {
+      blockers.push(`public_surface_sync_version_mismatch:${surfaceId}:${surface.version || 'missing'}`);
+    }
+  }
+}
+
 function checkEvidencePackManifest(manifest, evidence, blockers) {
   if (!manifest || typeof manifest !== 'object') return;
   if (manifest.schemaVersion !== 'brik64.beta17_fixpoint.evidence_pack_manifest.v1') {
@@ -402,10 +441,7 @@ function main() {
     if (!checks.sealBindsInputPcdSet) blockers.push('seal_input_pcd_set_sha256_mismatch');
   }
   if (publicSync) {
-    checks.publicSurfaceSyncPass = publicSync.decision === 'PASS_BETA17_PUBLIC_SURFACE_SYNC'
-      || publicSync.status === 'PASS'
-      || publicSync.synced === true;
-    if (!checks.publicSurfaceSyncPass) blockers.push(`public_surface_sync_not_pass:${publicSync.decision || publicSync.status || 'missing'}`);
+    checkPublicSurfaceSyncReport(publicSync, checks, blockers);
   }
   if (externalAudit) {
     const externalAuditValidation = validateBeta17ExternalAuditReport(externalAudit, { rootDir: root });
