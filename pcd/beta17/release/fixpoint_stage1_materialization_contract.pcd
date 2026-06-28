@@ -1,0 +1,25 @@
+// brik64.pcd_file.v1
+// claim_boundary: beta17_fixpoint_candidate_source_contract
+// beta17_source_contract: fixpoint_stage1_materialization_contract
+PC fixpoint_stage1_materialization_contract {
+    fn fixpoint_stage1_materialization_contract(
+        canonical_motor_pcd_hash_bound,
+        canonical_harness_pcd_hash_bound,
+        input_set_hash_bound,
+        l6plus_engine_serial_bound,
+        l6plus_materializer_accepts_contract,
+        stage1_artifact_hash_bound,
+        stage1_harness_pass,
+        stage1_seal_pass
+    ) {
+        if (canonical_motor_pcd_hash_bound == 0) { return 0; }
+        if (canonical_harness_pcd_hash_bound == 0) { return 0; }
+        if (input_set_hash_bound == 0) { return 0; }
+        if (l6plus_engine_serial_bound == 0) { return 0; }
+        if (l6plus_materializer_accepts_contract == 0) { return 0; }
+        if (stage1_artifact_hash_bound == 0) { return 0; }
+        if (stage1_harness_pass == 0) { return 0; }
+        if (stage1_seal_pass == 0) { return 0; }
+        return 1;
+    }
+}

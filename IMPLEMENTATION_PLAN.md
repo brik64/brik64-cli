@@ -196,5 +196,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `TEMPLATE_NON_CLAIM` and must remain rejected by
   `gate:beta17:fixpoint-readiness` until replaced by fresh claim-bearing
   artifacts.
+- Stage contract gate: `npm run gate:beta17:fixpoint:stage-contract` validates
+  the Beta17 Stage1 and Stage2 PCD contracts before any materialization script
+  can be treated as release-relevant. Stage2 must explicitly bind regeneration
+  from Stage1 and byte-identical hash/size comparison.
 - Next gate: `npm run test:beta17:fixpoint-readiness` and
-  `npm run test:beta17:fixpoint:evidence:init`.
+  `npm run test:beta17:fixpoint:evidence:init` and
+  `npm run test:beta17:fixpoint:stage-contract`.

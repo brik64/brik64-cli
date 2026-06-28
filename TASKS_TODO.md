@@ -441,3 +441,18 @@
         `evidence/beta17-fixpoint/` with passing claim-bearing reports.
       - Gate:
         `npm run gate:beta17:fixpoint-readiness`.
+
+- [x] Beta17 Stage1/Stage2 PCD contract gate.
+      - PCDs:
+        `pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd`,
+        `pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd`.
+      - Gate:
+        `scripts/beta17-fixpoint-stage-contract-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh`.
+      - Goal:
+        make Stage1 L6+N5 materialization and Stage2 regeneration/byte-identity
+        explicit before implementing a remote materializer.
+      - Boundary:
+        this is source-contract validation only. It does not run L6+N5,
+        generate Stage1, regenerate Stage2 or publish Beta17.

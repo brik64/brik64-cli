@@ -1107,3 +1107,29 @@ Boundary:
 - Generated evidence-pack files are templates marked `TEMPLATE_NON_CLAIM`.
   They are intentionally rejected by `gate:beta17:fixpoint-readiness` until
   replaced by real Stage1/Stage2 byte-identical evidence.
+
+## Beta17 Ralph Loop Iteration - Stage1/Stage2 source contracts
+
+Task:
+- Make the Beta17 fixpoint materialization contract explicit before adapting
+  remote L6+N5 materializers.
+
+Change:
+- Added `pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd`.
+- Added `pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd`.
+- Added `scripts/beta17-fixpoint-stage-contract-gate.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh`.
+- Added npm scripts `gate:beta17:fixpoint:stage-contract` and
+  `test:beta17:fixpoint:stage-contract`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-contract-gate.js` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This validates the PCD source-contract shape only. It does not materialize
+  Stage1, regenerate Stage2, prove byte identity, publish Beta17 or authorize
+  a public fixpoint claim.
