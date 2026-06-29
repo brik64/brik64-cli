@@ -13,12 +13,20 @@ node <<'NODE'
 const assert = require('assert');
 const {
   attemptedGenerationCommands,
+  hydrateMaterializerGenerationResult,
   parseEndpointCapabilities,
   parseEndpointSignals,
   parseWrapperMode,
   requiredEndpointCapability,
   requiredResultMarker,
+  safeRelativePath,
 } = require('./scripts/beta17-fixpoint-materializer-generation-attempt');
+const fs = require('fs');
+const crypto = require('crypto');
+
+function sha256(value) {
+  return crypto.createHash('sha256').update(value).digest('hex');
+}
 
 assert.strictEqual(requiredEndpointCapability, 'beta17_fixpoint_materializer_generator');
 assert.strictEqual(requiredResultMarker, 'BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT');
@@ -54,6 +62,44 @@ assert.deepStrictEqual(
 );
 assert.strictEqual(parseWrapperMode('BRIK64_WRAPPER_MODE\tbeta17_fixpoint_materializer_generator\n'), 'beta17_fixpoint_materializer_generator');
 assert.strictEqual(parseWrapperMode('BRIK64_WRAPPER_MODE\tunknown\n'), 'unknown');
+assert.strictEqual(safeRelativePath('generated/beta17-test-materializer.js'), true);
+assert.strictEqual(safeRelativePath('../outside.js'), false);
+
+fs.rmSync('evidence/beta17-fixpoint-materializer-generation-attempt-hydration-test', { recursive: true, force: true });
+const content = Buffer.from('BRIK64_BETA17_FIXPOINT_STAGE_RESULT\n');
+const hydrationResult = {
+  generatedMaterializer: {
+    path: 'evidence/beta17-fixpoint-materializer-generation-attempt-hydration-test/materializer.js',
+    sha256: sha256(content),
+    bytes: content.length,
+  },
+  generatedMaterializerContentBase64: content.toString('base64'),
+};
+const hydration = hydrateMaterializerGenerationResult(hydrationResult);
+assert.deepStrictEqual(hydration.blockers, []);
+assert.strictEqual(
+  fs.readFileSync('evidence/beta17-fixpoint-materializer-generation-attempt-hydration-test/materializer.js', 'utf8'),
+  'BRIK64_BETA17_FIXPOINT_STAGE_RESULT\n',
+);
+const badHashHydration = hydrateMaterializerGenerationResult({
+  generatedMaterializer: {
+    path: 'evidence/beta17-fixpoint-materializer-generation-attempt-hydration-test/bad-hash.js',
+    sha256: '0'.repeat(64),
+    bytes: content.length,
+  },
+  generatedMaterializerContentBase64: content.toString('base64'),
+});
+assert.ok(badHashHydration.blockers.includes('materializer_generation_generatedMaterializer_content_sha256_mismatch'));
+const outsideHydration = hydrateMaterializerGenerationResult({
+  generatedMaterializer: {
+    path: '../outside.js',
+    sha256: sha256(content),
+    bytes: content.length,
+  },
+  generatedMaterializerContentBase64: content.toString('base64'),
+});
+assert.ok(outsideHydration.blockers.includes('unsafe_result_ref:../outside.js'));
+fs.rmSync('evidence/beta17-fixpoint-materializer-generation-attempt-hydration-test', { recursive: true, force: true });
 console.log('PASS beta17 materializer generation endpoint parser checks');
 NODE
 

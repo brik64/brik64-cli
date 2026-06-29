@@ -80,6 +80,12 @@
   `unknown`, exposed capabilities remain
   `beta15_7_ready,beta16_native_ready,beta16_1_ready`, and no Beta17
   materializer-generation result is emitted.
+- Remote result hydration update: the Beta17 materializer-generation attempt
+  gate can now hydrate hash-bound base64 artifacts returned by a future remote
+  generator endpoint before running the existing validator. This is required
+  because the L6+N5 host cannot write generated materializer, generation-report
+  or provenance files directly into the local workspace. Hydration is fail
+  closed on unsafe refs, byte mismatch and SHA-256 mismatch.
 
 ## Legacy Plan Context
 

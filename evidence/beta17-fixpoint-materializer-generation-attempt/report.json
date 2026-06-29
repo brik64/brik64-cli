@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.materializer_generation_attempt.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T04:40:13.096Z",
+  "generatedAt": "2026-06-29T04:47:11.386Z",
   "decision": "BLOCKED_BETA17_FIXPOINT_MATERIALIZER_GENERATION_ATTEMPT",
   "publicationAllowed": false,
   "claimBoundary": {
@@ -36,9 +36,9 @@
   },
   "request": {
     "path": "evidence/beta17-fixpoint-materializer-generation-request/request.json",
-    "sha256": "e9a081ec2291e809dfcee3ab0f9abeb808d1e7d25d903586a88cfc52fe57fb87",
+    "sha256": "5bb446278f56ee64a2c8499b7e2bd8b4be57bf6ef86456c4449c0659cf1bd012",
     "pcdInputSetSha256": "953c02a3be17df3d7140ff7e88474ffb453e493460ec00c410f61b0879d0aeaf",
-    "requestLineSha256": "36220b8dc8c0a4e43fa6f15c43887b0a791b1c24ca177c82de7190162f7ec235"
+    "requestLineSha256": "99272d52eecd258839bb0afa531f3cc601757771a7eadb1dcfa155b5aa092161"
   },
   "remote": {
     "hostProbe": {
@@ -132,7 +132,7 @@
   "expectedContext": {
     "workspaceRoot": "/private/tmp/brik64-cli-beta17-fixpoint",
     "pcdInputSetSha256": "953c02a3be17df3d7140ff7e88474ffb453e493460ec00c410f61b0879d0aeaf",
-    "materializerGenerationRequestSha256": "36220b8dc8c0a4e43fa6f15c43887b0a791b1c24ca177c82de7190162f7ec235",
+    "materializerGenerationRequestSha256": "99272d52eecd258839bb0afa531f3cc601757771a7eadb1dcfa155b5aa092161",
     "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
     "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
     "requiredInputPcdPaths": [
@@ -165,6 +165,7 @@
         "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
         "bytes": 55
       },
+      "hydratedResultArtifacts": {},
       "generationResultValidation": {
         "accepted": false,
         "blockers": [
@@ -194,6 +195,7 @@
         "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
         "bytes": 55
       },
+      "hydratedResultArtifacts": {},
       "generationResultValidation": {
         "accepted": false,
         "blockers": [
@@ -223,6 +225,7 @@
         "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
         "bytes": 55
       },
+      "hydratedResultArtifacts": {},
       "generationResultValidation": {
         "accepted": false,
         "blockers": [

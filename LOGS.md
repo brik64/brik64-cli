@@ -3455,3 +3455,39 @@ Boundary:
 - This is attempt/blocker evidence only. It does not generate the materializer,
   install a dispatcher, materialize Stage1/Stage2, prove fixpoint, authorize
   public release or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote materializer result hydration
+
+Timestamp: 2026-06-29T04:58:00Z
+
+Task:
+- Remove a consumer-side blocker before installing the L6+N5 Beta17
+  materializer-generation endpoint: remote results must be able to return
+  generated artifacts as hash-bound content because the remote host cannot
+  directly write files into the local workspace.
+
+Change:
+- Updated `scripts/beta17-fixpoint-materializer-generation-attempt.js` to
+  hydrate `generatedMaterializerContentBase64`,
+  `generationReportContentBase64` and `materializerProvenanceContentBase64`
+  into their declared workspace refs before validation.
+- Added safe-ref, byte-count and SHA-256 checks before any hydrated artifact is
+  written.
+- Extended
+  `scripts/tests/test_beta17_fixpoint_materializer_generation_attempt.sh`.
+
+Validation:
+- `npm run test:beta17:fixpoint:materializer-generation-attempt` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-result` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-request` passed.
+- Live attempt reran and remains correctly blocked on missing remote endpoint.
+
+Break attempts:
+- Valid hash-bound content hydrates successfully.
+- `../outside.js` is rejected as an unsafe result ref.
+- Content with wrong SHA-256 is rejected before it can satisfy validation.
+
+Boundary:
+- This is consumer contract hardening only. It does not install
+  `beta17_fixpoint_materializer_generator`, generate the materializer,
+  materialize Stage1/Stage2, prove fixpoint or publish Beta17.

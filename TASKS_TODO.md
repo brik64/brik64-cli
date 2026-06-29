@@ -1583,3 +1583,22 @@
         `npm run attempt:beta17:fixpoint:materializer-generation` passes with
         a validated non-fixture generated materializer and closed claim
         boundaries.
+
+- [x] Let Beta17 materializer-generation attempt hydrate remote result artifacts.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-generation-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_generation_attempt.sh`.
+      - Result:
+        a future remote endpoint may return hash-bound base64 content for the
+        generated materializer, generation report and provenance. The attempt
+        writes those refs under the local workspace only after safe-path,
+        byte-count and SHA-256 checks, then runs the existing result validator.
+      - Break attempts:
+        path traversal is rejected, content SHA mismatch is rejected and valid
+        content hydrates to the expected workspace file.
+      - Boundary:
+        hydration support does not create the remote endpoint, generate the
+        materializer, prove fixpoint or publish Beta17. It only removes a
+        consumer-side blocker that would otherwise reject a legitimate remote
+        result.
