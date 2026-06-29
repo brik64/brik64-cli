@@ -105,7 +105,7 @@ pkg.version = '0.1.0-beta.17';
 fs.writeFileSync('package.json', `${JSON.stringify(pkg, null, 2)}\n`);
 NODE
 
-rm -rf evidence/beta17-fixpoint evidence/beta17-fixpoint-readiness evidence/release-train-dry-run
+rm -rf evidence/beta17-fixpoint evidence/beta17-fixpoint-readiness evidence/beta17-fixpoint-required-inputs evidence/release-train-dry-run
 
 set +e
 node scripts/release-train-dry-run.js --allow-dirty >"$TMP_DIR/missing.stdout" 2>"$TMP_DIR/missing.stderr"
@@ -120,8 +120,11 @@ fi
 jq -e '
   .decision=="FAIL_RELEASE_TRAIN_DRY_RUN"
   and .publicationAllowed==false
+  and (.failures | index("command_failed:beta17_fixpoint_required_inputs:1"))
+  and (.failures | index("candidate_beta17_fixpoint_required_inputs_invalid:BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS"))
   and (.failures | index("command_failed:beta17_fixpoint_readiness:1"))
   and (.failures | index("candidate_beta17_fixpoint_readiness_invalid:BLOCKED_BETA17_FIXPOINT_READINESS_GATE"))
+  and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .pass] | first)==false
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .pass] | first)==false
 ' evidence/release-train-dry-run/report.json >/dev/null
 
@@ -263,6 +266,25 @@ for key in ("stage1Artifact", "stage2Artifact"):
 manifest.write_text(json.dumps(data, indent=2) + "\n")
 PY
 mkdir -p evidence/beta17-fixpoint-remote-promotion evidence/beta17-fixpoint-remote-dispatcher
+mkdir -p generated
+cat >generated/beta17-materializer.js <<'JS'
+#!/usr/bin/env node
+console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t" + Buffer.from(JSON.stringify({ decision: "NON_CLAIM_TEST_VECTOR" })).toString("base64"));
+JS
+node scripts/beta17-fixpoint-materializer-provenance.js \
+  --materializer generated/beta17-materializer.js \
+  --pcd pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd \
+  --pcd pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd \
+  --pcd pcd/cli_core.pcd \
+  --pcd pcd/cli_polymer.pcd \
+  --l6-serial BRIK64-L6PLUS-N5-TEST-SERIAL \
+  >/tmp/brik64-beta17-release-train-provenance.stdout \
+  2>/tmp/brik64-beta17-release-train-provenance.stderr
+node scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js \
+  --materializer generated/beta17-materializer.js \
+  --provenance evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json \
+  >/tmp/brik64-beta17-release-train-deploy-plan.stdout \
+  2>/tmp/brik64-beta17-release-train-deploy-plan.stderr
 cat >evidence/beta17-fixpoint-remote-dispatcher/install-report.json <<'JSON'
 {
   "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_install_report.v1",
@@ -280,6 +302,11 @@ cat >evidence/beta17-fixpoint-remote-dispatcher/install-report.json <<'JSON'
     "capability": "beta17_fixpoint_stage_dispatcher",
     "materializerSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+  },
+  "remoteInstallResult": {
+    "status": "installed",
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "host": "root@example.invalid"
   },
   "installScript": {
     "validation": {
@@ -323,6 +350,22 @@ report = {
     },
 }
 promotion.write_text(json.dumps(report, indent=2) + "\n")
+remote_attempt = base / "evidence" / "beta17-fixpoint-remote-attempt" / "report.json"
+remote_attempt.parent.mkdir(parents=True, exist_ok=True)
+remote_attempt.write_text(json.dumps({
+    "schemaVersion": "brik64.beta17_fixpoint.remote_attempt.v1",
+    "version": "0.1.0-beta.17",
+    "decision": "PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
+    "publicationAllowed": False,
+    "claimBoundary": {
+        "publicReleaseAllowed": False,
+        "definitiveFixpointAllowed": False,
+        "formalN5ClaimAllowed": False,
+        "universalCorrectnessClaimAllowed": False,
+    },
+    "installEvidence": {"reportRef": install_ref},
+    "attempts": [{"accepted": True}],
+}, indent=2) + "\n")
 manifest = fixpoint / "remote_promotion_manifest.json"
 data = json.loads(manifest.read_text())
 data["sourcePromotionReport"] = {
@@ -352,15 +395,22 @@ node scripts/release-train-dry-run.js --allow-dirty >"$TMP_DIR/pass.stdout" 2>"$
 
 readiness_sha="$(shasum -a 256 evidence/beta17-fixpoint-readiness/report.json | awk '{print $1}')"
 readiness_bytes="$(wc -c <evidence/beta17-fixpoint-readiness/report.json | tr -d ' ')"
+required_inputs_sha="$(shasum -a 256 evidence/beta17-fixpoint-required-inputs/report.json | awk '{print $1}')"
+required_inputs_bytes="$(wc -c <evidence/beta17-fixpoint-required-inputs/report.json | tr -d ' ')"
 
 jq -e '
   .decision=="PASS_RELEASE_TRAIN_DRY_RUN"
   and .publicationAllowed==false
+  and ([.commands[] | select(.name=="beta17_fixpoint_required_inputs") | .rc] | first)==0
   and ([.commands[] | select(.name=="beta17_fixpoint_readiness") | .rc] | first)==0
+  and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .pass] | first)==true
+  and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .sha256] | first)==$requiredSha
+  and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .bytes] | first)==($requiredBytes | tonumber)
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .pass] | first)==true
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .sha256] | first)==$sha
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .bytes] | first)==($bytes | tonumber)
-' --arg sha "$readiness_sha" --arg bytes "$readiness_bytes" \
+' --arg requiredSha "$required_inputs_sha" --arg requiredBytes "$required_inputs_bytes" \
+  --arg sha "$readiness_sha" --arg bytes "$readiness_bytes" \
   evidence/release-train-dry-run/report.json >/dev/null
 
 echo "PASS beta17 release train readiness regression"

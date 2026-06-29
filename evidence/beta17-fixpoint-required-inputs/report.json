@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.required_inputs_report.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T03:26:08.966Z",
+  "generatedAt": "2026-06-29T03:37:50.540Z",
   "decision": "BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS",
   "publicationAllowed": false,
   "claimBoundary": {

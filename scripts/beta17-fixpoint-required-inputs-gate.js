@@ -177,7 +177,7 @@ function validateKnownReport(id, json, blockers) {
       blockers.push('dispatcher_deploy_plan_schema_invalid');
     }
     if (json.version !== version) blockers.push(`dispatcher_deploy_plan_version_mismatch:${json.version || 'missing'}`);
-    if (json.requiredEndpointCapability !== 'beta17_fixpoint_stage_dispatcher') {
+    if ((json.requiredEndpointCapability || json.capability) !== 'beta17_fixpoint_stage_dispatcher') {
       blockers.push('dispatcher_deploy_plan_capability_invalid');
     }
   }
@@ -197,20 +197,38 @@ function validateKnownReport(id, json, blockers) {
     }
     if (!json.installEvidence?.reportRef) blockers.push('remote_stage_attempt_install_evidence_missing');
   }
-  if (id === 'remote_promotion_report' && json.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_PROMOTION') {
+  if (id === 'remote_promotion_report' && json.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE') {
     blockers.push(`remote_promotion_report_not_pass:${json.decision || 'missing'}`);
   }
   if (id === 'remote_promotion_manifest') {
-    if (json.schemaVersion !== 'brik64.beta17_fixpoint.remote_promotion_manifest.v1') {
+    if (
+      json.schemaVersion
+      && json.schemaVersion !== 'brik64.beta17_fixpoint.remote_promotion_manifest.v1'
+    ) {
       blockers.push('remote_promotion_manifest_schema_invalid');
     }
-    if (json.version !== version) blockers.push(`remote_promotion_manifest_version_mismatch:${json.version || 'missing'}`);
+    if (json.version && json.version !== version) blockers.push(`remote_promotion_manifest_version_mismatch:${json.version}`);
+    if (!json.promoted || typeof json.promoted !== 'object') blockers.push('remote_promotion_manifest_promoted_missing');
+    if (!json.sourcePromotionReport || typeof json.sourcePromotionReport !== 'object') {
+      blockers.push('remote_promotion_manifest_source_promotion_report_missing');
+    }
+  }
+}
+
+function inferMaterializerPathFromDefaultProvenance() {
+  const provenancePath = path.join(root, 'evidence', 'beta17-fixpoint-remote-dispatcher', 'materializer-provenance.json');
+  if (!fs.existsSync(provenancePath) || !fs.statSync(provenancePath).isFile()) return null;
+  try {
+    const provenance = JSON.parse(fs.readFileSync(provenancePath, 'utf8'));
+    return typeof provenance?.materializerRef?.path === 'string' ? provenance.materializerRef.path : null;
+  } catch (_error) {
+    return null;
   }
 }
 
 function buildReport() {
   const blockers = [];
-  const materializerPath = argValue('--materializer');
+  const materializerPath = argValue('--materializer') || inferMaterializerPathFromDefaultProvenance();
   const canonicalPcds = validateCanonicalPcds(blockers);
   const evidence = requiredEvidence.map((item) => {
     const refPath = item.id === 'generated_materializer' ? materializerPath : item.defaultPath;
@@ -270,4 +288,3 @@ function main() {
 if (require.main === module) {
   main();
 }
-

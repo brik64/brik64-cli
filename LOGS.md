@@ -3196,3 +3196,45 @@ Boundary:
 - This is a diagnostic/readiness hardening gate. It does not generate the
   L6+N5 materializer, install the dispatcher, materialize Stage1/Stage2,
   prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Release train required-inputs binding
+
+Timestamp: 2026-06-29T03:55:00Z
+
+Task:
+- Make Beta17 release-train dry-run consume the required-inputs gate directly
+  before fixpoint readiness, so missing materializer/provenance/install inputs
+  remain visible as release evidence.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` to run
+  `gate:beta17:fixpoint:required-inputs` for `0.1.0-beta.17`.
+- Added `beta17_fixpoint_required_inputs` to candidate required evidence with
+  path/SHA-256/bytes binding.
+- Updated `scripts/beta17-fixpoint-required-inputs-gate.js` to infer the
+  generated materializer path from `materializer-provenance.json` and to align
+  accepted promotion/deploy-plan fields with existing Beta17 gate contracts.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` so the
+  failure case requires both required-inputs and readiness blockers, and the
+  positive fixture must include provenance, deploy plan, executed install
+  evidence, accepted remote-stage evidence and promotion evidence.
+
+Validation:
+- `node --check scripts/release-train-dry-run.js` passed.
+- `node --check scripts/beta17-fixpoint-required-inputs-gate.js` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `git diff --check` passed.
+- `npm test` passed.
+
+Live evidence:
+- `npm run gate:beta17:fixpoint:required-inputs -- --quiet` still fails
+  closed in the real workspace with missing real materializer/provenance,
+  deploy plan, executed install evidence, accepted remote stage and promotion
+  evidence. That remains the correct current blocker.
+
+Boundary:
+- This is release-train hardening. It does not generate the L6+N5
+  materializer, install the dispatcher, materialize Stage1/Stage2, prove
+  fixpoint or publish Beta17.

@@ -679,6 +679,10 @@ function candidateBranchCommands(version) {
   }
   if (version === '0.1.0-beta.17') {
     return [
+      run('beta17_fixpoint_required_inputs', ['npm', 'run', 'gate:beta17:fixpoint:required-inputs'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
       run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
@@ -921,6 +925,10 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
   }
   if (manifest.version === '0.1.0-beta.17') {
     return [
+      run('beta17_fixpoint_required_inputs', ['npm', 'run', 'gate:beta17:fixpoint:required-inputs'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
       run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
@@ -1311,6 +1319,33 @@ function main() {
         failures.push('candidate_beta15_7_source_candidate_boundary_invalid');
       }
     } else if (currentPackageVersion === '0.1.0-beta.17') {
+      const requiredInputsPath = path.join(root, 'evidence', 'beta17-fixpoint-required-inputs', 'report.json');
+      const requiredInputs = fs.existsSync(requiredInputsPath) ? readJson(requiredInputsPath) : null;
+      const requiredInputsRef = fileEvidenceRef(requiredInputsPath);
+      requiredEvidence.push({
+        id: 'beta17_fixpoint_required_inputs',
+        path: requiredInputsRef.path,
+        sha256: requiredInputsRef.sha256,
+        bytes: requiredInputsRef.bytes,
+        expectedDecision: 'PASS_BETA17_FIXPOINT_REQUIRED_INPUTS',
+        actualDecision: requiredInputs?.decision || null,
+        pass: requiredInputs?.decision === 'PASS_BETA17_FIXPOINT_REQUIRED_INPUTS'
+          && requiredInputs?.claimBoundary?.definitiveFixpointAllowed === false
+          && requiredInputs?.claimBoundary?.publicReleaseAllowed === false
+          && Array.isArray(requiredInputs?.blockers)
+          && requiredInputs.blockers.length === 0
+      });
+      if (!requiredInputs) failures.push('candidate_readiness_missing:beta17_fixpoint_required_inputs');
+      else if (requiredInputs.decision !== 'PASS_BETA17_FIXPOINT_REQUIRED_INPUTS') failures.push(`candidate_beta17_fixpoint_required_inputs_invalid:${requiredInputs.decision}`);
+      else if (
+        requiredInputs.claimBoundary?.definitiveFixpointAllowed !== false
+        || requiredInputs.claimBoundary?.publicReleaseAllowed !== false
+        || !Array.isArray(requiredInputs.blockers)
+        || requiredInputs.blockers.length !== 0
+      ) {
+        failures.push('candidate_beta17_fixpoint_required_inputs_boundary_invalid');
+      }
+
       const readinessPath = path.join(root, 'evidence', 'beta17-fixpoint-readiness', 'report.json');
       const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
       const readinessRef = fileEvidenceRef(readinessPath);

@@ -426,6 +426,29 @@
         the real L6+N5 materializer, install the dispatcher, generate
         Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
+- [x] Bind Beta17 release train to required-inputs evidence.
+      - Scripts:
+        `scripts/release-train-dry-run.js`.
+        `scripts/beta17-fixpoint-required-inputs-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        Beta17 dry-run now runs `gate:beta17:fixpoint:required-inputs` before
+        `gate:beta17:fixpoint-readiness` and records
+        `beta17_fixpoint_required_inputs` in `requiredEvidence` with
+        path/SHA-256/bytes. A dry-run cannot hide missing materializer,
+        provenance, install or promotion inputs behind a later readiness
+        report.
+      - Break attempts:
+        missing required-inputs report fails the release train; the positive
+        fixture must provide materializer provenance, deploy plan, executed
+        install evidence, accepted remote-stage evidence and remote promotion
+        evidence before the release-train regression passes.
+      - Boundary:
+        this strengthens release-train evidence ordering. It does not create
+        the real materializer, execute remote install, prove fixpoint or
+        publish Beta17.
+
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:
         `scripts/beta17-fixpoint-evidence-pack-manifest.js --check`.
