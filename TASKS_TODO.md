@@ -151,6 +151,25 @@
 
 # Beta17 Fixpoint Tasks
 
+- [x] Audit the Beta17 materializer route before remote mutation.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-route-audit.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_route_audit.sh`.
+      - NPM:
+        `audit:beta17:fixpoint:materializer-route`.
+        `test:beta17:fixpoint:materializer-route`.
+      - Done when:
+        the route audit distinguishes accepted Beta17 Stage results from
+        fixture, placeholder, legacy beta15/beta16 and incomplete remote
+        endpoint routes, and live evidence reports the current exact blocker.
+      - Result:
+        test vectors pass, and live
+        `evidence/beta17-fixpoint-materializer-route-audit/report.json`
+        reports `BLOCKED_BETA17_FIXPOINT_MATERIALIZER_ROUTE_AUDIT` because no
+        generated materializer, provenance, accepted Stage result or
+        `beta17_fixpoint_stage_dispatcher` capability exists yet.
+
 - [x] Extract reusable Beta17 evidence pack manifest generation.
       - Script:
         `scripts/beta17-fixpoint-evidence-pack-manifest.js`.

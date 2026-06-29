@@ -3261,3 +3261,50 @@ Boundary:
 - This is review hygiene only. It does not generate the L6+N5 materializer,
   install the dispatcher, materialize Stage1/Stage2, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer route audit
+
+Timestamp: 2026-06-29T04:35:00Z
+
+Task:
+- Add a route-level audit before any Beta17 remote mutation, so fixture,
+  placeholder, legacy beta15/beta16 materializers and incomplete remote L6
+  capabilities cannot be mistaken for a real Beta17 fixpoint path.
+
+Change:
+- Added `scripts/beta17-fixpoint-materializer-route-audit.js`.
+- Added npm scripts `audit:beta17:fixpoint:materializer-route` and
+  `test:beta17:fixpoint:materializer-route`.
+- Added `scripts/tests/test_beta17_fixpoint_materializer_route_audit.sh`.
+- Generated live blocked report at
+  `evidence/beta17-fixpoint-materializer-route-audit/report.json`.
+
+Live evidence:
+- Decision: `BLOCKED_BETA17_FIXPOINT_MATERIALIZER_ROUTE_AUDIT`.
+- Current remote capabilities: `beta15_7_ready`, `beta16_native_ready`,
+  `beta16_1_ready`.
+- Current blockers include missing generated materializer argument, missing
+  Stage result output, missing materializer provenance, missing
+  `beta17_fixpoint_stage_dispatcher`, blocked remote stage attempt and no
+  ready Beta17 materializer route.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-materializer-route-audit.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_route_audit.sh` passed.
+- `npm run test:beta17:fixpoint:materializer-route` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Placeholder materializer with `<base64-json>` is rejected.
+- Fixture materializer content is rejected.
+- Legacy beta15/beta16 materializer scripts are classified as rejected routes.
+- A synthetic Stage result with valid shape and no fixture markers is accepted
+  by the route audit, proving the audit can go green only for the intended
+  Stage-result class.
+
+Boundary:
+- This is route and gate hardening. It does not generate the L6+N5
+  materializer, install the dispatcher, materialize Stage1/Stage2, prove
+  fixpoint or publish Beta17.
