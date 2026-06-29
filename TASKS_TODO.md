@@ -199,9 +199,31 @@
         wrong capability, beta16 legacy materializer path and fixture/template
         deployment are rejected.
       - Boundary:
-        this validates an installation plan. It does not install the remote
-        endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint or
-        publish Beta17.
+      this validates an installation plan. It does not install the remote
+      endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint or
+      publish Beta17.
+
+- [x] Add Beta17 remote dispatcher deploy-plan generator.
+      - Script:
+        `scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh`.
+      - NPM:
+        `plan:beta17:fixpoint:remote-dispatcher`.
+        `test:beta17:fixpoint:remote-dispatcher-plan`.
+      - Result:
+        a candidate local Beta17 materializer can now be converted into a
+        non-claim `deploy-plan.json` with SHA-256 and byte bindings, required
+        dispatcher capability, required stage-result marker and closed claim
+        boundaries. The generated plan is immediately validated by the
+        dispatcher preflight.
+      - Break attempts:
+        missing materializer file, path outside workspace and legacy beta16
+        remote path are rejected.
+      - Boundary:
+        this creates the deployment plan from a candidate file. It does not
+        create the real L6+N5 materializer, install the remote endpoint,
+        generate Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:

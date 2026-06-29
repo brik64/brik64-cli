@@ -2353,3 +2353,35 @@ Boundary:
 - This validates the deployment plan contract only. It does not install the
   remote dispatcher, generate real L6+N5 Stage1/Stage2 artifacts, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher deploy-plan generator
+
+Timestamp: 2026-06-29T01:38:00Z
+
+Task:
+- Add a reproducible generator for the Beta17 remote dispatcher deploy plan.
+
+Change:
+- Added `scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh`.
+- Added npm scripts:
+  `plan:beta17:fixpoint:remote-dispatcher` and
+  `test:beta17:fixpoint:remote-dispatcher-plan`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- Generated deploy plan was accepted by
+  `scripts/beta17-fixpoint-remote-dispatcher-preflight.js` inside the test
+  fixture.
+- Break attempts rejected:
+  missing materializer file, materializer path outside workspace and beta16
+  legacy remote materializer path.
+
+Boundary:
+- This creates a non-claim deploy plan from a local candidate materializer. It
+  does not create the real L6+N5 materializer, install the remote dispatcher,
+  generate real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

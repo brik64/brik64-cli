@@ -106,6 +106,8 @@
     "test:beta17:fixpoint:stage-result": "bash scripts/tests/test_beta17_fixpoint_stage_result.sh",
     "fixture:beta17:fixpoint:stage-materializer": "node scripts/beta17-fixpoint-stage-fixture-materializer.js",
     "test:beta17:fixpoint:stage-fixture": "bash scripts/tests/test_beta17_fixpoint_stage_fixture_materializer.sh",
+    "plan:beta17:fixpoint:remote-dispatcher": "node scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js",
+    "test:beta17:fixpoint:remote-dispatcher-plan": "bash scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh",
     "preflight:beta17:fixpoint:remote-dispatcher": "node scripts/beta17-fixpoint-remote-dispatcher-preflight.js",
     "test:beta17:fixpoint:remote-dispatcher-preflight": "bash scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh",
     "attempt:beta17:fixpoint:remote-stage": "node scripts/beta17-fixpoint-stage-remote-attempt.js",
