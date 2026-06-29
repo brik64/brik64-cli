@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const childProcess = require('child_process');
 const {
   parseFunctionalCliStageResult,
   validateFunctionalCliStageResult,
@@ -11,6 +12,7 @@ const {
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
   : path.resolve(__dirname, '..');
+const repoRoot = path.resolve(__dirname, '..');
 const resultLinePath = argValue('--result-line', path.join(root, 'evidence', 'beta17-functional-cli-stage-result', 'result.line'));
 const requestManifestPath = argValue('--request-manifest', path.join(root, 'evidence', 'beta17-functional-cli-stage-request', 'request.manifest.json'));
 const outDir = path.join(root, 'evidence', 'beta17-functional-cli-stage-result');
@@ -112,6 +114,13 @@ function writeBoundJsonRef(ref, value) {
   return { path: ref.path, sha256: actualSha, bytes: actualBytes };
 }
 
+function writeUnboundJsonRef(ref, value) {
+  const target = safeResolve(ref.path);
+  if (!target) throw new Error(`unsafe_output_ref:${ref.path || 'missing'}`);
+  writeJson(target, value);
+  return { path: ref.path, sha256: sha256File(target), bytes: fs.statSync(target).size };
+}
+
 function writeArtifact(ref, artifact) {
   const target = safeResolve(ref.path);
   if (!target) throw new Error(`unsafe_artifact_ref:${ref.path || 'missing'}`);
@@ -122,6 +131,39 @@ function writeArtifact(ref, artifact) {
   if (actualSha !== ref.sha256) throw new Error(`hydrated_artifact_sha256_mismatch:${ref.path}`);
   if (actualBytes !== ref.bytes) throw new Error(`hydrated_artifact_bytes_mismatch:${ref.path}`);
   return { path: ref.path, sha256: actualSha, bytes: actualBytes };
+}
+
+function runFunctionalStageArtifactGate(stage1ManifestRef, functionalStageReportRef) {
+  const gateScript = path.join(repoRoot, 'scripts', 'beta17-fixpoint-functional-stage-artifact-gate.js');
+  const stage1ManifestPath = safeResolve(stage1ManifestRef.path);
+  const outPath = safeResolve(functionalStageReportRef.path);
+  if (!stage1ManifestPath) throw new Error(`unsafe_stage1_manifest_ref:${stage1ManifestRef.path || 'missing'}`);
+  if (!outPath) throw new Error(`unsafe_functional_stage_report_ref:${functionalStageReportRef.path || 'missing'}`);
+  const result = childProcess.spawnSync(process.execPath, [
+    gateScript,
+    '--stage1-manifest',
+    stage1ManifestPath,
+    '--out',
+    outPath,
+  ], {
+    cwd: root,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      BRIK64_NO_BANNER: '1',
+      NO_COLOR: '1',
+    },
+    timeout: 15_000,
+  });
+  if (result.status !== 0) {
+    const reason = (result.stdout || result.stderr || '').trim().replace(/\s+/g, ' ').slice(0, 500) || 'empty';
+    throw new Error(`functional_stage_artifact_gate_failed:${result.status}:${reason}`);
+  }
+  const report = readJson(outPath);
+  if (report.decision !== 'PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE' || report.releaseEligibleStageArtifact !== true) {
+    throw new Error(`functional_stage_artifact_gate_not_pass:${report.decision || 'missing'}`);
+  }
+  return { path: functionalStageReportRef.path, sha256: sha256File(outPath), bytes: fs.statSync(outPath).size };
 }
 
 function main() {
@@ -148,24 +190,7 @@ function main() {
       claimBoundary: closedClaimBoundary(),
     };
     const stage1ManifestRef = writeBoundJsonRef(result.stage1Manifest, stage1Manifest);
-    const functionalReport = {
-      schemaVersion: 'brik64.beta17_fixpoint.functional_stage_artifact_gate.v1',
-      generatedAt: hydratedGeneratedAt,
-      version: result.version,
-      decision: 'PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE',
-      releaseEligibleStageArtifact: true,
-      artifact: artifactRef,
-      checks: {
-        hydratedFromFunctionalCliStageResult: true,
-        generatedByL6PlusN5: true,
-        nodeEntrypoint: true,
-        argvHandling: true,
-        commandDispatcher: true,
-      },
-      blockers: [],
-      claimBoundary: closedClaimBoundary(),
-    };
-    const functionalReportRef = writeBoundJsonRef(result.functionalStageReport, functionalReport);
+    const functionalReportRef = runFunctionalStageArtifactGate(stage1ManifestRef, result.functionalStageReport);
     const packageManifest = {
       schemaVersion: 'brik64.cli_beta17_package_manifest.v1',
       version: result.version,
@@ -189,7 +214,7 @@ function main() {
         rustIndependenceClaimAllowed: false,
       },
     };
-    const packageManifestRef = writeBoundJsonRef(result.packageManifest, packageManifest);
+    const packageManifestRef = writeUnboundJsonRef(result.packageManifest, packageManifest);
     const report = {
       schemaVersion: 'brik64.beta17_functional_cli_stage_result_hydration.v1',
       generatedAt: new Date().toISOString(),

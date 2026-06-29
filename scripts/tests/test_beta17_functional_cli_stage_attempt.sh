@@ -13,6 +13,7 @@ write_fixture() {
     "$dir/pcd/beta17/release" "$dir/pcd" "$dir/scripts"
   cp "$ROOT/scripts/beta17-functional-cli-stage-result.js" "$dir/scripts/"
   cp "$ROOT/scripts/beta17-functional-cli-stage-result-hydrate.js" "$dir/scripts/"
+  cp "$ROOT/scripts/beta17-fixpoint-functional-stage-artifact-gate.js" "$dir/scripts/"
   cp "$ROOT/scripts/beta17-functional-cli-stage-attempt.js" "$dir/scripts/"
   cat >"$dir/pcd/beta17/release/functional_cli_stage_materialization_contract.pcd" <<'PCD'
 // brik64.pcd_file.v1
@@ -64,18 +65,23 @@ request_manifest = {
     "inputPcds": input_pcds,
 }
 (root / "evidence/beta17-functional-cli-stage-request/request.manifest.json").write_text(json.dumps(request_manifest, indent=2) + "\n")
+monomers = [{"id": f"MC_{i:02d}", "name": f"TEST_{i:02d}"} for i in range(128)]
 header = "\n".join([
     "#!/usr/bin/env node",
     "const version = '0.1.0-beta.17';",
+    "const monomers = " + json.dumps(monomers) + ";",
     "const commandHandlers = new Map(); // command dispatcher",
+    "commandHandlers.set('--version', () => version);",
+    "commandHandlers.set('--help', () => 'BRIK64 CLI commands: certify verify emit polymerize lift monomers engine');",
     "commandHandlers.set('certify', () => 'certify command');",
     "commandHandlers.set('verify', () => 'verify command');",
     "commandHandlers.set('emit', () => 'emit command');",
     "commandHandlers.set('polymerize', () => 'polymerize command');",
     "commandHandlers.set('lift', () => 'lift command');",
-    "commandHandlers.set('monomers', () => 'monomers command');",
-    "commandHandlers.set('engine status', () => 'engine status command');",
+    "commandHandlers.set('monomers list --json', () => JSON.stringify({ totalCount: monomers.length, monomers }));",
+    "commandHandlers.set('engine status --json', () => JSON.stringify({ engine: 'L4+N5', runtimeProfile: 'l4plus_n5_local', localRuntime: 'available' }));",
     "const command = process.argv.slice(2).join(' ');",
+    "console.log(commandHandlers.get(command) ? commandHandlers.get(command)() : version);",
 ])
 artifact = (header + "\n" + "\n".join(f"// functional cli filler {i}" for i in range(5000))).encode()
 artifact_sha = hashlib.sha256(artifact).hexdigest()
@@ -204,6 +210,7 @@ mkdir -p "$MISSING_ROOT/scripts"
 cp "$ROOT/scripts/beta17-functional-cli-stage-attempt.js" "$MISSING_ROOT/scripts/"
 cp "$ROOT/scripts/beta17-functional-cli-stage-result.js" "$MISSING_ROOT/scripts/"
 cp "$ROOT/scripts/beta17-functional-cli-stage-result-hydrate.js" "$MISSING_ROOT/scripts/"
+cp "$ROOT/scripts/beta17-fixpoint-functional-stage-artifact-gate.js" "$MISSING_ROOT/scripts/"
 if BRIK64_CLI_ROOT="$MISSING_ROOT" node "$MISSING_ROOT/scripts/beta17-functional-cli-stage-attempt.js" \
   >"$TMP_DIR/missing.stdout" 2>"$TMP_DIR/missing.stderr"; then
   echo "missing functional stage attempt unexpectedly passed" >&2

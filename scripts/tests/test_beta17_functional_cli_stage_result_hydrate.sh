@@ -65,20 +65,25 @@ request_manifest = {
     "inputPcds": input_pcds,
 }
 (root / "evidence/beta17-functional-cli-stage-request/request.manifest.json").write_text(json.dumps(request_manifest, indent=2) + "\n")
+monomers = [{"id": f"MC_{i:02d}", "name": f"TEST_{i:02d}"} for i in range(128)]
 header = "\n".join([
     "#!/usr/bin/env node",
     "const version = '0.1.0-beta.17';",
+    "const monomers = " + json.dumps(monomers) + ";",
     "const commandHandlers = new Map(); // command dispatcher",
+    "commandHandlers.set('--version', () => version);",
+    "commandHandlers.set('--help', () => 'BRIK64 CLI commands: certify verify emit polymerize lift monomers engine');",
     "commandHandlers.set('certify', () => 'certify command');",
     "commandHandlers.set('verify', () => 'verify command');",
     "commandHandlers.set('emit', () => 'emit command');",
     "commandHandlers.set('polymerize', () => 'polymerize command');",
     "commandHandlers.set('lift', () => 'lift command');",
-    "commandHandlers.set('monomers', () => 'monomers command');",
-    "commandHandlers.set('engine status', () => 'engine status command');",
+    "commandHandlers.set('monomers list --json', () => JSON.stringify({ totalCount: monomers.length, monomers }));",
+    "commandHandlers.set('engine status --json', () => JSON.stringify({ engine: 'L4+N5', runtimeProfile: 'l4plus_n5_local', localRuntime: 'available' }));",
     "const command = process.argv.slice(2).join(' ');",
+    "console.log(commandHandlers.get(command) ? commandHandlers.get(command)() : version);",
 ])
-artifact = (header + "\n" + "\n".join(f"// filler {i}" for i in range(5000))).encode()
+artifact = (header + "\n" + "\n".join(f"// functional filler {i}" for i in range(5000))).encode()
 artifact_sha = hashlib.sha256(artifact).hexdigest()
 result = {
     "schemaVersion": "brik64.beta17_functional_cli_stage_result.v1",
@@ -190,8 +195,14 @@ PY
 
 PASS_ROOT="$TMP_DIR/pass"
 write_fixture "$PASS_ROOT" valid
-BRIK64_CLI_ROOT="$PASS_ROOT" node "$ROOT/scripts/beta17-functional-cli-stage-result-hydrate.js" \
-  >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"
+if ! BRIK64_CLI_ROOT="$PASS_ROOT" node "$ROOT/scripts/beta17-functional-cli-stage-result-hydrate.js" \
+  >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"; then
+  echo "valid hydration unexpectedly failed" >&2
+  cat "$TMP_DIR/pass.stdout" >&2 || true
+  cat "$TMP_DIR/pass.stderr" >&2 || true
+  jq '.' "$PASS_ROOT/evidence/beta17-functional-cli-stage-result/hydrate-report.json" >&2 || true
+  exit 1
+fi
 jq -e '
   .decision=="PASS_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION"
   and .hydrated==true
@@ -200,6 +211,14 @@ jq -e '
 test -s "$PASS_ROOT/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs"
 jq -e '.decision=="PASS_BRIK64_CLI_BETA17_FUNCTIONAL_ARTIFACT_READY" and .releaseEligible==true and .publicationAllowed==false' \
   "$PASS_ROOT/evidence/beta17-package/package.manifest.json" >/dev/null
+jq -e '
+  .decision=="PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE"
+  and .releaseEligibleStageArtifact==true
+  and .checks.execVersion==true
+  and .checks.execHelp==true
+  and .checks.execEngineStatusJson==true
+  and .checks.execMonomersListJson==true
+' "$PASS_ROOT/evidence/beta17-fixpoint-functional-stage-artifact/report.json" >/dev/null
 
 MISSING_ROOT="$TMP_DIR/missing"
 mkdir -p "$MISSING_ROOT"
@@ -236,5 +255,71 @@ jq -e '
   .decision=="BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION"
   and (.blockers | index("functional_cli_stage_stage1Artifact_ref_path_invalid"))
 ' "$UNSAFE_ROOT/evidence/beta17-functional-cli-stage-result/hydrate-report.json" >/dev/null
+
+STUB_ROOT="$TMP_DIR/stub"
+write_fixture "$STUB_ROOT" valid
+python3 - "$STUB_ROOT" <<'PY'
+import base64, hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+line_path = root / "evidence/beta17-functional-cli-stage-result/result.line"
+prefix, encoded = line_path.read_text().strip().split("\t", 1)
+result = json.loads(base64.b64decode(encoded))
+stub = ("#!/usr/bin/env node\n"
+        "const BRIK64_VERSION = '0.1.0-beta.17';\n"
+        "const command = process.argv.slice(2).join(' ');\n"
+        "const commandDispatcher = new Map(); // command dispatcher\n"
+        "commandDispatcher.set('certify', () => 'certify command');\n"
+        "commandDispatcher.set('verify', () => 'verify command');\n"
+        "commandDispatcher.set('emit', () => 'emit command');\n"
+        "commandDispatcher.set('polymerize', () => 'polymerize command');\n"
+        "commandDispatcher.set('lift', () => 'lift command');\n"
+        "commandDispatcher.set('monomers', () => 'monomers command');\n"
+        "commandDispatcher.set('engine status', () => 'engine status command');\n"
+        "if (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n"
+        + "\n".join(f"// stub filler {i}" for i in range(5000))).encode()
+result["stage1ArtifactBase64"] = base64.b64encode(stub).decode()
+result["stage1ArtifactSha256"] = hashlib.sha256(stub).hexdigest()
+result["stage1ArtifactBytes"] = len(stub)
+result["stage1Artifact"]["sha256"] = result["stage1ArtifactSha256"]
+result["stage1Artifact"]["bytes"] = len(stub)
+stage1_manifest = {
+    "schemaVersion": "brik64.beta17_fixpoint.stage1_artifact_manifest.v1",
+    "version": result["version"],
+    "generatedByL6PlusN5": True,
+    "generatedFromPcdPolymer": True,
+    "artifact": result["stage1Artifact"],
+    "stage1ArtifactSha256": result["stage1ArtifactSha256"],
+    "functionalCliStageRequestSha256": result["functionalCliStageRequestSha256"],
+    "pcdInputSetSha256": result["pcdInputSetSha256"],
+    "claimBoundary": {
+        "publicReleaseAllowed": False,
+        "definitiveFixpointAllowed": False,
+        "formalN5ClaimAllowed": False,
+        "universalCorrectnessClaimAllowed": False,
+        "publicClaimsAllowed": False,
+        "selfHostingClaimAllowed": False,
+        "rustIndependenceClaimAllowed": False,
+    },
+}
+body = (json.dumps(stage1_manifest, indent=2) + "\n").encode()
+result["stage1Manifest"]["sha256"] = hashlib.sha256(body).hexdigest()
+result["stage1Manifest"]["bytes"] = len(body)
+line_path.write_text(prefix + "\t" + base64.b64encode(json.dumps(result).encode()).decode() + "\n")
+PY
+if BRIK64_CLI_ROOT="$STUB_ROOT" node "$ROOT/scripts/beta17-functional-cli-stage-result-hydrate.js" \
+  >"$TMP_DIR/stub.stdout" 2>"$TMP_DIR/stub.stderr"; then
+  echo "stub result unexpectedly passed hydration" >&2
+  exit 1
+fi
+jq -e '
+  .decision=="BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION"
+  and any(.blockers[]; startswith("functional_cli_stage_hydration_write_failed:functional_stage_artifact_gate_failed"))
+' "$STUB_ROOT/evidence/beta17-functional-cli-stage-result/hydrate-report.json" >/dev/null || {
+  echo "stub hydration did not expose the expected functional gate failure" >&2
+  cat "$TMP_DIR/stub.stdout" >&2 || true
+  cat "$TMP_DIR/stub.stderr" >&2 || true
+  jq '.' "$STUB_ROOT/evidence/beta17-functional-cli-stage-result/hydrate-report.json" >&2 || true
+  exit 1
+}
 
 echo "PASS beta17 functional CLI stage result hydration tests"

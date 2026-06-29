@@ -5,7 +5,7 @@
   "iterId": "beta17-functional-cli-stage-materialization",
   "requestType": "generate_beta17_functional_cli_stage_artifact",
   "materializerMode": "l6plus_functional_cli_stage_materializer",
-  "sourceCommit": "7f7f3aba831c979f4cb6d50fa605e059597638a9",
+  "sourceCommit": "7f99ec272bee4966a99b73cd89c3d390a61b9240",
   "status": "REQUEST_NON_CLAIM",
   "claimBoundary": {
     "publicReleaseAllowed": false,
@@ -19,7 +19,7 @@
   "requiredResultLine": "BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT\\t<base64-json>",
   "requiredResultSchema": "brik64.beta17_functional_cli_stage_result.v1",
   "requiredResultVersion": "0.1.0-beta.17",
-  "pcdInputSetSha256": "1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd",
+  "pcdInputSetSha256": "3f8dd894c05dcb42622125839c286d9a3aafa726474d22170b536a9cc73761df",
   "requiredInputPcdPaths": [
     "pcd/beta17/release/functional_cli_stage_materialization_contract.pcd",
     "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
@@ -30,9 +30,9 @@
   "inputPcds": [
     {
       "path": "pcd/beta17/release/functional_cli_stage_materialization_contract.pcd",
-      "sha256": "4cd80f7244d020ee8bc8a4682b11e3b927f6cfc5af372f67c323d70af3821c62",
-      "bytes": 1246,
-      "contentBase64": "Ly8gYnJpazY0LnBjZF9maWxlLnYxCi8vIGNsYWltX2JvdW5kYXJ5OiBiZXRhMTdfZnVuY3Rpb25hbF9jbGlfc3RhZ2VfY2FuZGlkYXRlX3NvdXJjZV9jb250cmFjdAovLyBiZXRhMTdfc291cmNlX2NvbnRyYWN0OiBmdW5jdGlvbmFsX2NsaV9zdGFnZV9tYXRlcmlhbGl6YXRpb25fY29udHJhY3QKUEMgZnVuY3Rpb25hbF9jbGlfc3RhZ2VfbWF0ZXJpYWxpemF0aW9uX2NvbnRyYWN0IHsKICAgIGZuIGZ1bmN0aW9uYWxfY2xpX3N0YWdlX21hdGVyaWFsaXphdGlvbl9jb250cmFjdCgKICAgICAgICBzdGFnZTFfYXJ0aWZhY3RfaGFzaF9ib3VuZCwKICAgICAgICBnZW5lcmF0ZWRfYnlfbDZwbHVzX241LAogICAgICAgIGdlbmVyYXRlZF9mcm9tX3BjZF9wb2x5bWVyLAogICAgICAgIG5vZGVfZW50cnlwb2ludF9wcmVzZW50LAogICAgICAgIHZlcnNpb25fYm91bmQsCiAgICAgICAgYXJndl9oYW5kbGluZ19wcmVzZW50LAogICAgICAgIGNvbW1hbmRfZGlzcGF0Y2hlcl9wcmVzZW50LAogICAgICAgIGZ1bmN0aW9uYWxfc3RhZ2VfbWluX3NpemVfcGFzcywKICAgICAgICBwYWNrYWdlX2NhbmRpZGF0ZV9jYW5fcmVmZXJlbmNlX2FydGlmYWN0LAogICAgICAgIHB1YmxpY19jbGFpbV9ib3VuZGFyeV9jbG9zZWQKICAgICkgewogICAgICAgIGlmIChzdGFnZTFfYXJ0aWZhY3RfaGFzaF9ib3VuZCA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGdlbmVyYXRlZF9ieV9sNnBsdXNfbjUgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChnZW5lcmF0ZWRfZnJvbV9wY2RfcG9seW1lciA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKG5vZGVfZW50cnlwb2ludF9wcmVzZW50ID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAodmVyc2lvbl9ib3VuZCA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGFyZ3ZfaGFuZGxpbmdfcHJlc2VudCA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGNvbW1hbmRfZGlzcGF0Y2hlcl9wcmVzZW50ID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAoZnVuY3Rpb25hbF9zdGFnZV9taW5fc2l6ZV9wYXNzID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAocGFja2FnZV9jYW5kaWRhdGVfY2FuX3JlZmVyZW5jZV9hcnRpZmFjdCA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKHB1YmxpY19jbGFpbV9ib3VuZGFyeV9jbG9zZWQgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIHJldHVybiAxOwogICAgfQp9Cg=="
+      "sha256": "a95f9c78192bf9b02e85aff2cbe967f7f81dddc32c2857b9a695b58c97b1f95a",
+      "bytes": 1592,
+      "contentBase64": "Ly8gYnJpazY0LnBjZF9maWxlLnYxCi8vIGNsYWltX2JvdW5kYXJ5OiBiZXRhMTdfZnVuY3Rpb25hbF9jbGlfc3RhZ2VfY2FuZGlkYXRlX3NvdXJjZV9jb250cmFjdAovLyBiZXRhMTdfc291cmNlX2NvbnRyYWN0OiBmdW5jdGlvbmFsX2NsaV9zdGFnZV9tYXRlcmlhbGl6YXRpb25fY29udHJhY3QKUEMgZnVuY3Rpb25hbF9jbGlfc3RhZ2VfbWF0ZXJpYWxpemF0aW9uX2NvbnRyYWN0IHsKICAgIGZuIGZ1bmN0aW9uYWxfY2xpX3N0YWdlX21hdGVyaWFsaXphdGlvbl9jb250cmFjdCgKICAgICAgICBzdGFnZTFfYXJ0aWZhY3RfaGFzaF9ib3VuZCwKICAgICAgICBnZW5lcmF0ZWRfYnlfbDZwbHVzX241LAogICAgICAgIGdlbmVyYXRlZF9mcm9tX3BjZF9wb2x5bWVyLAogICAgICAgIG5vZGVfZW50cnlwb2ludF9wcmVzZW50LAogICAgICAgIHZlcnNpb25fYm91bmQsCiAgICAgICAgYXJndl9oYW5kbGluZ19wcmVzZW50LAogICAgICAgIGNvbW1hbmRfZGlzcGF0Y2hlcl9wcmVzZW50LAogICAgICAgIGZ1bmN0aW9uYWxfc3RhZ2VfbWluX3NpemVfcGFzcywKICAgICAgICBleGVjX3ZlcnNpb25fcGFzcywKICAgICAgICBleGVjX2hlbHBfcGFzcywKICAgICAgICBleGVjX2VuZ2luZV9zdGF0dXNfanNvbl9wYXNzLAogICAgICAgIGV4ZWNfbW9ub21lcnNfbGlzdF9qc29uX3Bhc3MsCiAgICAgICAgcGFja2FnZV9jYW5kaWRhdGVfY2FuX3JlZmVyZW5jZV9hcnRpZmFjdCwKICAgICAgICBwdWJsaWNfY2xhaW1fYm91bmRhcnlfY2xvc2VkCiAgICApIHsKICAgICAgICBpZiAoc3RhZ2UxX2FydGlmYWN0X2hhc2hfYm91bmQgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChnZW5lcmF0ZWRfYnlfbDZwbHVzX241ID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAoZ2VuZXJhdGVkX2Zyb21fcGNkX3BvbHltZXIgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChub2RlX2VudHJ5cG9pbnRfcHJlc2VudCA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKHZlcnNpb25fYm91bmQgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChhcmd2X2hhbmRsaW5nX3ByZXNlbnQgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChjb21tYW5kX2Rpc3BhdGNoZXJfcHJlc2VudCA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGZ1bmN0aW9uYWxfc3RhZ2VfbWluX3NpemVfcGFzcyA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKGV4ZWNfdmVyc2lvbl9wYXNzID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAoZXhlY19oZWxwX3Bhc3MgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChleGVjX2VuZ2luZV9zdGF0dXNfanNvbl9wYXNzID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICBpZiAoZXhlY19tb25vbWVyc19saXN0X2pzb25fcGFzcyA9PSAwKSB7IHJldHVybiAwOyB9CiAgICAgICAgaWYgKHBhY2thZ2VfY2FuZGlkYXRlX2Nhbl9yZWZlcmVuY2VfYXJ0aWZhY3QgPT0gMCkgeyByZXR1cm4gMDsgfQogICAgICAgIGlmIChwdWJsaWNfY2xhaW1fYm91bmRhcnlfY2xvc2VkID09IDApIHsgcmV0dXJuIDA7IH0KICAgICAgICByZXR1cm4gMTsKICAgIH0KfQo="
     },
     {
       "path": "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
@@ -72,6 +72,52 @@
       "0.1.0-beta.17",
       "process.argv"
     ],
+    "requiredExecutableChecks": [
+      {
+        "name": "execVersion",
+        "args": [
+          "--version"
+        ],
+        "stdoutEquals": "0.1.0-beta.17"
+      },
+      {
+        "name": "execHelp",
+        "args": [
+          "--help"
+        ],
+        "stdoutIncludes": [
+          "certify",
+          "verify",
+          "emit",
+          "polymerize",
+          "lift",
+          "monomers",
+          "engine"
+        ]
+      },
+      {
+        "name": "execEngineStatusJson",
+        "args": [
+          "engine",
+          "status",
+          "--json"
+        ],
+        "jsonEquals": {
+          "engine": "L4+N5",
+          "runtimeProfile": "l4plus_n5_local",
+          "localRuntime": "available"
+        }
+      },
+      {
+        "name": "execMonomersListJson",
+        "args": [
+          "monomers",
+          "list",
+          "--json"
+        ],
+        "minTotalCount": 64
+      }
+    ],
     "requiredSemanticMarkers": [
       "command dispatcher",
       "certify command",
@@ -93,6 +139,10 @@
     "argvHandlingPresent",
     "commandDispatcherPresent",
     "functionalStageMinSizePass",
+    "execVersionPass",
+    "execHelpPass",
+    "execEngineStatusJsonPass",
+    "execMonomersListJsonPass",
     "functionalStageArtifactGatePass",
     "packageCandidateReferencesArtifact",
     "publicClaimBoundaryClosed"

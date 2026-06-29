@@ -11,6 +11,10 @@ PC functional_cli_stage_materialization_contract {
         argv_handling_present,
         command_dispatcher_present,
         functional_stage_min_size_pass,
+        exec_version_pass,
+        exec_help_pass,
+        exec_engine_status_json_pass,
+        exec_monomers_list_json_pass,
         package_candidate_can_reference_artifact,
         public_claim_boundary_closed
     ) {
@@ -22,6 +26,10 @@ PC functional_cli_stage_materialization_contract {
         if (argv_handling_present == 0) { return 0; }
         if (command_dispatcher_present == 0) { return 0; }
         if (functional_stage_min_size_pass == 0) { return 0; }
+        if (exec_version_pass == 0) { return 0; }
+        if (exec_help_pass == 0) { return 0; }
+        if (exec_engine_status_json_pass == 0) { return 0; }
+        if (exec_monomers_list_json_pass == 0) { return 0; }
         if (package_candidate_can_reference_artifact == 0) { return 0; }
         if (public_claim_boundary_closed == 0) { return 0; }
         return 1;
