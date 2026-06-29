@@ -764,3 +764,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   gates. `publicationMutationAllowed=true` is therefore not the same as
   `publicationAllowed=true`; final public readiness remains gated by live verify
   and external audit.
+- Public-mutation-ready manifest update: `release/manifest.json` is promoted to
+  `state=public` with closed public claims and pre-publication evidence refs so
+  `release:train:dry-run` and `release-train-publish-plan` can execute without
+  requiring post-public live evidence first. README, CHANGELOG, manifest
+  validation, release-flow audit, package smoke and Beta17 package wrappers are
+  aligned to this state. Real publication remains blocked until SDK artifacts,
+  signature evidence, live verify and external audit are refreshed.

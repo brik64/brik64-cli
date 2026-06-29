@@ -2015,3 +2015,23 @@
         `publicationMutationAllowed=true` only authorizes release-train
         mutation. It does not mean public release accepted, external audit
         passed, or final fixpoint claim allowed.
+
+- [x] Promote Beta17 release manifest to public-mutation-ready state.
+      - Files:
+        `release/manifest.json`, `README.md`, `CHANGELOG.md`,
+        `scripts/release-manifest-validate.js`, `scripts/release-flow-audit.js`,
+        `tests/smoke.sh`, `scripts/build-beta17-package.js`,
+        `scripts/beta17-package-smoke.sh`.
+      - Result:
+        `release:train:dry-run` now passes with `release/manifest.json`
+        set to `state=public` while keeping final publication and public claims
+        closed.
+      - Validation:
+        `node scripts/release-manifest-validate.js --allow-dirty`,
+        `npm run release:flow:audit`, `npm run release:train:dry-run -- --allow-dirty`,
+        `BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js`,
+        `node scripts/release-train-publish-execute.js`, and `npm test`.
+      - Remaining blockers before real publication:
+        SDK repositories/artifacts are still aligned to Beta16.1, live verify is
+        stale, and GitHub signature evidence must be refreshed after this
+        manifest promotion lands.

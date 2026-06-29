@@ -239,9 +239,22 @@ function validate() {
       failures.push(`evidence_missing:${item.id}`);
       continue;
     }
+    const text = readText(evidencePath);
+    if (item.decision === 'FILE_EXISTS') {
+      const stat = fs.statSync(evidencePath);
+      const actualDecision = stat.isFile() ? 'FILE_EXISTS' : 'NOT_FILE';
+      evidence.push({
+        id: item.id,
+        path: item.path,
+        expectedDecision: item.decision,
+        actualDecision,
+        sha256: sha256(text)
+      });
+      if (actualDecision !== 'FILE_EXISTS') failures.push(`evidence_not_file:${item.id}`);
+      continue;
+    }
     const parsed = readJson(evidencePath);
     const decision = parsed.decision;
-    const text = readText(evidencePath);
     evidence.push({
       id: item.id,
       path: item.path,

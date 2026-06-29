@@ -1,17 +1,17 @@
 {
   "schemaVersion": "brik64.release_train_sync_report.v1",
-  "releaseId": "brik64-0.1.0-beta.15.7.1",
-  "version": "0.1.0-beta.15.7.1",
+  "releaseId": "brik64-0.1.0-beta.17",
+  "version": "0.1.0-beta.17",
   "decision": "PASS_RELEASE_TRAIN_SYNC_SURFACES",
   "publicationAllowed": false,
   "artifacts": {
     "changelogMarkdown": {
       "path": "evidence/release-train-sync/changelog.md",
-      "sha256": "7426b0e063c53b9370b143de6b26424901e450e589e100ee9a8c9d7512529321"
+      "sha256": "43105645a17d469ef6071366e92bc4e3c2c4f0310f2571b00f4fdde7593d421b"
     },
     "syncPayload": {
       "path": "evidence/release-train-sync/sync-payload.json",
-      "sha256": "d4b1bc9292d2528332f57db8e04cabbab08167f46f67d7c57db3d6b772a57199"
+      "sha256": "d2ee1e4b6204ca892cca2a8bc136e817b0601f1d6585bf3a6c9ae2b6b38899d0"
     }
   },
   "failures": [],

@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.16.1`
+Current public beta: `0.1.0-beta.17`
 
 ## Install
 
@@ -24,19 +24,18 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta16.1.x Boundary
+## Beta17 Boundary
 
-`0.1.0-beta.16.1` is a versioned public follow-up for offline CLI reliability and lift
-diagnostics: complete local engine bundle packaging, semantic-loss warnings for
-lift previews, generated test execution across TypeScript, Python, and Rust,
-certifiable polymer PCD output, local traceability, and claim-safe project
-reports.
+`0.1.0-beta.17` is a versioned public beta package prepared from generated
+package evidence. It keeps local workspace commands focused on deterministic
+offline review, package integrity, and explicit handoff to managed public
+surfaces.
 
-The existing public beta16 package and archive are not rewritten by this
-follow-up. Beta16.1 must publish as its own versioned CLI package and public
-manifest entry after all release-train gates pass.
+The previous public beta16 package and archive are not rewritten by this
+follow-up. Beta17 publishes as its own versioned CLI package and public manifest
+entry.
 
-## Beta16.1.x Command Surface
+## Beta17 Command Surface
 
 The public beta keeps the local workflow focused on explicit bounded-domain PCD
 review and claim-safe evidence:
@@ -72,13 +71,13 @@ paths fail closed and keep local artifacts unchanged.
 ## SDK Boundary
 
 SDKs are distributed separately from the CLI. This CLI-only follow-up does not
-change SDK marketplace coordinates until the SDK release train publishes the
-aligned packages. The target Beta16.1 SDK coordinates are:
+change SDK marketplace coordinates until the aligned SDK packages publish. The
+target Beta17 SDK coordinates are:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.16.1
-pip install brik64==0.1.0b16.post1
-cargo add brik64-core@0.1.0-beta.16.1
+npm install @brik64/core@0.1.0-beta.17
+pip install brik64==0.1.0b17
+cargo add brik64-core@0.1.0-beta.17
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed

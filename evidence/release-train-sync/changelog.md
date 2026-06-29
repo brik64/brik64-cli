@@ -1,9 +1,9 @@
-## 0.1.0-beta.15.7.1
+## 0.1.0-beta.17
 
-### Added
+### Changed
 
-- Publishes the Beta15.7.1 CLI package as a versioned follow-up for the offline command-line workflow and embedded engine files.
+- Publishes the Beta17 CLI package candidate as the next beta channel artifact with generated package evidence and hash-bound installer metadata.
 
 ### Fixed
 
-- Ships the follow-up as its own versioned archive instead of changing the existing Beta15.7 package.
+- Separates package publication checks from live surface checks so installer, docs, skills, and SDK channels can be updated before final live verification.

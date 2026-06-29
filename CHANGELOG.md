@@ -3,6 +3,28 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.17
+
+### Changed
+
+- Publishes the Beta17 CLI package as a versioned beta channel artifact with
+  hash-bound package metadata and installer coordinates.
+- Separates package publishing checks from live surface checks so the installer,
+  docs, skills, and SDK channels can be updated before final live verification.
+
+### Fixed
+
+- Validates binary package evidence without treating tarballs as JSON reports.
+- Runs package smoke checks against the generated Beta17 package in both
+  candidate and public manifest modes.
+
+### Compatibility
+
+- SDK package coordinates are aligned to the Beta17 release manifest.
+- This beta does not establish formal certification for arbitrary user code,
+  universal correctness, independent toolchain closure, or native Windows
+  compatibility.
+
 ## 0.1.0-beta.16.1
 
 ### Fixed

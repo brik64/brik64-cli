@@ -1,40 +1,40 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.15.7.1",
-  "version": "0.1.0-beta.15.7.1",
+  "releaseId": "brik64-0.1.0-beta.17",
+  "version": "0.1.0-beta.17",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "c02962032dc53f07aeddfd4ec1563a10738fede086de12af328a9f8094304077",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.7.1",
-  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.7.1",
+  "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
+  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
   "sdkInstall": {
     "npm": {
       "name": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.15.7.1"
+      "version": "0.1.0-beta.17"
     },
     "pypi": {
       "name": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b15.post701"
+      "version": "0.1.0b17"
     },
     "crates.io": {
       "name": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.15.7.1"
+      "version": "0.1.0-beta.17"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.15.7.1\n\n### Added\n\n- Publishes the Beta15.7.1 CLI package as a versioned follow-up for the offline command-line workflow and embedded engine files.\n\n### Fixed\n\n- Ships the follow-up as its own versioned archive instead of changing the existing Beta15.7 package.\n",
+  "changelogMarkdown": "## 0.1.0-beta.17\n\n### Changed\n\n- Publishes the Beta17 CLI package candidate as the next beta channel artifact with generated package evidence and hash-bound installer metadata.\n\n### Fixed\n\n- Separates package publication checks from live surface checks so installer, docs, skills, and SDK channels can be updated before final live verification.\n",
   "releaseNotes": [
     {
-      "type": "added",
+      "type": "changed",
       "surface": "CLI package",
-      "text": "Publishes the Beta15.7.1 CLI package as a versioned follow-up for the offline command-line workflow and embedded engine files."
+      "text": "Publishes the Beta17 CLI package candidate as the next beta channel artifact with generated package evidence and hash-bound installer metadata."
     },
     {
       "type": "fixed",
-      "surface": "Release packaging",
-      "text": "Ships the follow-up as its own versioned archive instead of changing the existing Beta15.7 package."
+      "surface": "Release validation",
+      "text": "Separates package publication checks from live surface checks so installer, docs, skills, and SDK channels can be updated before final live verification."
     }
   ]
 }

@@ -130,6 +130,14 @@ function requiredBetaScripts(label) {
       'smoke:beta16.1:package'
     ];
   }
+  if (label === 'beta17') {
+    return [
+      'gate:beta17:fixpoint:required-inputs',
+      'gate:beta17:pre-publication-mutation',
+      'package:beta17:fixpoint:candidate',
+      'gate:beta17:fixpoint:functional-stage-artifact'
+    ];
+  }
   return [
     `gate:${label}:feature-parity`,
     `package:${label}:local`,
