@@ -3916,3 +3916,43 @@ Boundary:
 - This iteration produces request/input evidence only. It does not execute
   L6+N5, hydrate a generated artifact, publish Beta17 or authorize
   fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage result validator
+
+Timestamp: 2026-06-29T08:45:00Z
+
+Task:
+- Add a fail-closed parser/validator for the future
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` emitted by L6+N5.
+
+Change:
+- Added `scripts/beta17-functional-cli-stage-result.js`.
+- Added npm script `test:beta17:functional-cli-stage-result`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_result.sh`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-result.js` passed.
+- `npm run test:beta17:functional-cli-stage-result` passed.
+
+Break attempts:
+- Stale version fails closed.
+- `generatedByL6PlusN5=false` fails closed.
+- Open public-release claim boundary fails closed.
+- Stage1 artifact SHA drift fails closed.
+- Unsafe artifact path fails closed.
+- `functionalStageMinSizePass=false` fails closed.
+- Missing `process.argv` marker in artifact content fails closed.
+- Candidate-only stub text fails closed.
+- Wrong functional request hash fails closed.
+- Input PCD set drift fails closed.
+- Missing required input PCD fails closed.
+- Malformed/non-result lines return null.
+
+Current next action:
+- Route `evidence/beta17-functional-cli-stage-request/request.line` through
+  L6+N5 and accept only a payload that passes this validator before hydrating
+  Stage1.
+
+Boundary:
+- This iteration validates the future result contract only. It does not execute
+  L6+N5, hydrate artifacts, publish Beta17 or open fixpoint/formal claims.

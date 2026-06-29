@@ -161,6 +161,13 @@
   requirements, required PCD hashes, output refs and closed claim boundary.
   This is input evidence only; it does not replace the future L6+N5 result or
   functional Stage artifact gate.
+- Functional CLI Stage result validator update: Beta17 now has a parser and
+  validator for `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`. The validator
+  accepts only a result that binds the request hash, PCD input set, L6+N5
+  serial, full Stage1 artifact bytes/base64, hash/byte refs, functional CLI
+  markers and closed claim boundaries. This prepares safe hydration of a future
+  remote L6+N5 result without allowing metadata-only or claim-overreaching
+  payloads.
 
 ## Legacy Plan Context
 

@@ -264,6 +264,21 @@
         package candidate as `releaseEligible=true`, and then advances to
         public sync / external audit blockers.
 
+- [x] Add parser/validator for the future functional CLI Stage L6+N5 result.
+      - Script:
+        `scripts/beta17-functional-cli-stage-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_functional_cli_stage_result.sh`.
+      - NPM:
+        `test:beta17:functional-cli-stage-result`.
+      - Result:
+        validator accepts only `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`
+        payloads that bind artifact base64, SHA/bytes, request hash, input PCD
+        set, functional CLI markers, L6+N5 serial and closed claims.
+      - Boundary:
+        this validates future result payloads. It does not call L6+N5, hydrate
+        artifacts or prove that the functional CLI has been generated.
+
 - [x] Add Beta17 materializer generation result validator.
       - Script:
         `scripts/beta17-fixpoint-materializer-generation-result.js`.
