@@ -35,6 +35,7 @@ function buildEvidencePackManifest(options = {}) {
     .map((file) => ({
       path: rel(file),
       sha256: sha256Bytes(fs.readFileSync(file)),
+      bytes: fs.statSync(file).size,
     }));
   return {
     schemaVersion: 'brik64.beta17_fixpoint.evidence_pack_manifest.v1',

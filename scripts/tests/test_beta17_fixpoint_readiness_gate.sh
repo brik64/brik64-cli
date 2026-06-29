@@ -53,7 +53,7 @@ for path in sorted(root.rglob("*")):
     if not path.is_file() or path.name == "evidence_pack_manifest.json":
         continue
     rel = path.relative_to(base).as_posix()
-    files.append({"path": rel, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+    files.append({"path": rel, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "bytes": path.stat().st_size})
 pack = {
     "schemaVersion": "brik64.beta17_fixpoint.evidence_pack_manifest.v1",
     "version": "0.1.0-beta.17",
@@ -488,6 +488,34 @@ fi
 jq -e '
   .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
   and (.blockers | index("evidence_pack_manifest_sha256_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+for entry in data["files"]:
+    if entry["path"] == "evidence/beta17-fixpoint/stage1_artifact_manifest.json":
+        entry["bytes"] += 1
+json.dump(data, open(path, "w"), indent=2)
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/pack-bytes-mismatch.stdout" 2>"$TMP_DIR/pack-bytes-mismatch.stderr"
+pack_bytes_mismatch_rc=$?
+set -e
+
+if [[ "$pack_bytes_mismatch_rc" -eq 0 ]]; then
+  echo "pack_bytes_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("evidence_pack_manifest_bytes_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json"))
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
 
 write_evidence_pack_manifest "$FIXTURE"

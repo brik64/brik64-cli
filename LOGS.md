@@ -2595,3 +2595,40 @@ Boundary:
 - This strengthens remote promotion evidence binding. It does not create the
   real L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
   artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence pack manifest byte binding
+
+Timestamp: 2026-06-29T04:02:00Z
+
+Task:
+- Bind each Beta17 evidence-pack manifest entry to byte count in addition to
+  path and SHA-256.
+
+Change:
+- Updated `scripts/beta17-fixpoint-evidence-pack-manifest.js` so generated
+  entries include `bytes`.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to reject evaluated
+  evidence refs when the manifest bytes value is missing or mismatched.
+- Updated evidence-pack and readiness tests to cover the new metadata.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-manifest.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- Regression battery passed:
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-report`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  mutating `stage1_artifact_manifest.json` bytes metadata triggers
+  `evidence_pack_manifest_bytes_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json`.
+
+Boundary:
+- This strengthens final evidence-pack indexing. It does not create the real
+  L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.

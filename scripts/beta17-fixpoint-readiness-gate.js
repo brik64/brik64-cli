@@ -84,6 +84,7 @@ function checkHashList(file, blockers, evidence, key) {
   evidence[key] = {
     path: rel(file),
     sha256: sha256File(file),
+    sizeBytes: fs.statSync(file).size,
     rows: rows.length,
   };
   if (rows.length === 0) blockers.push(`${key}_empty:${rel(file)}`);
@@ -273,10 +274,21 @@ function checkEvidencePackManifest(manifest, evidence, blockers) {
     blockers.push('evidence_pack_manifest_files_empty');
     return;
   }
-  const refs = new Map(files.map((entry) => [entry.path, entry.sha256]));
+  const refs = new Map(files.map((entry) => [entry.path, entry]));
   const expectedPackSha256 = sha256Text(`${JSON.stringify({ files }, null, 2)}\n`);
   if (String(manifest.packSha256 || '').toLowerCase() !== expectedPackSha256.toLowerCase()) {
     blockers.push('evidence_pack_manifest_pack_sha256_mismatch');
+  }
+  for (const [index, entry] of files.entries()) {
+    if (!isSafeRelativePath(entry?.path)) {
+      blockers.push(`evidence_pack_manifest_file_path_unsafe:${index + 1}:${entry?.path || 'missing'}`);
+    }
+    if (!isSha256(entry?.sha256)) {
+      blockers.push(`evidence_pack_manifest_file_sha256_invalid:${index + 1}:${entry?.path || 'missing'}`);
+    }
+    if (!Number.isInteger(entry?.bytes) || entry.bytes < 1) {
+      blockers.push(`evidence_pack_manifest_file_bytes_invalid:${index + 1}:${entry?.path || 'missing'}`);
+    }
   }
   for (const evidenceKey of [
     'canonical_motor_manifest',
@@ -293,11 +305,16 @@ function checkEvidencePackManifest(manifest, evidence, blockers) {
   ]) {
     const evaluated = evidence[evidenceKey];
     if (!evaluated) continue;
-    const manifestSha = refs.get(evaluated.path);
-    if (!manifestSha) {
+    const manifestRef = refs.get(evaluated.path);
+    if (!manifestRef) {
       blockers.push(`evidence_pack_manifest_missing_ref:${evaluated.path}`);
-    } else if (String(manifestSha).toLowerCase() !== String(evaluated.sha256).toLowerCase()) {
-      blockers.push(`evidence_pack_manifest_sha256_mismatch:${evaluated.path}`);
+    } else {
+      if (String(manifestRef.sha256).toLowerCase() !== String(evaluated.sha256).toLowerCase()) {
+        blockers.push(`evidence_pack_manifest_sha256_mismatch:${evaluated.path}`);
+      }
+      if (manifestRef.bytes !== evaluated.sizeBytes && manifestRef.bytes !== evaluated.bytes) {
+        blockers.push(`evidence_pack_manifest_bytes_mismatch:${evaluated.path}`);
+      }
     }
   }
 }

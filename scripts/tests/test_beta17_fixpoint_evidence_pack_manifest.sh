@@ -33,11 +33,16 @@ jq -e '
   and .claimBoundary.formalN5ClaimAllowed==false
   and ([.files[] | select(.path=="evidence/beta17-fixpoint/stage1_artifact_manifest.json")] | length)==1
   and ([.files[] | select(.path=="evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs")] | length)==1
+  and ([.files[] | select(.path=="evidence/beta17-fixpoint/stage1_artifact_manifest.json") | .bytes] | first) > 0
 ' "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" >/dev/null
 
 stage1_sha="$(shasum -a 256 "$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" | awk '{print $1}')"
+stage1_bytes="$(wc -c <"$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json" | tr -d ' ')"
 jq -e --arg sha "$stage1_sha" '
   ([.files[] | select(.path=="evidence/beta17-fixpoint/stage1_artifact_manifest.json") | .sha256] | first)==$sha
+' "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" >/dev/null
+jq -e --argjson bytes "$stage1_bytes" '
+  ([.files[] | select(.path=="evidence/beta17-fixpoint/stage1_artifact_manifest.json") | .bytes] | first)==$bytes
 ' "$FIXTURE/evidence/beta17-fixpoint/evidence_pack_manifest.json" >/dev/null
 
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-evidence-pack-manifest.js" \

@@ -403,9 +403,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   validator verifies safe relative paths, file existence and SHA-256 matches
   when run from the evidence workspace.
 - Evidence pack manifest: `evidence/beta17-fixpoint/evidence_pack_manifest.json`
-  inventories the Beta17 evidence pack with path/SHA-256 refs. Readiness
+  inventories the Beta17 evidence pack with path/SHA-256/bytes refs. Readiness
   validates the manifest schema, version, closed public/formal claim boundaries
-  and SHA-256 agreement for every evidence file it evaluates.
+  plus SHA-256 and byte-count agreement for every evidence file it evaluates.
 - Evidence pack manifest adversarial coverage: readiness tests now mutate the
   manifest to prove SHA-256 mismatch and missing-ref cases fail closed before
   any Beta17 release train can pass.

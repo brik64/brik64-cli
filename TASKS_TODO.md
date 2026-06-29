@@ -303,6 +303,26 @@
         real L6+N5 materializer, generate Stage1/Stage2 artifacts, prove
         fixpoint or publish Beta17.
 
+- [x] Add byte-count binding to the Beta17 evidence-pack manifest.
+      - Scripts:
+        `scripts/beta17-fixpoint-evidence-pack-manifest.js`,
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh`,
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Result:
+        the evidence-pack manifest now records `bytes` for every evidence file,
+        and readiness rejects mismatched or missing byte metadata for evaluated
+        evidence refs.
+      - Break attempts:
+        mutating the bytes entry for `stage1_artifact_manifest.json` is
+        rejected with
+        `evidence_pack_manifest_bytes_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json`.
+      - Boundary:
+        this hardens final evidence-pack indexing. It does not create the real
+        L6+N5 materializer, generate Stage1/Stage2 artifacts, prove fixpoint
+        or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.

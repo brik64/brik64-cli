@@ -66,7 +66,7 @@ for path in sorted(root.rglob("*")):
     if not path.is_file() or path.name == "evidence_pack_manifest.json":
         continue
     rel = path.relative_to(base).as_posix()
-    files.append({"path": rel, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+    files.append({"path": rel, "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), "bytes": path.stat().st_size})
 pack = {
     "schemaVersion": "brik64.beta17_fixpoint.evidence_pack_manifest.v1",
     "version": "0.1.0-beta.17",
