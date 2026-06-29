@@ -23,46 +23,46 @@
   "promoted": {
     "stage1ArtifactManifest": {
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-      "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+      "sha256": "b026cdbdd74233b27700e85446f50fd99f3797028364656f02f5cfb9b318dca5",
       "bytes": 961,
       "source": {
         "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-        "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+        "sha256": "b026cdbdd74233b27700e85446f50fd99f3797028364656f02f5cfb9b318dca5",
         "bytes": 961
       },
       "target": {
         "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-        "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+        "sha256": "b026cdbdd74233b27700e85446f50fd99f3797028364656f02f5cfb9b318dca5",
         "bytes": 961
       }
     },
     "stage2RegenerationManifest": {
       "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-      "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+      "sha256": "7e6e39e0cbdf3e7bde914c04660e8f6435269c52ce963a0e9e1a5d5d43625444",
       "bytes": 1131,
       "source": {
         "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-        "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+        "sha256": "7e6e39e0cbdf3e7bde914c04660e8f6435269c52ce963a0e9e1a5d5d43625444",
         "bytes": 1131
       },
       "target": {
         "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-        "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+        "sha256": "7e6e39e0cbdf3e7bde914c04660e8f6435269c52ce963a0e9e1a5d5d43625444",
         "bytes": 1131
       }
     },
     "byteIdenticalReport": {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-      "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+      "sha256": "957d94a666d8e8c268caef069d418c041291e22b82a4596357944ad7b3a3f322",
       "bytes": 1115,
       "source": {
         "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-        "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+        "sha256": "957d94a666d8e8c268caef069d418c041291e22b82a4596357944ad7b3a3f322",
         "bytes": 1115
       },
       "target": {
         "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-        "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+        "sha256": "957d94a666d8e8c268caef069d418c041291e22b82a4596357944ad7b3a3f322",
         "bytes": 1115
       }
     },
@@ -83,47 +83,47 @@
     },
     "sealReport": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
-      "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+      "sha256": "657d91df2536a25b64095904d74c3b86c08bf92da93e2b3e39ea0c801a7d76b2",
       "bytes": 791,
       "source": {
         "path": "evidence/beta17-fixpoint/seal_report.json",
-        "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+        "sha256": "657d91df2536a25b64095904d74c3b86c08bf92da93e2b3e39ea0c801a7d76b2",
         "bytes": 791
       },
       "target": {
         "path": "evidence/beta17-fixpoint/seal_report.json",
-        "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+        "sha256": "657d91df2536a25b64095904d74c3b86c08bf92da93e2b3e39ea0c801a7d76b2",
         "bytes": 791
       }
     },
     "stage1Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-      "bytes": 190315,
+      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+      "bytes": 204448,
       "source": {
         "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-        "bytes": 190315
+        "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+        "bytes": 204448
       },
       "target": {
         "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-        "bytes": 190315
+        "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+        "bytes": 204448
       }
     },
     "stage2Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-      "bytes": 190315,
+      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+      "bytes": 204448,
       "source": {
         "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-        "bytes": 190315
+        "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+        "bytes": 204448
       },
       "target": {
         "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-        "bytes": 190315
+        "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+        "bytes": 204448
       }
     }
   },
@@ -132,7 +132,7 @@
   "refreshedBy": {
     "script": "scripts/beta17-fixpoint-readiness-evidence-refresh.js",
     "reason": "readiness report binding shape enrichment changed report hashes",
-    "generatedAt": "2026-06-29T08:30:01.630Z",
+    "generatedAt": "2026-06-29T11:48:33.296Z",
     "claimBoundary": {
       "publicReleaseAllowed": false,
       "definitiveFixpointAllowed": false,

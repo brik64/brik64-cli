@@ -26,7 +26,9 @@ if [ "$PACKAGE_VERSION" = "0.1.0-beta.17" ] && { [ "$MANIFEST_STATE" = "candidat
   node "$BETA17_BRIK" emit | grep -q "emit command"
   node "$BETA17_BRIK" polymerize | grep -q "polymerize command"
   node "$BETA17_BRIK" lift | grep -q "lift command"
-  node "$BETA17_BRIK" "engine status" | grep -q "engine status command"
+  node "$BETA17_BRIK" engine status --json | grep -q '"engine": "L4+N5"'
+  node "$BETA17_BRIK" engine status --json | grep -q '"runtimeProfile": "l4plus_n5_local"'
+  node "$BETA17_BRIK" monomers list --json | grep -q '"total": 128'
   exit 0
 fi
 

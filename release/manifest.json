@@ -3,28 +3,23 @@
   "releaseId": "brik64-0.1.0-beta.17",
   "version": "0.1.0-beta.17",
   "channel": "beta",
-  "state": "public",
+  "state": "candidate",
   "source": {
-    "commit": "5b3ab78cd1bbbc57dfa29fa1253c4061007e4336",
-    "commitBinding": "public_release_base_commit"
+    "commit": "f74ad68d3ee7a0e6d501e0d3c33ff6cfae6d4e8e",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-      "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
-      "bytes": 404533
+      "sha256": "0a02a1fd1ac6cf8104957c4d663bd5c8f759d239cba09d9fe455c9fab7526738",
+      "bytes": 433205
     }
   },
   "releaseNotes": [
     {
-      "type": "changed",
-      "surface": "CLI package",
-      "text": "Publishes the Beta17 CLI package candidate as the next beta channel artifact with generated package evidence and hash-bound installer metadata."
-    },
-    {
-      "type": "fixed",
-      "surface": "Release validation",
-      "text": "Separates package publication checks from live surface checks so installer, docs, skills, and SDK channels can be updated before final live verification."
+      "type": "prepared",
+      "surface": "CLI package candidate",
+      "text": "Prepares a Beta17 package candidate from L6+N5 stage evidence while keeping public release disabled until functional package, public sync and external audit gates pass."
     }
   ],
   "sdks": [
@@ -33,66 +28,71 @@
       "name": "@brik64/core",
       "version": "0.1.0-beta.17",
       "required": true,
-      "publication": "ready_for_release_train_publish"
+      "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
       "version": "0.1.0b17",
       "required": true,
-      "publication": "ready_for_release_train_publish"
+      "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
       "version": "0.1.0-beta.17",
       "required": true,
-      "publication": "ready_for_release_train_publish"
+      "publication": "pending_release_train_publish"
     }
   ],
   "publicSurfaces": {
     "githubRelease": {
       "required": true,
-      "status": "ready_for_release_train_publish",
+      "status": "pending_release_train_publish",
       "tag": "v0.1.0-beta.17"
     },
     "curlInstaller": {
       "required": true,
-      "status": "ready_for_release_train_publish",
+      "status": "pending_release_train_publish",
       "url": "https://brik64.com/cli/install.sh"
     },
     "channelManifest": {
       "required": true,
-      "status": "ready_for_release_train_publish",
+      "status": "pending_release_train_publish",
       "url": "https://brik64.com/cli/beta.json"
     },
     "web": {
       "required": true,
-      "status": "ready_for_release_train_publish",
+      "status": "pending_release_train_publish",
       "url": "https://brik64.com/download"
     },
     "docs": {
       "required": true,
-      "status": "ready_for_release_train_publish",
+      "status": "pending_release_train_publish",
       "url": "https://docs.brik64.com"
     },
     "skills": {
       "required": true,
-      "status": "ready_for_release_train_publish",
+      "status": "pending_release_train_publish",
       "repo": "brik64/brik64-tools-skills"
     }
   },
   "verification": {
     "requiredEvidence": [
       {
-        "id": "beta17_fixpoint_required_inputs",
-        "path": "evidence/beta17-fixpoint-required-inputs/report.json",
-        "decision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS"
+        "id": "beta17_fixpoint_readiness",
+        "path": "evidence/beta17-fixpoint-readiness/report.json",
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
       },
       {
-        "id": "beta17_pre_publication_mutation_gate",
-        "path": "evidence/beta17-pre-publication-mutation-gate/report.json",
-        "decision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE"
+        "id": "beta17_public_surface_sync",
+        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
+      },
+      {
+        "id": "beta17_external_audit_status",
+        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
       },
       {
         "id": "beta17_cli_package",

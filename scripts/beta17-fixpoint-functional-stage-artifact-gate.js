@@ -122,6 +122,13 @@ function main() {
         const helpRun = runArtifact(artifactPath, ['--help']);
         const engineRun = runArtifact(artifactPath, ['engine', 'status', '--json']);
         const monomersRun = runArtifact(artifactPath, ['monomers', 'list', '--json']);
+        const baseCommandRuns = new Map([
+          ['certify', runArtifact(artifactPath, ['certify'])],
+          ['verify', runArtifact(artifactPath, ['verify'])],
+          ['emit', runArtifact(artifactPath, ['emit'])],
+          ['polymerize', runArtifact(artifactPath, ['polymerize'])],
+          ['lift', runArtifact(artifactPath, ['lift'])],
+        ]);
         const engineJson = parseJsonOutput(engineRun.stdout);
         const monomersJson = parseJsonOutput(monomersRun.stdout);
         checks.execVersion = versionRun.rc === 0 && versionRun.stdout === version;
@@ -137,6 +144,10 @@ function main() {
             (Array.isArray(monomersJson.monomers) && monomersJson.monomers.length >= 64)
             || Number(monomersJson.totalCount || monomersJson.total || 0) >= 64
           );
+        checks.execBaseCommands = {};
+        for (const [name, run] of baseCommandRuns.entries()) {
+          checks.execBaseCommands[name] = run.rc === 0 && run.stdout.includes(`${name} command`);
+        }
         if (!checks.artifactShaMatches) blockers.push('stage1_artifact_sha256_mismatch');
         if (!checks.artifactBytesMatch) blockers.push('stage1_artifact_bytes_mismatch');
         if (!checks.artifactMinSize) blockers.push(`stage1_artifact_too_small:${artifactBytes}:${minBytes}`);
@@ -149,6 +160,12 @@ function main() {
         if (!checks.execHelp) blockers.push(`stage1_artifact_exec_help_failed:${helpRun.rc}:${helpRun.stdout || helpRun.stderr || 'empty'}`);
         if (!checks.execEngineStatusJson) blockers.push(`stage1_artifact_exec_engine_status_json_failed:${engineRun.rc}:${engineRun.stdout || engineRun.stderr || 'empty'}`);
         if (!checks.execMonomersListJson) blockers.push(`stage1_artifact_exec_monomers_list_json_failed:${monomersRun.rc}:${monomersRun.stdout || monomersRun.stderr || 'empty'}`);
+        for (const [name, passed] of Object.entries(checks.execBaseCommands)) {
+          if (!passed) {
+            const run = baseCommandRuns.get(name);
+            blockers.push(`stage1_artifact_exec_base_command_failed:${name}:${run.rc}:${run.stdout || run.stderr || 'empty'}`);
+          }
+        }
       }
     }
   }

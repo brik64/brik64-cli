@@ -18,6 +18,7 @@ const packagePath = path.join(outDir, packageName);
 const packageRel = path.posix.join('evidence', `${label}-package`, packageName);
 const packageManifestPath = path.join(outDir, 'package.manifest.json');
 const candidateManifestPath = path.join(outDir, 'release.manifest.candidate.json');
+const releaseManifestPath = path.join(root, 'release', 'manifest.json');
 const sumsPath = path.join(outDir, 'SHA256SUMS');
 
 function sha256(data) {
@@ -327,7 +328,7 @@ const packageManifest = {
 writeJson(packageManifestPath, packageManifest);
 fs.writeFileSync(sumsPath, `${packageSha}  ${packageName}\n${sha256(stageChecksums)}  stage-checksums.tsv\n`);
 
-writeJson(candidateManifestPath, {
+const releaseManifest = {
   schemaVersion: 'brik64.release_manifest.v1',
   releaseId: `brik64-${version}`,
   version,
@@ -395,7 +396,9 @@ writeJson(candidateManifestPath, {
     selfHostingClaimAllowed: false,
     rustIndependenceClaimAllowed: false,
   },
-});
+};
+writeJson(candidateManifestPath, releaseManifest);
+writeJson(releaseManifestPath, releaseManifest);
 
 fs.rmSync(stageRoot, { recursive: true, force: true });
 console.log(`decision=${packageManifest.decision}`);

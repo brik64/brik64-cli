@@ -2,10 +2,10 @@
   "schemaVersion": "brik64.beta17_fixpoint.canonical_motor_manifest.v1",
   "version": "0.1.0-beta.17",
   "pcdBound": true,
-  "inputSetSha256": "1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd",
+  "inputSetSha256": "3f8dd894c05dcb42622125839c286d9a3aafa726474d22170b536a9cc73761df",
   "inputPcdHashesRef": {
     "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
-    "sha256": "2bc9652b64075b9f95bfe8e936c9a93018abe34704971969946e2114d9fb7d17",
+    "sha256": "2937c3bac87e4d8040e2ada3d1a5e1c12795297ed3c10356b5afa158c5fc1296",
     "rows": 5
   },
   "claimBoundary": {
@@ -20,8 +20,8 @@
   "canonicalPcdRefs": [
     {
       "path": "pcd/beta17/release/functional_cli_stage_materialization_contract.pcd",
-      "sha256": "4cd80f7244d020ee8bc8a4682b11e3b927f6cfc5af372f67c323d70af3821c62",
-      "bytes": 1246
+      "sha256": "a95f9c78192bf9b02e85aff2cbe967f7f81dddc32c2857b9a695b58c97b1f95a",
+      "bytes": 1592
     },
     {
       "path": "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",

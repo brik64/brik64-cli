@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint_readiness_gate.v1",
-  "generatedAt": "2026-06-29T08:30:19.266Z",
+  "generatedAt": "2026-06-29T11:49:55.528Z",
   "version": "0.1.0-beta.17",
   "expectedVersion": "0.1.0-beta.17",
   "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
@@ -26,38 +26,38 @@
   "evidence": {
     "canonical_motor_manifest": {
       "path": "evidence/beta17-fixpoint/canonical_motor_manifest.json",
-      "sha256": "7a743b881f7a528e900c7496929e93daa0c8cecac4ac52f7428e3f1aff271049",
+      "sha256": "ed052f15fdc1d042f1a44870b193a1d0a91e99d49cf3a04a39a8808666667262",
       "sizeBytes": 1661
     },
     "evidence_pack_manifest": {
       "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
-      "sha256": "b098b32aa289bb7ded6d09bbae6e75d0546c2c77cb3bfb13efe6296bf3bfed45",
+      "sha256": "4e92ef5b33b85578dfdf2d1262748a0088fde820ee2becd95fc3d9d2b449b4e8",
       "sizeBytes": 4132
     },
     "canonical_harness_manifest": {
       "path": "evidence/beta17-fixpoint/canonical_harness_manifest.json",
-      "sha256": "b547b4b42c0e8f2d45164c3c627b7706b822715aa6cdb9ba571e12cf35b1ee26",
+      "sha256": "f4e7a1d3da9a557f4e3866d848174424e07afe4d22e87fb35adbadbdab331292",
       "sizeBytes": 1580
     },
     "input_pcd_hashes": {
       "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
-      "sha256": "2bc9652b64075b9f95bfe8e936c9a93018abe34704971969946e2114d9fb7d17",
+      "sha256": "2937c3bac87e4d8040e2ada3d1a5e1c12795297ed3c10356b5afa158c5fc1296",
       "sizeBytes": 556,
       "rows": 5
     },
     "stage1_artifact_manifest": {
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-      "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+      "sha256": "b026cdbdd74233b27700e85446f50fd99f3797028364656f02f5cfb9b318dca5",
       "sizeBytes": 961
     },
     "stage2_regeneration_manifest": {
       "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-      "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+      "sha256": "7e6e39e0cbdf3e7bde914c04660e8f6435269c52ce963a0e9e1a5d5d43625444",
       "sizeBytes": 1131
     },
     "byte_identical_report": {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-      "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+      "sha256": "957d94a666d8e8c268caef069d418c041291e22b82a4596357944ad7b3a3f322",
       "sizeBytes": 1115
     },
     "harness_report": {
@@ -67,12 +67,12 @@
     },
     "seal_report": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
-      "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+      "sha256": "657d91df2536a25b64095904d74c3b86c08bf92da93e2b3e39ea0c801a7d76b2",
       "sizeBytes": 791
     },
     "remote_promotion_manifest": {
       "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
-      "sha256": "cd4cae928a624ab1f092fb926b1908569914e1e851d1ef3a1a4ce0101c9c5f61",
+      "sha256": "b4cc6f87f056db762034f287438013eebf34f857accf443109c9e8138595211c",
       "sizeBytes": 5924
     },
     "public_surface_sync_report": {
@@ -97,13 +97,13 @@
     },
     "remote_promotion_stage1Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-      "sizeBytes": 190315
+      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+      "sizeBytes": 204448
     },
     "remote_promotion_stage2Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-      "sizeBytes": 190315
+      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+      "sizeBytes": 204448
     }
   },
   "checks": {

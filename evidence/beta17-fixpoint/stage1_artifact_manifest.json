@@ -5,12 +5,12 @@
   "generatedFromPcdPolymer": true,
   "artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-    "bytes": 190315
+    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+    "bytes": 204448
   },
-  "stage1ArtifactSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-  "functionalCliStageRequestSha256": "148f114085bae993efb03017e1b1f3f060f23b47b22e87fcd4286bde6d8b4388",
-  "pcdInputSetSha256": "1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd",
+  "stage1ArtifactSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+  "functionalCliStageRequestSha256": "5e9bae90ce48f7b27e509a78a1a52d6ce2e47b31c57979ce3a8ae915a90f626e",
+  "pcdInputSetSha256": "3f8dd894c05dcb42622125839c286d9a3aafa726474d22170b536a9cc73761df",
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,

@@ -1,16 +1,16 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.functional_stage_artifact_gate.v1",
-  "generatedAt": "2026-06-29T11:21:40.399Z",
+  "generatedAt": "2026-06-29T11:48:32.259Z",
   "version": "0.1.0-beta.17",
-  "decision": "BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
-  "releaseEligibleStageArtifact": false,
+  "decision": "PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+  "releaseEligibleStageArtifact": true,
   "minBytes": 50000,
   "artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-    "bytes": 190315,
-    "expectedSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-    "expectedBytes": 190315
+    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+    "bytes": 204448,
+    "expectedSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+    "expectedBytes": 204448
   },
   "checks": {
     "stage1ManifestVersion": true,
@@ -23,17 +23,19 @@
     "argvHandling": true,
     "commandDispatcher": true,
     "noCandidateOnlyMessage": true,
-    "execVersion": false,
-    "execHelp": false,
-    "execEngineStatusJson": false,
-    "execMonomersListJson": false
+    "execVersion": true,
+    "execHelp": true,
+    "execEngineStatusJson": true,
+    "execMonomersListJson": true,
+    "execBaseCommands": {
+      "certify": true,
+      "verify": true,
+      "emit": true,
+      "polymerize": true,
+      "lift": true
+    }
   },
-  "blockers": [
-    "stage1_artifact_exec_version_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0",
-    "stage1_artifact_exec_help_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0",
-    "stage1_artifact_exec_engine_status_json_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0",
-    "stage1_artifact_exec_monomers_list_json_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0"
-  ],
+  "blockers": [],
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,
@@ -43,5 +45,5 @@
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   },
-  "nextAction": "Regenerate Stage1 through L6+N5 as a full CLI artifact, not a metadata/stub module."
+  "nextAction": "Use this report as one input to package eligibility; public sync and external audit are still required."
 }

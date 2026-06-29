@@ -5,7 +5,7 @@
   "iterId": "beta17-functional-cli-stage-materialization",
   "requestType": "generate_beta17_functional_cli_stage_artifact",
   "materializerMode": "l6plus_functional_cli_stage_materializer",
-  "sourceCommit": "7f99ec272bee4966a99b73cd89c3d390a61b9240",
+  "sourceCommit": "f74ad68d3ee7a0e6d501e0d3c33ff6cfae6d4e8e",
   "status": "REQUEST_NON_CLAIM",
   "claimBoundary": {
     "publicReleaseAllowed": false,
