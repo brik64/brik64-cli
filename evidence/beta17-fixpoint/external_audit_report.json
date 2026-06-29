@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.external_audit_report.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT",
+  "pass": false,
+  "cleanPublicInstall": {
+    "pass": false
+  },
+  "functionalTests": {
+    "pass": false
+  },
+  "generatedCodeTests": {
+    "pass": false
+  },
+  "adversarialTests": {
+    "pass": false
+  },
+  "publicSurfaceScan": {
+    "pass": false
+  },
+  "claimSafeScan": {
+    "pass": false
+  },
+  "artifacts": {
+    "auditLog": {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/auditLog.md",
+      "sha256": "3ec32ccb4165f81a5ce735ac78e6e839c41c2bba3028e3c05679cc873dcf8403",
+      "bytes": 87
+    },
+    "generatedCodeQuality": {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/generatedCodeQuality.md",
+      "sha256": "66263d9d3f2468e70942453058a029afce6d59ebcd89b66987fd04a18445fe55",
+      "bytes": 99
+    },
+    "adversarialResults": {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/adversarialResults.md",
+      "sha256": "db469520163af8a3bb8f3f6dc120fe3b65fc1fec2f8913662469163002eec0c3",
+      "bytes": 97
+    },
+    "publicSurfaceScan": {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/publicSurfaceScan.md",
+      "sha256": "e8560e556a930e9483292543ebb9fa1d0f0637ed4783e1c749befff7a1b71e0d",
+      "bytes": 96
+    },
+    "claimSafeScan": {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/claimSafeScan.md",
+      "sha256": "83b96a4e0e4b70912cfdbe526aa78fb5ee4ba59e5181395fa2a67c0ad941231e",
+      "bytes": 92
+    }
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

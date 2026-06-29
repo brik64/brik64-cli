@@ -99,6 +99,8 @@
     "test:beta17:fixpoint:evidence:init": "bash scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh",
     "beta17:fixpoint:evidence:manifest": "node scripts/beta17-fixpoint-evidence-pack-manifest.js",
     "test:beta17:fixpoint:evidence:manifest": "bash scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh",
+    "refresh:beta17:fixpoint:readiness-evidence": "node scripts/beta17-fixpoint-readiness-evidence-refresh.js",
+    "test:beta17:fixpoint:readiness-evidence-refresh": "bash scripts/tests/test_beta17_fixpoint_readiness_evidence_refresh.sh",
     "gate:beta17:fixpoint:stage-contract": "node scripts/beta17-fixpoint-stage-contract-gate.js",
     "test:beta17:fixpoint:stage-contract": "bash scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh",
     "bundle:beta17:fixpoint:stage-request": "node scripts/beta17-fixpoint-stage-request-bundle.js",

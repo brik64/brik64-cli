@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.materializer_generator_endpoint_install.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T05:14:23.624Z",
+  "generatedAt": "2026-06-29T05:31:20.355Z",
   "decision": "PASS_BETA17_MATERIALIZER_GENERATOR_ENDPOINT_INSTALL",
   "executed": true,
   "publicationAllowed": false,
@@ -13,15 +13,15 @@
   },
   "endpoint": {
     "path": "evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js",
-    "sha256": "b09c04ea647dc496e80346f792e8baaafd045806d469dd113873e61f934a2baa",
-    "bytes": 15156,
+    "sha256": "7b6a89065b24090a3b59d5eecdeed42a235b3bc26d0e2ccf91b6b622fb6ba50a",
+    "bytes": 15503,
     "remotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_materializer_generator_endpoint.js",
     "requiredCapability": "beta17_fixpoint_materializer_generator",
     "resultMarker": "BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT"
   },
   "installScript": {
     "path": "evidence/beta17-fixpoint-materializer-generator-endpoint/install-script.sh",
-    "sha256": "81156c84709f0e407dd17f0ed8614dac0a2cf8a9c8d9b5bc72964e2384acbdb6",
+    "sha256": "ab6eabb87c41dbdf0fe62499daa9aa9fecd3ec728de3b147bfc9c31b04c9265d",
     "bytes": 2543,
     "validation": {
       "accepted": true,
@@ -31,11 +31,11 @@
   "execution": {
     "scpStatus": 0,
     "sshStatus": 0,
-    "stdoutSha256": "4a17201e36161e4b365371a50c724d49cbb17b0533cc8fb3c21a767817b53ba3",
+    "stdoutSha256": "c1c461977cdd0325733a5a49d7b8df62f5fb3a135bf8493d91edc938f46ae8c4",
     "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "installResult": {
       "status": "installed",
-      "sha256": "b09c04ea647dc496e80346f792e8baaafd045806d469dd113873e61f934a2baa",
+      "sha256": "7b6a89065b24090a3b59d5eecdeed42a235b3bc26d0e2ccf91b6b622fb6ba50a",
       "host": "root@89.167.104.236"
     }
   },

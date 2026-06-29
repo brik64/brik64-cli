@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.public_surface_sync_report.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+  "synced": false,
+  "reason": "public surfaces are not yet updated to Beta17 fixpoint artifacts",
+  "surfaceChecks": [
+    {
+      "id": "cli_installer",
+      "version": "0.1.0-beta.17",
+      "pass": false
+    },
+    {
+      "id": "cli_manifest",
+      "version": "0.1.0-beta.17",
+      "pass": false
+    },
+    {
+      "id": "docs",
+      "version": "0.1.0-beta.17",
+      "pass": false
+    },
+    {
+      "id": "web_changelog",
+      "version": "0.1.0-beta.17",
+      "pass": false
+    },
+    {
+      "id": "skills",
+      "version": "0.1.0-beta.17",
+      "pass": false
+    }
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

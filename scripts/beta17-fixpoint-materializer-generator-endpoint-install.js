@@ -175,6 +175,10 @@ function main() {
     schemaVersion: 'brik64.beta17_fixpoint.byte_identical_report.v1',
     decision: 'PASS_BYTE_IDENTICAL_REGENERATION',
     byteIdentical: true,
+    stage1ArtifactSha256: stage1Artifact.sha256,
+    stage2ArtifactSha256: stage2Artifact.sha256,
+    stage1ArtifactBytes: stage1Artifact.bytes,
+    stage2ArtifactBytes: stage2Artifact.bytes,
     stage1Artifact,
     stage2Artifact,
     claimBoundary: request.claimBoundary,
@@ -190,6 +194,9 @@ function main() {
     schemaVersion: 'brik64.beta17_fixpoint.seal_report.v1',
     decision: 'PASS_BETA17_FIXPOINT_SEAL',
     sealed: true,
+    stage1ArtifactSha256: stage1Artifact.sha256,
+    stage2ArtifactSha256: stage2Artifact.sha256,
+    inputPcdSetSha256: request.pcdInputSetSha256,
     claimBoundary: request.claimBoundary,
   }, null, 2) + '\n';
   const stage1Manifest = ref(request.outputRefs.stage1Manifest, stage1ManifestBody);

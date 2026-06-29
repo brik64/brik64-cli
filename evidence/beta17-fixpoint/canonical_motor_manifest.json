@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.canonical_motor_manifest.v1",
+  "version": "0.1.0-beta.17",
+  "pcdBound": true,
+  "inputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
+  "inputPcdHashesRef": {
+    "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+    "sha256": "27f851952a77fa78133d2ddefe57326b41e5a6620d71fd0ec14f45e0eef91edb",
+    "rows": 4
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "canonicalPcdRefs": [
+    {
+      "path": "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
+      "sha256": "f21d3b1676fc9ffdb9d6807ada9fd5c1e5256085ea6b2cbaea577aba5820ea1b",
+      "bytes": 1033
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+      "bytes": 2047
+    }
+  ],
+  "canonicalPolymerRefs": [
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+      "bytes": 2047
+    }
+  ],
+  "engineSemanticVersion": "0.1.0-beta.17"
+}

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 umask 077
-expected_sha='b09c04ea647dc496e80346f792e8baaafd045806d469dd113873e61f934a2baa'
+expected_sha='7b6a89065b24090a3b59d5eecdeed42a235b3bc26d0e2ccf91b6b622fb6ba50a'
 wrapper='/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5'
 endpoint_remote='/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_materializer_generator_endpoint.js'
-endpoint_tmp=/tmp/brik64-beta17-materializer-generator-b09c04ea647dc496e80346f792e8baaafd045806d469dd113873e61f934a2baa.js
+endpoint_tmp=/tmp/brik64-beta17-materializer-generator-7b6a89065b24090a3b59d5eecdeed42a235b3bc26d0e2ccf91b6b622fb6ba50a.js
 actual_sha="$(sha256sum "$endpoint_tmp" | awk '{print $1}')"
 if [ "$actual_sha" != "$expected_sha" ]; then
   echo "beta17_materializer_generator_endpoint_sha_mismatch" >&2

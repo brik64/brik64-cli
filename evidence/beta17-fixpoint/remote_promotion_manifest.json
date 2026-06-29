@@ -53,8 +53,8 @@
     },
     "byteIdenticalReport": {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-      "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
-      "bytes": 857,
+      "sha256": "8eab8fc06027ffe9636926352b48ff24250b7cfb4d890ebd4e467c457effb44c",
+      "bytes": 1107,
       "source": {
         "path": "evidence/beta17-fixpoint/byte_identical_report.json",
         "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
@@ -62,8 +62,8 @@
       },
       "target": {
         "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-        "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
-        "bytes": 857
+        "sha256": "8eab8fc06027ffe9636926352b48ff24250b7cfb4d890ebd4e467c457effb44c",
+        "bytes": 1107
       }
     },
     "harnessReport": {
@@ -83,8 +83,8 @@
     },
     "sealReport": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
-      "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
-      "bytes": 421,
+      "sha256": "f6d6ec0d1dcdd849559428822843a3b5f8e46b90c026dfc6074bcae338d9b883",
+      "bytes": 791,
       "source": {
         "path": "evidence/beta17-fixpoint/seal_report.json",
         "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
@@ -92,8 +92,8 @@
       },
       "target": {
         "path": "evidence/beta17-fixpoint/seal_report.json",
-        "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
-        "bytes": 421
+        "sha256": "f6d6ec0d1dcdd849559428822843a3b5f8e46b90c026dfc6074bcae338d9b883",
+        "bytes": 791
       }
     },
     "stage1Artifact": {
@@ -128,5 +128,19 @@
     }
   },
   "blockers": [],
-  "nextAction": "add canonical motor/harness manifests, input_pcd_hashes, public sync and external audit before readiness"
+  "nextAction": "add canonical motor/harness manifests, input_pcd_hashes, public sync and external audit before readiness",
+  "refreshedBy": {
+    "script": "scripts/beta17-fixpoint-readiness-evidence-refresh.js",
+    "reason": "readiness report binding shape enrichment changed report hashes",
+    "generatedAt": "2026-06-29T05:31:20.581Z",
+    "claimBoundary": {
+      "publicReleaseAllowed": false,
+      "definitiveFixpointAllowed": false,
+      "formalN5ClaimAllowed": false,
+      "universalCorrectnessClaimAllowed": false,
+      "publicClaimsAllowed": false,
+      "selfHostingClaimAllowed": false,
+      "rustIndependenceClaimAllowed": false
+    }
+  }
 }
