@@ -2520,3 +2520,42 @@ Boundary:
 - This validates candidate provenance against workspace files. It does not
   create the real L6+N5 materializer, execute remote mutation, generate real
   Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage result ref bytes binding
+
+Timestamp: 2026-06-29T03:24:00Z
+
+Task:
+- Require every Beta17 Stage result evidence file ref to bind byte count as
+  well as path and SHA-256.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-result.js` to require `bytes` on
+  every Stage result file ref and compare workspace file size when available.
+- Updated `scripts/beta17-fixpoint-stage-fixture-materializer.js` so fixture
+  manifest/report refs include byte counts.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_result.sh` with a
+  missing-bytes adversarial case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `node --check scripts/beta17-fixpoint-stage-fixture-materializer.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_result.sh` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-stage`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  missing bytes on `stage2Artifact` triggers
+  `stage_result_stage2Artifact_ref_bytes_invalid`.
+
+Boundary:
+- This strengthens Stage result evidence binding. It does not create the real
+  L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.

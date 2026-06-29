@@ -151,22 +151,27 @@ function main() {
     stage1Manifest: {
       path: request.outputRefs.stage1Manifest,
       sha256: sha256File(resolveOutput(request.outputRefs.stage1Manifest)),
+      bytes: fs.statSync(resolveOutput(request.outputRefs.stage1Manifest)).size,
     },
     stage2Manifest: {
       path: request.outputRefs.stage2Manifest,
       sha256: sha256File(resolveOutput(request.outputRefs.stage2Manifest)),
+      bytes: fs.statSync(resolveOutput(request.outputRefs.stage2Manifest)).size,
     },
     byteIdenticalReport: {
       path: request.outputRefs.byteIdenticalReport,
       sha256: sha256File(resolveOutput(request.outputRefs.byteIdenticalReport)),
+      bytes: fs.statSync(resolveOutput(request.outputRefs.byteIdenticalReport)).size,
     },
     harnessReport: {
       path: request.outputRefs.harnessReport,
       sha256: sha256File(resolveOutput(request.outputRefs.harnessReport)),
+      bytes: fs.statSync(resolveOutput(request.outputRefs.harnessReport)).size,
     },
     sealReport: {
       path: request.outputRefs.sealReport,
       sha256: sha256File(resolveOutput(request.outputRefs.sealReport)),
+      bytes: fs.statSync(resolveOutput(request.outputRefs.sealReport)).size,
     },
   };
   const remoteWrapperSha256 = '7'.repeat(64);

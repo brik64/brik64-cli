@@ -98,6 +98,9 @@ function validateStandaloneFileRef(ref, refField, expectedSha256, blockers, expe
   if (!isSha256(ref.sha256)) {
     blockers.push(`stage_result_${blockerField}_ref_sha256_invalid`);
   }
+  if (!Number.isInteger(ref.bytes) || ref.bytes < 1) {
+    blockers.push(`stage_result_${blockerField}_ref_bytes_invalid`);
+  }
   if (expectedSha256 && isSha256(ref.sha256) && isSha256(expectedSha256)) {
     if (normalizeSha256(ref.sha256) !== normalizeSha256(expectedSha256)) {
       blockers.push(`stage_result_${blockerField}_ref_sha256_mismatch`);
@@ -112,6 +115,8 @@ function validateStandaloneFileRef(ref, refField, expectedSha256, blockers, expe
       blockers.push(`stage_result_${blockerField}_ref_file_missing:${ref.path}`);
     } else if (isSha256(ref.sha256) && sha256File(resolved) !== normalizeSha256(ref.sha256)) {
       blockers.push(`stage_result_${blockerField}_ref_file_sha256_mismatch:${ref.path}`);
+    } else if (Number.isInteger(ref.bytes) && fs.statSync(resolved).size !== ref.bytes) {
+      blockers.push(`stage_result_${blockerField}_ref_file_bytes_mismatch:${ref.path}`);
     }
   }
 }

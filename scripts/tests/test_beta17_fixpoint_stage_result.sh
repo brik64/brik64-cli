@@ -48,13 +48,13 @@ const good = {
   generationTraceSha256: '4'.repeat(64),
   remoteWrapperSha256: '5'.repeat(64),
   wrapperExecTargetSha256: '6'.repeat(64),
-  stage1Artifact: { path: 'evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs', sha256: artifactSha },
-  stage2Artifact: { path: 'evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs', sha256: artifactSha },
-  stage1Manifest: { path: 'evidence/beta17-fixpoint/stage1_artifact_manifest.json', sha256: '7'.repeat(64) },
-  stage2Manifest: { path: 'evidence/beta17-fixpoint/stage2_regeneration_manifest.json', sha256: '8'.repeat(64) },
-  byteIdenticalReport: { path: 'evidence/beta17-fixpoint/byte_identical_report.json', sha256: '9'.repeat(64) },
-  harnessReport: { path: 'evidence/beta17-fixpoint/harness_report.json', sha256: 'a'.repeat(64) },
-  sealReport: { path: 'evidence/beta17-fixpoint/seal_report.json', sha256: 'b'.repeat(64) },
+  stage1Artifact: { path: 'evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs', sha256: artifactSha, bytes: Buffer.byteLength(artifactBody) },
+  stage2Artifact: { path: 'evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs', sha256: artifactSha, bytes: Buffer.byteLength(artifactBody) },
+  stage1Manifest: { path: 'evidence/beta17-fixpoint/stage1_artifact_manifest.json', sha256: '7'.repeat(64), bytes: 71 },
+  stage2Manifest: { path: 'evidence/beta17-fixpoint/stage2_regeneration_manifest.json', sha256: '8'.repeat(64), bytes: 72 },
+  byteIdenticalReport: { path: 'evidence/beta17-fixpoint/byte_identical_report.json', sha256: '9'.repeat(64), bytes: 73 },
+  harnessReport: { path: 'evidence/beta17-fixpoint/harness_report.json', sha256: 'a'.repeat(64), bytes: 74 },
+  sealReport: { path: 'evidence/beta17-fixpoint/seal_report.json', sha256: 'b'.repeat(64), bytes: 75 },
   inputPcds: [
     { path: 'pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd', sha256: 'c'.repeat(64), bytes: 101 },
     { path: 'pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd', sha256: 'd'.repeat(64), bytes: 102 },
@@ -92,6 +92,7 @@ for (const [mutator, blocker] of [
   [(x) => { x.adversarialCases = 2; }, 'stage_result_adversarial_cases_insufficient'],
   [(x) => { x.claimBoundary.publicReleaseAllowed = true; }, 'stage_result_claim_boundary_public_release_open'],
   [(x) => { x.stage2Artifact.path = '../stage2.mjs'; }, 'stage_result_stage2Artifact_ref_path_invalid'],
+  [(x) => { delete x.stage2Artifact.bytes; }, 'stage_result_stage2Artifact_ref_bytes_invalid'],
 ]) {
   const candidate = structuredClone(good);
   mutator(candidate);
@@ -142,6 +143,7 @@ for (const [ref, body] of files) {
   fs.mkdirSync(path.dirname(absolute), { recursive: true });
   fs.writeFileSync(absolute, body);
   ref.sha256 = sha256(body);
+  ref.bytes = Buffer.byteLength(body);
 }
 for (const item of withFiles.inputPcds) {
   const absolute = path.join(workspaceRoot, item.path);
@@ -161,6 +163,7 @@ fs.writeFileSync(stage2ManifestPath, JSON.stringify({
   generatedFromStage1ArtifactSha256: '0'.repeat(64),
 }));
 withFiles.stage2Manifest.sha256 = sha256(fs.readFileSync(stage2ManifestPath));
+withFiles.stage2Manifest.bytes = fs.statSync(stage2ManifestPath).size;
 const detachedStage2Manifest = validateStageResult(withFiles, { workspaceRoot });
 assert.strictEqual(detachedStage2Manifest.accepted, false);
 assert(detachedStage2Manifest.blockers.includes('stage_result_stage2_manifest_stage1_artifact_sha256_mismatch'));
@@ -171,6 +174,7 @@ fs.writeFileSync(stage2ManifestPath, JSON.stringify({
   generatedFromStage1ArtifactSha256: withFiles.stage1ArtifactSha256,
 }));
 withFiles.stage2Manifest.sha256 = sha256(fs.readFileSync(stage2ManifestPath));
+withFiles.stage2Manifest.bytes = fs.statSync(stage2ManifestPath).size;
 
 fs.writeFileSync(path.join(workspaceRoot, withFiles.stage2Artifact.path), 'tampered');
 const tamperedFile = validateStageResult(withFiles, { workspaceRoot });

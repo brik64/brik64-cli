@@ -267,6 +267,25 @@
         L6+N5 materializer, execute remote mutation, generate Stage1/Stage2
         artifacts, prove fixpoint or publish Beta17.
 
+- [x] Require bytes on every Beta17 Stage result file reference.
+      - Script:
+        `scripts/beta17-fixpoint-stage-result.js`.
+      - Fixture:
+        `scripts/beta17-fixpoint-stage-fixture-materializer.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_result.sh`.
+      - Result:
+        Stage result refs now require `path`, `sha256` and `bytes`; workspace
+        validation compares file bytes as well as SHA-256.
+      - Break attempts:
+        missing bytes on `stage2Artifact` is rejected with
+        `stage_result_stage2Artifact_ref_bytes_invalid`; tampered workspace
+        evidence still fails on SHA-256 mismatch.
+      - Boundary:
+        this strengthens result evidence binding. It does not create the real
+        L6+N5 materializer, generate Stage1/Stage2 artifacts, prove fixpoint
+        or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
