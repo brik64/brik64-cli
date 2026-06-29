@@ -718,3 +718,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   now extracts and executes basic commands from the generated artifact instead
   of shipping the previous aborting stub. Publication remains blocked by
   metadata promotion, readiness, public-surface sync and external audit.
+- Readiness refresh update: readiness evidence now derives from the hydrated
+  functional CLI Stage result when present, regenerates Stage1/Stage2 manifests,
+  byte-identity and seal reports for the 190315-byte functional artifact, and
+  refreshes remote-promotion refs. `gate:beta17:fixpoint-readiness` now blocks
+  only on public-surface sync and external audit evidence, not on stale Stage
+  artifact drift.

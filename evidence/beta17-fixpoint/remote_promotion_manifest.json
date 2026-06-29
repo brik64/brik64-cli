@@ -23,47 +23,47 @@
   "promoted": {
     "stage1ArtifactManifest": {
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-      "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
-      "bytes": 918,
+      "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+      "bytes": 961,
       "source": {
         "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-        "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
-        "bytes": 918
+        "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+        "bytes": 961
       },
       "target": {
         "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-        "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
-        "bytes": 918
+        "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+        "bytes": 961
       }
     },
     "stage2RegenerationManifest": {
       "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-      "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
-      "bytes": 837,
+      "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+      "bytes": 1131,
       "source": {
         "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-        "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
-        "bytes": 837
+        "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+        "bytes": 1131
       },
       "target": {
         "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-        "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
-        "bytes": 837
+        "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+        "bytes": 1131
       }
     },
     "byteIdenticalReport": {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-      "sha256": "8eab8fc06027ffe9636926352b48ff24250b7cfb4d890ebd4e467c457effb44c",
-      "bytes": 1107,
+      "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+      "bytes": 1115,
       "source": {
         "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-        "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
-        "bytes": 857
+        "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+        "bytes": 1115
       },
       "target": {
         "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-        "sha256": "8eab8fc06027ffe9636926352b48ff24250b7cfb4d890ebd4e467c457effb44c",
-        "bytes": 1107
+        "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+        "bytes": 1115
       }
     },
     "harnessReport": {
@@ -83,47 +83,47 @@
     },
     "sealReport": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
-      "sha256": "f6d6ec0d1dcdd849559428822843a3b5f8e46b90c026dfc6074bcae338d9b883",
+      "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
       "bytes": 791,
       "source": {
         "path": "evidence/beta17-fixpoint/seal_report.json",
-        "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
-        "bytes": 421
+        "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+        "bytes": 791
       },
       "target": {
         "path": "evidence/beta17-fixpoint/seal_report.json",
-        "sha256": "f6d6ec0d1dcdd849559428822843a3b5f8e46b90c026dfc6074bcae338d9b883",
+        "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
         "bytes": 791
       }
     },
     "stage1Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-      "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-      "bytes": 1473,
+      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+      "bytes": 190315,
       "source": {
         "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-        "bytes": 1473
+        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+        "bytes": 190315
       },
       "target": {
         "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-        "bytes": 1473
+        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+        "bytes": 190315
       }
     },
     "stage2Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-      "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-      "bytes": 1473,
+      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+      "bytes": 190315,
       "source": {
         "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-        "bytes": 1473
+        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+        "bytes": 190315
       },
       "target": {
         "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-        "bytes": 1473
+        "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+        "bytes": 190315
       }
     }
   },
@@ -132,7 +132,7 @@
   "refreshedBy": {
     "script": "scripts/beta17-fixpoint-readiness-evidence-refresh.js",
     "reason": "readiness report binding shape enrichment changed report hashes",
-    "generatedAt": "2026-06-29T05:31:20.581Z",
+    "generatedAt": "2026-06-29T08:30:01.630Z",
     "claimBoundary": {
       "publicReleaseAllowed": false,
       "definitiveFixpointAllowed": false,

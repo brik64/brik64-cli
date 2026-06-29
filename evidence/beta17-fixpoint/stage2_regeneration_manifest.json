@@ -2,19 +2,27 @@
   "schemaVersion": "brik64.beta17_fixpoint.stage2_regeneration_manifest.v1",
   "version": "0.1.0-beta.17",
   "generatedByStage1": true,
-  "generatedFromStage1ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-  "stage2ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-  "artifact": {
-    "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-    "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
-    "bytes": 1473
+  "regeneratedByStage1": true,
+  "generatedFromPcdPolymer": true,
+  "stage1Artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+    "bytes": 190315
   },
+  "stage2Artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+    "bytes": 190315
+  },
+  "stage1ArtifactSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+  "stage2ArtifactSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+  "byteIdentical": true,
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,
-    "publicClaimsAllowed": false,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   }

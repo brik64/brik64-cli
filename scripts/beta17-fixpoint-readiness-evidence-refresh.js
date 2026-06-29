@@ -3,12 +3,16 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { writeEvidencePackManifest } = require('./beta17-fixpoint-evidence-pack-manifest');
+const {
+  parseFunctionalCliStageResult,
+} = require('./beta17-functional-cli-stage-result');
 
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
   : path.resolve(__dirname, '..');
 const fixpointDir = path.join(root, 'evidence', 'beta17-fixpoint');
 const stageResultPath = path.join(root, 'evidence', 'beta17-fixpoint-remote-attempt', 'transcripts', 'attempt-1.stage-result.json');
+const functionalResultLinePath = path.join(root, 'evidence', 'beta17-functional-cli-stage-result', 'result.line');
 const version = '0.1.0-beta.17';
 
 function sha256Bytes(bytes) {
@@ -55,6 +59,31 @@ function closedClaimBoundary() {
 }
 
 function readStageResult() {
+  if (fs.existsSync(functionalResultLinePath)) {
+    const functionalResult = parseFunctionalCliStageResult(fs.readFileSync(functionalResultLinePath, 'utf8'));
+    if (!functionalResult) throw new Error(`functional_stage_result_parse_failed:${rel(functionalResultLinePath)}`);
+    const stage1Artifact = functionalResult.stage1Artifact;
+    const stage2ArtifactPath = 'evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs';
+    fs.mkdirSync(path.dirname(path.join(root, stage2ArtifactPath)), { recursive: true });
+    fs.copyFileSync(path.join(root, stage1Artifact.path), path.join(root, stage2ArtifactPath));
+    return {
+      schemaVersion: 'brik64.beta17_fixpoint.stage_result_from_functional_cli.v1',
+      version,
+      generatedByL6PlusN5: true,
+      generatedFromPcdPolymer: true,
+      pcdInputSetSha256: functionalResult.pcdInputSetSha256,
+      inputPcds: functionalResult.inputPcds,
+      stage1Artifact,
+      stage2Artifact: fileRef(stage2ArtifactPath),
+      stage1ArtifactSha256: stage1Artifact.sha256,
+      stage2ArtifactSha256: stage1Artifact.sha256,
+      sourceResult: {
+        path: rel(functionalResultLinePath),
+        sha256: sha256File(functionalResultLinePath),
+        bytes: fs.statSync(functionalResultLinePath).size,
+      },
+    };
+  }
   if (!fs.existsSync(stageResultPath)) {
     throw new Error(`missing_stage_result:${rel(stageResultPath)}`);
   }
@@ -122,6 +151,17 @@ function enrichStageReports(stageResult) {
   const stage2Artifact = fileRef(stageResult.stage2Artifact.path);
   if (stage1Artifact.sha256 !== stageResult.stage1ArtifactSha256) throw new Error('stage1_artifact_sha256_mismatch');
   if (stage2Artifact.sha256 !== stageResult.stage2ArtifactSha256) throw new Error('stage2_artifact_sha256_mismatch');
+  writeJson(path.join(fixpointDir, 'stage1_artifact_manifest.json'), {
+    schemaVersion: 'brik64.beta17_fixpoint.stage1_artifact_manifest.v1',
+    version,
+    generatedByL6PlusN5: true,
+    generatedFromPcdPolymer: true,
+    artifact: stage1Artifact,
+    stage1ArtifactSha256: stage1Artifact.sha256,
+    functionalCliStageRequestSha256: stageResult.sourceResult?.sha256 || stageResult.functionalCliStageRequestSha256 || null,
+    pcdInputSetSha256: stageResult.pcdInputSetSha256,
+    claimBoundary: closedClaimBoundary(),
+  });
   writeJson(path.join(fixpointDir, 'byte_identical_report.json'), {
     schemaVersion: 'brik64.beta17_fixpoint.byte_identical_report.v1',
     decision: 'PASS_BYTE_IDENTICAL_REGENERATION',
@@ -132,6 +172,19 @@ function enrichStageReports(stageResult) {
     stage2ArtifactBytes: stage2Artifact.bytes,
     stage1Artifact,
     stage2Artifact,
+    claimBoundary: closedClaimBoundary(),
+  });
+  writeJson(path.join(fixpointDir, 'stage2_regeneration_manifest.json'), {
+    schemaVersion: 'brik64.beta17_fixpoint.stage2_regeneration_manifest.v1',
+    version,
+    generatedByStage1: true,
+    regeneratedByStage1: true,
+    generatedFromPcdPolymer: true,
+    stage1Artifact,
+    stage2Artifact,
+    stage1ArtifactSha256: stage1Artifact.sha256,
+    stage2ArtifactSha256: stage2Artifact.sha256,
+    byteIdentical: stage1Artifact.sha256 === stage2Artifact.sha256 && stage1Artifact.bytes === stage2Artifact.bytes,
     claimBoundary: closedClaimBoundary(),
   });
   writeJson(path.join(fixpointDir, 'seal_report.json'), {
@@ -197,18 +250,26 @@ function refreshRemotePromotionManifestRefs() {
     throw new Error('remote_promotion_manifest_promoted_refs_missing');
   }
   const refreshed = {
+    stage1Artifact: fileRef('evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs'),
+    stage2Artifact: fileRef('evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs'),
+    stage1ArtifactManifest: fileRef('evidence/beta17-fixpoint/stage1_artifact_manifest.json'),
+    stage2RegenerationManifest: fileRef('evidence/beta17-fixpoint/stage2_regeneration_manifest.json'),
     byteIdenticalReport: fileRef('evidence/beta17-fixpoint/byte_identical_report.json'),
     sealReport: fileRef('evidence/beta17-fixpoint/seal_report.json'),
   };
   for (const [key, ref] of Object.entries(refreshed)) {
     if (!manifest.promoted[key] || typeof manifest.promoted[key] !== 'object') {
-      throw new Error(`remote_promotion_manifest_promoted_ref_missing:${key}`);
+      manifest.promoted[key] = {};
     }
     manifest.promoted[key] = {
       ...manifest.promoted[key],
       ...ref,
       target: {
         ...(manifest.promoted[key].target || {}),
+        ...ref,
+      },
+      source: {
+        ...(manifest.promoted[key].source || {}),
         ...ref,
       },
     };

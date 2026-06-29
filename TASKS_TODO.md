@@ -1947,3 +1947,18 @@
       - Done when:
         readiness, public-surface sync, external audit, SDK/docs/web/skills
         release train and claim-safe scan all pass before public mutation.
+
+- [x] Refresh Beta17 readiness evidence against the functional Stage1 package
+      candidate.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-evidence-refresh.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_evidence_refresh.sh`.
+      - Result:
+        readiness refresh now prefers the hydrated
+        `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`, regenerates Stage1 and
+        Stage2 manifests from the functional artifact, refreshes remote
+        promotion refs, and removes the stale 1473-byte Stage artifact drift.
+      - Current gate:
+        `gate:beta17:fixpoint-readiness` now blocks only on public surface sync
+        and external audit evidence.

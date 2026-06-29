@@ -4334,3 +4334,55 @@ Boundary:
 - Functional Stage materialization and package candidate are now real local
   evidence. This still does not prove final fixpoint, public release readiness,
   formal N5, self-hosting or Rust independence.
+
+## Beta17 Ralph Loop Iteration - Readiness refresh for functional Stage evidence
+
+Timestamp: 2026-06-29T12:35:00Z
+
+Task:
+- Remove stale readiness drift after the functional Stage1 materialization by
+  regenerating readiness evidence from the hydrated functional CLI result.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-evidence-refresh.js` to prefer
+  `evidence/beta17-functional-cli-stage-result/result.line` over the old remote
+  stage-result transcript.
+- The refresh now regenerates:
+  - `stage1_artifact_manifest.json`;
+  - `stage2_regeneration_manifest.json`;
+  - `byte_identical_report.json`;
+  - `seal_report.json`;
+  - `remote_promotion_manifest.json` refs;
+  - evidence-pack manifest refs.
+- Updated test fixture coverage for refreshed Stage1/Stage2 manifest refs.
+
+Validation:
+- `npm run test:beta17:fixpoint:readiness-evidence-refresh` passed.
+- `npm run refresh:beta17:fixpoint:readiness-evidence` passed.
+- `npm run gate:beta17:fixpoint-readiness` now blocks only on public-surface
+  sync and external audit.
+- `npm run preflight:beta17:fixpoint:publication -- --manifest evidence/beta17-package/release.manifest.candidate.json`
+  still blocks publication as expected.
+
+Break attempts:
+- Missing stage result still fails closed.
+- Empty input PCD list still fails closed.
+- Input PCD hash drift still fails closed.
+- Stale 1473-byte Stage1/Stage2 refs are no longer accepted in readiness.
+
+Current remaining blockers:
+- `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+- `external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT`.
+- candidate publication preflight also keeps
+  `package_manifest_publication_allowed_false` and
+  `package_json_version_mismatch:0.1.0-beta.16.1` until metadata promotion is
+  intentionally performed.
+
+Next exact action:
+- Prepare controlled Beta17 metadata promotion for dry-run only, then run
+  release-train dry-run/surface sync planning. Do not mutate public surfaces
+  until public sync and external audit gates can be produced.
+
+Boundary:
+- Internal readiness drift is corrected. Public release, public sync, external
+  audit, and final fixpoint/public claims remain closed.
