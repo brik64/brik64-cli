@@ -13,6 +13,30 @@ if grep -q "parseStageResult(raw)" scripts/beta17-fixpoint-stage-remote-attempt.
   exit 1
 fi
 
+node <<'NODE'
+const assert = require('assert');
+const {
+  parseEndpointCapabilities,
+  parseWrapperMode,
+} = require('./scripts/beta17-fixpoint-stage-remote-attempt');
+
+assert.deepStrictEqual(
+  parseEndpointCapabilities('BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\tinstalled\tbeta15_7_ready,beta16_native_ready,beta16_1_ready\n'),
+  ['beta15_7_ready', 'beta16_native_ready', 'beta16_1_ready'],
+);
+assert.deepStrictEqual(
+  parseEndpointCapabilities('BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_7_ready,beta16_native_ready,beta16_1_ready\n'),
+  ['beta15_7_ready', 'beta16_native_ready', 'beta16_1_ready'],
+);
+assert.deepStrictEqual(
+  parseEndpointCapabilities('BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\tinstalled\tbeta17_fixpoint_stage_dispatcher\n'),
+  ['beta17_fixpoint_stage_dispatcher'],
+);
+assert.deepStrictEqual(parseEndpointCapabilities('no endpoint'), []);
+assert.strictEqual(parseWrapperMode('BRIK64_WRAPPER_MODE\tunknown\n'), 'unknown');
+console.log('PASS beta17 remote endpoint parser checks');
+NODE
+
 node scripts/beta17-fixpoint-stage-request-bundle.js >/tmp/brik64-beta17-stage-request.out
 
 set +e

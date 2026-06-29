@@ -101,6 +101,19 @@ function parseWrapperMode(stdout) {
   return match ? match[1] : null;
 }
 
+function parseEndpointCapabilities(stdout) {
+  const capabilities = [];
+  for (const line of String(stdout || '').split(/\r?\n/)) {
+    const match = line.match(/^BRIK64_L6_CLI_MATERIALIZER_ENDPOINT(?:\t|\\t)installed(?:\t|\\t)(.+)$/);
+    if (!match) continue;
+    for (const item of match[1].split(',')) {
+      const trimmed = item.trim();
+      if (trimmed) capabilities.push(trimmed);
+    }
+  }
+  return capabilities;
+}
+
 function requestLineSha256(request) {
   return sha256(`BRIK64_BETA17_FIXPOINT_STAGE_REQUEST\t${Buffer.from(JSON.stringify(request)).toString('base64')}\n`);
 }
@@ -130,6 +143,7 @@ function probeRemote() {
     auditJson: parseJsonObject(hostProbe.stdout),
     remoteRefs: parseRemoteRefs(remoteRefProbe.stdout),
     wrapperMode: parseWrapperMode(remoteRefProbe.stdout),
+    endpointCapabilities: parseEndpointCapabilities(endpointStatusProbe.stdout),
   };
 }
 
@@ -228,6 +242,10 @@ function main() {
   if (!skipRemote && remote.wrapperMode !== 'beta17_fixpoint_stage_dispatcher') {
     blockers.push(`remote_l6plus_wrapper_mode_not_beta17_stage:${remote.wrapperMode || 'missing'}`);
   }
+  if (!skipRemote && !remote.endpointCapabilities.includes('beta17_fixpoint_stage_dispatcher')) {
+    const capabilities = remote.endpointCapabilities.length > 0 ? remote.endpointCapabilities.join(',') : 'missing';
+    blockers.push(`remote_l6plus_beta17_stage_endpoint_missing:${capabilities}`);
+  }
   const attempts = request ? attemptRemote(request) : [];
   const persistedAttempts = persistAttemptTranscripts(attempts);
   const expectedContext = request
@@ -291,6 +309,7 @@ function main() {
         stderr_sha256: probeTranscripts.endpointStatusStderr.sha256,
       },
       wrapperMode: remote.wrapperMode,
+      endpointCapabilities: remote.endpointCapabilities,
       remoteRefs: remote.remoteRefs,
       transcripts: probeTranscripts,
     },
@@ -310,9 +329,17 @@ function main() {
   process.exit(accepted ? 0 : 2);
 }
 
-try {
-  main();
-} catch (error) {
-  console.error(`beta17_remote_attempt_fail_closed:${error.message}`);
-  process.exit(2);
+if (require.main === module) {
+  try {
+    main();
+  } catch (error) {
+    console.error(`beta17_remote_attempt_fail_closed:${error.message}`);
+    process.exit(2);
+  }
 }
+
+module.exports = {
+  parseEndpointCapabilities,
+  parseRemoteRefs,
+  parseWrapperMode,
+};

@@ -274,6 +274,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   modes it writes `evidence/beta17-fixpoint-remote-attempt/report.json` and
   probe/attempt transcripts with a blocked decision and keeps publication
   disabled.
+- Remote endpoint capability diagnosis: the remote attempt parser accepts both
+  tab-separated and literal `\t` endpoint status lines. If the L6+N5 host lacks
+  `beta17_fixpoint_stage_dispatcher`, the report records the installed
+  capabilities instead of only `missing` or `unknown`.
 - Remote promotion gate: `npm run gate:beta17:fixpoint:remote-promotion`
   validates a passing remote attempt before any final evidence-pack promotion.
   It requires exactly one accepted attempt, complete transcript refs, a

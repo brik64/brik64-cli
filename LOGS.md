@@ -2253,3 +2253,31 @@ Evidence:
 Boundary:
 - This validates source byte metadata integrity. It does not generate real
   L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote endpoint capability diagnosis
+
+Timestamp: 2026-06-29T00:39:11Z
+
+Task:
+- Move from generic remote wrapper diagnosis to exact installed endpoint
+  capability reporting for the L6+N5 host.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to parse endpoint
+  capability lines that use either real tab separators or literal `\t`
+  sequences.
+- Exported the endpoint parser and added parser assertions to
+  `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+
+Evidence:
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- A live `npm run attempt:beta17:fixpoint:remote-stage` run produced
+  `BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT` with blockers:
+  `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  and `remote_l6plus_beta17_stage_result_unavailable`.
+
+Boundary:
+- This proves the current L6+N5 host lacks the Beta17 stage dispatcher endpoint
+  under the probed wrapper. It does not install the endpoint, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

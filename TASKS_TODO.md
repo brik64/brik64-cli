@@ -990,3 +990,21 @@
       - Boundary:
         this hardens source metadata binding. It does not create real L6+N5
         Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+- [x] Beta17 remote endpoint capability diagnosis.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Goal:
+        parse both tab and literal `\t` endpoint status output and report the
+        exact installed capabilities when the Beta17 fixpoint stage endpoint is
+        missing.
+      - Evidence:
+        live L6+N5 host currently reports
+        `beta15_7_ready,beta16_native_ready,beta16_1_ready` and no
+        `beta17_fixpoint_stage_dispatcher`.
+      - Boundary:
+        this improves blocker diagnosis. It does not install the missing
+        Beta17 endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint
+        or publish Beta17.
