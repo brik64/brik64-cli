@@ -1939,11 +1939,18 @@
       - Current package candidate:
         `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz` extracts and
         runs basic commands (`version`, `certify`, `verify`).
+      - Candidate preflight update:
+        `preflight:beta17:fixpoint:publication -- --manifest
+        evidence/beta17-package/release.manifest.candidate.json` now treats
+        a `state=candidate` package manifest with `releaseEligible=true` and
+        `publicationAllowed=false` as candidate-ready package evidence instead
+        of a package blocker. Public manifests still require
+        `publicationAllowed=true`.
       - Current preflight blockers:
-        package manifest keeps `publicationAllowed=false`, repo `package.json`
-        is still `0.1.0-beta.16.1`, fixpoint readiness is blocked, live public
-        surface evidence is still `0.1.0-beta.15.7.1`, and external audit is
-        intentionally blocked until public-surface sync passes.
+        repo `package.json` is still `0.1.0-beta.16.1`, fixpoint readiness is
+        blocked, live public surface evidence is still `0.1.0-beta.15.7.1`,
+        and external audit is intentionally blocked until public-surface sync
+        passes.
       - Done when:
         readiness, public-surface sync, external audit, SDK/docs/web/skills
         release train and claim-safe scan all pass before public mutation.

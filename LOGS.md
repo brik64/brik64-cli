@@ -1,5 +1,36 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 44 - Beta17 candidate preflight separates package readiness from publication authorization
+
+Timestamp: `2026-06-29T08:39:59Z`
+
+- Updated `scripts/beta17-fixpoint-publication-preflight.js` so a
+  `state=candidate` release manifest can bind a package manifest with
+  `releaseEligible=true` and `publicationAllowed=false` as candidate-ready
+  evidence.
+- Preserved fail-closed publication semantics: non-candidate/public release
+  paths still require `publicationAllowed=true`, and the overall preflight
+  remains blocked until metadata promotion, public-surface sync and external
+  audit evidence pass.
+- Updated `scripts/tests/test_beta17_package_candidate.sh` to reject the old
+  false `package_manifest_publication_allowed_false` blocker for a candidate
+  manifest, while keeping the release blocked on real gates.
+
+Evidence:
+
+- `npm run test:beta17:fixpoint:publication-preflight` passed.
+- `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run preflight:beta17:fixpoint:publication -- --manifest evidence/beta17-package/release.manifest.candidate.json`
+  still fails closed, now without `package_manifest_publication_allowed_false`.
+
+Boundary:
+
+- This is preflight semantics hardening only.
+- It does not publish Beta17, mutate `package.json`, sync public surfaces or
+  run the external audit.
+- Beta17 publication remains blocked by active metadata promotion,
+  public-surface sync and external audit.
+
 ## Iteration 33 - Beta17 readiness binds promoted refs
 
 Timestamp: `2026-06-28T00:00:00Z`

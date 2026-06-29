@@ -724,3 +724,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   refreshes remote-promotion refs. `gate:beta17:fixpoint-readiness` now blocks
   only on public-surface sync and external audit evidence, not on stale Stage
   artifact drift.
+- Candidate preflight semantics update: `preflight:beta17:fixpoint:publication`
+  now separates candidate package readiness from public publication
+  authorization. For `state=candidate` manifests, a package manifest with
+  `releaseEligible=true` and `publicationAllowed=false` is valid
+  candidate-ready evidence and emits a warning instead of the false
+  `package_manifest_publication_allowed_false` blocker. Public manifests still
+  require `publicationAllowed=true`. The real candidate preflight now blocks
+  only on active metadata promotion, public-surface sync and external audit.

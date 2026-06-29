@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T08:30:29.761Z",
+  "generatedAt": "2026-06-29T08:39:21.426Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
   "releaseId": "brik64-0.1.0-beta.17",
@@ -30,7 +30,7 @@
       "id": "package_manifest",
       "path": "evidence/beta17-package/package.manifest.json",
       "exists": true,
-      "pass": false,
+      "pass": true,
       "version": "0.1.0-beta.17",
       "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
       "package": {
@@ -39,7 +39,8 @@
         "bytes": 404021
       },
       "releaseEligible": true,
-      "publicationAllowed": false
+      "publicationAllowed": false,
+      "candidateReady": true
     },
     {
       "id": "package_json",
@@ -185,7 +186,6 @@
     }
   ],
   "blockers": [
-    "package_manifest_publication_allowed_false",
     "package_json_version_mismatch:0.1.0-beta.16.1",
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
     "readiness:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
@@ -209,10 +209,11 @@
     "external_audit_status:external_audit_missing_claim_safe_scan",
     "external_audit_status:external_audit_blocked_until_public_surface_sync_passes"
   ],
-  "warnings": [],
+  "warnings": [
+    "package_manifest_candidate_publication_closed"
+  ],
   "nextActions": [
     "Promote release/manifest.json and package metadata to 0.1.0-beta.17 as a candidate, with exact package path, bytes and SHA-256.",
-    "Generate the Beta17 package tarball and package.manifest.json from the L6+N5 materialized artifact, then seal SHA256SUMS.",
     "Refresh Beta17 fixpoint readiness evidence and rerun gate:beta17:fixpoint-readiness.",
     "Run the release train dry-run, sync public surfaces to Beta17, run live verify, then rerun sync:beta17:fixpoint:public-surfaces.",
     "Run the external audit from a clean public install after public-surface sync passes, then rerun gate:beta17:fixpoint:external-audit-status."

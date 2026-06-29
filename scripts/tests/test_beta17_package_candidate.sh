@@ -87,7 +87,7 @@ jq -e '
   and .stageArtifact.functionalCliArtifact==false
   and (.blockers | index("functional_stage_artifact_not_pass:BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE"))
   and any(.blockers[]; startswith("functional_stage_artifact:stage1_artifact_too_small:"))
-  and (.blockers | index("readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE"))
+  and (.blockers | index("publication_requires_public_surface_sync_and_external_audit"))
   and .claimBoundary.fixpointClaimAllowed==false
 ' "$PASS_ROOT/evidence/beta17-package/package.manifest.json" >/dev/null
 jq -e '
@@ -135,7 +135,7 @@ fi
 jq -e '
   .decision=="BLOCKED_BETA17_PUBLICATION_PREFLIGHT"
   and (.blockers | index("package_manifest_release_eligible_false"))
-  and (.blockers | index("package_manifest_publication_allowed_false"))
+  and (.blockers | index("package_manifest_publication_allowed_false") | not)
 ' "$PASS_ROOT/evidence/beta17-fixpoint-publication-preflight/report.json" >/dev/null
 
 echo "PASS beta17 package candidate tests"
