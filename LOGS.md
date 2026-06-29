@@ -2559,3 +2559,39 @@ Boundary:
 - This strengthens Stage result evidence binding. It does not create the real
   L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
   artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion source bytes binding
+
+Timestamp: 2026-06-29T03:43:00Z
+
+Task:
+- Reject remote result promotion when a Stage result source file ref declares
+  stale or missing byte metadata.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` so
+  `validateCopyRef` requires `sourceRef.bytes` and compares it to the source
+  file size before copy.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  with a Stage2 artifact source byte mismatch break attempt.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:stage-result`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  mutating `stage2Artifact.bytes` triggers
+  `stage2_artifact_source_bytes_mismatch:evidence/beta17-source/generated/stage2/brik64-cli-stage2.mjs`.
+
+Boundary:
+- This strengthens remote promotion evidence binding. It does not create the
+  real L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.

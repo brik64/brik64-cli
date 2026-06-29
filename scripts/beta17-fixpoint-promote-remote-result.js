@@ -64,6 +64,15 @@ function validateCopyRef(sourceRef, targetRelativePath, blockers, key) {
     blockers.push(`${key}_source_sha256_mismatch:${sourceRef.path}`);
     return null;
   }
+  const sourceBytes = fs.statSync(source).size;
+  if (!Number.isInteger(sourceRef.bytes) || sourceRef.bytes < 1) {
+    blockers.push(`${key}_source_bytes_invalid`);
+    return null;
+  }
+  if (sourceBytes !== sourceRef.bytes) {
+    blockers.push(`${key}_source_bytes_mismatch:${sourceRef.path}`);
+    return null;
+  }
   if (!safeRelativePath(targetRelativePath)) {
     blockers.push(`${key}_target_path_unsafe`);
     return null;
@@ -79,11 +88,11 @@ function validateCopyRef(sourceRef, targetRelativePath, blockers, key) {
     targetFile: target,
     path: targetRelativePath,
     sha256: sourceSha256,
-    bytes: fs.statSync(source).size,
+    bytes: sourceBytes,
     source: {
       path: sourceRef.path,
       sha256: sourceSha256,
-      bytes: fs.statSync(source).size,
+      bytes: sourceBytes,
     },
   };
 }

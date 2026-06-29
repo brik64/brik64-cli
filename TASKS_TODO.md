@@ -286,6 +286,23 @@
         L6+N5 materializer, generate Stage1/Stage2 artifacts, prove fixpoint
         or publish Beta17.
 
+- [x] Validate Stage result source byte counts during remote result promotion.
+      - Script:
+        `scripts/beta17-fixpoint-promote-remote-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+      - Result:
+        promotion now rejects Stage result source refs whose declared `bytes`
+        do not match the source file, even if SHA-256 is present.
+      - Break attempts:
+        mutating `stage2Artifact.bytes` in the accepted Stage result is
+        rejected with
+        `stage2_artifact_source_bytes_mismatch:evidence/beta17-source/generated/stage2/brik64-cli-stage2.mjs`.
+      - Boundary:
+        this strengthens promotion evidence binding. It does not create the
+        real L6+N5 materializer, generate Stage1/Stage2 artifacts, prove
+        fixpoint or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.

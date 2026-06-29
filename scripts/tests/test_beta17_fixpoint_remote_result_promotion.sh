@@ -293,6 +293,36 @@ jq -e '
 test -f "$FIXTURE/evidence/beta17-fixpoint/stage1_artifact_manifest.json"
 test -f "$FIXTURE/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs"
 
+python3 - "$FIXTURE" <<'PY'
+import json, pathlib, sys
+
+fixture = pathlib.Path(sys.argv[1])
+stage_path = fixture / "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json"
+report_path = fixture / "evidence/beta17-fixpoint-remote-attempt/report.json"
+stage = json.loads(stage_path.read_text())
+stage["stage2Artifact"]["bytes"] += 1
+stage_path.write_text(json.dumps(stage, indent=2) + "\n")
+report = json.loads(report_path.read_text())
+report["attempts"][0]["stageResult"]["resultRef"]["bytes"] = stage_path.stat().st_size
+report_path.write_text(json.dumps(report, indent=2) + "\n")
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-promote-remote-result.js" \
+  >"$TMP_DIR/source-bytes-mismatch.stdout" 2>"$TMP_DIR/source-bytes-mismatch.stderr"
+source_bytes_mismatch_rc=$?
+set -e
+
+if [[ "$source_bytes_mismatch_rc" -eq 0 ]]; then
+  echo "stage_result_source_bytes_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION"
+  and (.blockers | index("stage2_artifact_source_bytes_mismatch:evidence/beta17-source/generated/stage2/brik64-cli-stage2.mjs"))
+' "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" >/dev/null
+
 rm -rf "$ROOT/evidence/beta17-fixpoint-stage-request" "$ROOT/evidence/beta17-fixpoint" "$ROOT/evidence/beta17-fixpoint-remote-attempt" "$ROOT/evidence/beta17-fixpoint-remote-promotion"
 
 echo "PASS beta17 fixpoint remote result promotion"

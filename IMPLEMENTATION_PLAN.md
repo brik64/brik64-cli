@@ -328,6 +328,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `validateStageResult` with the remote attempt's expected context. A stale or
   tampered `stage-result.json` cannot be promoted merely because the attempt
   report says `accepted=true`.
+- Remote result promotion source-size binding:
+  `beta17-fixpoint-promote-remote-result.js` verifies every Stage result source
+  ref declares `bytes` matching the source file before copying it into
+  `evidence/beta17-fixpoint/`. A source ref with correct SHA-256 but stale or
+  missing byte metadata fails closed.
 - Accepted attempt stdout/result binding: the promotion gate parses the
   accepted attempt stdout transcript and requires its
   `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload to match the hash-bound
