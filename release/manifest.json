@@ -3,10 +3,10 @@
   "releaseId": "brik64-0.1.0-beta.17",
   "version": "0.1.0-beta.17",
   "channel": "beta",
-  "state": "candidate",
+  "state": "public",
   "source": {
-    "commit": "f74ad68d3ee7a0e6d501e0d3c33ff6cfae6d4e8e",
-    "commitBinding": "candidate_base_commit"
+    "commit": "73c7092f305d51cc3a09ec99240fbdc9b04c496a",
+    "commitBinding": "release_ref_exact"
   },
   "cli": {
     "package": {
@@ -17,9 +17,9 @@
   },
   "releaseNotes": [
     {
-      "type": "prepared",
-      "surface": "CLI package candidate",
-      "text": "Prepares a Beta17 package candidate from L6+N5 stage evidence while keeping public release disabled until functional package, public sync and external audit gates pass."
+      "type": "changed",
+      "surface": "CLI package",
+      "text": "Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage."
     }
   ],
   "sdks": [
@@ -82,17 +82,20 @@
       {
         "id": "beta17_fixpoint_readiness",
         "path": "evidence/beta17-fixpoint-readiness/report.json",
-        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
+        "phase": "post_publication"
       },
       {
         "id": "beta17_public_surface_sync",
         "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
+        "phase": "post_publication"
       },
       {
         "id": "beta17_external_audit_status",
         "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
-        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+        "phase": "post_publication"
       },
       {
         "id": "beta17_cli_package",
