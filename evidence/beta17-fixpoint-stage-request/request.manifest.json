@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint_stage_request_manifest.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FIXPOINT_STAGE_REQUEST_BUNDLE",
+  "status": "REQUEST_NON_CLAIM",
+  "request": {
+    "path": "evidence/beta17-fixpoint-stage-request/request.json",
+    "sha256": "904700d893ba6effcc7f83070847978c1ecb024464e1d6728b87aedab8616224",
+    "bytes": 9576
+  },
+  "requestLine": {
+    "path": "evidence/beta17-fixpoint-stage-request/request.line",
+    "sha256": "af93b234fe02d916d16e5d5f0809ab0ab4a34bcd6a99652f9b72ddfd8572e289",
+    "bytes": 12262
+  },
+  "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
+  "inputPcds": [
+    {
+      "path": "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
+      "sha256": "f21d3b1676fc9ffdb9d6807ada9fd5c1e5256085ea6b2cbaea577aba5820ea1b",
+      "bytes": 1033
+    },
+    {
+      "path": "pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd",
+      "sha256": "8cb5e8fce97377bd2f370fb993eaa2ba8713f3345ed3df0a697ef390d49a1047",
+      "bytes": 1137
+    },
+    {
+      "path": "pcd/cli_core.pcd",
+      "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+      "bytes": 813
+    },
+    {
+      "path": "pcd/cli_polymer.pcd",
+      "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+      "bytes": 2047
+    }
+  ],
+  "outputRefs": {
+    "stage1Artifact": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "stage2Artifact": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+    "stage1Manifest": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+    "stage2Manifest": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+    "byteIdenticalReport": "evidence/beta17-fixpoint/byte_identical_report.json",
+    "harnessReport": "evidence/beta17-fixpoint/harness_report.json",
+    "sealReport": "evidence/beta17-fixpoint/seal_report.json"
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

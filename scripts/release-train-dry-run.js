@@ -35,6 +35,22 @@ function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
+function fileEvidenceRef(file) {
+  if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
+    return {
+      path: path.relative(root, file),
+      sha256: null,
+      bytes: null,
+    };
+  }
+  const bytes = fs.readFileSync(file);
+  return {
+    path: path.relative(root, file),
+    sha256: crypto.createHash('sha256').update(bytes).digest('hex'),
+    bytes: bytes.length,
+  };
+}
+
 function run(name, args, options = {}) {
   const startedAt = Date.now();
   const result = childProcess.spawnSync(args[0], args.slice(1), {
@@ -661,6 +677,18 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.17') {
+    return [
+      run('beta17_fixpoint_required_inputs', ['npm', 'run', 'gate:beta17:fixpoint:required-inputs'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   if (version === '0.1.0-beta.15.5') {
     return [
       cliL6GenerationRequiredGate(),
@@ -890,6 +918,18 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
       }),
       committedPackageShaGate(manifest.version),
       run('beta15_7_package_smoke', ['npm', 'run', 'smoke:beta15.7:package'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
+  if (manifest.version === '0.1.0-beta.17') {
+    return [
+      run('beta17_fixpoint_required_inputs', ['npm', 'run', 'gate:beta17:fixpoint:required-inputs'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })
@@ -1277,6 +1317,60 @@ function main() {
       else if (sourceCandidate.decision !== 'PASS_BETA15_7_SOURCE_CANDIDATE_CONTRACT') failures.push(`candidate_beta15_7_source_candidate_contract_invalid:${sourceCandidate.decision}`);
       else if (sourceCandidate.releaseEligible !== false || sourceCandidate.publicationAllowed !== false || sourceCandidate.claimBoundary?.publicReleaseAllowed !== false) {
         failures.push('candidate_beta15_7_source_candidate_boundary_invalid');
+      }
+    } else if (currentPackageVersion === '0.1.0-beta.17') {
+      const requiredInputsPath = path.join(root, 'evidence', 'beta17-fixpoint-required-inputs', 'report.json');
+      const requiredInputs = fs.existsSync(requiredInputsPath) ? readJson(requiredInputsPath) : null;
+      const requiredInputsRef = fileEvidenceRef(requiredInputsPath);
+      requiredEvidence.push({
+        id: 'beta17_fixpoint_required_inputs',
+        path: requiredInputsRef.path,
+        sha256: requiredInputsRef.sha256,
+        bytes: requiredInputsRef.bytes,
+        expectedDecision: 'PASS_BETA17_FIXPOINT_REQUIRED_INPUTS',
+        actualDecision: requiredInputs?.decision || null,
+        pass: requiredInputs?.decision === 'PASS_BETA17_FIXPOINT_REQUIRED_INPUTS'
+          && requiredInputs?.claimBoundary?.definitiveFixpointAllowed === false
+          && requiredInputs?.claimBoundary?.publicReleaseAllowed === false
+          && Array.isArray(requiredInputs?.blockers)
+          && requiredInputs.blockers.length === 0
+      });
+      if (!requiredInputs) failures.push('candidate_readiness_missing:beta17_fixpoint_required_inputs');
+      else if (requiredInputs.decision !== 'PASS_BETA17_FIXPOINT_REQUIRED_INPUTS') failures.push(`candidate_beta17_fixpoint_required_inputs_invalid:${requiredInputs.decision}`);
+      else if (
+        requiredInputs.claimBoundary?.definitiveFixpointAllowed !== false
+        || requiredInputs.claimBoundary?.publicReleaseAllowed !== false
+        || !Array.isArray(requiredInputs.blockers)
+        || requiredInputs.blockers.length !== 0
+      ) {
+        failures.push('candidate_beta17_fixpoint_required_inputs_boundary_invalid');
+      }
+
+      const readinessPath = path.join(root, 'evidence', 'beta17-fixpoint-readiness', 'report.json');
+      const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
+      const readinessRef = fileEvidenceRef(readinessPath);
+      requiredEvidence.push({
+        id: 'beta17_fixpoint_readiness',
+        path: readinessRef.path,
+        sha256: readinessRef.sha256,
+        bytes: readinessRef.bytes,
+        expectedDecision: 'PASS_BETA17_FIXPOINT_READINESS_GATE',
+        actualDecision: readiness?.decision || null,
+        pass: readiness?.decision === 'PASS_BETA17_FIXPOINT_READINESS_GATE'
+          && readiness?.claimBoundary?.definitiveFixpointAllowed === true
+          && readiness?.claimBoundary?.publicReleaseAllowed === true
+          && readiness?.claimBoundary?.formalN5ClaimAllowed === false
+          && readiness?.claimBoundary?.universalCorrectnessClaimAllowed === false
+      });
+      if (!readiness) failures.push('candidate_readiness_missing:beta17_fixpoint_readiness');
+      else if (readiness.decision !== 'PASS_BETA17_FIXPOINT_READINESS_GATE') failures.push(`candidate_beta17_fixpoint_readiness_invalid:${readiness.decision}`);
+      else if (
+        readiness.claimBoundary?.definitiveFixpointAllowed !== true
+        || readiness.claimBoundary?.publicReleaseAllowed !== true
+        || readiness.claimBoundary?.formalN5ClaimAllowed !== false
+        || readiness.claimBoundary?.universalCorrectnessClaimAllowed !== false
+      ) {
+        failures.push('candidate_beta17_fixpoint_readiness_claim_boundary_invalid');
       }
     }
   } else {

@@ -1,0 +1,27 @@
+// brik64.pcd_file.v1
+// claim_boundary: beta17_fixpoint_candidate_source_contract
+// beta17_source_contract: fixpoint_stage2_regeneration_contract
+PC fixpoint_stage2_regeneration_contract {
+    fn fixpoint_stage2_regeneration_contract(
+        stage1_artifact_hash_bound,
+        stage1_can_execute_regenerator,
+        stage2_regeneration_started_from_stage1,
+        stage2_artifact_hash_bound,
+        byte_identical_hash_match,
+        byte_identical_size_match,
+        harness_replay_pass,
+        adversarial_triad_pass,
+        public_claim_boundary_closed
+    ) {
+        if (stage1_artifact_hash_bound == 0) { return 0; }
+        if (stage1_can_execute_regenerator == 0) { return 0; }
+        if (stage2_regeneration_started_from_stage1 == 0) { return 0; }
+        if (stage2_artifact_hash_bound == 0) { return 0; }
+        if (byte_identical_hash_match == 0) { return 0; }
+        if (byte_identical_size_match == 0) { return 0; }
+        if (harness_replay_pass == 0) { return 0; }
+        if (adversarial_triad_pass == 0) { return 0; }
+        if (public_claim_boundary_closed == 0) { return 0; }
+        return 1;
+    }
+}

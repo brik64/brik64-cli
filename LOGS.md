@@ -1,5 +1,133 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 33 - Beta17 readiness binds promoted refs
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so readiness compares
+  `remote_promotion_manifest.json` promoted refs against the exact Stage1,
+  Stage2, byte-identity, harness and seal files it evaluates.
+- Added a readiness test mutation that corrupts the promoted Stage1 SHA and
+  expects `remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest`.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+
+- This prevents detached or manually swapped evidence from satisfying
+  readiness.
+- It does not produce real L6+N5 Stage1/Stage2 artifacts.
+- It does not publish Beta17 or open fixpoint claims.
+
+## Iteration 32 - Beta17 readiness requires promotion manifest
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so final readiness
+  requires `evidence/beta17-fixpoint/remote_promotion_manifest.json`.
+- The remote promotion manifest must report
+  `PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION` with public release,
+  definitive fixpoint, formal N5 and universal correctness claim boundaries
+  closed.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` to assert
+  the missing-manifest blocker and the PASS path.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+
+- This closes a manual-evidence bypass in readiness.
+- It does not produce real Stage1/Stage2 evidence.
+- It does not publish Beta17 or open fixpoint claims.
+
+## Iteration 31 - Beta17 controlled remote-result promotion
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Added `scripts/beta17-fixpoint-promote-remote-result.js`.
+- Added npm scripts:
+  - `promote:beta17:fixpoint:remote-result`;
+  - `test:beta17:fixpoint:remote-result-promotion`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+- The script reruns the remote promotion gate before copying any Stage1,
+  Stage2, byte-identity, harness, seal or generated artifact refs into the
+  canonical `evidence/beta17-fixpoint/` paths.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+
+Boundary:
+
+- The promotion path remains blocked without a real non-fixture remote result.
+- The promotion manifest keeps public release and definitive fixpoint claims
+  closed until readiness, public sync and external audit pass.
+- This does not generate L6+N5 Stage1/Stage2 artifacts or publish Beta17.
+
+## Iteration 30 - Beta17 remote promotion gate
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Added `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+- Added npm scripts:
+  - `gate:beta17:fixpoint:remote-promotion`;
+  - `test:beta17:fixpoint:remote-promotion`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+- The gate blocks missing remote reports, skipped/non-pass attempts, open
+  claim boundaries, missing transcript refs, missing full stage-result refs
+  and fixture materializer evidence.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+
+- This gate is pre-promotion hardening only.
+- It does not copy evidence into `evidence/beta17-fixpoint/`.
+- It does not generate Stage1/Stage2 artifacts.
+- It does not publish Beta17 or open public fixpoint/N5/self-hosting claims.
+
+## Iteration 29 - Beta17 remote stage result preservation
+
+Timestamp: `2026-06-28T00:00:00Z`
+
+- Fixed `scripts/beta17-fixpoint-stage-remote-attempt.js` so accepted remote
+  Stage1/Stage2 results are validated from the complete parsed
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload instead of the truncated
+  `observed` preview.
+- Persisted complete parsed stage results as transcript refs when present,
+  keeping report JSON bounded while preserving hash-bound evidence.
+- Added regression assertions to the remote-stage test so the script keeps
+  `stageResultRaw` / `resultRef` handling and does not reintroduce validation
+  from a truncated preview.
+
+Evidence:
+
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+
+Boundary:
+
+- This is Beta17 readiness hardening only.
+- It does not create Stage1/Stage2 materialization evidence.
+- It does not publish Beta17.
+- Definitive fixpoint, formal N5, universal correctness, Rust-independence and
+  self-hosting claims remain closed until fresh evidence passes the full gate.
+
 ## Iteration 28 - Beta15.7.1 publish-plan hotfix support
 
 Timestamp: `2026-06-18T04:50:00Z`
@@ -1059,3 +1187,2077 @@ Boundary:
 - The live verifier hardening does not mutate public release assets; it makes
   the verifier deterministic for manifests that omit optional install-command
   metadata.
+
+## Beta17 Ralph Loop Iteration - Fixpoint readiness gate
+
+Task:
+- Start the Beta17 fixpoint lane with a fail-closed gate that prevents
+  publication or fixpoint claims without fresh Stage1/Stage2 byte-identical
+  evidence.
+
+Change:
+- Added `scripts/beta17-fixpoint-readiness-gate.js`.
+- Added `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+- Added npm scripts `gate:beta17:fixpoint-readiness` and
+  `test:beta17:fixpoint-readiness`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run gate:beta17:fixpoint-readiness` correctly returned
+  `BLOCKED_BETA17_FIXPOINT_READINESS_GATE` against the current repository
+  because fresh `evidence/beta17-fixpoint/` Stage1/Stage2 fixpoint evidence is
+  not present yet.
+
+Boundary:
+- This is a release safety gate. It does not generate Beta17, publish Beta17,
+  or prove fixpoint by itself.
+
+## Beta17 Ralph Loop Iteration - Fixpoint evidence pack template
+
+Task:
+- Add a reproducible Beta17 evidence-pack scaffold so the fixpoint campaign has
+  a concrete file contract before materialization.
+
+Change:
+- Added `scripts/beta17-fixpoint-evidence-pack-init.js`.
+- Added `scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh`.
+- Added npm scripts `beta17:fixpoint:evidence:init` and
+  `test:beta17:fixpoint:evidence:init`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-init.js` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- Generated evidence-pack files are templates marked `TEMPLATE_NON_CLAIM`.
+  They are intentionally rejected by `gate:beta17:fixpoint-readiness` until
+  replaced by real Stage1/Stage2 byte-identical evidence.
+
+## Beta17 Ralph Loop Iteration - Stage1/Stage2 source contracts
+
+Task:
+- Make the Beta17 fixpoint materialization contract explicit before adapting
+  remote L6+N5 materializers.
+
+Change:
+- Added `pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd`.
+- Added `pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd`.
+- Added `scripts/beta17-fixpoint-stage-contract-gate.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh`.
+- Added npm scripts `gate:beta17:fixpoint:stage-contract` and
+  `test:beta17:fixpoint:stage-contract`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-contract-gate.js` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This validates the PCD source-contract shape only. It does not materialize
+  Stage1, regenerate Stage2, prove byte identity, publish Beta17 or authorize
+  a public fixpoint claim.
+
+## Beta17 Ralph Loop Iteration - Stage request bundle
+
+Task:
+- Create a hash-bound non-claim request bundle for the future Beta17 L6+N5
+  Stage1/Stage2 materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-request-bundle.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_request_bundle.sh`.
+- Added npm scripts `bundle:beta17:fixpoint:stage-request` and
+  `test:beta17:fixpoint:stage-request`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-request-bundle.js` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is request/input evidence only. It does not produce Stage1 or Stage2
+  artifacts and must not satisfy fixpoint readiness without a real result.
+
+## Beta17 Ralph Loop Iteration - Stage result validator
+
+Task:
+- Define and test the expected `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload
+  before implementing a real remote materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-result.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_result.sh`.
+- Added npm script `test:beta17:fixpoint:stage-result`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is result-shape validation only. It does not execute L6+N5, generate
+  Stage1/Stage2 artifacts, prove byte identity or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Fixture stage materializer
+
+Task:
+- Exercise the Beta17 Stage1/Stage2 request/result contract end-to-end before
+  implementing or invoking a real L6+N5 materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-fixture-materializer.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_fixture_materializer.sh`.
+- Added npm scripts `fixture:beta17:fixpoint:stage-materializer` and
+  `test:beta17:fixpoint:stage-fixture`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-fixture-materializer.js` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is deterministic local fixture infrastructure. It is deliberately not
+  L6+N5 evidence and must not satisfy fixpoint readiness.
+
+## Beta17 Ralph Loop Iteration - Reject fixture evidence in readiness gate
+
+Task:
+- Prevent local fixture reports from being mistaken for claim-bearing Beta17
+  fixpoint evidence.
+
+Change:
+- Hardened `scripts/beta17-fixpoint-readiness-gate.js` to reject
+  `fixtureMaterializer` reports for Stage1, Stage2, byte identity, harness and
+  seal evidence.
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with a
+  fixture-evidence bypass attempt.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This is safety hardening only. It does not run L6+N5 or produce
+  claim-bearing Beta17 evidence.
+
+## Beta17 Ralph Loop Iteration - Remote stage attempt script
+
+Task:
+- Add a fail-closed attempt script for the future real L6+N5 Beta17 Stage1/Stage2
+  materializer.
+
+Change:
+- Added `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+- Added `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+- Added npm scripts `attempt:beta17:fixpoint:remote-stage` and
+  `test:beta17:fixpoint:remote-stage`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- This script can record a blocked remote attempt. It does not itself deploy a
+  remote L6+N5 dispatcher or create claim-bearing evidence.
+
+## Beta17 Ralph Loop Iteration - Remote attempt transcript retention
+
+Task:
+- Preserve full stdout/stderr transcripts from Beta17 remote probes and
+  materialization attempts for auditability.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to write
+  transcript files under `evidence/beta17-fixpoint-remote-attempt/transcripts/`
+  and bind their hashes in the attempt report.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert transcript presence in skip mode.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm test` passed.
+
+Boundary:
+- Transcript retention improves auditability only. It does not create Stage1,
+  Stage2 or fixpoint evidence.
+
+## Beta17 Ralph Loop Iteration - Release train readiness binding
+
+Timestamp: 2026-06-28T21:25:42Z
+
+Task:
+- Bind the Beta17 release train dry-run to the Beta17 fixpoint readiness gate.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` so `0.1.0-beta.17` candidate and manifest-driven dry-runs execute `gate:beta17:fixpoint-readiness`.
+- Added candidate required evidence validation for `evidence/beta17-fixpoint-readiness/report.json` with explicit claim-boundary checks.
+- Added `scripts/tests/test_beta17_release_train_readiness.sh` and npm script `test:beta17:release-train-readiness`.
+- The regression test proves both paths: missing/blocked readiness fails dry-run, and a complete promoted evidence set passes dry-run while keeping `publicationAllowed=false`.
+
+Evidence:
+- `node --check scripts/release-train-dry-run.js` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This is release-train hardening. It does not materialize Beta17, prove fixpoint, or authorize publication without fresh L6+N5 Stage1/Stage2 evidence and external audit.
+
+## Beta17 Ralph Loop Iteration - External audit contract hardening
+
+Timestamp: 2026-06-28T21:33:16Z
+
+Task:
+- Prevent superficial external audit reports from satisfying Beta17 fixpoint readiness.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so `external_audit_report.json` must prove a clean public install, functional CLI tests, generated-code tests, adversarial tests, public-surface scan and claim-safe scan.
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with a weak external-audit bypass attempt.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` fixtures to use the stronger audit contract.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This is readiness-gate hardening. It does not run the external audit, produce real L6+N5 fixpoint evidence, publish Beta17 or authorize public fixpoint claims.
+
+## Beta17 Ralph Loop Iteration - External audit prompt contract
+
+Timestamp: 2026-06-28T21:43:24Z
+
+Task:
+- Add a canonical external audit prompt that produces the exact Beta17 audit JSON contract required by readiness.
+
+Change:
+- Added `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` with clean public install, functional CLI, generated-code, adversarial, public-surface and claim-safe scan requirements.
+- Updated `scripts/beta17-fixpoint-evidence-pack-init.js` so the external audit template points to the prompt and exposes the required contract fields.
+- Added `scripts/tests/test_beta17_external_audit_prompt_contract.sh` and npm script `test:beta17:external-audit-prompt`.
+- Extended `scripts/tests/test_beta17_fixpoint_evidence_pack_init.sh` to verify the audit template references the prompt and required contract.
+
+Evidence:
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This is an audit-instruction hardening patch. It does not perform the external audit, materialize Stage1/Stage2, prove fixpoint or authorize Beta17 publication.
+
+## Beta17 Ralph Loop Iteration - External audit report validator
+
+Timestamp: 2026-06-28T21:50:40Z
+
+Task:
+- Extract Beta17 external audit report validation into a reusable validator.
+
+Change:
+- Added `scripts/beta17-external-audit-report-validate.js` as a module and CLI validator for `external_audit_report.json`.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to import the validator instead of duplicating the audit contract inline.
+- Added `scripts/tests/test_beta17_external_audit_report_validate.sh` and npm script `test:beta17:external-audit-report`.
+
+Evidence:
+- `node --check scripts/beta17-external-audit-report-validate.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This extracts and verifies the audit report decision boundary. It does not execute the external audit, materialize Stage1/Stage2, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - External audit artifact refs
+
+Timestamp: 2026-06-28T22:00:26Z
+
+Task:
+- Require hash-bound artifact references in Beta17 external audit reports.
+
+Change:
+- Updated `scripts/beta17-external-audit-report-validate.js` to require `artifacts.auditLog`, `artifacts.generatedCodeQuality`, `artifacts.adversarialResults`, `artifacts.publicSurfaceScan` and `artifacts.claimSafeScan` refs.
+- The validator now checks safe relative paths, SHA-256 format, file existence and actual SHA-256 matches when run with an evidence root.
+- Updated `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` so external auditors must emit those artifact refs.
+- Updated evidence-pack templates and Beta17 readiness/release-train tests to use hash-bound audit artifacts.
+
+Evidence:
+- `node --check scripts/beta17-external-audit-report-validate.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This binds future audit evidence files by path and SHA-256. It does not run the external audit, materialize Stage1/Stage2, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence pack manifest
+
+Timestamp: 2026-06-28T22:10:37Z
+
+Task:
+- Add a hash-bound manifest for the Beta17 fixpoint evidence pack.
+
+Change:
+- Updated `scripts/beta17-fixpoint-evidence-pack-init.js` to create `evidence_pack_manifest.json` with path/SHA-256 refs for generated template evidence files.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to require and validate the evidence pack manifest schema, version, closed public/formal claim boundaries and SHA-256 agreement for evaluated evidence files.
+- Updated Beta17 readiness and release-train tests to generate a manifest for simulated passing evidence packs.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-init.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This indexes and verifies evidence files by SHA-256. It does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence pack manifest adversarial tests
+
+Timestamp: 2026-06-28T22:18:27Z
+
+Task:
+- Add adversarial coverage for Beta17 evidence pack manifest validation.
+
+Change:
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with two break attempts:
+  - mutate the manifest SHA-256 for `stage1_artifact_manifest.json` and require `evidence_pack_manifest_sha256_mismatch`;
+  - remove the manifest ref for `external_audit_report.json` and require `evidence_pack_manifest_missing_ref`.
+
+Evidence:
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This increases adversarial coverage for the manifest gate. It does not generate real L6+N5 evidence, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Reusable evidence manifest generator
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Extract evidence-pack manifest creation into a reusable Beta17 command/module.
+
+Change:
+- Added `scripts/beta17-fixpoint-evidence-pack-manifest.js`.
+- Updated `scripts/beta17-fixpoint-evidence-pack-init.js` to call the reusable manifest writer.
+- Added `npm run beta17:fixpoint:evidence:manifest`.
+- Added `npm run test:beta17:fixpoint:evidence:manifest`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-manifest.js` passed.
+- `node --check scripts/beta17-fixpoint-evidence-pack-init.js` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This removes duplicated manifest logic and strengthens the evidence-pack
+  maintenance path. It does not generate real L6+N5 Stage1/Stage2 evidence,
+  prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence manifest freshness check
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Add a fail-closed freshness check for the Beta17 evidence-pack manifest.
+
+Change:
+- Added `--check` mode to `scripts/beta17-fixpoint-evidence-pack-manifest.js`.
+- Extended `scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh` so a
+  fresh manifest passes and a tampered evidence file produces
+  `evidence_pack_manifest_stale`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-manifest.js` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This catches stale evidence indexes after file tampering. It does not create
+  real L6+N5 Stage1/Stage2 evidence, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence manifest aggregate digest
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Bind Beta17 readiness to the evidence-pack manifest aggregate digest.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to validate
+  `evidence_pack_manifest.packSha256` and the manifest
+  `definitiveFixpointAllowed=false` boundary.
+- Extended `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with an
+  adversarial `packSha256` tamper case that must fail closed with
+  `evidence_pack_manifest_pack_sha256_mismatch`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+
+Boundary:
+- This closes a manifest-integrity gap. It does not create real L6+N5
+  Stage1/Stage2 evidence, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Input PCD hash validation
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Make Beta17 readiness validate `input_pcd_hashes.tsv` as a real input-file
+  contract.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to reject unsafe PCD
+  refs, malformed SHA-256 values, missing files and file/hash mismatches.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` with real
+  fixture PCD files plus a mismatch break attempt.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` to bind the
+  release-train fixture to existing Beta17 PCD contract files instead of
+  placeholder hashes.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This prevents placeholder or stale PCD input hashes from satisfying
+  readiness. It does not generate the real L6+N5 Stage1/Stage2 artifacts,
+  prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Promoted Stage artifacts
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require Beta17 readiness to verify promoted Stage1 and Stage2 artifact files.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to require
+  `remote_promotion_manifest.promoted.stage1Artifact` and `stage2Artifact`
+  with safe paths, existing files and matching SHA-256 values.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` with generated-stage
+  artifact fixtures.
+- Added an adversarial Stage2 artifact SHA mismatch case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This prevents claim-bearing readiness without promoted artifact files. It
+  does not generate the real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Seal artifact bindings
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require Beta17 seal evidence to bind promoted artifacts and input PCDs.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so `seal_report.json`
+  must include SHA-256 bindings for Stage1 artifact, Stage2 artifact and
+  `input_pcd_hashes.tsv`.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with seal
+  bindings.
+- Added an adversarial Stage2 seal hash mismatch case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This prevents unbound seal reports from satisfying readiness. It does not
+  generate the real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Public surface sync matrix
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require explicit public-surface sync evidence before Beta17 readiness.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so
+  `public_surface_sync_report.json` must contain passing `surfaceChecks` for
+  `cli_installer`, `cli_manifest`, `docs`, `web_changelog` and `skills`, all
+  pinned to `0.1.0-beta.17`.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with the
+  required matrix.
+- Added an adversarial stale docs version case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:external-audit-prompt` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint:evidence:init` passed.
+- `npm run test:beta17:fixpoint:stage-contract` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+
+Boundary:
+- This checks declared public-surface sync evidence. It does not deploy
+  public surfaces, run the final external audit, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Byte identity artifact bindings
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require Beta17 byte-identical comparison evidence to bind promoted Stage
+  artifacts.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so
+  `byte_identical_report.json` must include Stage1 and Stage2 artifact
+  SHA-256 values plus byte sizes matching the promoted artifact files.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with
+  byte-identity artifact bindings.
+- Added an adversarial Stage2 byte-identity SHA mismatch case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This prevents unbound byte-identity reports from satisfying readiness. It
+  does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage manifest artifact bindings
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Require Beta17 Stage1/Stage2 manifests to bind promoted artifacts.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so Stage1 manifest must
+  bind the promoted Stage1 artifact SHA-256.
+- Updated the same gate so Stage2 regeneration manifest must bind the promoted
+  Stage2 artifact SHA-256 and the promoted Stage1 artifact SHA-256 it claims
+  to regenerate from.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` fixtures with Stage
+  manifest artifact bindings.
+- Added an adversarial Stage2-from-Stage1 SHA mismatch case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This prevents detached Stage manifests from satisfying readiness. It does
+  not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage result manifest binding
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Reject detached Stage manifests at the Stage result validation boundary.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-result.js` so
+  `validateStageResult(..., { workspaceRoot })` reads the Stage1 and Stage2
+  manifest refs and checks artifact SHA-256 bindings.
+- Stage1 manifest must bind the Stage1 artifact SHA-256 declared by the
+  result.
+- Stage2 manifest must bind the Stage2 artifact SHA-256 and the Stage1
+  artifact SHA-256 it claims to regenerate from.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_result.sh` with a
+  Stage2 manifest Stage1 SHA mismatch adversarial case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_result.sh` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+
+Boundary:
+- This prevents detached Stage manifests from entering promotion through the
+  Stage result validator. It does not generate real L6+N5 Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion Stage result revalidation
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Revalidate the accepted Stage result file inside the remote promotion gate.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` to import and
+  rerun `validateStageResult` against the referenced Stage result JSON with
+  the remote attempt's expected context.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` with
+  an adversarial case where the remote-attempt report says accepted, but the
+  referenced Stage result file is tampered.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This prevents a stale or tampered Stage result ref from entering promotion.
+  It does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion request context binding
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Bind remote promotion expected context to the actual Stage request file.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` to validate the
+  remote attempt's `request` ref, rerun `validateRequest` and recompute the
+  `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST` line SHA-256.
+- Stage result revalidation now uses request-derived `pcdInputSetSha256`,
+  `materializerRequestSha256` and required input PCD paths.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` with
+  an adversarial fabricated `expectedContext.materializerRequestSha256` case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This prevents fabricated expected context from authorizing remote promotion.
+  It does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - External workspace result promotion
+
+Timestamp: 2026-06-29T00:00:00Z
+
+Task:
+- Make final remote-result promotion work against external evidence
+  workspaces.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` so it invokes
+  `beta17-fixpoint-remote-promotion-gate.js` by absolute script path instead
+  of assuming the target evidence workspace contains `scripts/`.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh` with
+  a positive non-fixture promotion fixture. The test now builds a Stage
+  request inside an external workspace, creates source evidence refs, promotes
+  them into `evidence/beta17-fixpoint/` and verifies the promotion manifest.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+
+Boundary:
+- This validates final promotion mechanics for clean external workspaces. It
+  does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Promoted target copy verification
+
+Timestamp: 2026-06-28T23:50:15Z
+
+Task:
+- Verify canonical target files after remote-result promotion copies evidence
+  refs into `evidence/beta17-fixpoint/`.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` to re-hash each
+  promoted target file after copy, record target path/SHA-256/bytes in
+  `remote_promotion_manifest.json` and block on any source/target mismatch.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh` so
+  the positive external-workspace fixture asserts the promoted target refs
+  match the promoted source refs.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+
+Boundary:
+- This proves target-copy integrity for promoted evidence refs. It does not
+  generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage result input-set self-consistency
+
+Timestamp: 2026-06-28T23:56:30Z
+
+Task:
+- Make `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` self-consistent with its own
+  declared PCD input table before remote promotion can consume it.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-result.js` to require `bytes` for
+  each `inputPcds` entry and recompute `pcdInputSetSha256` from
+  path/SHA-256/bytes rows.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_result.sh` with a valid
+  set-hash fixture and an adversarial detached-input-set mutation.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_result.sh` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+
+Boundary:
+- This validates Stage result input-set integrity. It does not generate real
+  L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Accepted attempt stdout/result binding
+
+Timestamp: 2026-06-29T00:04:21Z
+
+Task:
+- Bind the accepted remote-attempt stdout transcript to the same Stage result
+  JSON file that promotion revalidates.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` to parse
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` from the accepted stdout transcript
+  and compare it against the hash-bound `stage-result.json` ref.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` so
+  fixtures contain real Stage result stdout lines and an adversarial mismatch
+  fails closed with `accepted_attempt_stdout_stage_result_mismatch`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This validates transcript/result binding for accepted remote attempts. It
+  does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion ref byte validation
+
+Timestamp: 2026-06-29T00:10:41Z
+
+Task:
+- Require byte-count metadata on file refs consumed by the remote promotion
+  gate to match the actual referenced file size.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` so `fileRefExists`
+  rejects invalid or mismatched `bytes` values in addition to unsafe paths and
+  SHA-256 mismatches.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` with
+  an adversarial stdout transcript `bytes` mismatch.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This validates evidence ref metadata integrity. It does not generate real
+  L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Readiness promoted target refs
+
+Timestamp: 2026-06-29T00:17:20Z
+
+Task:
+- Make Beta17 readiness reject remote promotion manifests that do not include
+  target-copy proof for promoted Stage artifacts.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so promoted Stage
+  artifact refs must include `target.path`, `target.sha256` and `target.bytes`
+  matching the canonical file evaluated by readiness.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` to generate
+  target refs in the positive fixture and fail closed when a promoted artifact
+  target ref is missing.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+- This validates readiness consumption of target-copy proof. It does not
+  generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Readiness promoted source refs
+
+Timestamp: 2026-06-29T00:24:41Z
+
+Task:
+- Make Beta17 readiness reject promotion manifests that preserve target-copy
+  proof but omit the source/remote artifact ref.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so promoted Stage
+  artifact refs must include `source.path` and `source.sha256` matching the
+  promoted artifact SHA-256.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` and
+  `scripts/tests/test_beta17_release_train_readiness.sh` to include source
+  refs in positive fixtures and fail closed when a promoted artifact source ref
+  is missing.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This validates source/target promotion traceability. It does not generate
+  real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Promoted source byte binding
+
+Timestamp: 2026-06-29T00:31:11Z
+
+Task:
+- Bind promoted Stage artifact source refs by byte count as well as SHA-256.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` to include
+  `source.bytes` in promoted refs.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to reject missing,
+  invalid or mismatched `source.bytes` values.
+- Updated remote-result-promotion, readiness and release-train fixtures to
+  include source byte metadata and an adversarial source-byte mismatch.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This validates source byte metadata integrity. It does not generate real
+  L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote endpoint capability diagnosis
+
+Timestamp: 2026-06-29T00:39:11Z
+
+Task:
+- Move from generic remote wrapper diagnosis to exact installed endpoint
+  capability reporting for the L6+N5 host.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to parse endpoint
+  capability lines that use either real tab separators or literal `\t`
+  sequences.
+- Exported the endpoint parser and added parser assertions to
+  `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+
+Evidence:
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- A live `npm run attempt:beta17:fixpoint:remote-stage` run produced
+  `BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT` with blockers:
+  `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  and `remote_l6plus_beta17_stage_result_unavailable`.
+
+Boundary:
+- This proves the current L6+N5 host lacks the Beta17 stage dispatcher endpoint
+  under the probed wrapper. It does not install the endpoint, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote endpoint install contract
+
+Timestamp: 2026-06-29T00:55:00Z
+
+Task:
+- Make the blocked Beta17 remote attempt report the exact endpoint
+  installation contract instead of only listing generic endpoint absence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to expose the
+  required `beta17_fixpoint_stage_dispatcher` capability, attempted
+  materialization commands, required
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` marker, install hints and
+  non-acceptable substitutes in the generated report.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert those report fields in the skip/blocked path.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Broader regression battery passed:
+  `test:beta17:external-audit-prompt`,
+  `test:beta17:fixpoint:stage-result`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Live remote attempt with a fresh request bundle remained correctly blocked
+  on `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`
+  and `remote_l6plus_beta17_stage_result_unavailable`.
+- The live report included `requiredEndpointCapability:
+  beta17_fixpoint_stage_dispatcher` and required marker
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`.
+
+Boundary:
+- This is an operational/readiness hardening change. It does not install the
+  remote endpoint, generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint
+  or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher deployment preflight
+
+Timestamp: 2026-06-29T01:18:00Z
+
+Task:
+- Add a fail-closed preflight for the Beta17 L6+N5 dispatcher deploy plan
+  before any remote Hetzner mutation.
+
+Change:
+- Added `scripts/beta17-fixpoint-remote-dispatcher-preflight.js`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh`.
+- Added npm scripts:
+  `preflight:beta17:fixpoint:remote-dispatcher` and
+  `test:beta17:fixpoint:remote-dispatcher-preflight`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-preflight.js`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- Break attempts rejected:
+  wrong capability, beta16 legacy materializer path and fixture/template
+  deployment plan.
+
+Boundary:
+- This validates the deployment plan contract only. It does not install the
+  remote dispatcher, generate real L6+N5 Stage1/Stage2 artifacts, prove
+  fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher deploy-plan generator
+
+Timestamp: 2026-06-29T01:38:00Z
+
+Task:
+- Add a reproducible generator for the Beta17 remote dispatcher deploy plan.
+
+Change:
+- Added `scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh`.
+- Added npm scripts:
+  `plan:beta17:fixpoint:remote-dispatcher` and
+  `test:beta17:fixpoint:remote-dispatcher-plan`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- Generated deploy plan was accepted by
+  `scripts/beta17-fixpoint-remote-dispatcher-preflight.js` inside the test
+  fixture.
+- Break attempts rejected:
+  missing materializer file, materializer path outside workspace and beta16
+  legacy remote materializer path.
+
+Boundary:
+- This creates a non-claim deploy plan from a local candidate materializer. It
+  does not create the real L6+N5 materializer, install the remote dispatcher,
+  generate real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher installer dry-run
+
+Timestamp: 2026-06-29T01:58:00Z
+
+Task:
+- Add a fail-closed installer dry-run for a validated Beta17 dispatcher
+  deploy plan.
+
+Change:
+- Added `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+- Added npm scripts:
+  `install:beta17:fixpoint:remote-dispatcher` and
+  `test:beta17:fixpoint:remote-dispatcher-install`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Break attempts rejected:
+  remote execute without exact confirmation, invalid deploy-plan capability
+  and tampered local materializer after deploy-plan generation.
+
+Boundary:
+- This validates and emits the remote install script only. It does not create
+  the real L6+N5 materializer, execute remote mutation in tests, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance binding
+
+Timestamp: 2026-06-29T02:18:00Z
+
+Task:
+- Prevent the Beta17 dispatcher deploy-plan path from asserting
+  `generatedFromPcdPolymer=true` without a separate provenance manifest.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-preflight.js` to require
+  and validate `materializerProvenanceRef`.
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js` to
+  require `--provenance` and bind the provenance file by path, SHA-256 and
+  bytes.
+- Updated dispatcher plan, preflight and installer tests to create explicit
+  non-claim provenance manifests.
+
+Evidence:
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Break attempts rejected:
+  missing provenance argument and materializer provenance SHA mismatch, in
+  addition to existing missing file, outside path, legacy remote path,
+  invalid capability, fixture/template and tampered materializer cases.
+
+Boundary:
+- This binds deploy-plan/install eligibility to a provenance manifest. It does
+  not create the real L6+N5 materializer, execute remote mutation, generate
+  real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance generator
+
+Timestamp: 2026-06-29T02:38:00Z
+
+Task:
+- Add a reproducible generator for the non-claim materializer provenance
+  manifest required by Beta17 dispatcher deploy-plan and preflight gates.
+
+Change:
+- Added `scripts/beta17-fixpoint-materializer-provenance.js`.
+- Added `scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`.
+- Added npm scripts:
+  `provenance:beta17:fixpoint:materializer` and
+  `test:beta17:fixpoint:materializer-provenance`.
+- Updated dispatcher deploy-plan and installer tests to consume provenance
+  generated by the new command instead of hand-written provenance JSON.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-materializer-provenance.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`
+  passed.
+- `npm run test:beta17:fixpoint:materializer-provenance` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Break attempts rejected:
+  missing materializer, PCD path outside workspace and invalid L6+N5 serial.
+
+Boundary:
+- This generates non-claim provenance from candidate inputs. It does not create
+  the real L6+N5 materializer, execute remote mutation, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance standalone gate
+
+Timestamp: 2026-06-29T02:58:00Z
+
+Task:
+- Add standalone validation for existing Beta17 materializer provenance
+  manifests.
+
+Change:
+- Updated `scripts/beta17-fixpoint-materializer-provenance.js` with
+  `--validate --input <manifest>`.
+- Added npm script `gate:beta17:fixpoint:materializer-provenance`.
+- Extended `scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`
+  to validate an existing manifest against current workspace files.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-materializer-provenance.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`
+  passed.
+- `npm run test:beta17:fixpoint:materializer-provenance` passed.
+- Full Beta17 regression battery passed:
+  `test:beta17:fixpoint:remote-dispatcher-plan`,
+  `test:beta17:fixpoint:remote-dispatcher-preflight`,
+  `test:beta17:fixpoint:remote-dispatcher-install`,
+  `test:beta17:fixpoint:remote-stage`,
+  `test:beta17:fixpoint:stage-result`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  PCD tampering after provenance generation triggers
+  `provenance_input_pcd_0_file_sha256_mismatch`.
+
+Boundary:
+- This validates candidate provenance against workspace files. It does not
+  create the real L6+N5 materializer, execute remote mutation, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Stage result ref bytes binding
+
+Timestamp: 2026-06-29T03:24:00Z
+
+Task:
+- Require every Beta17 Stage result evidence file ref to bind byte count as
+  well as path and SHA-256.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-result.js` to require `bytes` on
+  every Stage result file ref and compare workspace file size when available.
+- Updated `scripts/beta17-fixpoint-stage-fixture-materializer.js` so fixture
+  manifest/report refs include byte counts.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_result.sh` with a
+  missing-bytes adversarial case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-result.js` passed.
+- `node --check scripts/beta17-fixpoint-stage-fixture-materializer.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_result.sh` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:stage-fixture` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-stage`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  missing bytes on `stage2Artifact` triggers
+  `stage_result_stage2Artifact_ref_bytes_invalid`.
+
+Boundary:
+- This strengthens Stage result evidence binding. It does not create the real
+  L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion source bytes binding
+
+Timestamp: 2026-06-29T03:43:00Z
+
+Task:
+- Reject remote result promotion when a Stage result source file ref declares
+  stale or missing byte metadata.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` so
+  `validateCopyRef` requires `sourceRef.bytes` and compares it to the source
+  file size before copy.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  with a Stage2 artifact source byte mismatch break attempt.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:stage-result`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  mutating `stage2Artifact.bytes` triggers
+  `stage2_artifact_source_bytes_mismatch:evidence/beta17-source/generated/stage2/brik64-cli-stage2.mjs`.
+
+Boundary:
+- This strengthens remote promotion evidence binding. It does not create the
+  real L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Evidence pack manifest byte binding
+
+Timestamp: 2026-06-29T04:02:00Z
+
+Task:
+- Bind each Beta17 evidence-pack manifest entry to byte count in addition to
+  path and SHA-256.
+
+Change:
+- Updated `scripts/beta17-fixpoint-evidence-pack-manifest.js` so generated
+  entries include `bytes`.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to reject evaluated
+  evidence refs when the manifest bytes value is missing or mismatched.
+- Updated evidence-pack and readiness tests to cover the new metadata.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-evidence-pack-manifest.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_evidence_pack_manifest.sh`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint:evidence:manifest` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- Regression battery passed:
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-report`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  mutating `stage1_artifact_manifest.json` bytes metadata triggers
+  `evidence_pack_manifest_bytes_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json`.
+
+Boundary:
+- This strengthens final evidence-pack indexing. It does not create the real
+  L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - External audit artifact byte binding
+
+Timestamp: 2026-06-29T04:17:00Z
+
+Task:
+- Require Beta17 external audit artifact refs to include byte counts and match
+  referenced files.
+
+Change:
+- Updated `scripts/beta17-external-audit-report-validate.js` so each required
+  audit artifact ref must include `bytes` and match the file size when a
+  workspace root is available.
+- Updated external audit, readiness and release-train fixtures to emit
+  byte-bound audit artifact refs.
+- Updated `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` so external agents
+  produce the enforced contract.
+
+Evidence:
+- `node --check scripts/beta17-external-audit-report-validate.js` passed.
+- `bash -n scripts/tests/test_beta17_external_audit_report_validate.sh`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- Regression battery passed:
+  `test:beta17:external-audit-prompt`,
+  `test:beta17:fixpoint:evidence:manifest`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  mutating `generatedCodeQuality.bytes` triggers
+  `external_audit_artifact_bytes_mismatch:generatedCodeQuality`.
+
+Boundary:
+- This strengthens external audit metadata binding. It does not run the actual
+  external audit, create the real L6+N5 materializer, execute remote mutation,
+  generate real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Release train readiness ref binding
+
+Timestamp: 2026-06-29T04:32:00Z
+
+Task:
+- Bind the Beta17 release-train `requiredEvidence` entry to the exact readiness
+  report file consumed by the dry-run.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` so the Beta17 readiness evidence
+  entry includes `path`, `sha256` and `bytes` for
+  `evidence/beta17-fixpoint-readiness/report.json`.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` to assert that
+  the release-train report records the current readiness report SHA-256 and byte
+  count.
+
+Evidence:
+- `node --check scripts/release-train-dry-run.js` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:external-audit-report`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt enforced:
+  release-train regression rejects a Beta17 requiredEvidence record unless it
+  matches the generated readiness report SHA-256 and byte count.
+
+Boundary:
+- This strengthens release-train evidence linkage. It does not create the real
+  L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Dispatcher install result marker binding
+
+Timestamp: 2026-06-29T04:52:00Z
+
+Task:
+- Require an executed Beta17 remote dispatcher install to prove installation via
+  a hash-bound stdout marker, not SSH status alone.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-install.js` with
+  `parseInstallResult` and `validateInstallExecution`.
+- `--execute` mode now requires
+  `BRIK64_BETA17_DISPATCHER_INSTALL_RESULT` with `installed`, the expected
+  materializer SHA-256 and the expected host.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  with direct parser/validator break attempts.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-dispatcher-preflight`,
+  `test:beta17:fixpoint:remote-dispatcher-plan`,
+  `test:beta17:fixpoint:remote-stage`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Break attempts rejected:
+  missing install marker triggers `install_result_marker_missing`; mismatched
+  materializer SHA triggers `install_result_materializer_sha256_mismatch`.
+
+Boundary:
+- This hardens future remote mutation validation. It does not execute the
+  remote install, create the real L6+N5 materializer, generate real Stage1 or
+  Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote-stage remediation command bridge
+
+Timestamp: 2026-06-29T05:08:00Z
+
+Task:
+- Make a blocked Beta17 remote-stage attempt directly actionable through a
+  structured, testable remediation command list.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to include
+  `remoteEndpointContract.remediationCommands` in blocked reports.
+- The command sequence covers materializer provenance, dispatcher deploy-plan,
+  preflight, guarded install, retry, remote-promotion gate, result promotion and
+  readiness gate.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert the exported commands include the exact gates/operators required for
+  the next materialization path.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Break attempt enforced:
+  remote-stage tests fail unless the remediation list contains the expected
+  provenance, plan, preflight, install, attempt, promotion and readiness gates.
+
+Boundary:
+- This makes the missing-dispatcher blocker operationally actionable. It does
+  not create the real L6+N5 materializer, execute remote mutation, generate
+  Stage1 or Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote-stage remediation input and stop-rule plan
+
+Timestamp: 2026-06-29T05:24:00Z
+
+Task:
+- Make the blocked Beta17 remote-stage remediation path less ambiguous by
+  publishing required inputs and stop rules alongside the command sequence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` with
+  `remoteEndpointContract.remediationPlan`.
+- The plan names required inputs: `generatedMaterializer`,
+  `canonicalInputPcds` and `l6plusEngineSerial`.
+- The plan enumerates step ids and stop rules, including stopping on open
+  claims, fixture/manual evidence or non-byte-identical Stage1/Stage2.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert the required inputs, guarded install command and byte-identity stop
+  rule.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Break attempt enforced:
+  remote-stage tests fail unless the remediation plan requires the L6+N5 serial
+  prefix, rejects fixture/template materializer input and includes the
+  Stage1/Stage2 byte-identical stop rule.
+
+Boundary:
+- This makes the remediation path operationally clearer. It does not create the
+  real L6+N5 materializer, execute remote mutation, generate real Stage1 or
+  Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Live remote-stage blocker evidence
+
+Timestamp: 2026-06-29T05:43:00Z
+
+Task:
+- Run a non-mutating live Beta17 remote-stage attempt against the configured
+  L6+N5 host and preserve the current blocker evidence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to parse endpoint
+  status signals into structured `remote.endpointSignals`.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` with
+  parser coverage for legacy endpoint/result signals.
+- Generated a fresh stage request and live remote-attempt evidence under:
+  `evidence/beta17-fixpoint-stage-request/` and
+  `evidence/beta17-fixpoint-remote-attempt/`.
+
+Live evidence:
+- Stage request: `evidence/beta17-fixpoint-stage-request/request.json`
+  SHA-256 `f109f24ba91010be439f9156bf018c07871b4febee5175dde22d74f75c7e18b9`.
+- Remote attempt report: `evidence/beta17-fixpoint-remote-attempt/report.json`
+  decision `BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT`.
+- Remote wrapper: SHA-256
+  `2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656`,
+  1546 bytes.
+- Remote wrapper exec target: SHA-256
+  `7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a`,
+  851 bytes.
+- Installed endpoint capabilities observed:
+  `beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+- Legacy endpoint signals observed:
+  `BRIK64_L6_CLI_MATERIALIZATION_RESULT=available` and
+  `BRIK64_L6_BETA16_STAGE1_MATERIALIZATION_RESULT=available`.
+- Blockers:
+  `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  `remote_l6plus_beta17_stage_result_unavailable`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Live `npm run attempt:beta17:fixpoint:remote-stage` failed closed with the
+  blockers above, as expected while the Beta17 dispatcher is missing.
+
+Boundary:
+- This is fresh operational blocker evidence from the live L6+N5 host. It does
+  not execute remote mutation, install the missing dispatcher, create real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance content validation
+
+Timestamp: 2026-06-29T06:10:00Z
+
+Task:
+- Prevent Beta17 materializer provenance from accepting a hash-bound file that is
+  still only a placeholder, fixture or template.
+
+Change:
+- Added content validation to `scripts/beta17-fixpoint-materializer-provenance.js`.
+- Provenance now fails closed when the materializer lacks
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`, contains literal `<base64-json>`, or
+  contains fixture/template indicators.
+- Updated valid dispatcher test materializers to emit a real base64 JSON payload
+  while keeping placeholder output as an adversarial case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-materializer-provenance.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_provenance.sh` passed.
+- `npm run test:beta17:fixpoint:materializer-provenance` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Missing result marker is rejected with
+  `provenance_materializer_missing_beta17_result_marker`.
+- Literal placeholder marker is rejected with
+  `provenance_materializer_placeholder_result_marker`.
+- Fixture/template content is rejected with
+  `provenance_materializer_fixture_or_template_content`.
+
+Boundary:
+- This hardens the candidate/provenance path only. It does not create a real
+  L6+N5 Beta17 materializer, execute remote mutation, generate Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher install-script validation
+
+Timestamp: 2026-06-29T06:35:00Z
+
+Task:
+- Prevent the guarded Beta17 dispatcher install path from accepting a generated
+  remote install script that does not actually bind to the Beta17 materializer
+  endpoint and result marker.
+
+Change:
+- Added `validateInstallScript` to
+  `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+- The generated remote install script now verifies the uploaded materializer
+  contains `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` after SHA-256 validation and
+  before installation.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  with script-level adversarial mutations.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Removing the Beta17 endpoint marker fails closed with
+  `install_script_beta17_endpoint_marker_missing`.
+- Rebinding the materializer exec path fails closed with
+  `install_script_materializer_remote_path_missing`.
+- Adding a legacy endpoint reference fails closed with
+  `install_script_legacy_endpoint_reference`.
+
+Boundary:
+- This improves the install gate only. It does not install the live dispatcher,
+  execute remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Install dry-run evidence binding
+
+Timestamp: 2026-06-29T06:55:00Z
+
+Task:
+- Make Beta17 dispatcher install dry-run evidence self-contained enough for a
+  reviewer/operator to verify the script, materializer and provenance binding
+  before remote mutation.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-install.js` so
+  `install-report.json` includes local materializer and provenance refs plus
+  install-script validation details.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh` to
+  assert the report binds required commands, required capability and the exact
+  materializer remote path.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This binds dry-run evidence only. It does not install the live dispatcher,
+  execute remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote stage install-evidence preflight
+
+Timestamp: 2026-06-29T07:15:00Z
+
+Task:
+- Prevent Beta17 remote stage attempts from running before there is an executed,
+  evidence-bound dispatcher install report.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to validate
+  `evidence/beta17-fixpoint-remote-dispatcher/install-report.json` before
+  materialization commands are attempted.
+- The validator requires the Beta17 install report schema/version, executed
+  PASS decision, closed claim boundary, expected capability, accepted
+  install-script validation, materialize command and materializer/provenance refs.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to assert
+  missing install evidence is a blocker.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is a pre-execution guard. It does not install the live dispatcher, execute
+  remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion install-evidence binding
+
+Timestamp: 2026-06-29T07:40:00Z
+
+Task:
+- Prevent remote result promotion from accepting a PASS remote-attempt report
+  unless that attempt is tied to executed Beta17 dispatcher install evidence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` with
+  `validateInstallEvidence`.
+- The promotion gate now verifies the install report ref, schema/version,
+  executed PASS decision, closed claim boundaries, expected capability,
+  accepted install-script validation, materialize command and materializer
+  SHA/path binding.
+- Updated remote promotion and remote result promotion tests to include valid
+  install evidence in positive fixtures and an install-not-executed adversarial
+  case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is a promotion guard. It does not install the live dispatcher, execute
+  remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.
+
+## Beta17 Ralph Loop Iteration - Readiness source-promotion install-evidence binding
+
+Timestamp: 2026-06-29T08:05:00Z
+
+Task:
+- Prevent Beta17 readiness and release train from trusting a standalone remote
+  promotion manifest that is not tied back to a promotion gate report with
+  executed dispatcher install evidence.
+
+Change:
+- Added source promotion report validation to
+  `scripts/beta17-fixpoint-readiness-gate.js`.
+- Readiness now validates `remote_promotion_manifest.sourcePromotionReport` and
+  requires the referenced promotion report to be PASS, claim-closed and contain
+  executed Beta17 dispatcher install evidence.
+- Updated readiness and release train fixtures to include source promotion and
+  install evidence refs.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is a readiness/release-train guard. It does not install the live
+  dispatcher, execute remote mutation, generate Stage1/Stage2 artifacts, prove
+  fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Fresh live remote-stage blocker evidence
+
+Timestamp: 2026-06-29T08:25:00Z
+
+Task:
+- Refresh live non-mutating remote-stage evidence after adding install-evidence
+  gates to remote stage, promotion and readiness.
+
+Commands:
+- `npm run bundle:beta17:fixpoint:stage-request`
+- `npm run attempt:beta17:fixpoint:remote-stage`
+
+Live evidence:
+- Stage request SHA-256:
+  `904700d893ba6effcc7f83070847978c1ecb024464e1d6728b87aedab8616224`.
+- Stage request line SHA-256:
+  `af93b234fe02d916d16e5d5f0809ab0ab4a34bcd6a99652f9b72ddfd8572e289`.
+- Stage request manifest SHA-256:
+  `ecd0074ad5536a16184bb9d7dcc1c8617b144a91a46f69858f157cdd2f262a6d`.
+- Remote attempt report SHA-256:
+  `a538ff706ecdc12e9add2e2df92df454d94eb35d285f98af4f06edecd5856a3e`.
+- Remote attempt decision:
+  `BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT`.
+- Blockers:
+  `remote_dispatcher_install_report_missing`,
+  `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  `remote_l6plus_beta17_stage_result_unavailable`.
+- Remote endpoint capabilities observed:
+  `beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+- Materialization attempts count: `0`, because missing install evidence blocks
+  the stage attempt before materialization commands are executed.
+
+Validation before refreshing evidence:
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is fresh operational blocker evidence. It does not install the live
+  dispatcher, execute remote mutation, generate Stage1/Stage2 artifacts, prove
+  fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Required inputs fail-closed gate
+
+Timestamp: 2026-06-29T03:30:00Z
+
+Task:
+- Make the current Beta17 fixpoint blocker machine-readable as a direct
+  required-inputs matrix, instead of leaving it only inside the remote-stage
+  remediation text.
+
+Change:
+- Added `scripts/beta17-fixpoint-required-inputs-gate.js`.
+- Added npm scripts `gate:beta17:fixpoint:required-inputs` and
+  `test:beta17:fixpoint:required-inputs`.
+- Added `scripts/tests/test_beta17_fixpoint_required_inputs_gate.sh`.
+- Generated live blocked report at
+  `evidence/beta17-fixpoint-required-inputs/report.json`.
+
+Live evidence:
+- Decision: `BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS`.
+- Canonical PCDs present: 4/4.
+- Canonical PCD input-set SHA-256:
+  `6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9`.
+- Current blockers:
+  `generated_materializer_argument_missing`,
+  `materializer_provenance_missing`,
+  `dispatcher_deploy_plan_missing`,
+  `dispatcher_install_report_missing`,
+  `remote_stage_attempt_not_pass`,
+  `remote_stage_attempt_accepted_attempt_count_invalid`,
+  `remote_stage_attempt_install_evidence_missing`,
+  `remote_promotion_report_missing`,
+  `remote_promotion_manifest_missing`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-required-inputs-gate.js` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- Live `npm run gate:beta17:fixpoint:required-inputs -- --quiet` failed
+  closed as expected and wrote the blocked report.
+
+Break attempts:
+- Placeholder materializer with `<base64-json>` is rejected.
+- Outside-workspace materializer path is rejected.
+- Dry-run dispatcher install evidence is rejected.
+- Blocked remote-stage evidence is rejected.
+
+Boundary:
+- This is a diagnostic/readiness hardening gate. It does not generate the
+  L6+N5 materializer, install the dispatcher, materialize Stage1/Stage2,
+  prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Release train required-inputs binding
+
+Timestamp: 2026-06-29T03:55:00Z
+
+Task:
+- Make Beta17 release-train dry-run consume the required-inputs gate directly
+  before fixpoint readiness, so missing materializer/provenance/install inputs
+  remain visible as release evidence.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` to run
+  `gate:beta17:fixpoint:required-inputs` for `0.1.0-beta.17`.
+- Added `beta17_fixpoint_required_inputs` to candidate required evidence with
+  path/SHA-256/bytes binding.
+- Updated `scripts/beta17-fixpoint-required-inputs-gate.js` to infer the
+  generated materializer path from `materializer-provenance.json` and to align
+  accepted promotion/deploy-plan fields with existing Beta17 gate contracts.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` so the
+  failure case requires both required-inputs and readiness blockers, and the
+  positive fixture must include provenance, deploy plan, executed install
+  evidence, accepted remote-stage evidence and promotion evidence.
+
+Validation:
+- `node --check scripts/release-train-dry-run.js` passed.
+- `node --check scripts/beta17-fixpoint-required-inputs-gate.js` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `git diff --check` passed.
+- `npm test` passed.
+
+Live evidence:
+- `npm run gate:beta17:fixpoint:required-inputs -- --quiet` still fails
+  closed in the real workspace with missing real materializer/provenance,
+  deploy plan, executed install evidence, accepted remote stage and promotion
+  evidence. That remains the correct current blocker.
+
+Boundary:
+- This is release-train hardening. It does not generate the L6+N5
+  materializer, install the dispatcher, materialize Stage1/Stage2, prove
+  fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - PR review comment closure
+
+Timestamp: 2026-06-29T04:05:00Z
+
+Task:
+- Address the remaining PR #223 code-quality review comment without changing
+  Beta17 fixpoint semantics.
+
+Change:
+- Removed the unused `version` constant from
+  `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is review hygiene only. It does not generate the L6+N5 materializer,
+  install the dispatcher, materialize Stage1/Stage2, prove fixpoint or publish
+  Beta17.
