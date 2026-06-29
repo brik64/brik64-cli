@@ -18,14 +18,17 @@
     "evidence/beta17-candidate-release-train-gate/report.json",
     "evidence/beta17-fixpoint-publication-preflight/report.json",
     "evidence/beta17-fixpoint-required-inputs/report.json",
-    "scripts/beta17-fixpoint-required-inputs-gate.js"
+    "package.json",
+    "scripts/release-train-dry-run.js",
+    "scripts/beta17-pre-publication-mutation-gate.js",
+    "scripts/tests/test_beta17_pre_publication_mutation_gate.sh"
   ],
   "commands": [
     {
       "name": "beta17_candidate_release_train_gate",
       "command": "npm run gate:beta17:candidate-release-train",
       "rc": 0,
-      "elapsedMs": 2174,
+      "elapsedMs": 799,
       "stdout": "\n> @brik64/cli@0.1.0-beta.17 gate:beta17:candidate-release-train\n> node scripts/beta17-candidate-release-train-gate.js\n\ndecision=PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE\npublicationAllowed=false\n",
       "stderr": ""
     }
@@ -34,7 +37,7 @@
     {
       "id": "beta17_candidate_release_train_gate",
       "path": "evidence/beta17-candidate-release-train-gate/report.json",
-      "sha256": "69908e86dc6eabcc1075301f114a1f9a79312b74cf2328de04e3ee76826137bc",
+      "sha256": "dfdc8a2101b2382f645233b9db01555501a324628e530c005070a1a442e84267",
       "bytes": 1555,
       "expectedDecision": "PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE",
       "actualDecision": "PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE",

@@ -4486,3 +4486,40 @@ Boundary:
 - This fixes a wrapper/gate discrepancy, not a motor generation failure.
 - Beta17 remains candidate-only. Public publication, public surface sync,
   external audit and final fixpoint/public claims remain closed.
+
+## 2026-06-29 - Beta17 pre-publication mutation gate
+
+RESUME
+- lane: cli_0_1_beta / beta17-fixpoint-candidate
+- iter_id: beta17-pre-publication-mutation-gate
+- source_sha: adb4406761a420b2b2985f51a7dded23c4ab838b
+- current gate: release-train dry-run / pre-publication handoff
+- last verdict: release train candidate dry-run passed; public publication
+  preflight still blocked by post-public evidence
+- primary blocker: circular dependency between public mutation and live
+  verification/audit evidence
+
+Change:
+- Added `scripts/beta17-pre-publication-mutation-gate.js`.
+- Added `test:beta17:pre-publication-mutation`.
+- Updated `release-train-dry-run` so Beta17 `state=public` uses the
+  pre-publication mutation gate instead of requiring post-public readiness and
+  external-audit status before mutation.
+
+Validation:
+- `npm run test:beta17:pre-publication-mutation` passed.
+- `npm run gate:beta17:fixpoint:required-inputs` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed in current candidate
+  mode with `publicationAllowed=false`.
+- `npm test` passed.
+
+Break attempts:
+- Candidate manifest fails closed.
+- Package SHA/byte drift fails closed.
+- Public claims opened before live verification fail closed.
+
+Boundary:
+- The new gate only authorizes release-train public-surface mutation after
+  local package/evidence validation. It does not approve final publication,
+  external audit, public claims, formal N5, self-hosting, or definitive
+  fixpoint.

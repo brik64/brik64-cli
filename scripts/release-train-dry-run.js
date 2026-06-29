@@ -945,11 +945,7 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
         stdoutLimit: 12000,
         stderrLimit: 12000
       }),
-      run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
-        stdoutLimit: 12000,
-        stderrLimit: 12000
-      }),
-      run('beta17_fixpoint_external_audit_status', ['npm', 'run', 'gate:beta17:fixpoint:external-audit-status'], {
+      run('beta17_pre_publication_mutation_gate', ['npm', 'run', 'gate:beta17:pre-publication-mutation'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })
@@ -1395,31 +1391,30 @@ function main() {
         failures.push('candidate_beta17_fixpoint_required_inputs_boundary_invalid');
       }
 
-      const readinessPath = path.join(root, 'evidence', 'beta17-fixpoint-readiness', 'report.json');
-      const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
-      const readinessRef = fileEvidenceRef(readinessPath);
+      const prePublicationPath = path.join(root, 'evidence', 'beta17-pre-publication-mutation-gate', 'report.json');
+      const prePublication = fs.existsSync(prePublicationPath) ? readJson(prePublicationPath) : null;
+      const prePublicationRef = fileEvidenceRef(prePublicationPath);
       requiredEvidence.push({
-        id: 'beta17_fixpoint_readiness',
-        path: readinessRef.path,
-        sha256: readinessRef.sha256,
-        bytes: readinessRef.bytes,
-        expectedDecision: 'PASS_BETA17_FIXPOINT_READINESS_GATE',
-        actualDecision: readiness?.decision || null,
-        pass: readiness?.decision === 'PASS_BETA17_FIXPOINT_READINESS_GATE'
-          && readiness?.claimBoundary?.definitiveFixpointAllowed === true
-          && readiness?.claimBoundary?.publicReleaseAllowed === true
-          && readiness?.claimBoundary?.formalN5ClaimAllowed === false
-          && readiness?.claimBoundary?.universalCorrectnessClaimAllowed === false
+        id: 'beta17_pre_publication_mutation_gate',
+        path: prePublicationRef.path,
+        sha256: prePublicationRef.sha256,
+        bytes: prePublicationRef.bytes,
+        expectedDecision: 'PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE',
+        actualDecision: prePublication?.decision || null,
+        pass: prePublication?.decision === 'PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE'
+          && prePublication?.publicationMutationAllowed === true
+          && prePublication?.publicationAllowed === false
+          && prePublication?.claimBoundary?.publicReleaseAllowed === false
       });
-      if (!readiness) failures.push('candidate_readiness_missing:beta17_fixpoint_readiness');
-      else if (readiness.decision !== 'PASS_BETA17_FIXPOINT_READINESS_GATE') failures.push(`candidate_beta17_fixpoint_readiness_invalid:${readiness.decision}`);
-      else if (
-        readiness.claimBoundary?.definitiveFixpointAllowed !== true
-        || readiness.claimBoundary?.publicReleaseAllowed !== true
-        || readiness.claimBoundary?.formalN5ClaimAllowed !== false
-        || readiness.claimBoundary?.universalCorrectnessClaimAllowed !== false
+      if (!prePublication) failures.push('candidate_readiness_missing:beta17_pre_publication_mutation_gate');
+      else if (prePublication.decision !== 'PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE') {
+        failures.push(`candidate_beta17_pre_publication_mutation_invalid:${prePublication.decision}`);
+      } else if (
+        prePublication.publicationMutationAllowed !== true
+        || prePublication.publicationAllowed !== false
+        || prePublication.claimBoundary?.publicReleaseAllowed !== false
       ) {
-        failures.push('candidate_beta17_fixpoint_readiness_claim_boundary_invalid');
+        failures.push('candidate_beta17_pre_publication_mutation_boundary_invalid');
       }
     }
   } else {
