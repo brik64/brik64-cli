@@ -3822,3 +3822,53 @@ Boundary:
 - This iteration creates package candidate evidence only. It does not publish
   Beta17, mutate `release/manifest.json`, run external audit or authorize
   fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional Stage artifact gate
+
+Timestamp: 2026-06-29T08:05:00Z
+
+Task:
+- Add a fail-closed gate that distinguishes a full functional Beta17 CLI
+  Stage1 artifact from a metadata-only Stage result.
+
+Change:
+- Added `scripts/beta17-fixpoint-functional-stage-artifact-gate.js`.
+- Added npm scripts `gate:beta17:fixpoint:functional-stage-artifact` and
+  `test:beta17:fixpoint:functional-stage-artifact`.
+- Added `scripts/tests/test_beta17_fixpoint_functional_stage_artifact_gate.sh`.
+- Updated `scripts/build-beta17-package-candidate.js` to consume
+  `evidence/beta17-fixpoint-functional-stage-artifact/report.json` before
+  setting package release eligibility.
+- Regenerated `evidence/beta17-package/package.manifest.json` and package
+  candidate evidence with the functional Stage artifact report bound.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-functional-stage-artifact-gate.js`
+  passed.
+- `node --check scripts/build-beta17-package-candidate.js` passed.
+- `npm run test:beta17:fixpoint:functional-stage-artifact` passed.
+- `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run gate:beta17:fixpoint:functional-stage-artifact` failed closed as
+  expected on real evidence.
+- `npm run package:beta17:fixpoint:candidate` passed and preserved
+  `releaseEligible=false`.
+
+Break attempts:
+- Missing Stage1 manifest fails closed with
+  `missing_stage1_artifact_manifest`.
+- Stage1 artifact SHA/bytes drift fails closed with
+  `stage1_artifact_sha256_mismatch` and `stage1_artifact_bytes_mismatch`.
+- Metadata-only Stage1 fails closed on size, missing Node entrypoint and
+  missing argv handling.
+
+Current real blockers:
+- Stage1 artifact bytes: 1473, below the 50000-byte minimum for a functional
+  CLI artifact in this gate.
+- Stage1 lacks `#!/usr/bin/env node`, `process.argv` and command dispatcher
+  markers.
+- Package candidate now records the functional Stage blocker directly:
+  `functional_stage_artifact_not_pass:BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE`.
+
+Boundary:
+- This iteration adds the functional-artifact gate only. It does not generate
+  the full CLI, publish Beta17, run public-surface sync or run external audit.

@@ -5,7 +5,7 @@
   "channel": "beta",
   "state": "candidate",
   "source": {
-    "commit": "98804edef6ca26e93170be3c9b69de3393bc1b75",
+    "commit": "be9177c2cc9392a1951ff05f168c2673f5e47be2",
     "commitBinding": "candidate_base_commit"
   },
   "cli": {

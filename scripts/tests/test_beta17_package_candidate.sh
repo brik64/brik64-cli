@@ -63,6 +63,16 @@ JSON
   "blockers": ["public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC"]
 }
 JSON
+  mkdir -p "$dir/evidence/beta17-fixpoint-functional-stage-artifact"
+  cat >"$dir/evidence/beta17-fixpoint-functional-stage-artifact/report.json" <<JSON
+{
+  "schemaVersion": "brik64.beta17_fixpoint.functional_stage_artifact_gate.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+  "releaseEligibleStageArtifact": false,
+  "blockers": ["stage1_artifact_too_small:$stage_bytes:50000"]
+}
+JSON
 }
 
 PASS_ROOT="$TMP_DIR/pass"
@@ -75,7 +85,8 @@ jq -e '
   and .releaseEligible==false
   and .publicationAllowed==false
   and .stageArtifact.functionalCliArtifact==false
-  and (.blockers | index("stage_artifact_not_functional_cli_sized"))
+  and (.blockers | index("functional_stage_artifact_not_pass:BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE"))
+  and any(.blockers[]; startswith("functional_stage_artifact:stage1_artifact_too_small:"))
   and (.blockers | index("readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE"))
   and .claimBoundary.fixpointClaimAllowed==false
 ' "$PASS_ROOT/evidence/beta17-package/package.manifest.json" >/dev/null

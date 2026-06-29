@@ -145,6 +145,15 @@
   artifact is only a small stage metadata module, not a full functional CLI
   artifact. This closes the metadata/package-location gap without opening a
   false publication path.
+- Functional Stage artifact gate update: Beta17 now has
+  `gate:beta17:fixpoint:functional-stage-artifact`, which requires the Stage1
+  artifact to be hash-bound, byte-bound, sufficiently sized, executable as a
+  Node CLI entrypoint, version-bound and command-dispatch capable. The current
+  real Stage1 evidence is blocked with `stage1_artifact_too_small`,
+  `stage1_artifact_missing_node_entrypoint`,
+  `stage1_artifact_missing_argv_handling` and
+  `stage1_artifact_missing_command_dispatcher`; therefore the package candidate
+  remains `releaseEligible=false`.
 
 ## Legacy Plan Context
 

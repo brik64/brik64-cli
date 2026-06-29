@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.functional_stage_artifact_gate.v1",
+  "generatedAt": "2026-06-29T06:27:41.666Z",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+  "releaseEligibleStageArtifact": false,
+  "minBytes": 50000,
+  "artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+    "bytes": 1473,
+    "expectedSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+    "expectedBytes": 1473
+  },
+  "checks": {
+    "stage1ManifestVersion": true,
+    "generatedByL6PlusN5": true,
+    "artifactShaMatches": true,
+    "artifactBytesMatch": true,
+    "artifactMinSize": false,
+    "nodeEntrypoint": false,
+    "versionBound": true,
+    "argvHandling": false,
+    "commandDispatcher": false,
+    "noCandidateOnlyMessage": true
+  },
+  "blockers": [
+    "stage1_artifact_too_small:1473:50000",
+    "stage1_artifact_missing_node_entrypoint",
+    "stage1_artifact_missing_argv_handling",
+    "stage1_artifact_missing_command_dispatcher"
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "nextAction": "Regenerate Stage1 through L6+N5 as a full CLI artifact, not a metadata/stub module."
+}

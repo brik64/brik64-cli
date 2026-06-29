@@ -17,8 +17,18 @@
     "bytes": 1473,
     "functionalCliArtifact": false
   },
+  "functionalStageArtifactReport": {
+    "path": "evidence/beta17-fixpoint-functional-stage-artifact/report.json",
+    "decision": "BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+    "sha256": "42de8ad4b173f5a2b16daf064adee455b43b6ce1f3d7fa66ed76397343d9fda9",
+    "bytes": 1535
+  },
   "blockers": [
-    "stage_artifact_not_functional_cli_sized",
+    "functional_stage_artifact_not_pass:BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+    "functional_stage_artifact:stage1_artifact_too_small:1473:50000",
+    "functional_stage_artifact:stage1_artifact_missing_node_entrypoint",
+    "functional_stage_artifact:stage1_artifact_missing_argv_handling",
+    "functional_stage_artifact:stage1_artifact_missing_command_dispatcher",
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
     "publication_requires_public_surface_sync_and_external_audit"
   ],

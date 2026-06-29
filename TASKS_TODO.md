@@ -214,6 +214,24 @@
         passes, and publication preflight advances to public sync/external
         audit blockers only.
 
+- [x] Add a gate that proves whether the Beta17 Stage1 artifact is a
+      functional CLI artifact.
+      - Script:
+        `scripts/beta17-fixpoint-functional-stage-artifact-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_functional_stage_artifact_gate.sh`.
+      - NPM:
+        `gate:beta17:fixpoint:functional-stage-artifact`.
+        `test:beta17:fixpoint:functional-stage-artifact`.
+      - Result:
+        fixture PASS plus three break attempts pass. Real evidence writes
+        `BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE` because the Stage1
+        artifact is 1473 bytes and lacks Node entrypoint, argv handling and
+        command dispatcher markers.
+      - Boundary:
+        this gate measures functional artifact shape only. It does not run the
+        full CLI command matrix, sync public surfaces or prove fixpoint.
+
 - [x] Add Beta17 materializer generation result validator.
       - Script:
         `scripts/beta17-fixpoint-materializer-generation-result.js`.

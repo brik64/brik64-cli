@@ -197,12 +197,14 @@ const byteIdenticalPath = ensureFile('evidence/beta17-fixpoint/byte_identical_re
 const sealReportPath = ensureFile('evidence/beta17-fixpoint/seal_report.json');
 const evidencePackPath = ensureFile('evidence/beta17-fixpoint/evidence_pack_manifest.json');
 const readinessPath = ensureFile('evidence/beta17-fixpoint-readiness/report.json');
+const functionalStageReportPath = ensureFile('evidence/beta17-fixpoint-functional-stage-artifact/report.json');
 if (!stage1ManifestPath) failures.push('missing_stage1_artifact_manifest');
 if (!stage2ManifestPath) failures.push('missing_stage2_regeneration_manifest');
 if (!byteIdenticalPath) failures.push('missing_byte_identical_report');
 if (!sealReportPath) failures.push('missing_seal_report');
 if (!evidencePackPath) failures.push('missing_evidence_pack_manifest');
 if (!readinessPath) failures.push('missing_readiness_report');
+if (!functionalStageReportPath) failures.push('missing_functional_stage_artifact_report');
 if (failures.length > 0) fail(failures);
 
 const stage1Manifest = readJson(stage1ManifestPath);
@@ -210,6 +212,7 @@ const stage2Manifest = readJson(stage2ManifestPath);
 const byteIdentical = readJson(byteIdenticalPath);
 const sealReport = readJson(sealReportPath);
 const readiness = readJson(readinessPath);
+const functionalStageReport = readJson(functionalStageReportPath);
 const stageArtifactRef = stage1Manifest.artifact?.path;
 const stageArtifactFile = stageArtifactRef ? ensureFile(stageArtifactRef) : null;
 if (stage1Manifest.version !== version) failures.push(`stage1_version_mismatch:${stage1Manifest.version || 'missing'}`);
@@ -281,7 +284,8 @@ fs.writeFileSync(path.join(outDir, 'stage-checksums.tsv'), stageChecksums);
 const packageSha = sha256File(packagePath);
 const packageBytes = fileSize(packagePath);
 const stageArtifactBytes = fileSize(stageArtifactFile);
-const functionalCliArtifact = stageArtifactBytes > 50000;
+const functionalCliArtifact = functionalStageReport.decision === 'PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE'
+  && functionalStageReport.releaseEligibleStageArtifact === true;
 const releaseEligible = functionalCliArtifact
   && readiness.decision === 'PASS_BETA17_FIXPOINT_READINESS_GATE';
 
@@ -304,8 +308,19 @@ const packageManifest = {
     bytes: stageArtifactBytes,
     functionalCliArtifact,
   },
+  functionalStageArtifactReport: {
+    path: 'evidence/beta17-fixpoint-functional-stage-artifact/report.json',
+    decision: functionalStageReport.decision,
+    sha256: sha256File(functionalStageReportPath),
+    bytes: fileSize(functionalStageReportPath),
+  },
   blockers: releaseEligible ? [] : [
-    ...(functionalCliArtifact ? [] : ['stage_artifact_not_functional_cli_sized']),
+    ...(functionalCliArtifact ? [] : [
+      `functional_stage_artifact_not_pass:${functionalStageReport.decision || 'missing'}`,
+      ...(Array.isArray(functionalStageReport.blockers)
+        ? functionalStageReport.blockers.map((blocker) => `functional_stage_artifact:${blocker}`)
+        : []),
+    ]),
     ...(readiness.decision === 'PASS_BETA17_FIXPOINT_READINESS_GATE' ? [] : [`readiness_not_pass:${readiness.decision}`]),
     'publication_requires_public_surface_sync_and_external_audit',
   ],
