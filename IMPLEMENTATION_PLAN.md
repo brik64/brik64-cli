@@ -86,6 +86,22 @@
   because the L6+N5 host cannot write generated materializer, generation-report
   or provenance files directly into the local workspace. Hydration is fail
   closed on unsafe refs, byte mismatch and SHA-256 mismatch.
+- Optimized goal boundary update: Beta17 is now split into three explicit
+  gates. Gate 1, materializer generation, is closed by the live
+  `beta17_fixpoint_materializer_generator` endpoint and validated
+  `PASS_BETA17_FIXPOINT_MATERIALIZER_GENERATION_ATTEMPT` evidence. Gate 2,
+  remote Stage1/Stage2 materialization, is closed by the installed
+  `beta17_fixpoint_stage_dispatcher`, hydrated Stage result refs,
+  `PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT`,
+  `PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE` and
+  `PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION`. Gate 3, fixpoint readiness,
+  remains blocked and is the next active focus.
+- Readiness blockers are now package-level, not endpoint-level: missing
+  canonical motor/harness manifests, input PCD hash list, evidence-pack
+  manifest, public-surface sync report, external-audit report, plus
+  byte-identity/seal report binding shape drift. Publication is out of scope
+  until `gate:beta17:fixpoint-readiness`, public surface sync and external
+  audit all pass with fresh evidence.
 
 ## Legacy Plan Context
 

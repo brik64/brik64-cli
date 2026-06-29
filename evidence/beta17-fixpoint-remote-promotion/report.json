@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_promotion_gate.v1",
+  "generatedAt": "2026-06-29T05:14:39.704Z",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE",
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "definitiveFixpointAllowed": false,
+    "publicReleaseAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "evidence": {
+    "remoteAttemptReport": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/report.json",
+      "sha256": "d50335af09b53c75691a5271417b14d1dabf72baf21a02fd8d2a7b5348c06df1",
+      "bytes": 26685
+    },
+    "remoteAttemptInstallReport": {
+      "path": "evidence/beta17-fixpoint-remote-dispatcher/install-report.json",
+      "sha256": "b9392896b40c8fa49bed325a4eba9ac0ade39b396df3a61a390e3cb4974124f0",
+      "bytes": 2640
+    },
+    "remoteAttemptInstallReportValidation": {
+      "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+      "executed": true,
+      "materializerSha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+      "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js"
+    },
+    "remoteAttemptRequest": {
+      "path": "evidence/beta17-fixpoint-stage-request/request.json",
+      "sha256": "95a19d9d8a8c9d45a1f85394cd96a8decdea3e08efbff231927ba5460fe3beb4",
+      "bytes": 9576
+    },
+    "remoteAttemptRequestValidation": {
+      "accepted": true,
+      "blockers": []
+    },
+    "remote_transcript_hostProbeStdout": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stdout.txt",
+      "sha256": "5d89b620851b7fff75efae61d54739722b6ef3713a886108cb6a16d68266058f",
+      "bytes": 1028
+    },
+    "remote_transcript_hostProbeStderr": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "remote_transcript_remoteRefStdout": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/remote-ref.stdout.txt",
+      "sha256": "2d481fc82c63401535bd2d14d8b114a2985591dcb62e244d2cf18c59cfb3c0f8",
+      "bytes": 382
+    },
+    "remote_transcript_remoteRefStderr": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/remote-ref.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "remote_transcript_endpointStatusStdout": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/endpoint-status.stdout.txt",
+      "sha256": "87cdc3529ce6578a1194e75f0670916d81bea9658ce6c06d6234ae4ebf8813d0",
+      "bytes": 79
+    },
+    "remote_transcript_endpointStatusStderr": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/endpoint-status.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "acceptedAttemptStdoutTranscript": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt",
+      "sha256": "5c065caea0f0fd2d630a2d2cf166201d6eefd5c0be194cd66d205a844379ca64",
+      "bytes": 16049
+    },
+    "acceptedAttemptStderrTranscript": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "acceptedAttemptStageResult": {
+      "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json",
+      "sha256": "57df720ecb2fe6748ed3cbfb1cf09405a515ff3d33d3687b8194f7c35ffc9eb2",
+      "bytes": 12493
+    },
+    "acceptedAttemptStageResultRevalidation": {
+      "accepted": true,
+      "blockers": []
+    }
+  },
+  "blockers": [],
+  "nextAction": "promote accepted remote stage files into evidence/beta17-fixpoint and run readiness gate"
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_preflight_report.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T05:14:31.931Z",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_PREFLIGHT",
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "required": {
+    "capability": "beta17_fixpoint_stage_dispatcher",
+    "wrapperMode": "beta17_fixpoint_stage_dispatcher",
+    "resultMarker": "BRIK64_BETA17_FIXPOINT_STAGE_RESULT",
+    "materializerMode": "l6plus_fixpoint_stage_materializer",
+    "supportedCommands": [
+      "beta17-fixpoint-stage-materialize",
+      "fixpoint-stage-materialize",
+      "materialize"
+    ]
+  },
+  "plan": {
+    "path": "evidence/beta17-fixpoint-remote-dispatcher/deploy-plan.json",
+    "sha256": "fd30f9aee2877f73a586b80ca3ca0202302e224d1f72251791ee40bde1c8384e",
+    "capability": "beta17_fixpoint_stage_dispatcher",
+    "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js"
+  },
+  "blockers": [],
+  "nextAction": "install the validated dispatcher plan on the L6+N5 host, then rerun attempt:beta17:fixpoint:remote-stage"
+}

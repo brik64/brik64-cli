@@ -5,7 +5,7 @@
   "iterId": "beta17-fixpoint-materializer-generation-request",
   "requestType": "generate_beta17_fixpoint_stage_materializer",
   "materializerMode": "l6plus_fixpoint_stage_materializer",
-  "sourceCommit": "0233e9f0291c4d102d7c79869b8d532e23030793",
+  "sourceCommit": "d71a233b3276acb5b07e5b964827bc4312f331f9",
   "status": "REQUEST_NON_CLAIM",
   "claimBoundary": {
     "publicReleaseAllowed": false,

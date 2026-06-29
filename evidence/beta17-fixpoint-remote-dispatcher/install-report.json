@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_install_report.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T05:14:34.681Z",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+  "executed": true,
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "host": "root@89.167.104.236",
+  "plan": {
+    "path": "evidence/beta17-fixpoint-remote-dispatcher/deploy-plan.json",
+    "sha256": "fd30f9aee2877f73a586b80ca3ca0202302e224d1f72251791ee40bde1c8384e",
+    "capability": "beta17_fixpoint_stage_dispatcher",
+    "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js",
+    "materializerSha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+    "materializerBytes": 8320,
+    "localMaterializerRef": {
+      "path": "generated/beta17-fixpoint-stage-materializer.js",
+      "sha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+      "bytes": 8320
+    },
+    "materializerProvenanceRef": {
+      "path": "evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json",
+      "sha256": "5393b734721efbd74febb05c5e3f999fa2983f495c72ad74a911b9647aee0d51",
+      "bytes": 2166
+    }
+  },
+  "installScript": {
+    "path": "evidence/beta17-fixpoint-remote-dispatcher/install-script.sh",
+    "sha256": "cff63f6e6eea8cca16ce69c8534319910b1441bc917cec8879eb9b582f18afc0",
+    "bytes": 2410,
+    "requiredResultMarker": "BRIK64_BETA17_FIXPOINT_STAGE_RESULT",
+    "validation": {
+      "accepted": true,
+      "blockers": [],
+      "requiredCapability": "beta17_fixpoint_stage_dispatcher",
+      "requiredCommands": [
+        "beta17-fixpoint-stage-status",
+        "beta17-fixpoint-stage-materialize"
+      ],
+      "materializerExecBinding": "/usr/bin/node /opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js"
+    }
+  },
+  "execution": {
+    "scpStatus": 0,
+    "sshStatus": 0,
+    "stdoutSha256": "31dd30d8203d6034d2b3d7194fd0ac2499afe987b39e33aa173c67c4b391ceb1",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "installResult": {
+      "status": "installed",
+      "sha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+      "host": "root@89.167.104.236"
+    }
+  },
+  "blockers": [],
+  "nextAction": "rerun attempt:beta17:fixpoint:remote-stage and promote only a non-fixture accepted result"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.harness_report.v1",
+  "decision": "PASS_BETA17_FIXPOINT_HARNESS",
+  "pass": true,
+  "adversarialCases": 3,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}
