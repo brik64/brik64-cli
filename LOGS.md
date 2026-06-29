@@ -3146,3 +3146,53 @@ Boundary:
 - This is fresh operational blocker evidence. It does not install the live
   dispatcher, execute remote mutation, generate Stage1/Stage2 artifacts, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Required inputs fail-closed gate
+
+Timestamp: 2026-06-29T03:30:00Z
+
+Task:
+- Make the current Beta17 fixpoint blocker machine-readable as a direct
+  required-inputs matrix, instead of leaving it only inside the remote-stage
+  remediation text.
+
+Change:
+- Added `scripts/beta17-fixpoint-required-inputs-gate.js`.
+- Added npm scripts `gate:beta17:fixpoint:required-inputs` and
+  `test:beta17:fixpoint:required-inputs`.
+- Added `scripts/tests/test_beta17_fixpoint_required_inputs_gate.sh`.
+- Generated live blocked report at
+  `evidence/beta17-fixpoint-required-inputs/report.json`.
+
+Live evidence:
+- Decision: `BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS`.
+- Canonical PCDs present: 4/4.
+- Canonical PCD input-set SHA-256:
+  `6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9`.
+- Current blockers:
+  `generated_materializer_argument_missing`,
+  `materializer_provenance_missing`,
+  `dispatcher_deploy_plan_missing`,
+  `dispatcher_install_report_missing`,
+  `remote_stage_attempt_not_pass`,
+  `remote_stage_attempt_accepted_attempt_count_invalid`,
+  `remote_stage_attempt_install_evidence_missing`,
+  `remote_promotion_report_missing`,
+  `remote_promotion_manifest_missing`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-required-inputs-gate.js` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- Live `npm run gate:beta17:fixpoint:required-inputs -- --quiet` failed
+  closed as expected and wrote the blocked report.
+
+Break attempts:
+- Placeholder materializer with `<base64-json>` is rejected.
+- Outside-workspace materializer path is rejected.
+- Dry-run dispatcher install evidence is rejected.
+- Blocked remote-stage evidence is rejected.
+
+Boundary:
+- This is a diagnostic/readiness hardening gate. It does not generate the
+  L6+N5 materializer, install the dispatcher, materialize Stage1/Stage2,
+  prove fixpoint or publish Beta17.

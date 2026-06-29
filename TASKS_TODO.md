@@ -394,9 +394,37 @@
       - Break attempts:
         missing marker and materializer SHA mismatch are rejected.
       - Boundary:
-        this hardens future remote mutation validation. It does not execute the
-        remote install, create real Stage1/Stage2 artifacts, prove fixpoint or
-        publish Beta17.
+      this hardens future remote mutation validation. It does not execute the
+      remote install, create real Stage1/Stage2 artifacts, prove fixpoint or
+      publish Beta17.
+
+- [x] Add a Beta17 required-inputs gate for the fixpoint path.
+      - Script:
+        `scripts/beta17-fixpoint-required-inputs-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_required_inputs_gate.sh`.
+      - NPM:
+        `gate:beta17:fixpoint:required-inputs`.
+        `test:beta17:fixpoint:required-inputs`.
+      - Result:
+        operators now have a single fail-closed report that lists the exact
+        inputs still missing before Beta17 can attempt claim-bearing remote
+        Stage1/Stage2 generation: real L6+N5-generated materializer,
+        materializer provenance, deploy plan, executed dispatcher install
+        evidence, passing remote stage attempt and promotion evidence.
+      - Live evidence:
+        `evidence/beta17-fixpoint-required-inputs/report.json` currently
+        reports `BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS` with canonical PCDs
+        present and the real materializer/provenance/install/promotion inputs
+        missing.
+      - Break attempts:
+        dry-run install evidence, blocked remote-stage evidence, placeholder
+        materializer content and outside-workspace materializer paths remain
+        rejected.
+      - Boundary:
+        this makes the blocker auditable and actionable. It does not create
+        the real L6+N5 materializer, install the dispatcher, generate
+        Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:
