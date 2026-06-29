@@ -7,11 +7,11 @@
   "artifacts": {
     "changelogMarkdown": {
       "path": "evidence/release-train-sync/changelog.md",
-      "sha256": "ac3d9bd5afbf70fa358e5c7efe3feeb0e42ddd7fec415284c6154a4f7cb68c8a"
+      "sha256": "aad04bcc0334bf2607f0bedc66ec0e437743ee3d5b18ed3b3e780870bdfcc5a2"
     },
     "syncPayload": {
       "path": "evidence/release-train-sync/sync-payload.json",
-      "sha256": "5fe485a56125790a70cc488ba73ad91079de993092a82d02814102b66ad2dc82"
+      "sha256": "5864964c4ed771a04c4e9eb6a8739e3171a9cad07dd5e6098bc7b557684e772d"
     }
   },
   "failures": [],

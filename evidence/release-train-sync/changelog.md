@@ -1,5 +1,5 @@
 ## 0.1.0-beta.17
 
-### Changed
+### Fixed
 
-- Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage.
+- Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation.

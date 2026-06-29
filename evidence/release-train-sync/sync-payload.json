@@ -4,7 +4,7 @@
   "version": "0.1.0-beta.17",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
+  "manifestDigest": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
   "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
   "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
   "sdkInstall": {
@@ -24,12 +24,12 @@
       "version": "0.1.0-beta.17"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.17\n\n### Changed\n\n- Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage.\n",
+  "changelogMarkdown": "## 0.1.0-beta.17\n\n### Fixed\n\n- Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation.\n",
   "releaseNotes": [
     {
-      "type": "changed",
+      "type": "fixed",
       "surface": "CLI package",
-      "text": "Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage."
+      "text": "Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation."
     }
   ]
 }

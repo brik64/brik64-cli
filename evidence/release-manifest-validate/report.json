@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.17",
   "state": "public",
-  "manifestDigest": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
+  "manifestDigest": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
-      "bytes": 3290
+      "sha256": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
+      "bytes": 3373
     },
     "packageJson": {
       "path": "package.json",
@@ -23,7 +23,7 @@
         "path": "evidence/beta17-fixpoint-readiness/report.json",
         "expectedDecision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
         "actualDecision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
-        "sha256": "beaf8f7ce63cb985bc89289557f7d758bdb193365602051fcf01110fd7be2011"
+        "sha256": "7212d8866df1dfcec28d9139dcdcb081f088f2e29af7f32b1dd7e028356ea13a"
       },
       {
         "id": "beta17_public_surface_sync",
@@ -47,7 +47,7 @@
         "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
         "expectedDecision": "FILE_EXISTS",
         "actualDecision": "FILE_EXISTS",
-        "sha256": "a737b81661a8da35f1b49b9814cc4fa3ee8aeb3a0daa013a863e020785758970"
+        "sha256": "d44cf9d86836d3c546966fe45d47c7ffe7ccb45a29940526b42d56cbd190ac9f"
       }
     ]
   },
@@ -55,6 +55,7 @@
   "warnings": [
     "post_publication_evidence_decision_drift:beta17_fixpoint_readiness:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
     "post_publication_evidence_decision_drift:beta17_public_surface_sync:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
-    "post_publication_evidence_decision_drift:beta17_external_audit_status:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+    "post_publication_evidence_decision_drift:beta17_external_audit_status:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+    "worktree_dirty_allowed:6"
   ]
 }
