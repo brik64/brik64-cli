@@ -122,6 +122,11 @@
   `PASS_BETA17_PUBLIC_SURFACE_SYNC` before external audit evidence can satisfy
   the release path. It reuses the strict external audit report validator and
   writes a status report under `evidence/beta17-fixpoint-external-audit-status/`.
+- Release-train Beta17 dry-run update: `release:train:dry-run` now executes
+  `gate:beta17:fixpoint:external-audit-status` explicitly for
+  `0.1.0-beta.17`, so the public release preflight cannot rely only on the
+  aggregate readiness report. The regression test also restores all Beta17
+  evidence it mutates, keeping the worktree clean after checks.
 
 ## Legacy Plan Context
 

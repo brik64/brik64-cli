@@ -20,6 +20,16 @@ cleanup() {
   else
     rm -rf evidence/cli-l6-generation-required
   fi
+  git restore --source=HEAD --worktree -- \
+    evidence/beta17-fixpoint \
+    evidence/beta17-fixpoint-readiness \
+    evidence/beta17-fixpoint-external-audit-status \
+    evidence/beta17-fixpoint-remote-attempt \
+    evidence/beta17-fixpoint-remote-dispatcher \
+    evidence/beta17-fixpoint-remote-promotion \
+    evidence/beta17-fixpoint-required-inputs >/dev/null 2>&1 || true
+  rm -f evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance-report.json
+  rm -f generated/beta17-materializer.js
   rm -rf "$TMP_DIR"
 }
 trap cleanup EXIT
@@ -124,6 +134,7 @@ jq -e '
   and (.failures | index("candidate_beta17_fixpoint_required_inputs_invalid:BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS"))
   and (.failures | index("command_failed:beta17_fixpoint_readiness:1"))
   and (.failures | index("candidate_beta17_fixpoint_readiness_invalid:BLOCKED_BETA17_FIXPOINT_READINESS_GATE"))
+  and (.failures | index("command_failed:beta17_fixpoint_external_audit_status:1"))
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .pass] | first)==false
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .pass] | first)==false
 ' evidence/release-train-dry-run/report.json >/dev/null
@@ -377,6 +388,7 @@ manifest.write_text(json.dumps(data, indent=2) + "\n")
 PY
 cat >evidence/beta17-fixpoint/public_surface_sync_report.json <<'JSON'
 {
+  "version": "0.1.0-beta.17",
   "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
   "synced": true,
   "surfaceChecks": [
@@ -403,6 +415,7 @@ jq -e '
   and .publicationAllowed==false
   and ([.commands[] | select(.name=="beta17_fixpoint_required_inputs") | .rc] | first)==0
   and ([.commands[] | select(.name=="beta17_fixpoint_readiness") | .rc] | first)==0
+  and ([.commands[] | select(.name=="beta17_fixpoint_external_audit_status") | .rc] | first)==0
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .pass] | first)==true
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .sha256] | first)==$requiredSha
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_required_inputs") | .bytes] | first)==($requiredBytes | tonumber)

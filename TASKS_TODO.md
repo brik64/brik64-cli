@@ -271,6 +271,9 @@
       - Current gate result:
         `BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE` because public sync is not
         PASS and the external audit report remains blocked placeholders.
+      - Release train integration:
+        `release:train:dry-run` now runs
+        `gate:beta17:fixpoint:external-audit-status` for `0.1.0-beta.17`.
       - Done when:
         a clean public install audit produces passing functional, generated
         code, adversarial, public-surface and claim-safe evidence artifacts.

@@ -3695,3 +3695,34 @@ Boundary:
 - This iteration creates the external-audit status gate only. It does not run
   the external audit, mutate public surfaces, publish Beta17 or open fixpoint
   claims.
+
+## Beta17 Ralph Loop Iteration - Release train external audit integration
+
+Timestamp: 2026-06-29T06:27:00Z
+
+Task:
+- Integrate the Beta17 external audit status gate into the release-train dry-run
+  path so public release preflight cannot skip external audit readiness.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` so both Beta17 candidate paths run
+  `npm run gate:beta17:fixpoint:external-audit-status`.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` to require the
+  new dry-run command and to restore all Beta17 evidence directories touched by
+  the regression fixture.
+
+Validation:
+- `npm run test:beta17:release-train-readiness` passed.
+- The regression test now leaves the worktree clean except for the intentional
+  code/test/doc changes.
+
+Break attempts:
+- Missing Beta17 readiness still fails dry-run.
+- Missing required inputs still fails dry-run.
+- External audit status failure is now represented as
+  `command_failed:beta17_fixpoint_external_audit_status:1` in the dry-run
+  failure matrix.
+
+Boundary:
+- This iteration wires the release preflight only. It does not publish Beta17,
+  sync public surfaces or run the external audit.
