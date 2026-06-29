@@ -10,7 +10,7 @@ trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
 MANIFEST_STATE="$(node -e 'const fs=require("fs"); const p="release/manifest.json"; if (!fs.existsSync(p)) { process.stdout.write("missing"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,"utf8")); process.stdout.write(m.state || "missing")')"
-if [ "$PACKAGE_VERSION" = "0.1.0-beta.17" ] && [ "$MANIFEST_STATE" = "candidate" ]; then
+if [ "$PACKAGE_VERSION" = "0.1.0-beta.17" ] && { [ "$MANIFEST_STATE" = "candidate" ] || [ "$MANIFEST_STATE" = "public" ]; }; then
   PACKAGE_PATH="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync("release/manifest.json","utf8")); process.stdout.write(m.cli.package.path)')"
   PACKAGE_SHA="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync("release/manifest.json","utf8")); process.stdout.write(m.cli.package.sha256)')"
   test -f "$ROOT_DIR/$PACKAGE_PATH"

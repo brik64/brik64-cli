@@ -1,18 +1,18 @@
 {
   "schemaVersion": "brik64.release_flow_audit_report.v1",
-  "releaseId": "brik64-0.1.0-beta.16.1",
-  "version": "0.1.0-beta.16.1",
-  "manifestDigest": "526e2fd642bed8a1eb0d606cfe1943ba9e4d06c945110c32a454567a1c10011b",
+  "releaseId": "brik64-0.1.0-beta.17",
+  "version": "0.1.0-beta.17",
+  "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
   "decision": "PASS_RELEASE_FLOW_AUDIT",
   "publicationAllowed": false,
   "boundary": "Static and local release-flow hardening audit. It verifies publication gates, public-surface coverage, and changelog hygiene without publishing.",
   "observations": [
     {
-      "releaseId": "brik64-0.1.0-beta.16.1",
-      "version": "0.1.0-beta.16.1",
-      "state": "draft",
-      "manifestDigest": "526e2fd642bed8a1eb0d606cfe1943ba9e4d06c945110c32a454567a1c10011b",
-      "currentBetaLabel": "beta16_1",
+      "releaseId": "brik64-0.1.0-beta.17",
+      "version": "0.1.0-beta.17",
+      "state": "public",
+      "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
+      "currentBetaLabel": "beta17",
       "requiredSurfaces": [
         "githubRelease",
         "curlInstaller",
@@ -22,9 +22,9 @@
         "skills"
       ],
       "requiredMarketplaces": {
-        "npm": "0.1.0-beta.16.1",
-        "pypi": "0.1.0b16.post1",
-        "crates.io": "0.1.0-beta.16.1"
+        "npm": "0.1.0-beta.17",
+        "pypi": "0.1.0b17",
+        "crates.io": "0.1.0-beta.17"
       },
       "boundary": "Carril A release-flow audit only. Does not mutate public surfaces and does not assert L6+N5 fixpoint."
     }

@@ -4523,3 +4523,49 @@ Boundary:
   local package/evidence validation. It does not approve final publication,
   external audit, public claims, formal N5, self-hosting, or definitive
   fixpoint.
+
+## 2026-06-29 - Beta17 public-mutation-ready manifest
+
+RESUME
+- lane: cli_0_1_beta / beta17-publication
+- iter_id: beta17-public-mutation-ready-manifest
+- source_sha: 5b3ab78cd1bbbc57dfa29fa1253c4061007e4336
+- current gate: release-train dry-run
+- last verdict: PASS_RELEASE_TRAIN_DRY_RUN
+- primary blocker: SDK artifacts and live public verification are not yet
+  refreshed for Beta17
+
+Change:
+- Promoted `release/manifest.json` to `state=public` for mutation-capable
+  release train execution while keeping public claims closed.
+- Updated manifest evidence to use the pre-publication mutation gate plus
+  package existence evidence instead of post-public sync/audit reports.
+- Updated README and CHANGELOG public Beta17 surfaces.
+- Added Beta17 package and package-smoke wrappers expected by release-flow
+  audit.
+- Updated `release-manifest-validate` to support `FILE_EXISTS` binary evidence.
+- Updated smoke tests to exercise the generated Beta17 package for both
+  candidate and public manifest states.
+
+Validation:
+- `npm run gate:beta17:pre-publication-mutation` passed.
+- `npm run test:beta17:pre-publication-mutation` passed.
+- `npm run gate:beta17:fixpoint:required-inputs` passed.
+- `node scripts/release-manifest-validate.js --allow-dirty` passed.
+- `npm run release:flow:audit` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed.
+- `BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js`
+  passed in dry-run mode.
+- `node scripts/release-train-publish-execute.js` stayed dry-run and did not
+  mutate public surfaces.
+- `npm test` passed.
+
+Remaining blockers:
+- SDK project versions/artifacts are still Beta16.1 while the manifest requires
+  Beta17.
+- GitHub verified-signature evidence must be refreshed after this commit lands.
+- Live verify and external audit are post-publication gates and remain stale.
+
+Boundary:
+- Beta17 is now ready for the next release-train preparation step, not yet
+  published. Public surfaces were not mutated in this iteration.

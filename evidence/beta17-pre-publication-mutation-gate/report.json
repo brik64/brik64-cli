@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "brik64.beta17_pre_publication_mutation_gate.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T09:50:48.276Z",
+  "decision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
+  "publicationMutationAllowed": true,
+  "publicationAllowed": false,
+  "checks": [
+    {
+      "id": "package_json_version",
+      "expected": "0.1.0-beta.17",
+      "actual": "0.1.0-beta.17",
+      "pass": true
+    },
+    {
+      "id": "release_manifest_pre_public",
+      "expectedVersion": "0.1.0-beta.17",
+      "actualVersion": "0.1.0-beta.17",
+      "state": "public",
+      "pass": true
+    },
+    {
+      "id": "cli_package_hash_bound",
+      "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+      "expectedSha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "actualSha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "expectedBytes": 404533,
+      "actualBytes": 404533,
+      "pass": true
+    },
+    {
+      "id": "package_manifest_candidate_ready_for_mutation",
+      "version": "0.1.0-beta.17",
+      "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
+      "releaseEligible": true,
+      "publicationAllowed": false,
+      "packagePathMatches": true,
+      "packageShaMatches": true,
+      "packageBytesMatches": true,
+      "pass": true
+    },
+    {
+      "id": "required_inputs",
+      "decision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
+      "publicationAllowed": false,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/canonical_motor_manifest.json",
+      "path": "evidence/beta17-fixpoint/canonical_motor_manifest.json",
+      "exists": true,
+      "sha256": "7a743b881f7a528e900c7496929e93daa0c8cecac4ac52f7428e3f1aff271049",
+      "bytes": 1661,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/canonical_harness_manifest.json",
+      "path": "evidence/beta17-fixpoint/canonical_harness_manifest.json",
+      "exists": true,
+      "sha256": "b547b4b42c0e8f2d45164c3c627b7706b822715aa6cdb9ba571e12cf35b1ee26",
+      "bytes": 1580,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+      "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+      "exists": true,
+      "sha256": "2bc9652b64075b9f95bfe8e936c9a93018abe34704971969946e2114d9fb7d17",
+      "bytes": 556,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "exists": true,
+      "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+      "bytes": 961,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "exists": true,
+      "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+      "bytes": 1131,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/byte_identical_report.json",
+      "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+      "exists": true,
+      "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+      "bytes": 1115,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/harness_report.json",
+      "path": "evidence/beta17-fixpoint/harness_report.json",
+      "exists": true,
+      "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+      "bytes": 450,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/seal_report.json",
+      "path": "evidence/beta17-fixpoint/seal_report.json",
+      "exists": true,
+      "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+      "bytes": 791,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/remote_promotion_manifest.json",
+      "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
+      "exists": true,
+      "sha256": "cd4cae928a624ab1f092fb926b1908569914e1e851d1ef3a1a4ce0101c9c5f61",
+      "bytes": 5924,
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/evidence_pack_manifest.json",
+      "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
+      "exists": true,
+      "sha256": "b098b32aa289bb7ded6d09bbae6e75d0546c2c77cb3bfb13efe6296bf3bfed45",
+      "bytes": 4132,
+      "pass": true
+    }
+  ],
+  "postPublicReports": [
+    {
+      "id": "public_surface_sync",
+      "ref": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+      "decision": "BLOCKED_BETA17_PUBLIC_SURFACE_SYNC"
+    },
+    {
+      "id": "external_audit_status",
+      "ref": "evidence/beta17-fixpoint-external-audit-status/report.json",
+      "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+    },
+    {
+      "id": "readiness",
+      "ref": "evidence/beta17-fixpoint-readiness/report.json",
+      "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+    }
+  ],
+  "blockers": [],
+  "warnings": [],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "boundary": "PASS allows release-train public-surface mutation only. It does not certify live public sync, external audit, public claims, formal N5, self-hosting, or definitive fixpoint."
+}

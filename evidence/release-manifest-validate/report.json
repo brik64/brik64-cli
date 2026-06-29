@@ -1,23 +1,47 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.16.1",
-  "state": "draft",
-  "manifestDigest": "526e2fd642bed8a1eb0d606cfe1943ba9e4d06c945110c32a454567a1c10011b",
+  "version": "0.1.0-beta.17",
+  "state": "public",
+  "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
-  "releaseEligible": false,
+  "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "526e2fd642bed8a1eb0d606cfe1943ba9e4d06c945110c32a454567a1c10011b",
-      "bytes": 2627
+      "sha256": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
+      "bytes": 3285
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.16.1"
+      "version": "0.1.0-beta.17"
     },
-    "evidence": []
+    "evidence": [
+      {
+        "id": "beta17_fixpoint_required_inputs",
+        "path": "evidence/beta17-fixpoint-required-inputs/report.json",
+        "expectedDecision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
+        "actualDecision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
+        "sha256": "2ce926bdd6bdad6aa634d99b411e9c542311797a75107027cc7ba7c09a42e11c"
+      },
+      {
+        "id": "beta17_pre_publication_mutation_gate",
+        "path": "evidence/beta17-pre-publication-mutation-gate/report.json",
+        "expectedDecision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
+        "actualDecision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
+        "sha256": "d470d8967f420455e78c45be40c7fa8d2e2c5d9e5545cfc419a9cf516a8c1239"
+      },
+      {
+        "id": "beta17_cli_package",
+        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+        "expectedDecision": "FILE_EXISTS",
+        "actualDecision": "FILE_EXISTS",
+        "sha256": "43a1729027d2de2ae95d79b61d92a21138564a2bd18e579beb0f812a2bc86512"
+      }
+    ]
   },
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "worktree_dirty_allowed:15"
+  ]
 }
