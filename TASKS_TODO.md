@@ -1334,3 +1334,22 @@
         this hardens the guarded install path only. It does not install the
         dispatcher on the live host, generate Stage1/Stage2 artifacts, prove
         fixpoint or publish Beta17.
+
+- [x] Bind Beta17 dispatcher install dry-run report to install-script validation and materializer refs.
+      - Script:
+        `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+      - Result:
+        install dry-run reports now include hash-bound local materializer and
+        materializer provenance refs plus the install-script validation outcome,
+        required capability, required commands and exact materializer exec
+        binding. This makes the dry-run evidence self-contained before any
+        remote mutation is attempted.
+      - Break attempts:
+        tests assert the report binds the local materializer path, provenance
+        path, validation status, required commands and materializer remote path.
+      - Boundary:
+        this improves evidence traceability for guarded install. It does not
+        install the live dispatcher, generate Stage1/Stage2 artifacts, prove
+        fixpoint or publish Beta17.

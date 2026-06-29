@@ -120,8 +120,15 @@ jq -e '
   and .publicationAllowed==false
   and .claimBoundary.definitiveFixpointAllowed==false
   and .plan.capability=="beta17_fixpoint_stage_dispatcher"
+  and .plan.localMaterializerRef.path=="generated/beta17-materializer.js"
+  and .plan.materializerProvenanceRef.path=="generated/beta17-materializer.provenance.json"
   and .installScript.path=="evidence/beta17-fixpoint-remote-dispatcher/install-script.sh"
   and .installScript.requiredResultMarker=="BRIK64_BETA17_FIXPOINT_STAGE_RESULT"
+  and .installScript.validation.accepted==true
+  and .installScript.validation.requiredCapability=="beta17_fixpoint_stage_dispatcher"
+  and (.installScript.validation.requiredCommands | index("beta17-fixpoint-stage-status"))
+  and (.installScript.validation.requiredCommands | index("beta17-fixpoint-stage-materialize"))
+  and (.plan.materializerRemotePath as $remotePath | .installScript.validation.materializerExecBinding | contains($remotePath))
   and (.nextAction | contains("--execute --confirm INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM"))
 ' "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json" >/dev/null
 

@@ -249,6 +249,7 @@ function main() {
   let plan = null;
   let installScript = null;
   let execution = null;
+  let installScriptValidation = null;
   try {
     plan = readPlan(planPath);
     const validation = validateDeployPlan(plan, { workspaceRoot: root });
@@ -264,7 +265,8 @@ function main() {
     }
     if (blockers.length === 0) {
       installScript = buildRemoteInstallScript(plan, { host });
-      blockers.push(...validateInstallScript(plan, installScript).blockers);
+      installScriptValidation = validateInstallScript(plan, installScript);
+      blockers.push(...installScriptValidation.blockers);
     }
     if (blockers.length === 0) {
       writeText(installScriptPath, installScript);
@@ -302,6 +304,20 @@ function main() {
           materializerRemotePath: plan.materializerRemotePath,
           materializerSha256: plan.materializerSha256,
           materializerBytes: plan.materializerBytes,
+          localMaterializerRef: plan.localMaterializerRef
+            ? {
+                path: plan.localMaterializerRef.path,
+                sha256: plan.localMaterializerRef.sha256,
+                bytes: plan.localMaterializerRef.bytes,
+              }
+            : null,
+          materializerProvenanceRef: plan.materializerProvenanceRef
+            ? {
+                path: plan.materializerProvenanceRef.path,
+                sha256: plan.materializerProvenanceRef.sha256,
+                bytes: plan.materializerProvenanceRef.bytes,
+              }
+            : null,
         }
       : null,
     installScript: installScript && fs.existsSync(installScriptPath)
@@ -310,6 +326,20 @@ function main() {
           sha256: sha256File(installScriptPath),
           bytes: fs.statSync(installScriptPath).size,
           requiredResultMarker: REQUIRED_RESULT_MARKER,
+          validation: installScriptValidation
+            ? {
+                accepted: installScriptValidation.accepted,
+                blockers: installScriptValidation.blockers,
+                requiredCapability: REQUIRED_CAPABILITY,
+                requiredCommands: [
+                  'beta17-fixpoint-stage-status',
+                  'beta17-fixpoint-stage-materialize',
+                ],
+                materializerExecBinding: plan?.materializerRemotePath
+                  ? `/usr/bin/node ${plan.materializerRemotePath}`
+                  : null,
+              }
+            : null,
         }
       : null,
     execution: execution

@@ -2960,3 +2960,37 @@ Boundary:
 - This improves the install gate only. It does not install the live dispatcher,
   execute remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Install dry-run evidence binding
+
+Timestamp: 2026-06-29T06:55:00Z
+
+Task:
+- Make Beta17 dispatcher install dry-run evidence self-contained enough for a
+  reviewer/operator to verify the script, materializer and provenance binding
+  before remote mutation.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-install.js` so
+  `install-report.json` includes local materializer and provenance refs plus
+  install-script validation details.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh` to
+  assert the report binds required commands, required capability and the exact
+  materializer remote path.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This binds dry-run evidence only. It does not install the live dispatcher,
+  execute remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.

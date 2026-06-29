@@ -472,3 +472,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Next gate remains the same: run the guarded install only with a real
   L6+N5-generated Beta17 materializer, then attempt remote stage and promote
   evidence only if Stage1 and Stage2 are byte-identical.
+
+- Dispatcher install dry-run report binding: `install-report.json` now records
+  the validated install-script contract together with the hash-bound local
+  materializer and materializer provenance refs from the deploy plan. This makes
+  the review artifact sufficient to answer which script was validated, which
+  materializer it would install and which provenance file authorizes that
+  materializer before executing the guarded remote install.
