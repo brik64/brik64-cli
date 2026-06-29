@@ -3359,3 +3359,43 @@ Boundary:
 - This is canonical input/request evidence only. It does not generate the
   materializer, install the dispatcher, materialize Stage1/Stage2, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer generation result validator
+
+Timestamp: 2026-06-29T05:22:00Z
+
+Task:
+- Add a parser and validator for the future L6+N5 materializer-generation
+  result so generated materializer evidence can be accepted only when it is
+  hash-bound, non-fixture and tied to the exact Beta17 request.
+
+Change:
+- Added `scripts/beta17-fixpoint-materializer-generation-result.js`.
+- Added npm script `test:beta17:fixpoint:materializer-generation-result`.
+- Added `scripts/tests/test_beta17_fixpoint_materializer_generation_result.sh`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-materializer-generation-result.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_generation_result.sh` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-result` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-request` passed.
+- `npm run test:beta17:fixpoint:materializer-route` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Wrong version is rejected.
+- Missing L6 generation booleans are rejected.
+- Wrong materializer SHA / bytes are rejected.
+- Open fixpoint claim boundary is rejected.
+- Unsafe materializer path is rejected.
+- Wrong materializer-generation request hash is rejected.
+- Missing required input PCD is rejected.
+- Detached PCD input-set hash is rejected.
+- Workspace materializer file without stage marker is rejected.
+- Placeholder `<base64-json>` marker is rejected.
+- Generation report hash mismatch is rejected.
+
+Boundary:
+- This validates future result evidence only. It does not generate the
+  materializer, install the dispatcher, materialize Stage1/Stage2, prove
+  fixpoint or publish Beta17.
