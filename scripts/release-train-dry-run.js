@@ -686,6 +686,10 @@ function candidateBranchCommands(version) {
       run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
+      }),
+      run('beta17_fixpoint_external_audit_status', ['npm', 'run', 'gate:beta17:fixpoint:external-audit-status'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
       })
     ];
   }
@@ -930,6 +934,10 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
         stderrLimit: 12000
       }),
       run('beta17_fixpoint_readiness', ['npm', 'run', 'gate:beta17:fixpoint-readiness'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      }),
+      run('beta17_fixpoint_external_audit_status', ['npm', 'run', 'gate:beta17:fixpoint:external-audit-status'], {
         stdoutLimit: 12000,
         stderrLimit: 12000
       })
