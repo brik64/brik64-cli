@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.external_audit_status_gate.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T05:46:48.543Z",
+  "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+  "checks": {
+    "publicSurfaceSyncPass": false,
+    "externalAuditValidationPass": false,
+    "externalAuditPass": false,
+    "externalAuditCleanPublicInstall": false,
+    "externalAuditFunctionalTests": false,
+    "externalAuditGeneratedCodeTests": false,
+    "externalAuditAdversarialTests": false,
+    "externalAuditPublicSurfaceScan": false,
+    "externalAuditClaimSafeScan": false
+  },
+  "blockers": [
+    "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "public_surface_sync_not_synced",
+    "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+    "external_audit_missing_clean_public_install",
+    "external_audit_missing_functional_tests",
+    "external_audit_missing_generated_code_tests",
+    "external_audit_missing_adversarial_tests",
+    "external_audit_missing_public_surface_scan",
+    "external_audit_missing_claim_safe_scan",
+    "external_audit_blocked_until_public_surface_sync_passes"
+  ],
+  "publicSurfaceSyncReportRef": {
+    "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+    "sha256": "255fb5ae6d80c009e88938868e5673005d23def88128f30d213ad6521bc15612",
+    "bytes": 3433
+  },
+  "externalAuditReportRef": {
+    "path": "evidence/beta17-fixpoint/external_audit_report.json",
+    "sha256": "93614bf303aa0412369707fd7bea4b9f5a2f1f3b5f5712dfbc55d0fe9a1b6aa7",
+    "bytes": 1885
+  },
+  "externalAuditValidation": {
+    "schemaVersion": "brik64.beta17_external_audit.validation.v1",
+    "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT_VALIDATION",
+    "checks": {
+      "externalAuditPass": false,
+      "externalAuditCleanPublicInstall": false,
+      "externalAuditFunctionalTests": false,
+      "externalAuditGeneratedCodeTests": false,
+      "externalAuditAdversarialTests": false,
+      "externalAuditPublicSurfaceScan": false,
+      "externalAuditClaimSafeScan": false,
+      "externalAuditArtifact_auditLog": true,
+      "externalAuditArtifact_generatedCodeQuality": true,
+      "externalAuditArtifact_adversarialResults": true,
+      "externalAuditArtifact_publicSurfaceScan": true,
+      "externalAuditArtifact_claimSafeScan": true
+    },
+    "blockers": [
+      "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+      "external_audit_missing_clean_public_install",
+      "external_audit_missing_functional_tests",
+      "external_audit_missing_generated_code_tests",
+      "external_audit_missing_adversarial_tests",
+      "external_audit_missing_public_surface_scan",
+      "external_audit_missing_claim_safe_scan"
+    ]
+  },
+  "nextAction": "sync Beta17 public surfaces, run external audit from public install, then regenerate this status report",
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

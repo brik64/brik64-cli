@@ -3654,3 +3654,44 @@ Current real blocker:
 Boundary:
 - This iteration creates the public-sync evidence contract. It does not mutate
   public surfaces, publish Beta17, or replace the required external audit.
+
+## Beta17 Ralph Loop Iteration - External audit status gate
+
+Timestamp: 2026-06-29T06:16:00Z
+
+Task:
+- Add a fail-closed status gate for Beta17 external audit evidence so the
+  release path cannot treat placeholders or pre-public reports as audit proof.
+
+Change:
+- Added `scripts/beta17-fixpoint-external-audit-status-gate.js`.
+- Added npm scripts `gate:beta17:fixpoint:external-audit-status` and
+  `test:beta17:fixpoint:external-audit-status`.
+- Added `scripts/tests/test_beta17_fixpoint_external_audit_status_gate.sh`.
+- Generated `evidence/beta17-fixpoint-external-audit-status/report.json` from
+  the current blocked public-sync and external-audit evidence.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-external-audit-status-gate.js` passed.
+- `npm run test:beta17:fixpoint:external-audit-status` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run gate:beta17:fixpoint:external-audit-status` failed closed as
+  expected with `BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE`.
+
+Break attempts:
+- External audit status cannot pass before public sync; blocked sync produces
+  `external_audit_blocked_until_public_surface_sync_passes`.
+- Incomplete generated-code audit fails closed with
+  `external_audit_missing_generated_code_tests`.
+- Missing external audit report fails closed with `missing_external_audit_report`.
+
+Current blockers:
+- Public sync is still blocked.
+- External audit report is still a blocked placeholder and has no passing clean
+  public install, functional, generated-code, adversarial, public-surface or
+  claim-safe evidence.
+
+Boundary:
+- This iteration creates the external-audit status gate only. It does not run
+  the external audit, mutate public surfaces, publish Beta17 or open fixpoint
+  claims.

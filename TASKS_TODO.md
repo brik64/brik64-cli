@@ -264,6 +264,13 @@
         `external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT` plus missing
         clean install, functional, generated-code, adversarial,
         public-surface and claim-safe audit checks.
+      - Status gate:
+        `scripts/beta17-fixpoint-external-audit-status-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_external_audit_status_gate.sh`.
+      - Current gate result:
+        `BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE` because public sync is not
+        PASS and the external audit report remains blocked placeholders.
       - Done when:
         a clean public install audit produces passing functional, generated
         code, adversarial, public-surface and claim-safe evidence artifacts.
