@@ -4,7 +4,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 
-rm -rf evidence/beta17-fixpoint-materializer-generator-endpoint
+TMP_ROOT="$(mktemp -d)"
+trap 'rm -rf "$TMP_ROOT"' EXIT
 
 node --check scripts/beta17-fixpoint-materializer-generator-endpoint-install.js
 
@@ -58,7 +59,7 @@ assert.strictEqual(parseInstallResult('missing'), null);
 console.log('PASS beta17 materializer generator endpoint module checks');
 NODE
 
-node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js \
+BRIK64_CLI_ROOT="$TMP_ROOT" node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js \
   >/tmp/brik64-beta17-generator-endpoint-dry-run.stdout \
   2>/tmp/brik64-beta17-generator-endpoint-dry-run.stderr
 
@@ -71,30 +72,30 @@ jq -e '
   and .endpoint.resultMarker=="BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT"
   and .installScript.validation.accepted==true
   and (.nextAction | contains("attempt:beta17:fixpoint:materializer-generation"))
-' evidence/beta17-fixpoint-materializer-generator-endpoint/install-report.json >/dev/null
+' "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/install-report.json" >/dev/null
 
 grep -q "BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_ENDPOINT" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/install-script.sh
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/install-script.sh"
 grep -q "beta17-fixpoint-materializer-generate" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/install-script.sh
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/install-script.sh"
 grep -q "BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js"
 grep -q "BRIK64_BETA17_FIXPOINT_STAGE_RESULT" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js"
 grep -q "brik64.beta17_fixpoint.materializer_provenance.v1" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js"
 grep -q "MATERIALIZER_PROVENANCE_NON_CLAIM" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js"
 grep -q "materializerRef: generatedMaterializer" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js"
 if grep -q "TEMPLATE_NON_CLAIM\\|fixtureMaterializer" \
-  evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js; then
+  "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/beta17-materializer-generator-endpoint.js"; then
   echo "endpoint_must_not_contain_fixture_or_template_marker" >&2
   exit 1
 fi
 
 set +e
-node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js \
+BRIK64_CLI_ROOT="$TMP_ROOT" node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js \
   --remote-endpoint /tmp/bad-endpoint.js \
   >/tmp/brik64-beta17-generator-endpoint-bad-path.stdout \
   2>/tmp/brik64-beta17-generator-endpoint-bad-path.stderr
@@ -107,10 +108,10 @@ fi
 jq -e '
   .decision=="BLOCKED_BETA17_MATERIALIZER_GENERATOR_ENDPOINT_INSTALL"
   and (.blockers | index("remote_endpoint_path_invalid"))
-' evidence/beta17-fixpoint-materializer-generator-endpoint/install-report.json >/dev/null
+' "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/install-report.json" >/dev/null
 
 set +e
-node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js \
+BRIK64_CLI_ROOT="$TMP_ROOT" node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js \
   --execute \
   >/tmp/brik64-beta17-generator-endpoint-no-confirm.stdout \
   2>/tmp/brik64-beta17-generator-endpoint-no-confirm.stderr
@@ -123,8 +124,8 @@ fi
 jq -e '
   .decision=="BLOCKED_BETA17_MATERIALIZER_GENERATOR_ENDPOINT_INSTALL"
   and (.blockers | index("execute_confirmation_missing"))
-' evidence/beta17-fixpoint-materializer-generator-endpoint/install-report.json >/dev/null
+' "$TMP_ROOT/evidence/beta17-fixpoint-materializer-generator-endpoint/install-report.json" >/dev/null
 
-node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js >/dev/null
+BRIK64_CLI_ROOT="$TMP_ROOT" node scripts/beta17-fixpoint-materializer-generator-endpoint-install.js >/dev/null
 
 echo "PASS beta17 materializer generator endpoint install"

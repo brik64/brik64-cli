@@ -102,6 +102,14 @@
   byte-identity/seal report binding shape drift. Publication is out of scope
   until `gate:beta17:fixpoint-readiness`, public surface sync and external
   audit all pass with fresh evidence.
+- Readiness evidence-pack update: Beta17 now has a reusable
+  `refresh:beta17:fixpoint:readiness-evidence` command that derives canonical
+  motor/harness manifests, `input_pcd_hashes.tsv`, enriched byte-identity and
+  seal reports, an evidence-pack manifest, and explicit blocked public-sync /
+  external-audit reports from the promoted remote Stage result. The refresh
+  closes the previous missing-manifest and binding-drift blockers without
+  opening publication or fixpoint claims. The readiness gate now blocks only on
+  the expected live public-surface sync and external audit evidence.
 
 ## Legacy Plan Context
 

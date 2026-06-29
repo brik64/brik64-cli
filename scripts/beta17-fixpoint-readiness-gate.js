@@ -280,9 +280,17 @@ function checkRemotePromotionSourceReport(remotePromotion, evidence, blockers) {
   if (!isSha256(installValidation?.materializerSha256)) {
     blockers.push('remote_promotion_source_report_materializer_sha256_missing');
   }
-  if (typeof installValidation?.materializerRemotePath !== 'string' || !installValidation.materializerRemotePath.includes('/beta17/')) {
+  if (!isSafeBeta17RemoteMaterializerPath(installValidation?.materializerRemotePath)) {
     blockers.push('remote_promotion_source_report_materializer_remote_path_invalid');
   }
+}
+
+function isSafeBeta17RemoteMaterializerPath(value) {
+  if (typeof value !== 'string') return false;
+  if (!value.startsWith('/opt/brik64/engines/l6plus-n5/')) return false;
+  if (!value.includes('beta17')) return false;
+  if (value.includes('\0')) return false;
+  return !value.split(/[\\/]+/).some((segment) => segment === '..');
 }
 
 function valueAt(object, dottedPath) {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint_readiness_gate.v1",
-  "generatedAt": "2026-06-29T05:14:39.892Z",
+  "generatedAt": "2026-06-29T05:31:20.768Z",
   "version": "0.1.0-beta.17",
   "expectedVersion": "0.1.0-beta.17",
   "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
@@ -24,6 +24,27 @@
     "external audit report"
   ],
   "evidence": {
+    "canonical_motor_manifest": {
+      "path": "evidence/beta17-fixpoint/canonical_motor_manifest.json",
+      "sha256": "0df1fc08b8d7517f73c9ed48dd6734f70ae852c67479f75fb1cbe42e08a0f131",
+      "sizeBytes": 1458
+    },
+    "evidence_pack_manifest": {
+      "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
+      "sha256": "4b72e20da781abfe943ea7d056ab30ab3bc150ff34a569efd79e972c6afb3542",
+      "sizeBytes": 4127
+    },
+    "canonical_harness_manifest": {
+      "path": "evidence/beta17-fixpoint/canonical_harness_manifest.json",
+      "sha256": "f564b6833581ccaa3cb41312294e300a8e26645764254a1cc6b934a01ab5fca6",
+      "sizeBytes": 1377
+    },
+    "input_pcd_hashes": {
+      "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+      "sha256": "27f851952a77fa78133d2ddefe57326b41e5a6620d71fd0ec14f45e0eef91edb",
+      "sizeBytes": 422,
+      "rows": 4
+    },
     "stage1_artifact_manifest": {
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
       "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
@@ -36,8 +57,8 @@
     },
     "byte_identical_report": {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-      "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
-      "sizeBytes": 857
+      "sha256": "8eab8fc06027ffe9636926352b48ff24250b7cfb4d890ebd4e467c457effb44c",
+      "sizeBytes": 1107
     },
     "harness_report": {
       "path": "evidence/beta17-fixpoint/harness_report.json",
@@ -46,13 +67,23 @@
     },
     "seal_report": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
-      "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
-      "sizeBytes": 421
+      "sha256": "f6d6ec0d1dcdd849559428822843a3b5f8e46b90c026dfc6074bcae338d9b883",
+      "sizeBytes": 791
     },
     "remote_promotion_manifest": {
       "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
-      "sha256": "1a2459a22a5a7c6d82822baf13c7d6c91e533b613dc60fc784525647fcb55f19",
-      "sizeBytes": 5369
+      "sha256": "d992d79cda3c02f3e6dee20df7f99daaa0e6e61d062006f4d35e7259c15a03c5",
+      "sizeBytes": 5908
+    },
+    "public_surface_sync_report": {
+      "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
+      "sizeBytes": 1044
+    },
+    "external_audit_report": {
+      "path": "evidence/beta17-fixpoint/external_audit_report.json",
+      "sha256": "93614bf303aa0412369707fd7bea4b9f5a2f1f3b5f5712dfbc55d0fe9a1b6aa7",
+      "sizeBytes": 1885
     },
     "remote_promotion_source_report": {
       "path": "evidence/beta17-fixpoint-remote-promotion/report.json",
@@ -76,6 +107,8 @@
     }
   },
   "checks": {
+    "canonicalMotorPcdBound": true,
+    "canonicalHarnessPcdBound": true,
     "stage1GeneratedByL6": true,
     "stage1VersionMatches": true,
     "stage2GeneratedByStage1": true,
@@ -86,29 +119,37 @@
     "sealPass": true,
     "remotePromotionPass": true,
     "remotePromotionClaimsClosed": true,
-    "byteIdentityBindsStage1Artifact": false,
-    "byteIdentityBindsStage2Artifact": false,
-    "byteIdentityStageSizesMatch": false,
+    "byteIdentityBindsStage1Artifact": true,
+    "byteIdentityBindsStage2Artifact": true,
+    "byteIdentityStageSizesMatch": true,
     "stage1ManifestBindsArtifact": true,
     "stage2ManifestBindsArtifact": true,
     "stage2ManifestBindsStage1Artifact": true,
-    "sealBindsStage1Artifact": false,
-    "sealBindsStage2Artifact": false,
-    "sealBindsInputPcdSet": false
+    "sealBindsStage1Artifact": true,
+    "sealBindsStage2Artifact": true,
+    "sealBindsInputPcdSet": true,
+    "publicSurfaceSyncPass": false,
+    "externalAuditPass": false,
+    "externalAuditCleanPublicInstall": false,
+    "externalAuditFunctionalTests": false,
+    "externalAuditGeneratedCodeTests": false,
+    "externalAuditAdversarialTests": false,
+    "externalAuditPublicSurfaceScan": false,
+    "externalAuditClaimSafeScan": false,
+    "externalAuditArtifact_auditLog": true,
+    "externalAuditArtifact_generatedCodeQuality": true,
+    "externalAuditArtifact_adversarialResults": true,
+    "externalAuditArtifact_publicSurfaceScan": true,
+    "externalAuditArtifact_claimSafeScan": true
   },
   "blockers": [
-    "missing_canonical_motor_manifest:evidence/beta17-fixpoint/canonical_motor_manifest.json",
-    "missing_evidence_pack_manifest:evidence/beta17-fixpoint/evidence_pack_manifest.json",
-    "missing_canonical_harness_manifest:evidence/beta17-fixpoint/canonical_harness_manifest.json",
-    "missing_input_pcd_hashes:evidence/beta17-fixpoint/input_pcd_hashes.tsv",
-    "missing_public_surface_sync_report:evidence/beta17-fixpoint/public_surface_sync_report.json",
-    "missing_external_audit_report:evidence/beta17-fixpoint/external_audit_report.json",
-    "remote_promotion_source_report_materializer_remote_path_invalid",
-    "byte_identity_stage1_artifact_sha256_mismatch",
-    "byte_identity_stage2_artifact_sha256_mismatch",
-    "byte_identity_stage_artifact_size_mismatch",
-    "seal_stage1_artifact_sha256_mismatch",
-    "seal_stage2_artifact_sha256_mismatch",
-    "seal_input_pcd_set_sha256_mismatch"
+    "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+    "external_audit_missing_clean_public_install",
+    "external_audit_missing_functional_tests",
+    "external_audit_missing_generated_code_tests",
+    "external_audit_missing_adversarial_tests",
+    "external_audit_missing_public_surface_scan",
+    "external_audit_missing_claim_safe_scan"
   ]
 }

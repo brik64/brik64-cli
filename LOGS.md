@@ -3561,3 +3561,55 @@ Boundary:
   Stage1/Stage2 byte-identical evidence promoted locally. It is not ready for
   public release, external claims or definitive fixpoint until readiness,
   public sync and external audit pass.
+
+## Beta17 Ralph Loop Iteration - Readiness evidence pack refresh
+
+Timestamp: 2026-06-29T05:27:00Z
+
+Task:
+- Close the package-level Beta17 readiness evidence blockers without opening
+  public release, self-hosting, formal N5 or definitive fixpoint claims.
+
+Change:
+- Added `scripts/beta17-fixpoint-readiness-evidence-refresh.js`.
+- Added npm scripts `refresh:beta17:fixpoint:readiness-evidence` and
+  `test:beta17:fixpoint:readiness-evidence-refresh`.
+- Added `scripts/tests/test_beta17_fixpoint_readiness_evidence_refresh.sh`.
+- Updated the generated Beta17 materializer template so future byte-identity
+  and seal reports expose the top-level bindings expected by the readiness
+  gate.
+- Isolated `scripts/tests/test_beta17_fixpoint_materializer_generator_endpoint_install.sh`
+  with `BRIK64_CLI_ROOT` so test dry-runs and negative cases no longer
+  overwrite live endpoint-install evidence.
+- Hardened readiness validation for remote materializer paths: paths must stay
+  under `/opt/brik64/engines/l6plus-n5/`, include `beta17`, and reject null or
+  `..` traversal segments.
+- Refreshed live candidate evidence under `evidence/beta17-fixpoint/`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-readiness-evidence-refresh.js` passed.
+- `npm run test:beta17:fixpoint:readiness-evidence-refresh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:fixpoint:materializer-generator-endpoint-install` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run refresh:beta17:fixpoint:readiness-evidence` passed.
+- `npm run gate:beta17:fixpoint-readiness` remains intentionally blocked.
+
+Break attempts:
+- Missing Stage result fails closed with `missing_stage_result`.
+- Empty `inputPcds` in the Stage result fails closed with
+  `stage_result_input_pcds_missing`.
+- Tampered input PCD content fails closed with
+  `input_pcd_sha256_mismatch:pcd/cli_core.pcd`.
+
+Current blockers:
+- `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+- `external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT`.
+- Missing external audit proof flags for clean public install, functional tests,
+  generated-code tests, adversarial tests, public-surface scan and claim-safe
+  scan.
+
+Boundary:
+- This iteration produces CANDIDATE_NON_CLAIM readiness evidence only. It does
+  not publish Beta17, authorize public fixpoint claims, or replace the required
+  public-surface sync and external audit campaigns.

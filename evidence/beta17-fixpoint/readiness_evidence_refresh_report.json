@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.readiness_evidence_refresh.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T05:31:20.584Z",
+  "decision": "PASS_BETA17_FIXPOINT_READINESS_EVIDENCE_REFRESH",
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "stageResultRef": {
+    "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json",
+    "sha256": "57df720ecb2fe6748ed3cbfb1cf09405a515ff3d33d3687b8194f7c35ffc9eb2",
+    "bytes": 12493
+  },
+  "refreshedRemotePromotionManifestRef": {
+    "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
+    "sha256": "d992d79cda3c02f3e6dee20df7f99daaa0e6e61d062006f4d35e7259c15a03c5",
+    "bytes": 5908
+  },
+  "evidencePackManifestRef": {
+    "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
+    "sha256": "941b9cbeff4ca9663d65e88ea85f020708643b7c3c1cc31a1cbb7e326b80385f",
+    "files": 19
+  },
+  "nextExpectedBlockers": [
+    "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT"
+  ]
+}

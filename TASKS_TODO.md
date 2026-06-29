@@ -219,8 +219,46 @@
         public/fixpoint/formal claim boundaries by default and produces a
         deterministic pack hash over the file refs.
       - Boundary:
-      this strengthens evidence indexing only. It does not create real
-      Stage1/Stage2 materialization evidence or authorize Beta17 publication.
+        this strengthens evidence indexing only. It does not create real
+        Stage1/Stage2 materialization evidence or authorize Beta17 publication.
+
+- [x] Refresh Beta17 readiness evidence pack from promoted remote Stage result.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-evidence-refresh.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_evidence_refresh.sh`.
+      - NPM:
+        `refresh:beta17:fixpoint:readiness-evidence`.
+        `test:beta17:fixpoint:readiness-evidence-refresh`.
+      - Result:
+        the refresh command writes canonical motor/harness manifests,
+        `input_pcd_hashes.tsv`, enriched byte-identity/seal reports, blocked
+        public-sync and external-audit reports, and a current evidence-pack
+        manifest. `gate:beta17:fixpoint-readiness` no longer reports missing
+        canonical manifests or Stage binding drift.
+      - Boundary:
+        generated public-sync and external-audit reports are intentionally
+        blocked placeholders. They prevent a false-green release and do not
+        authorize publication or public fixpoint claims.
+
+- [ ] Execute Beta17 public-surface sync from fixed package/evidence refs.
+      - Current explicit blocker:
+        `gate:beta17:fixpoint-readiness` reports
+        `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+      - Done when:
+        installer, manifest, docs, web, skills and changelog are synced to the
+        exact Beta17 artifact refs and a fresh
+        `PASS_BETA17_PUBLIC_SURFACE_SYNC` report is present.
+
+- [ ] Execute Beta17 external audit from public surfaces.
+      - Current explicit blocker:
+        `gate:beta17:fixpoint-readiness` reports
+        `external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT` plus missing
+        clean install, functional, generated-code, adversarial,
+        public-surface and claim-safe audit checks.
+      - Done when:
+        a clean public install audit produces passing functional, generated
+        code, adversarial, public-surface and claim-safe evidence artifacts.
 
 - [x] Make Beta17 remote attempts report the endpoint installation contract.
       - Script:

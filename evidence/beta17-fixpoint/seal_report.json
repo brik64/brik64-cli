@@ -2,12 +2,16 @@
   "schemaVersion": "brik64.beta17_fixpoint.seal_report.v1",
   "decision": "PASS_BETA17_FIXPOINT_SEAL",
   "sealed": true,
+  "stage1ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+  "stage2ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+  "inputPcdSetSha256": "27f851952a77fa78133d2ddefe57326b41e5a6620d71fd0ec14f45e0eef91edb",
+  "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,
-    "publicClaimsAllowed": false,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   }

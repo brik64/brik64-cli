@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.evidence_pack_manifest.v1",
+  "version": "0.1.0-beta.17",
+  "status": "CANDIDATE_NON_CLAIM",
+  "generatedAt": "2026-06-29T05:31:20.585Z",
+  "files": [
+    {
+      "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+      "sha256": "8eab8fc06027ffe9636926352b48ff24250b7cfb4d890ebd4e467c457effb44c",
+      "bytes": 1107
+    },
+    {
+      "path": "evidence/beta17-fixpoint/canonical_harness_manifest.json",
+      "sha256": "f564b6833581ccaa3cb41312294e300a8e26645764254a1cc6b934a01ab5fca6",
+      "bytes": 1377
+    },
+    {
+      "path": "evidence/beta17-fixpoint/canonical_motor_manifest.json",
+      "sha256": "0df1fc08b8d7517f73c9ed48dd6734f70ae852c67479f75fb1cbe42e08a0f131",
+      "bytes": 1458
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/adversarialResults.md",
+      "sha256": "db469520163af8a3bb8f3f6dc120fe3b65fc1fec2f8913662469163002eec0c3",
+      "bytes": 97
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/auditLog.md",
+      "sha256": "3ec32ccb4165f81a5ce735ac78e6e839c41c2bba3028e3c05679cc873dcf8403",
+      "bytes": 87
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/claimSafeScan.md",
+      "sha256": "83b96a4e0e4b70912cfdbe526aa78fb5ee4ba59e5181395fa2a67c0ad941231e",
+      "bytes": 92
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/generatedCodeQuality.md",
+      "sha256": "66263d9d3f2468e70942453058a029afce6d59ebcd89b66987fd04a18445fe55",
+      "bytes": 99
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit-placeholders/publicSurfaceScan.md",
+      "sha256": "e8560e556a930e9483292543ebb9fa1d0f0637ed4783e1c749befff7a1b71e0d",
+      "bytes": 96
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external_audit_report.json",
+      "sha256": "93614bf303aa0412369707fd7bea4b9f5a2f1f3b5f5712dfbc55d0fe9a1b6aa7",
+      "bytes": 1885
+    },
+    {
+      "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+      "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+      "bytes": 1473
+    },
+    {
+      "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+      "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+      "bytes": 1473
+    },
+    {
+      "path": "evidence/beta17-fixpoint/harness_report.json",
+      "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+      "bytes": 450
+    },
+    {
+      "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+      "sha256": "27f851952a77fa78133d2ddefe57326b41e5a6620d71fd0ec14f45e0eef91edb",
+      "bytes": 422
+    },
+    {
+      "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
+      "bytes": 1044
+    },
+    {
+      "path": "evidence/beta17-fixpoint/readiness_evidence_refresh_report.json",
+      "sha256": "0d1669f8c2a7ba6b28f72e8e6a3a351db24af407c045e2e6b1d49c98e3042f3a",
+      "bytes": 1354
+    },
+    {
+      "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
+      "sha256": "d992d79cda3c02f3e6dee20df7f99daaa0e6e61d062006f4d35e7259c15a03c5",
+      "bytes": 5908
+    },
+    {
+      "path": "evidence/beta17-fixpoint/seal_report.json",
+      "sha256": "f6d6ec0d1dcdd849559428822843a3b5f8e46b90c026dfc6074bcae338d9b883",
+      "bytes": 791
+    },
+    {
+      "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
+      "bytes": 918
+    },
+    {
+      "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
+      "bytes": 837
+    }
+  ],
+  "packSha256": "bcdb92032b3c84cc47c25b422a090f2df7627c72632038fc7f43a0a3c9138572",
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  }
+}
