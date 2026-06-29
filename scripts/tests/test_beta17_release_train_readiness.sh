@@ -226,7 +226,7 @@ cat >evidence/beta17-fixpoint/remote_promotion_manifest.json <<'JSON'
 }
 JSON
 python3 - evidence/beta17-fixpoint <<'PY'
-import hashlib, pathlib, sys
+import hashlib, json, pathlib, sys
 root = pathlib.Path(sys.argv[1])
 manifest = root / "remote_promotion_manifest.json"
 text = manifest.read_text()
@@ -240,7 +240,16 @@ for token, filename in {
     "__STAGE2_ARTIFACT_SHA__": "generated/stage2/brik64-cli-stage2.mjs",
 }.items():
     text = text.replace(token, hashlib.sha256((root / filename).read_bytes()).hexdigest())
-manifest.write_text(text)
+data = json.loads(text)
+for key in ("stage1Artifact", "stage2Artifact"):
+    ref = data["promoted"][key]
+    target = root.parent.parent / ref["path"]
+    ref["target"] = {
+        "path": ref["path"],
+        "sha256": ref["sha256"],
+        "bytes": target.stat().st_size,
+    }
+manifest.write_text(json.dumps(data, indent=2) + "\n")
 PY
 cat >evidence/beta17-fixpoint/public_surface_sync_report.json <<'JSON'
 {

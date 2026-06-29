@@ -213,7 +213,7 @@ cat >"$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'JSON'
 }
 JSON
 python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
-import hashlib, pathlib, sys
+import hashlib, json, pathlib, sys
 root = pathlib.Path(sys.argv[1])
 manifest = root / "remote_promotion_manifest.json"
 text = manifest.read_text()
@@ -228,7 +228,15 @@ for token, filename in {
 }.items():
     digest = hashlib.sha256((root / filename).read_bytes()).hexdigest()
     text = text.replace(token, digest)
-manifest.write_text(text)
+data = json.loads(text)
+for key in ("stage1Artifact", "stage2Artifact"):
+    ref = data["promoted"][key]
+    ref["target"] = {
+        "path": ref["path"],
+        "sha256": ref["sha256"],
+        "bytes": (root.parent.parent / ref["path"]).stat().st_size,
+    }
+manifest.write_text(json.dumps(data, indent=2) + "\n")
 PY
 cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON'
 {
@@ -537,6 +545,45 @@ root = pathlib.Path(sys.argv[1])
 manifest = root / "remote_promotion_manifest.json"
 data = json.load(open(manifest))
 data["promoted"]["stage2Artifact"]["sha256"] = hashlib.sha256((root / "generated/stage2/brik64-cli-stage2.mjs").read_bytes()).hexdigest()
+json.dump(data, open(manifest, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["promoted"]["stage2Artifact"].pop("target", None)
+json.dump(data, open(path, "w"), indent=2)
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/promoted-target-missing.stdout" 2>"$TMP_DIR/promoted-target-missing.stderr"
+promoted_target_missing_rc=$?
+set -e
+
+if [[ "$promoted_target_missing_rc" -eq 0 ]]; then
+  echo "promoted_target_missing_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("remote_promotion_missing_target_ref:stage2Artifact"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+manifest = root / "remote_promotion_manifest.json"
+data = json.load(open(manifest))
+stage2 = root / "generated/stage2/brik64-cli-stage2.mjs"
+data["promoted"]["stage2Artifact"]["target"] = {
+    "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+    "sha256": hashlib.sha256(stage2.read_bytes()).hexdigest(),
+    "bytes": stage2.stat().st_size,
+}
 json.dump(data, open(manifest, "w"), indent=2)
 PY
 write_evidence_pack_manifest "$FIXTURE"

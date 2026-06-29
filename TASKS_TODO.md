@@ -948,3 +948,16 @@
       - Boundary:
         this hardens evidence metadata integrity. It does not create real
         L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+- [x] Beta17 readiness requires promoted target refs.
+      - Gate:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`.
+      - Goal:
+        require promoted Stage artifacts to include `target` refs that match
+        the canonical file path, SHA-256 and byte count evaluated by readiness.
+      - Boundary:
+        this rejects stale or pre-target-verification promotion manifests. It
+        does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+        publish Beta17.

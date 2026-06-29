@@ -2169,3 +2169,29 @@ Evidence:
 Boundary:
 - This validates evidence ref metadata integrity. It does not generate real
   L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Readiness promoted target refs
+
+Timestamp: 2026-06-29T00:17:20Z
+
+Task:
+- Make Beta17 readiness reject remote promotion manifests that do not include
+  target-copy proof for promoted Stage artifacts.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` so promoted Stage
+  artifact refs must include `target.path`, `target.sha256` and `target.bytes`
+  matching the canonical file evaluated by readiness.
+- Updated `scripts/tests/test_beta17_fixpoint_readiness_gate.sh` to generate
+  target refs in the positive fixture and fail closed when a promoted artifact
+  target ref is missing.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+
+Boundary:
+- This validates readiness consumption of target-copy proof. It does not
+  generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.

@@ -147,19 +147,37 @@ function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) 
     blockers.push(`remote_promotion_ref_sha256_invalid:${promotedKey}`);
     return;
   }
+  const target = promoted.target;
+  if (!target || typeof target !== 'object') {
+    blockers.push(`remote_promotion_missing_target_ref:${promotedKey}`);
+    return;
+  }
+  if (target.path !== promoted.path) {
+    blockers.push(`remote_promotion_target_path_mismatch:${promotedKey}`);
+  }
+  if (String(target.sha256 || '').toLowerCase() !== String(promoted.sha256 || '').toLowerCase()) {
+    blockers.push(`remote_promotion_target_sha256_mismatch:${promotedKey}`);
+  }
+  if (!Number.isInteger(target.bytes) || target.bytes < 1) {
+    blockers.push(`remote_promotion_target_bytes_invalid:${promotedKey}`);
+  }
   const file = path.join(root, promoted.path);
   if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
     blockers.push(`remote_promotion_ref_file_missing:${promotedKey}:${promoted.path}`);
     return;
   }
   const actualSha = sha256File(file);
+  const actualSize = fs.statSync(file).size;
   evidence[`remote_promotion_${promotedKey}`] = {
     path: promoted.path,
     sha256: actualSha,
-    sizeBytes: fs.statSync(file).size,
+    sizeBytes: actualSize,
   };
   if (actualSha.toLowerCase() !== String(promoted.sha256 || '').toLowerCase()) {
     blockers.push(`remote_promotion_ref_file_sha256_mismatch:${promotedKey}:${promoted.path}`);
+  }
+  if (Number.isInteger(target?.bytes) && actualSize !== target.bytes) {
+    blockers.push(`remote_promotion_target_bytes_mismatch:${promotedKey}:${promoted.path}`);
   }
 }
 
