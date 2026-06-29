@@ -6,7 +6,7 @@
   "state": "public",
   "source": {
     "commit": "73c7092f305d51cc3a09ec99240fbdc9b04c496a",
-    "commitBinding": "release_ref_exact"
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "package": {
