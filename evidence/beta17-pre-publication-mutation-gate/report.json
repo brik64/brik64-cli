@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_pre_publication_mutation_gate.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T09:50:48.276Z",
+  "generatedAt": "2026-06-29T09:53:10.424Z",
   "decision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
   "publicationMutationAllowed": true,
   "publicationAllowed": false,

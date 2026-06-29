@@ -11,37 +11,21 @@
   "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [
-    "CHANGELOG.md",
-    "IMPLEMENTATION_PLAN.md",
-    "LOGS.md",
-    "README.md",
-    "TASKS_TODO.md",
-    "evidence/beta17-candidate-release-train-gate/report.json",
-    "evidence/beta17-fixpoint-publication-preflight/report.json",
-    "evidence/beta17-fixpoint-required-inputs/report.json",
-    "release/manifest.json",
-    "scripts/release-flow-audit.js",
-    "scripts/release-manifest-validate.js",
-    "tests/smoke.sh",
-    "evidence/beta17-pre-publication-mutation-gate/",
-    "scripts/beta17-package-smoke.sh",
-    "scripts/build-beta17-package.js"
-  ],
+  "initialDirtyFiles": [],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 158,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.17\nwarnings=worktree_dirty_allowed:15\n",
+      "elapsedMs": 142,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.17\n",
       "stderr": ""
     },
     {
       "name": "release_flow_audit",
       "command": "npm run release:flow:audit",
       "rc": 0,
-      "elapsedMs": 247,
+      "elapsedMs": 238,
       "stdout": "\n> @brik64/cli@0.1.0-beta.17 release:flow:audit\n> node scripts/release-flow-audit.js\n\ndecision=PASS_RELEASE_FLOW_AUDIT\npublicationAllowed=false\n",
       "stderr": ""
     },
@@ -49,15 +33,15 @@
       "name": "smoke_tests",
       "command": "bash -lc BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh",
       "rc": 0,
-      "elapsedMs": 773,
+      "elapsedMs": 1324,
       "stdout": "",
-      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/private/tmp/brik64-cli-beta17-fixpoint\n+ BRIK=/private/tmp/brik64-cli-beta17-fixpoint/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.17\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/config\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' 0.1.0-beta.17 = 0.1.0-beta.17 ']'\n+ '[' public = candidate ']'\n+ '[' public = public ']'\n++ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\"release/manifest.json\",\"utf8\")); process.stdout.write(m.cli.package.path)'\n+ PACKAGE_PATH=evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz\n++ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\"release/manifest.json\",\"utf8\")); process.stdout.write(m.cli.package.sha256)'\n+ PACKAGE_SHA=526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac\n+ test -f /private/tmp/brik64-cli-beta17-fixpoint/evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz\n++ shasum -a 256 /private/tmp/brik64-cli-beta17-fixpoint/evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz\n++ awk '{print $1}'\n+ ACTUAL_SHA=526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac\n+ test 526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac = 526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac\n+ mkdir -p /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package\n+ tar -xzf /private/tmp/brik64-cli-beta17-fixpoint/evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz -C /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package\n+ BETA17_BRIK=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js --version\n+ grep -q 0.1.0-beta.17\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js certify\n+ grep -q 'certify command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js verify\n+ grep -q 'verify command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js emit\n+ grep -q 'emit command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js polymerize\n+ grep -q 'polymerize command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js lift\n+ grep -q 'lift command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js 'engine status'\n+ grep -q 'engine status command'\n+ exit 0\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.3IpMHqpqZW\n"
+      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/private/tmp/brik64-cli-beta17-fixpoint\n+ BRIK=/private/tmp/brik64-cli-beta17-fixpoint/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.17\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/config\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' 0.1.0-beta.17 = 0.1.0-beta.17 ']'\n+ '[' public = candidate ']'\n+ '[' public = public ']'\n++ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\"release/manifest.json\",\"utf8\")); process.stdout.write(m.cli.package.path)'\n+ PACKAGE_PATH=evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz\n++ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\"release/manifest.json\",\"utf8\")); process.stdout.write(m.cli.package.sha256)'\n+ PACKAGE_SHA=526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac\n+ test -f /private/tmp/brik64-cli-beta17-fixpoint/evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz\n++ awk '{print $1}'\n++ shasum -a 256 /private/tmp/brik64-cli-beta17-fixpoint/evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz\n+ ACTUAL_SHA=526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac\n+ test 526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac = 526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac\n+ mkdir -p /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package\n+ tar -xzf /private/tmp/brik64-cli-beta17-fixpoint/evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz -C /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package\n+ BETA17_BRIK=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js --version\n+ grep -q 0.1.0-beta.17\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js certify\n+ grep -q 'certify command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js verify\n+ grep -q 'verify command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js emit\n+ grep -q 'emit command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js polymerize\n+ grep -q 'polymerize command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js lift\n+ grep -q 'lift command'\n+ node /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn/beta17-package/brik64-cli-0.1.0-beta.17/src/brik.js 'engine status'\n+ grep -q 'engine status command'\n+ exit 0\n+ cleanup\n+ rm -rf /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.DRnieJpDJn\n"
     },
     {
       "name": "beta17_fixpoint_required_inputs",
       "command": "npm run gate:beta17:fixpoint:required-inputs",
       "rc": 0,
-      "elapsedMs": 257,
+      "elapsedMs": 298,
       "stdout": "\n> @brik64/cli@0.1.0-beta.17 gate:beta17:fixpoint:required-inputs\n> node scripts/beta17-fixpoint-required-inputs-gate.js\n\nPASS_BETA17_FIXPOINT_REQUIRED_INPUTS evidence/beta17-fixpoint-required-inputs/report.json\n",
       "stderr": ""
     },
@@ -65,7 +49,7 @@
       "name": "beta17_pre_publication_mutation_gate",
       "command": "npm run gate:beta17:pre-publication-mutation",
       "rc": 0,
-      "elapsedMs": 259,
+      "elapsedMs": 237,
       "stdout": "\n> @brik64/cli@0.1.0-beta.17 gate:beta17:pre-publication-mutation\n> node scripts/beta17-pre-publication-mutation-gate.js\n\ndecision=PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE\npublicationMutationAllowed=true\npublicationAllowed=false\n",
       "stderr": ""
     },
@@ -73,7 +57,7 @@
       "name": "sync_surfaces",
       "command": "node scripts/release-train-sync-surfaces.js",
       "rc": 0,
-      "elapsedMs": 69,
+      "elapsedMs": 71,
       "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
       "stderr": ""
     },
@@ -81,16 +65,16 @@
       "name": "publish_plan",
       "command": "bash -lc BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js",
       "rc": 0,
-      "elapsedMs": 114,
-      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=github_verified_signature_commit_drift:48b817c050448492dae3a5bbc7602610523c5bda:5b3ab78cd1bbbc57dfa29fa1253c4061007e4336,dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift,sdk_project_version_mismatch:npm:0.1.0-beta.16.1:0.1.0-beta.17,sdk_artifact_missing:npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.17.tgz,sdk_project_version_mismatch:pypi:0.1.0b16.post1:0.1.0b17,sdk_artifact_missing:pypi:brik64-0.1.0b17*,sdk_project_version_mismatch:crates.io:0.1.0-beta.16.1:0.1.0-beta.17\n",
+      "elapsedMs": 124,
+      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=github_verified_signature_commit_drift:48b817c050448492dae3a5bbc7602610523c5bda:740a6c0380b4f777a7cf8ba039fa3436fe8f7c85,dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift,sdk_project_version_mismatch:npm:0.1.0-beta.16.1:0.1.0-beta.17,sdk_artifact_missing:npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.17.tgz,sdk_project_version_mismatch:pypi:0.1.0b16.post1:0.1.0b17,sdk_artifact_missing:pypi:brik64-0.1.0b17*,sdk_project_version_mismatch:crates.io:0.1.0-beta.16.1:0.1.0-beta.17\n",
       "stderr": ""
     },
     {
       "name": "publish_execute_dry_run",
       "command": "node scripts/release-train-publish-execute.js",
       "rc": 0,
-      "elapsedMs": 206,
-      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:15\n",
+      "elapsedMs": 165,
+      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN_WITH_BLOCKERS\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:2\n",
       "stderr": ""
     }
   ],

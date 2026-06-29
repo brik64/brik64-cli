@@ -22,14 +22,14 @@
         "path": "evidence/beta17-fixpoint-required-inputs/report.json",
         "expectedDecision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
         "actualDecision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
-        "sha256": "2ce926bdd6bdad6aa634d99b411e9c542311797a75107027cc7ba7c09a42e11c"
+        "sha256": "9e4d5b145e6023f622178b0ea8a6085e1e10e265b872fca6e671ed6aab73a61b"
       },
       {
         "id": "beta17_pre_publication_mutation_gate",
         "path": "evidence/beta17-pre-publication-mutation-gate/report.json",
         "expectedDecision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
         "actualDecision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
-        "sha256": "d470d8967f420455e78c45be40c7fa8d2e2c5d9e5545cfc419a9cf516a8c1239"
+        "sha256": "34e7a2f0e68d930914974f6eeafdccd54fe7d0d2f5cf1fccc3011c1a4b3fd45e"
       },
       {
         "id": "beta17_cli_package",
@@ -41,7 +41,5 @@
     ]
   },
   "failures": [],
-  "warnings": [
-    "worktree_dirty_allowed:15"
-  ]
+  "warnings": []
 }
