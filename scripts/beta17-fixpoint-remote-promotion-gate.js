@@ -107,6 +107,78 @@ function rejectFixture(value, blockers, key) {
   }
 }
 
+function validateInstallEvidence(report, blockers, evidence) {
+  const installEvidence = report?.installEvidence || null;
+  if (!installEvidence || typeof installEvidence !== 'object') {
+    blockers.push('remote_attempt_install_evidence_missing');
+    return null;
+  }
+  const installReportRef = fileRefExists(
+    installEvidence.reportRef,
+    blockers,
+    'remote_attempt_install_report_ref',
+  );
+  if (!installReportRef) return null;
+  evidence.remoteAttemptInstallReport = installReportRef;
+  const installReport = readJson(path.resolve(root, installEvidence.reportRef.path));
+  if (installReport.schemaVersion !== 'brik64.beta17_fixpoint.remote_dispatcher_install_report.v1') {
+    blockers.push(`remote_attempt_install_report_schema_invalid:${installReport.schemaVersion || 'missing'}`);
+  }
+  if (installReport.version !== '0.1.0-beta.17') {
+    blockers.push(`remote_attempt_install_report_version_mismatch:${installReport.version || 'missing'}`);
+  }
+  if (installReport.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL') {
+    blockers.push(`remote_attempt_install_report_not_executed:${installReport.decision || 'missing'}`);
+  }
+  if (installReport.executed !== true) {
+    blockers.push('remote_attempt_install_report_executed_false');
+  }
+  if (installReport.publicationAllowed !== false) {
+    blockers.push('remote_attempt_install_report_publication_open');
+  }
+  if (installReport.claimBoundary?.definitiveFixpointAllowed !== false) {
+    blockers.push('remote_attempt_install_report_fixpoint_open');
+  }
+  if (installReport.plan?.capability !== 'beta17_fixpoint_stage_dispatcher') {
+    blockers.push(`remote_attempt_install_report_capability_invalid:${installReport.plan?.capability || 'missing'}`);
+  }
+  if (installReport.installScript?.validation?.accepted !== true) {
+    blockers.push('remote_attempt_install_report_script_validation_not_accepted');
+  }
+  if (!installReport.installScript?.validation?.requiredCommands?.includes('beta17-fixpoint-stage-materialize')) {
+    blockers.push('remote_attempt_install_report_materialize_command_missing');
+  }
+  if (!String(installReport.installScript?.validation?.materializerExecBinding || '').includes(String(installReport.plan?.materializerRemotePath || ''))) {
+    blockers.push('remote_attempt_install_report_materializer_exec_binding_mismatch');
+  }
+  if (
+    installEvidence.materializerSha256 &&
+    installReport.plan?.materializerSha256 &&
+    installEvidence.materializerSha256 !== installReport.plan.materializerSha256
+  ) {
+    blockers.push('remote_attempt_install_evidence_materializer_sha256_mismatch');
+  }
+  if (
+    installEvidence.materializerRemotePath &&
+    installReport.plan?.materializerRemotePath &&
+    installEvidence.materializerRemotePath !== installReport.plan.materializerRemotePath
+  ) {
+    blockers.push('remote_attempt_install_evidence_materializer_remote_path_mismatch');
+  }
+  if (installEvidence.installScriptRef?.sha256 && installReport.installScript?.sha256) {
+    if (installEvidence.installScriptRef.sha256 !== installReport.installScript.sha256) {
+      blockers.push('remote_attempt_install_evidence_script_sha256_mismatch');
+    }
+  }
+  evidence.remoteAttemptInstallReportValidation = {
+    decision: installReport.decision,
+    executed: installReport.executed,
+    materializerSha256: installReport.plan?.materializerSha256 || null,
+    materializerRemotePath: installReport.plan?.materializerRemotePath || null,
+  };
+  return installReport;
+}
+
 function main() {
   fs.mkdirSync(outDir, { recursive: true });
   const blockers = [];
@@ -143,6 +215,7 @@ function main() {
       blockers.push('remote_attempt_universal_correctness_claim_open');
     }
     if (report.skipped === true) blockers.push('remote_attempt_was_skipped');
+    validateInstallEvidence(report, blockers, evidence);
 
     let validatedRequest = null;
     const requestRef = fileRefExists(report.request, blockers, 'remote_attempt_request_ref');

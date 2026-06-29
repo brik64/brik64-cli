@@ -486,3 +486,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   install decision, closed claim boundary, accepted install-script validation,
   required materialize command and materializer/provenance refs. Missing or
   dry-run-only install evidence is a hard blocker.
+
+- Remote promotion install-evidence binding: `gate:beta17:fixpoint:remote-promotion`
+  now requires the accepted remote attempt to include `installEvidence.reportRef`
+  bound to an executed Beta17 dispatcher install report. A passing remote stage
+  attempt without executed dispatcher install evidence is no longer promotable.
+  `promote:beta17:fixpoint:remote-result` inherits this gate because it invokes
+  the remote promotion gate before copying canonical evidence.

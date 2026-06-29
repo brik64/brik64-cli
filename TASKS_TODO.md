@@ -1372,3 +1372,22 @@
         this blocks premature remote stage execution. It does not create or
         install the real dispatcher, generate Stage1/Stage2 artifacts, prove
         fixpoint or publish Beta17.
+
+- [x] Bind Beta17 remote promotion to executed dispatcher install evidence.
+      - Script:
+        `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`,
+        `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`.
+      - Result:
+        remote promotion now rejects accepted remote attempts that do not carry
+        hash-bound executed dispatcher install evidence. The install report must
+        show executed PASS, closed claim boundaries, Beta17 capability, accepted
+        install-script validation, materialize command and materializer binding.
+      - Break attempts:
+        tests mutate the referenced install report to dry-run/not-executed and
+        prove promotion fails closed with install-report blockers.
+      - Boundary:
+        this hardens promotion only. It does not create or install the real
+        dispatcher, generate Stage1/Stage2 artifacts, prove fixpoint or publish
+        Beta17.

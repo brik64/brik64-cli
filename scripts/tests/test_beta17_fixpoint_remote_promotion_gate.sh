@@ -7,7 +7,9 @@ cleanup() { rm -rf "$TMP_DIR"; }
 trap cleanup EXIT
 
 FIXTURE="$TMP_DIR/fixture"
-mkdir -p "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts" "$FIXTURE/evidence/beta17-fixpoint-stage-request"
+mkdir -p "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts" \
+  "$FIXTURE/evidence/beta17-fixpoint-stage-request" \
+  "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher"
 mkdir -p "$FIXTURE/pcd/beta17/release"
 cp "$ROOT/pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd" \
   "$FIXTURE/pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd"
@@ -82,6 +84,51 @@ const request = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
 const line = `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST\t${Buffer.from(JSON.stringify(request)).toString("base64")}\n`;
 process.stdout.write(crypto.createHash("sha256").update(line).digest("hex"));
 ' "$FIXTURE/evidence/beta17-fixpoint-stage-request/request.json")"
+cat >"$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-script.sh" <<'SH'
+#!/usr/bin/env bash
+echo install beta17 dispatcher
+SH
+install_script_ref_json="$(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-script.sh")"
+materializer_sha="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+materializer_remote_path="/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+jq -n \
+  --slurpfile installScriptRef <(printf "%s\n" "$install_script_ref_json") \
+  --arg materializerSha "$materializer_sha" \
+  --arg materializerRemotePath "$materializer_remote_path" '
+  {
+    schemaVersion:"brik64.beta17_fixpoint.remote_dispatcher_install_report.v1",
+    version:"0.1.0-beta.17",
+    decision:"PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+    executed:true,
+    publicationAllowed:false,
+    claimBoundary:{
+      publicReleaseAllowed:false,
+      definitiveFixpointAllowed:false,
+      formalN5ClaimAllowed:false,
+      universalCorrectnessClaimAllowed:false
+    },
+    plan:{
+      capability:"beta17_fixpoint_stage_dispatcher",
+      materializerSha256:$materializerSha,
+      materializerRemotePath:$materializerRemotePath,
+      localMaterializerRef:{path:"generated/beta17-materializer.js",sha256:$materializerSha,bytes:128},
+      materializerProvenanceRef:{path:"generated/beta17-materializer.provenance.json",sha256:"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",bytes:128}
+    },
+    installScript:{
+      path:$installScriptRef[0].path,
+      sha256:$installScriptRef[0].sha256,
+      bytes:$installScriptRef[0].bytes,
+      requiredResultMarker:"BRIK64_BETA17_FIXPOINT_STAGE_RESULT",
+      validation:{
+        accepted:true,
+        blockers:[],
+        requiredCapability:"beta17_fixpoint_stage_dispatcher",
+        requiredCommands:["beta17-fixpoint-stage-status","beta17-fixpoint-stage-materialize"],
+        materializerExecBinding:("/usr/bin/node " + $materializerRemotePath)
+      }
+    }
+  }' >"$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json"
+install_report_ref_json="$(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json")"
 
 jq -n \
   --arg host_stdout_path "evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stdout.txt" \
@@ -94,8 +141,12 @@ jq -n \
   --slurpfile attemptStdout <(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt") \
   --slurpfile attemptStderr <(sha_ref "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stderr.txt") \
   --slurpfile resultRef <(sha_ref "$fixture_result_json") \
+  --slurpfile installReportRef <(printf "%s\n" "$install_report_ref_json") \
+  --slurpfile installScriptRef <(printf "%s\n" "$install_script_ref_json") \
   --slurpfile stageResult "$fixture_result_json" \
   --slurpfile requestRef <(printf "%s\n" "$request_ref_json") \
+  --arg materializerSha "$materializer_sha" \
+  --arg materializerRemotePath "$materializer_remote_path" \
   --arg pcdInputSetSha "$request_pcd_input_set_sha" \
   --arg requestLineSha "$request_line_sha" '
   {
@@ -111,6 +162,14 @@ jq -n \
       universalCorrectnessClaimAllowed:false
     },
     request:($requestRef[0] + {pcdInputSetSha256:$pcdInputSetSha}),
+    installEvidence:{
+      reportRef:$installReportRef[0],
+      decision:"PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+      executed:true,
+      materializerSha256:$materializerSha,
+      materializerRemotePath:$materializerRemotePath,
+      installScriptRef:$installScriptRef[0]
+    },
     expectedContext:{
       pcdInputSetSha256:$pcdInputSetSha,
       materializerRequestSha256:$requestLineSha,
@@ -197,6 +256,55 @@ report["blockers"] = []
 with open(report_path, "w", encoding="utf-8") as fh:
     json.dump(report, fh, indent=2)
     fh.write("\n")
+PY
+
+cp "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json" \
+  "$TMP_DIR/original-install-report.json"
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" <<'PY'
+import hashlib, json, pathlib, sys
+install_path = pathlib.Path(sys.argv[1])
+attempt_path = pathlib.Path(sys.argv[2])
+install = json.loads(install_path.read_text())
+install["decision"] = "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL_DRY_RUN"
+install["executed"] = False
+install_path.write_text(json.dumps(install, indent=2) + "\n")
+attempt = json.loads(attempt_path.read_text())
+data = install_path.read_bytes()
+attempt["installEvidence"]["reportRef"]["sha256"] = hashlib.sha256(data).hexdigest()
+attempt["installEvidence"]["reportRef"]["bytes"] = len(data)
+attempt_path.write_text(json.dumps(attempt, indent=2) + "\n")
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-promotion-gate.js" \
+  >"$TMP_DIR/install-not-executed.stdout" 2>"$TMP_DIR/install-not-executed.stderr"
+install_not_executed_rc=$?
+set -e
+
+if [[ "$install_not_executed_rc" -eq 0 ]]; then
+  echo "install_not_executed_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE"
+  and (.blockers | index("remote_attempt_install_report_not_executed:PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL_DRY_RUN"))
+  and (.blockers | index("remote_attempt_install_report_executed_false"))
+' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
+
+cp "$TMP_DIR/original-install-report.json" \
+  "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json"
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" <<'PY'
+import hashlib, json, pathlib, sys
+install_path = pathlib.Path(sys.argv[1])
+attempt_path = pathlib.Path(sys.argv[2])
+attempt = json.loads(attempt_path.read_text())
+data = install_path.read_bytes()
+attempt["installEvidence"]["reportRef"]["sha256"] = hashlib.sha256(data).hexdigest()
+attempt["installEvidence"]["reportRef"]["bytes"] = len(data)
+attempt["installEvidence"]["decision"] = "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL"
+attempt["installEvidence"]["executed"] = True
+attempt_path.write_text(json.dumps(attempt, indent=2) + "\n")
 PY
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt" "$TMP_DIR/original-attempt-1.stdout.txt" <<'PY'

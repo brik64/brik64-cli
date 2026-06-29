@@ -3029,3 +3029,39 @@ Boundary:
 - This is a pre-execution guard. It does not install the live dispatcher, execute
   remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion install-evidence binding
+
+Timestamp: 2026-06-29T07:40:00Z
+
+Task:
+- Prevent remote result promotion from accepting a PASS remote-attempt report
+  unless that attempt is tied to executed Beta17 dispatcher install evidence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` with
+  `validateInstallEvidence`.
+- The promotion gate now verifies the install report ref, schema/version,
+  executed PASS decision, closed claim boundaries, expected capability,
+  accepted install-script validation, materialize command and materializer
+  SHA/path binding.
+- Updated remote promotion and remote result promotion tests to include valid
+  install evidence in positive fixtures and an install-not-executed adversarial
+  case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is a promotion guard. It does not install the live dispatcher, execute
+  remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.

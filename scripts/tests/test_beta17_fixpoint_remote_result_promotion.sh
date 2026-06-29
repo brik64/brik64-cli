@@ -221,6 +221,58 @@ request_line = "BRIK64_BETA17_FIXPOINT_STAGE_REQUEST\t" + base64.b64encode(
 ).decode() + "\n"
 request_line_sha = hashlib.sha256(request_line.encode()).hexdigest()
 
+install_script_rel = "evidence/beta17-fixpoint-remote-dispatcher/install-script.sh"
+install_script_path = fixture / install_script_rel
+install_script_path.parent.mkdir(parents=True, exist_ok=True)
+install_script_path.write_text("#!/usr/bin/env bash\necho install beta17 dispatcher\n")
+materializer_sha = "a" * 64
+materializer_remote_path = "/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+install_report_rel = "evidence/beta17-fixpoint-remote-dispatcher/install-report.json"
+install_report_path = fixture / install_report_rel
+install_report = {
+    "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_install_report.v1",
+    "version": "0.1.0-beta.17",
+    "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+    "executed": True,
+    "publicationAllowed": False,
+    "claimBoundary": {
+        "publicReleaseAllowed": False,
+        "definitiveFixpointAllowed": False,
+        "formalN5ClaimAllowed": False,
+        "universalCorrectnessClaimAllowed": False,
+    },
+    "plan": {
+        "capability": "beta17_fixpoint_stage_dispatcher",
+        "materializerSha256": materializer_sha,
+        "materializerRemotePath": materializer_remote_path,
+        "localMaterializerRef": {
+            "path": "generated/beta17-materializer.js",
+            "sha256": materializer_sha,
+            "bytes": 128,
+        },
+        "materializerProvenanceRef": {
+            "path": "generated/beta17-materializer.provenance.json",
+            "sha256": "b" * 64,
+            "bytes": 128,
+        },
+    },
+    "installScript": {
+        **ref(install_script_rel),
+        "requiredResultMarker": "BRIK64_BETA17_FIXPOINT_STAGE_RESULT",
+        "validation": {
+            "accepted": True,
+            "blockers": [],
+            "requiredCapability": "beta17_fixpoint_stage_dispatcher",
+            "requiredCommands": [
+                "beta17-fixpoint-stage-status",
+                "beta17-fixpoint-stage-materialize",
+            ],
+            "materializerExecBinding": f"/usr/bin/node {materializer_remote_path}",
+        },
+    },
+}
+write_json(install_report_path, install_report)
+
 report = {
     "schemaVersion": "brik64.beta17_fixpoint.remote_attempt.v1",
     "version": "0.1.0-beta.17",
@@ -234,6 +286,14 @@ report = {
         "universalCorrectnessClaimAllowed": False,
     },
     "request": {**ref(request_rel), "pcdInputSetSha256": request["pcdInputSetSha256"]},
+    "installEvidence": {
+        "reportRef": ref(install_report_rel),
+        "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+        "executed": True,
+        "materializerSha256": materializer_sha,
+        "materializerRemotePath": materializer_remote_path,
+        "installScriptRef": ref(install_script_rel),
+    },
     "expectedContext": {
         "pcdInputSetSha256": request["pcdInputSetSha256"],
         "materializerRequestSha256": request_line_sha,
