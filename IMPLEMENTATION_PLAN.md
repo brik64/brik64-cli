@@ -117,6 +117,11 @@
   surface is observed at `0.1.0-beta.17`; otherwise it writes a blocked report
   with exact blockers. Current real evidence is blocked because the latest
   live verify report is still `0.1.0-beta.15.7.1`.
+- External-audit status update: Beta17 now has
+  `gate:beta17:fixpoint:external-audit-status`, which requires
+  `PASS_BETA17_PUBLIC_SURFACE_SYNC` before external audit evidence can satisfy
+  the release path. It reuses the strict external audit report validator and
+  writes a status report under `evidence/beta17-fixpoint-external-audit-status/`.
 
 ## Legacy Plan Context
 
