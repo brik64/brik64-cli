@@ -253,6 +253,42 @@ python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" <<'PY'
 import json, sys
 path = sys.argv[1]
 report = json.load(open(path))
+report["attempts"][0]["stdoutTranscript"]["bytes"] += 1
+with open(path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-promotion-gate.js" \
+  >"$TMP_DIR/stdout-bytes-mismatch.stdout" 2>"$TMP_DIR/stdout-bytes-mismatch.stderr"
+stdout_bytes_mismatch_rc=$?
+set -e
+
+if [[ "$stdout_bytes_mismatch_rc" -eq 0 ]]; then
+  echo "stdout_bytes_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE"
+  and (.blockers | index("accepted_attempt_stdout_transcript_bytes_mismatch:evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt"))
+' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt" <<'PY'
+import json, pathlib, sys
+report_path, stdout_path = sys.argv[1], pathlib.Path(sys.argv[2])
+report = json.load(open(report_path))
+report["attempts"][0]["stdoutTranscript"]["bytes"] = len(stdout_path.read_bytes())
+with open(report_path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+report = json.load(open(path))
 report["expectedContext"]["materializerRequestSha256"] = "0" * 64
 with open(path, "w", encoding="utf-8") as fh:
     json.dump(report, fh, indent=2)

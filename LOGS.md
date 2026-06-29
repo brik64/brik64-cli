@@ -2145,3 +2145,27 @@ Boundary:
 - This validates transcript/result binding for accepted remote attempts. It
   does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote promotion ref byte validation
+
+Timestamp: 2026-06-29T00:10:41Z
+
+Task:
+- Require byte-count metadata on file refs consumed by the remote promotion
+  gate to match the actual referenced file size.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` so `fileRefExists`
+  rejects invalid or mismatched `bytes` values in addition to unsafe paths and
+  SHA-256 mismatches.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` with
+  an adversarial stdout transcript `bytes` mismatch.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This validates evidence ref metadata integrity. It does not generate real
+  L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

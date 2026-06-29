@@ -289,6 +289,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload to match the hash-bound
   `stage-result.json` ref. A report cannot pair one stdout transcript with a
   different Stage result file.
+- Remote promotion ref byte validation: every file ref consumed by the
+  promotion gate must declare `bytes` and the value must match the referenced
+  file size, alongside SHA-256 validation. Detached metadata fails closed.
 - Remote promotion request binding: the promotion gate validates the remote
   attempt's `request` ref, reruns `validateRequest`, recomputes the
   `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST` line SHA-256 and uses request-derived

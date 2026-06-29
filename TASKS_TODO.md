@@ -935,3 +935,16 @@
         this binds remote attempt transcript evidence to the Stage result file.
         It does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint
         or publish Beta17.
+
+- [x] Beta17 remote promotion ref byte validation.
+      - Gate:
+        `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+      - Goal:
+        require every file ref consumed by the promotion gate to have a valid
+        `bytes` value matching the referenced file size, in addition to
+        SHA-256.
+      - Boundary:
+        this hardens evidence metadata integrity. It does not create real
+        L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

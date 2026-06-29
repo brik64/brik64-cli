@@ -76,14 +76,22 @@ function fileRefExists(ref, blockers, key) {
     blockers.push(`${key}_sha256_invalid`);
     return null;
   }
+  if (!Number.isInteger(ref.bytes) || ref.bytes < 0) {
+    blockers.push(`${key}_bytes_invalid`);
+    return null;
+  }
   const actualSha256 = sha256File(file);
+  const actualBytes = fs.statSync(file).size;
   if (actualSha256 !== ref.sha256.toLowerCase()) {
     blockers.push(`${key}_sha256_mismatch:${ref.path}`);
+  }
+  if (actualBytes !== ref.bytes) {
+    blockers.push(`${key}_bytes_mismatch:${ref.path}`);
   }
   return {
     path: ref.path,
     sha256: actualSha256,
-    bytes: fs.statSync(file).size,
+    bytes: actualBytes,
   };
 }
 
