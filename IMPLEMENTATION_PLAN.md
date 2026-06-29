@@ -66,6 +66,11 @@
   This request must be consumed by L6+N5 before dispatcher install can become
   claim-bearing evidence. The existing Stage1/Stage2 request remains separate
   and must not be used to pretend that the materializer already exists.
+- Materializer generation result update: Beta17 now has a result parser and
+  validator for `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT`. Future
+  L6+N5 output must bind the generated materializer file, request hash, PCD
+  input-set hash, engine serial, non-fixture content and closed claim boundary
+  before deploy-plan or dispatcher install can consume it.
 
 ## Legacy Plan Context
 

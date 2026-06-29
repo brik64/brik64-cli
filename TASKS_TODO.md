@@ -151,6 +151,24 @@
 
 # Beta17 Fixpoint Tasks
 
+- [x] Add Beta17 materializer generation result validator.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-generation-result.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_generation_result.sh`.
+      - NPM:
+        `test:beta17:fixpoint:materializer-generation-result`.
+      - Result:
+        parser/validator now accepts only
+        `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT` payloads that
+        bind the materializer file, request hash, PCD input-set hash, L6+N5
+        serial, stage-result marker, non-fixture content and closed claim
+        boundary.
+      - Boundary:
+        this validates future result evidence. It does not produce the
+        materializer, execute L6+N5, install the dispatcher, prove fixpoint or
+        publish Beta17.
+
 - [x] Add Beta17 materializer generation request bundle.
       - PCD:
         `pcd/beta17/release/fixpoint_materializer_generation_contract.pcd`.
