@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "brik64.release_manifest.v1",
+  "releaseId": "brik64-0.1.0-beta.17",
+  "version": "0.1.0-beta.17",
+  "channel": "beta",
+  "state": "candidate",
+  "source": {
+    "commit": "756987fe70d40d4df64366076ab04c8610380297",
+    "commitBinding": "candidate_base_commit"
+  },
+  "cli": {
+    "package": {
+      "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+      "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "bytes": 404533
+    }
+  },
+  "releaseNotes": [
+    {
+      "type": "prepared",
+      "surface": "CLI package candidate",
+      "text": "Prepares a Beta17 package candidate from L6+N5 stage evidence while keeping public release disabled until functional package, public sync and external audit gates pass."
+    }
+  ],
+  "sdks": [
+    {
+      "marketplace": "npm",
+      "name": "@brik64/core",
+      "version": "0.1.0-beta.17",
+      "required": true,
+      "publication": "pending_release_train_publish"
+    },
+    {
+      "marketplace": "pypi",
+      "name": "brik64",
+      "version": "0.1.0b17",
+      "required": true,
+      "publication": "pending_release_train_publish"
+    },
+    {
+      "marketplace": "crates.io",
+      "name": "brik64-core",
+      "version": "0.1.0-beta.17",
+      "required": true,
+      "publication": "pending_release_train_publish"
+    }
+  ],
+  "publicSurfaces": {
+    "githubRelease": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "tag": "v0.1.0-beta.17"
+    },
+    "curlInstaller": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/cli/install.sh"
+    },
+    "channelManifest": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/cli/beta.json"
+    },
+    "web": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/download"
+    },
+    "docs": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://docs.brik64.com"
+    },
+    "skills": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "repo": "brik64/brik64-tools-skills"
+    }
+  },
+  "verification": {
+    "requiredEvidence": [
+      {
+        "id": "beta17_fixpoint_readiness",
+        "path": "evidence/beta17-fixpoint-readiness/report.json",
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
+      },
+      {
+        "id": "beta17_public_surface_sync",
+        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
+      },
+      {
+        "id": "beta17_external_audit_status",
+        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+      },
+      {
+        "id": "beta17_cli_package",
+        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+        "decision": "FILE_EXISTS"
+      }
+    ]
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

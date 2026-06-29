@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "brik64.beta17_functional_cli_stage_result_hydration.v1",
+  "generatedAt": "2026-06-29T08:16:09.484Z",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION",
+  "hydrated": true,
+  "resultLine": {
+    "path": "evidence/beta17-functional-cli-stage-result/result.line",
+    "sha256": "148f114085bae993efb03017e1b1f3f060f23b47b22e87fcd4286bde6d8b4388",
+    "bytes": 342163
+  },
+  "hydratedRefs": {
+    "stage1Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+      "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+      "bytes": 190315
+    },
+    "stage1Manifest": {
+      "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "sha256": "d68af9de9974e1678a99608a6e40197db4389daf752432e3b7a56b59ebc99a27",
+      "bytes": 961
+    },
+    "functionalStageReport": {
+      "path": "evidence/beta17-fixpoint-functional-stage-artifact/report.json",
+      "sha256": "d15458207ec49da2776fd9a21f3136687799d0732db58eceb6f8a8c03342ae1f",
+      "bytes": 960
+    },
+    "packageManifest": {
+      "path": "evidence/beta17-package/package.manifest.json",
+      "sha256": "42296a368aa8d8068f0a34c2829554d9ad5864f8d822b3ba4305d5437325d075",
+      "bytes": 1072
+    }
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

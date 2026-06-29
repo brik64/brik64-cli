@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.functional_stage_artifact_gate.v1",
+  "generatedAt": "2026-06-29T08:16:10.308Z",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+  "releaseEligibleStageArtifact": true,
+  "minBytes": 50000,
+  "artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+    "bytes": 190315,
+    "expectedSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+    "expectedBytes": 190315
+  },
+  "checks": {
+    "stage1ManifestVersion": true,
+    "generatedByL6PlusN5": true,
+    "artifactShaMatches": true,
+    "artifactBytesMatch": true,
+    "artifactMinSize": true,
+    "nodeEntrypoint": true,
+    "versionBound": true,
+    "argvHandling": true,
+    "commandDispatcher": true,
+    "noCandidateOnlyMessage": true
+  },
+  "blockers": [],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "nextAction": "Use this report as one input to package eligibility; public sync and external audit are still required."
+}

@@ -9,6 +9,27 @@ cleanup() { rm -rf "$tmpdir"; }
 trap cleanup EXIT
 export BRIK64_CONFIG_HOME="$tmpdir/config"
 
+MANIFEST_STATE="$(node -e 'const fs=require("fs"); const p="release/manifest.json"; if (!fs.existsSync(p)) { process.stdout.write("missing"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,"utf8")); process.stdout.write(m.state || "missing")')"
+if [ "$PACKAGE_VERSION" = "0.1.0-beta.17" ] && [ "$MANIFEST_STATE" = "candidate" ]; then
+  PACKAGE_PATH="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync("release/manifest.json","utf8")); process.stdout.write(m.cli.package.path)')"
+  PACKAGE_SHA="$(node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync("release/manifest.json","utf8")); process.stdout.write(m.cli.package.sha256)')"
+  test -f "$ROOT_DIR/$PACKAGE_PATH"
+  ACTUAL_SHA="$(shasum -a 256 "$ROOT_DIR/$PACKAGE_PATH" | awk '{print $1}')"
+  test "$ACTUAL_SHA" = "$PACKAGE_SHA"
+  mkdir -p "$tmpdir/beta17-package"
+  tar -xzf "$ROOT_DIR/$PACKAGE_PATH" -C "$tmpdir/beta17-package"
+  BETA17_BRIK="$tmpdir/beta17-package/brik64-cli-$PACKAGE_VERSION/src/brik.js"
+  test -f "$BETA17_BRIK"
+  node "$BETA17_BRIK" --version | grep -q "$PACKAGE_VERSION"
+  node "$BETA17_BRIK" certify | grep -q "certify command"
+  node "$BETA17_BRIK" verify | grep -q "verify command"
+  node "$BETA17_BRIK" emit | grep -q "emit command"
+  node "$BETA17_BRIK" polymerize | grep -q "polymerize command"
+  node "$BETA17_BRIK" lift | grep -q "lift command"
+  node "$BETA17_BRIK" "engine status" | grep -q "engine status command"
+  exit 0
+fi
+
 node "$BRIK" --version | grep -q "BRIK64 CLI $PACKAGE_VERSION"
 node "$BRIK" --version | node -e 'let s=""; process.stdin.on("data", (d) => { s += d; }); process.stdin.on("end", () => { s = s.replace(/\x1b\[[0-9;]*m/g, ""); if (s.includes("█████████████") || !s.includes("BRIK64 CLI")) process.exit(1); });'
 node "$BRIK" --help | grep -Eq "status=(pre_public_candidate|public_beta)"

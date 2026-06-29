@@ -1,51 +1,46 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.16.1",
-  "version": "0.1.0-beta.16.1",
+  "releaseId": "brik64-0.1.0-beta.17",
+  "version": "0.1.0-beta.17",
   "channel": "beta",
-  "state": "public",
+  "state": "candidate",
   "source": {
-    "commit": "2dcd17ff5e5069e60d14717c9fb5f8530842e197",
-    "commitBinding": "public_release_base_commit"
+    "commit": "756987fe70d40d4df64366076ab04c8610380297",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
-      "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
-      "sha256": "9ddc422fb51ebba03e5d5e52ac017eed5727494127eb77e22fdc915324bfaac0",
-      "bytes": 631876
+      "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+      "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "bytes": 404533
     }
   },
   "releaseNotes": [
     {
-      "type": "added",
-      "surface": "CLI package",
-      "text": "Adds a non-mutating Beta16.1.x CLI package candidate for the offline command-line workflow and embedded engine files."
-    },
-    {
-      "type": "fixed",
-      "surface": "CLI package",
-      "text": "Publishes the follow-up as its own versioned candidate instead of rewriting the existing Beta16.1 archive."
+      "type": "prepared",
+      "surface": "CLI package candidate",
+      "text": "Prepares a Beta17 package candidate from generated stage evidence while keeping public release disabled until package, public sync and external audit gates pass."
     }
   ],
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.16.1",
+      "version": "0.1.0-beta.17",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b16.post1",
+      "version": "0.1.0b17",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.16.1",
+      "version": "0.1.0-beta.17",
       "required": true,
       "publication": "pending_release_train_publish"
     }
@@ -54,7 +49,7 @@
     "githubRelease": {
       "required": true,
       "status": "pending_release_train_publish",
-      "tag": "v0.1.0-beta.16.1"
+      "tag": "v0.1.0-beta.17"
     },
     "curlInstaller": {
       "required": true,
@@ -83,7 +78,28 @@
     }
   },
   "verification": {
-    "requiredEvidence": []
+    "requiredEvidence": [
+      {
+        "id": "beta17_fixpoint_readiness",
+        "path": "evidence/beta17-fixpoint-readiness/report.json",
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
+      },
+      {
+        "id": "beta17_public_surface_sync",
+        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
+      },
+      {
+        "id": "beta17_external_audit_status",
+        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+      },
+      {
+        "id": "beta17_cli_package",
+        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+        "decision": "FILE_EXISTS"
+      }
+    ]
   },
   "claimBoundary": {
     "publicClaimsAllowed": false,

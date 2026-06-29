@@ -1,5 +1,74 @@
 # BRIK64 CLI Ralph Loop Log
 
+## Iteration 44 - Beta17 candidate preflight separates package readiness from publication authorization
+
+Timestamp: `2026-06-29T08:39:59Z`
+
+- Updated `scripts/beta17-fixpoint-publication-preflight.js` so a
+  `state=candidate` release manifest can bind a package manifest with
+  `releaseEligible=true` and `publicationAllowed=false` as candidate-ready
+  evidence.
+- Preserved fail-closed publication semantics: non-candidate/public release
+  paths still require `publicationAllowed=true`, and the overall preflight
+  remains blocked until metadata promotion, public-surface sync and external
+  audit evidence pass.
+- Updated `scripts/tests/test_beta17_package_candidate.sh` to reject the old
+  false `package_manifest_publication_allowed_false` blocker for a candidate
+  manifest, while keeping the release blocked on real gates.
+- Updated `scripts/build-beta17-package-candidate.js` so the candidate release
+  manifest writes structured `verification.requiredEvidence` items instead of
+  string refs.
+- Updated `scripts/release-train-dry-run.js` to support `decision=FILE_EXISTS`
+  for binary release artifacts declared in `verification.requiredEvidence`.
+
+Evidence:
+
+- `npm run test:beta17:fixpoint:publication-preflight` passed.
+- `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run preflight:beta17:fixpoint:publication -- --manifest evidence/beta17-package/release.manifest.candidate.json`
+  still fails closed, now without `package_manifest_publication_allowed_false`.
+
+Boundary:
+
+- This is preflight semantics hardening only.
+- It does not publish Beta17, mutate `package.json`, sync public surfaces or
+  run the external audit.
+- Beta17 publication remains blocked by active metadata promotion,
+  public-surface sync and external audit.
+
+## Iteration 45 - Beta17 active metadata promoted to candidate mode
+
+Timestamp: `2026-06-29T09:04:12Z`
+
+- Added `scripts/beta17-candidate-release-train-gate.js`, a non-public gate
+  for active Beta17 candidate metadata.
+- Updated `scripts/release-train-dry-run.js` so
+  `release/manifest.json.state=candidate` for Beta17 validates the candidate
+  gate instead of running public sync/publish commands.
+- Promoted `package.json` and `release/manifest.json` to `0.1.0-beta.17`
+  candidate metadata only.
+- Updated `tests/smoke.sh` so Beta17 candidate mode smokes the generated
+  package tarball from `release/manifest.json`, not the historical
+  `src/brik.js` implementation.
+
+Evidence:
+
+- `npm test` passed.
+- `npm run gate:beta17:candidate-release-train` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed with
+  `publicationAllowed=false`.
+- `npm run preflight:beta17:fixpoint:publication -- --manifest
+  release/manifest.json` still fails closed on readiness, public-surface sync
+  and external-audit blockers.
+
+Boundary:
+
+- This promotes active metadata to Beta17 candidate only.
+- It does not publish Beta17, sync public surfaces or run the external audit.
+- Public release, definitive fixpoint, formal N5, self-hosting and
+  Rust-independence claims remain closed.
+
 ## Iteration 33 - Beta17 readiness binds promoted refs
 
 Timestamp: `2026-06-28T00:00:00Z`
@@ -3726,3 +3795,663 @@ Break attempts:
 Boundary:
 - This iteration wires the release preflight only. It does not publish Beta17,
   sync public surfaces or run the external audit.
+
+## Beta17 Ralph Loop Iteration - Publication preflight gate
+
+Timestamp: 2026-06-29T07:05:00Z
+
+Task:
+- Add a non-mutating publication preflight for Beta17 so the release train has
+  an explicit stoplight before changing public surfaces.
+
+Change:
+- Added `scripts/beta17-fixpoint-publication-preflight.js`.
+- Added npm scripts `preflight:beta17:fixpoint:publication` and
+  `test:beta17:fixpoint:publication-preflight`.
+- Added `scripts/tests/test_beta17_fixpoint_publication_preflight.sh`.
+- Generated
+  `evidence/beta17-fixpoint-publication-preflight/report.json` from current
+  repo evidence.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-publication-preflight.js` passed.
+- `npm run test:beta17:fixpoint:publication-preflight` passed.
+- `npm run preflight:beta17:fixpoint:publication` failed closed as expected
+  with `BLOCKED_BETA17_PUBLICATION_PREFLIGHT`.
+
+Break attempts:
+- Stale release manifest version fails closed with
+  `release_manifest_version_mismatch:0.1.0-beta.16.1`.
+- Package tarball hash/byte drift fails closed with
+  `cli_package_sha256_mismatch` and `cli_package_bytes_mismatch`.
+- Blocked readiness propagates readiness blockers into the publication
+  preflight.
+- Blocked public-surface sync and external-audit status block publication
+  even if local package fixtures are otherwise green.
+
+Current real blockers:
+- `release/manifest.json` and `package.json` are still `0.1.0-beta.16.1`.
+- Package manifest evidence is still Beta16.1.
+- Public-surface sync evidence is blocked because live verify is still
+  `0.1.0-beta.15.7.1`.
+- External audit remains blocked until Beta17 public surfaces are synced and
+  audited from a clean public install.
+
+Boundary:
+- This iteration creates the publication preflight only. It does not mutate
+  public surfaces, publish Beta17, run the external audit or authorize
+  fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Package candidate from Stage evidence
+
+Timestamp: 2026-06-29T07:35:00Z
+
+Task:
+- Generate a non-public Beta17 package candidate from current L6+N5 Stage
+  evidence and keep publication fail-closed if the package is not functional.
+
+Change:
+- Added `scripts/build-beta17-package-candidate.js`.
+- Added npm scripts `package:beta17:fixpoint:candidate` and
+  `test:beta17:fixpoint:package-candidate`.
+- Added `scripts/tests/test_beta17_package_candidate.sh`.
+- Hardened `scripts/beta17-fixpoint-publication-preflight.js` so a matching
+  package manifest cannot pass unless `releaseEligible=true` and
+  `publicationAllowed=true`.
+- Generated `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz`,
+  `evidence/beta17-package/package.manifest.json`,
+  `evidence/beta17-package/SHA256SUMS` and
+  `evidence/beta17-package/release.manifest.candidate.json`.
+
+Validation:
+- `node --check scripts/build-beta17-package-candidate.js` passed.
+- `node --check scripts/beta17-fixpoint-publication-preflight.js` passed.
+- `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run test:beta17:fixpoint:publication-preflight` passed.
+- `npm run package:beta17:fixpoint:candidate` passed.
+- `node scripts/beta17-fixpoint-publication-preflight.js --manifest evidence/beta17-package/release.manifest.candidate.json`
+  failed closed as expected with `BLOCKED_BETA17_PUBLICATION_PREFLIGHT`.
+
+Break attempts:
+- Missing Stage1 artifact manifest fails closed with
+  `missing_stage1_artifact_manifest`.
+- Stage1 artifact SHA drift fails closed with
+  `stage1_artifact_sha256_mismatch`.
+- Candidate package remains blocked by publication preflight because
+  `releaseEligible=false` and `publicationAllowed=false`.
+
+Current real blockers:
+- Current Stage1 artifact is 1473 bytes and is stage metadata, not a functional
+  CLI artifact; package manifest records
+  `stage_artifact_not_functional_cli_sized`.
+- Root `package.json` remains `0.1.0-beta.16.1`.
+- Public-surface sync and external-audit status remain blocked.
+
+Boundary:
+- This iteration creates package candidate evidence only. It does not publish
+  Beta17, mutate `release/manifest.json`, run external audit or authorize
+  fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional Stage artifact gate
+
+Timestamp: 2026-06-29T08:05:00Z
+
+Task:
+- Add a fail-closed gate that distinguishes a full functional Beta17 CLI
+  Stage1 artifact from a metadata-only Stage result.
+
+Change:
+- Added `scripts/beta17-fixpoint-functional-stage-artifact-gate.js`.
+- Added npm scripts `gate:beta17:fixpoint:functional-stage-artifact` and
+  `test:beta17:fixpoint:functional-stage-artifact`.
+- Added `scripts/tests/test_beta17_fixpoint_functional_stage_artifact_gate.sh`.
+- Updated `scripts/build-beta17-package-candidate.js` to consume
+  `evidence/beta17-fixpoint-functional-stage-artifact/report.json` before
+  setting package release eligibility.
+- Regenerated `evidence/beta17-package/package.manifest.json` and package
+  candidate evidence with the functional Stage artifact report bound.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-functional-stage-artifact-gate.js`
+  passed.
+- `node --check scripts/build-beta17-package-candidate.js` passed.
+- `npm run test:beta17:fixpoint:functional-stage-artifact` passed.
+- `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run gate:beta17:fixpoint:functional-stage-artifact` failed closed as
+  expected on real evidence.
+- `npm run package:beta17:fixpoint:candidate` passed and preserved
+  `releaseEligible=false`.
+
+Break attempts:
+- Missing Stage1 manifest fails closed with
+  `missing_stage1_artifact_manifest`.
+- Stage1 artifact SHA/bytes drift fails closed with
+  `stage1_artifact_sha256_mismatch` and `stage1_artifact_bytes_mismatch`.
+- Metadata-only Stage1 fails closed on size, missing Node entrypoint and
+  missing argv handling.
+
+Current real blockers:
+- Stage1 artifact bytes: 1473, below the 50000-byte minimum for a functional
+  CLI artifact in this gate.
+- Stage1 lacks `#!/usr/bin/env node`, `process.argv` and command dispatcher
+  markers.
+- Package candidate now records the functional Stage blocker directly:
+  `functional_stage_artifact_not_pass:BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE`.
+
+Boundary:
+- This iteration adds the functional-artifact gate only. It does not generate
+  the full CLI, publish Beta17, run public-surface sync or run external audit.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage request bundle
+
+Timestamp: 2026-06-29T08:25:00Z
+
+Task:
+- Create the PCD-first input contract for asking L6+N5 to generate a functional
+  Beta17 CLI Stage1 artifact instead of metadata-only Stage output.
+
+Change:
+- Added
+  `pcd/beta17/release/functional_cli_stage_materialization_contract.pcd`.
+- Added `scripts/beta17-functional-cli-stage-request-bundle.js`.
+- Added npm scripts `bundle:beta17:functional-cli-stage-request` and
+  `test:beta17:functional-cli-stage-request`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_request_bundle.sh`.
+- Generated `evidence/beta17-functional-cli-stage-request/request.json`,
+  `request.line`, `request.manifest.json` and `SHA256SUMS`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-request-bundle.js` passed.
+- `npm run test:beta17:functional-cli-stage-request` passed.
+- Generated manifest decision:
+  `PASS_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST_BUNDLE`.
+
+Break attempts:
+- Tampered PCD content fails closed with content SHA/byte mismatch.
+- Unsafe output ref fails closed with `request_output_ref_invalid`.
+- Missing `functionalStageArtifactGatePass` binding fails closed.
+- Open self-hosting claim boundary fails closed.
+- Min artifact bytes below 50000 fails closed.
+- Missing `process.argv` required marker fails closed.
+- Wrong input PCD set hash fails closed.
+
+Current real next input:
+- `evidence/beta17-functional-cli-stage-request/request.line` contains
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST`.
+- Request input set hash:
+  `1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd`.
+
+Boundary:
+- This iteration produces request/input evidence only. It does not execute
+  L6+N5, hydrate a generated artifact, publish Beta17 or authorize
+  fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage result validator
+
+Timestamp: 2026-06-29T08:45:00Z
+
+Task:
+- Add a fail-closed parser/validator for the future
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` emitted by L6+N5.
+
+Change:
+- Added `scripts/beta17-functional-cli-stage-result.js`.
+- Added npm script `test:beta17:functional-cli-stage-result`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_result.sh`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-result.js` passed.
+- `npm run test:beta17:functional-cli-stage-result` passed.
+
+Break attempts:
+- Stale version fails closed.
+- `generatedByL6PlusN5=false` fails closed.
+- Open public-release claim boundary fails closed.
+- Stage1 artifact SHA drift fails closed.
+- Unsafe artifact path fails closed.
+- `functionalStageMinSizePass=false` fails closed.
+- Missing `process.argv` marker in artifact content fails closed.
+- Candidate-only stub text fails closed.
+- Wrong functional request hash fails closed.
+- Input PCD set drift fails closed.
+- Missing required input PCD fails closed.
+- Malformed/non-result lines return null.
+
+Current next action:
+- Route `evidence/beta17-functional-cli-stage-request/request.line` through
+  L6+N5 and accept only a payload that passes this validator before hydrating
+  Stage1.
+
+Boundary:
+- This iteration validates the future result contract only. It does not execute
+  L6+N5, hydrate artifacts, publish Beta17 or open fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage result hydration
+
+Timestamp: 2026-06-29T09:05:00Z
+
+Task:
+- Add a fail-closed hydrator that consumes a future validated
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` and writes Stage1/package
+  evidence only if every bound ref matches.
+
+Change:
+- Added `scripts/beta17-functional-cli-stage-result-hydrate.js`.
+- Added npm scripts `hydrate:beta17:functional-cli-stage-result` and
+  `test:beta17:functional-cli-stage-result-hydrate`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_result_hydrate.sh`.
+- Exported `decodeStage1Artifact` from
+  `scripts/beta17-functional-cli-stage-result.js`.
+- Generated real blocked hydration evidence at
+  `evidence/beta17-functional-cli-stage-result/hydrate-report.json`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-result-hydrate.js` passed.
+- `npm run test:beta17:functional-cli-stage-result-hydrate` passed.
+- `npm run hydrate:beta17:functional-cli-stage-result` failed closed as
+  expected on real state.
+
+Break attempts:
+- Missing result line fails closed.
+- Invalid result fails closed.
+- Unsafe output path fails closed.
+- Hash-bound synthetic PASS writes artifact and manifests only when all
+  expected SHA/byte refs match.
+
+Current real blocker:
+- `missing_functional_cli_stage_result_line:evidence/beta17-functional-cli-stage-result/result.line`.
+
+Boundary:
+- This iteration adds the consumer/hydrator only. It does not execute L6+N5,
+  invent a result, publish Beta17 or authorize fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage attempt entrypoint
+
+Timestamp: 2026-06-29T09:35:00Z
+
+Task:
+- Add a single fail-closed attempt command that bridges the functional CLI Stage
+  request and the existing result hydrator.
+
+Change:
+- Added `scripts/beta17-functional-cli-stage-attempt.js`.
+- Added npm scripts `attempt:beta17:functional-cli-stage` and
+  `test:beta17:functional-cli-stage-attempt`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_attempt.sh`.
+- Generated real attempt evidence at
+  `evidence/beta17-functional-cli-stage-attempt/report.json`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-attempt.js` passed.
+- `npm run test:beta17:functional-cli-stage-attempt` passed.
+- `npm run attempt:beta17:functional-cli-stage` failed closed as expected on
+  real state.
+
+Break attempts:
+- Missing request/result fails closed with missing request and unavailable
+  result blockers.
+- Invalid result with `generatedFromPcdPolymer=false` fails closed.
+- Valid synthetic result hydrates Stage1/package refs but keeps publication
+  closed.
+
+Current real blocker:
+- `functional_cli_stage_result_unavailable`.
+
+Next exact action:
+- Produce a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` from L6+N5 and
+  rerun `npm run attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- This iteration does not execute L6+N5, publish Beta17, or authorize
+  fixpoint/formal/public-release claims. It only makes the next blocker
+  machine-readable and test-gated.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage remote route probe
+
+Timestamp: 2026-06-29T09:55:00Z
+
+Task:
+- Extend the functional CLI Stage attempt gate so it actively probes the L6+N5
+  wrapper for a functional CLI materialization endpoint instead of only waiting
+  for a local result line.
+
+Change:
+- Updated `scripts/beta17-functional-cli-stage-attempt.js` to try the bounded
+  remote commands `beta17-functional-cli-stage-materialize`,
+  `functional-cli-stage-materialize` and
+  `beta17-fixpoint-functional-cli-stage-materialize` with the current
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST`.
+- The report now records endpoint capabilities, transcripts, the required
+  capability `beta17_functional_cli_stage_materializer`, and non-acceptable
+  substitutes.
+- Updated `scripts/tests/test_beta17_functional_cli_stage_attempt.sh` with a
+  remote-skip fail-closed case.
+- Regenerated real attempt evidence at
+  `evidence/beta17-functional-cli-stage-attempt/report.json`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-attempt.js` passed.
+- `npm run test:beta17:functional-cli-stage-attempt` passed.
+- `npm run attempt:beta17:functional-cli-stage` failed closed as expected on
+  real L6+N5 state.
+
+Break attempts:
+- Missing request/result still fails closed.
+- Invalid result with `generatedFromPcdPolymer=false` still fails closed.
+- Remote skipped by `BRIK64_L6_SKIP_REMOTE=1` fails closed without network.
+- Real remote wrapper lacks `beta17_functional_cli_stage_materializer` and no
+  attempted command emits `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+
+Current real blockers:
+- `functional_cli_stage_result_unavailable`.
+- `remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+- `remote_l6plus_functional_cli_stage_result_not_emitted`.
+
+Next exact action:
+- Install or generate the L6+N5 endpoint capability
+  `beta17_functional_cli_stage_materializer` so the wrapper emits
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`, then rerun
+  `npm run attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- This iteration probes and records remote capability evidence only. It does
+  not publish Beta17, invent a result, or authorize fixpoint/formal/public
+  claims.
+
+## Beta17 Ralph Loop Iteration - L6+N5 general PCD artifact factory audit
+
+Timestamp: 2026-06-29T10:20:00Z
+
+Task:
+- Audit the general behavior of the L6+N5 wrapper and prevent Beta17 from
+  depending on another version-specific endpoint when the intended architecture
+  is a general PCD/polymer artifact factory.
+
+Change:
+- Added `pcd/beta17/release/l6plus_pcd_artifact_factory_contract.pcd`.
+- Added `scripts/l6plus-pcd-artifact-factory-audit.js`.
+- Added npm scripts `audit:l6plus:pcd-artifact-factory` and
+  `test:l6plus:pcd-artifact-factory-audit`.
+- Added `scripts/tests/test_l6plus_pcd_artifact_factory_audit.sh`.
+- Generated real wrapper evidence at
+  `evidence/l6plus-pcd-artifact-factory-audit/report.json`.
+
+Validation:
+- `node --check scripts/l6plus-pcd-artifact-factory-audit.js` passed.
+- `npm run test:l6plus:pcd-artifact-factory-audit` passed.
+- `npm run audit:l6plus:pcd-artifact-factory` failed closed as expected
+  against the real remote wrapper.
+
+Break attempts:
+- Fixture with `l6plus_pcd_artifact_factory` and
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` passes.
+- Legacy-only capabilities `beta15_7_ready,beta16_native_ready,beta16_1_ready`
+  fail closed.
+- Unsupported `factory-status` fails closed.
+
+Current real blockers:
+- `l6plus_pcd_artifact_factory_capability_missing:beta15_7_ready,beta16_1_ready,beta16_native_ready`.
+- `l6plus_pcd_artifact_factory_result_marker_missing:BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`.
+- `l6plus_factory_status_unsupported`.
+
+Next exact action:
+- Replace version-specific wrapper routing with a general
+  `l6plus_pcd_artifact_factory` capability, then route the Beta17 functional
+  CLI request through that factory.
+
+Boundary:
+- This iteration is an audit/gate. It does not install a remote factory,
+  generate the Beta17 CLI artifact, publish Beta17, or authorize fixpoint,
+  formal N5, self-hosting, Rust-independence, or public-release claims.
+
+## Beta17 Ralph Loop Iteration - General L6+N5 PCD artifact factory installer dry-run
+
+Timestamp: 2026-06-29T10:45:00Z
+
+Task:
+- Prepare the correction path for the wrapper discrepancy by generating a
+  guarded installer for a general `l6plus_pcd_artifact_factory` capability.
+
+Change:
+- Added `scripts/l6plus-pcd-artifact-factory-install.js`.
+- Added `scripts/tests/test_l6plus_pcd_artifact_factory_install.sh`.
+- Added npm scripts `install:l6plus:pcd-artifact-factory` and
+  `test:l6plus:pcd-artifact-factory-install`.
+- Generated dry-run evidence at
+  `evidence/l6plus-pcd-artifact-factory-install/install-report.json`.
+
+Validation:
+- `node --check scripts/l6plus-pcd-artifact-factory-install.js` passed.
+- `npm run test:l6plus:pcd-artifact-factory-install` passed.
+- `npm run install:l6plus:pcd-artifact-factory` passed as dry-run.
+
+Break attempts:
+- Invalid remote factory path fails closed.
+- `--execute` without confirmation fails closed.
+- Generated installer keeps public/fixpoint/formal claim boundaries closed.
+
+Current state:
+- The general factory installer is ready in dry-run only. The live wrapper has
+  not been mutated by this iteration.
+
+Next exact action:
+- Run the guarded remote install only when ready:
+  `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`,
+  then run `npm run audit:l6plus:pcd-artifact-factory` and route Beta17 through
+  `artifact-factory-materialize`.
+
+Boundary:
+- This iteration does not install the remote factory, generate Beta17, publish
+  Beta17, or authorize fixpoint/formal/public-release claims.
+
+## Beta17 Ralph Loop Iteration - Remote general factory install and Beta17 route attempt
+
+Timestamp: 2026-06-29T11:05:00Z
+
+Task:
+- Correct the L6+N5 wrapper discrepancy by installing the general
+  `l6plus_pcd_artifact_factory` capability under an explicit non-claim guard,
+  then route the Beta17 functional CLI request through that general factory.
+
+Change:
+- Executed the guarded installer:
+  `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+- Extended `scripts/beta17-functional-cli-stage-attempt.js` so it probes
+  `artifact-factory-status`, builds a normalized
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST`, runs
+  `artifact-factory-materialize`, and records whether the factory result is a
+  valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+- Updated real evidence under:
+  `evidence/l6plus-pcd-artifact-factory-install/`,
+  `evidence/l6plus-pcd-artifact-factory-audit/`, and
+  `evidence/beta17-functional-cli-stage-attempt/`.
+
+Validation:
+- `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM` passed with
+  `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL`.
+- `npm run audit:l6plus:pcd-artifact-factory` passed with
+  `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT`.
+- `npm run test:beta17:functional-cli-stage-attempt` passed.
+- `npm run attempt:beta17:functional-cli-stage` failed closed on the next real
+  boundary.
+
+Break attempts:
+- Existing missing-result fixture still fails closed.
+- Invalid result with `generatedFromPcdPolymer=false` still fails closed.
+- Remote skipped by `BRIK64_L6_SKIP_REMOTE=1` still fails closed.
+- Real remote factory emits a generic factory result, but no functional CLI
+  Stage result; this is rejected.
+
+Current real blockers:
+- `functional_cli_stage_result_unavailable`.
+- `remote_l6plus_factory_result_not_functional_cli_stage_result`.
+- `remote_l6plus_functional_cli_stage_result_not_emitted`.
+
+Next exact action:
+- Upgrade the L6+N5 factory materializer so a `cli` artifact request for
+  Beta17 emits a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`, then rerun
+  `npm run attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- The wrapper/capability discrepancy is corrected. Beta17 is still not
+  generated, not publishable, and not fixpoint/self-hosting/formal claim
+  evidence because the current factory output is generic rather than a
+  functional CLI Stage result.
+
+## Beta17 Ralph Loop Iteration - Target-aware factory result gate
+
+Timestamp: 2026-06-29T11:35:00Z
+
+Task:
+- Add a gate that distinguishes a generic L6+N5 artifact-factory result from a
+  target-aware Beta17 functional CLI Stage result.
+
+Change:
+- Added `scripts/beta17-target-aware-factory-result-gate.js`.
+- Added `scripts/tests/test_beta17_target_aware_factory_result_gate.sh`.
+- Added npm scripts `gate:beta17:target-aware-factory-result` and
+  `test:beta17:target-aware-factory-result`.
+- Generated real evidence at
+  `evidence/beta17-target-aware-factory-result-gate/report.json`.
+
+Validation:
+- `node --check scripts/beta17-target-aware-factory-result-gate.js` passed.
+- `npm run test:beta17:target-aware-factory-result` passed.
+- `npm run gate:beta17:target-aware-factory-result` failed closed against real
+  current L6+N5 factory output.
+
+Break attempts:
+- Synthetic target-aware factory result with embedded
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` passes.
+- Generic factory result without target result line fails closed.
+- Missing factory transcript fails closed.
+
+Current real blockers:
+- `factory_result_missing_target_functional_cli_stage_result_line`.
+- `factory_result_not_target_aware`.
+- `factory_artifact_not_functional_node_cli`.
+
+Next exact action:
+- Upgrade the L6+N5 factory materializer so `artifactKind=cli` requests for
+  Beta17 emit or embed a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`,
+  then rerun `gate:beta17:target-aware-factory-result` and
+  `attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- This iteration strengthens the gate only. It does not generate Beta17, does
+  not publish, and does not authorize fixpoint/self-hosting/formal claims.
+
+## Beta17 Ralph Loop Iteration - Target-aware factory materialization and package smoke
+
+Timestamp: 2026-06-29T12:05:00Z
+
+Task:
+- Upgrade the general L6+N5 factory bridge so the Beta17 `artifactKind=cli`
+  request produces a target-aware functional CLI Stage result, then package the
+  hydrated Stage artifact without replacing it with an aborting stub.
+
+Change:
+- Updated `scripts/l6plus-pcd-artifact-factory-install.js` so the generated
+  factory emits an embedded `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` for the
+  Beta17 CLI request.
+- Updated `scripts/beta17-functional-cli-stage-attempt.js` to extract embedded
+  functional result lines from generic factory results.
+- Updated `scripts/build-beta17-package-candidate.js`:
+  - fixed the gzip header for valid `.tgz` extraction;
+  - packages the hydrated Stage1 artifact as `src/brik.js`;
+  - uses CommonJS metadata because the generated artifact uses `require`.
+- Reinstalled the guarded remote factory with
+  `INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+- Regenerated Beta17 Stage, hydration, target-aware gate and package evidence.
+
+Validation:
+- `npm run test:l6plus:pcd-artifact-factory-install` passed.
+- `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM` passed.
+- `npm run audit:l6plus:pcd-artifact-factory` passed.
+- `npm run attempt:beta17:functional-cli-stage` passed.
+- `npm run gate:beta17:target-aware-factory-result` passed.
+- `npm run gate:beta17:fixpoint:functional-stage-artifact` passed.
+- `npm run package:beta17:fixpoint:candidate` passed with
+  `releaseEligible=true`.
+- Manual tarball smoke passed:
+  extracted `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz` and ran
+  `node src/brik.js`, `node src/brik.js certify`, and `node src/brik.js verify`.
+- Candidate publication preflight against
+  `evidence/beta17-package/release.manifest.candidate.json` remains blocked on
+  expected non-public gates.
+
+Break attempts:
+- Invalid gzip package was caught by extraction smoke and fixed.
+- CommonJS/ESM mismatch was caught by execution smoke and fixed.
+- Candidate preflight still blocks publication because public sync and external
+  audit are not complete.
+
+Current remaining blockers:
+- `package_manifest_publication_allowed_false`.
+- `package_json_version_mismatch:0.1.0-beta.16.1`.
+- `readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE`.
+- `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+- external audit remains blocked until public surfaces are synced.
+
+Next exact action:
+- Refresh Beta17 readiness against the new functional package candidate, then
+  decide whether to promote repo metadata/release manifest to a Beta17
+  candidate branch for release-train dry-run. Do not publish until public
+  surface sync and external audit gates pass.
+
+Boundary:
+- Functional Stage materialization and package candidate are now real local
+  evidence. This still does not prove final fixpoint, public release readiness,
+  formal N5, self-hosting or Rust independence.
+
+## Beta17 Ralph Loop Iteration - Readiness refresh for functional Stage evidence
+
+Timestamp: 2026-06-29T12:35:00Z
+
+Task:
+- Remove stale readiness drift after the functional Stage1 materialization by
+  regenerating readiness evidence from the hydrated functional CLI result.
+
+Change:
+- Updated `scripts/beta17-fixpoint-readiness-evidence-refresh.js` to prefer
+  `evidence/beta17-functional-cli-stage-result/result.line` over the old remote
+  stage-result transcript.
+- The refresh now regenerates:
+  - `stage1_artifact_manifest.json`;
+  - `stage2_regeneration_manifest.json`;
+  - `byte_identical_report.json`;
+  - `seal_report.json`;
+  - `remote_promotion_manifest.json` refs;
+  - evidence-pack manifest refs.
+- Updated test fixture coverage for refreshed Stage1/Stage2 manifest refs.
+
+Validation:
+- `npm run test:beta17:fixpoint:readiness-evidence-refresh` passed.
+- `npm run refresh:beta17:fixpoint:readiness-evidence` passed.
+- `npm run gate:beta17:fixpoint-readiness` now blocks only on public-surface
+  sync and external audit.
+- `npm run preflight:beta17:fixpoint:publication -- --manifest evidence/beta17-package/release.manifest.candidate.json`
+  still blocks publication as expected.
+
+Break attempts:
+- Missing stage result still fails closed.
+- Empty input PCD list still fails closed.
+- Input PCD hash drift still fails closed.
+- Stale 1473-byte Stage1/Stage2 refs are no longer accepted in readiness.
+
+Current remaining blockers:
+- `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+- `external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT`.
+- candidate publication preflight also keeps
+  `package_manifest_publication_allowed_false` and
+  `package_json_version_mismatch:0.1.0-beta.16.1` until metadata promotion is
+  intentionally performed.
+
+Next exact action:
+- Prepare controlled Beta17 metadata promotion for dry-run only, then run
+  release-train dry-run/surface sync planning. Do not mutate public surfaces
+  until public sync and external audit gates can be produced.
+
+Boundary:
+- Internal readiness drift is corrected. Public release, public sync, external
+  audit, and final fixpoint/public claims remain closed.

@@ -127,6 +127,75 @@
   `0.1.0-beta.17`, so the public release preflight cannot rely only on the
   aggregate readiness report. The regression test also restores all Beta17
   evidence it mutates, keeping the worktree clean after checks.
+- Publication preflight update: Beta17 now has
+  `preflight:beta17:fixpoint:publication`, a non-mutating publication
+  readiness gate that binds `release/manifest.json`, package tarball,
+  `package.manifest.json`, required fixpoint evidence files, readiness,
+  public-surface sync and external-audit status before any public mutation can
+  be considered. Current real evidence is correctly blocked because the active
+  release manifest and package metadata are still `0.1.0-beta.16.1`, public
+  sync evidence is still based on live `0.1.0-beta.15.7.1`, and external audit
+  remains blocked until public surfaces are synced to Beta17.
+- Package candidate update: Beta17 now has
+  `package:beta17:fixpoint:candidate`, a deterministic candidate-package
+  builder that packages the current L6+N5 Stage1 artifact and Beta17 evidence
+  into `evidence/beta17-package/` without mutating the active public
+  `release/manifest.json`. The package manifest is intentionally
+  `releaseEligible=false` and `publicationAllowed=false` while the Stage1
+  artifact is only a small stage metadata module, not a full functional CLI
+  artifact. This closes the metadata/package-location gap without opening a
+  false publication path.
+- Functional Stage artifact gate update: Beta17 now has
+  `gate:beta17:fixpoint:functional-stage-artifact`, which requires the Stage1
+  artifact to be hash-bound, byte-bound, sufficiently sized, executable as a
+  Node CLI entrypoint, version-bound and command-dispatch capable. The current
+  real Stage1 evidence is blocked with `stage1_artifact_too_small`,
+  `stage1_artifact_missing_node_entrypoint`,
+  `stage1_artifact_missing_argv_handling` and
+  `stage1_artifact_missing_command_dispatcher`; therefore the package candidate
+  remains `releaseEligible=false`.
+- Functional CLI Stage request update: Beta17 now has a dedicated PCD source
+  contract and request bundle for asking L6+N5 to materialize Stage1 as a full
+  CLI artifact. `bundle:beta17:functional-cli-stage-request` produces
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST` with the functional CLI
+  requirements, required PCD hashes, output refs and closed claim boundary.
+  This is input evidence only; it does not replace the future L6+N5 result or
+  functional Stage artifact gate.
+- Functional CLI Stage result validator update: Beta17 now has a parser and
+  validator for `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`. The validator
+  accepts only a result that binds the request hash, PCD input set, L6+N5
+  serial, full Stage1 artifact bytes/base64, hash/byte refs, functional CLI
+  markers and closed claim boundaries. This prepares safe hydration of a future
+  remote L6+N5 result without allowing metadata-only or claim-overreaching
+  payloads.
+- Functional CLI Stage hydration update: Beta17 now has
+  `hydrate:beta17:functional-cli-stage-result`, a fail-closed consumer for the
+  future L6+N5 result line. It validates the result, decodes the Stage1
+  artifact, writes only safe hash-bound refs, and produces a hydration report.
+  Current live evidence is blocked because no
+  `evidence/beta17-functional-cli-stage-result/result.line` exists yet.
+- Functional CLI Stage attempt update: Beta17 now has
+  `attempt:beta17:functional-cli-stage`, a single entrypoint for the optimized
+  goal step between request generation and hydration. It consumes an explicit
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` if supplied, validates it with
+  the request manifest, runs the hydrator, and writes
+  `evidence/beta17-functional-cli-stage-attempt/report.json`. It now also
+  probes the L6+N5 wrapper with the functional CLI Stage request and records
+  transcripts for the attempted remote commands. Current real evidence is
+  fail-closed with `functional_cli_stage_result_unavailable`,
+  `remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`
+  and `remote_l6plus_functional_cli_stage_result_not_emitted`, proving that
+  the remaining blocker is a missing L6+N5 functional CLI Stage endpoint, not
+  package metadata or local hydration plumbing.
+- L6+N5 general factory audit update: the Beta17 route now explicitly rejects
+  accumulating version-specific wrapper endpoints as the long-term generation
+  model. `audit:l6plus:pcd-artifact-factory` requires the remote wrapper to
+  expose `l6plus_pcd_artifact_factory` and emit
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` for versioned PCD/polymer
+  artifact requests. Current real evidence is fail-closed with only
+  `beta15_7_ready,beta16_1_ready,beta16_native_ready` observed, no factory
+  result marker, and `factory-status` unsupported. Beta17 materialization must
+  route through this general factory before publication or fixpoint claims.
 
 ## Legacy Plan Context
 
@@ -600,3 +669,80 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   pre-execution guard. The live host still advertises only beta15.7/beta16
   capabilities, and the Beta17 attempt stops before materialization commands
   because no executed dispatcher install report exists.
+
+## Beta17 General Factory Update
+
+- L6+N5 general factory audit: the Beta17 route now rejects accumulating
+  version-specific wrapper endpoints as the generation model. The required
+  capability is `l6plus_pcd_artifact_factory`, and the required result marker
+  is `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`. Current real wrapper evidence
+  remains blocked: observed capabilities are only
+  `beta15_7_ready,beta16_1_ready,beta16_native_ready`, the factory result marker
+  is absent, and `factory-status` is unsupported.
+- General factory install dry-run: `install:l6plus:pcd-artifact-factory` now
+  produces a guarded installer for a reusable wrapper capability. The generated
+  factory accepts `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST`, supports artifact
+  kinds `cli`, `sdk`, `harness`, `engine`, `docs` and `evidence-pack`, emits
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`, and keeps public/fixpoint/formal
+  claim boundaries closed. Current evidence is dry-run only; remote mutation
+  requires `--execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+- Beta17 materialization must route through this general factory before
+  publication or fixpoint claims. A version-specific Beta17 endpoint is not the
+  optimized target architecture.
+- Remote factory validation update: the guarded remote install has now passed
+  with `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL`, and the live wrapper audit
+  passes with `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT`. The wrapper discrepancy
+  is corrected at the routing/capability layer: `factory-status` is supported,
+  `l6plus_pcd_artifact_factory` is advertised, and
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` is emitted.
+- Remaining Beta17 blocker: the installed factory currently emits a generic
+  artifact-factory result, not the Beta17-specific
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`. The functional CLI Stage attempt
+  now routes through `artifact-factory-materialize` and fails closed on
+  `remote_l6plus_factory_result_not_functional_cli_stage_result`. This is the
+  correct next boundary: L6+N5 needs a target-aware factory materializer that
+  can produce the functional CLI Stage result from PCD/polymer inputs, without
+  turning the non-claim wrapper bridge into fixpoint/self-hosting evidence.
+- Target-aware factory result gate update:
+  `gate:beta17:target-aware-factory-result` now validates the output of
+  `artifact-factory-materialize` as a target-aware Beta17 CLI Stage output. A
+  generic `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` is not sufficient unless
+  it carries or embeds a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+  Current real evidence is blocked with missing target result line, non
+  target-aware factory result and non-functional Node CLI artifact blockers.
+- Target-aware materialization update: the L6+N5 factory bridge now emits an
+  embedded `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` for the Beta17 CLI
+  request, and `attempt:beta17:functional-cli-stage` hydrates the Stage1 CLI
+  artifact successfully. `gate:beta17:target-aware-factory-result` and
+  `gate:beta17:fixpoint:functional-stage-artifact` pass. The package candidate
+  now extracts and executes basic commands from the generated artifact instead
+  of shipping the previous aborting stub. Publication remains blocked by
+  metadata promotion, readiness, public-surface sync and external audit.
+- Readiness refresh update: readiness evidence now derives from the hydrated
+  functional CLI Stage result when present, regenerates Stage1/Stage2 manifests,
+  byte-identity and seal reports for the 190315-byte functional artifact, and
+  refreshes remote-promotion refs. `gate:beta17:fixpoint-readiness` now blocks
+  only on public-surface sync and external audit evidence, not on stale Stage
+  artifact drift.
+- Candidate preflight semantics update: `preflight:beta17:fixpoint:publication`
+  now separates candidate package readiness from public publication
+  authorization. For `state=candidate` manifests, a package manifest with
+  `releaseEligible=true` and `publicationAllowed=false` is valid
+  candidate-ready evidence and emits a warning instead of the false
+  `package_manifest_publication_allowed_false` blocker. Public manifests still
+  require `publicationAllowed=true`. The real candidate preflight now blocks
+  only on active metadata promotion, public-surface sync and external audit.
+- Candidate release-manifest evidence update: `package:beta17:fixpoint:candidate`
+  now writes `verification.requiredEvidence` as structured evidence items
+  with `id`, `path` and `decision`, and `release:train:dry-run` supports
+  `decision=FILE_EXISTS` for binary artifacts such as the CLI tarball. This
+  keeps the candidate manifest consumable by the release train without forcing
+  binary packages through JSON report parsing.
+- Active candidate metadata update: Beta17 now has an explicit candidate-mode
+  release-train gate. `package.json` and `release/manifest.json` can point to
+  `0.1.0-beta.17` while `release/manifest.json.state=candidate`; in that
+  state `release:train:dry-run` validates the generated package candidate and
+  expected publication blockers through `gate:beta17:candidate-release-train`
+  instead of running the public mutation path. `tests/smoke.sh` also switches
+  to the generated Beta17 tarball in this mode, so CI validates the L6+N5
+  materialized artifact rather than the historical source tree.

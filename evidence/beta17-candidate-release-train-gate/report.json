@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "brik64.beta17_candidate_release_train_gate.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T09:07:45.369Z",
+  "decision": "PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE",
+  "publicationAllowed": false,
+  "checks": [
+    {
+      "id": "package_json_version",
+      "expected": "0.1.0-beta.17",
+      "actual": "0.1.0-beta.17",
+      "pass": true
+    },
+    {
+      "id": "release_manifest_candidate",
+      "expectedVersion": "0.1.0-beta.17",
+      "actualVersion": "0.1.0-beta.17",
+      "state": "candidate",
+      "pass": true
+    },
+    {
+      "id": "package_manifest_candidate_ready",
+      "version": "0.1.0-beta.17",
+      "releaseEligible": true,
+      "publicationAllowed": false,
+      "packagePathMatches": true,
+      "packageShaMatches": true,
+      "packageBytesMatches": true,
+      "pass": true
+    },
+    {
+      "id": "publication_preflight_expected_blocked",
+      "commandRc": 1,
+      "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
+      "publicationAllowed": false,
+      "packageManifestCandidateReady": true,
+      "hasExpectedBlockers": true,
+      "forbiddenBlockers": [],
+      "pass": true
+    }
+  ],
+  "blockers": [],
+  "warnings": [
+    "package_manifest_candidate_publication_closed"
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

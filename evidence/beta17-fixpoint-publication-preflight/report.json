@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T09:08:23.447Z",
+  "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
+  "publicationAllowed": false,
+  "releaseId": "brik64-0.1.0-beta.17",
+  "manifestVersion": "0.1.0-beta.17",
+  "checks": [
+    {
+      "id": "release_manifest",
+      "path": "release/manifest.json",
+      "exists": true,
+      "version": "0.1.0-beta.17",
+      "releaseId": "brik64-0.1.0-beta.17",
+      "state": "candidate",
+      "pass": true
+    },
+    {
+      "id": "cli_package",
+      "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+      "exists": true,
+      "pass": true,
+      "expectedSha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "expectedBytes": 404533,
+      "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "bytes": 404533
+    },
+    {
+      "id": "package_manifest",
+      "path": "evidence/beta17-package/package.manifest.json",
+      "exists": true,
+      "pass": true,
+      "version": "0.1.0-beta.17",
+      "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
+      "package": {
+        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+        "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+        "bytes": 404533
+      },
+      "releaseEligible": true,
+      "publicationAllowed": false,
+      "candidateReady": true
+    },
+    {
+      "id": "package_json",
+      "path": "package.json",
+      "version": "0.1.0-beta.17",
+      "pass": true
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/canonical_motor_manifest.json",
+      "path": "evidence/beta17-fixpoint/canonical_motor_manifest.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "7a743b881f7a528e900c7496929e93daa0c8cecac4ac52f7428e3f1aff271049",
+      "bytes": 1661
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/canonical_harness_manifest.json",
+      "path": "evidence/beta17-fixpoint/canonical_harness_manifest.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "b547b4b42c0e8f2d45164c3c627b7706b822715aa6cdb9ba571e12cf35b1ee26",
+      "bytes": 1580
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+      "path": "evidence/beta17-fixpoint/input_pcd_hashes.tsv",
+      "exists": true,
+      "pass": true,
+      "sha256": "2bc9652b64075b9f95bfe8e936c9a93018abe34704971969946e2114d9fb7d17",
+      "bytes": 556
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "f66ce6346774cafd9eab6ea2c35377284a7bda809183b2c29472976c44146a20",
+      "bytes": 961
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "5f50a93d7011dbf5b4fcd6943d6ce396ce5b6d06ed2f5221b9761493a607ceaf",
+      "bytes": 1131
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/byte_identical_report.json",
+      "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "c251b064a926ddf01b20511afcfc992e258e671318eaaa5e5a2eb1e9bf9108b9",
+      "bytes": 1115
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/harness_report.json",
+      "path": "evidence/beta17-fixpoint/harness_report.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+      "bytes": 450
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/seal_report.json",
+      "path": "evidence/beta17-fixpoint/seal_report.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "0ab3258e52fc3a01af9dcf60431affbdbe4eb7b96035a148fcdd6950b3f30baa",
+      "bytes": 791
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/remote_promotion_manifest.json",
+      "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "cd4cae928a624ab1f092fb926b1908569914e1e851d1ef3a1a4ce0101c9c5f61",
+      "bytes": 5924
+    },
+    {
+      "id": "evidence:evidence/beta17-fixpoint/evidence_pack_manifest.json",
+      "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
+      "exists": true,
+      "pass": true,
+      "sha256": "b098b32aa289bb7ded6d09bbae6e75d0546c2c77cb3bfb13efe6296bf3bfed45",
+      "bytes": 4132
+    },
+    {
+      "id": "readiness",
+      "path": "evidence/beta17-fixpoint-readiness/report.json",
+      "expectedDecision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
+      "exists": true,
+      "pass": false,
+      "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+      "sha256": "096b27a8c25d4048b5fea624571f0e7ddc4cc85b10932fa7a89be15f40fc51c6",
+      "bytes": 6231,
+      "blocker": "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+      "blockers": [
+        "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+        "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+        "external_audit_missing_clean_public_install",
+        "external_audit_missing_functional_tests",
+        "external_audit_missing_generated_code_tests",
+        "external_audit_missing_adversarial_tests",
+        "external_audit_missing_public_surface_scan",
+        "external_audit_missing_claim_safe_scan"
+      ]
+    },
+    {
+      "id": "public_surface_sync",
+      "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+      "expectedDecision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
+      "exists": true,
+      "pass": false,
+      "decision": "BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
+      "bytes": 1044,
+      "blocker": "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+      "blockers": []
+    },
+    {
+      "id": "external_audit_status",
+      "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
+      "expectedDecision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+      "exists": true,
+      "pass": false,
+      "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+      "sha256": "b2dcfb08ca218cbe47ca57e0b0eaa999a9c05cbb21ede2cd434e3e8cca43134b",
+      "bytes": 3137,
+      "blocker": "external_audit_status_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+      "blockers": [
+        "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+        "public_surface_sync_not_synced",
+        "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+        "external_audit_missing_clean_public_install",
+        "external_audit_missing_functional_tests",
+        "external_audit_missing_generated_code_tests",
+        "external_audit_missing_adversarial_tests",
+        "external_audit_missing_public_surface_scan",
+        "external_audit_missing_claim_safe_scan",
+        "external_audit_blocked_until_public_surface_sync_passes"
+      ]
+    }
+  ],
+  "blockers": [
+    "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+    "readiness:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "readiness:external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+    "readiness:external_audit_missing_clean_public_install",
+    "readiness:external_audit_missing_functional_tests",
+    "readiness:external_audit_missing_generated_code_tests",
+    "readiness:external_audit_missing_adversarial_tests",
+    "readiness:external_audit_missing_public_surface_scan",
+    "readiness:external_audit_missing_claim_safe_scan",
+    "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "external_audit_status_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+    "external_audit_status:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "external_audit_status:public_surface_sync_not_synced",
+    "external_audit_status:external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
+    "external_audit_status:external_audit_missing_clean_public_install",
+    "external_audit_status:external_audit_missing_functional_tests",
+    "external_audit_status:external_audit_missing_generated_code_tests",
+    "external_audit_status:external_audit_missing_adversarial_tests",
+    "external_audit_status:external_audit_missing_public_surface_scan",
+    "external_audit_status:external_audit_missing_claim_safe_scan",
+    "external_audit_status:external_audit_blocked_until_public_surface_sync_passes"
+  ],
+  "warnings": [
+    "package_manifest_candidate_publication_closed"
+  ],
+  "nextActions": [
+    "Refresh Beta17 fixpoint readiness evidence and rerun gate:beta17:fixpoint-readiness.",
+    "Run the release train dry-run, sync public surfaces to Beta17, run live verify, then rerun sync:beta17:fixpoint:public-surfaces.",
+    "Run the external audit from a clean public install after public-surface sync passes, then rerun gate:beta17:fixpoint:external-audit-status."
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "boundary": "Non-mutating preflight only. PASS means the repo evidence is ready for the release train; it does not itself publish public surfaces or prove formal N5."
+}
