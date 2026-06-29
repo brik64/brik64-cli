@@ -71,6 +71,15 @@
   L6+N5 output must bind the generated materializer file, request hash, PCD
   input-set hash, engine serial, non-fixture content and closed claim boundary
   before deploy-plan or dispatcher install can consume it.
+- Materializer generation attempt update: Beta17 now has a live attempt gate
+  for the materializer-generation request. The gate probes L6+N5, requires
+  endpoint capability `beta17_fixpoint_materializer_generator`, tries bounded
+  generation commands and accepts only a validated
+  `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT`. Current live
+  evidence is fail-closed: the host audit passes, but the wrapper mode is
+  `unknown`, exposed capabilities remain
+  `beta15_7_ready,beta16_native_ready,beta16_1_ready`, and no Beta17
+  materializer-generation result is emitted.
 
 ## Legacy Plan Context
 

@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.materializer_generation_attempt.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T04:40:13.096Z",
+  "decision": "BLOCKED_BETA17_FIXPOINT_MATERIALIZER_GENERATION_ATTEMPT",
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "host": "root@89.167.104.236",
+  "skipped": false,
+  "remoteEndpointContract": {
+    "requiredEndpointCapability": "beta17_fixpoint_materializer_generator",
+    "requiredWrapperMode": "beta17_fixpoint_materializer_generator",
+    "attemptedGenerationCommands": [
+      "beta17-fixpoint-materializer-generate",
+      "fixpoint-materializer-generate",
+      "generate-materializer"
+    ],
+    "requiredResultMarker": "BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT",
+    "installHint": [
+      "install beta17_fixpoint_materializer_generator in the L6+N5 wrapper",
+      "ensure it consumes evidence/beta17-fixpoint-materializer-generation-request/request.json",
+      "ensure it emits BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT",
+      "generated materializer must contain BRIK64_BETA17_FIXPOINT_STAGE_RESULT and must not contain fixture/template markers"
+    ],
+    "nonAcceptableSubstitutes": [
+      "healthy L6+N5 host audit without materializer-generation endpoint",
+      "beta15.7 or beta16 CLI materializer endpoint",
+      "beta17 stage dispatcher without materializer-generation endpoint",
+      "fixture or TEMPLATE_NON_CLAIM materializer"
+    ]
+  },
+  "request": {
+    "path": "evidence/beta17-fixpoint-materializer-generation-request/request.json",
+    "sha256": "e9a081ec2291e809dfcee3ab0f9abeb808d1e7d25d903586a88cfc52fe57fb87",
+    "pcdInputSetSha256": "953c02a3be17df3d7140ff7e88474ffb453e493460ec00c410f61b0879d0aeaf",
+    "requestLineSha256": "36220b8dc8c0a4e43fa6f15c43887b0a791b1c24ca177c82de7190162f7ec235"
+  },
+  "remote": {
+    "hostProbe": {
+      "status": 0,
+      "stdout_sha256": "5d89b620851b7fff75efae61d54739722b6ef3713a886108cb6a16d68266058f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "auditDecision": "PASS"
+    },
+    "remoteRefProbe": {
+      "status": 0,
+      "stdout_sha256": "3d147a1d5e7b82fce82deb2499dda3a8b2367beebd76f52ea7fbf88ad0eafcad",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "endpointStatusProbe": {
+      "status": 0,
+      "stdout_sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
+      "stderr_sha256": "6cf8d6efb48f4f9d88878615ec0ed4e7f84fe0bbb7a177032afa705f68751fc3"
+    },
+    "wrapperMode": "unknown",
+    "endpointCapabilities": [
+      "beta15_7_ready",
+      "beta16_native_ready",
+      "beta16_1_ready"
+    ],
+    "endpointSignals": [
+      {
+        "marker": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT",
+        "fields": [
+          "installed",
+          "beta15_7_ready,beta16_native_ready,beta16_1_ready"
+        ]
+      },
+      {
+        "marker": "BRIK64_L6_CLI_MATERIALIZATION_RESULT",
+        "fields": [
+          "available"
+        ]
+      },
+      {
+        "marker": "BRIK64_L6_BETA16_STAGE1_MATERIALIZATION_RESULT",
+        "fields": [
+          "available"
+        ]
+      }
+    ],
+    "remoteRefs": {
+      "wrapper": {
+        "sha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+        "bytes": 1546,
+        "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
+      },
+      "wrapper_exec_target": {
+        "sha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+        "bytes": 851,
+        "target": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus"
+      }
+    },
+    "transcripts": {
+      "hostProbeStdout": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/host-probe.stdout.txt",
+        "sha256": "5d89b620851b7fff75efae61d54739722b6ef3713a886108cb6a16d68266058f",
+        "bytes": 1028
+      },
+      "hostProbeStderr": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/host-probe.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "remoteRefStdout": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/remote-ref.stdout.txt",
+        "sha256": "3d147a1d5e7b82fce82deb2499dda3a8b2367beebd76f52ea7fbf88ad0eafcad",
+        "bytes": 357
+      },
+      "remoteRefStderr": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/remote-ref.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "endpointStatusStdout": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/endpoint-status.stdout.txt",
+        "sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
+        "bytes": 204
+      },
+      "endpointStatusStderr": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/endpoint-status.stderr.txt",
+        "sha256": "6cf8d6efb48f4f9d88878615ec0ed4e7f84fe0bbb7a177032afa705f68751fc3",
+        "bytes": 110
+      }
+    }
+  },
+  "expectedContext": {
+    "workspaceRoot": "/private/tmp/brik64-cli-beta17-fixpoint",
+    "pcdInputSetSha256": "953c02a3be17df3d7140ff7e88474ffb453e493460ec00c410f61b0879d0aeaf",
+    "materializerGenerationRequestSha256": "36220b8dc8c0a4e43fa6f15c43887b0a791b1c24ca177c82de7190162f7ec235",
+    "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+    "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+    "requiredInputPcdPaths": [
+      "pcd/beta17/release/fixpoint_materializer_generation_contract.pcd",
+      "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
+      "pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd",
+      "pcd/cli_core.pcd",
+      "pcd/cli_polymer.pcd"
+    ]
+  },
+  "attempts": [
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "beta17-fixpoint-materializer-generate",
+        "@@FILE:<beta17-materializer-generation-request>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "generationResult": null,
+      "stdoutTranscript": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/attempt-1.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/attempt-1.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      },
+      "generationResultValidation": {
+        "accepted": false,
+        "blockers": [
+          "materializer_generation_result_missing_or_invalid"
+        ],
+        "normalized": null
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "fixpoint-materializer-generate",
+        "@@FILE:<beta17-materializer-generation-request>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "generationResult": null,
+      "stdoutTranscript": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/attempt-2.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/attempt-2.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      },
+      "generationResultValidation": {
+        "accepted": false,
+        "blockers": [
+          "materializer_generation_result_missing_or_invalid"
+        ],
+        "normalized": null
+      }
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "generate-materializer",
+        "@@FILE:<beta17-materializer-generation-request>"
+      ],
+      "status": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
+      "generationResult": null,
+      "stdoutTranscript": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/attempt-3.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/beta17-fixpoint-materializer-generation-attempt/transcripts/attempt-3.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      },
+      "generationResultValidation": {
+        "accepted": false,
+        "blockers": [
+          "materializer_generation_result_missing_or_invalid"
+        ],
+        "normalized": null
+      }
+    }
+  ],
+  "blockers": [
+    "remote_l6plus_wrapper_mode_not_materializer_generation:unknown",
+    "remote_l6plus_materializer_generation_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+    "remote_l6plus_beta17_materializer_generation_result_unavailable"
+  ],
+  "nextAction": "deploy beta17_fixpoint_materializer_generator on the L6+N5 host, ensure it emits BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT, and rerun this attempt"
+}
