@@ -327,6 +327,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   include `source` metadata binding the canonical promoted file back to the
   source/remote evidence SHA-256. Target-only promotion manifests remain
   blocked.
+- Promotion source byte binding: remote result promotion records
+  `source.bytes`, and readiness requires that value to match the canonical
+  promoted artifact size. Source refs with detached byte metadata fail closed.
 - Release train binding: `release:train:dry-run` routes `0.1.0-beta.17`
   candidate branches and manifest-driven runs through
   `gate:beta17:fixpoint-readiness`. In candidate mode it also records

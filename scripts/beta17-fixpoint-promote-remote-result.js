@@ -83,6 +83,7 @@ function validateCopyRef(sourceRef, targetRelativePath, blockers, key) {
     source: {
       path: sourceRef.path,
       sha256: sourceSha256,
+      bytes: fs.statSync(source).size,
     },
   };
 }

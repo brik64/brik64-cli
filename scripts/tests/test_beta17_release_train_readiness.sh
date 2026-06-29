@@ -243,11 +243,12 @@ for token, filename in {
 data = json.loads(text)
 for key in ("stage1Artifact", "stage2Artifact"):
     ref = data["promoted"][key]
+    target = root.parent.parent / ref["path"]
     ref["source"] = {
         "path": ref["path"].replace("evidence/beta17-fixpoint/", "evidence/beta17-source/"),
         "sha256": ref["sha256"],
+        "bytes": target.stat().st_size,
     }
-    target = root.parent.parent / ref["path"]
     ref["target"] = {
         "path": ref["path"],
         "sha256": ref["sha256"],

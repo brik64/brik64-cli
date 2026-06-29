@@ -2223,3 +2223,33 @@ Evidence:
 Boundary:
 - This validates source/target promotion traceability. It does not generate
   real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Promoted source byte binding
+
+Timestamp: 2026-06-29T00:31:11Z
+
+Task:
+- Bind promoted Stage artifact source refs by byte count as well as SHA-256.
+
+Change:
+- Updated `scripts/beta17-fixpoint-promote-remote-result.js` to include
+  `source.bytes` in promoted refs.
+- Updated `scripts/beta17-fixpoint-readiness-gate.js` to reject missing,
+  invalid or mismatched `source.bytes` values.
+- Updated remote-result-promotion, readiness and release-train fixtures to
+  include source byte metadata and an adversarial source-byte mismatch.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-promote-remote-result.js` passed.
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+
+Boundary:
+- This validates source byte metadata integrity. It does not generate real
+  L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

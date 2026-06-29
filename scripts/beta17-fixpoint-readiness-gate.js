@@ -158,6 +158,9 @@ function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) 
   if (String(source.sha256 || '').toLowerCase() !== String(promoted.sha256 || '').toLowerCase()) {
     blockers.push(`remote_promotion_source_sha256_mismatch:${promotedKey}`);
   }
+  if (!Number.isInteger(source.bytes) || source.bytes < 1) {
+    blockers.push(`remote_promotion_source_bytes_invalid:${promotedKey}`);
+  }
   const target = promoted.target;
   if (!target || typeof target !== 'object') {
     blockers.push(`remote_promotion_missing_target_ref:${promotedKey}`);
@@ -189,6 +192,9 @@ function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) 
   }
   if (Number.isInteger(target?.bytes) && actualSize !== target.bytes) {
     blockers.push(`remote_promotion_target_bytes_mismatch:${promotedKey}:${promoted.path}`);
+  }
+  if (Number.isInteger(source?.bytes) && actualSize !== source.bytes) {
+    blockers.push(`remote_promotion_source_bytes_mismatch:${promotedKey}:${promoted.path}`);
   }
 }
 

@@ -974,3 +974,19 @@
       - Boundary:
         this rejects target-only promotion manifests. It does not create real
         L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+- [x] Beta17 promoted source byte binding.
+      - Scripts:
+        `scripts/beta17-fixpoint-promote-remote-result.js`,
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh`,
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Goal:
+        record `source.bytes` during remote-result promotion and require
+        readiness to reject promoted artifacts whose source byte count does not
+        match the canonical promoted artifact.
+      - Boundary:
+        this hardens source metadata binding. It does not create real L6+N5
+        Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
