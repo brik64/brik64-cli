@@ -2994,3 +2994,38 @@ Boundary:
 - This binds dry-run evidence only. It does not install the live dispatcher,
   execute remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or
   publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote stage install-evidence preflight
+
+Timestamp: 2026-06-29T07:15:00Z
+
+Task:
+- Prevent Beta17 remote stage attempts from running before there is an executed,
+  evidence-bound dispatcher install report.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to validate
+  `evidence/beta17-fixpoint-remote-dispatcher/install-report.json` before
+  materialization commands are attempted.
+- The validator requires the Beta17 install report schema/version, executed
+  PASS decision, closed claim boundary, expected capability, accepted
+  install-script validation, materialize command and materializer/provenance refs.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to assert
+  missing install evidence is a blocker.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is a pre-execution guard. It does not install the live dispatcher, execute
+  remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
+  Beta17.

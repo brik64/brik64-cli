@@ -479,3 +479,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   the review artifact sufficient to answer which script was validated, which
   materializer it would install and which provenance file authorizes that
   materializer before executing the guarded remote install.
+
+- Remote stage pre-execution gate: `attempt:beta17:fixpoint:remote-stage` now
+  requires an executed Beta17 dispatcher `install-report.json` before attempting
+  materialization commands. The report must show the Beta17 capability, executed
+  install decision, closed claim boundary, accepted install-script validation,
+  required materialize command and materializer/provenance refs. Missing or
+  dry-run-only install evidence is a hard blocker.

@@ -121,6 +121,7 @@ fi
 
 grep -q "BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT" /tmp/brik64-beta17-remote-attempt.stdout
 grep -q "remote_l6plus_probe_failed" /tmp/brik64-beta17-remote-attempt.stderr
+grep -q "remote_dispatcher_install_report_missing" /tmp/brik64-beta17-remote-attempt.stderr
 grep -q "remote_l6plus_beta17_stage_result_unavailable" /tmp/brik64-beta17-remote-attempt.stderr
 
 jq -e '
@@ -129,7 +130,9 @@ jq -e '
   and .claimBoundary.definitiveFixpointAllowed==false
   and .skipped==true
   and (.blockers | index("remote_l6plus_probe_failed"))
+  and (.blockers | index("remote_dispatcher_install_report_missing"))
   and (.blockers | index("remote_l6plus_beta17_stage_result_unavailable"))
+  and .installEvidence==null
   and .remoteEndpointContract.requiredEndpointCapability=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredWrapperMode=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredStageResultMarker=="BRIK64_BETA17_FIXPOINT_STAGE_RESULT"

@@ -1353,3 +1353,22 @@
         this improves evidence traceability for guarded install. It does not
         install the live dispatcher, generate Stage1/Stage2 artifacts, prove
         fixpoint or publish Beta17.
+
+- [x] Require executed Beta17 dispatcher install evidence before remote stage attempts.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Result:
+        remote stage attempts now fail closed unless an executed
+        `evidence/beta17-fixpoint-remote-dispatcher/install-report.json` proves
+        the Beta17 dispatcher install path passed with the expected capability,
+        validated install script, materializer refs and closed claim boundaries.
+      - Break attempts:
+        skip-mode test now proves the remote stage report includes
+        `remote_dispatcher_install_report_missing` and does not attempt to treat
+        a missing install report as sufficient pre-execution evidence.
+      - Boundary:
+        this blocks premature remote stage execution. It does not create or
+        install the real dispatcher, generate Stage1/Stage2 artifacts, prove
+        fixpoint or publish Beta17.

@@ -11,6 +11,7 @@ const root = process.env.BRIK64_CLI_ROOT
   : path.resolve(__dirname, '..');
 const evidenceDir = path.join(root, 'evidence', 'beta17-fixpoint-remote-attempt');
 const requestPath = path.join(root, 'evidence', 'beta17-fixpoint-stage-request', 'request.json');
+const installReportPath = path.join(root, 'evidence', 'beta17-fixpoint-remote-dispatcher', 'install-report.json');
 const host = process.env.BRIK64_L6_HOST || 'root@89.167.104.236';
 const wrapper = process.env.BRIK64_L6_WRAPPER || '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5';
 const healthcheck = process.env.BRIK64_L6_HEALTHCHECK || '/opt/brik64/engines/l6plus-n5/bin/healthcheck';
@@ -195,6 +196,73 @@ function readRequest() {
   return request;
 }
 
+function validateInstallReport() {
+  const blockers = [];
+  if (!fs.existsSync(installReportPath)) {
+    return {
+      report: null,
+      ref: null,
+      blockers: ['remote_dispatcher_install_report_missing'],
+    };
+  }
+  let report = null;
+  try {
+    report = JSON.parse(fs.readFileSync(installReportPath, 'utf8'));
+  } catch {
+    return {
+      report: null,
+      ref: {
+        path: rel(installReportPath),
+        sha256: sha256File(installReportPath),
+        bytes: fs.statSync(installReportPath).size,
+      },
+      blockers: ['remote_dispatcher_install_report_json_parse_failed'],
+    };
+  }
+  if (report.schemaVersion !== 'brik64.beta17_fixpoint.remote_dispatcher_install_report.v1') {
+    blockers.push('remote_dispatcher_install_report_schema_invalid');
+  }
+  if (report.version !== '0.1.0-beta.17') {
+    blockers.push(`remote_dispatcher_install_report_version_mismatch:${report.version || 'missing'}`);
+  }
+  if (report.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL') {
+    blockers.push(`remote_dispatcher_install_report_not_executed:${report.decision || 'missing'}`);
+  }
+  if (report.executed !== true) {
+    blockers.push('remote_dispatcher_install_report_executed_false');
+  }
+  if (report.publicationAllowed !== false) {
+    blockers.push('remote_dispatcher_install_report_publication_open');
+  }
+  if (report.claimBoundary?.definitiveFixpointAllowed !== false) {
+    blockers.push('remote_dispatcher_install_report_fixpoint_open');
+  }
+  if (report.plan?.capability !== requiredEndpointCapability) {
+    blockers.push(`remote_dispatcher_install_report_capability_invalid:${report.plan?.capability || 'missing'}`);
+  }
+  if (report.installScript?.validation?.accepted !== true) {
+    blockers.push('remote_dispatcher_install_report_script_validation_not_accepted');
+  }
+  if (!report.installScript?.validation?.requiredCommands?.includes('beta17-fixpoint-stage-materialize')) {
+    blockers.push('remote_dispatcher_install_report_materialize_command_missing');
+  }
+  if (!String(report.installScript?.validation?.materializerExecBinding || '').includes(String(report.plan?.materializerRemotePath || ''))) {
+    blockers.push('remote_dispatcher_install_report_materializer_exec_binding_mismatch');
+  }
+  if (!report.plan?.localMaterializerRef || !report.plan?.materializerProvenanceRef) {
+    blockers.push('remote_dispatcher_install_report_materializer_refs_missing');
+  }
+  return {
+    report,
+    ref: {
+      path: rel(installReportPath),
+      sha256: sha256File(installReportPath),
+      bytes: fs.statSync(installReportPath).size,
+    },
+    blockers,
+  };
+}
+
 function probeRemote() {
   const hostProbe = ssh(['set -u', `${healthcheck}`, `${wrapper} --version`, `${audit}`].join('; '));
   const remoteRefProbe = ssh([
@@ -306,6 +374,8 @@ function main() {
   } catch (error) {
     blockers.push(error.message);
   }
+  const installEvidence = validateInstallReport();
+  blockers.push(...installEvidence.blockers);
   const remote = probeRemote();
   if (remote.hostProbe.status !== 0) blockers.push('remote_l6plus_probe_failed');
   if (!skipRemote && remote.auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
@@ -316,7 +386,8 @@ function main() {
     const capabilities = remote.endpointCapabilities.length > 0 ? remote.endpointCapabilities.join(',') : 'missing';
     blockers.push(`remote_l6plus_beta17_stage_endpoint_missing:${capabilities}`);
   }
-  const attempts = request ? attemptRemote(request) : [];
+  const canAttemptRemoteStage = request && installEvidence.blockers.length === 0;
+  const attempts = canAttemptRemoteStage ? attemptRemote(request) : [];
   const persistedAttempts = persistAttemptTranscripts(attempts);
   const expectedContext = request
     ? {
@@ -379,6 +450,22 @@ function main() {
           path: rel(requestPath),
           sha256: sha256File(requestPath),
           pcdInputSetSha256: request.pcdInputSetSha256,
+        }
+      : null,
+    installEvidence: installEvidence.ref
+      ? {
+          reportRef: installEvidence.ref,
+          decision: installEvidence.report?.decision || null,
+          executed: installEvidence.report?.executed ?? null,
+          materializerSha256: installEvidence.report?.plan?.materializerSha256 || null,
+          materializerRemotePath: installEvidence.report?.plan?.materializerRemotePath || null,
+          installScriptRef: installEvidence.report?.installScript
+            ? {
+                path: installEvidence.report.installScript.path,
+                sha256: installEvidence.report.installScript.sha256,
+                bytes: installEvidence.report.installScript.bytes,
+              }
+            : null,
         }
       : null,
     remote: {
