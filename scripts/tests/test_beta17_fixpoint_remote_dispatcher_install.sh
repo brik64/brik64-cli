@@ -29,8 +29,10 @@ node --check scripts/beta17-fixpoint-remote-dispatcher-install.js
 
 node <<'NODE'
 const {
+  buildRemoteInstallScript,
   installResultMarker,
   parseInstallResult,
+  validateInstallScript,
   validateInstallExecution,
 } = require('./scripts/beta17-fixpoint-remote-dispatcher-install');
 const plan = { materializerSha256: 'a'.repeat(64) };
@@ -67,6 +69,37 @@ const mismatch = validateInstallExecution(plan, {
 }, host);
 if (!mismatch.blockers.includes('install_result_materializer_sha256_mismatch')) {
   throw new Error('install_sha_mismatch_unexpected_pass');
+}
+const fullPlan = {
+  materializerSha256: 'a'.repeat(64),
+  materializerRemotePath: '/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js',
+  wrapperPath: '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5',
+};
+const validScript = buildRemoteInstallScript(fullPlan, { host });
+const validScriptCheck = validateInstallScript(fullPlan, validScript);
+if (validScriptCheck.blockers.length !== 0) {
+  throw new Error(`valid_install_script_unexpected_blocker:${validScriptCheck.blockers.join(',')}`);
+}
+const missingEndpoint = validateInstallScript(
+  fullPlan,
+  validScript.replaceAll('BRIK64_BETA17_FIXPOINT_STAGE_ENDPOINT', 'REMOVED_ENDPOINT_MARKER'),
+);
+if (!missingEndpoint.blockers.includes('install_script_beta17_endpoint_marker_missing')) {
+  throw new Error('missing_endpoint_marker_unexpected_pass');
+}
+const wrongExec = validateInstallScript(
+  fullPlan,
+  validScript.replaceAll(fullPlan.materializerRemotePath, '/opt/brik64/engines/l6plus-n5/beta16/legacy.js'),
+);
+if (!wrongExec.blockers.includes('install_script_materializer_remote_path_missing')) {
+  throw new Error('wrong_materializer_exec_unexpected_pass');
+}
+const legacyEndpoint = validateInstallScript(
+  fullPlan,
+  `${validScript}\necho beta16_native_ready\n`,
+);
+if (!legacyEndpoint.blockers.includes('install_script_legacy_endpoint_reference')) {
+  throw new Error('legacy_endpoint_reference_unexpected_pass');
 }
 NODE
 

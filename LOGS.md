@@ -2917,3 +2917,46 @@ Boundary:
 - This hardens the candidate/provenance path only. It does not create a real
   L6+N5 Beta17 materializer, execute remote mutation, generate Stage1/Stage2
   artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher install-script validation
+
+Timestamp: 2026-06-29T06:35:00Z
+
+Task:
+- Prevent the guarded Beta17 dispatcher install path from accepting a generated
+  remote install script that does not actually bind to the Beta17 materializer
+  endpoint and result marker.
+
+Change:
+- Added `validateInstallScript` to
+  `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+- The generated remote install script now verifies the uploaded materializer
+  contains `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` after SHA-256 validation and
+  before installation.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  with script-level adversarial mutations.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Removing the Beta17 endpoint marker fails closed with
+  `install_script_beta17_endpoint_marker_missing`.
+- Rebinding the materializer exec path fails closed with
+  `install_script_materializer_remote_path_missing`.
+- Adding a legacy endpoint reference fails closed with
+  `install_script_legacy_endpoint_reference`.
+
+Boundary:
+- This improves the install gate only. It does not install the live dispatcher,
+  execute remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.

@@ -1314,3 +1314,23 @@
         this prevents placeholder provenance from being treated as a candidate
         materializer. It does not create the real L6+N5 materializer, generate
         Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+- [x] Harden Beta17 remote dispatcher install script validation.
+      - Script:
+        `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+      - Result:
+        installer dry-run now validates the generated remote install script
+        before it can be accepted. The remote script verifies the copied
+        materializer contains `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`, rejects
+        legacy endpoint references, requires the Beta17 endpoint marker and
+        binds execution to the exact planned materializer remote path.
+      - Break attempts:
+        tests mutate the generated script by removing the endpoint marker,
+        changing the materializer execution path and appending a legacy endpoint
+        reference. Each mutation must fail closed.
+      - Boundary:
+        this hardens the guarded install path only. It does not install the
+        dispatcher on the live host, generate Stage1/Stage2 artifacts, prove
+        fixpoint or publish Beta17.

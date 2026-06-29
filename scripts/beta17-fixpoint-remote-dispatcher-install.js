@@ -91,6 +91,10 @@ function buildRemoteInstallScript(plan, options = {}) {
     '  echo "beta17_dispatcher_materializer_sha_mismatch" >&2',
     '  exit 2',
     'fi',
+    `if ! grep -q ${shellQuote(REQUIRED_RESULT_MARKER)} "$materializer_tmp"; then`,
+    '  echo "beta17_dispatcher_materializer_result_marker_missing" >&2',
+    '  exit 2',
+    'fi',
     'install -d -m 0755 "$(dirname "$materializer_remote")"',
     'install -m 0755 "$materializer_tmp" "$materializer_remote"',
     'backup="${wrapper}.bak.$(date -u +%Y%m%dT%H%M%SZ)"',
@@ -133,6 +137,34 @@ function buildRemoteInstallScript(plan, options = {}) {
     `printf 'BRIK64_BETA17_DISPATCHER_INSTALL_RESULT\\tinstalled\\t%s\\t%s\\n' "$expected_sha" ${shellQuote(options.host || 'unknown')}`,
   ];
   return `${commands.join('\n')}\n`;
+}
+
+function validateInstallScript(plan, installScript) {
+  const blockers = [];
+  const script = String(installScript || '');
+  if (!script.includes('BRIK64_BETA17_FIXPOINT_STAGE_ENDPOINT')) {
+    blockers.push('install_script_beta17_endpoint_marker_missing');
+  }
+  if (!script.includes(REQUIRED_CAPABILITY)) {
+    blockers.push('install_script_required_capability_missing');
+  }
+  for (const command of ['beta17-fixpoint-stage-status', 'beta17-fixpoint-stage-materialize']) {
+    if (!script.includes(command)) blockers.push(`install_script_command_missing:${command}`);
+  }
+  if (!script.includes(REQUIRED_RESULT_MARKER)) {
+    blockers.push('install_script_required_result_marker_missing');
+  }
+  if (!script.includes(plan.materializerRemotePath)) {
+    blockers.push('install_script_materializer_remote_path_missing');
+  }
+  if (script.includes('beta16_native_ready') || script.includes('beta15_7_ready') || script.includes('beta16_1_ready')) {
+    blockers.push('install_script_legacy_endpoint_reference');
+  }
+  const expectedExec = `exec /usr/bin/node ${plan.materializerRemotePath}`;
+  if (!script.includes(expectedExec)) {
+    blockers.push('install_script_materializer_exec_binding_missing');
+  }
+  return { accepted: blockers.length === 0, blockers };
 }
 
 function run(command, args, options = {}) {
@@ -232,6 +264,9 @@ function main() {
     }
     if (blockers.length === 0) {
       installScript = buildRemoteInstallScript(plan, { host });
+      blockers.push(...validateInstallScript(plan, installScript).blockers);
+    }
+    if (blockers.length === 0) {
       writeText(installScriptPath, installScript);
       fs.chmodSync(installScriptPath, 0o755);
       if (execute) execution = executeInstall(plan, installScript, host);
@@ -314,5 +349,6 @@ module.exports = {
   executeConfirmation,
   installResultMarker,
   parseInstallResult,
+  validateInstallScript,
   validateInstallExecution,
 };

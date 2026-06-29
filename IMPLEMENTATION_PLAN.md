@@ -460,3 +460,15 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Next gate remains unchanged: install or generate a real Beta17 L6+N5 stage
   dispatcher/materializer, run the guarded remote stage, promote the resulting
   Stage1/Stage2 evidence, and only then re-run readiness/release train gates.
+
+- Remote dispatcher install-script validation: `beta17-fixpoint-remote-dispatcher-install.js`
+  now treats the generated install script itself as a gate artifact. A dry-run
+  cannot pass unless the script contains the Beta17 endpoint marker, required
+  capability, stage status/materialize commands, result marker check, exact
+  materializer remote path and no beta15/beta16 legacy endpoint references. The
+  remote install script also greps the uploaded materializer for
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` after verifying SHA-256 and before
+  installing it.
+- Next gate remains the same: run the guarded install only with a real
+  L6+N5-generated Beta17 materializer, then attempt remote stage and promote
+  evidence only if Stage1 and Stage2 are byte-identical.
