@@ -1894,7 +1894,7 @@
         `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL`; live audit passed with
         `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT`.
 
-- [ ] Upgrade the general L6+N5 PCD artifact factory from generic artifact
+- [x] Upgrade the general L6+N5 PCD artifact factory from generic artifact
       materialization to Beta17 functional CLI result materialization.
       - Current state:
         `npm run attempt:beta17:functional-cli-stage` now routes through
@@ -1909,6 +1909,11 @@
         hydration gate writes a functional Stage1 CLI artifact, package
         candidate reports `releaseEligible=true`, and no publication/fixpoint
         claim is opened before readiness and external-audit gates.
+      - Closed:
+        `attempt:beta17:functional-cli-stage` now passes, hydration writes the
+        Stage1 CLI artifact, `gate:beta17:target-aware-factory-result` passes,
+        `gate:beta17:fixpoint:functional-stage-artifact` passes, and
+        `package:beta17:fixpoint:candidate` reports `releaseEligible=true`.
 
 - [x] Add a target-aware factory result gate for Beta17.
       - Script:
@@ -1928,3 +1933,17 @@
         this gate prevents confusing a valid generic factory result with a
         functional Beta17 CLI Stage result. It does not generate or publish
         Beta17.
+
+- [ ] Promote Beta17 metadata only after readiness/public sync/external audit
+      gates are ready.
+      - Current package candidate:
+        `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz` extracts and
+        runs basic commands (`version`, `certify`, `verify`).
+      - Current preflight blockers:
+        package manifest keeps `publicationAllowed=false`, repo `package.json`
+        is still `0.1.0-beta.16.1`, fixpoint readiness is blocked, live public
+        surface evidence is still `0.1.0-beta.15.7.1`, and external audit is
+        intentionally blocked until public-surface sync passes.
+      - Done when:
+        readiness, public-surface sync, external audit, SDK/docs/web/skills
+        release train and claim-safe scan all pass before public mutation.

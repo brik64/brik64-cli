@@ -169,6 +169,20 @@ function parseFactoryResultLine(text) {
   return String(text || '').split(/\r?\n/).find((line) => line.startsWith(`${factoryResultMarker}\t`)) || null;
 }
 
+function parseEmbeddedFunctionalResultLine(factoryLine) {
+  if (!factoryLine) return null;
+  try {
+    const decoded = JSON.parse(Buffer.from(factoryLine.slice(`${factoryResultMarker}\t`.length), 'base64').toString('utf8'));
+    if (typeof decoded.targetResultLineBase64 === 'string') {
+      return Buffer.from(decoded.targetResultLineBase64, 'base64').toString('utf8');
+    }
+    if (typeof decoded.targetResultLine === 'string') return decoded.targetResultLine;
+  } catch {
+    return null;
+  }
+  return null;
+}
+
 function writeTranscript(file, text) {
   writeText(file, text || '');
   return fileRef(file);
@@ -182,6 +196,7 @@ function decodeRequestLine() {
 
 function buildFactoryRequestLine() {
   const request = decodeRequestLine();
+  const expected = loadExpected();
   const factoryRequest = {
     schemaVersion: 'brik64.l6plus_pcd_artifact_factory_request.v1',
     version: request.version,
@@ -199,11 +214,13 @@ function buildFactoryRequestLine() {
       rustIndependenceClaimAllowed: false,
     },
     pcdInputSetSha256: request.pcdInputSetSha256,
+    sourceFunctionalCliStageRequestSha256: expected.functionalCliStageRequestSha256,
     requiredInputPcdPaths: request.requiredInputPcdPaths,
     inputPcds: request.inputPcds,
     outputRefs: {
       primaryArtifact: request.outputRefs?.stage1Artifact || 'evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs',
       stage1Manifest: request.outputRefs?.stage1Manifest || 'evidence/beta17-fixpoint/stage1_artifact_manifest.json',
+      functionalStageReport: request.outputRefs?.functionalStageReport || 'evidence/beta17-fixpoint-functional-stage-artifact/report.json',
       packageManifest: request.outputRefs?.packageManifest || 'evidence/beta17-package/package.manifest.json',
     },
     requirements: {
@@ -270,7 +287,9 @@ function tryRemoteRequest() {
     const stdoutRef = writeTranscript(path.join(transcriptDir, 'factory-attempt.stdout.txt'), executed.stdout);
     const stderrRef = writeTranscript(path.join(transcriptDir, 'factory-attempt.stderr.txt'), executed.stderr);
     factoryResultLine = parseFactoryResultLine(`${executed.stdout}\n${executed.stderr}`);
-    resultLine = parseResultLine(`${executed.stdout}\n${executed.stderr}`) || resultLine;
+    resultLine = parseResultLine(`${executed.stdout}\n${executed.stderr}`)
+      || parseEmbeddedFunctionalResultLine(factoryResultLine)
+      || resultLine;
     factoryAttempt = {
       command: [wrapper, 'artifact-factory-materialize', '@@FILE:<pcd-artifact-factory-request-line>'],
       status: executed.status,
@@ -279,7 +298,7 @@ function tryRemoteRequest() {
       stdoutTranscript: stdoutRef,
       stderrTranscript: stderrRef,
       factoryResultLineObserved: Boolean(factoryResultLine),
-      functionalCliStageResultLineObserved: Boolean(parseResultLine(`${executed.stdout}\n${executed.stderr}`)),
+      functionalCliStageResultLineObserved: Boolean(parseResultLine(`${executed.stdout}\n${executed.stderr}`) || parseEmbeddedFunctionalResultLine(factoryResultLine)),
     };
   }
   for (const [index, command] of attemptedRemoteCommands.entries()) {

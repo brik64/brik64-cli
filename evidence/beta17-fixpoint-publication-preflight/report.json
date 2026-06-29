@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T06:20:07.281Z",
+  "generatedAt": "2026-06-29T08:16:11.592Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
   "releaseId": "brik64-0.1.0-beta.17",
@@ -21,10 +21,10 @@
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
       "exists": true,
       "pass": true,
-      "expectedSha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
-      "expectedBytes": 25110,
-      "sha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
-      "bytes": 25110
+      "expectedSha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
+      "expectedBytes": 404021,
+      "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
+      "bytes": 404021
     },
     {
       "id": "package_manifest",
@@ -35,10 +35,10 @@
       "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
       "package": {
         "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-        "sha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
-        "bytes": 25110
+        "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
+        "bytes": 404021
       },
-      "releaseEligible": false,
+      "releaseEligible": true,
       "publicationAllowed": false
     },
     {
@@ -76,8 +76,8 @@
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
       "exists": true,
       "pass": true,
-      "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
-      "bytes": 918
+      "sha256": "d68af9de9974e1678a99608a6e40197db4389daf752432e3b7a56b59ebc99a27",
+      "bytes": 961
     },
     {
       "id": "evidence:evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
@@ -187,7 +187,6 @@
     }
   ],
   "blockers": [
-    "package_manifest_release_eligible_false",
     "package_manifest_publication_allowed_false",
     "package_json_version_mismatch:0.1.0-beta.16.1",
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",

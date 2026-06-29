@@ -710,3 +710,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   it carries or embeds a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
   Current real evidence is blocked with missing target result line, non
   target-aware factory result and non-functional Node CLI artifact blockers.
+- Target-aware materialization update: the L6+N5 factory bridge now emits an
+  embedded `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` for the Beta17 CLI
+  request, and `attempt:beta17:functional-cli-stage` hydrates the Stage1 CLI
+  artifact successfully. `gate:beta17:target-aware-factory-result` and
+  `gate:beta17:fixpoint:functional-stage-artifact` pass. The package candidate
+  now extracts and executes basic commands from the generated artifact instead
+  of shipping the previous aborting stub. Publication remains blocked by
+  metadata promotion, readiness, public-surface sync and external audit.

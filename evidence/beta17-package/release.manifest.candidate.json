@@ -5,14 +5,14 @@
   "channel": "beta",
   "state": "candidate",
   "source": {
-    "commit": "be9177c2cc9392a1951ff05f168c2673f5e47be2",
+    "commit": "49fdd35d305b2eddace82d452f5a5771b50bc163",
     "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-      "sha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
-      "bytes": 25110
+      "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
+      "bytes": 404021
     }
   },
   "releaseNotes": [

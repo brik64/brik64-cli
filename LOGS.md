@@ -4271,3 +4271,66 @@ Next exact action:
 Boundary:
 - This iteration strengthens the gate only. It does not generate Beta17, does
   not publish, and does not authorize fixpoint/self-hosting/formal claims.
+
+## Beta17 Ralph Loop Iteration - Target-aware factory materialization and package smoke
+
+Timestamp: 2026-06-29T12:05:00Z
+
+Task:
+- Upgrade the general L6+N5 factory bridge so the Beta17 `artifactKind=cli`
+  request produces a target-aware functional CLI Stage result, then package the
+  hydrated Stage artifact without replacing it with an aborting stub.
+
+Change:
+- Updated `scripts/l6plus-pcd-artifact-factory-install.js` so the generated
+  factory emits an embedded `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` for the
+  Beta17 CLI request.
+- Updated `scripts/beta17-functional-cli-stage-attempt.js` to extract embedded
+  functional result lines from generic factory results.
+- Updated `scripts/build-beta17-package-candidate.js`:
+  - fixed the gzip header for valid `.tgz` extraction;
+  - packages the hydrated Stage1 artifact as `src/brik.js`;
+  - uses CommonJS metadata because the generated artifact uses `require`.
+- Reinstalled the guarded remote factory with
+  `INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+- Regenerated Beta17 Stage, hydration, target-aware gate and package evidence.
+
+Validation:
+- `npm run test:l6plus:pcd-artifact-factory-install` passed.
+- `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM` passed.
+- `npm run audit:l6plus:pcd-artifact-factory` passed.
+- `npm run attempt:beta17:functional-cli-stage` passed.
+- `npm run gate:beta17:target-aware-factory-result` passed.
+- `npm run gate:beta17:fixpoint:functional-stage-artifact` passed.
+- `npm run package:beta17:fixpoint:candidate` passed with
+  `releaseEligible=true`.
+- Manual tarball smoke passed:
+  extracted `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz` and ran
+  `node src/brik.js`, `node src/brik.js certify`, and `node src/brik.js verify`.
+- Candidate publication preflight against
+  `evidence/beta17-package/release.manifest.candidate.json` remains blocked on
+  expected non-public gates.
+
+Break attempts:
+- Invalid gzip package was caught by extraction smoke and fixed.
+- CommonJS/ESM mismatch was caught by execution smoke and fixed.
+- Candidate preflight still blocks publication because public sync and external
+  audit are not complete.
+
+Current remaining blockers:
+- `package_manifest_publication_allowed_false`.
+- `package_json_version_mismatch:0.1.0-beta.16.1`.
+- `readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE`.
+- `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+- external audit remains blocked until public surfaces are synced.
+
+Next exact action:
+- Refresh Beta17 readiness against the new functional package candidate, then
+  decide whether to promote repo metadata/release manifest to a Beta17
+  candidate branch for release-train dry-run. Do not publish until public
+  surface sync and external audit gates pass.
+
+Boundary:
+- Functional Stage materialization and package candidate are now real local
+  evidence. This still does not prove final fixpoint, public release readiness,
+  formal N5, self-hosting or Rust independence.

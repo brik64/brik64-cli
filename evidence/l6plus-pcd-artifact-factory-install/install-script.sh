@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 umask 077
-expected_sha='89ef8b3f7f0ced204c73f4a53a80e22019b300bc8e7f86ed00a388273f6132b9'
+expected_sha='2c1e9852de1fe0fe11912239e6b2faccc37c5abdfaa99e253ced251faea98512'
 wrapper='/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5'
 factory_remote='/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_pcd_artifact_factory.js'
-factory_tmp=/tmp/brik64-l6plus-pcd-artifact-factory-89ef8b3f7f0ced204c73f4a53a80e22019b300bc8e7f86ed00a388273f6132b9.js
+factory_tmp=/tmp/brik64-l6plus-pcd-artifact-factory-2c1e9852de1fe0fe11912239e6b2faccc37c5abdfaa99e253ced251faea98512.js
 actual_sha="$(sha256sum "$factory_tmp" | awk '{print $1}')"
 if [ "$actual_sha" != "$expected_sha" ]; then
   echo "l6plus_pcd_artifact_factory_sha_mismatch" >&2
