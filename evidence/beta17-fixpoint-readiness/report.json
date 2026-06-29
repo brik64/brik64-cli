@@ -1,12 +1,12 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint_readiness_gate.v1",
-  "generatedAt": "2026-06-29T12:30:23.966Z",
+  "generatedAt": "2026-06-29T13:42:18.573Z",
   "version": "0.1.0-beta.17",
   "expectedVersion": "0.1.0-beta.17",
-  "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+  "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
   "claimBoundary": {
-    "definitiveFixpointAllowed": false,
-    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": true,
+    "publicReleaseAllowed": true,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false
   },
@@ -31,8 +31,8 @@
     },
     "evidence_pack_manifest": {
       "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
-      "sha256": "71552da40ae9dcabec7de10f3efeb604791f939f7ab0c1f1f949a1fcc31ac1e2",
-      "sizeBytes": 4132
+      "sha256": "9006d42994a63c5e98cc18ae8f6e73da41312590c11b8aaf9bf85c6442239690",
+      "sizeBytes": 6261
     },
     "canonical_harness_manifest": {
       "path": "evidence/beta17-fixpoint/canonical_harness_manifest.json",
@@ -77,13 +77,13 @@
     },
     "public_surface_sync_report": {
       "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
-      "sizeBytes": 1044
+      "sha256": "fcbcdc629f22681d3dab80fd1f28f54970d163c5a5dc25381cc19c7fc8b20d51",
+      "sizeBytes": 3306
     },
     "external_audit_report": {
       "path": "evidence/beta17-fixpoint/external_audit_report.json",
-      "sha256": "93614bf303aa0412369707fd7bea4b9f5a2f1f3b5f5712dfbc55d0fe9a1b6aa7",
-      "sizeBytes": 1885
+      "sha256": "ba98d1323b4ed14b5d9dc2e115c2776eac740ab4c8b8a964716a3e382ce2d7a7",
+      "sizeBytes": 2359
     },
     "remote_promotion_source_report": {
       "path": "evidence/beta17-fixpoint-remote-promotion/report.json",
@@ -128,28 +128,19 @@
     "sealBindsStage1Artifact": true,
     "sealBindsStage2Artifact": true,
     "sealBindsInputPcdSet": true,
-    "publicSurfaceSyncPass": false,
-    "externalAuditPass": false,
-    "externalAuditCleanPublicInstall": false,
-    "externalAuditFunctionalTests": false,
-    "externalAuditGeneratedCodeTests": false,
-    "externalAuditAdversarialTests": false,
-    "externalAuditPublicSurfaceScan": false,
-    "externalAuditClaimSafeScan": false,
+    "publicSurfaceSyncPass": true,
+    "externalAuditPass": true,
+    "externalAuditCleanPublicInstall": true,
+    "externalAuditFunctionalTests": true,
+    "externalAuditGeneratedCodeTests": true,
+    "externalAuditAdversarialTests": true,
+    "externalAuditPublicSurfaceScan": true,
+    "externalAuditClaimSafeScan": true,
     "externalAuditArtifact_auditLog": true,
     "externalAuditArtifact_generatedCodeQuality": true,
     "externalAuditArtifact_adversarialResults": true,
     "externalAuditArtifact_publicSurfaceScan": true,
     "externalAuditArtifact_claimSafeScan": true
   },
-  "blockers": [
-    "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
-    "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
-    "external_audit_missing_clean_public_install",
-    "external_audit_missing_functional_tests",
-    "external_audit_missing_generated_code_tests",
-    "external_audit_missing_adversarial_tests",
-    "external_audit_missing_public_surface_scan",
-    "external_audit_missing_claim_safe_scan"
-  ]
+  "blockers": []
 }

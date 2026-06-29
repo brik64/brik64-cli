@@ -1,0 +1,4402 @@
+{
+  "schemaVersion": "brik64.cli_monomer_registry_report.v1",
+  "cliVersion": "0.1.0-beta.17",
+  "scope": "all",
+  "coreCount": 64,
+  "extendedCount": 64,
+  "totalCount": 128,
+  "monomers": [
+    {
+      "id": "MC_00",
+      "name": "ADD8",
+      "key": "MC_00.ADD8",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_00.ADD8 valid fixture",
+        "edge": "MC_00.ADD8 edge fixture",
+        "failClosed": "MC_00.ADD8 fail-closed fixture",
+        "variation": "MC_00.ADD8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_01",
+      "name": "SUB8",
+      "key": "MC_01.SUB8",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_01.SUB8 valid fixture",
+        "edge": "MC_01.SUB8 edge fixture",
+        "failClosed": "MC_01.SUB8 fail-closed fixture",
+        "variation": "MC_01.SUB8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_02",
+      "name": "MUL8",
+      "key": "MC_02.MUL8",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_02.MUL8 valid fixture",
+        "edge": "MC_02.MUL8 edge fixture",
+        "failClosed": "MC_02.MUL8 fail-closed fixture",
+        "variation": "MC_02.MUL8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_03",
+      "name": "DIV8",
+      "key": "MC_03.DIV8",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8,u8 -> tuple_u8_u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "tuple_u8_u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "tuple_u8_u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_03.DIV8 valid fixture",
+        "edge": "MC_03.DIV8 edge fixture",
+        "failClosed": "MC_03.DIV8 fail-closed fixture",
+        "variation": "MC_03.DIV8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_04",
+      "name": "INC",
+      "key": "MC_04.INC",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8 -> u8",
+      "inputTypes": [
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_04.INC valid fixture",
+        "edge": "MC_04.INC edge fixture",
+        "failClosed": "MC_04.INC fail-closed fixture",
+        "variation": "MC_04.INC variation fixture"
+      }
+    },
+    {
+      "id": "MC_05",
+      "name": "DEC",
+      "key": "MC_05.DEC",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8 -> u8",
+      "inputTypes": [
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_05.DEC valid fixture",
+        "edge": "MC_05.DEC edge fixture",
+        "failClosed": "MC_05.DEC fail-closed fixture",
+        "variation": "MC_05.DEC variation fixture"
+      }
+    },
+    {
+      "id": "MC_06",
+      "name": "ABS",
+      "key": "MC_06.ABS",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "i8 -> u8",
+      "inputTypes": [
+        "i8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "i8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_06.ABS valid fixture",
+        "edge": "MC_06.ABS edge fixture",
+        "failClosed": "MC_06.ABS fail-closed fixture",
+        "variation": "MC_06.ABS variation fixture"
+      }
+    },
+    {
+      "id": "MC_07",
+      "name": "CLAMP",
+      "key": "MC_07.CLAMP",
+      "family": "Arithmetic",
+      "tier": "core",
+      "signature": "u8,u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_07.CLAMP valid fixture",
+        "edge": "MC_07.CLAMP edge fixture",
+        "failClosed": "MC_07.CLAMP fail-closed fixture",
+        "variation": "MC_07.CLAMP variation fixture"
+      }
+    },
+    {
+      "id": "MC_08",
+      "name": "AND8",
+      "key": "MC_08.AND8",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_08.AND8 valid fixture",
+        "edge": "MC_08.AND8 edge fixture",
+        "failClosed": "MC_08.AND8 fail-closed fixture",
+        "variation": "MC_08.AND8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_09",
+      "name": "OR8",
+      "key": "MC_09.OR8",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_09.OR8 valid fixture",
+        "edge": "MC_09.OR8 edge fixture",
+        "failClosed": "MC_09.OR8 fail-closed fixture",
+        "variation": "MC_09.OR8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_10",
+      "name": "XOR8",
+      "key": "MC_10.XOR8",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_10.XOR8 valid fixture",
+        "edge": "MC_10.XOR8 edge fixture",
+        "failClosed": "MC_10.XOR8 fail-closed fixture",
+        "variation": "MC_10.XOR8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_11",
+      "name": "NOT8",
+      "key": "MC_11.NOT8",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8 -> u8",
+      "inputTypes": [
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_11.NOT8 valid fixture",
+        "edge": "MC_11.NOT8 edge fixture",
+        "failClosed": "MC_11.NOT8 fail-closed fixture",
+        "variation": "MC_11.NOT8 variation fixture"
+      }
+    },
+    {
+      "id": "MC_12",
+      "name": "SHL",
+      "key": "MC_12.SHL",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_12.SHL valid fixture",
+        "edge": "MC_12.SHL edge fixture",
+        "failClosed": "MC_12.SHL fail-closed fixture",
+        "variation": "MC_12.SHL variation fixture"
+      }
+    },
+    {
+      "id": "MC_13",
+      "name": "SHR",
+      "key": "MC_13.SHR",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_13.SHR valid fixture",
+        "edge": "MC_13.SHR edge fixture",
+        "failClosed": "MC_13.SHR fail-closed fixture",
+        "variation": "MC_13.SHR variation fixture"
+      }
+    },
+    {
+      "id": "MC_14",
+      "name": "ROL",
+      "key": "MC_14.ROL",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_14.ROL valid fixture",
+        "edge": "MC_14.ROL edge fixture",
+        "failClosed": "MC_14.ROL fail-closed fixture",
+        "variation": "MC_14.ROL variation fixture"
+      }
+    },
+    {
+      "id": "MC_15",
+      "name": "ROR",
+      "key": "MC_15.ROR",
+      "family": "Logic",
+      "tier": "core",
+      "signature": "u8,u8 -> u8",
+      "inputTypes": [
+        "u8",
+        "u8"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8",
+        "u8"
+      ],
+      "returnType": "u8",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "pure_local_candidate",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_15.ROR valid fixture",
+        "edge": "MC_15.ROR edge fixture",
+        "failClosed": "MC_15.ROR fail-closed fixture",
+        "variation": "MC_15.ROR variation fixture"
+      }
+    },
+    {
+      "id": "MC_16",
+      "name": "LOAD",
+      "key": "MC_16.LOAD",
+      "family": "Memory",
+      "tier": "core",
+      "signature": "u64 -> u8",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_16.LOAD valid fixture",
+        "edge": "MC_16.LOAD edge fixture",
+        "failClosed": "MC_16.LOAD fail-closed fixture",
+        "variation": "MC_16.LOAD variation fixture"
+      }
+    },
+    {
+      "id": "MC_17",
+      "name": "STORE",
+      "key": "MC_17.STORE",
+      "family": "Memory",
+      "tier": "core",
+      "signature": "u64,u8 -> unit",
+      "inputTypes": [
+        "u64",
+        "u8"
+      ],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64",
+        "u8"
+      ],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_17.STORE valid fixture",
+        "edge": "MC_17.STORE edge fixture",
+        "failClosed": "MC_17.STORE fail-closed fixture",
+        "variation": "MC_17.STORE variation fixture"
+      }
+    },
+    {
+      "id": "MC_18",
+      "name": "PUSH",
+      "key": "MC_18.PUSH",
+      "family": "Memory",
+      "tier": "core",
+      "signature": "u8 -> unit",
+      "inputTypes": [
+        "u8"
+      ],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8"
+      ],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_18.PUSH valid fixture",
+        "edge": "MC_18.PUSH edge fixture",
+        "failClosed": "MC_18.PUSH fail-closed fixture",
+        "variation": "MC_18.PUSH variation fixture"
+      }
+    },
+    {
+      "id": "MC_19",
+      "name": "POP",
+      "key": "MC_19.POP",
+      "family": "Memory",
+      "tier": "core",
+      "signature": " -> u8",
+      "inputTypes": [],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_19.POP valid fixture",
+        "edge": "MC_19.POP edge fixture",
+        "failClosed": "MC_19.POP fail-closed fixture",
+        "variation": "MC_19.POP variation fixture"
+      }
+    },
+    {
+      "id": "MC_20",
+      "name": "PEEK",
+      "key": "MC_20.PEEK",
+      "family": "Memory",
+      "tier": "core",
+      "signature": " -> u8",
+      "inputTypes": [],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_20.PEEK valid fixture",
+        "edge": "MC_20.PEEK edge fixture",
+        "failClosed": "MC_20.PEEK fail-closed fixture",
+        "variation": "MC_20.PEEK variation fixture"
+      }
+    },
+    {
+      "id": "MC_21",
+      "name": "SWAP",
+      "key": "MC_21.SWAP",
+      "family": "Memory",
+      "tier": "core",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_21.SWAP valid fixture",
+        "edge": "MC_21.SWAP edge fixture",
+        "failClosed": "MC_21.SWAP fail-closed fixture",
+        "variation": "MC_21.SWAP variation fixture"
+      }
+    },
+    {
+      "id": "MC_22",
+      "name": "DUP",
+      "key": "MC_22.DUP",
+      "family": "Memory",
+      "tier": "core",
+      "signature": " -> u8",
+      "inputTypes": [],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_22.DUP valid fixture",
+        "edge": "MC_22.DUP edge fixture",
+        "failClosed": "MC_22.DUP fail-closed fixture",
+        "variation": "MC_22.DUP variation fixture"
+      }
+    },
+    {
+      "id": "MC_23",
+      "name": "DROP",
+      "key": "MC_23.DROP",
+      "family": "Memory",
+      "tier": "core",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_23.DROP valid fixture",
+        "edge": "MC_23.DROP edge fixture",
+        "failClosed": "MC_23.DROP fail-closed fixture",
+        "variation": "MC_23.DROP variation fixture"
+      }
+    },
+    {
+      "id": "MC_24",
+      "name": "IF",
+      "key": "MC_24.IF",
+      "family": "Control",
+      "tier": "core",
+      "signature": "bool -> unit",
+      "inputTypes": [
+        "bool"
+      ],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bool"
+      ],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_24.IF valid fixture",
+        "edge": "MC_24.IF edge fixture",
+        "failClosed": "MC_24.IF fail-closed fixture",
+        "variation": "MC_24.IF variation fixture"
+      }
+    },
+    {
+      "id": "MC_25",
+      "name": "LOOP",
+      "key": "MC_25.LOOP",
+      "family": "Control",
+      "tier": "core",
+      "signature": "u8 -> unit",
+      "inputTypes": [
+        "u8"
+      ],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u8"
+      ],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_25.LOOP valid fixture",
+        "edge": "MC_25.LOOP edge fixture",
+        "failClosed": "MC_25.LOOP fail-closed fixture",
+        "variation": "MC_25.LOOP variation fixture"
+      }
+    },
+    {
+      "id": "MC_26",
+      "name": "JUMP",
+      "key": "MC_26.JUMP",
+      "family": "Control",
+      "tier": "core",
+      "signature": "u64 -> unit",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_26.JUMP valid fixture",
+        "edge": "MC_26.JUMP edge fixture",
+        "failClosed": "MC_26.JUMP fail-closed fixture",
+        "variation": "MC_26.JUMP variation fixture"
+      }
+    },
+    {
+      "id": "MC_27",
+      "name": "CALL",
+      "key": "MC_27.CALL",
+      "family": "Control",
+      "tier": "core",
+      "signature": "u64 -> unit",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_27.CALL valid fixture",
+        "edge": "MC_27.CALL edge fixture",
+        "failClosed": "MC_27.CALL fail-closed fixture",
+        "variation": "MC_27.CALL variation fixture"
+      }
+    },
+    {
+      "id": "MC_28",
+      "name": "RET",
+      "key": "MC_28.RET",
+      "family": "Control",
+      "tier": "core",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_28.RET valid fixture",
+        "edge": "MC_28.RET edge fixture",
+        "failClosed": "MC_28.RET fail-closed fixture",
+        "variation": "MC_28.RET variation fixture"
+      }
+    },
+    {
+      "id": "MC_29",
+      "name": "BREAK",
+      "key": "MC_29.BREAK",
+      "family": "Control",
+      "tier": "core",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_29.BREAK valid fixture",
+        "edge": "MC_29.BREAK edge fixture",
+        "failClosed": "MC_29.BREAK fail-closed fixture",
+        "variation": "MC_29.BREAK variation fixture"
+      }
+    },
+    {
+      "id": "MC_30",
+      "name": "CONTINUE",
+      "key": "MC_30.CONTINUE",
+      "family": "Control",
+      "tier": "core",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_30.CONTINUE valid fixture",
+        "edge": "MC_30.CONTINUE edge fixture",
+        "failClosed": "MC_30.CONTINUE fail-closed fixture",
+        "variation": "MC_30.CONTINUE variation fixture"
+      }
+    },
+    {
+      "id": "MC_31",
+      "name": "NOP",
+      "key": "MC_31.NOP",
+      "family": "Control",
+      "tier": "core",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_31.NOP valid fixture",
+        "edge": "MC_31.NOP edge fixture",
+        "failClosed": "MC_31.NOP fail-closed fixture",
+        "variation": "MC_31.NOP variation fixture"
+      }
+    },
+    {
+      "id": "MC_32",
+      "name": "READ",
+      "key": "MC_32.READ",
+      "family": "IO",
+      "tier": "core",
+      "signature": "u64 -> u8",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_32.READ valid fixture",
+        "edge": "MC_32.READ edge fixture",
+        "failClosed": "MC_32.READ fail-closed fixture",
+        "variation": "MC_32.READ variation fixture"
+      }
+    },
+    {
+      "id": "MC_33",
+      "name": "WRITE",
+      "key": "MC_33.WRITE",
+      "family": "IO",
+      "tier": "core",
+      "signature": "u64,u8 -> bool",
+      "inputTypes": [
+        "u64",
+        "u8"
+      ],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64",
+        "u8"
+      ],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_33.WRITE valid fixture",
+        "edge": "MC_33.WRITE edge fixture",
+        "failClosed": "MC_33.WRITE fail-closed fixture",
+        "variation": "MC_33.WRITE variation fixture"
+      }
+    },
+    {
+      "id": "MC_34",
+      "name": "SEEK",
+      "key": "MC_34.SEEK",
+      "family": "IO",
+      "tier": "core",
+      "signature": "u64 -> bool",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_34.SEEK valid fixture",
+        "edge": "MC_34.SEEK edge fixture",
+        "failClosed": "MC_34.SEEK fail-closed fixture",
+        "variation": "MC_34.SEEK variation fixture"
+      }
+    },
+    {
+      "id": "MC_35",
+      "name": "FLUSH",
+      "key": "MC_35.FLUSH",
+      "family": "IO",
+      "tier": "core",
+      "signature": " -> bool",
+      "inputTypes": [],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_35.FLUSH valid fixture",
+        "edge": "MC_35.FLUSH edge fixture",
+        "failClosed": "MC_35.FLUSH fail-closed fixture",
+        "variation": "MC_35.FLUSH variation fixture"
+      }
+    },
+    {
+      "id": "MC_36",
+      "name": "OPEN",
+      "key": "MC_36.OPEN",
+      "family": "IO",
+      "tier": "core",
+      "signature": "string -> u64",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_36.OPEN valid fixture",
+        "edge": "MC_36.OPEN edge fixture",
+        "failClosed": "MC_36.OPEN fail-closed fixture",
+        "variation": "MC_36.OPEN variation fixture"
+      }
+    },
+    {
+      "id": "MC_37",
+      "name": "CLOSE",
+      "key": "MC_37.CLOSE",
+      "family": "IO",
+      "tier": "core",
+      "signature": "u64 -> bool",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_37.CLOSE valid fixture",
+        "edge": "MC_37.CLOSE edge fixture",
+        "failClosed": "MC_37.CLOSE fail-closed fixture",
+        "variation": "MC_37.CLOSE variation fixture"
+      }
+    },
+    {
+      "id": "MC_38",
+      "name": "EOF",
+      "key": "MC_38.EOF",
+      "family": "IO",
+      "tier": "core",
+      "signature": " -> bool",
+      "inputTypes": [],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_38.EOF valid fixture",
+        "edge": "MC_38.EOF edge fixture",
+        "failClosed": "MC_38.EOF fail-closed fixture",
+        "variation": "MC_38.EOF variation fixture"
+      }
+    },
+    {
+      "id": "MC_39",
+      "name": "ERR",
+      "key": "MC_39.ERR",
+      "family": "IO",
+      "tier": "core",
+      "signature": " -> u8",
+      "inputTypes": [],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_39.ERR valid fixture",
+        "edge": "MC_39.ERR edge fixture",
+        "failClosed": "MC_39.ERR fail-closed fixture",
+        "variation": "MC_39.ERR variation fixture"
+      }
+    },
+    {
+      "id": "MC_40",
+      "name": "CONCAT",
+      "key": "MC_40.CONCAT",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string,string -> string",
+      "inputTypes": [
+        "string",
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string",
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_40.CONCAT valid fixture",
+        "edge": "MC_40.CONCAT edge fixture",
+        "failClosed": "MC_40.CONCAT fail-closed fixture",
+        "variation": "MC_40.CONCAT variation fixture"
+      }
+    },
+    {
+      "id": "MC_41",
+      "name": "SPLIT",
+      "key": "MC_41.SPLIT",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string,string -> list_string",
+      "inputTypes": [
+        "string",
+        "string"
+      ],
+      "outputType": "list_string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string",
+        "string"
+      ],
+      "returnType": "list_string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_41.SPLIT valid fixture",
+        "edge": "MC_41.SPLIT edge fixture",
+        "failClosed": "MC_41.SPLIT fail-closed fixture",
+        "variation": "MC_41.SPLIT variation fixture"
+      }
+    },
+    {
+      "id": "MC_42",
+      "name": "SUBSTR",
+      "key": "MC_42.SUBSTR",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string,u64,u64 -> string",
+      "inputTypes": [
+        "string",
+        "u64",
+        "u64"
+      ],
+      "outputType": "string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string",
+        "u64",
+        "u64"
+      ],
+      "returnType": "string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_42.SUBSTR valid fixture",
+        "edge": "MC_42.SUBSTR edge fixture",
+        "failClosed": "MC_42.SUBSTR fail-closed fixture",
+        "variation": "MC_42.SUBSTR variation fixture"
+      }
+    },
+    {
+      "id": "MC_43",
+      "name": "LEN",
+      "key": "MC_43.LEN",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string -> u64",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_43.LEN valid fixture",
+        "edge": "MC_43.LEN edge fixture",
+        "failClosed": "MC_43.LEN fail-closed fixture",
+        "variation": "MC_43.LEN variation fixture"
+      }
+    },
+    {
+      "id": "MC_44",
+      "name": "UPPER",
+      "key": "MC_44.UPPER",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string -> string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_44.UPPER valid fixture",
+        "edge": "MC_44.UPPER edge fixture",
+        "failClosed": "MC_44.UPPER fail-closed fixture",
+        "variation": "MC_44.UPPER variation fixture"
+      }
+    },
+    {
+      "id": "MC_45",
+      "name": "LOWER",
+      "key": "MC_45.LOWER",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string -> string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_45.LOWER valid fixture",
+        "edge": "MC_45.LOWER edge fixture",
+        "failClosed": "MC_45.LOWER fail-closed fixture",
+        "variation": "MC_45.LOWER variation fixture"
+      }
+    },
+    {
+      "id": "MC_46",
+      "name": "TRIM",
+      "key": "MC_46.TRIM",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string -> string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_46.TRIM valid fixture",
+        "edge": "MC_46.TRIM edge fixture",
+        "failClosed": "MC_46.TRIM fail-closed fixture",
+        "variation": "MC_46.TRIM variation fixture"
+      }
+    },
+    {
+      "id": "MC_47",
+      "name": "MATCH",
+      "key": "MC_47.MATCH",
+      "family": "Strings",
+      "tier": "core",
+      "signature": "string,string -> bool",
+      "inputTypes": [
+        "string",
+        "string"
+      ],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string",
+        "string"
+      ],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_47.MATCH valid fixture",
+        "edge": "MC_47.MATCH edge fixture",
+        "failClosed": "MC_47.MATCH fail-closed fixture",
+        "variation": "MC_47.MATCH variation fixture"
+      }
+    },
+    {
+      "id": "MC_48",
+      "name": "HASH",
+      "key": "MC_48.HASH",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes -> bytes32",
+      "inputTypes": [
+        "bytes"
+      ],
+      "outputType": "bytes32",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes"
+      ],
+      "returnType": "bytes32",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_48.HASH valid fixture",
+        "edge": "MC_48.HASH edge fixture",
+        "failClosed": "MC_48.HASH fail-closed fixture",
+        "variation": "MC_48.HASH variation fixture"
+      }
+    },
+    {
+      "id": "MC_49",
+      "name": "ENCRYPT",
+      "key": "MC_49.ENCRYPT",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes,bytes32 -> bytes",
+      "inputTypes": [
+        "bytes",
+        "bytes32"
+      ],
+      "outputType": "bytes",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes",
+        "bytes32"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_49.ENCRYPT valid fixture",
+        "edge": "MC_49.ENCRYPT edge fixture",
+        "failClosed": "MC_49.ENCRYPT fail-closed fixture",
+        "variation": "MC_49.ENCRYPT variation fixture"
+      }
+    },
+    {
+      "id": "MC_50",
+      "name": "DECRYPT",
+      "key": "MC_50.DECRYPT",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes,bytes32 -> bytes",
+      "inputTypes": [
+        "bytes",
+        "bytes32"
+      ],
+      "outputType": "bytes",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes",
+        "bytes32"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_50.DECRYPT valid fixture",
+        "edge": "MC_50.DECRYPT edge fixture",
+        "failClosed": "MC_50.DECRYPT fail-closed fixture",
+        "variation": "MC_50.DECRYPT variation fixture"
+      }
+    },
+    {
+      "id": "MC_51",
+      "name": "SIGN",
+      "key": "MC_51.SIGN",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes,bytes32 -> bytes64",
+      "inputTypes": [
+        "bytes",
+        "bytes32"
+      ],
+      "outputType": "bytes64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes",
+        "bytes32"
+      ],
+      "returnType": "bytes64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_51.SIGN valid fixture",
+        "edge": "MC_51.SIGN edge fixture",
+        "failClosed": "MC_51.SIGN fail-closed fixture",
+        "variation": "MC_51.SIGN variation fixture"
+      }
+    },
+    {
+      "id": "MC_52",
+      "name": "VERIFY",
+      "key": "MC_52.VERIFY",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes,bytes64,bytes32 -> bool",
+      "inputTypes": [
+        "bytes",
+        "bytes64",
+        "bytes32"
+      ],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes",
+        "bytes64",
+        "bytes32"
+      ],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_52.VERIFY valid fixture",
+        "edge": "MC_52.VERIFY edge fixture",
+        "failClosed": "MC_52.VERIFY fail-closed fixture",
+        "variation": "MC_52.VERIFY variation fixture"
+      }
+    },
+    {
+      "id": "MC_53",
+      "name": "RNG",
+      "key": "MC_53.RNG",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "u64 -> bytes",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "bytes",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "u64"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_53.RNG valid fixture",
+        "edge": "MC_53.RNG edge fixture",
+        "failClosed": "MC_53.RNG fail-closed fixture",
+        "variation": "MC_53.RNG variation fixture"
+      }
+    },
+    {
+      "id": "MC_54",
+      "name": "DERIVE",
+      "key": "MC_54.DERIVE",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes32,string -> bytes32",
+      "inputTypes": [
+        "bytes32",
+        "string"
+      ],
+      "outputType": "bytes32",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes32",
+        "string"
+      ],
+      "returnType": "bytes32",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_54.DERIVE valid fixture",
+        "edge": "MC_54.DERIVE edge fixture",
+        "failClosed": "MC_54.DERIVE fail-closed fixture",
+        "variation": "MC_54.DERIVE variation fixture"
+      }
+    },
+    {
+      "id": "MC_55",
+      "name": "SEAL",
+      "key": "MC_55.SEAL",
+      "family": "Crypto",
+      "tier": "core",
+      "signature": "bytes,bytes32 -> bytes",
+      "inputTypes": [
+        "bytes",
+        "bytes32"
+      ],
+      "outputType": "bytes",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "bytes",
+        "bytes32"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_55.SEAL valid fixture",
+        "edge": "MC_55.SEAL edge fixture",
+        "failClosed": "MC_55.SEAL fail-closed fixture",
+        "variation": "MC_55.SEAL variation fixture"
+      }
+    },
+    {
+      "id": "MC_56",
+      "name": "TIME",
+      "key": "MC_56.TIME",
+      "family": "System",
+      "tier": "core",
+      "signature": " -> u64",
+      "inputTypes": [],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_56.TIME valid fixture",
+        "edge": "MC_56.TIME edge fixture",
+        "failClosed": "MC_56.TIME fail-closed fixture",
+        "variation": "MC_56.TIME variation fixture"
+      }
+    },
+    {
+      "id": "MC_57",
+      "name": "CPU",
+      "key": "MC_57.CPU",
+      "family": "System",
+      "tier": "core",
+      "signature": " -> u8",
+      "inputTypes": [],
+      "outputType": "u8",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u8",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_57.CPU valid fixture",
+        "edge": "MC_57.CPU edge fixture",
+        "failClosed": "MC_57.CPU fail-closed fixture",
+        "variation": "MC_57.CPU variation fixture"
+      }
+    },
+    {
+      "id": "MC_58",
+      "name": "MEM",
+      "key": "MC_58.MEM",
+      "family": "System",
+      "tier": "core",
+      "signature": " -> u64",
+      "inputTypes": [],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_58.MEM valid fixture",
+        "edge": "MC_58.MEM edge fixture",
+        "failClosed": "MC_58.MEM fail-closed fixture",
+        "variation": "MC_58.MEM variation fixture"
+      }
+    },
+    {
+      "id": "MC_59",
+      "name": "DISK",
+      "key": "MC_59.DISK",
+      "family": "System",
+      "tier": "core",
+      "signature": " -> u64",
+      "inputTypes": [],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_59.DISK valid fixture",
+        "edge": "MC_59.DISK edge fixture",
+        "failClosed": "MC_59.DISK fail-closed fixture",
+        "variation": "MC_59.DISK variation fixture"
+      }
+    },
+    {
+      "id": "MC_60",
+      "name": "NET",
+      "key": "MC_60.NET",
+      "family": "System",
+      "tier": "core",
+      "signature": "string -> bool",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "bool",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "bool",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_60.NET valid fixture",
+        "edge": "MC_60.NET edge fixture",
+        "failClosed": "MC_60.NET fail-closed fixture",
+        "variation": "MC_60.NET variation fixture"
+      }
+    },
+    {
+      "id": "MC_61",
+      "name": "PID",
+      "key": "MC_61.PID",
+      "family": "System",
+      "tier": "core",
+      "signature": " -> u64",
+      "inputTypes": [],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_61.PID valid fixture",
+        "edge": "MC_61.PID edge fixture",
+        "failClosed": "MC_61.PID fail-closed fixture",
+        "variation": "MC_61.PID variation fixture"
+      }
+    },
+    {
+      "id": "MC_62",
+      "name": "UID",
+      "key": "MC_62.UID",
+      "family": "System",
+      "tier": "core",
+      "signature": " -> u64",
+      "inputTypes": [],
+      "outputType": "u64",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [],
+      "returnType": "u64",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_62.UID valid fixture",
+        "edge": "MC_62.UID edge fixture",
+        "failClosed": "MC_62.UID fail-closed fixture",
+        "variation": "MC_62.UID variation fixture"
+      }
+    },
+    {
+      "id": "MC_63",
+      "name": "ENV",
+      "key": "MC_63.ENV",
+      "family": "System",
+      "tier": "core",
+      "signature": "string -> string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "deterministic_local",
+      "scope": "core",
+      "params": [
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": false,
+      "pcdExecutable": false,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "boundary_required",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_63.ENV valid fixture",
+        "edge": "MC_63.ENV edge fixture",
+        "failClosed": "MC_63.ENV fail-closed fixture",
+        "variation": "MC_63.ENV variation fixture"
+      }
+    },
+    {
+      "id": "MC_64",
+      "name": "FADD",
+      "key": "MC_64.FADD",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_64.FADD valid fixture",
+        "edge": "MC_64.FADD edge fixture",
+        "failClosed": "MC_64.FADD fail-closed fixture",
+        "variation": "MC_64.FADD variation fixture"
+      }
+    },
+    {
+      "id": "MC_65",
+      "name": "FSUB",
+      "key": "MC_65.FSUB",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_65.FSUB valid fixture",
+        "edge": "MC_65.FSUB edge fixture",
+        "failClosed": "MC_65.FSUB fail-closed fixture",
+        "variation": "MC_65.FSUB variation fixture"
+      }
+    },
+    {
+      "id": "MC_66",
+      "name": "FMUL",
+      "key": "MC_66.FMUL",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_66.FMUL valid fixture",
+        "edge": "MC_66.FMUL edge fixture",
+        "failClosed": "MC_66.FMUL fail-closed fixture",
+        "variation": "MC_66.FMUL variation fixture"
+      }
+    },
+    {
+      "id": "MC_67",
+      "name": "FDIV",
+      "key": "MC_67.FDIV",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_67.FDIV valid fixture",
+        "edge": "MC_67.FDIV edge fixture",
+        "failClosed": "MC_67.FDIV fail-closed fixture",
+        "variation": "MC_67.FDIV variation fixture"
+      }
+    },
+    {
+      "id": "MC_68",
+      "name": "FABS",
+      "key": "MC_68.FABS",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_68.FABS valid fixture",
+        "edge": "MC_68.FABS edge fixture",
+        "failClosed": "MC_68.FABS fail-closed fixture",
+        "variation": "MC_68.FABS variation fixture"
+      }
+    },
+    {
+      "id": "MC_69",
+      "name": "FNEG",
+      "key": "MC_69.FNEG",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_69.FNEG valid fixture",
+        "edge": "MC_69.FNEG edge fixture",
+        "failClosed": "MC_69.FNEG fail-closed fixture",
+        "variation": "MC_69.FNEG variation fixture"
+      }
+    },
+    {
+      "id": "MC_70",
+      "name": "FSQRT",
+      "key": "MC_70.FSQRT",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_70.FSQRT valid fixture",
+        "edge": "MC_70.FSQRT edge fixture",
+        "failClosed": "MC_70.FSQRT fail-closed fixture",
+        "variation": "MC_70.FSQRT variation fixture"
+      }
+    },
+    {
+      "id": "MC_71",
+      "name": "FMOD",
+      "key": "MC_71.FMOD",
+      "family": "Float64",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_71.FMOD valid fixture",
+        "edge": "MC_71.FMOD edge fixture",
+        "failClosed": "MC_71.FMOD fail-closed fixture",
+        "variation": "MC_71.FMOD variation fixture"
+      }
+    },
+    {
+      "id": "MC_72",
+      "name": "SIN",
+      "key": "MC_72.SIN",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_72.SIN valid fixture",
+        "edge": "MC_72.SIN edge fixture",
+        "failClosed": "MC_72.SIN fail-closed fixture",
+        "variation": "MC_72.SIN variation fixture"
+      }
+    },
+    {
+      "id": "MC_73",
+      "name": "COS",
+      "key": "MC_73.COS",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_73.COS valid fixture",
+        "edge": "MC_73.COS edge fixture",
+        "failClosed": "MC_73.COS fail-closed fixture",
+        "variation": "MC_73.COS variation fixture"
+      }
+    },
+    {
+      "id": "MC_74",
+      "name": "TAN",
+      "key": "MC_74.TAN",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_74.TAN valid fixture",
+        "edge": "MC_74.TAN edge fixture",
+        "failClosed": "MC_74.TAN fail-closed fixture",
+        "variation": "MC_74.TAN variation fixture"
+      }
+    },
+    {
+      "id": "MC_75",
+      "name": "ATAN2",
+      "key": "MC_75.ATAN2",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_75.ATAN2 valid fixture",
+        "edge": "MC_75.ATAN2 edge fixture",
+        "failClosed": "MC_75.ATAN2 fail-closed fixture",
+        "variation": "MC_75.ATAN2 variation fixture"
+      }
+    },
+    {
+      "id": "MC_76",
+      "name": "LOG",
+      "key": "MC_76.LOG",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_76.LOG valid fixture",
+        "edge": "MC_76.LOG edge fixture",
+        "failClosed": "MC_76.LOG fail-closed fixture",
+        "variation": "MC_76.LOG variation fixture"
+      }
+    },
+    {
+      "id": "MC_77",
+      "name": "EXP",
+      "key": "MC_77.EXP",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64 -> f64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_77.EXP valid fixture",
+        "edge": "MC_77.EXP edge fixture",
+        "failClosed": "MC_77.EXP fail-closed fixture",
+        "variation": "MC_77.EXP variation fixture"
+      }
+    },
+    {
+      "id": "MC_78",
+      "name": "POW",
+      "key": "MC_78.POW",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64,f64 -> f64",
+      "inputTypes": [
+        "f64",
+        "f64"
+      ],
+      "outputType": "f64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64",
+        "f64"
+      ],
+      "returnType": "f64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_78.POW valid fixture",
+        "edge": "MC_78.POW edge fixture",
+        "failClosed": "MC_78.POW fail-closed fixture",
+        "variation": "MC_78.POW variation fixture"
+      }
+    },
+    {
+      "id": "MC_79",
+      "name": "FLOOR",
+      "key": "MC_79.FLOOR",
+      "family": "Math",
+      "tier": "extended",
+      "signature": "f64 -> i64",
+      "inputTypes": [
+        "f64"
+      ],
+      "outputType": "i64",
+      "determinism": "deterministic_local",
+      "scope": "extended",
+      "params": [
+        "f64"
+      ],
+      "returnType": "i64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_local",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_79.FLOOR valid fixture",
+        "edge": "MC_79.FLOOR edge fixture",
+        "failClosed": "MC_79.FLOOR fail-closed fixture",
+        "variation": "MC_79.FLOOR variation fixture"
+      }
+    },
+    {
+      "id": "MC_80",
+      "name": "TCP_CONN",
+      "key": "MC_80.TCP_CONN",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "string,u16 -> u64",
+      "inputTypes": [
+        "string",
+        "u16"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string",
+        "u16"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_80.TCP_CONN valid fixture",
+        "edge": "MC_80.TCP_CONN edge fixture",
+        "failClosed": "MC_80.TCP_CONN fail-closed fixture",
+        "variation": "MC_80.TCP_CONN variation fixture"
+      }
+    },
+    {
+      "id": "MC_81",
+      "name": "TCP_SEND",
+      "key": "MC_81.TCP_SEND",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "u64,bytes -> u64",
+      "inputTypes": [
+        "u64",
+        "bytes"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "bytes"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_81.TCP_SEND valid fixture",
+        "edge": "MC_81.TCP_SEND edge fixture",
+        "failClosed": "MC_81.TCP_SEND fail-closed fixture",
+        "variation": "MC_81.TCP_SEND variation fixture"
+      }
+    },
+    {
+      "id": "MC_82",
+      "name": "TCP_RECV",
+      "key": "MC_82.TCP_RECV",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "u64,u64 -> bytes",
+      "inputTypes": [
+        "u64",
+        "u64"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u64"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_82.TCP_RECV valid fixture",
+        "edge": "MC_82.TCP_RECV edge fixture",
+        "failClosed": "MC_82.TCP_RECV fail-closed fixture",
+        "variation": "MC_82.TCP_RECV variation fixture"
+      }
+    },
+    {
+      "id": "MC_83",
+      "name": "UDP_SEND",
+      "key": "MC_83.UDP_SEND",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "string,u16,bytes -> bool",
+      "inputTypes": [
+        "string",
+        "u16",
+        "bytes"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string",
+        "u16",
+        "bytes"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_83.UDP_SEND valid fixture",
+        "edge": "MC_83.UDP_SEND edge fixture",
+        "failClosed": "MC_83.UDP_SEND fail-closed fixture",
+        "variation": "MC_83.UDP_SEND variation fixture"
+      }
+    },
+    {
+      "id": "MC_84",
+      "name": "DNS",
+      "key": "MC_84.DNS",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "string -> string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_84.DNS valid fixture",
+        "edge": "MC_84.DNS edge fixture",
+        "failClosed": "MC_84.DNS fail-closed fixture",
+        "variation": "MC_84.DNS variation fixture"
+      }
+    },
+    {
+      "id": "MC_85",
+      "name": "HTTP_GET",
+      "key": "MC_85.HTTP_GET",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "string -> tuple_u16_string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "tuple_u16_string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "tuple_u16_string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_85.HTTP_GET valid fixture",
+        "edge": "MC_85.HTTP_GET edge fixture",
+        "failClosed": "MC_85.HTTP_GET fail-closed fixture",
+        "variation": "MC_85.HTTP_GET variation fixture"
+      }
+    },
+    {
+      "id": "MC_86",
+      "name": "HTTP_POST",
+      "key": "MC_86.HTTP_POST",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "string,string -> tuple_u16_string",
+      "inputTypes": [
+        "string",
+        "string"
+      ],
+      "outputType": "tuple_u16_string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string",
+        "string"
+      ],
+      "returnType": "tuple_u16_string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_86.HTTP_POST valid fixture",
+        "edge": "MC_86.HTTP_POST edge fixture",
+        "failClosed": "MC_86.HTTP_POST fail-closed fixture",
+        "variation": "MC_86.HTTP_POST variation fixture"
+      }
+    },
+    {
+      "id": "MC_87",
+      "name": "TLS",
+      "key": "MC_87.TLS",
+      "family": "Network",
+      "tier": "extended",
+      "signature": "u64 -> u64",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_87.TLS valid fixture",
+        "edge": "MC_87.TLS edge fixture",
+        "failClosed": "MC_87.TLS fail-closed fixture",
+        "variation": "MC_87.TLS variation fixture"
+      }
+    },
+    {
+      "id": "MC_88",
+      "name": "FB_NEW",
+      "key": "MC_88.FB_NEW",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u32,u32 -> u64",
+      "inputTypes": [
+        "u32",
+        "u32"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u32",
+        "u32"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_88.FB_NEW valid fixture",
+        "edge": "MC_88.FB_NEW edge fixture",
+        "failClosed": "MC_88.FB_NEW fail-closed fixture",
+        "variation": "MC_88.FB_NEW variation fixture"
+      }
+    },
+    {
+      "id": "MC_89",
+      "name": "FB_PIXEL",
+      "key": "MC_89.FB_PIXEL",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u64,u32,u32,u32 -> unit",
+      "inputTypes": [
+        "u64",
+        "u32",
+        "u32",
+        "u32"
+      ],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u32",
+        "u32",
+        "u32"
+      ],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_89.FB_PIXEL valid fixture",
+        "edge": "MC_89.FB_PIXEL edge fixture",
+        "failClosed": "MC_89.FB_PIXEL fail-closed fixture",
+        "variation": "MC_89.FB_PIXEL variation fixture"
+      }
+    },
+    {
+      "id": "MC_90",
+      "name": "FB_READ",
+      "key": "MC_90.FB_READ",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u64,u32,u32 -> u32",
+      "inputTypes": [
+        "u64",
+        "u32",
+        "u32"
+      ],
+      "outputType": "u32",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u32",
+        "u32"
+      ],
+      "returnType": "u32",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_90.FB_READ valid fixture",
+        "edge": "MC_90.FB_READ edge fixture",
+        "failClosed": "MC_90.FB_READ fail-closed fixture",
+        "variation": "MC_90.FB_READ variation fixture"
+      }
+    },
+    {
+      "id": "MC_91",
+      "name": "FB_FILL",
+      "key": "MC_91.FB_FILL",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u64,u32 -> unit",
+      "inputTypes": [
+        "u64",
+        "u32"
+      ],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u32"
+      ],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_91.FB_FILL valid fixture",
+        "edge": "MC_91.FB_FILL edge fixture",
+        "failClosed": "MC_91.FB_FILL fail-closed fixture",
+        "variation": "MC_91.FB_FILL variation fixture"
+      }
+    },
+    {
+      "id": "MC_92",
+      "name": "FB_COPY",
+      "key": "MC_92.FB_COPY",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u64,u64 -> unit",
+      "inputTypes": [
+        "u64",
+        "u64"
+      ],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u64"
+      ],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_92.FB_COPY valid fixture",
+        "edge": "MC_92.FB_COPY edge fixture",
+        "failClosed": "MC_92.FB_COPY fail-closed fixture",
+        "variation": "MC_92.FB_COPY variation fixture"
+      }
+    },
+    {
+      "id": "MC_93",
+      "name": "FB_FLUSH",
+      "key": "MC_93.FB_FLUSH",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u64 -> unit",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_93.FB_FLUSH valid fixture",
+        "edge": "MC_93.FB_FLUSH edge fixture",
+        "failClosed": "MC_93.FB_FLUSH fail-closed fixture",
+        "variation": "MC_93.FB_FLUSH variation fixture"
+      }
+    },
+    {
+      "id": "MC_94",
+      "name": "INPUT_POLL",
+      "key": "MC_94.INPUT_POLL",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": " -> bool",
+      "inputTypes": [],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_94.INPUT_POLL valid fixture",
+        "edge": "MC_94.INPUT_POLL edge fixture",
+        "failClosed": "MC_94.INPUT_POLL fail-closed fixture",
+        "variation": "MC_94.INPUT_POLL variation fixture"
+      }
+    },
+    {
+      "id": "MC_95",
+      "name": "INPUT_STATE",
+      "key": "MC_95.INPUT_STATE",
+      "family": "Graphics",
+      "tier": "extended",
+      "signature": "u32 -> u64",
+      "inputTypes": [
+        "u32"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u32"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_95.INPUT_STATE valid fixture",
+        "edge": "MC_95.INPUT_STATE edge fixture",
+        "failClosed": "MC_95.INPUT_STATE fail-closed fixture",
+        "variation": "MC_95.INPUT_STATE variation fixture"
+      }
+    },
+    {
+      "id": "MC_96",
+      "name": "AU_NEW",
+      "key": "MC_96.AU_NEW",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u32,u16,u16 -> u64",
+      "inputTypes": [
+        "u32",
+        "u16",
+        "u16"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u32",
+        "u16",
+        "u16"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_96.AU_NEW valid fixture",
+        "edge": "MC_96.AU_NEW edge fixture",
+        "failClosed": "MC_96.AU_NEW fail-closed fixture",
+        "variation": "MC_96.AU_NEW variation fixture"
+      }
+    },
+    {
+      "id": "MC_97",
+      "name": "AU_WRITE",
+      "key": "MC_97.AU_WRITE",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u64,bytes -> u64",
+      "inputTypes": [
+        "u64",
+        "bytes"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "bytes"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_97.AU_WRITE valid fixture",
+        "edge": "MC_97.AU_WRITE edge fixture",
+        "failClosed": "MC_97.AU_WRITE fail-closed fixture",
+        "variation": "MC_97.AU_WRITE variation fixture"
+      }
+    },
+    {
+      "id": "MC_98",
+      "name": "AU_READ",
+      "key": "MC_98.AU_READ",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u64,u64 -> bytes",
+      "inputTypes": [
+        "u64",
+        "u64"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u64"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_98.AU_READ valid fixture",
+        "edge": "MC_98.AU_READ edge fixture",
+        "failClosed": "MC_98.AU_READ fail-closed fixture",
+        "variation": "MC_98.AU_READ variation fixture"
+      }
+    },
+    {
+      "id": "MC_99",
+      "name": "AU_PLAY",
+      "key": "MC_99.AU_PLAY",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u64 -> bool",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_99.AU_PLAY valid fixture",
+        "edge": "MC_99.AU_PLAY edge fixture",
+        "failClosed": "MC_99.AU_PLAY fail-closed fixture",
+        "variation": "MC_99.AU_PLAY variation fixture"
+      }
+    },
+    {
+      "id": "MC_100",
+      "name": "AU_STOP",
+      "key": "MC_100.AU_STOP",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u64 -> unit",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_100.AU_STOP valid fixture",
+        "edge": "MC_100.AU_STOP edge fixture",
+        "failClosed": "MC_100.AU_STOP fail-closed fixture",
+        "variation": "MC_100.AU_STOP variation fixture"
+      }
+    },
+    {
+      "id": "MC_101",
+      "name": "AU_MIX",
+      "key": "MC_101.AU_MIX",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "bytes,bytes -> bytes",
+      "inputTypes": [
+        "bytes",
+        "bytes"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "bytes",
+        "bytes"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_101.AU_MIX valid fixture",
+        "edge": "MC_101.AU_MIX edge fixture",
+        "failClosed": "MC_101.AU_MIX fail-closed fixture",
+        "variation": "MC_101.AU_MIX variation fixture"
+      }
+    },
+    {
+      "id": "MC_102",
+      "name": "AU_SAMPLE",
+      "key": "MC_102.AU_SAMPLE",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u64,u64 -> bytes",
+      "inputTypes": [
+        "u64",
+        "u64"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u64"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_102.AU_SAMPLE valid fixture",
+        "edge": "MC_102.AU_SAMPLE edge fixture",
+        "failClosed": "MC_102.AU_SAMPLE fail-closed fixture",
+        "variation": "MC_102.AU_SAMPLE variation fixture"
+      }
+    },
+    {
+      "id": "MC_103",
+      "name": "AU_STATUS",
+      "key": "MC_103.AU_STATUS",
+      "family": "Audio",
+      "tier": "extended",
+      "signature": "u64 -> u32",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u32",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u32",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_103.AU_STATUS valid fixture",
+        "edge": "MC_103.AU_STATUS edge fixture",
+        "failClosed": "MC_103.AU_STATUS fail-closed fixture",
+        "variation": "MC_103.AU_STATUS variation fixture"
+      }
+    },
+    {
+      "id": "MC_104",
+      "name": "DIR_LIST",
+      "key": "MC_104.DIR_LIST",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string -> list_string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "list_string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "list_string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_104.DIR_LIST valid fixture",
+        "edge": "MC_104.DIR_LIST edge fixture",
+        "failClosed": "MC_104.DIR_LIST fail-closed fixture",
+        "variation": "MC_104.DIR_LIST variation fixture"
+      }
+    },
+    {
+      "id": "MC_105",
+      "name": "DIR_CREATE",
+      "key": "MC_105.DIR_CREATE",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string -> bool",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_105.DIR_CREATE valid fixture",
+        "edge": "MC_105.DIR_CREATE edge fixture",
+        "failClosed": "MC_105.DIR_CREATE fail-closed fixture",
+        "variation": "MC_105.DIR_CREATE variation fixture"
+      }
+    },
+    {
+      "id": "MC_106",
+      "name": "DIR_DELETE",
+      "key": "MC_106.DIR_DELETE",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string -> bool",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_106.DIR_DELETE valid fixture",
+        "edge": "MC_106.DIR_DELETE edge fixture",
+        "failClosed": "MC_106.DIR_DELETE fail-closed fixture",
+        "variation": "MC_106.DIR_DELETE variation fixture"
+      }
+    },
+    {
+      "id": "MC_107",
+      "name": "CHMOD",
+      "key": "MC_107.CHMOD",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string,u32 -> bool",
+      "inputTypes": [
+        "string",
+        "u32"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string",
+        "u32"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_107.CHMOD valid fixture",
+        "edge": "MC_107.CHMOD edge fixture",
+        "failClosed": "MC_107.CHMOD fail-closed fixture",
+        "variation": "MC_107.CHMOD variation fixture"
+      }
+    },
+    {
+      "id": "MC_108",
+      "name": "CHOWN",
+      "key": "MC_108.CHOWN",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string,u32,u32 -> bool",
+      "inputTypes": [
+        "string",
+        "u32",
+        "u32"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string",
+        "u32",
+        "u32"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_108.CHOWN valid fixture",
+        "edge": "MC_108.CHOWN edge fixture",
+        "failClosed": "MC_108.CHOWN fail-closed fixture",
+        "variation": "MC_108.CHOWN variation fixture"
+      }
+    },
+    {
+      "id": "MC_109",
+      "name": "LINK",
+      "key": "MC_109.LINK",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string,string -> bool",
+      "inputTypes": [
+        "string",
+        "string"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string",
+        "string"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_109.LINK valid fixture",
+        "edge": "MC_109.LINK edge fixture",
+        "failClosed": "MC_109.LINK fail-closed fixture",
+        "variation": "MC_109.LINK variation fixture"
+      }
+    },
+    {
+      "id": "MC_110",
+      "name": "WATCH",
+      "key": "MC_110.WATCH",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": "string -> u64",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_110.WATCH valid fixture",
+        "edge": "MC_110.WATCH edge fixture",
+        "failClosed": "MC_110.WATCH fail-closed fixture",
+        "variation": "MC_110.WATCH variation fixture"
+      }
+    },
+    {
+      "id": "MC_111",
+      "name": "TEMP",
+      "key": "MC_111.TEMP",
+      "family": "Filesystem+",
+      "tier": "extended",
+      "signature": " -> string",
+      "inputTypes": [],
+      "outputType": "string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [],
+      "returnType": "string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_111.TEMP valid fixture",
+        "edge": "MC_111.TEMP edge fixture",
+        "failClosed": "MC_111.TEMP fail-closed fixture",
+        "variation": "MC_111.TEMP variation fixture"
+      }
+    },
+    {
+      "id": "MC_112",
+      "name": "SPAWN",
+      "key": "MC_112.SPAWN",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": "u64 -> u64",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_112.SPAWN valid fixture",
+        "edge": "MC_112.SPAWN edge fixture",
+        "failClosed": "MC_112.SPAWN fail-closed fixture",
+        "variation": "MC_112.SPAWN variation fixture"
+      }
+    },
+    {
+      "id": "MC_113",
+      "name": "JOIN",
+      "key": "MC_113.JOIN",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": "u64 -> bytes",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_113.JOIN valid fixture",
+        "edge": "MC_113.JOIN edge fixture",
+        "failClosed": "MC_113.JOIN fail-closed fixture",
+        "variation": "MC_113.JOIN variation fixture"
+      }
+    },
+    {
+      "id": "MC_114",
+      "name": "CHAN_NEW",
+      "key": "MC_114.CHAN_NEW",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": " -> tuple_u64_u64",
+      "inputTypes": [],
+      "outputType": "tuple_u64_u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [],
+      "returnType": "tuple_u64_u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_114.CHAN_NEW valid fixture",
+        "edge": "MC_114.CHAN_NEW edge fixture",
+        "failClosed": "MC_114.CHAN_NEW fail-closed fixture",
+        "variation": "MC_114.CHAN_NEW variation fixture"
+      }
+    },
+    {
+      "id": "MC_115",
+      "name": "CHAN_SEND",
+      "key": "MC_115.CHAN_SEND",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": "u64,bytes -> bool",
+      "inputTypes": [
+        "u64",
+        "bytes"
+      ],
+      "outputType": "bool",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "bytes"
+      ],
+      "returnType": "bool",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_115.CHAN_SEND valid fixture",
+        "edge": "MC_115.CHAN_SEND edge fixture",
+        "failClosed": "MC_115.CHAN_SEND fail-closed fixture",
+        "variation": "MC_115.CHAN_SEND variation fixture"
+      }
+    },
+    {
+      "id": "MC_116",
+      "name": "CHAN_RECV",
+      "key": "MC_116.CHAN_RECV",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": "u64 -> bytes",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_116.CHAN_RECV valid fixture",
+        "edge": "MC_116.CHAN_RECV edge fixture",
+        "failClosed": "MC_116.CHAN_RECV fail-closed fixture",
+        "variation": "MC_116.CHAN_RECV variation fixture"
+      }
+    },
+    {
+      "id": "MC_117",
+      "name": "MUTEX",
+      "key": "MC_117.MUTEX",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": "u64 -> u64",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_117.MUTEX valid fixture",
+        "edge": "MC_117.MUTEX edge fixture",
+        "failClosed": "MC_117.MUTEX fail-closed fixture",
+        "variation": "MC_117.MUTEX variation fixture"
+      }
+    },
+    {
+      "id": "MC_118",
+      "name": "ATOMIC",
+      "key": "MC_118.ATOMIC",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": "u64,u64 -> u64",
+      "inputTypes": [
+        "u64",
+        "u64"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "u64"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_118.ATOMIC valid fixture",
+        "edge": "MC_118.ATOMIC edge fixture",
+        "failClosed": "MC_118.ATOMIC fail-closed fixture",
+        "variation": "MC_118.ATOMIC variation fixture"
+      }
+    },
+    {
+      "id": "MC_119",
+      "name": "YIELD",
+      "key": "MC_119.YIELD",
+      "family": "Concurrency",
+      "tier": "extended",
+      "signature": " -> unit",
+      "inputTypes": [],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_119.YIELD valid fixture",
+        "edge": "MC_119.YIELD edge fixture",
+        "failClosed": "MC_119.YIELD fail-closed fixture",
+        "variation": "MC_119.YIELD variation fixture"
+      }
+    },
+    {
+      "id": "MC_120",
+      "name": "FFI_LOAD",
+      "key": "MC_120.FFI_LOAD",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "string -> u64",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_120.FFI_LOAD valid fixture",
+        "edge": "MC_120.FFI_LOAD edge fixture",
+        "failClosed": "MC_120.FFI_LOAD fail-closed fixture",
+        "variation": "MC_120.FFI_LOAD variation fixture"
+      }
+    },
+    {
+      "id": "MC_121",
+      "name": "FFI_CALL",
+      "key": "MC_121.FFI_CALL",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "u64,string,bytes -> bytes",
+      "inputTypes": [
+        "u64",
+        "string",
+        "bytes"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64",
+        "string",
+        "bytes"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_121.FFI_CALL valid fixture",
+        "edge": "MC_121.FFI_CALL edge fixture",
+        "failClosed": "MC_121.FFI_CALL fail-closed fixture",
+        "variation": "MC_121.FFI_CALL variation fixture"
+      }
+    },
+    {
+      "id": "MC_122",
+      "name": "FFI_ALLOC",
+      "key": "MC_122.FFI_ALLOC",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "u64 -> u64",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "u64",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "u64",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_122.FFI_ALLOC valid fixture",
+        "edge": "MC_122.FFI_ALLOC edge fixture",
+        "failClosed": "MC_122.FFI_ALLOC fail-closed fixture",
+        "variation": "MC_122.FFI_ALLOC variation fixture"
+      }
+    },
+    {
+      "id": "MC_123",
+      "name": "FFI_FREE",
+      "key": "MC_123.FFI_FREE",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "u64 -> unit",
+      "inputTypes": [
+        "u64"
+      ],
+      "outputType": "unit",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "u64"
+      ],
+      "returnType": "unit",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_123.FFI_FREE valid fixture",
+        "edge": "MC_123.FFI_FREE edge fixture",
+        "failClosed": "MC_123.FFI_FREE fail-closed fixture",
+        "variation": "MC_123.FFI_FREE variation fixture"
+      }
+    },
+    {
+      "id": "MC_124",
+      "name": "WASM_EXEC",
+      "key": "MC_124.WASM_EXEC",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "bytes,string,bytes -> bytes",
+      "inputTypes": [
+        "bytes",
+        "string",
+        "bytes"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "bytes",
+        "string",
+        "bytes"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_124.WASM_EXEC valid fixture",
+        "edge": "MC_124.WASM_EXEC edge fixture",
+        "failClosed": "MC_124.WASM_EXEC fail-closed fixture",
+        "variation": "MC_124.WASM_EXEC variation fixture"
+      }
+    },
+    {
+      "id": "MC_125",
+      "name": "PY_EVAL",
+      "key": "MC_125.PY_EVAL",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "string -> string",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_125.PY_EVAL valid fixture",
+        "edge": "MC_125.PY_EVAL edge fixture",
+        "failClosed": "MC_125.PY_EVAL fail-closed fixture",
+        "variation": "MC_125.PY_EVAL variation fixture"
+      }
+    },
+    {
+      "id": "MC_126",
+      "name": "JSON_PARSE",
+      "key": "MC_126.JSON_PARSE",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "string -> bytes",
+      "inputTypes": [
+        "string"
+      ],
+      "outputType": "bytes",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "string"
+      ],
+      "returnType": "bytes",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_126.JSON_PARSE valid fixture",
+        "edge": "MC_126.JSON_PARSE edge fixture",
+        "failClosed": "MC_126.JSON_PARSE fail-closed fixture",
+        "variation": "MC_126.JSON_PARSE variation fixture"
+      }
+    },
+    {
+      "id": "MC_127",
+      "name": "JSON_EMIT",
+      "key": "MC_127.JSON_EMIT",
+      "family": "Interop",
+      "tier": "extended",
+      "signature": "bytes -> string",
+      "inputTypes": [
+        "bytes"
+      ],
+      "outputType": "string",
+      "determinism": "contract_bounded",
+      "scope": "extended",
+      "params": [
+        "bytes"
+      ],
+      "returnType": "string",
+      "executableInPcd": true,
+      "pcdExecutable": true,
+      "sdkExecutable": true,
+      "emitTargets": [
+        "ts",
+        "python",
+        "rust"
+      ],
+      "boundary": "contract_external",
+      "legacyAlias": false,
+      "fixtures": {
+        "valid": "MC_127.JSON_EMIT valid fixture",
+        "edge": "MC_127.JSON_EMIT edge fixture",
+        "failClosed": "MC_127.JSON_EMIT fail-closed fixture",
+        "variation": "MC_127.JSON_EMIT variation fixture"
+      }
+    }
+  ]
+}

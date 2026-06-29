@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "brik64.cli_polymer_manifest.v1",
+  "cliVersion": "0.1.0-beta.17",
+  "mode": "local",
+  "semanticMode": "inline_merged_functions",
+  "root": {
+    "file": "pcd/add8_gate.pcd",
+    "pcName": "add8_gate",
+    "fnName": "add8_gate",
+    "semantic_pcd_sha256": "bca1eae547e2af618e10ea4e6b72d052414d104d71dd3131f13e185f6f856a8a",
+    "domain_contract_sha256": "e3a7b4716e7bfdd6eed78803eda66f37d0271ceb341ce9d1132279b970caae84"
+  },
+  "output": "polymer.pcd",
+  "output_sha256": "10a2d38dbc2ac5f43db0ba1e1a973d5abda72b3f66b24142c57b137569c75865",
+  "composite_domain_sha256": "b8050d5f4550c49c0bce038f3eb7514c0e5d991be521aef5fc8a107b8c8905e6",
+  "materializedImports": [],
+  "sources": [
+    {
+      "file": "pcd/add8_gate.pcd",
+      "semantic_pcd_sha256": "bca1eae547e2af618e10ea4e6b72d052414d104d71dd3131f13e185f6f856a8a",
+      "domain_contract_sha256": "e3a7b4716e7bfdd6eed78803eda66f37d0271ceb341ce9d1132279b970caae84",
+      "domainContract": {
+        "schemaVersion": "brik64.cli_domain_contract.v1",
+        "domains": [
+          {
+            "name": "a",
+            "type": "i64",
+            "min": {
+              "kind": "literal",
+              "value": 0
+            },
+            "max": {
+              "kind": "literal",
+              "value": 255
+            }
+          },
+          {
+            "name": "b",
+            "type": "i64",
+            "min": {
+              "kind": "literal",
+              "value": 0
+            },
+            "max": {
+              "kind": "literal",
+              "value": 255
+            }
+          }
+        ],
+        "domainParams": [],
+        "invariants": [],
+        "conditionalDomains": [],
+        "resolvedDomains": [
+          {
+            "name": "a",
+            "minValue": 0,
+            "maxValue": 255
+          },
+          {
+            "name": "b",
+            "minValue": 0,
+            "maxValue": 255
+          }
+        ],
+        "resolvedConditionalDomains": [],
+        "missingParams": [],
+        "unresolvedParams": [],
+        "status": "complete",
+        "claimBearingEligible": true,
+        "sha256": "e3a7b4716e7bfdd6eed78803eda66f37d0271ceb341ce9d1132279b970caae84"
+      },
+      "ast": {
+        "schemaVersion": "brik64.cli_ast.v1",
+        "pcName": "add8_gate",
+        "fnName": "add8_gate",
+        "params": [
+          "a",
+          "b"
+        ],
+        "paramTypes": {
+          "a": "i64",
+          "b": "i64"
+        },
+        "returnType": "i64",
+        "imports": {},
+        "importGraph": {},
+        "constants": {},
+        "domainContract": {
+          "schemaVersion": "brik64.cli_domain_contract.v1",
+          "domains": [
+            {
+              "name": "a",
+              "type": "i64",
+              "min": {
+                "kind": "literal",
+                "value": 0
+              },
+              "max": {
+                "kind": "literal",
+                "value": 255
+              }
+            },
+            {
+              "name": "b",
+              "type": "i64",
+              "min": {
+                "kind": "literal",
+                "value": 0
+              },
+              "max": {
+                "kind": "literal",
+                "value": 255
+              }
+            }
+          ],
+          "domainParams": [],
+          "invariants": [],
+          "conditionalDomains": [],
+          "resolvedDomains": [
+            {
+              "name": "a",
+              "minValue": 0,
+              "maxValue": 255
+            },
+            {
+              "name": "b",
+              "minValue": 0,
+              "maxValue": 255
+            }
+          ],
+          "resolvedConditionalDomains": [],
+          "missingParams": [],
+          "unresolvedParams": [],
+          "status": "complete",
+          "claimBearingEligible": true,
+          "sha256": "e3a7b4716e7bfdd6eed78803eda66f37d0271ceb341ce9d1132279b970caae84"
+        },
+        "boundaryContracts": [],
+        "functions": {
+          "add8_gate": {
+            "name": "add8_gate",
+            "params": [
+              "a",
+              "b"
+            ],
+            "paramTypes": {
+              "a": "i64",
+              "b": "i64"
+            },
+            "returnType": "i64",
+            "body": [
+              {
+                "type": "ReturnStatement",
+                "argument": {
+                  "type": "MonomerCallExpression",
+                  "monomer": "MC_00.ADD8",
+                  "id": "MC_00",
+                  "name": "ADD8",
+                  "family": "Arithmetic",
+                  "operation": "add",
+                  "returnType": "u8",
+                  "boundary": "pure_local_candidate",
+                  "legacyAlias": false,
+                  "args": [
+                    {
+                      "type": "Identifier",
+                      "name": "a",
+                      "inferredType": "i64"
+                    },
+                    {
+                      "type": "Identifier",
+                      "name": "b",
+                      "inferredType": "i64"
+                    }
+                  ],
+                  "inferredType": "i64"
+                }
+              }
+            ],
+            "returnValues": [
+              null
+            ],
+            "branchCount": 0
+          }
+        },
+        "entrypoint": {
+          "name": "add8_gate",
+          "explicit": true,
+          "fallbackReason": null
+        },
+        "body": [
+          {
+            "type": "ReturnStatement",
+            "argument": {
+              "type": "MonomerCallExpression",
+              "monomer": "MC_00.ADD8",
+              "id": "MC_00",
+              "name": "ADD8",
+              "family": "Arithmetic",
+              "operation": "add",
+              "returnType": "u8",
+              "boundary": "pure_local_candidate",
+              "legacyAlias": false,
+              "args": [
+                {
+                  "type": "Identifier",
+                  "name": "a",
+                  "inferredType": "i64"
+                },
+                {
+                  "type": "Identifier",
+                  "name": "b",
+                  "inferredType": "i64"
+                }
+              ],
+              "inferredType": "i64"
+            }
+          }
+        ],
+        "returnValues": [
+          null
+        ],
+        "branchCount": 0,
+        "expressionDialect": "brik64.cli_expr.v1"
+      }
+    }
+  ],
+  "claimBoundary": "local_candidate_only"
+}

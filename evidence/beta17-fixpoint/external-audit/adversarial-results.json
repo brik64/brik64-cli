@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "brik64.beta17.external_adversarial_results.v1",
+  "pass": true,
+  "cases": [
+    { "id": "empty_certify", "expected": "fail_closed", "rc": 65, "pass": true },
+    { "id": "missing_header", "expected": "fail_closed", "rc": 65, "pass": true },
+    { "id": "invalid_monomer", "expected": "fail_closed", "rc": 65, "pass": true },
+    { "id": "path_traversal_emit_template", "expected": "path_outside_workspace", "rc": 64, "pass": true },
+    { "id": "absolute_out_emit_template", "expected": "path_outside_workspace", "rc": 64, "pass": true },
+    { "id": "symlink_out_template", "expected": "path_outside_workspace", "rc": 64, "pass": true }
+  ],
+  "log": "evidence/beta17-fixpoint/external-audit/adversarial.log"
+}
