@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "brik64.l6plus_pcd_artifact_factory_audit.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T07:33:38.750Z",
+  "decision": "BLOCKED_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT",
+  "host": "root@89.167.104.236",
+  "wrapper": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+  "skippedRemote": false,
+  "requiredCapability": "l6plus_pcd_artifact_factory",
+  "requiredResultMarker": "BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT",
+  "observedCapabilities": [
+    "beta15_7_ready",
+    "beta16_1_ready",
+    "beta16_native_ready"
+  ],
+  "probes": [
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "artifact-factory-status"
+      ],
+      "status": 65,
+      "stdoutTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-1.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-1.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      },
+      "capabilities": [],
+      "resultMarkerObserved": false,
+      "unsupported": true
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "pcd-artifact-factory-status"
+      ],
+      "status": 65,
+      "stdoutTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-2.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-2.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      },
+      "capabilities": [],
+      "resultMarkerObserved": false,
+      "unsupported": true
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "factory-status"
+      ],
+      "status": 65,
+      "stdoutTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-3.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-3.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      },
+      "capabilities": [],
+      "resultMarkerObserved": false,
+      "unsupported": true
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "materialize",
+        "--help"
+      ],
+      "status": 2,
+      "stdoutTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-4.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "stderrTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-4.stderr.txt",
+        "sha256": "6bf62e1badb8efb05dfab73a719031fd78683dde81cd071ef57f2a9c0f06b9cf",
+        "bytes": 70
+      },
+      "capabilities": [],
+      "resultMarkerObserved": false,
+      "unsupported": false
+    },
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "endpoint-status"
+      ],
+      "status": 0,
+      "stdoutTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-5.stdout.txt",
+        "sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
+        "bytes": 204
+      },
+      "stderrTranscript": {
+        "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-5.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "capabilities": [
+        "beta15_7_ready",
+        "beta16_1_ready",
+        "beta16_native_ready"
+      ],
+      "resultMarkerObserved": false,
+      "unsupported": false
+    }
+  ],
+  "blockers": [
+    "l6plus_pcd_artifact_factory_capability_missing:beta15_7_ready,beta16_1_ready,beta16_native_ready",
+    "l6plus_pcd_artifact_factory_result_marker_missing:BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT",
+    "l6plus_factory_status_unsupported"
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "nextAction": "replace version-specific wrapper routing with a general l6plus_pcd_artifact_factory capability before Beta17 materialization"
+}

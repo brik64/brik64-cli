@@ -1,0 +1,23 @@
+// brik64.pcd_file.v1
+// claim_boundary: non_public_internal_factory_contract
+// purpose: require a general L6+N5 PCD/polymer artifact factory, not version-specific CLI endpoints
+PC l6plus_pcd_artifact_factory_contract {
+    fn run(
+        wrapper_reports_factory_capability,
+        accepts_versioned_request,
+        accepts_artifact_kind,
+        binds_input_pcd_hashes,
+        binds_output_refs,
+        closes_public_claim_boundary,
+        emits_result_line
+    ) -> i64 {
+        if (wrapper_reports_factory_capability == 0) { return 0; }
+        if (accepts_versioned_request == 0) { return 0; }
+        if (accepts_artifact_kind == 0) { return 0; }
+        if (binds_input_pcd_hashes == 0) { return 0; }
+        if (binds_output_refs == 0) { return 0; }
+        if (closes_public_claim_boundary == 0) { return 0; }
+        if (emits_result_line == 0) { return 0; }
+        return 1;
+    }
+}

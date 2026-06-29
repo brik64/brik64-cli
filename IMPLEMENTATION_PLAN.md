@@ -187,6 +187,15 @@
   and `remote_l6plus_functional_cli_stage_result_not_emitted`, proving that
   the remaining blocker is a missing L6+N5 functional CLI Stage endpoint, not
   package metadata or local hydration plumbing.
+- L6+N5 general factory audit update: the Beta17 route now explicitly rejects
+  accumulating version-specific wrapper endpoints as the long-term generation
+  model. `audit:l6plus:pcd-artifact-factory` requires the remote wrapper to
+  expose `l6plus_pcd_artifact_factory` and emit
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` for versioned PCD/polymer
+  artifact requests. Current real evidence is fail-closed with only
+  `beta15_7_ready,beta16_1_ready,beta16_native_ready` observed, no factory
+  result marker, and `factory-status` unsupported. Beta17 materialization must
+  route through this general factory before publication or fixpoint claims.
 
 ## Legacy Plan Context
 

@@ -4088,3 +4088,49 @@ Boundary:
 - This iteration probes and records remote capability evidence only. It does
   not publish Beta17, invent a result, or authorize fixpoint/formal/public
   claims.
+
+## Beta17 Ralph Loop Iteration - L6+N5 general PCD artifact factory audit
+
+Timestamp: 2026-06-29T10:20:00Z
+
+Task:
+- Audit the general behavior of the L6+N5 wrapper and prevent Beta17 from
+  depending on another version-specific endpoint when the intended architecture
+  is a general PCD/polymer artifact factory.
+
+Change:
+- Added `pcd/beta17/release/l6plus_pcd_artifact_factory_contract.pcd`.
+- Added `scripts/l6plus-pcd-artifact-factory-audit.js`.
+- Added npm scripts `audit:l6plus:pcd-artifact-factory` and
+  `test:l6plus:pcd-artifact-factory-audit`.
+- Added `scripts/tests/test_l6plus_pcd_artifact_factory_audit.sh`.
+- Generated real wrapper evidence at
+  `evidence/l6plus-pcd-artifact-factory-audit/report.json`.
+
+Validation:
+- `node --check scripts/l6plus-pcd-artifact-factory-audit.js` passed.
+- `npm run test:l6plus:pcd-artifact-factory-audit` passed.
+- `npm run audit:l6plus:pcd-artifact-factory` failed closed as expected
+  against the real remote wrapper.
+
+Break attempts:
+- Fixture with `l6plus_pcd_artifact_factory` and
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` passes.
+- Legacy-only capabilities `beta15_7_ready,beta16_native_ready,beta16_1_ready`
+  fail closed.
+- Unsupported `factory-status` fails closed.
+
+Current real blockers:
+- `l6plus_pcd_artifact_factory_capability_missing:beta15_7_ready,beta16_1_ready,beta16_native_ready`.
+- `l6plus_pcd_artifact_factory_result_marker_missing:BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`.
+- `l6plus_factory_status_unsupported`.
+
+Next exact action:
+- Replace version-specific wrapper routing with a general
+  `l6plus_pcd_artifact_factory` capability, then route the Beta17 functional
+  CLI request through that factory.
+
+Boundary:
+- This iteration is an audit/gate. It does not install a remote factory,
+  generate the Beta17 CLI artifact, publish Beta17, or authorize fixpoint,
+  formal N5, self-hosting, Rust-independence, or public-release claims.

@@ -330,7 +330,9 @@
     "test:beta17:fixpoint:remote-result-promotion": "bash scripts/tests/test_beta17_fixpoint_remote_result_promotion.sh",
     "test:beta17:release-train-readiness": "bash scripts/tests/test_beta17_release_train_readiness.sh",
     "attempt:beta17:functional-cli-stage": "node scripts/beta17-functional-cli-stage-attempt.js",
-    "test:beta17:functional-cli-stage-attempt": "bash scripts/tests/test_beta17_functional_cli_stage_attempt.sh"
+    "test:beta17:functional-cli-stage-attempt": "bash scripts/tests/test_beta17_functional_cli_stage_attempt.sh",
+    "audit:l6plus:pcd-artifact-factory": "node scripts/l6plus-pcd-artifact-factory-audit.js",
+    "test:l6plus:pcd-artifact-factory-audit": "bash scripts/tests/test_l6plus_pcd_artifact_factory_audit.sh"
   },
   "author": {
     "name": "BRIK64 INC",

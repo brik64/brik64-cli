@@ -208,6 +208,16 @@
         `evidence/beta17-package/package.manifest.json` reports
         `stage_artifact_not_functional_cli_sized`, and publication preflight
         reports `package_manifest_release_eligible_false`.
+      - General factory blocker:
+        `evidence/l6plus-pcd-artifact-factory-audit/report.json` reports
+        `BLOCKED_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT` because the remote wrapper
+        exposes only `beta15_7_ready,beta16_1_ready,beta16_native_ready`,
+        does not emit `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`, and
+        `factory-status` is unsupported.
+      - Required correction:
+        replace version-specific wrapper routing with
+        `l6plus_pcd_artifact_factory`, then route the Beta17 functional CLI
+        request through that general factory.
       - Done when:
         L6+N5 produces a Stage1 artifact that is executable as the Beta17 CLI,
         package candidate marks `releaseEligible=true`, generated package smoke
