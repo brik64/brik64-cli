@@ -33,6 +33,44 @@ const remediationCommands = [
   'npm run promote:beta17:fixpoint:remote-result',
   'npm run gate:beta17:fixpoint-readiness',
 ];
+const remediationPlan = {
+  schemaVersion: 'brik64.beta17_fixpoint.remote_stage_remediation_plan.v1',
+  requiredInputs: [
+    {
+      id: 'generatedMaterializer',
+      description: 'L6+N5-generated Beta17 fixpoint stage materializer file',
+      mustBeFixtureOrTemplate: false,
+      requiredEvidence: ['path', 'sha256', 'bytes', 'generatedFromPcdPolymer'],
+    },
+    {
+      id: 'canonicalInputPcds',
+      description: 'Canonical Beta17 PCD/polymer input set used by the materializer',
+      mustBeFixtureOrTemplate: false,
+      requiredEvidence: ['safe paths', 'sha256', 'bytes', 'pcdInputSetSha256'],
+    },
+    {
+      id: 'l6plusEngineSerial',
+      description: 'Authorized L6+N5 engine serial that generated the materializer',
+      requiredPrefix: 'BRIK64-L6PLUS-N5-',
+    },
+  ],
+  steps: [
+    { id: 'materializer_provenance', command: remediationCommands[0] },
+    { id: 'dispatcher_plan', command: remediationCommands[1] },
+    { id: 'dispatcher_preflight', command: remediationCommands[2] },
+    { id: 'guarded_dispatcher_install', command: remediationCommands[3] },
+    { id: 'remote_stage_attempt', command: remediationCommands[4] },
+    { id: 'remote_promotion_gate', command: remediationCommands[5] },
+    { id: 'promote_remote_result', command: remediationCommands[6] },
+    { id: 'fixpoint_readiness_gate', command: remediationCommands[7] },
+  ],
+  stopRules: [
+    'stop if any command exits non-zero',
+    'stop if any report opens publicReleaseAllowed before readiness passes',
+    'stop if any result is fixture, template or manually patched',
+    'stop if Stage1 and Stage2 are not byte-identical',
+  ],
+};
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -307,6 +345,7 @@ function main() {
       attemptedMaterializationCommands,
       requiredStageResultMarker,
       remediationCommands,
+      remediationPlan,
       installHint: [
         `install ${requiredEndpointCapability} in the L6+N5 wrapper`,
         `back it with a non-fixture L6+N5 materializer that emits ${requiredStageResultMarker}`,
@@ -382,4 +421,5 @@ module.exports = {
   requiredEndpointCapability,
   requiredStageResultMarker,
   remediationCommands,
+  remediationPlan,
 };

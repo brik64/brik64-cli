@@ -1258,3 +1258,22 @@
         this makes the blocker actionable. It does not create the real
         materializer, execute remote mutation, generate Stage1/Stage2 artifacts,
         prove fixpoint or publish Beta17.
+
+- [x] Add structured remediation input/stop-rule plan to blocked Beta17
+      remote-stage attempts.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Result:
+        blocked reports now include `remediationPlan` with required inputs
+        (`generatedMaterializer`, `canonicalInputPcds`, `l6plusEngineSerial`),
+        step ids and fail-closed stop rules.
+      - Break attempts:
+        tests assert the plan keeps fixture/template inputs disallowed, requires
+        the L6+N5 serial prefix and stops if Stage1/Stage2 are not
+        byte-identical.
+      - Boundary:
+        this makes the remediation path less ambiguous. It does not create a
+        materializer, execute remote mutation, generate Stage1/Stage2 artifacts,
+        prove fixpoint or publish Beta17.

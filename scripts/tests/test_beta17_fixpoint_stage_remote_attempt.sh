@@ -20,6 +20,7 @@ const {
   parseEndpointCapabilities,
   parseWrapperMode,
   remediationCommands,
+  remediationPlan,
   requiredEndpointCapability,
   requiredStageResultMarker,
 } = require('./scripts/beta17-fixpoint-stage-remote-attempt');
@@ -60,6 +61,25 @@ for (const expectedCommand of [
     `missing remediation command ${expectedCommand}`,
   );
 }
+assert.strictEqual(remediationPlan.schemaVersion, 'brik64.beta17_fixpoint.remote_stage_remediation_plan.v1');
+assert.deepStrictEqual(
+  remediationPlan.requiredInputs.map((item) => item.id),
+  ['generatedMaterializer', 'canonicalInputPcds', 'l6plusEngineSerial'],
+);
+assert.deepStrictEqual(
+  remediationPlan.steps.map((item) => item.id),
+  [
+    'materializer_provenance',
+    'dispatcher_plan',
+    'dispatcher_preflight',
+    'guarded_dispatcher_install',
+    'remote_stage_attempt',
+    'remote_promotion_gate',
+    'promote_remote_result',
+    'fixpoint_readiness_gate',
+  ],
+);
+assert(remediationPlan.stopRules.some((rule) => rule.includes('byte-identical')));
 console.log('PASS beta17 remote endpoint parser checks');
 NODE
 
@@ -91,6 +111,11 @@ jq -e '
   and .remoteEndpointContract.requiredEndpointCapability=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredWrapperMode=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredStageResultMarker=="BRIK64_BETA17_FIXPOINT_STAGE_RESULT"
+  and .remoteEndpointContract.remediationPlan.schemaVersion=="brik64.beta17_fixpoint.remote_stage_remediation_plan.v1"
+  and ([.remoteEndpointContract.remediationPlan.requiredInputs[] | select(.id=="generatedMaterializer") | .mustBeFixtureOrTemplate] | first)==false
+  and ([.remoteEndpointContract.remediationPlan.requiredInputs[] | select(.id=="l6plusEngineSerial") | .requiredPrefix] | first)=="BRIK64-L6PLUS-N5-"
+  and ([.remoteEndpointContract.remediationPlan.steps[] | select(.id=="guarded_dispatcher_install") | .command] | first | contains("INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM"))
+  and (.remoteEndpointContract.remediationPlan.stopRules | index("stop if Stage1 and Stage2 are not byte-identical"))
   and (.remoteEndpointContract.remediationCommands | index("npm run preflight:beta17:fixpoint:remote-dispatcher"))
   and (.remoteEndpointContract.remediationCommands | index("npm run install:beta17:fixpoint:remote-dispatcher -- --execute --confirm INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM"))
   and (.remoteEndpointContract.remediationCommands | index("npm run gate:beta17:fixpoint-readiness"))

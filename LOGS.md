@@ -2780,3 +2780,42 @@ Boundary:
 - This makes the missing-dispatcher blocker operationally actionable. It does
   not create the real L6+N5 materializer, execute remote mutation, generate
   Stage1 or Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote-stage remediation input and stop-rule plan
+
+Timestamp: 2026-06-29T05:24:00Z
+
+Task:
+- Make the blocked Beta17 remote-stage remediation path less ambiguous by
+  publishing required inputs and stop rules alongside the command sequence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` with
+  `remoteEndpointContract.remediationPlan`.
+- The plan names required inputs: `generatedMaterializer`,
+  `canonicalInputPcds` and `l6plusEngineSerial`.
+- The plan enumerates step ids and stop rules, including stopping on open
+  claims, fixture/manual evidence or non-byte-identical Stage1/Stage2.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert the required inputs, guarded install command and byte-identity stop
+  rule.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Break attempt enforced:
+  remote-stage tests fail unless the remediation plan requires the L6+N5 serial
+  prefix, rejects fixture/template materializer input and includes the
+  Stage1/Stage2 byte-identical stop rule.
+
+Boundary:
+- This makes the remediation path operationally clearer. It does not create the
+  real L6+N5 materializer, execute remote mutation, generate real Stage1 or
+  Stage2 artifacts, prove fixpoint or publish Beta17.

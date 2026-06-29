@@ -329,6 +329,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   install, retry, promotion and readiness gates. This keeps the missing
   dispatcher blocker actionable without treating install instructions as
   materialization evidence.
+- Remote-stage remediation plan: the same blocked report now includes
+  `remediationPlan` with required inputs, step ids and stop rules. The plan
+  requires a non-fixture L6+N5-generated materializer, canonical input PCDs and
+  an authorized `BRIK64-L6PLUS-N5-` serial, and stops on command failure,
+  open claims, fixture/manual evidence or non-byte-identical Stage1/Stage2.
 - Remote promotion gate: `npm run gate:beta17:fixpoint:remote-promotion`
   validates a passing remote attempt before any final evidence-pack promotion.
   It requires exactly one accepted attempt, complete transcript refs, a
