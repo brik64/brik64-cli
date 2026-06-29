@@ -4,7 +4,7 @@
   "version": "0.1.0-beta.17",
   "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
   "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
-  "dryRunInProgress": true,
+  "dryRunInProgress": false,
   "publishRequested": false,
   "publicationAllowed": false,
   "expectedConfirm": "PUBLISH 0.1.0-beta.17 6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
@@ -23,7 +23,7 @@
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
     "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "48b817c050448492dae3a5bbc7602610523c5bda",
+    "commit": "c2b643f31a50863cda9ca52feda1a5fc0600072b",
     "verified": true,
     "reason": "valid"
   },
@@ -113,8 +113,6 @@
   ],
   "failures": [],
   "warnings": [
-    "github_verified_signature_commit_drift:48b817c050448492dae3a5bbc7602610523c5bda:740a6c0380b4f777a7cf8ba039fa3436fe8f7c85",
-    "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
