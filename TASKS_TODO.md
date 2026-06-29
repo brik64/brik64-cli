@@ -213,13 +213,13 @@
         `test:beta17:fixpoint:remote-dispatcher-plan`.
       - Result:
         a candidate local Beta17 materializer can now be converted into a
-        non-claim `deploy-plan.json` with SHA-256 and byte bindings, required
-        dispatcher capability, required stage-result marker and closed claim
-        boundaries. The generated plan is immediately validated by the
-        dispatcher preflight.
+        non-claim `deploy-plan.json` only with a separate materializer
+        provenance manifest binding the same path, SHA-256, byte count, L6+N5
+        serial, PCD input-set hash and closed claim boundaries. The generated
+        plan is immediately validated by the dispatcher preflight.
       - Break attempts:
-        missing materializer file, path outside workspace and legacy beta16
-        remote path are rejected.
+        missing materializer file, path outside workspace, missing provenance,
+        provenance SHA mismatch and legacy beta16 remote path are rejected.
       - Boundary:
         this creates the deployment plan from a candidate file. It does not
       create the real L6+N5 materializer, install the remote endpoint,

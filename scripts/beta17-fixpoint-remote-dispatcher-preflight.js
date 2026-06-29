@@ -96,6 +96,85 @@ function validateLocalRef(ref, field, blockers, workspaceRoot = root) {
   }
 }
 
+function readJsonRef(ref, field, blockers, workspaceRoot = root) {
+  if (!ref || typeof ref !== 'object' || !safeWorkspacePath(ref.path)) return null;
+  const resolved = path.resolve(workspaceRoot, ref.path);
+  const workspace = path.resolve(workspaceRoot);
+  if (!(resolved === workspace || resolved.startsWith(`${workspace}${path.sep}`))) return null;
+  if (!fs.existsSync(resolved) || !fs.statSync(resolved).isFile()) return null;
+  try {
+    return JSON.parse(fs.readFileSync(resolved, 'utf8'));
+  } catch {
+    blockers.push(`${field}_json_parse_failed:${ref.path}`);
+    return null;
+  }
+}
+
+function validateMaterializerProvenance(plan, blockers, workspaceRoot = root) {
+  validateLocalRef(plan.materializerProvenanceRef, 'deploy_plan_materializer_provenance_ref', blockers, workspaceRoot);
+  const provenance = readJsonRef(
+    plan.materializerProvenanceRef,
+    'deploy_plan_materializer_provenance_ref',
+    blockers,
+    workspaceRoot,
+  );
+  if (!provenance) return;
+  if (provenance.schemaVersion !== 'brik64.beta17_fixpoint.materializer_provenance.v1') {
+    blockers.push('deploy_plan_materializer_provenance_schema_invalid');
+  }
+  if (provenance.version !== REQUIRED_VERSION) {
+    blockers.push(`deploy_plan_materializer_provenance_version_mismatch:${provenance.version || 'missing'}`);
+  }
+  if (provenance.status !== 'MATERIALIZER_PROVENANCE_NON_CLAIM') {
+    blockers.push('deploy_plan_materializer_provenance_status_not_non_claim');
+  }
+  if (provenance.materializerMode !== REQUIRED_MATERIALIZER_MODE) {
+    blockers.push('deploy_plan_materializer_provenance_materializer_mode_invalid');
+  }
+  if (provenance.generatedFromPcdPolymer !== true) {
+    blockers.push('deploy_plan_materializer_provenance_not_generated_from_pcd_polymer');
+  }
+  if (provenance.fixtureOrTemplate === true) {
+    blockers.push('deploy_plan_materializer_provenance_fixture_or_template_not_allowed');
+  }
+  if (typeof provenance.l6plusEngineSerial !== 'string' || !provenance.l6plusEngineSerial.startsWith('BRIK64-L6PLUS-N5-')) {
+    blockers.push('deploy_plan_materializer_provenance_l6plus_serial_invalid');
+  }
+  if (!isSha256(provenance.pcdInputSetSha256)) {
+    blockers.push('deploy_plan_materializer_provenance_pcd_input_set_sha256_invalid');
+  }
+  if (provenance.claimBoundary?.publicReleaseAllowed !== false) {
+    blockers.push('deploy_plan_materializer_provenance_public_release_open');
+  }
+  if (provenance.claimBoundary?.definitiveFixpointAllowed !== false) {
+    blockers.push('deploy_plan_materializer_provenance_fixpoint_open');
+  }
+  if (provenance.claimBoundary?.formalN5ClaimAllowed !== false) {
+    blockers.push('deploy_plan_materializer_provenance_formal_n5_open');
+  }
+  if (provenance.claimBoundary?.universalCorrectnessClaimAllowed !== false) {
+    blockers.push('deploy_plan_materializer_provenance_universal_correctness_open');
+  }
+  const ref = provenance.materializerRef;
+  if (!ref || typeof ref !== 'object') {
+    blockers.push('deploy_plan_materializer_provenance_materializer_ref_missing');
+    return;
+  }
+  if (ref.path !== plan.localMaterializerRef?.path) {
+    blockers.push('deploy_plan_materializer_provenance_materializer_path_mismatch');
+  }
+  if (isSha256(ref.sha256) && isSha256(plan.materializerSha256)) {
+    if (normalizeSha256(ref.sha256) !== normalizeSha256(plan.materializerSha256)) {
+      blockers.push('deploy_plan_materializer_provenance_materializer_sha256_mismatch');
+    }
+  } else {
+    blockers.push('deploy_plan_materializer_provenance_materializer_sha256_invalid');
+  }
+  if (ref.bytes !== plan.materializerBytes) {
+    blockers.push('deploy_plan_materializer_provenance_materializer_bytes_mismatch');
+  }
+}
+
 function validateDeployPlan(plan, options = {}) {
   const blockers = [];
   if (!plan || typeof plan !== 'object') {
@@ -162,6 +241,7 @@ function validateDeployPlan(plan, options = {}) {
   } else {
     blockers.push('deploy_plan_local_materializer_ref_missing');
   }
+  validateMaterializerProvenance(plan, blockers, options.workspaceRoot || root);
   return { accepted: blockers.length === 0, blockers };
 }
 

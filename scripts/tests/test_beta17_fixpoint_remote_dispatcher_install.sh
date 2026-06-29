@@ -13,11 +13,37 @@ cat >"$FIXTURE/generated/beta17-materializer.js" <<'JS'
 #!/usr/bin/env node
 console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t<base64-json>");
 JS
+materializer_sha="$(shasum -a 256 "$FIXTURE/generated/beta17-materializer.js" | awk '{print $1}')"
+materializer_bytes="$(wc -c <"$FIXTURE/generated/beta17-materializer.js" | tr -d ' ')"
+cat >"$FIXTURE/generated/beta17-materializer.provenance.json" <<JSON
+{
+  "schemaVersion": "brik64.beta17_fixpoint.materializer_provenance.v1",
+  "version": "0.1.0-beta.17",
+  "status": "MATERIALIZER_PROVENANCE_NON_CLAIM",
+  "materializerMode": "l6plus_fixpoint_stage_materializer",
+  "generatedFromPcdPolymer": true,
+  "fixtureOrTemplate": false,
+  "l6plusEngineSerial": "BRIK64-L6PLUS-N5-TEST-SERIAL",
+  "pcdInputSetSha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "materializerRef": {
+    "path": "generated/beta17-materializer.js",
+    "sha256": "$materializer_sha",
+    "bytes": $materializer_bytes
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  }
+}
+JSON
 
 node --check scripts/beta17-fixpoint-remote-dispatcher-install.js
 
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js" \
   --materializer generated/beta17-materializer.js \
+  --provenance generated/beta17-materializer.provenance.json \
   >/tmp/brik64-beta17-install-plan.stdout \
   2>/tmp/brik64-beta17-install-plan.stderr
 

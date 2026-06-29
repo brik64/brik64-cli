@@ -23,11 +23,35 @@ sha_ref() {
 
 materializer_sha="$(shasum -a 256 "$FIXTURE/artifacts/beta17-dispatcher.js" | awk '{print $1}')"
 materializer_bytes="$(wc -c <"$FIXTURE/artifacts/beta17-dispatcher.js" | tr -d ' ')"
+cat >"$FIXTURE/artifacts/beta17-dispatcher.provenance.json" <<JSON
+{
+  "schemaVersion": "brik64.beta17_fixpoint.materializer_provenance.v1",
+  "version": "0.1.0-beta.17",
+  "status": "MATERIALIZER_PROVENANCE_NON_CLAIM",
+  "materializerMode": "l6plus_fixpoint_stage_materializer",
+  "generatedFromPcdPolymer": true,
+  "fixtureOrTemplate": false,
+  "l6plusEngineSerial": "BRIK64-L6PLUS-N5-TEST-SERIAL",
+  "pcdInputSetSha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "materializerRef": {
+    "path": "artifacts/beta17-dispatcher.js",
+    "sha256": "$materializer_sha",
+    "bytes": $materializer_bytes
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  }
+}
+JSON
 
 jq -n \
   --arg sha "$materializer_sha" \
   --argjson bytes "$materializer_bytes" \
-  --slurpfile localRef <(sha_ref "$FIXTURE/artifacts/beta17-dispatcher.js") '
+  --slurpfile localRef <(sha_ref "$FIXTURE/artifacts/beta17-dispatcher.js") \
+  --slurpfile provenanceRef <(sha_ref "$FIXTURE/artifacts/beta17-dispatcher.provenance.json") '
   {
     schemaVersion:"brik64.beta17_fixpoint.remote_dispatcher_deploy_plan.v1",
     version:"0.1.0-beta.17",
@@ -39,6 +63,7 @@ jq -n \
     materializerSha256:$sha,
     materializerBytes:$bytes,
     localMaterializerRef:$localRef[0],
+    materializerProvenanceRef:$provenanceRef[0],
     resultMarker:"BRIK64_BETA17_FIXPOINT_STAGE_RESULT",
     materializerMode:"l6plus_fixpoint_stage_materializer",
     generatedFromPcdPolymer:true,
@@ -89,6 +114,18 @@ path.with_name("bad-legacy.json").write_text(json.dumps(data, indent=2) + "\n")
 data["materializerRemotePath"] = "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js"
 data["fixtureOrTemplate"] = True
 path.with_name("bad-fixture.json").write_text(json.dumps(data, indent=2) + "\n")
+data["fixtureOrTemplate"] = False
+prov_path = path.parent.parent.parent / "artifacts" / "beta17-dispatcher.provenance.json"
+prov = json.loads(prov_path.read_text())
+prov["materializerRef"]["sha256"] = "2" * 64
+bad_prov_path = prov_path.with_name("bad-provenance.json")
+bad_prov_path.write_text(json.dumps(prov, indent=2) + "\n")
+data["materializerProvenanceRef"] = {
+    "path": "artifacts/bad-provenance.json",
+    "sha256": __import__("hashlib").sha256(bad_prov_path.read_bytes()).hexdigest(),
+    "bytes": bad_prov_path.stat().st_size,
+}
+path.with_name("bad-provenance-plan.json").write_text(json.dumps(data, indent=2) + "\n")
 PY
 
 set +e
@@ -110,9 +147,15 @@ BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-dispatcher
   >/tmp/brik64-beta17-dispatcher-preflight-bad-fixture.stdout \
   2>/tmp/brik64-beta17-dispatcher-preflight-bad-fixture.stderr
 bad_fixture_rc=$?
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-dispatcher-preflight.js" \
+  --plan "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/bad-provenance-plan.json" \
+  --out "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/bad-provenance-report.json" \
+  >/tmp/brik64-beta17-dispatcher-preflight-bad-provenance.stdout \
+  2>/tmp/brik64-beta17-dispatcher-preflight-bad-provenance.stderr
+bad_provenance_rc=$?
 set -e
 
-if [[ "$bad_cap_rc" -eq 0 || "$bad_legacy_rc" -eq 0 || "$bad_fixture_rc" -eq 0 ]]; then
+if [[ "$bad_cap_rc" -eq 0 || "$bad_legacy_rc" -eq 0 || "$bad_fixture_rc" -eq 0 || "$bad_provenance_rc" -eq 0 ]]; then
   echo "beta17_dispatcher_preflight_adversarial_unexpected_pass" >&2
   exit 1
 fi
@@ -131,5 +174,10 @@ jq -e '
   .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_DISPATCHER_PREFLIGHT"
   and (.blockers | index("deploy_plan_fixture_or_template_not_allowed"))
 ' "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/bad-fixture-report.json" >/dev/null
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_DISPATCHER_PREFLIGHT"
+  and (.blockers | index("deploy_plan_materializer_provenance_materializer_sha256_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/bad-provenance-report.json" >/dev/null
 
 echo "PASS beta17 fixpoint remote dispatcher preflight"

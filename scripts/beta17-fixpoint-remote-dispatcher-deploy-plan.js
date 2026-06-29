@@ -69,8 +69,26 @@ function relativeMaterializerRef(materializerPath) {
   };
 }
 
+function relativeFileRef(filePath, label) {
+  const absolute = path.resolve(root, filePath);
+  const relativePath = path.relative(root, absolute);
+  if (!safeWorkspacePath(relativePath)) {
+    throw new Error(`${label}_path_outside_workspace:${filePath}`);
+  }
+  if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) {
+    throw new Error(`${label}_file_missing:${relativePath}`);
+  }
+  const stat = fs.statSync(absolute);
+  return {
+    path: relativePath,
+    sha256: sha256File(absolute),
+    bytes: stat.size,
+  };
+}
+
 function buildPlan(options) {
   const localMaterializerRef = relativeMaterializerRef(options.materializer);
+  const materializerProvenanceRef = relativeFileRef(options.provenance, 'materializer_provenance');
   return {
     schemaVersion: 'brik64.beta17_fixpoint.remote_dispatcher_deploy_plan.v1',
     version,
@@ -82,6 +100,7 @@ function buildPlan(options) {
     materializerSha256: localMaterializerRef.sha256,
     materializerBytes: localMaterializerRef.bytes,
     localMaterializerRef,
+    materializerProvenanceRef,
     resultMarker: REQUIRED_RESULT_MARKER,
     materializerMode: REQUIRED_MATERIALIZER_MODE,
     generatedFromPcdPolymer: true,
@@ -103,10 +122,12 @@ function buildPlan(options) {
 
 function main() {
   const materializer = argValue('--materializer', null);
+  const provenance = argValue('--provenance', null);
   const planPath = path.resolve(argValue('--out', defaultPlanPath));
   const reportPath = path.resolve(argValue('--report', defaultReportPath));
   const options = {
     materializer,
+    provenance,
     wrapperPath: argValue('--wrapper', defaultWrapperPath),
     remotePath: argValue('--remote-path', defaultRemotePath),
   };
@@ -114,7 +135,11 @@ function main() {
   let plan = null;
   if (!materializer) {
     blockers.push('materializer_argument_missing');
-  } else {
+  }
+  if (!provenance) {
+    blockers.push('materializer_provenance_argument_missing');
+  }
+  if (blockers.length === 0) {
     try {
       plan = buildPlan(options);
       const validation = validateDeployPlan(plan, { workspaceRoot: root });
@@ -143,6 +168,7 @@ function main() {
       ? {
           outputPath: hasArg('--check-only') ? null : path.relative(root, planPath),
           materializerRef: plan.localMaterializerRef,
+          materializerProvenanceRef: plan.materializerProvenanceRef,
           materializerRemotePath: plan.materializerRemotePath,
           capability: plan.capability,
         }

@@ -2415,3 +2415,34 @@ Boundary:
 - This validates and emits the remote install script only. It does not create
   the real L6+N5 materializer, execute remote mutation in tests, generate real
   Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance binding
+
+Timestamp: 2026-06-29T02:18:00Z
+
+Task:
+- Prevent the Beta17 dispatcher deploy-plan path from asserting
+  `generatedFromPcdPolymer=true` without a separate provenance manifest.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-preflight.js` to require
+  and validate `materializerProvenanceRef`.
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js` to
+  require `--provenance` and bind the provenance file by path, SHA-256 and
+  bytes.
+- Updated dispatcher plan, preflight and installer tests to create explicit
+  non-claim provenance manifests.
+
+Evidence:
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Break attempts rejected:
+  missing provenance argument and materializer provenance SHA mismatch, in
+  addition to existing missing file, outside path, legacy remote path,
+  invalid capability, fixture/template and tampered materializer cases.
+
+Boundary:
+- This binds deploy-plan/install eligibility to a provenance manifest. It does
+  not create the real L6+N5 materializer, execute remote mutation, generate
+  real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

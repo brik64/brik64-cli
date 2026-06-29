@@ -219,8 +219,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   fixtures and manual patches as substitutes.
 - Remote dispatcher deploy-plan generation: `npm run plan:beta17:fixpoint:remote-dispatcher`
   converts a candidate local Beta17 materializer file into a non-claim,
-  hash-bound deploy plan and validates it through the same preflight contract.
-  Missing files, paths outside the workspace and legacy beta15/beta16 remote
+  hash-bound deploy plan only when a separate materializer provenance manifest
+  binds the same file path, SHA-256, byte count, L6+N5 serial, PCD input-set
+  hash and closed claim boundaries. Missing files, paths outside the workspace,
+  missing provenance, provenance mismatches and legacy beta15/beta16 remote
   materializer paths fail closed before any remote installation step.
 - Remote dispatcher installation dry-run: `npm run install:beta17:fixpoint:remote-dispatcher`
   validates the deploy plan again, verifies the local materializer hash and
