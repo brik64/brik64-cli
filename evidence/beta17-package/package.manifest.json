@@ -8,20 +8,20 @@
   "generationClaim": "l6plus_n5_stage_artifact_candidate",
   "package": {
     "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-    "sha256": "0a02a1fd1ac6cf8104957c4d663bd5c8f759d239cba09d9fe455c9fab7526738",
-    "bytes": 433205
+    "sha256": "e73927553298aa65709cc88b2626f8664cf2c99afe71e2c16ae0a558ad546c15",
+    "bytes": 603204
   },
   "stageArtifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-    "bytes": 204448,
+    "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+    "bytes": 246492,
     "functionalCliArtifact": true
   },
   "functionalStageArtifactReport": {
     "path": "evidence/beta17-fixpoint-functional-stage-artifact/report.json",
     "decision": "PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
-    "sha256": "ea763d5ea8eafbd5a87ba53abd306ecaa0cd4f1ad03025e62889553e5a218229",
-    "bytes": 1621
+    "sha256": "d52180e8b8187d2b2d30bc2c9619a823f94133965a76fc30317cf8fc6d4bbec4",
+    "bytes": 1965
   },
   "blockers": [],
   "claimBoundary": {

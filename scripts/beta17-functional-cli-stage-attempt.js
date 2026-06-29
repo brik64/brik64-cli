@@ -102,7 +102,6 @@ function readSuppliedResultLine() {
   if (suppliedResultLinePath && fs.existsSync(suppliedResultLinePath)) {
     return fs.readFileSync(suppliedResultLinePath, 'utf8');
   }
-  if (fs.existsSync(defaultResultLinePath)) return fs.readFileSync(defaultResultLinePath, 'utf8');
   return null;
 }
 

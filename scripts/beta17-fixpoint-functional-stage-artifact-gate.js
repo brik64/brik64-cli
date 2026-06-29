@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const childProcess = require('child_process');
+const os = require('os');
 
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
@@ -54,14 +55,15 @@ function closedClaimBoundary() {
   };
 }
 
-function runArtifact(artifactPath, args = []) {
+function runArtifact(artifactPath, args = [], options = {}) {
   const result = childProcess.spawnSync(process.execPath, [artifactPath, ...args], {
-    cwd: root,
+    cwd: options.cwd || root,
     encoding: 'utf8',
     env: {
       ...process.env,
       BRIK64_NO_BANNER: '1',
       NO_COLOR: '1',
+      BRIK64_CONFIG_HOME: options.configHome || process.env.BRIK64_CONFIG_HOME || path.join(os.tmpdir(), 'brik64-beta17-functional-stage-config'),
     },
     timeout: 10_000,
   });
@@ -69,6 +71,65 @@ function runArtifact(artifactPath, args = []) {
     rc: result.status,
     stdout: (result.stdout || '').trim(),
     stderr: (result.stderr || '').trim(),
+  };
+}
+
+function writePcd(file, body) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, body);
+}
+
+function runSemanticSmoke(artifactPath) {
+  const work = fs.mkdtempSync(path.join(os.tmpdir(), 'brik64-beta17-stage-semantic-'));
+  const configHome = path.join(work, '.config');
+  const validPcd = path.join(work, 'program.pcd');
+  const invalidPcd = path.join(work, 'invalid.pcd');
+  writePcd(validPcd, `// brik64.pcd_file.v1
+PC sample {
+  domain input: i64 [0, 255];
+  fn sample(input: i64) -> i64 {
+    if (input == 0) {
+      return 1;
+    }
+    return 2;
+  }
+}
+`);
+  writePcd(invalidPcd, `PC bad {
+  fn bad(input: i64) -> i64 {
+    return 1;
+  }
+}
+`);
+  const init = runArtifact(artifactPath, ['init'], { cwd: work, configHome });
+  const invalidCertify = runArtifact(artifactPath, ['certify', 'invalid.pcd'], { cwd: work, configHome });
+  const certify = runArtifact(artifactPath, ['certify', 'program.pcd'], { cwd: work, configHome });
+  const verify = runArtifact(artifactPath, ['verify', 'program.pcd', '--json'], { cwd: work, configHome });
+  const emitTs = runArtifact(artifactPath, ['emit', 'program.pcd', '--target', 'ts', '--out', 'out-ts', '--tests'], { cwd: work, configHome });
+  const emitPy = runArtifact(artifactPath, ['emit', 'program.pcd', '--target', 'python', '--out', 'out-python', '--tests'], { cwd: work, configHome });
+  const polymer = runArtifact(artifactPath, ['polymerize', 'program.pcd', '--inline', '--root', 'sample', '--out', 'polymer.pcd', '--json'], { cwd: work, configHome });
+  const liftInput = path.join(work, 'source.js');
+  fs.writeFileSync(liftInput, 'function score(x) { if (x > 10) return x - 1; return x + 1; }\n');
+  const lift = runArtifact(artifactPath, ['lift', 'js', 'source.js', '--preview'], { cwd: work, configHome });
+  return {
+    work,
+    init,
+    invalidCertify,
+    certify,
+    verify,
+    emitTs,
+    emitPy,
+    polymer,
+    lift,
+    files: {
+      cert: fs.existsSync(path.join(work, 'program.pcd.cert.json')),
+      tsProgram: fs.existsSync(path.join(work, 'out-ts', 'program', 'program.mjs')),
+      tsTest: fs.existsSync(path.join(work, 'out-ts', 'program', 'program.test.mjs')),
+      pyProgram: fs.existsSync(path.join(work, 'out-python', 'brik64_generated_program', 'program.py')),
+      pyTest: fs.existsSync(path.join(work, 'out-python', 'tests', 'test_program.py')),
+      polymer: fs.existsSync(path.join(work, 'polymer.pcd')),
+      polymerManifest: fs.existsSync(path.join(work, 'polymer.pcd.manifest.json')),
+    },
   };
 }
 
@@ -131,7 +192,7 @@ function main() {
         ]);
         const engineJson = parseJsonOutput(engineRun.stdout);
         const monomersJson = parseJsonOutput(monomersRun.stdout);
-        checks.execVersion = versionRun.rc === 0 && versionRun.stdout === version;
+        checks.execVersion = versionRun.rc === 0 && versionRun.stdout.includes(version);
         checks.execHelp = helpRun.rc === 0 && /certify|verify|emit|polymerize|lift|monomers|engine/i.test(helpRun.stdout);
         checks.execEngineStatusJson = engineRun.rc === 0
           && engineJson
@@ -146,8 +207,22 @@ function main() {
           );
         checks.execBaseCommands = {};
         for (const [name, run] of baseCommandRuns.entries()) {
-          checks.execBaseCommands[name] = run.rc === 0 && run.stdout.includes(`${name} command`);
+          checks.execBaseCommands[name] = !run.stdout.includes(`${name} command`)
+            && !run.stderr.includes(`${name} command`)
+            && (run.rc !== 0 || run.stdout.length > 0 || run.stderr.length > 0);
         }
+        const semanticSmoke = runSemanticSmoke(artifactPath);
+        checks.semanticSmoke = {
+          init: semanticSmoke.init.rc === 0,
+          invalidCertifyFailClosed: semanticSmoke.invalidCertify.rc !== 0 && /missing_pcd_header|legacy_format_detected|missing_pc_block/.test(`${semanticSmoke.invalidCertify.stdout}\n${semanticSmoke.invalidCertify.stderr}`),
+          certify: semanticSmoke.certify.rc === 0 && semanticSmoke.files.cert,
+          verifyJson: semanticSmoke.verify.rc === 0 && /"status":\s*"PASS"|"verificationStatus":\s*"PASS"/.test(semanticSmoke.verify.stdout),
+          emitTs: semanticSmoke.emitTs.rc === 0 && semanticSmoke.files.tsProgram && semanticSmoke.files.tsTest,
+          emitPython: semanticSmoke.emitPy.rc === 0 && semanticSmoke.files.pyProgram && semanticSmoke.files.pyTest,
+          polymerize: semanticSmoke.polymer.rc === 0 && semanticSmoke.files.polymer && semanticSmoke.files.polymerManifest,
+          liftPreview: semanticSmoke.lift.rc === 0 && /lift|candidate|preview|schemaVersion/i.test(semanticSmoke.lift.stdout),
+          workdir: semanticSmoke.work,
+        };
         if (!checks.artifactShaMatches) blockers.push('stage1_artifact_sha256_mismatch');
         if (!checks.artifactBytesMatch) blockers.push('stage1_artifact_bytes_mismatch');
         if (!checks.artifactMinSize) blockers.push(`stage1_artifact_too_small:${artifactBytes}:${minBytes}`);
@@ -165,6 +240,10 @@ function main() {
             const run = baseCommandRuns.get(name);
             blockers.push(`stage1_artifact_exec_base_command_failed:${name}:${run.rc}:${run.stdout || run.stderr || 'empty'}`);
           }
+        }
+        for (const [name, passed] of Object.entries(checks.semanticSmoke)) {
+          if (name === 'workdir') continue;
+          if (!passed) blockers.push(`stage1_artifact_semantic_smoke_failed:${name}`);
         }
       }
     }

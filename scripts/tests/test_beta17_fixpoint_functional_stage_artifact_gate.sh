@@ -13,6 +13,8 @@ write_fixture() {
   local dir="$1"
   local body_mode="${2:-functional}"
   mkdir -p "$dir/evidence/beta17-fixpoint/generated/stage1" "$dir/evidence/beta17-fixpoint"
+  mkdir -p "$dir/engines"
+  cp -R "$ROOT/engines/l4plus-n5" "$dir/engines/l4plus-n5"
   local artifact="$dir/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs"
   if [[ "$body_mode" == "metadata" ]]; then
     cat >"$artifact" <<'JS'
@@ -67,6 +69,36 @@ path = pathlib.Path(sys.argv[1])
 with path.open("a") as fh:
     for index in range(3200):
         fh.write(f"// generated command table filler {index}\n")
+PY
+    python3 - "$artifact" "$ROOT" <<'PY'
+import pathlib, sys
+artifact = pathlib.Path(sys.argv[1])
+repo_root = pathlib.Path(sys.argv[2])
+artifact_text = (repo_root / "src/brik.js").read_text()
+artifact_text = artifact_text.replace("const version = '0.1.0-beta.16.1';", "const version = '0.1.0-beta.17';")
+artifact_text = artifact_text.replace("function repoRoot() {\n  return path.resolve(__dirname, '..');\n}", """function repoRoot() {
+  let current = path.resolve(__dirname);
+  for (let depth = 0; depth < 8; depth += 1) {
+    if (fs.existsSync(path.join(current, 'engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) {
+      return current;
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return path.resolve(__dirname, '..');
+}""")
+artifact_text = artifact_text.replace("#!/usr/bin/env node\n", "\n".join([
+    "#!/usr/bin/env node",
+    "import { createRequire } from 'module';",
+    "import { fileURLToPath } from 'url';",
+    "import * as nodePath from 'path';",
+    "const require = createRequire(import.meta.url);",
+    "const __filename = fileURLToPath(import.meta.url);",
+    "const __dirname = nodePath.dirname(__filename);",
+    "",
+]))
+artifact.write_text(artifact_text)
 PY
   fi
   local sha bytes

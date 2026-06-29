@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint_readiness_gate.v1",
-  "generatedAt": "2026-06-29T11:49:55.528Z",
+  "generatedAt": "2026-06-29T12:30:23.966Z",
   "version": "0.1.0-beta.17",
   "expectedVersion": "0.1.0-beta.17",
   "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
@@ -31,7 +31,7 @@
     },
     "evidence_pack_manifest": {
       "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
-      "sha256": "4e92ef5b33b85578dfdf2d1262748a0088fde820ee2becd95fc3d9d2b449b4e8",
+      "sha256": "71552da40ae9dcabec7de10f3efeb604791f939f7ab0c1f1f949a1fcc31ac1e2",
       "sizeBytes": 4132
     },
     "canonical_harness_manifest": {
@@ -47,17 +47,17 @@
     },
     "stage1_artifact_manifest": {
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-      "sha256": "b026cdbdd74233b27700e85446f50fd99f3797028364656f02f5cfb9b318dca5",
+      "sha256": "b34c3c8f69d8508860646c609ead2b200f564117534ffe00cc5f662c7086ecdd",
       "sizeBytes": 961
     },
     "stage2_regeneration_manifest": {
       "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
-      "sha256": "7e6e39e0cbdf3e7bde914c04660e8f6435269c52ce963a0e9e1a5d5d43625444",
+      "sha256": "4dd521050906eb051412e6b5b326c96eb253a2e2d24df790660e9af463eda5f2",
       "sizeBytes": 1131
     },
     "byte_identical_report": {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
-      "sha256": "957d94a666d8e8c268caef069d418c041291e22b82a4596357944ad7b3a3f322",
+      "sha256": "4c895052403f211ba2f756f5582443c64d6f4ffb183acbb91895bc3102e25e6a",
       "sizeBytes": 1115
     },
     "harness_report": {
@@ -67,12 +67,12 @@
     },
     "seal_report": {
       "path": "evidence/beta17-fixpoint/seal_report.json",
-      "sha256": "657d91df2536a25b64095904d74c3b86c08bf92da93e2b3e39ea0c801a7d76b2",
+      "sha256": "ceea1c9516e9830b8d4ea2b39b8256128de760d4520debe9519cd74211fee2b3",
       "sizeBytes": 791
     },
     "remote_promotion_manifest": {
       "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
-      "sha256": "b4cc6f87f056db762034f287438013eebf34f857accf443109c9e8138595211c",
+      "sha256": "d09852a20b968165b2bc0060d07754836a9833ceaab12702d35f877751d60b4d",
       "sizeBytes": 5924
     },
     "public_surface_sync_report": {
@@ -97,13 +97,13 @@
     },
     "remote_promotion_stage1Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-      "sizeBytes": 204448
+      "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+      "sizeBytes": 246492
     },
     "remote_promotion_stage2Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-      "sizeBytes": 204448
+      "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+      "sizeBytes": 246492
     }
   },
   "checks": {

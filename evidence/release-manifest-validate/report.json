@@ -3,14 +3,14 @@
   "manifestPath": "release/manifest.json",
   "version": "0.1.0-beta.17",
   "state": "public",
-  "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
+  "manifestDigest": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
-      "bytes": 3285
+      "sha256": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
+      "bytes": 3290
     },
     "packageJson": {
       "path": "package.json",
@@ -18,28 +18,43 @@
     },
     "evidence": [
       {
-        "id": "beta17_fixpoint_required_inputs",
-        "path": "evidence/beta17-fixpoint-required-inputs/report.json",
-        "expectedDecision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
-        "actualDecision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
-        "sha256": "9e4d5b145e6023f622178b0ea8a6085e1e10e265b872fca6e671ed6aab73a61b"
+        "id": "beta17_fixpoint_readiness",
+        "phase": "post_publication",
+        "path": "evidence/beta17-fixpoint-readiness/report.json",
+        "expectedDecision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
+        "actualDecision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+        "sha256": "beaf8f7ce63cb985bc89289557f7d758bdb193365602051fcf01110fd7be2011"
       },
       {
-        "id": "beta17_pre_publication_mutation_gate",
-        "path": "evidence/beta17-pre-publication-mutation-gate/report.json",
-        "expectedDecision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
-        "actualDecision": "PASS_BETA17_PRE_PUBLICATION_MUTATION_GATE",
-        "sha256": "34e7a2f0e68d930914974f6eeafdccd54fe7d0d2f5cf1fccc3011c1a4b3fd45e"
+        "id": "beta17_public_surface_sync",
+        "phase": "post_publication",
+        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+        "expectedDecision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
+        "actualDecision": "BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+        "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c"
+      },
+      {
+        "id": "beta17_external_audit_status",
+        "phase": "post_publication",
+        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
+        "expectedDecision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+        "actualDecision": "BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+        "sha256": "b2dcfb08ca218cbe47ca57e0b0eaa999a9c05cbb21ede2cd434e3e8cca43134b"
       },
       {
         "id": "beta17_cli_package",
+        "phase": "pre_publication",
         "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
         "expectedDecision": "FILE_EXISTS",
         "actualDecision": "FILE_EXISTS",
-        "sha256": "43a1729027d2de2ae95d79b61d92a21138564a2bd18e579beb0f812a2bc86512"
+        "sha256": "a737b81661a8da35f1b49b9814cc4fa3ee8aeb3a0daa013a863e020785758970"
       }
     ]
   },
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "post_publication_evidence_decision_drift:beta17_fixpoint_readiness:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+    "post_publication_evidence_decision_drift:beta17_public_surface_sync:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
+    "post_publication_evidence_decision_drift:beta17_external_audit_status:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+  ]
 }

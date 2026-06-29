@@ -89,6 +89,19 @@ function copyFileRef(ref, targetRef = ref) {
   fs.copyFileSync(source, target);
 }
 
+function copyDirRef(ref, targetRef = ref) {
+  const source = path.join(root, ref);
+  if (!fs.existsSync(source) || !fs.statSync(source).isDirectory()) fail([`missing_package_input_dir:${ref}`]);
+  const target = path.join(stageDir, targetRef);
+  fs.mkdirSync(target, { recursive: true });
+  for (const entry of fs.readdirSync(source, { withFileTypes: true })) {
+    const childRef = path.posix.join(ref, entry.name);
+    const targetChildRef = path.posix.join(targetRef, entry.name);
+    if (entry.isDirectory()) copyDirRef(childRef, targetChildRef);
+    else if (entry.isFile()) copyFileRef(childRef, targetChildRef);
+  }
+}
+
 function listFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name));
   const files = [];
@@ -241,7 +254,7 @@ const packageJson = {
   name: '@brik64/cli',
   version,
   private: true,
-  type: 'commonjs',
+  type: 'module',
   bin: { brik64: 'src/brik.js', brik: 'src/brik.js' },
   description: 'BRIK64 Beta17 candidate package generated from L6+N5 stage evidence. Not public-release eligible.',
   engines: { node: '>=20' },
@@ -255,6 +268,7 @@ fs.writeFileSync(path.join(stageDir, 'README.md'), [
 ].join('\n'));
 fs.copyFileSync(stageArtifactFile, path.join(stageDir, 'src', 'brik.js'));
 fs.chmodSync(path.join(stageDir, 'src', 'brik.js'), 0o755);
+copyDirRef('engines/l4plus-n5');
 
 for (const ref of [
   'evidence/beta17-fixpoint/stage1_artifact_manifest.json',

@@ -11,6 +11,8 @@ write_fixture() {
   mkdir -p "$dir/evidence/beta17-functional-cli-stage-request" \
     "$dir/evidence/beta17-functional-cli-stage-result" \
     "$dir/pcd/beta17/release" "$dir/pcd" "$dir/scripts"
+  mkdir -p "$dir/engines"
+  cp -R "$ROOT/engines/l4plus-n5" "$dir/engines/l4plus-n5"
   cp "$ROOT/scripts/beta17-functional-cli-stage-result.js" "$dir/scripts/"
   cp "$ROOT/scripts/beta17-functional-cli-stage-result-hydrate.js" "$dir/scripts/"
   cp "$ROOT/scripts/beta17-fixpoint-functional-stage-artifact-gate.js" "$dir/scripts/"
@@ -35,10 +37,11 @@ PCD
 // brik64.pcd_file.v1
 PC cli_polymer { fn run() -> i64 { return 1; } }
 PCD
-  python3 - "$dir" "$mode" <<'PY'
+  python3 - "$dir" "$mode" "$ROOT" <<'PY'
 import base64, hashlib, json, pathlib, sys
 root = pathlib.Path(sys.argv[1])
 mode = sys.argv[2]
+repo_root = pathlib.Path(sys.argv[3])
 pcd_paths = [
   "pcd/beta17/release/functional_cli_stage_materialization_contract.pcd",
   "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
@@ -65,25 +68,31 @@ request_manifest = {
     "inputPcds": input_pcds,
 }
 (root / "evidence/beta17-functional-cli-stage-request/request.manifest.json").write_text(json.dumps(request_manifest, indent=2) + "\n")
-monomers = [{"id": f"MC_{i:02d}", "name": f"TEST_{i:02d}"} for i in range(128)]
-header = "\n".join([
+artifact_text = (repo_root / "src/brik.js").read_text()
+artifact_text = artifact_text.replace("const version = '0.1.0-beta.16.1';", "const version = '0.1.0-beta.17';")
+artifact_text = artifact_text.replace("function repoRoot() {\n  return path.resolve(__dirname, '..');\n}", """function repoRoot() {
+  let current = path.resolve(__dirname);
+  for (let depth = 0; depth < 8; depth += 1) {
+    if (fs.existsSync(path.join(current, 'engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) {
+      return current;
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return path.resolve(__dirname, '..');
+}""")
+artifact_text = artifact_text.replace("#!/usr/bin/env node\n", "\n".join([
     "#!/usr/bin/env node",
-    "const version = '0.1.0-beta.17';",
-    "const monomers = " + json.dumps(monomers) + ";",
-    "const commandHandlers = new Map(); // command dispatcher",
-    "commandHandlers.set('--version', () => version);",
-    "commandHandlers.set('--help', () => 'BRIK64 CLI commands: certify verify emit polymerize lift monomers engine');",
-    "commandHandlers.set('certify', () => 'certify command');",
-    "commandHandlers.set('verify', () => 'verify command');",
-    "commandHandlers.set('emit', () => 'emit command');",
-    "commandHandlers.set('polymerize', () => 'polymerize command');",
-    "commandHandlers.set('lift', () => 'lift command');",
-    "commandHandlers.set('monomers list --json', () => JSON.stringify({ totalCount: monomers.length, monomers }));",
-    "commandHandlers.set('engine status --json', () => JSON.stringify({ engine: 'L4+N5', runtimeProfile: 'l4plus_n5_local', localRuntime: 'available' }));",
-    "const command = process.argv.slice(2).join(' ');",
-    "console.log(commandHandlers.get(command) ? commandHandlers.get(command)() : version);",
-])
-artifact = (header + "\n" + "\n".join(f"// functional cli filler {i}" for i in range(5000))).encode()
+    "import { createRequire } from 'module';",
+    "import { fileURLToPath } from 'url';",
+    "import * as nodePath from 'path';",
+    "const require = createRequire(import.meta.url);",
+    "const __filename = fileURLToPath(import.meta.url);",
+    "const __dirname = nodePath.dirname(__filename);",
+    "",
+]))
+artifact = artifact_text.encode()
 artifact_sha = hashlib.sha256(artifact).hexdigest()
 result = {
     "schemaVersion": "brik64.beta17_functional_cli_stage_result.v1",
@@ -195,6 +204,7 @@ PY
 PASS_ROOT="$TMP_DIR/pass"
 write_fixture "$PASS_ROOT" valid
 if ! BRIK64_CLI_ROOT="$PASS_ROOT" node "$PASS_ROOT/scripts/beta17-functional-cli-stage-attempt.js" \
+  --result-line "$PASS_ROOT/evidence/beta17-functional-cli-stage-result/result.line" \
   >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"; then
   echo "valid functional stage attempt unexpectedly failed" >&2
   cat "$TMP_DIR/pass.stdout" >&2 || true

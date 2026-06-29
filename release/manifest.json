@@ -3,23 +3,23 @@
   "releaseId": "brik64-0.1.0-beta.17",
   "version": "0.1.0-beta.17",
   "channel": "beta",
-  "state": "public",
+  "state": "candidate",
   "source": {
-    "commit": "73c7092f305d51cc3a09ec99240fbdc9b04c496a",
-    "commitBinding": "public_release_base_commit"
+    "commit": "aaf50bd3ed810df2254401f4a9f850d4b24ca31b",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-      "sha256": "0a02a1fd1ac6cf8104957c4d663bd5c8f759d239cba09d9fe455c9fab7526738",
-      "bytes": 433205
+      "sha256": "e73927553298aa65709cc88b2626f8664cf2c99afe71e2c16ae0a558ad546c15",
+      "bytes": 603204
     }
   },
   "releaseNotes": [
     {
-      "type": "changed",
-      "surface": "CLI package",
-      "text": "Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage."
+      "type": "prepared",
+      "surface": "CLI package candidate",
+      "text": "Prepares a Beta17 package candidate from L6+N5 stage evidence while keeping public release disabled until functional package, public sync and external audit gates pass."
     }
   ],
   "sdks": [
@@ -82,20 +82,17 @@
       {
         "id": "beta17_fixpoint_readiness",
         "path": "evidence/beta17-fixpoint-readiness/report.json",
-        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
-        "phase": "post_publication"
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
       },
       {
         "id": "beta17_public_surface_sync",
         "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
-        "phase": "post_publication"
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
       },
       {
         "id": "beta17_external_audit_status",
         "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
-        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
-        "phase": "post_publication"
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
       },
       {
         "id": "beta17_cli_package",
