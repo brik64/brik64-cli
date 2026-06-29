@@ -120,6 +120,32 @@ function buildRequest(options = {}) {
         '0.1.0-beta.17',
         'process.argv',
       ],
+      requiredExecutableChecks: [
+        {
+          name: 'execVersion',
+          args: ['--version'],
+          stdoutEquals: '0.1.0-beta.17',
+        },
+        {
+          name: 'execHelp',
+          args: ['--help'],
+          stdoutIncludes: ['certify', 'verify', 'emit', 'polymerize', 'lift', 'monomers', 'engine'],
+        },
+        {
+          name: 'execEngineStatusJson',
+          args: ['engine', 'status', '--json'],
+          jsonEquals: {
+            engine: 'L4+N5',
+            runtimeProfile: 'l4plus_n5_local',
+            localRuntime: 'available',
+          },
+        },
+        {
+          name: 'execMonomersListJson',
+          args: ['monomers', 'list', '--json'],
+          minTotalCount: 64,
+        },
+      ],
       requiredSemanticMarkers: [
         'command dispatcher',
         'certify command',
@@ -141,6 +167,10 @@ function buildRequest(options = {}) {
       'argvHandlingPresent',
       'commandDispatcherPresent',
       'functionalStageMinSizePass',
+      'execVersionPass',
+      'execHelpPass',
+      'execEngineStatusJsonPass',
+      'execMonomersListJsonPass',
       'functionalStageArtifactGatePass',
       'packageCandidateReferencesArtifact',
       'publicClaimBoundaryClosed',
@@ -203,6 +233,15 @@ function validateRequest(request) {
       blockers.push(`request_required_text_marker_missing:${marker}`);
     }
   }
+  const executableChecks = request?.functionalRequirements?.requiredExecutableChecks;
+  if (!Array.isArray(executableChecks) || executableChecks.length < 4) {
+    blockers.push('request_required_executable_checks_incomplete');
+  } else {
+    const checkNames = new Set(executableChecks.map((item) => item?.name));
+    for (const name of ['execVersion', 'execHelp', 'execEngineStatusJson', 'execMonomersListJson']) {
+      if (!checkNames.has(name)) blockers.push(`request_required_executable_check_missing:${name}`);
+    }
+  }
   for (const marker of ['command dispatcher', 'certify command', 'verify command', 'emit command']) {
     if (!Array.isArray(request?.functionalRequirements?.requiredSemanticMarkers) || !request.functionalRequirements.requiredSemanticMarkers.includes(marker)) {
       blockers.push(`request_required_semantic_marker_missing:${marker}`);
@@ -215,6 +254,10 @@ function validateRequest(request) {
     'nodeEntrypointPresent',
     'argvHandlingPresent',
     'commandDispatcherPresent',
+    'execVersionPass',
+    'execHelpPass',
+    'execEngineStatusJsonPass',
+    'execMonomersListJsonPass',
     'functionalStageArtifactGatePass',
     'packageCandidateReferencesArtifact',
     'publicClaimBoundaryClosed',

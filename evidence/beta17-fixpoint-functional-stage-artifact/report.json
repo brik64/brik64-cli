@@ -1,9 +1,9 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.functional_stage_artifact_gate.v1",
-  "generatedAt": "2026-06-29T08:16:10.308Z",
+  "generatedAt": "2026-06-29T11:21:40.399Z",
   "version": "0.1.0-beta.17",
-  "decision": "PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
-  "releaseEligibleStageArtifact": true,
+  "decision": "BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
+  "releaseEligibleStageArtifact": false,
   "minBytes": 50000,
   "artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
@@ -22,9 +22,18 @@
     "versionBound": true,
     "argvHandling": true,
     "commandDispatcher": true,
-    "noCandidateOnlyMessage": true
+    "noCandidateOnlyMessage": true,
+    "execVersion": false,
+    "execHelp": false,
+    "execEngineStatusJson": false,
+    "execMonomersListJson": false
   },
-  "blockers": [],
+  "blockers": [
+    "stage1_artifact_exec_version_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0",
+    "stage1_artifact_exec_help_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0",
+    "stage1_artifact_exec_engine_status_json_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0",
+    "stage1_artifact_exec_monomers_list_json_failed:1:file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12\nif (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);\n^\n\nReferenceError: require is not defined in ES module scope, you can use import instead\n    at file:///private/tmp/brik64-cli-beta17-next/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs:12:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:639:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v25.9.0"
+  ],
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,
@@ -34,5 +43,5 @@
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   },
-  "nextAction": "Use this report as one input to package eligibility; public sync and external audit are still required."
+  "nextAction": "Regenerate Stage1 through L6+N5 as a full CLI artifact, not a metadata/stub module."
 }

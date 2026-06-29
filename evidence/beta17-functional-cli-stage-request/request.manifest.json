@@ -5,21 +5,21 @@
   "status": "REQUEST_NON_CLAIM",
   "request": {
     "path": "evidence/beta17-functional-cli-stage-request/request.json",
-    "sha256": "143f8ac32fb67aeac3b565c636cba2b6a55b772e1b7d035c70307798b88cd0db",
-    "bytes": 11925
+    "sha256": "e3f021eb83b882df7cac9a22f329b0eb7fa3ff95a92be967fd4fb5178167f712",
+    "bytes": 13410
   },
   "requestLine": {
     "path": "evidence/beta17-functional-cli-stage-request/request.line",
-    "sha256": "c1d0bed47d0dfa8901e1f58335c3287557679a7f067888b32b5ca53965bfd088",
-    "bytes": 15200
+    "sha256": "6e62bcce2aeee87ecb1e3c61556a35243441588f7ce0573813b7b66a04f30382",
+    "bytes": 16564
   },
-  "requestLineSha256": "c1d0bed47d0dfa8901e1f58335c3287557679a7f067888b32b5ca53965bfd088",
-  "pcdInputSetSha256": "1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd",
+  "requestLineSha256": "6e62bcce2aeee87ecb1e3c61556a35243441588f7ce0573813b7b66a04f30382",
+  "pcdInputSetSha256": "3f8dd894c05dcb42622125839c286d9a3aafa726474d22170b536a9cc73761df",
   "inputPcds": [
     {
       "path": "pcd/beta17/release/functional_cli_stage_materialization_contract.pcd",
-      "sha256": "4cd80f7244d020ee8bc8a4682b11e3b927f6cfc5af372f67c323d70af3821c62",
-      "bytes": 1246
+      "sha256": "a95f9c78192bf9b02e85aff2cbe967f7f81dddc32c2857b9a695b58c97b1f95a",
+      "bytes": 1592
     },
     {
       "path": "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
@@ -54,6 +54,52 @@
       "#!/usr/bin/env node",
       "0.1.0-beta.17",
       "process.argv"
+    ],
+    "requiredExecutableChecks": [
+      {
+        "name": "execVersion",
+        "args": [
+          "--version"
+        ],
+        "stdoutEquals": "0.1.0-beta.17"
+      },
+      {
+        "name": "execHelp",
+        "args": [
+          "--help"
+        ],
+        "stdoutIncludes": [
+          "certify",
+          "verify",
+          "emit",
+          "polymerize",
+          "lift",
+          "monomers",
+          "engine"
+        ]
+      },
+      {
+        "name": "execEngineStatusJson",
+        "args": [
+          "engine",
+          "status",
+          "--json"
+        ],
+        "jsonEquals": {
+          "engine": "L4+N5",
+          "runtimeProfile": "l4plus_n5_local",
+          "localRuntime": "available"
+        }
+      },
+      {
+        "name": "execMonomersListJson",
+        "args": [
+          "monomers",
+          "list",
+          "--json"
+        ],
+        "minTotalCount": 64
+      }
     ],
     "requiredSemanticMarkers": [
       "command dispatcher",
