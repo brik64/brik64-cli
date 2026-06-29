@@ -1240,3 +1240,21 @@
         this improves blocker diagnosis. It does not install the missing
         Beta17 endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint
         or publish Beta17.
+
+- [x] Add structured remediation commands to blocked Beta17 remote-stage
+      attempts.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Result:
+        blocked remote-stage reports now include `remediationCommands` covering
+        materializer provenance, dispatcher plan, preflight, guarded install,
+        remote stage attempt, remote promotion, result promotion and readiness.
+      - Break attempts:
+        tests assert the remediation list contains the exact gates/operators
+        required to move from missing dispatcher to promoted evidence.
+      - Boundary:
+        this makes the blocker actionable. It does not create the real
+        materializer, execute remote mutation, generate Stage1/Stage2 artifacts,
+        prove fixpoint or publish Beta17.

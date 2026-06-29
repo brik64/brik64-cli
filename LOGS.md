@@ -2743,3 +2743,40 @@ Boundary:
 - This hardens future remote mutation validation. It does not execute the
   remote install, create the real L6+N5 materializer, generate real Stage1 or
   Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote-stage remediation command bridge
+
+Timestamp: 2026-06-29T05:08:00Z
+
+Task:
+- Make a blocked Beta17 remote-stage attempt directly actionable through a
+  structured, testable remediation command list.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to include
+  `remoteEndpointContract.remediationCommands` in blocked reports.
+- The command sequence covers materializer provenance, dispatcher deploy-plan,
+  preflight, guarded install, retry, remote-promotion gate, result promotion and
+  readiness gate.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert the exported commands include the exact gates/operators required for
+  the next materialization path.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Break attempt enforced:
+  remote-stage tests fail unless the remediation list contains the expected
+  provenance, plan, preflight, install, attempt, promotion and readiness gates.
+
+Boundary:
+- This makes the missing-dispatcher blocker operationally actionable. It does
+  not create the real L6+N5 materializer, execute remote mutation, generate
+  Stage1 or Stage2 artifacts, prove fixpoint or publish Beta17.

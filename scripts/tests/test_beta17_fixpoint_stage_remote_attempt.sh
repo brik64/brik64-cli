@@ -19,6 +19,7 @@ const {
   attemptedMaterializationCommands,
   parseEndpointCapabilities,
   parseWrapperMode,
+  remediationCommands,
   requiredEndpointCapability,
   requiredStageResultMarker,
 } = require('./scripts/beta17-fixpoint-stage-remote-attempt');
@@ -44,6 +45,21 @@ assert.deepStrictEqual(
 );
 assert.deepStrictEqual(parseEndpointCapabilities('no endpoint'), []);
 assert.strictEqual(parseWrapperMode('BRIK64_WRAPPER_MODE\tunknown\n'), 'unknown');
+for (const expectedCommand of [
+  'provenance:beta17:fixpoint:materializer',
+  'plan:beta17:fixpoint:remote-dispatcher',
+  'preflight:beta17:fixpoint:remote-dispatcher',
+  'install:beta17:fixpoint:remote-dispatcher',
+  'attempt:beta17:fixpoint:remote-stage',
+  'gate:beta17:fixpoint:remote-promotion',
+  'promote:beta17:fixpoint:remote-result',
+  'gate:beta17:fixpoint-readiness',
+]) {
+  assert(
+    remediationCommands.some((command) => command.includes(expectedCommand)),
+    `missing remediation command ${expectedCommand}`,
+  );
+}
 console.log('PASS beta17 remote endpoint parser checks');
 NODE
 
@@ -75,6 +91,9 @@ jq -e '
   and .remoteEndpointContract.requiredEndpointCapability=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredWrapperMode=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredStageResultMarker=="BRIK64_BETA17_FIXPOINT_STAGE_RESULT"
+  and (.remoteEndpointContract.remediationCommands | index("npm run preflight:beta17:fixpoint:remote-dispatcher"))
+  and (.remoteEndpointContract.remediationCommands | index("npm run install:beta17:fixpoint:remote-dispatcher -- --execute --confirm INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM"))
+  and (.remoteEndpointContract.remediationCommands | index("npm run gate:beta17:fixpoint-readiness"))
   and (.remoteEndpointContract.attemptedMaterializationCommands | index("beta17-fixpoint-stage-materialize"))
   and (.remoteEndpointContract.attemptedMaterializationCommands | index("fixpoint-stage-materialize"))
   and (.remoteEndpointContract.attemptedMaterializationCommands | index("materialize"))

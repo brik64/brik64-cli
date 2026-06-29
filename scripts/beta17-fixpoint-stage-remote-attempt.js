@@ -23,6 +23,16 @@ const attemptedMaterializationCommands = [
   'materialize',
 ];
 const requiredStageResultMarker = 'BRIK64_BETA17_FIXPOINT_STAGE_RESULT';
+const remediationCommands = [
+  'npm run provenance:beta17:fixpoint:materializer -- --materializer <generated-materializer.js> --pcd <canonical-input.pcd> --l6-serial <BRIK64-L6PLUS-N5-serial> --out <generated-materializer.provenance.json>',
+  'npm run plan:beta17:fixpoint:remote-dispatcher -- --materializer <generated-materializer.js> --provenance <generated-materializer.provenance.json>',
+  'npm run preflight:beta17:fixpoint:remote-dispatcher',
+  'npm run install:beta17:fixpoint:remote-dispatcher -- --execute --confirm INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM',
+  'npm run attempt:beta17:fixpoint:remote-stage',
+  'npm run gate:beta17:fixpoint:remote-promotion',
+  'npm run promote:beta17:fixpoint:remote-result',
+  'npm run gate:beta17:fixpoint-readiness',
+];
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -296,6 +306,7 @@ function main() {
       requiredWrapperMode: requiredEndpointCapability,
       attemptedMaterializationCommands,
       requiredStageResultMarker,
+      remediationCommands,
       installHint: [
         `install ${requiredEndpointCapability} in the L6+N5 wrapper`,
         `back it with a non-fixture L6+N5 materializer that emits ${requiredStageResultMarker}`,
@@ -370,4 +381,5 @@ module.exports = {
   parseWrapperMode,
   requiredEndpointCapability,
   requiredStageResultMarker,
+  remediationCommands,
 };

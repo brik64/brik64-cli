@@ -323,6 +323,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   tab-separated and literal `\t` endpoint status lines. If the L6+N5 host lacks
   `beta17_fixpoint_stage_dispatcher`, the report records the installed
   capabilities instead of only `missing` or `unknown`.
+- Remote-stage remediation commands: a blocked
+  `attempt:beta17:fixpoint:remote-stage` report now includes structured
+  `remediationCommands` for provenance, dispatcher plan, preflight, guarded
+  install, retry, promotion and readiness gates. This keeps the missing
+  dispatcher blocker actionable without treating install instructions as
+  materialization evidence.
 - Remote promotion gate: `npm run gate:beta17:fixpoint:remote-promotion`
   validates a passing remote attempt before any final evidence-pack promotion.
   It requires exactly one accepted attempt, complete transcript refs, a
