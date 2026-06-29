@@ -101,7 +101,7 @@ function checkExternalAudit(blockers, checks) {
 function main() {
   const blockers = [];
   const checks = {};
-  const publicSync = checkPublicSync(blockers, checks);
+  checkPublicSync(blockers, checks);
   const audit = checkExternalAudit(blockers, checks);
   if (!checks.publicSurfaceSyncPass) {
     blockers.push('external_audit_blocked_until_public_surface_sync_passes');
