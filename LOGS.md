@@ -2705,3 +2705,41 @@ Boundary:
 - This strengthens release-train evidence linkage. It does not create the real
   L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
   artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Dispatcher install result marker binding
+
+Timestamp: 2026-06-29T04:52:00Z
+
+Task:
+- Require an executed Beta17 remote dispatcher install to prove installation via
+  a hash-bound stdout marker, not SSH status alone.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-dispatcher-install.js` with
+  `parseInstallResult` and `validateInstallExecution`.
+- `--execute` mode now requires
+  `BRIK64_BETA17_DISPATCHER_INSTALL_RESULT` with `installed`, the expected
+  materializer SHA-256 and the expected host.
+- Extended `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  with direct parser/validator break attempts.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-dispatcher-preflight`,
+  `test:beta17:fixpoint:remote-dispatcher-plan`,
+  `test:beta17:fixpoint:remote-stage`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Break attempts rejected:
+  missing install marker triggers `install_result_marker_missing`; mismatched
+  materializer SHA triggers `install_result_materializer_sha256_mismatch`.
+
+Boundary:
+- This hardens future remote mutation validation. It does not execute the
+  remote install, create the real L6+N5 materializer, generate real Stage1 or
+  Stage2 artifacts, prove fixpoint or publish Beta17.

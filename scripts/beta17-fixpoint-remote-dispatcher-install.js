@@ -16,6 +16,7 @@ const defaultPlanPath = path.join(root, 'evidence', 'beta17-fixpoint-remote-disp
 const defaultOutDir = path.join(root, 'evidence', 'beta17-fixpoint-remote-dispatcher');
 const version = '0.1.0-beta.17';
 const executeConfirmation = 'INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM';
+const installResultMarker = 'BRIK64_BETA17_DISPATCHER_INSTALL_RESULT';
 
 function argValue(name, fallback) {
   const index = process.argv.indexOf(name);
@@ -167,6 +168,43 @@ function executeInstall(plan, installScript, host) {
   return { scpResult, sshResult };
 }
 
+function parseInstallResult(stdout) {
+  const line = String(stdout || '')
+    .split(/\r?\n/)
+    .find((row) => row.startsWith(`${installResultMarker}\t`));
+  if (!line) return null;
+  const [, status, sha256Value, host] = line.split('\t');
+  return { status, sha256: sha256Value, host };
+}
+
+function validateInstallExecution(plan, execution, host) {
+  const blockers = [];
+  if (!execution) return { installResult: null, blockers };
+  if (execution.scpResult?.status && execution.scpResult.status !== 0) {
+    blockers.push('install_scp_failed');
+    return { installResult: null, blockers };
+  }
+  if (execution.sshResult?.status && execution.sshResult.status !== 0) {
+    blockers.push('install_ssh_failed');
+    return { installResult: null, blockers };
+  }
+  const installResult = parseInstallResult(execution.sshResult?.stdout || '');
+  if (!installResult) {
+    blockers.push('install_result_marker_missing');
+    return { installResult: null, blockers };
+  }
+  if (installResult.status !== 'installed') {
+    blockers.push(`install_result_status_invalid:${installResult.status || 'missing'}`);
+  }
+  if (installResult.sha256 !== plan.materializerSha256) {
+    blockers.push('install_result_materializer_sha256_mismatch');
+  }
+  if (installResult.host !== host) {
+    blockers.push(`install_result_host_mismatch:${installResult.host || 'missing'}:${host}`);
+  }
+  return { installResult, blockers };
+}
+
 function main() {
   const planPath = path.resolve(argValue('--plan', defaultPlanPath));
   const outDir = path.resolve(argValue('--out-dir', defaultOutDir));
@@ -197,8 +235,7 @@ function main() {
       writeText(installScriptPath, installScript);
       fs.chmodSync(installScriptPath, 0o755);
       if (execute) execution = executeInstall(plan, installScript, host);
-      if (execution?.scpResult?.status && execution.scpResult.status !== 0) blockers.push('install_scp_failed');
-      if (execution?.sshResult?.status && execution.sshResult.status !== 0) blockers.push('install_ssh_failed');
+      blockers.push(...validateInstallExecution(plan, execution, host).blockers);
     }
   } catch (error) {
     blockers.push(error.message);
@@ -246,6 +283,7 @@ function main() {
           sshStatus: execution.sshResult?.status ?? null,
           stdoutSha256: execution.sshResult ? sha256(execution.sshResult.stdout) : null,
           stderrSha256: execution.sshResult ? sha256(execution.sshResult.stderr) : null,
+          installResult: validateInstallExecution(plan, execution, host).installResult,
         }
       : null,
     blockers: [...new Set(blockers)],
@@ -274,4 +312,7 @@ if (require.main === module) {
 module.exports = {
   buildRemoteInstallScript,
   executeConfirmation,
+  installResultMarker,
+  parseInstallResult,
+  validateInstallExecution,
 };

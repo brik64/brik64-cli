@@ -27,6 +27,49 @@ BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-prov
 
 node --check scripts/beta17-fixpoint-remote-dispatcher-install.js
 
+node <<'NODE'
+const {
+  installResultMarker,
+  parseInstallResult,
+  validateInstallExecution,
+} = require('./scripts/beta17-fixpoint-remote-dispatcher-install');
+const plan = { materializerSha256: 'a'.repeat(64) };
+const host = 'root@example.invalid';
+const pass = validateInstallExecution(plan, {
+  scpResult: { status: 0 },
+  sshResult: {
+    status: 0,
+    stdout: `${installResultMarker}\tinstalled\t${plan.materializerSha256}\t${host}\n`,
+    stderr: '',
+  },
+}, host);
+if (pass.blockers.length !== 0 || pass.installResult.sha256 !== plan.materializerSha256) {
+  throw new Error('valid_install_result_unexpected_blocker');
+}
+const parsed = parseInstallResult(`${installResultMarker}\tinstalled\t${plan.materializerSha256}\t${host}\n`);
+if (!parsed || parsed.status !== 'installed' || parsed.host !== host) {
+  throw new Error('install_result_parse_failed');
+}
+const missing = validateInstallExecution(plan, {
+  scpResult: { status: 0 },
+  sshResult: { status: 0, stdout: 'ok without marker\n', stderr: '' },
+}, host);
+if (!missing.blockers.includes('install_result_marker_missing')) {
+  throw new Error('missing_install_marker_unexpected_pass');
+}
+const mismatch = validateInstallExecution(plan, {
+  scpResult: { status: 0 },
+  sshResult: {
+    status: 0,
+    stdout: `${installResultMarker}\tinstalled\t${'b'.repeat(64)}\t${host}\n`,
+    stderr: '',
+  },
+}, host);
+if (!mismatch.blockers.includes('install_result_materializer_sha256_mismatch')) {
+  throw new Error('install_sha_mismatch_unexpected_pass');
+}
+NODE
+
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js" \
   --materializer generated/beta17-materializer.js \
   --provenance generated/beta17-materializer.provenance.json \

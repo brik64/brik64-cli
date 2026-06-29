@@ -381,6 +381,23 @@
         real L6+N5 materializer, execute remote mutation in tests, generate
         Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
+- [x] Require executed Beta17 dispatcher installs to return a hash-bound
+      install marker.
+      - Script:
+        `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+      - Result:
+        `--execute` mode can no longer pass on SSH status alone. It must
+        observe `BRIK64_BETA17_DISPATCHER_INSTALL_RESULT` with `installed`,
+        the expected materializer SHA-256 and the expected host.
+      - Break attempts:
+        missing marker and materializer SHA mismatch are rejected.
+      - Boundary:
+        this hardens future remote mutation validation. It does not execute the
+        remote install, create real Stage1/Stage2 artifacts, prove fixpoint or
+        publish Beta17.
+
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:
         `scripts/beta17-fixpoint-evidence-pack-manifest.js --check`.
