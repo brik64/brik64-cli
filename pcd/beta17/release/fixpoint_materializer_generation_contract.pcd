@@ -1,0 +1,25 @@
+// brik64.pcd_file.v1
+// claim_boundary: beta17_fixpoint_materializer_generation_input_contract
+// beta17_source_contract: fixpoint_materializer_generation_contract
+PC fixpoint_materializer_generation_contract {
+    fn fixpoint_materializer_generation_contract(
+        canonical_stage1_contract_hash_bound,
+        canonical_stage2_contract_hash_bound,
+        canonical_cli_core_hash_bound,
+        canonical_cli_polymer_hash_bound,
+        materializer_output_ref_bound,
+        materializer_result_marker_bound,
+        l6plus_engine_accepts_generation_request,
+        public_claim_boundary_closed
+    ) {
+        if (canonical_stage1_contract_hash_bound == 0) { return 0; }
+        if (canonical_stage2_contract_hash_bound == 0) { return 0; }
+        if (canonical_cli_core_hash_bound == 0) { return 0; }
+        if (canonical_cli_polymer_hash_bound == 0) { return 0; }
+        if (materializer_output_ref_bound == 0) { return 0; }
+        if (materializer_result_marker_bound == 0) { return 0; }
+        if (l6plus_engine_accepts_generation_request == 0) { return 0; }
+        if (public_claim_boundary_closed == 0) { return 0; }
+        return 1;
+    }
+}

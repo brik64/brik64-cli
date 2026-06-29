@@ -103,6 +103,8 @@
     "test:beta17:fixpoint:stage-contract": "bash scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh",
     "bundle:beta17:fixpoint:stage-request": "node scripts/beta17-fixpoint-stage-request-bundle.js",
     "test:beta17:fixpoint:stage-request": "bash scripts/tests/test_beta17_fixpoint_stage_request_bundle.sh",
+    "bundle:beta17:fixpoint:materializer-generation-request": "node scripts/beta17-fixpoint-materializer-generation-request-bundle.js",
+    "test:beta17:fixpoint:materializer-generation-request": "bash scripts/tests/test_beta17_fixpoint_materializer_generation_request_bundle.sh",
     "test:beta17:fixpoint:stage-result": "bash scripts/tests/test_beta17_fixpoint_stage_result.sh",
     "fixture:beta17:fixpoint:stage-materializer": "node scripts/beta17-fixpoint-stage-fixture-materializer.js",
     "test:beta17:fixpoint:stage-fixture": "bash scripts/tests/test_beta17_fixpoint_stage_fixture_materializer.sh",

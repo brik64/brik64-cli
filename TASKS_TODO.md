@@ -151,6 +151,25 @@
 
 # Beta17 Fixpoint Tasks
 
+- [x] Add Beta17 materializer generation request bundle.
+      - PCD:
+        `pcd/beta17/release/fixpoint_materializer_generation_contract.pcd`.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-generation-request-bundle.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_generation_request_bundle.sh`.
+      - NPM:
+        `bundle:beta17:fixpoint:materializer-generation-request`.
+        `test:beta17:fixpoint:materializer-generation-request`.
+      - Evidence:
+        `evidence/beta17-fixpoint-materializer-generation-request/request.manifest.json`
+        reports
+        `PASS_BETA17_FIXPOINT_MATERIALIZER_GENERATION_REQUEST_BUNDLE`.
+      - Boundary:
+        this is input evidence for asking L6+N5 to generate the Beta17 stage
+        materializer. It is not generated materializer evidence, Stage1/Stage2
+        evidence, fixpoint proof or publication authorization.
+
 - [x] Audit the Beta17 materializer route before remote mutation.
       - Script:
         `scripts/beta17-fixpoint-materializer-route-audit.js`.

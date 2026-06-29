@@ -3308,3 +3308,54 @@ Boundary:
 - This is route and gate hardening. It does not generate the L6+N5
   materializer, install the dispatcher, materialize Stage1/Stage2, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer generation request bundle
+
+Timestamp: 2026-06-29T04:58:00Z
+
+Task:
+- Add a canonical request bundle for generating the Beta17 fixpoint stage
+  materializer itself through L6+N5, before any dispatcher install or Stage1 /
+  Stage2 attempt can be considered.
+
+Change:
+- Added `pcd/beta17/release/fixpoint_materializer_generation_contract.pcd`.
+- Added `scripts/beta17-fixpoint-materializer-generation-request-bundle.js`.
+- Added npm scripts `bundle:beta17:fixpoint:materializer-generation-request`
+  and `test:beta17:fixpoint:materializer-generation-request`.
+- Added `scripts/tests/test_beta17_fixpoint_materializer_generation_request_bundle.sh`.
+- Generated request evidence under
+  `evidence/beta17-fixpoint-materializer-generation-request/`.
+
+Evidence:
+- Manifest decision:
+  `PASS_BETA17_FIXPOINT_MATERIALIZER_GENERATION_REQUEST_BUNDLE`.
+- Request marker:
+  `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_REQUEST`.
+- Required result marker:
+  `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT`.
+- PCD input-set SHA-256:
+  `953c02a3be17df3d7140ff7e88474ffb453e493460ec00c410f61b0879d0aeaf`.
+- Request line SHA-256:
+  `8e9e2b35c831dfe216dca3ec4648cb9c2de1f4e23764070f466e41f0f8385803`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-materializer-generation-request-bundle.js` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-request` passed.
+- `npm run test:beta17:fixpoint:stage-request` passed.
+- `npm run test:beta17:fixpoint:materializer-route` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Tampered PCD content is rejected by bytes and SHA mismatch.
+- Missing materializer generation contract PCD is rejected.
+- Unsafe output ref is rejected.
+- Missing required binding is rejected.
+- Open fixpoint claim boundary is rejected.
+- Wrong generated materializer marker is rejected.
+- Remote URL output ref fails closed during request construction.
+
+Boundary:
+- This is canonical input/request evidence only. It does not generate the
+  materializer, install the dispatcher, materialize Stage1/Stage2, prove
+  fixpoint or publish Beta17.
