@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "brik64.beta17.external_claim_safe_scan.v1",
+  "pass": true,
+  "scope": [
+    "download page",
+    "home-cli agent metadata",
+    "sdks page",
+    "active beta channel manifest",
+    "active beta17 release manifest",
+    "docs install page",
+    "public brik64 skill"
+  ],
+  "allowedHistoricalExceptions": [
+    "changelog includes historical version headings for previous releases"
+  ],
+  "blockedTermsInActiveReleaseSurface": []
+}

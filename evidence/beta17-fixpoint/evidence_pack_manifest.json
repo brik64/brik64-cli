@@ -2,7 +2,7 @@
   "schemaVersion": "brik64.beta17_fixpoint.evidence_pack_manifest.v1",
   "version": "0.1.0-beta.17",
   "status": "CANDIDATE_NON_CLAIM",
-  "generatedAt": "2026-06-29T12:30:08.101Z",
+  "generatedAt": "2026-06-29T13:42:18.130Z",
   "files": [
     {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
@@ -45,9 +45,64 @@
       "bytes": 96
     },
     {
+      "path": "evidence/beta17-fixpoint/external-audit/adversarial-results.json",
+      "sha256": "c72b1c349b04282b4e76e8c77ad5762493e229231be81005969017c2e6d2e82a",
+      "bytes": 735
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/adversarial.log",
+      "sha256": "55a98cfbb77c9c72476669fa809e22aea726fe914f58ef2f45240ff6c85f6c74",
+      "bytes": 1410
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/audit-log.md",
+      "sha256": "1e740482b6614771082022633da38b1a4bb272747eec0383f48b8f526d4b111c",
+      "bytes": 1569
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/claim-safe-scan.json",
+      "sha256": "5c8e676d9b566b4bb1c74109a5849e88c9d7feb150ecc6b387939c42ecefaa2c",
+      "bytes": 454
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/generated-code-quality.md",
+      "sha256": "e861c9941f6d1d7aafd5cb92ca7da8e0ab205c1e84ba80172f846b1e45ce7275",
+      "bytes": 788
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/lift-preview.txt",
+      "sha256": "c5aa2075f79f621038c2961348e3604dc3c3692877929ad7657d7b3f1017dfcc",
+      "bytes": 68
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/monomers-list.json",
+      "sha256": "3823574df7f47ddc60d18e4378bd0275e830ee60985fb16e11adc6bf180bb82e",
+      "bytes": 110117
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/monomers-test.json",
+      "sha256": "6bae0f3b02e7cbc2032c38dc6673b9d0cac885945e99fc6d69d811a941c80b52",
+      "bytes": 22785
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/polymer.pcd.manifest.json",
+      "sha256": "de7caa165374d0e24928ab98e8fee18d36e8e427384181b7015c313fc2c94596",
+      "bytes": 6453
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/public-surface-scan.json",
+      "sha256": "d1cfa2fd2c4d52b6821f5e8fe52289a288af177c3d012c153270059b5490b12c",
+      "bytes": 514
+    },
+    {
+      "path": "evidence/beta17-fixpoint/external-audit/verify.json",
+      "sha256": "672c499443509fac2c1dde5aa4c02185c331e868f64604bce8a7eb1ccdde53ef",
+      "bytes": 769
+    },
+    {
       "path": "evidence/beta17-fixpoint/external_audit_report.json",
-      "sha256": "93614bf303aa0412369707fd7bea4b9f5a2f1f3b5f5712dfbc55d0fe9a1b6aa7",
-      "bytes": 1885
+      "sha256": "ba98d1323b4ed14b5d9dc2e115c2776eac740ab4c8b8a964716a3e382ce2d7a7",
+      "bytes": 2359
     },
     {
       "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
@@ -71,8 +126,8 @@
     },
     {
       "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
-      "bytes": 1044
+      "sha256": "fcbcdc629f22681d3dab80fd1f28f54970d163c5a5dc25381cc19c7fc8b20d51",
+      "bytes": 3306
     },
     {
       "path": "evidence/beta17-fixpoint/readiness_evidence_refresh_report.json",
@@ -100,7 +155,7 @@
       "bytes": 1131
     }
   ],
-  "packSha256": "35ed953e01bc9dac6c104a9986e57368e30b994afff696b54c43148f518ed40a",
+  "packSha256": "c69a1f0bca0c03a1cdbf4bb6c242d9bae3eeb7d508467e037b410493ed784975",
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,

@@ -23,7 +23,7 @@
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
     "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "66e559e659ac2aeaeb6cdb88c6d5b8fb712d7ed1",
+    "commit": "e81f6ebdba49d5b35e4d0f3c134dfde66a5563b3",
     "verified": true,
     "reason": "valid"
   },

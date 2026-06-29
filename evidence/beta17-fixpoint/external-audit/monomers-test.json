@@ -1,0 +1,1035 @@
+{
+  "schemaVersion": "brik64.cli_monomer_test_report.v1",
+  "cliVersion": "0.1.0-beta.17",
+  "target": "registry",
+  "scope": "all",
+  "total": 128,
+  "passed": 128,
+  "failed": 0,
+  "checks": [
+    {
+      "key": "MC_00.ADD8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_01.SUB8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_02.MUL8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_03.DIV8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_04.INC",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_05.DEC",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_06.ABS",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_07.CLAMP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_08.AND8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_09.OR8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_10.XOR8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_11.NOT8",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_12.SHL",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_13.SHR",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_14.ROL",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_15.ROR",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "pure_local_candidate",
+      "missing": []
+    },
+    {
+      "key": "MC_16.LOAD",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_17.STORE",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_18.PUSH",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_19.POP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_20.PEEK",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_21.SWAP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_22.DUP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_23.DROP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_24.IF",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_25.LOOP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_26.JUMP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_27.CALL",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_28.RET",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_29.BREAK",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_30.CONTINUE",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_31.NOP",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_32.READ",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_33.WRITE",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_34.SEEK",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_35.FLUSH",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_36.OPEN",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_37.CLOSE",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_38.EOF",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_39.ERR",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_40.CONCAT",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_41.SPLIT",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_42.SUBSTR",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_43.LEN",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_44.UPPER",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_45.LOWER",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_46.TRIM",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_47.MATCH",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_48.HASH",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_49.ENCRYPT",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_50.DECRYPT",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_51.SIGN",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_52.VERIFY",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_53.RNG",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_54.DERIVE",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_55.SEAL",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_56.TIME",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_57.CPU",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_58.MEM",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_59.DISK",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_60.NET",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_61.PID",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_62.UID",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_63.ENV",
+      "status": "PASS",
+      "tier": "core",
+      "target": "registry",
+      "boundary": "boundary_required",
+      "missing": []
+    },
+    {
+      "key": "MC_64.FADD",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_65.FSUB",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_66.FMUL",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_67.FDIV",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_68.FABS",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_69.FNEG",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_70.FSQRT",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_71.FMOD",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_72.SIN",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_73.COS",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_74.TAN",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_75.ATAN2",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_76.LOG",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_77.EXP",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_78.POW",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_79.FLOOR",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_local",
+      "missing": []
+    },
+    {
+      "key": "MC_80.TCP_CONN",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_81.TCP_SEND",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_82.TCP_RECV",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_83.UDP_SEND",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_84.DNS",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_85.HTTP_GET",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_86.HTTP_POST",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_87.TLS",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_88.FB_NEW",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_89.FB_PIXEL",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_90.FB_READ",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_91.FB_FILL",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_92.FB_COPY",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_93.FB_FLUSH",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_94.INPUT_POLL",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_95.INPUT_STATE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_96.AU_NEW",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_97.AU_WRITE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_98.AU_READ",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_99.AU_PLAY",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_100.AU_STOP",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_101.AU_MIX",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_102.AU_SAMPLE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_103.AU_STATUS",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_104.DIR_LIST",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_105.DIR_CREATE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_106.DIR_DELETE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_107.CHMOD",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_108.CHOWN",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_109.LINK",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_110.WATCH",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_111.TEMP",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_112.SPAWN",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_113.JOIN",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_114.CHAN_NEW",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_115.CHAN_SEND",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_116.CHAN_RECV",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_117.MUTEX",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_118.ATOMIC",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_119.YIELD",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_120.FFI_LOAD",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_121.FFI_CALL",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_122.FFI_ALLOC",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_123.FFI_FREE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_124.WASM_EXEC",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_125.PY_EVAL",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_126.JSON_PARSE",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    },
+    {
+      "key": "MC_127.JSON_EMIT",
+      "status": "PASS",
+      "tier": "extended",
+      "target": "registry",
+      "boundary": "contract_external",
+      "missing": []
+    }
+  ]
+}

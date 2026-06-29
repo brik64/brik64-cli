@@ -1,59 +1,77 @@
 {
-  "schemaVersion": "brik64.beta17_fixpoint.external_audit_report.v1",
+  "schemaVersion": "brik64.beta17_external_audit_report.v1",
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT",
+  "status": "PASS",
+  "pass": true,
   "version": "0.1.0-beta.17",
-  "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT",
-  "pass": false,
+  "generatedAt": "2026-06-29T13:37:09.929Z",
   "cleanPublicInstall": {
-    "pass": false
+    "pass": true,
+    "installer": "https://brik64.com/cli/install.sh",
+    "version": "0.1.0-beta.17",
+    "engine": "L4+N5",
+    "runtimeProfile": "l4plus_n5_local"
   },
   "functionalTests": {
-    "pass": false
+    "pass": true,
+    "verifyStatus": "PASS",
+    "monomersTotal": 128,
+    "monomersPassed": 128,
+    "monomersFailed": 0,
+    "polymerize": true,
+    "liftPreview": true
   },
   "generatedCodeTests": {
-    "pass": false
+    "pass": true,
+    "typescript": true,
+    "python": true,
+    "rust": true
   },
   "adversarialTests": {
-    "pass": false
+    "pass": true,
+    "failClosedCases": 6
   },
   "publicSurfaceScan": {
-    "pass": false
+    "pass": true,
+    "npmBetaTag": "0.1.0-beta.17",
+    "npmLatestWarning": "0.1.0-beta.6.1"
   },
   "claimSafeScan": {
-    "pass": false
+    "pass": true,
+    "activeReleaseSurfaceOnly": true
   },
   "artifacts": {
     "auditLog": {
-      "path": "evidence/beta17-fixpoint/external-audit-placeholders/auditLog.md",
-      "sha256": "3ec32ccb4165f81a5ce735ac78e6e839c41c2bba3028e3c05679cc873dcf8403",
-      "bytes": 87
+      "path": "evidence/beta17-fixpoint/external-audit/audit-log.md",
+      "sha256": "1e740482b6614771082022633da38b1a4bb272747eec0383f48b8f526d4b111c",
+      "bytes": 1569
     },
     "generatedCodeQuality": {
-      "path": "evidence/beta17-fixpoint/external-audit-placeholders/generatedCodeQuality.md",
-      "sha256": "66263d9d3f2468e70942453058a029afce6d59ebcd89b66987fd04a18445fe55",
-      "bytes": 99
+      "path": "evidence/beta17-fixpoint/external-audit/generated-code-quality.md",
+      "sha256": "e861c9941f6d1d7aafd5cb92ca7da8e0ab205c1e84ba80172f846b1e45ce7275",
+      "bytes": 788
     },
     "adversarialResults": {
-      "path": "evidence/beta17-fixpoint/external-audit-placeholders/adversarialResults.md",
-      "sha256": "db469520163af8a3bb8f3f6dc120fe3b65fc1fec2f8913662469163002eec0c3",
-      "bytes": 97
+      "path": "evidence/beta17-fixpoint/external-audit/adversarial-results.json",
+      "sha256": "c72b1c349b04282b4e76e8c77ad5762493e229231be81005969017c2e6d2e82a",
+      "bytes": 735
     },
     "publicSurfaceScan": {
-      "path": "evidence/beta17-fixpoint/external-audit-placeholders/publicSurfaceScan.md",
-      "sha256": "e8560e556a930e9483292543ebb9fa1d0f0637ed4783e1c749befff7a1b71e0d",
-      "bytes": 96
+      "path": "evidence/beta17-fixpoint/external-audit/public-surface-scan.json",
+      "sha256": "d1cfa2fd2c4d52b6821f5e8fe52289a288af177c3d012c153270059b5490b12c",
+      "bytes": 514
     },
     "claimSafeScan": {
-      "path": "evidence/beta17-fixpoint/external-audit-placeholders/claimSafeScan.md",
-      "sha256": "83b96a4e0e4b70912cfdbe526aa78fb5ee4ba59e5181395fa2a67c0ad941231e",
-      "bytes": 92
+      "path": "evidence/beta17-fixpoint/external-audit/claim-safe-scan.json",
+      "sha256": "5c8e676d9b566b4bb1c74109a5849e88c9d7feb150ecc6b387939c42ecefaa2c",
+      "bytes": 454
     }
   },
   "claimBoundary": {
-    "publicReleaseAllowed": false,
+    "publicReleaseAllowed": true,
     "definitiveFixpointAllowed": false,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false,
-    "publicClaimsAllowed": false,
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   }

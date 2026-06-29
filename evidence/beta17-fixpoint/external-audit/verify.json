@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "brik64.cli_local_verify_report.v1",
+  "cliVersion": "0.1.0-beta.17",
+  "status": "PASS",
+  "mode": "local",
+  "pcd": "pcd/add8_gate.pcd",
+  "semantic_pcd_sha256": "bca1eae547e2af618e10ea4e6b72d052414d104d71dd3131f13e185f6f856a8a",
+  "ast_sha256": "1427836dea0aa8fed4009be98c28c5678b0d1e056daedba320cfee197f530e75",
+  "domain_contract_sha256": "e3a7b4716e7bfdd6eed78803eda66f37d0271ceb341ce9d1132279b970caae84",
+  "domainStatus": "complete",
+  "checks": {
+    "parseable": true,
+    "certificatePresent": true,
+    "certificateHashMatches": true,
+    "astHashMatches": true,
+    "domainHashMatches": true
+  },
+  "claimBoundary": {
+    "localCandidateOnly": true,
+    "universalCorrectnessClaimAllowed": false,
+    "managedClaimIssued": false
+  }
+}

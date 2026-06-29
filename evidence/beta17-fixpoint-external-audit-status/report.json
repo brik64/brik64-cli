@@ -1,75 +1,56 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.external_audit_status_gate.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T05:46:48.543Z",
-  "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+  "generatedAt": "2026-06-29T13:42:18.362Z",
+  "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
   "checks": {
-    "publicSurfaceSyncPass": false,
-    "externalAuditValidationPass": false,
-    "externalAuditPass": false,
-    "externalAuditCleanPublicInstall": false,
-    "externalAuditFunctionalTests": false,
-    "externalAuditGeneratedCodeTests": false,
-    "externalAuditAdversarialTests": false,
-    "externalAuditPublicSurfaceScan": false,
-    "externalAuditClaimSafeScan": false
+    "publicSurfaceSyncPass": true,
+    "externalAuditValidationPass": true,
+    "externalAuditPass": true,
+    "externalAuditCleanPublicInstall": true,
+    "externalAuditFunctionalTests": true,
+    "externalAuditGeneratedCodeTests": true,
+    "externalAuditAdversarialTests": true,
+    "externalAuditPublicSurfaceScan": true,
+    "externalAuditClaimSafeScan": true
   },
-  "blockers": [
-    "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
-    "public_surface_sync_not_synced",
-    "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
-    "external_audit_missing_clean_public_install",
-    "external_audit_missing_functional_tests",
-    "external_audit_missing_generated_code_tests",
-    "external_audit_missing_adversarial_tests",
-    "external_audit_missing_public_surface_scan",
-    "external_audit_missing_claim_safe_scan",
-    "external_audit_blocked_until_public_surface_sync_passes"
-  ],
+  "blockers": [],
   "publicSurfaceSyncReportRef": {
     "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-    "sha256": "255fb5ae6d80c009e88938868e5673005d23def88128f30d213ad6521bc15612",
-    "bytes": 3433
+    "sha256": "fcbcdc629f22681d3dab80fd1f28f54970d163c5a5dc25381cc19c7fc8b20d51",
+    "bytes": 3306
   },
   "externalAuditReportRef": {
     "path": "evidence/beta17-fixpoint/external_audit_report.json",
-    "sha256": "93614bf303aa0412369707fd7bea4b9f5a2f1f3b5f5712dfbc55d0fe9a1b6aa7",
-    "bytes": 1885
+    "sha256": "ba98d1323b4ed14b5d9dc2e115c2776eac740ab4c8b8a964716a3e382ce2d7a7",
+    "bytes": 2359
   },
   "externalAuditValidation": {
     "schemaVersion": "brik64.beta17_external_audit.validation.v1",
-    "decision": "BLOCKED_BETA17_EXTERNAL_AUDIT_VALIDATION",
+    "decision": "PASS_BETA17_EXTERNAL_AUDIT_VALIDATION",
     "checks": {
-      "externalAuditPass": false,
-      "externalAuditCleanPublicInstall": false,
-      "externalAuditFunctionalTests": false,
-      "externalAuditGeneratedCodeTests": false,
-      "externalAuditAdversarialTests": false,
-      "externalAuditPublicSurfaceScan": false,
-      "externalAuditClaimSafeScan": false,
+      "externalAuditPass": true,
+      "externalAuditCleanPublicInstall": true,
+      "externalAuditFunctionalTests": true,
+      "externalAuditGeneratedCodeTests": true,
+      "externalAuditAdversarialTests": true,
+      "externalAuditPublicSurfaceScan": true,
+      "externalAuditClaimSafeScan": true,
       "externalAuditArtifact_auditLog": true,
       "externalAuditArtifact_generatedCodeQuality": true,
       "externalAuditArtifact_adversarialResults": true,
       "externalAuditArtifact_publicSurfaceScan": true,
       "externalAuditArtifact_claimSafeScan": true
     },
-    "blockers": [
-      "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
-      "external_audit_missing_clean_public_install",
-      "external_audit_missing_functional_tests",
-      "external_audit_missing_generated_code_tests",
-      "external_audit_missing_adversarial_tests",
-      "external_audit_missing_public_surface_scan",
-      "external_audit_missing_claim_safe_scan"
-    ]
+    "blockers": []
   },
-  "nextAction": "sync Beta17 public surfaces, run external audit from public install, then regenerate this status report",
+  "nextAction": "run gate:beta17:fixpoint-readiness",
   "claimBoundary": {
-    "publicReleaseAllowed": false,
+    "publicReleaseAllowed": true,
     "definitiveFixpointAllowed": false,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false,
-    "publicClaimsAllowed": false,
+    "publicClaimsAllowed": true,
     "selfHostingClaimAllowed": false,
     "rustIndependenceClaimAllowed": false
   }
