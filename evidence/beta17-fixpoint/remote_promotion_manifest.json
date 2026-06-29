@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_promotion_manifest.v1",
+  "generatedAt": "2026-06-29T05:14:39.710Z",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION",
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "definitiveFixpointAllowed": false,
+    "publicReleaseAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "gate": {
+    "status": 0,
+    "stdoutSha256": "23f7624e59380a9ac30c5d72a4d6a6a346a6305af1ea676420d51291eb89643c",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "sourcePromotionReport": {
+    "path": "evidence/beta17-fixpoint-remote-promotion/report.json",
+    "sha256": "2d791c827a5cedd517ecc14fb6ef0e9de651bb2f5806fb7a1542d401e49d0c7f",
+    "bytes": 3989
+  },
+  "promoted": {
+    "stage1ArtifactManifest": {
+      "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+      "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
+      "bytes": 918,
+      "source": {
+        "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+        "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
+        "bytes": 918
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+        "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
+        "bytes": 918
+      }
+    },
+    "stage2RegenerationManifest": {
+      "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+      "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
+      "bytes": 837,
+      "source": {
+        "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+        "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
+        "bytes": 837
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+        "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
+        "bytes": 837
+      }
+    },
+    "byteIdenticalReport": {
+      "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+      "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
+      "bytes": 857,
+      "source": {
+        "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+        "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
+        "bytes": 857
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+        "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
+        "bytes": 857
+      }
+    },
+    "harnessReport": {
+      "path": "evidence/beta17-fixpoint/harness_report.json",
+      "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+      "bytes": 450,
+      "source": {
+        "path": "evidence/beta17-fixpoint/harness_report.json",
+        "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+        "bytes": 450
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/harness_report.json",
+        "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+        "bytes": 450
+      }
+    },
+    "sealReport": {
+      "path": "evidence/beta17-fixpoint/seal_report.json",
+      "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
+      "bytes": 421,
+      "source": {
+        "path": "evidence/beta17-fixpoint/seal_report.json",
+        "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
+        "bytes": 421
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/seal_report.json",
+        "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
+        "bytes": 421
+      }
+    },
+    "stage1Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+      "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+      "bytes": 1473,
+      "source": {
+        "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+        "bytes": 1473
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+        "bytes": 1473
+      }
+    },
+    "stage2Artifact": {
+      "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+      "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+      "bytes": 1473,
+      "source": {
+        "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+        "bytes": 1473
+      },
+      "target": {
+        "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+        "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+        "bytes": 1473
+      }
+    }
+  },
+  "blockers": [],
+  "nextAction": "add canonical motor/harness manifests, input_pcd_hashes, public sync and external audit before readiness"
+}

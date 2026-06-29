@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint_materializer_generation_report.v1",
+  "version": "0.1.0-beta.17",
+  "generatedMaterializerSha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+  "materializerGenerationRequestSha256": "40212a096fca31486482568d3fdd903144ff17ef6a9e78e343e33ff9e03c8680",
+  "pcdInputSetSha256": "953c02a3be17df3d7140ff7e88474ffb453e493460ec00c410f61b0879d0aeaf",
+  "generationTraceSha256": "98ea08debc506079320f657679ee789ba8e97e288f8db104f7c94d38afd9634f",
+  "generatedByL6PlusN5": true,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

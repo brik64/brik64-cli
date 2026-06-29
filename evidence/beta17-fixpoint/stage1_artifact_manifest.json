@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.stage1_artifact_manifest.v1",
+  "version": "0.1.0-beta.17",
+  "generatedByL6PlusN5": true,
+  "stage1ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+  "artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+    "bytes": 1473
+  },
+  "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
+  "materializerRequestSha256": "191da764cad548e5232eb66551addff578e701a4a3fd62a5cc2473a2d30875ff",
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

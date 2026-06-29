@@ -95,6 +95,27 @@ function rel(file) {
   return path.relative(root, file);
 }
 
+function safeRelativePath(value) {
+  const text = String(value || '');
+  return (
+    text.length > 0 &&
+    !text.startsWith('/') &&
+    !text.includes('\0') &&
+    !/^https?:\/\//i.test(text) &&
+    !text.split(/[\\/]+/).some((segment) => segment === '..')
+  );
+}
+
+function resolveWorkspaceRef(refPath) {
+  if (!safeRelativePath(refPath)) throw new Error(`unsafe_stage_result_ref:${refPath || 'missing'}`);
+  const resolved = path.resolve(root, refPath);
+  const workspace = path.resolve(root);
+  if (!(resolved === workspace || resolved.startsWith(`${workspace}${path.sep}`))) {
+    throw new Error(`stage_result_ref_outside_workspace:${refPath}`);
+  }
+  return resolved;
+}
+
 function run(command, args, options = {}) {
   const result = childProcess.spawnSync(command, args, {
     cwd: root,
@@ -288,7 +309,8 @@ function probeRemote() {
 function attemptRemote(request) {
   if (skipRemote) return [];
   const encoded = Buffer.from(JSON.stringify(request)).toString('base64');
-  return attemptedMaterializationCommands.map((command) => {
+  const attempts = [];
+  for (const command of attemptedMaterializationCommands) {
     const remote = [
       'set -u',
       'tmp="$(mktemp /tmp/brik64-beta17-fixpoint-stage-request.XXXXXX.json)"',
@@ -299,7 +321,7 @@ function attemptRemote(request) {
     const result = ssh(remote);
     const combinedOutput = `${result.stdout}\n${result.stderr}`;
     const stageResult = parseStageResult(combinedOutput);
-    return {
+    attempts.push({
       command: [wrapper, command, '@@FILE:<beta17-stage-request>'],
       status: result.status,
       stdout: result.stdout,
@@ -308,8 +330,10 @@ function attemptRemote(request) {
       stderr_sha256: sha256(result.stderr),
       observed: `${result.stdout}${result.stderr}`.trim().slice(0, 500) || null,
       stageResult: stageResult ? { present: true, result: stageResult } : null,
-    };
-  });
+    });
+    if (stageResult) break;
+  }
+  return attempts;
 }
 
 function transcriptRef(file) {
@@ -318,6 +342,46 @@ function transcriptRef(file) {
     sha256: sha256File(file),
     bytes: fs.statSync(file).size,
   };
+}
+
+function hydrateStageResultArtifact(result, refField, contentField) {
+  const ref = result?.[refField];
+  const encoded = result?.[contentField];
+  if (!ref || !encoded) return null;
+  const target = resolveWorkspaceRef(ref.path);
+  const bytes = Buffer.from(String(encoded), 'base64');
+  if (ref.bytes !== undefined && Number(ref.bytes) !== bytes.length) {
+    throw new Error(`stage_result_${refField}_content_bytes_mismatch`);
+  }
+  if (ref.sha256 && sha256(bytes) !== String(ref.sha256).replace(/^sha256:/, '').toLowerCase()) {
+    throw new Error(`stage_result_${refField}_content_sha256_mismatch`);
+  }
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, bytes);
+  return transcriptRef(target);
+}
+
+function hydrateStageResult(result) {
+  if (!result || typeof result !== 'object') return { hydratedRefs: {}, blockers: [] };
+  const hydratedRefs = {};
+  const blockers = [];
+  for (const [refField, contentField] of [
+    ['stage1Artifact', 'stage1ArtifactContentBase64'],
+    ['stage2Artifact', 'stage2ArtifactContentBase64'],
+    ['stage1Manifest', 'stage1ManifestContentBase64'],
+    ['stage2Manifest', 'stage2ManifestContentBase64'],
+    ['byteIdenticalReport', 'byteIdenticalReportContentBase64'],
+    ['harnessReport', 'harnessReportContentBase64'],
+    ['sealReport', 'sealReportContentBase64'],
+  ]) {
+    try {
+      const hydrated = hydrateStageResultArtifact(result, refField, contentField);
+      if (hydrated) hydratedRefs[refField] = hydrated;
+    } catch (error) {
+      blockers.push(error.message);
+    }
+  }
+  return { hydratedRefs, blockers };
 }
 
 function persistProbeTranscripts(remote) {
@@ -401,9 +465,12 @@ function main() {
     : {};
   const validations = persistedAttempts.map((attempt) => {
     const stageResult = attempt.stageResultRaw || null;
-    const validation = validateStageResult(stageResult, expectedContext);
+    const hydration = hydrateStageResult(stageResult);
+    const validation = hydration.blockers.length
+      ? { accepted: false, blockers: hydration.blockers, normalized: null }
+      : validateStageResult(stageResult, expectedContext);
     const { stageResultRaw, ...reportAttempt } = attempt;
-    return { ...reportAttempt, stageResultValidation: validation };
+    return { ...reportAttempt, hydratedStageArtifacts: hydration.hydratedRefs, stageResultValidation: validation };
   });
   const accepted = validations.find((attempt) => attempt.stageResultValidation.accepted);
   if (!accepted) blockers.push('remote_l6plus_beta17_stage_result_unavailable');
@@ -449,6 +516,7 @@ function main() {
       ? {
           path: rel(requestPath),
           sha256: sha256File(requestPath),
+          bytes: fs.statSync(requestPath).size,
           pcdInputSetSha256: request.pcdInputSetSha256,
         }
       : null,
@@ -526,4 +594,5 @@ module.exports = {
   requiredStageResultMarker,
   remediationCommands,
   remediationPlan,
+  hydrateStageResult,
 };

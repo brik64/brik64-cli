@@ -1574,15 +1574,24 @@
         materializer, install the dispatcher, materialize Stage1/Stage2, prove
         fixpoint or publish Beta17.
 
-- [ ] Install or expose the Beta17 materializer-generation endpoint on L6+N5.
+- [x] Install or expose the Beta17 materializer-generation endpoint on L6+N5.
       - Required endpoint capability:
         `beta17_fixpoint_materializer_generator`.
       - Required result marker:
         `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT`.
-      - Done when:
+      - Result:
+        `scripts/beta17-fixpoint-materializer-generator-endpoint-install.js`
+        installs a guarded NON_CLAIM endpoint on the L6+N5 wrapper and emits
+        `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT`.
+      - Live evidence:
+        `npm run install:beta17:fixpoint:materializer-generator-endpoint -- --execute --confirm INSTALL_BETA17_MATERIALIZER_GENERATOR_ENDPOINT_NON_CLAIM`
+        passed, and
         `npm run attempt:beta17:fixpoint:materializer-generation` passes with
         a validated non-fixture generated materializer and closed claim
         boundaries.
+      - Boundary:
+        this installs a generation endpoint and produces a materializer. It
+        does not by itself prove fixpoint or authorize public Beta17.
 
 - [x] Let Beta17 materializer-generation attempt hydrate remote result artifacts.
       - Script:
@@ -1600,5 +1609,39 @@
       - Boundary:
         hydration support does not create the remote endpoint, generate the
         materializer, prove fixpoint or publish Beta17. It only removes a
-        consumer-side blocker that would otherwise reject a legitimate remote
-        result.
+      consumer-side blocker that would otherwise reject a legitimate remote
+      result.
+
+- [x] Install Beta17 remote stage dispatcher and validate Stage1/Stage2 remote result.
+      - Scripts:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`,
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Result:
+        `npm run install:beta17:fixpoint:remote-dispatcher -- --execute --confirm INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM`
+        passed, `npm run attempt:beta17:fixpoint:remote-stage` passed, and
+        `npm run gate:beta17:fixpoint:remote-promotion` plus
+        `npm run promote:beta17:fixpoint:remote-result` passed.
+      - Contract hardening:
+        remote Stage results now hydrate Stage1/Stage2 artifacts, manifests,
+        byte-identity, harness and seal reports only after safe-path, bytes and
+        SHA-256 checks. The remote attempt stops after the first present Stage
+        result so promotion has one canonical source.
+      - Boundary:
+        Stage1/Stage2 remote materialization is promoted as NON_CLAIM evidence.
+        Readiness remains blocked until final canonical manifests, input hash
+        list, evidence pack, public surface sync and external audit are present
+        and coherent.
+
+- [ ] Close Beta17 fixpoint readiness package.
+      - Current blockers from `npm run gate:beta17:fixpoint-readiness`:
+        missing `canonical_motor_manifest.json`,
+        `canonical_harness_manifest.json`, `input_pcd_hashes.tsv`,
+        `evidence_pack_manifest.json`, `public_surface_sync_report.json` and
+        `external_audit_report.json`.
+      - Current report-binding blockers:
+        byte-identity and seal reports do not expose all SHA/size/input-set
+        bindings in the exact shape required by the readiness gate.
+      - Done when:
+        `npm run gate:beta17:fixpoint-readiness` passes with claim boundaries
+        closed except the bounded `definitiveFixpointAllowed` gate output, and
+        no public release is declared before public sync plus external audit.

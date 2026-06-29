@@ -15,8 +15,11 @@ fi
 
 node <<'NODE'
 const assert = require('assert');
+const fs = require('fs');
+const crypto = require('crypto');
 const {
   attemptedMaterializationCommands,
+  hydrateStageResult,
   parseEndpointCapabilities,
   parseEndpointSignals,
   parseWrapperMode,
@@ -26,8 +29,13 @@ const {
   requiredStageResultMarker,
 } = require('./scripts/beta17-fixpoint-stage-remote-attempt');
 
+function sha256(value) {
+  return crypto.createHash('sha256').update(value).digest('hex');
+}
+
 assert.strictEqual(requiredEndpointCapability, 'beta17_fixpoint_stage_dispatcher');
 assert.strictEqual(requiredStageResultMarker, 'BRIK64_BETA17_FIXPOINT_STAGE_RESULT');
+assert.strictEqual(typeof hydrateStageResult, 'function');
 assert.deepStrictEqual(attemptedMaterializationCommands, [
   'beta17-fixpoint-stage-materialize',
   'fixpoint-stage-materialize',
@@ -102,6 +110,37 @@ assert.deepStrictEqual(
   ],
 );
 assert(remediationPlan.stopRules.some((rule) => rule.includes('byte-identical')));
+fs.rmSync('evidence/beta17-fixpoint-remote-attempt-hydration-test', { recursive: true, force: true });
+const body = 'stage artifact hydration check';
+const goodHydration = hydrateStageResult({
+  stage1Artifact: {
+    path: 'evidence/beta17-fixpoint-remote-attempt-hydration-test/stage1.mjs',
+    sha256: sha256(body),
+    bytes: Buffer.byteLength(body),
+  },
+  stage1ArtifactContentBase64: Buffer.from(body).toString('base64'),
+});
+assert.deepStrictEqual(goodHydration.blockers, []);
+assert.strictEqual(goodHydration.hydratedRefs.stage1Artifact.sha256, sha256(body));
+const unsafeHydration = hydrateStageResult({
+  stage1Artifact: {
+    path: '../outside.mjs',
+    sha256: sha256(body),
+    bytes: Buffer.byteLength(body),
+  },
+  stage1ArtifactContentBase64: Buffer.from(body).toString('base64'),
+});
+assert(unsafeHydration.blockers.includes('unsafe_stage_result_ref:../outside.mjs'));
+const tamperedHydration = hydrateStageResult({
+  stage1Artifact: {
+    path: 'evidence/beta17-fixpoint-remote-attempt-hydration-test/tampered.mjs',
+    sha256: '0'.repeat(64),
+    bytes: Buffer.byteLength(body),
+  },
+  stage1ArtifactContentBase64: Buffer.from(body).toString('base64'),
+});
+assert(tamperedHydration.blockers.includes('stage_result_stage1Artifact_content_sha256_mismatch'));
+fs.rmSync('evidence/beta17-fixpoint-remote-attempt-hydration-test', { recursive: true, force: true });
 console.log('PASS beta17 remote endpoint parser checks');
 NODE
 
@@ -121,7 +160,6 @@ fi
 
 grep -q "BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT" /tmp/brik64-beta17-remote-attempt.stdout
 grep -q "remote_l6plus_probe_failed" /tmp/brik64-beta17-remote-attempt.stderr
-grep -q "remote_dispatcher_install_report_missing" /tmp/brik64-beta17-remote-attempt.stderr
 grep -q "remote_l6plus_beta17_stage_result_unavailable" /tmp/brik64-beta17-remote-attempt.stderr
 
 jq -e '
@@ -130,9 +168,7 @@ jq -e '
   and .claimBoundary.definitiveFixpointAllowed==false
   and .skipped==true
   and (.blockers | index("remote_l6plus_probe_failed"))
-  and (.blockers | index("remote_dispatcher_install_report_missing"))
   and (.blockers | index("remote_l6plus_beta17_stage_result_unavailable"))
-  and .installEvidence==null
   and .remoteEndpointContract.requiredEndpointCapability=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredWrapperMode=="beta17_fixpoint_stage_dispatcher"
   and .remoteEndpointContract.requiredStageResultMarker=="BRIK64_BETA17_FIXPOINT_STAGE_RESULT"

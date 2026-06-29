@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_deploy_plan.v1",
+  "version": "0.1.0-beta.17",
+  "status": "DEPLOY_PLAN_NON_CLAIM",
+  "capability": "beta17_fixpoint_stage_dispatcher",
+  "wrapperMode": "beta17_fixpoint_stage_dispatcher",
+  "wrapperPath": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+  "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js",
+  "materializerSha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+  "materializerBytes": 8320,
+  "localMaterializerRef": {
+    "path": "generated/beta17-fixpoint-stage-materializer.js",
+    "sha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+    "bytes": 8320
+  },
+  "materializerProvenanceRef": {
+    "path": "evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json",
+    "sha256": "5393b734721efbd74febb05c5e3f999fa2983f495c72ad74a911b9647aee0d51",
+    "bytes": 2166
+  },
+  "resultMarker": "BRIK64_BETA17_FIXPOINT_STAGE_RESULT",
+  "materializerMode": "l6plus_fixpoint_stage_materializer",
+  "generatedFromPcdPolymer": true,
+  "fixtureOrTemplate": false,
+  "supportedCommands": [
+    "beta17-fixpoint-stage-materialize",
+    "fixpoint-stage-materialize",
+    "materialize"
+  ],
+  "nonAcceptableSubstitutes": [
+    "beta15.7 or beta16 materializer endpoint",
+    "fixture or TEMPLATE_NON_CLAIM stage result",
+    "manual artifact patch not regenerated from PCD/polymer through L6+N5"
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  }
+}

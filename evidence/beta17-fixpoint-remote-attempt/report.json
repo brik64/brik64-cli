@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.remote_attempt.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T03:17:59.334Z",
-  "decision": "BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
+  "generatedAt": "2026-06-29T05:14:39.245Z",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
   "publicationAllowed": false,
   "claimBoundary": {
     "publicReleaseAllowed": false,
@@ -118,10 +118,26 @@
   },
   "request": {
     "path": "evidence/beta17-fixpoint-stage-request/request.json",
-    "sha256": "904700d893ba6effcc7f83070847978c1ecb024464e1d6728b87aedab8616224",
+    "sha256": "95a19d9d8a8c9d45a1f85394cd96a8decdea3e08efbff231927ba5460fe3beb4",
+    "bytes": 9576,
     "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9"
   },
-  "installEvidence": null,
+  "installEvidence": {
+    "reportRef": {
+      "path": "evidence/beta17-fixpoint-remote-dispatcher/install-report.json",
+      "sha256": "b9392896b40c8fa49bed325a4eba9ac0ade39b396df3a61a390e3cb4974124f0",
+      "bytes": 2640
+    },
+    "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+    "executed": true,
+    "materializerSha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+    "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_beta17_fixpoint_stage_materializer.js",
+    "installScriptRef": {
+      "path": "evidence/beta17-fixpoint-remote-dispatcher/install-script.sh",
+      "sha256": "cff63f6e6eea8cca16ce69c8534319910b1441bc917cec8879eb9b582f18afc0",
+      "bytes": 2410
+    }
+  },
   "remote": {
     "hostProbe": {
       "status": 0,
@@ -131,45 +147,31 @@
     },
     "remoteRefProbe": {
       "status": 0,
-      "stdout_sha256": "3d147a1d5e7b82fce82deb2499dda3a8b2367beebd76f52ea7fbf88ad0eafcad",
+      "stdout_sha256": "2d481fc82c63401535bd2d14d8b114a2985591dcb62e244d2cf18c59cfb3c0f8",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     "endpointStatusProbe": {
       "status": 0,
-      "stdout_sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
-      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3"
+      "stdout_sha256": "87cdc3529ce6578a1194e75f0670916d81bea9658ce6c06d6234ae4ebf8813d0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
-    "wrapperMode": "unknown",
+    "wrapperMode": "beta17_fixpoint_stage_dispatcher",
     "endpointCapabilities": [
-      "beta15_7_ready",
-      "beta16_native_ready",
-      "beta16_1_ready"
+      "beta17_fixpoint_stage_dispatcher"
     ],
     "endpointSignals": [
       {
         "marker": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT",
         "fields": [
           "installed",
-          "beta15_7_ready,beta16_native_ready,beta16_1_ready"
-        ]
-      },
-      {
-        "marker": "BRIK64_L6_CLI_MATERIALIZATION_RESULT",
-        "fields": [
-          "available"
-        ]
-      },
-      {
-        "marker": "BRIK64_L6_BETA16_STAGE1_MATERIALIZATION_RESULT",
-        "fields": [
-          "available"
+          "beta17_fixpoint_stage_dispatcher"
         ]
       }
     ],
     "remoteRefs": {
       "wrapper": {
-        "sha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
-        "bytes": 1546,
+        "sha256": "739dc87f30ff7fbb5844e88d8f526bc25283ba4f9fd016c0f29c304a085fa252",
+        "bytes": 2564,
         "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
       },
       "wrapper_exec_target": {
@@ -191,8 +193,8 @@
       },
       "remoteRefStdout": {
         "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/remote-ref.stdout.txt",
-        "sha256": "3d147a1d5e7b82fce82deb2499dda3a8b2367beebd76f52ea7fbf88ad0eafcad",
-        "bytes": 357
+        "sha256": "2d481fc82c63401535bd2d14d8b114a2985591dcb62e244d2cf18c59cfb3c0f8",
+        "bytes": 382
       },
       "remoteRefStderr": {
         "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/remote-ref.stderr.txt",
@@ -201,21 +203,21 @@
       },
       "endpointStatusStdout": {
         "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/endpoint-status.stdout.txt",
-        "sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
-        "bytes": 204
+        "sha256": "87cdc3529ce6578a1194e75f0670916d81bea9658ce6c06d6234ae4ebf8813d0",
+        "bytes": 79
       },
       "endpointStatusStderr": {
         "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/endpoint-status.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
       }
     }
   },
   "expectedContext": {
     "workspaceRoot": "/private/tmp/brik64-cli-beta17-fixpoint",
     "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
-    "materializerRequestSha256": "af93b234fe02d916d16e5d5f0809ab0ab4a34bcd6a99652f9b72ddfd8572e289",
-    "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
+    "materializerRequestSha256": "191da764cad548e5232eb66551addff578e701a4a3fd62a5cc2473a2d30875ff",
+    "remoteWrapperSha256": "739dc87f30ff7fbb5844e88d8f526bc25283ba4f9fd016c0f29c304a085fa252",
     "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
     "requiredInputPcdPaths": [
       "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
@@ -224,12 +226,175 @@
       "pcd/cli_polymer.pcd"
     ]
   },
-  "attempts": [],
-  "blockers": [
-    "remote_dispatcher_install_report_missing",
-    "remote_l6plus_wrapper_mode_not_beta17_stage:unknown",
-    "remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
-    "remote_l6plus_beta17_stage_result_unavailable"
+  "attempts": [
+    {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "beta17-fixpoint-stage-materialize",
+        "@@FILE:<beta17-stage-request>"
+      ],
+      "status": 0,
+      "stdout_sha256": "5c065caea0f0fd2d630a2d2cf166201d6eefd5c0be194cd66d205a844379ca64",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observed": "BRIK64_BETA17_FIXPOINT_STAGE_RESULT\teyJzY2hlbWFWZXJzaW9uIjoiYnJpazY0LmJldGExN19maXhwb2ludF9zdGFnZV9yZXN1bHQudjEiLCJ2ZXJzaW9uIjoiMC4xLjAtYmV0YS4xNyIsImw2cGx1c0VuZ2luZVNlcmlhbCI6IkJSSUs2NC1MNlBMVVMtTjUtMjAyNjA2MDUtQkVUQTZNUC02NjBkZTk1NyIsIm1hdGVyaWFsaXplck1vZGUiOiJsNnBsdXNfZml4cG9pbnRfc3RhZ2VfbWF0ZXJpYWxpemVyIiwiZ2VuZXJhdGVkQnlMNlBsdXNONSI6dHJ1ZSwic3RhZ2UyR2VuZXJhdGVkQnlTdGFnZTEiOnRydWUsImJ5dGVJZGVudGljYWwiOnRydWUsImJ5dGVJZGVudGljYWxTaGEyNTZNYXRjaCI6dHJ1ZSwiYnl0ZUlkZW50aWNhbFNpemVNYXRjaCI6dHJ1ZSwi",
+      "stageResult": {
+        "present": true,
+        "resultRef": {
+          "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json",
+          "sha256": "57df720ecb2fe6748ed3cbfb1cf09405a515ff3d33d3687b8194f7c35ffc9eb2",
+          "bytes": 12493
+        }
+      },
+      "stdoutTranscript": {
+        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt",
+        "sha256": "5c065caea0f0fd2d630a2d2cf166201d6eefd5c0be194cd66d205a844379ca64",
+        "bytes": 16049
+      },
+      "stderrTranscript": {
+        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "hydratedStageArtifacts": {
+        "stage1Artifact": {
+          "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+          "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+          "bytes": 1473
+        },
+        "stage2Artifact": {
+          "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+          "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+          "bytes": 1473
+        },
+        "stage1Manifest": {
+          "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+          "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
+          "bytes": 918
+        },
+        "stage2Manifest": {
+          "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+          "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
+          "bytes": 837
+        },
+        "byteIdenticalReport": {
+          "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+          "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
+          "bytes": 857
+        },
+        "harnessReport": {
+          "path": "evidence/beta17-fixpoint/harness_report.json",
+          "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+          "bytes": 450
+        },
+        "sealReport": {
+          "path": "evidence/beta17-fixpoint/seal_report.json",
+          "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
+          "bytes": 421
+        }
+      },
+      "stageResultValidation": {
+        "accepted": true,
+        "blockers": [],
+        "normalized": {
+          "schemaVersion": "brik64.beta17_fixpoint_stage_result.v1",
+          "version": "0.1.0-beta.17",
+          "l6plusEngineSerial": "BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957",
+          "materializerMode": "l6plus_fixpoint_stage_materializer",
+          "generatedByL6PlusN5": true,
+          "stage2GeneratedByStage1": true,
+          "byteIdentical": true,
+          "byteIdenticalSha256Match": true,
+          "byteIdenticalSizeMatch": true,
+          "harnessPass": true,
+          "adversarialCases": 3,
+          "sealReportPass": true,
+          "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
+          "materializerRequestSha256": "191da764cad548e5232eb66551addff578e701a4a3fd62a5cc2473a2d30875ff",
+          "stage1ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+          "stage2ArtifactSha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+          "stage1ArtifactBytes": 1473,
+          "stage2ArtifactBytes": 1473,
+          "compositeSha256": "9b2eeb032705ee1c787982980d57c70a8df8814fa32065b2ee759e0d421d984a",
+          "generationTraceSha256": "f30531bfefff299317756f989c5bce47759b802c2b062152b1b2fece0cc033dc",
+          "remoteWrapperSha256": "739dc87f30ff7fbb5844e88d8f526bc25283ba4f9fd016c0f29c304a085fa252",
+          "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+          "stage1Artifact": {
+            "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+            "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+            "bytes": 1473
+          },
+          "stage2Artifact": {
+            "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+            "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+            "bytes": 1473
+          },
+          "stage1Manifest": {
+            "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+            "sha256": "be8949256112922df11f710e1936f0e0653056208b7de5689a6b5d9641cbdf19",
+            "bytes": 918
+          },
+          "stage2Manifest": {
+            "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
+            "sha256": "25615fce5d7f6641172f0af582c184d42173393a4ca07c2f8251238040f4ab1a",
+            "bytes": 837
+          },
+          "byteIdenticalReport": {
+            "path": "evidence/beta17-fixpoint/byte_identical_report.json",
+            "sha256": "953c192971ed357b2b8bed042a58ce35d00601634dbc7e7b918269197586debd",
+            "bytes": 857
+          },
+          "harnessReport": {
+            "path": "evidence/beta17-fixpoint/harness_report.json",
+            "sha256": "212d12555b1b83b330e7edae804fdf7101d6c9a9d5553c1b279d7e82bd4e2f86",
+            "bytes": 450
+          },
+          "sealReport": {
+            "path": "evidence/beta17-fixpoint/seal_report.json",
+            "sha256": "0a83b5a2201b6232f7672537f8a547d8b6680dd328d92216fd6eb0bafb098eeb",
+            "bytes": 421
+          },
+          "inputPcds": [
+            {
+              "path": "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",
+              "sha256": "f21d3b1676fc9ffdb9d6807ada9fd5c1e5256085ea6b2cbaea577aba5820ea1b",
+              "bytes": 1033
+            },
+            {
+              "path": "pcd/beta17/release/fixpoint_stage2_regeneration_contract.pcd",
+              "sha256": "8cb5e8fce97377bd2f370fb993eaa2ba8713f3345ed3df0a697ef390d49a1047",
+              "bytes": 1137
+            },
+            {
+              "path": "pcd/cli_core.pcd",
+              "sha256": "ff48eaeb3848e39c5400fcbb9fc293e5fffb649db2e32454f900080be660ef1c",
+              "bytes": 813
+            },
+            {
+              "path": "pcd/cli_polymer.pcd",
+              "sha256": "041a809f8a2bdb80e0cdbe1f17445ca991c30b5b475ad666fd2a20add9199146",
+              "bytes": 2047
+            }
+          ],
+          "claimBoundary": {
+            "publicReleaseAllowed": false,
+            "definitiveFixpointAllowed": false,
+            "publicClaimsAllowed": false,
+            "formalN5ClaimAllowed": false,
+            "universalCorrectnessClaimAllowed": false,
+            "selfHostingClaimAllowed": false,
+            "rustIndependenceClaimAllowed": false
+          },
+          "stage1ArtifactContentBase64": "Ly8gYnJpazY0IGJldGExNyBnZW5lcmF0ZWQgc3RhZ2UgYXJ0aWZhY3QKZXhwb3J0IGNvbnN0IGJyaWs2NEJldGExN1N0YWdlQXJ0aWZhY3QgPSB7CiAgInNjaGVtYVZlcnNpb24iOiAiYnJpazY0LmJldGExN19zdGFnZV9hcnRpZmFjdC52MSIsCiAgInZlcnNpb24iOiAiMC4xLjAtYmV0YS4xNyIsCiAgImdlbmVyYXRlZEJ5TDZQbHVzTjUiOiB0cnVlLAogICJzb3VyY2UiOiB7CiAgICAicGNkSW5wdXRTZXRTaGEyNTYiOiAiNmQyZmJlZTEwMGFhMmUyNjZlOGFhZmVjZmNhZThkNDg2ZDgyMzY3Y2IyOTA5YTE3MGZlOGM0OWUxYmQ1OWRhOSIsCiAgICAibWF0ZXJpYWxpemVyUmVxdWVzdFNoYTI1NiI6ICIxOTFkYTc2NGNhZDU0OGU1MjMyZWI2NjU1MWFkZGZmNTc4ZTcwMWE0YTNmZDYyYTVjYzI0NzNhMmQzMDg3NWZmIiwKICAgICJpbnB1dFBjZHMiOiBbCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvYmV0YTE3L3JlbGVhc2UvZml4cG9pbnRfc3RhZ2UxX21hdGVyaWFsaXphdGlvbl9jb250cmFjdC5wY2QiLAogICAgICAgICJzaGEyNTYiOiAiZjIxZDNiMTY3NmZjOWZmZGI5ZDY4MDdhZGE5ZmQ1YzFlNTI1NjA4NWVhNmIyY2JhZWE1NzdhYmE1ODIwZWExYiIsCiAgICAgICAgImJ5dGVzIjogMTAzMwogICAgICB9LAogICAgICB7CiAgICAgICAgInBhdGgiOiAicGNkL2JldGExNy9yZWxlYXNlL2ZpeHBvaW50X3N0YWdlMl9yZWdlbmVyYXRpb25fY29udHJhY3QucGNkIiwKICAgICAgICAic2hhMjU2IjogIjhjYjVlOGZjZTk3Mzc3YmQyZjM3MGZiOTkzZWFhMmJhODcxM2YzMzQ1ZWQzZGYwYTY5N2VmMzkwZDQ5YTEwNDciLAogICAgICAgICJieXRlcyI6IDExMzcKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9jbGlfY29yZS5wY2QiLAogICAgICAgICJzaGEyNTYiOiAiZmY0OGVhZWIzODQ4ZTM5YzU0MDBmY2JiOWZjMjkzZTVmZmZiNjQ5ZGIyZTMyNDU0ZjkwMDA4MGJlNjYwZWYxYyIsCiAgICAgICAgImJ5dGVzIjogODEzCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvY2xpX3BvbHltZXIucGNkIiwKICAgICAgICAic2hhMjU2IjogIjA0MWE4MDlmOGEyYmRiODBlMGNkYmUxZjE3NDQ1Y2E5OTFjMzBiNWI0NzVhZDY2NmZkMmEyMGFkZDkxOTkxNDYiLAogICAgICAgICJieXRlcyI6IDIwNDcKICAgICAgfQogICAgXQogIH0sCiAgImNsYWltQm91bmRhcnkiOiB7CiAgICAicHVibGljUmVsZWFzZUFsbG93ZWQiOiBmYWxzZSwKICAgICJkZWZpbml0aXZlRml4cG9pbnRBbGxvd2VkIjogZmFsc2UsCiAgICAicHVibGljQ2xhaW1zQWxsb3dlZCI6IGZhbHNlLAogICAgImZvcm1hbE41Q2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAidW5pdmVyc2FsQ29ycmVjdG5lc3NDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJzZWxmSG9zdGluZ0NsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInJ1c3RJbmRlcGVuZGVuY2VDbGFpbUFsbG93ZWQiOiBmYWxzZQogIH0KfTsK",
+          "stage2ArtifactContentBase64": "Ly8gYnJpazY0IGJldGExNyBnZW5lcmF0ZWQgc3RhZ2UgYXJ0aWZhY3QKZXhwb3J0IGNvbnN0IGJyaWs2NEJldGExN1N0YWdlQXJ0aWZhY3QgPSB7CiAgInNjaGVtYVZlcnNpb24iOiAiYnJpazY0LmJldGExN19zdGFnZV9hcnRpZmFjdC52MSIsCiAgInZlcnNpb24iOiAiMC4xLjAtYmV0YS4xNyIsCiAgImdlbmVyYXRlZEJ5TDZQbHVzTjUiOiB0cnVlLAogICJzb3VyY2UiOiB7CiAgICAicGNkSW5wdXRTZXRTaGEyNTYiOiAiNmQyZmJlZTEwMGFhMmUyNjZlOGFhZmVjZmNhZThkNDg2ZDgyMzY3Y2IyOTA5YTE3MGZlOGM0OWUxYmQ1OWRhOSIsCiAgICAibWF0ZXJpYWxpemVyUmVxdWVzdFNoYTI1NiI6ICIxOTFkYTc2NGNhZDU0OGU1MjMyZWI2NjU1MWFkZGZmNTc4ZTcwMWE0YTNmZDYyYTVjYzI0NzNhMmQzMDg3NWZmIiwKICAgICJpbnB1dFBjZHMiOiBbCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvYmV0YTE3L3JlbGVhc2UvZml4cG9pbnRfc3RhZ2UxX21hdGVyaWFsaXphdGlvbl9jb250cmFjdC5wY2QiLAogICAgICAgICJzaGEyNTYiOiAiZjIxZDNiMTY3NmZjOWZmZGI5ZDY4MDdhZGE5ZmQ1YzFlNTI1NjA4NWVhNmIyY2JhZWE1NzdhYmE1ODIwZWExYiIsCiAgICAgICAgImJ5dGVzIjogMTAzMwogICAgICB9LAogICAgICB7CiAgICAgICAgInBhdGgiOiAicGNkL2JldGExNy9yZWxlYXNlL2ZpeHBvaW50X3N0YWdlMl9yZWdlbmVyYXRpb25fY29udHJhY3QucGNkIiwKICAgICAgICAic2hhMjU2IjogIjhjYjVlOGZjZTk3Mzc3YmQyZjM3MGZiOTkzZWFhMmJhODcxM2YzMzQ1ZWQzZGYwYTY5N2VmMzkwZDQ5YTEwNDciLAogICAgICAgICJieXRlcyI6IDExMzcKICAgICAgfSwKICAgICAgewogICAgICAgICJwYXRoIjogInBjZC9jbGlfY29yZS5wY2QiLAogICAgICAgICJzaGEyNTYiOiAiZmY0OGVhZWIzODQ4ZTM5YzU0MDBmY2JiOWZjMjkzZTVmZmZiNjQ5ZGIyZTMyNDU0ZjkwMDA4MGJlNjYwZWYxYyIsCiAgICAgICAgImJ5dGVzIjogODEzCiAgICAgIH0sCiAgICAgIHsKICAgICAgICAicGF0aCI6ICJwY2QvY2xpX3BvbHltZXIucGNkIiwKICAgICAgICAic2hhMjU2IjogIjA0MWE4MDlmOGEyYmRiODBlMGNkYmUxZjE3NDQ1Y2E5OTFjMzBiNWI0NzVhZDY2NmZkMmEyMGFkZDkxOTkxNDYiLAogICAgICAgICJieXRlcyI6IDIwNDcKICAgICAgfQogICAgXQogIH0sCiAgImNsYWltQm91bmRhcnkiOiB7CiAgICAicHVibGljUmVsZWFzZUFsbG93ZWQiOiBmYWxzZSwKICAgICJkZWZpbml0aXZlRml4cG9pbnRBbGxvd2VkIjogZmFsc2UsCiAgICAicHVibGljQ2xhaW1zQWxsb3dlZCI6IGZhbHNlLAogICAgImZvcm1hbE41Q2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAidW5pdmVyc2FsQ29ycmVjdG5lc3NDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJzZWxmSG9zdGluZ0NsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInJ1c3RJbmRlcGVuZGVuY2VDbGFpbUFsbG93ZWQiOiBmYWxzZQogIH0KfTsK",
+          "stage1ManifestContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5iZXRhMTdfZml4cG9pbnQuc3RhZ2UxX2FydGlmYWN0X21hbmlmZXN0LnYxIiwKICAidmVyc2lvbiI6ICIwLjEuMC1iZXRhLjE3IiwKICAiZ2VuZXJhdGVkQnlMNlBsdXNONSI6IHRydWUsCiAgInN0YWdlMUFydGlmYWN0U2hhMjU2IjogIjFmNDA0NTU2NTA3NDdiYWJiNWViOGU0M2YxZjA4OTkxNzNhOGRjYzJlNjg5MTllYTA2Zjg5ZDFmZTk0N2QzMjUiLAogICJhcnRpZmFjdCI6IHsKICAgICJwYXRoIjogImV2aWRlbmNlL2JldGExNy1maXhwb2ludC9nZW5lcmF0ZWQvc3RhZ2UxL2JyaWs2NC1jbGktc3RhZ2UxLm1qcyIsCiAgICAic2hhMjU2IjogIjFmNDA0NTU2NTA3NDdiYWJiNWViOGU0M2YxZjA4OTkxNzNhOGRjYzJlNjg5MTllYTA2Zjg5ZDFmZTk0N2QzMjUiLAogICAgImJ5dGVzIjogMTQ3MwogIH0sCiAgInBjZElucHV0U2V0U2hhMjU2IjogIjZkMmZiZWUxMDBhYTJlMjY2ZThhYWZlY2ZjYWU4ZDQ4NmQ4MjM2N2NiMjkwOWExNzBmZThjNDllMWJkNTlkYTkiLAogICJtYXRlcmlhbGl6ZXJSZXF1ZXN0U2hhMjU2IjogIjE5MWRhNzY0Y2FkNTQ4ZTUyMzJlYjY2NTUxYWRkZmY1NzhlNzAxYTRhM2ZkNjJhNWNjMjQ3M2EyZDMwODc1ZmYiLAogICJjbGFpbUJvdW5kYXJ5IjogewogICAgInB1YmxpY1JlbGVhc2VBbGxvd2VkIjogZmFsc2UsCiAgICAiZGVmaW5pdGl2ZUZpeHBvaW50QWxsb3dlZCI6IGZhbHNlLAogICAgInB1YmxpY0NsYWltc0FsbG93ZWQiOiBmYWxzZSwKICAgICJmb3JtYWxONUNsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInVuaXZlcnNhbENvcnJlY3RuZXNzQ2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAic2VsZkhvc3RpbmdDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJydXN0SW5kZXBlbmRlbmNlQ2xhaW1BbGxvd2VkIjogZmFsc2UKICB9Cn0K",
+          "stage2ManifestContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5iZXRhMTdfZml4cG9pbnQuc3RhZ2UyX3JlZ2VuZXJhdGlvbl9tYW5pZmVzdC52MSIsCiAgInZlcnNpb24iOiAiMC4xLjAtYmV0YS4xNyIsCiAgImdlbmVyYXRlZEJ5U3RhZ2UxIjogdHJ1ZSwKICAiZ2VuZXJhdGVkRnJvbVN0YWdlMUFydGlmYWN0U2hhMjU2IjogIjFmNDA0NTU2NTA3NDdiYWJiNWViOGU0M2YxZjA4OTkxNzNhOGRjYzJlNjg5MTllYTA2Zjg5ZDFmZTk0N2QzMjUiLAogICJzdGFnZTJBcnRpZmFjdFNoYTI1NiI6ICIxZjQwNDU1NjUwNzQ3YmFiYjVlYjhlNDNmMWYwODk5MTczYThkY2MyZTY4OTE5ZWEwNmY4OWQxZmU5NDdkMzI1IiwKICAiYXJ0aWZhY3QiOiB7CiAgICAicGF0aCI6ICJldmlkZW5jZS9iZXRhMTctZml4cG9pbnQvZ2VuZXJhdGVkL3N0YWdlMi9icmlrNjQtY2xpLXN0YWdlMi5tanMiLAogICAgInNoYTI1NiI6ICIxZjQwNDU1NjUwNzQ3YmFiYjVlYjhlNDNmMWYwODk5MTczYThkY2MyZTY4OTE5ZWEwNmY4OWQxZmU5NDdkMzI1IiwKICAgICJieXRlcyI6IDE0NzMKICB9LAogICJjbGFpbUJvdW5kYXJ5IjogewogICAgInB1YmxpY1JlbGVhc2VBbGxvd2VkIjogZmFsc2UsCiAgICAiZGVmaW5pdGl2ZUZpeHBvaW50QWxsb3dlZCI6IGZhbHNlLAogICAgInB1YmxpY0NsYWltc0FsbG93ZWQiOiBmYWxzZSwKICAgICJmb3JtYWxONUNsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInVuaXZlcnNhbENvcnJlY3RuZXNzQ2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAic2VsZkhvc3RpbmdDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJydXN0SW5kZXBlbmRlbmNlQ2xhaW1BbGxvd2VkIjogZmFsc2UKICB9Cn0K",
+          "byteIdenticalReportContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5iZXRhMTdfZml4cG9pbnQuYnl0ZV9pZGVudGljYWxfcmVwb3J0LnYxIiwKICAiZGVjaXNpb24iOiAiUEFTU19CWVRFX0lERU5USUNBTF9SRUdFTkVSQVRJT04iLAogICJieXRlSWRlbnRpY2FsIjogdHJ1ZSwKICAic3RhZ2UxQXJ0aWZhY3QiOiB7CiAgICAicGF0aCI6ICJldmlkZW5jZS9iZXRhMTctZml4cG9pbnQvZ2VuZXJhdGVkL3N0YWdlMS9icmlrNjQtY2xpLXN0YWdlMS5tanMiLAogICAgInNoYTI1NiI6ICIxZjQwNDU1NjUwNzQ3YmFiYjVlYjhlNDNmMWYwODk5MTczYThkY2MyZTY4OTE5ZWEwNmY4OWQxZmU5NDdkMzI1IiwKICAgICJieXRlcyI6IDE0NzMKICB9LAogICJzdGFnZTJBcnRpZmFjdCI6IHsKICAgICJwYXRoIjogImV2aWRlbmNlL2JldGExNy1maXhwb2ludC9nZW5lcmF0ZWQvc3RhZ2UyL2JyaWs2NC1jbGktc3RhZ2UyLm1qcyIsCiAgICAic2hhMjU2IjogIjFmNDA0NTU2NTA3NDdiYWJiNWViOGU0M2YxZjA4OTkxNzNhOGRjYzJlNjg5MTllYTA2Zjg5ZDFmZTk0N2QzMjUiLAogICAgImJ5dGVzIjogMTQ3MwogIH0sCiAgImNsYWltQm91bmRhcnkiOiB7CiAgICAicHVibGljUmVsZWFzZUFsbG93ZWQiOiBmYWxzZSwKICAgICJkZWZpbml0aXZlRml4cG9pbnRBbGxvd2VkIjogZmFsc2UsCiAgICAicHVibGljQ2xhaW1zQWxsb3dlZCI6IGZhbHNlLAogICAgImZvcm1hbE41Q2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAidW5pdmVyc2FsQ29ycmVjdG5lc3NDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJzZWxmSG9zdGluZ0NsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInJ1c3RJbmRlcGVuZGVuY2VDbGFpbUFsbG93ZWQiOiBmYWxzZQogIH0KfQo=",
+          "harnessReportContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5iZXRhMTdfZml4cG9pbnQuaGFybmVzc19yZXBvcnQudjEiLAogICJkZWNpc2lvbiI6ICJQQVNTX0JFVEExN19GSVhQT0lOVF9IQVJORVNTIiwKICAicGFzcyI6IHRydWUsCiAgImFkdmVyc2FyaWFsQ2FzZXMiOiAzLAogICJjbGFpbUJvdW5kYXJ5IjogewogICAgInB1YmxpY1JlbGVhc2VBbGxvd2VkIjogZmFsc2UsCiAgICAiZGVmaW5pdGl2ZUZpeHBvaW50QWxsb3dlZCI6IGZhbHNlLAogICAgInB1YmxpY0NsYWltc0FsbG93ZWQiOiBmYWxzZSwKICAgICJmb3JtYWxONUNsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInVuaXZlcnNhbENvcnJlY3RuZXNzQ2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAic2VsZkhvc3RpbmdDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJydXN0SW5kZXBlbmRlbmNlQ2xhaW1BbGxvd2VkIjogZmFsc2UKICB9Cn0K",
+          "sealReportContentBase64": "ewogICJzY2hlbWFWZXJzaW9uIjogImJyaWs2NC5iZXRhMTdfZml4cG9pbnQuc2VhbF9yZXBvcnQudjEiLAogICJkZWNpc2lvbiI6ICJQQVNTX0JFVEExN19GSVhQT0lOVF9TRUFMIiwKICAic2VhbGVkIjogdHJ1ZSwKICAiY2xhaW1Cb3VuZGFyeSI6IHsKICAgICJwdWJsaWNSZWxlYXNlQWxsb3dlZCI6IGZhbHNlLAogICAgImRlZmluaXRpdmVGaXhwb2ludEFsbG93ZWQiOiBmYWxzZSwKICAgICJwdWJsaWNDbGFpbXNBbGxvd2VkIjogZmFsc2UsCiAgICAiZm9ybWFsTjVDbGFpbUFsbG93ZWQiOiBmYWxzZSwKICAgICJ1bml2ZXJzYWxDb3JyZWN0bmVzc0NsYWltQWxsb3dlZCI6IGZhbHNlLAogICAgInNlbGZIb3N0aW5nQ2xhaW1BbGxvd2VkIjogZmFsc2UsCiAgICAicnVzdEluZGVwZW5kZW5jZUNsYWltQWxsb3dlZCI6IGZhbHNlCiAgfQp9Cg=="
+        }
+      }
+    }
   ],
-  "nextAction": "deploy beta17_fixpoint_stage_dispatcher on the L6+N5 host, ensure it emits BRIK64_BETA17_FIXPOINT_STAGE_RESULT, and rerun this attempt"
+  "blockers": [],
+  "nextAction": "promote accepted remote result into evidence/beta17-fixpoint after independent audit"
 }

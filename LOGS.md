@@ -3491,3 +3491,73 @@ Boundary:
 - This is consumer contract hardening only. It does not install
   `beta17_fixpoint_materializer_generator`, generate the materializer,
   materialize Stage1/Stage2, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer generator endpoint and remote Stage promotion
+
+Timestamp: 2026-06-29T05:10:00Z
+
+Task:
+- Optimize the active Beta17 goal into executable gates and close the next
+  concrete blocker: live L6+N5 had to generate the Beta17 stage materializer,
+  install the remote stage dispatcher and produce promotable Stage1/Stage2
+  evidence without opening public claims.
+
+Change:
+- Added `scripts/beta17-fixpoint-materializer-generator-endpoint-install.js`
+  and the npm script
+  `install:beta17:fixpoint:materializer-generator-endpoint`.
+- Added `scripts/tests/test_beta17_fixpoint_materializer_generator_endpoint_install.sh`.
+- Corrected the generated materializer provenance contract to emit
+  `brik64.beta17_fixpoint.materializer_provenance.v1` with
+  `MATERIALIZER_PROVENANCE_NON_CLAIM`, `generatedFromPcdPolymer: true`,
+  `fixtureOrTemplate: false` and a hash-bound `materializerRef`.
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` so remote Stage
+  results can hydrate hash-bound base64 artifacts before validation. Hydration
+  is fail-closed on unsafe refs, byte mismatch and SHA-256 mismatch.
+- Changed remote Stage attempts to stop after the first present Stage result so
+  promotion has exactly one canonical accepted source instead of three alias
+  results.
+
+Validation:
+- `npm run test:beta17:fixpoint:materializer-generator-endpoint-install` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-attempt` passed.
+- `npm run test:beta17:fixpoint:stage-result` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run install:beta17:fixpoint:materializer-generator-endpoint -- --execute --confirm INSTALL_BETA17_MATERIALIZER_GENERATOR_ENDPOINT_NON_CLAIM` passed.
+- `npm run bundle:beta17:fixpoint:materializer-generation-request` passed.
+- `npm run attempt:beta17:fixpoint:materializer-generation` passed.
+- `npm run plan:beta17:fixpoint:remote-dispatcher -- --materializer generated/beta17-fixpoint-stage-materializer.js --provenance evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json` passed.
+- `npm run preflight:beta17:fixpoint:remote-dispatcher` passed.
+- `npm run install:beta17:fixpoint:remote-dispatcher -- --execute --confirm INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM` passed.
+- `npm run bundle:beta17:fixpoint:stage-request` passed.
+- `npm run attempt:beta17:fixpoint:remote-stage` passed.
+- `npm run gate:beta17:fixpoint:remote-promotion` passed.
+- `npm run promote:beta17:fixpoint:remote-result` passed.
+- `npm run gate:beta17:fixpoint-readiness` remains blocked.
+
+Break attempts:
+- Materializer provenance with missing canonical contract fields is rejected by
+  downstream deploy-plan.
+- Stage hydration rejects `../outside.mjs`.
+- Stage hydration rejects content whose SHA-256 does not match the declared
+  file ref.
+- Skip-mode remote attempt remains blocked and cannot satisfy Stage readiness.
+
+Current blockers:
+- `gate:beta17:fixpoint-readiness` reports missing
+  `canonical_motor_manifest.json`, `canonical_harness_manifest.json`,
+  `input_pcd_hashes.tsv`, `evidence_pack_manifest.json`,
+  `public_surface_sync_report.json` and `external_audit_report.json`.
+- Readiness also reports byte-identity/seal binding drift:
+  `byte_identity_stage1_artifact_sha256_mismatch`,
+  `byte_identity_stage2_artifact_sha256_mismatch`,
+  `byte_identity_stage_artifact_size_mismatch`,
+  `seal_stage1_artifact_sha256_mismatch`,
+  `seal_stage2_artifact_sha256_mismatch` and
+  `seal_input_pcd_set_sha256_mismatch`.
+
+Boundary:
+- Beta17 has live NON_CLAIM L6+N5 materializer generation and remote
+  Stage1/Stage2 byte-identical evidence promoted locally. It is not ready for
+  public release, external claims or definitive fixpoint until readiness,
+  public sync and external audit pass.

@@ -4,7 +4,7 @@
   "lane": "l6plus_n5_self_host_fixpoint",
   "iterId": "beta17-fixpoint-stage1-stage2-request",
   "materializerMode": "l6plus_fixpoint_stage_materializer",
-  "sourceCommit": "75d4e386263c2f4599a1e1081b29202a62dccd66",
+  "sourceCommit": "d71a233b3276acb5b07e5b964827bc4312f331f9",
   "status": "REQUEST_NON_CLAIM",
   "claimBoundary": {
     "publicReleaseAllowed": false,

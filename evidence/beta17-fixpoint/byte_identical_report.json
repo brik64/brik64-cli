@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.byte_identical_report.v1",
+  "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
+  "byteIdentical": true,
+  "stage1Artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+    "bytes": 1473
+  },
+  "stage2Artifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
+    "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+    "bytes": 1473
+  },
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}
