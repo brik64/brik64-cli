@@ -493,3 +493,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   attempt without executed dispatcher install evidence is no longer promotable.
   `promote:beta17:fixpoint:remote-result` inherits this gate because it invokes
   the remote promotion gate before copying canonical evidence.
+
+- Readiness source-promotion binding: `gate:beta17:fixpoint-readiness` now reads
+  `remote_promotion_manifest.sourcePromotionReport`, verifies the referenced
+  remote promotion gate report by SHA/bytes, and requires that report to include
+  executed Beta17 dispatcher install evidence. A standalone promotion manifest
+  is no longer enough to unlock Beta17 readiness or release-train dry-run.

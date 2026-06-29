@@ -1391,3 +1391,21 @@
         this hardens promotion only. It does not create or install the real
         dispatcher, generate Stage1/Stage2 artifacts, prove fixpoint or publish
         Beta17.
+
+- [x] Bind Beta17 readiness gate to remote promotion source report and install evidence.
+      - Script:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        readiness now rejects a remote promotion manifest unless it is bound to
+        a passing remote promotion gate report. That source report must include
+        executed Beta17 dispatcher install evidence with materializer SHA/path.
+      - Break attempts:
+        tests remove install evidence from the source promotion report and prove
+        readiness fails closed before release train can pass.
+      - Boundary:
+        this hardens readiness/release train only. It does not create or install
+        the real dispatcher, generate Stage1/Stage2 artifacts, prove fixpoint or
+        publish Beta17.

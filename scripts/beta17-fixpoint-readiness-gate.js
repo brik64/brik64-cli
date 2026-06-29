@@ -199,6 +199,92 @@ function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) 
   }
 }
 
+function readBoundJsonRef(ref, evidenceKey, evidence, blockers) {
+  if (!ref || typeof ref !== 'object') {
+    blockers.push(`${evidenceKey}_missing`);
+    return null;
+  }
+  if (!isSafeRelativePath(ref.path)) {
+    blockers.push(`${evidenceKey}_path_unsafe:${ref.path || 'missing'}`);
+    return null;
+  }
+  if (!isSha256(ref.sha256)) {
+    blockers.push(`${evidenceKey}_sha256_invalid`);
+    return null;
+  }
+  if (!Number.isInteger(ref.bytes) || ref.bytes < 1) {
+    blockers.push(`${evidenceKey}_bytes_invalid`);
+    return null;
+  }
+  const file = path.join(root, ref.path);
+  if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
+    blockers.push(`${evidenceKey}_file_missing:${ref.path}`);
+    return null;
+  }
+  const actualSha = sha256File(file);
+  const actualBytes = fs.statSync(file).size;
+  evidence[evidenceKey] = {
+    path: ref.path,
+    sha256: actualSha,
+    sizeBytes: actualBytes,
+  };
+  if (actualSha.toLowerCase() !== String(ref.sha256 || '').toLowerCase()) {
+    blockers.push(`${evidenceKey}_sha256_mismatch:${ref.path}`);
+  }
+  if (actualBytes !== ref.bytes) {
+    blockers.push(`${evidenceKey}_bytes_mismatch:${ref.path}`);
+  }
+  return readJson(file);
+}
+
+function checkRemotePromotionSourceReport(remotePromotion, evidence, blockers) {
+  const sourcePromotionReport = readBoundJsonRef(
+    remotePromotion?.sourcePromotionReport,
+    'remote_promotion_source_report',
+    evidence,
+    blockers,
+  );
+  if (!sourcePromotionReport) return;
+  if (sourcePromotionReport.schemaVersion !== 'brik64.beta17_fixpoint.remote_promotion_gate.v1') {
+    blockers.push(`remote_promotion_source_report_schema_invalid:${sourcePromotionReport.schemaVersion || 'missing'}`);
+  }
+  if (sourcePromotionReport.version !== '0.1.0-beta.17') {
+    blockers.push(`remote_promotion_source_report_version_mismatch:${sourcePromotionReport.version || 'missing'}`);
+  }
+  if (sourcePromotionReport.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE') {
+    blockers.push(`remote_promotion_source_report_not_pass:${sourcePromotionReport.decision || 'missing'}`);
+  }
+  if (sourcePromotionReport.publicationAllowed !== false) {
+    blockers.push('remote_promotion_source_report_publication_open');
+  }
+  if (sourcePromotionReport.claimBoundary?.definitiveFixpointAllowed !== false) {
+    blockers.push('remote_promotion_source_report_fixpoint_open');
+  }
+  const installReport = sourcePromotionReport.evidence?.remoteAttemptInstallReport;
+  if (!installReport || typeof installReport !== 'object') {
+    blockers.push('remote_promotion_source_report_install_evidence_missing');
+  } else {
+    evidence.remote_promotion_source_install_report = {
+      path: installReport.path,
+      sha256: installReport.sha256,
+      sizeBytes: installReport.bytes,
+    };
+  }
+  const installValidation = sourcePromotionReport.evidence?.remoteAttemptInstallReportValidation;
+  if (installValidation?.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL') {
+    blockers.push(`remote_promotion_source_report_install_not_pass:${installValidation?.decision || 'missing'}`);
+  }
+  if (installValidation?.executed !== true) {
+    blockers.push('remote_promotion_source_report_install_not_executed');
+  }
+  if (!isSha256(installValidation?.materializerSha256)) {
+    blockers.push('remote_promotion_source_report_materializer_sha256_missing');
+  }
+  if (typeof installValidation?.materializerRemotePath !== 'string' || !installValidation.materializerRemotePath.includes('/beta17/')) {
+    blockers.push('remote_promotion_source_report_materializer_remote_path_invalid');
+  }
+}
+
 function valueAt(object, dottedPath) {
   return dottedPath.split('.').reduce((current, key) => {
     if (current === null || current === undefined) return undefined;
@@ -466,6 +552,7 @@ function main() {
       blockers.push(`remote_promotion_not_pass:${remotePromotion.decision || 'missing'}`);
     }
     if (!checks.remotePromotionClaimsClosed) blockers.push('remote_promotion_claim_boundary_open');
+    checkRemotePromotionSourceReport(remotePromotion, evidence, blockers);
     for (const [promotedKey, evidenceKey] of [
       ['stage1ArtifactManifest', 'stage1_artifact_manifest'],
       ['stage2RegenerationManifest', 'stage2_regeneration_manifest'],

@@ -250,6 +250,77 @@ for key in ("stage1Artifact", "stage2Artifact"):
     }
 manifest.write_text(json.dumps(data, indent=2) + "\n")
 PY
+mkdir -p "$FIXTURE/evidence/beta17-fixpoint-remote-promotion" \
+  "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher"
+cat >"$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/install-report.json" <<'JSON'
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_install_report.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+  "executed": true,
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "plan": {
+    "capability": "beta17_fixpoint_stage_dispatcher",
+    "materializerSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+  },
+  "installScript": {
+    "validation": {
+      "accepted": true,
+      "requiredCommands": ["beta17-fixpoint-stage-status", "beta17-fixpoint-stage-materialize"],
+      "materializerExecBinding": "/usr/bin/node /opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+    }
+  }
+}
+JSON
+python3 - "$FIXTURE" <<'PY'
+import hashlib, json, pathlib, sys
+base = pathlib.Path(sys.argv[1])
+fixpoint = base / "evidence" / "beta17-fixpoint"
+promotion = base / "evidence" / "beta17-fixpoint-remote-promotion" / "report.json"
+install = base / "evidence" / "beta17-fixpoint-remote-dispatcher" / "install-report.json"
+install_ref = {
+    "path": "evidence/beta17-fixpoint-remote-dispatcher/install-report.json",
+    "sha256": hashlib.sha256(install.read_bytes()).hexdigest(),
+    "bytes": install.stat().st_size,
+}
+report = {
+    "schemaVersion": "brik64.beta17_fixpoint.remote_promotion_gate.v1",
+    "version": "0.1.0-beta.17",
+    "decision": "PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE",
+    "publicationAllowed": False,
+    "claimBoundary": {
+        "publicReleaseAllowed": False,
+        "definitiveFixpointAllowed": False,
+        "formalN5ClaimAllowed": False,
+        "universalCorrectnessClaimAllowed": False,
+    },
+    "evidence": {
+        "remoteAttemptInstallReport": install_ref,
+        "remoteAttemptInstallReportValidation": {
+            "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+            "executed": True,
+            "materializerSha256": "a" * 64,
+            "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js",
+        },
+    },
+}
+promotion.write_text(json.dumps(report, indent=2) + "\n")
+manifest = fixpoint / "remote_promotion_manifest.json"
+data = json.loads(manifest.read_text())
+data["sourcePromotionReport"] = {
+    "path": "evidence/beta17-fixpoint-remote-promotion/report.json",
+    "sha256": hashlib.sha256(promotion.read_bytes()).hexdigest(),
+    "bytes": promotion.stat().st_size,
+}
+manifest.write_text(json.dumps(data, indent=2) + "\n")
+PY
 cat >"$FIXTURE/evidence/beta17-fixpoint/public_surface_sync_report.json" <<'JSON'
 {
   "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
@@ -284,8 +355,60 @@ jq -e '
   and .checks.harnessHasAdversarial==true
   and .checks.remotePromotionPass==true
   and .checks.remotePromotionClaimsClosed==true
+  and .evidence.remote_promotion_source_report.path=="evidence/beta17-fixpoint-remote-promotion/report.json"
+  and .evidence.remote_promotion_source_install_report.path=="evidence/beta17-fixpoint-remote-dispatcher/install-report.json"
   and (.blockers | length)==0
 ' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+cp "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" \
+  "$TMP_DIR/original-remote-promotion-report.json"
+python3 - "$FIXTURE" <<'PY'
+import hashlib, json, pathlib, sys
+base = pathlib.Path(sys.argv[1])
+promotion = base / "evidence" / "beta17-fixpoint-remote-promotion" / "report.json"
+manifest = base / "evidence" / "beta17-fixpoint" / "remote_promotion_manifest.json"
+report = json.loads(promotion.read_text())
+report["evidence"].pop("remoteAttemptInstallReport", None)
+report["evidence"].pop("remoteAttemptInstallReportValidation", None)
+promotion.write_text(json.dumps(report, indent=2) + "\n")
+data = json.loads(manifest.read_text())
+data["sourcePromotionReport"]["sha256"] = hashlib.sha256(promotion.read_bytes()).hexdigest()
+data["sourcePromotionReport"]["bytes"] = promotion.stat().st_size
+manifest.write_text(json.dumps(data, indent=2) + "\n")
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/promotion-install-evidence-missing.stdout" 2>"$TMP_DIR/promotion-install-evidence-missing.stderr"
+promotion_install_evidence_missing_rc=$?
+set -e
+
+if [[ "$promotion_install_evidence_missing_rc" -eq 0 ]]; then
+  echo "promotion_install_evidence_missing_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("remote_promotion_source_report_install_evidence_missing"))
+  and (.blockers | index("remote_promotion_source_report_install_not_pass:missing"))
+  and (.blockers | index("remote_promotion_source_report_install_not_executed"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+cp "$TMP_DIR/original-remote-promotion-report.json" \
+  "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json"
+python3 - "$FIXTURE" <<'PY'
+import hashlib, json, pathlib, sys
+base = pathlib.Path(sys.argv[1])
+promotion = base / "evidence" / "beta17-fixpoint-remote-promotion" / "report.json"
+manifest = base / "evidence" / "beta17-fixpoint" / "remote_promotion_manifest.json"
+data = json.loads(manifest.read_text())
+data["sourcePromotionReport"]["sha256"] = hashlib.sha256(promotion.read_bytes()).hexdigest()
+data["sourcePromotionReport"]["bytes"] = promotion.stat().st_size
+manifest.write_text(json.dumps(data, indent=2) + "\n")
+PY
+write_evidence_pack_manifest "$FIXTURE"
 
 python3 - "$FIXTURE/evidence/beta17-fixpoint/byte_identical_report.json" <<'PY'
 import json, sys

@@ -262,6 +262,76 @@ for key in ("stage1Artifact", "stage2Artifact"):
     }
 manifest.write_text(json.dumps(data, indent=2) + "\n")
 PY
+mkdir -p evidence/beta17-fixpoint-remote-promotion evidence/beta17-fixpoint-remote-dispatcher
+cat >evidence/beta17-fixpoint-remote-dispatcher/install-report.json <<'JSON'
+{
+  "schemaVersion": "brik64.beta17_fixpoint.remote_dispatcher_install_report.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+  "executed": true,
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "plan": {
+    "capability": "beta17_fixpoint_stage_dispatcher",
+    "materializerSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+  },
+  "installScript": {
+    "validation": {
+      "accepted": true,
+      "requiredCommands": ["beta17-fixpoint-stage-status", "beta17-fixpoint-stage-materialize"],
+      "materializerExecBinding": "/usr/bin/node /opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js"
+    }
+  }
+}
+JSON
+python3 - <<'PY'
+import hashlib, json, pathlib
+base = pathlib.Path(".")
+fixpoint = base / "evidence" / "beta17-fixpoint"
+promotion = base / "evidence" / "beta17-fixpoint-remote-promotion" / "report.json"
+install = base / "evidence" / "beta17-fixpoint-remote-dispatcher" / "install-report.json"
+install_ref = {
+    "path": "evidence/beta17-fixpoint-remote-dispatcher/install-report.json",
+    "sha256": hashlib.sha256(install.read_bytes()).hexdigest(),
+    "bytes": install.stat().st_size,
+}
+report = {
+    "schemaVersion": "brik64.beta17_fixpoint.remote_promotion_gate.v1",
+    "version": "0.1.0-beta.17",
+    "decision": "PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE",
+    "publicationAllowed": False,
+    "claimBoundary": {
+        "publicReleaseAllowed": False,
+        "definitiveFixpointAllowed": False,
+        "formalN5ClaimAllowed": False,
+        "universalCorrectnessClaimAllowed": False,
+    },
+    "evidence": {
+        "remoteAttemptInstallReport": install_ref,
+        "remoteAttemptInstallReportValidation": {
+            "decision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL",
+            "executed": True,
+            "materializerSha256": "a" * 64,
+            "materializerRemotePath": "/opt/brik64/engines/l6plus-n5/beta17/beta17-materializer.js",
+        },
+    },
+}
+promotion.write_text(json.dumps(report, indent=2) + "\n")
+manifest = fixpoint / "remote_promotion_manifest.json"
+data = json.loads(manifest.read_text())
+data["sourcePromotionReport"] = {
+    "path": "evidence/beta17-fixpoint-remote-promotion/report.json",
+    "sha256": hashlib.sha256(promotion.read_bytes()).hexdigest(),
+    "bytes": promotion.stat().st_size,
+}
+manifest.write_text(json.dumps(data, indent=2) + "\n")
+PY
 cat >evidence/beta17-fixpoint/public_surface_sync_report.json <<'JSON'
 {
   "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",

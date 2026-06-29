@@ -3065,3 +3065,37 @@ Boundary:
 - This is a promotion guard. It does not install the live dispatcher, execute
   remote mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
   Beta17.
+
+## Beta17 Ralph Loop Iteration - Readiness source-promotion install-evidence binding
+
+Timestamp: 2026-06-29T08:05:00Z
+
+Task:
+- Prevent Beta17 readiness and release train from trusting a standalone remote
+  promotion manifest that is not tied back to a promotion gate report with
+  executed dispatcher install evidence.
+
+Change:
+- Added source promotion report validation to
+  `scripts/beta17-fixpoint-readiness-gate.js`.
+- Readiness now validates `remote_promotion_manifest.sourcePromotionReport` and
+  requires the referenced promotion report to be PASS, claim-closed and contain
+  executed Beta17 dispatcher install evidence.
+- Updated readiness and release train fixtures to include source promotion and
+  install evidence refs.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-readiness-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is a readiness/release-train guard. It does not install the live
+  dispatcher, execute remote mutation, generate Stage1/Stage2 artifacts, prove
+  fixpoint or publish Beta17.
