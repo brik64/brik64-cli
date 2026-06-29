@@ -48,6 +48,7 @@ BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-stage-fixture-mat
 for name in host-probe.stdout host-probe.stderr remote-ref.stdout remote-ref.stderr endpoint-status.stdout endpoint-status.stderr attempt-1.stdout attempt-1.stderr; do
   printf '%s\n' "$name transcript" >"$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/$name.txt"
 done
+cp "$TMP_DIR/fixture-result.line" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt"
 
 fixture_result_json="$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json"
 python3 - "$TMP_DIR/fixture-result.line" "$fixture_result_json" <<'PY'
@@ -163,9 +164,9 @@ jq -e '
   and (.blockers | index("accepted_stage_result_file_fixture_materializer_not_claim_bearing"))
 ' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
 
-python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$fixture_result_json" <<'PY'
-import json, sys
-report_path, stage_path = sys.argv[1], sys.argv[2]
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$fixture_result_json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt" <<'PY'
+import base64, json, sys
+report_path, stage_path, stdout_path = sys.argv[1], sys.argv[2], sys.argv[3]
 report = json.load(open(report_path))
 stage = json.load(open(stage_path))
 
@@ -182,6 +183,9 @@ strip_fixture(stage)
 with open(stage_path, "w", encoding="utf-8") as fh:
     json.dump(stage, fh, indent=2)
     fh.write("\n")
+with open(stdout_path, "w", encoding="utf-8") as fh:
+    encoded = base64.b64encode(json.dumps(stage).encode("utf-8")).decode("ascii")
+    fh.write(f"BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t{encoded}\n")
 
 attempt = report["attempts"][0]
 strip_fixture(attempt)
@@ -190,6 +194,56 @@ attempt["stageResultValidation"]["blockers"] = []
 attempt["stageResultValidation"]["normalized"] = stage
 report["decision"] = "PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT"
 report["blockers"] = []
+with open(report_path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt" "$TMP_DIR/original-attempt-1.stdout.txt" <<'PY'
+import base64, hashlib, json, sys
+report_path, stdout_path, original_path = sys.argv[1], sys.argv[2], sys.argv[3]
+original = open(stdout_path, "r", encoding="utf-8").read()
+open(original_path, "w", encoding="utf-8").write(original)
+report = json.load(open(report_path))
+payload = json.loads(base64.b64decode(original.split("\t", 1)[1]).decode("utf-8"))
+payload["stage2ArtifactSha256"] = "f" * 64
+encoded = base64.b64encode(json.dumps(payload).encode("utf-8")).decode("ascii")
+mutated = f"BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t{encoded}\n"
+with open(stdout_path, "w", encoding="utf-8") as fh:
+    fh.write(mutated)
+report["attempts"][0]["stdoutTranscript"]["sha256"] = hashlib.sha256(mutated.encode("utf-8")).hexdigest()
+report["attempts"][0]["stdoutTranscript"]["bytes"] = len(mutated.encode("utf-8"))
+with open(report_path, "w", encoding="utf-8") as fh:
+    json.dump(report, fh, indent=2)
+    fh.write("\n")
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-remote-promotion-gate.js" \
+  >"$TMP_DIR/stdout-mismatch.stdout" 2>"$TMP_DIR/stdout-mismatch.stderr"
+stdout_mismatch_rc=$?
+set -e
+
+if [[ "$stdout_mismatch_rc" -eq 0 ]]; then
+  echo "stdout_stage_result_mismatch_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE"
+  and (.blockers | index("accepted_attempt_stdout_stage_result_mismatch"))
+' "$FIXTURE/evidence/beta17-fixpoint-remote-promotion/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/report.json" "$FIXTURE/evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt" "$TMP_DIR/original-attempt-1.stdout.txt" <<'PY'
+import hashlib, json, sys
+report_path, stdout_path, original_stdout_path = sys.argv[1], sys.argv[2], sys.argv[3]
+original = open(original_stdout_path, "r", encoding="utf-8").read()
+with open(stdout_path, "w", encoding="utf-8") as fh:
+    fh.write(original)
+report = json.load(open(report_path))
+data = original.encode("utf-8")
+report["attempts"][0]["stdoutTranscript"]["sha256"] = hashlib.sha256(data).hexdigest()
+report["attempts"][0]["stdoutTranscript"]["bytes"] = len(data)
 with open(report_path, "w", encoding="utf-8") as fh:
     json.dump(report, fh, indent=2)
     fh.write("\n")

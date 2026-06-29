@@ -189,18 +189,25 @@ for key, source_rel in source_map.items():
     digest, size = sha_bytes(target)
     stage[key] = {"path": source_rel, "sha256": digest, "bytes": size}
 
-stage_result_path = fixture / "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json"
-write_json(stage_result_path, stage)
-stage_result_sha, stage_result_bytes = sha_bytes(stage_result_path)
-
 for name in [
     "host-probe.stdout", "host-probe.stderr", "remote-ref.stdout",
     "remote-ref.stderr", "endpoint-status.stdout", "endpoint-status.stderr",
-    "attempt-1.stdout", "attempt-1.stderr",
+    "attempt-1.stderr",
 ]:
     p = fixture / f"evidence/beta17-fixpoint-remote-attempt/transcripts/{name}.txt"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(f"{name} transcript\n")
+
+stage_result_path = fixture / "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stage-result.json"
+write_json(stage_result_path, stage)
+stage_result_sha, stage_result_bytes = sha_bytes(stage_result_path)
+
+attempt_stdout_path = fixture / "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt"
+attempt_stdout_path.write_text(
+    "BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t"
+    + base64.b64encode(json.dumps(stage).encode("utf-8")).decode("ascii")
+    + "\n"
+)
 
 def ref(rel):
     p = fixture / rel

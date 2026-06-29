@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const { validateRequest } = require('./beta17-fixpoint-stage-request-bundle');
-const { validateStageResult } = require('./beta17-fixpoint-stage-result');
+const { parseStageResult, validateStageResult } = require('./beta17-fixpoint-stage-result');
 
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
@@ -22,6 +22,10 @@ function rel(file) {
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function canonicalJsonSha256(value) {
+  return crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 }
 
 function requestLineSha256(request) {
@@ -190,6 +194,14 @@ function main() {
         }
         if (stageResult.version !== '0.1.0-beta.17') {
           blockers.push(`accepted_stage_result_version_mismatch:${stageResult.version || 'missing'}`);
+        }
+        if (stdoutRef) {
+          const stdoutStageResult = parseStageResult(fs.readFileSync(path.resolve(root, accepted.stdoutTranscript.path), 'utf8'));
+          if (!stdoutStageResult) {
+            blockers.push('accepted_attempt_stdout_stage_result_missing');
+          } else if (canonicalJsonSha256(stdoutStageResult) !== canonicalJsonSha256(stageResult)) {
+            blockers.push('accepted_attempt_stdout_stage_result_mismatch');
+          }
         }
         const expectedContext = {
           ...(report.expectedContext || {}),

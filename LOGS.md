@@ -2119,3 +2119,29 @@ Evidence:
 Boundary:
 - This validates Stage result input-set integrity. It does not generate real
   L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Accepted attempt stdout/result binding
+
+Timestamp: 2026-06-29T00:04:21Z
+
+Task:
+- Bind the accepted remote-attempt stdout transcript to the same Stage result
+  JSON file that promotion revalidates.
+
+Change:
+- Updated `scripts/beta17-fixpoint-remote-promotion-gate.js` to parse
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` from the accepted stdout transcript
+  and compare it against the hash-bound `stage-result.json` ref.
+- Updated `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` so
+  fixtures contain real Stage result stdout lines and an adversarial mismatch
+  fails closed with `accepted_attempt_stdout_stage_result_mismatch`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-promotion-gate.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+
+Boundary:
+- This validates transcript/result binding for accepted remote attempts. It
+  does not generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
+  publish Beta17.

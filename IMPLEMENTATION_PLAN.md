@@ -284,6 +284,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `validateStageResult` with the remote attempt's expected context. A stale or
   tampered `stage-result.json` cannot be promoted merely because the attempt
   report says `accepted=true`.
+- Accepted attempt stdout/result binding: the promotion gate parses the
+  accepted attempt stdout transcript and requires its
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload to match the hash-bound
+  `stage-result.json` ref. A report cannot pair one stdout transcript with a
+  different Stage result file.
 - Remote promotion request binding: the promotion gate validates the remote
   attempt's `request` ref, reruns `validateRequest`, recomputes the
   `BRIK64_BETA17_FIXPOINT_STAGE_REQUEST` line SHA-256 and uses request-derived

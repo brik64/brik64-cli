@@ -921,3 +921,17 @@
       - Boundary:
         this validates the Stage result evidence contract. It does not create
         real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+- [x] Beta17 accepted-attempt stdout/result binding.
+      - Gate:
+        `scripts/beta17-fixpoint-remote-promotion-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_promotion_gate.sh`.
+      - Goal:
+        require the accepted attempt stdout transcript to contain the same
+        `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload as the hash-bound
+        `stage-result.json` ref.
+      - Boundary:
+        this binds remote attempt transcript evidence to the Stage result file.
+        It does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint
+        or publish Beta17.
