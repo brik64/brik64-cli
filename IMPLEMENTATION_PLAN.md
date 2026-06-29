@@ -448,3 +448,15 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `npm run test:beta17:fixpoint:remote-promotion` and
   `npm run test:beta17:fixpoint:remote-result-promotion` and
   `npm run test:beta17:release-train-readiness`.
+
+- Materializer provenance content gate: `beta17-fixpoint-materializer-provenance.js`
+  now validates the referenced materializer content, not just its path/hash/bytes.
+  Candidate materializers must include the `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`
+  marker and must not use the literal `<base64-json>` placeholder or fixture/template
+  markers. This keeps downstream dispatcher plans from accepting a placeholder as
+  a deployable Beta17 materializer.
+- Dispatcher test fixtures now emit a non-claim base64 JSON test vector for valid
+  cases. The placeholder string remains only as an adversarial rejection case.
+- Next gate remains unchanged: install or generate a real Beta17 L6+N5 stage
+  dispatcher/materializer, run the guarded remote stage, promote the resulting
+  Stage1/Stage2 evidence, and only then re-run readiness/release train gates.

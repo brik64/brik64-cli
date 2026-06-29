@@ -1294,3 +1294,23 @@
         this makes the remediation path less ambiguous. It does not create a
         materializer, execute remote mutation, generate Stage1/Stage2 artifacts,
         prove fixpoint or publish Beta17.
+
+- [x] Harden Beta17 materializer provenance content validation.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-provenance.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`,
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh`,
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+      - Result:
+        materializer provenance now rejects references that do not contain
+        `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`, still contain the literal
+        placeholder `<base64-json>`, or look like fixture/template content.
+      - Break attempts:
+        the provenance test covers a missing marker, a placeholder marker and
+        fixture/template content. Dispatcher fixtures were updated to use a real
+        base64 JSON payload so valid tests no longer depend on a placeholder.
+      - Boundary:
+        this prevents placeholder provenance from being treated as a candidate
+        materializer. It does not create the real L6+N5 materializer, generate
+        Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

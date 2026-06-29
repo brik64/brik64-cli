@@ -11,7 +11,7 @@ FIXTURE="$TMP_DIR/workspace"
 mkdir -p "$FIXTURE/generated" "$FIXTURE/pcd" "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher"
 cat >"$FIXTURE/generated/beta17-materializer.js" <<'JS'
 #!/usr/bin/env node
-console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t<base64-json>");
+console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t" + Buffer.from(JSON.stringify({ decision: "NON_CLAIM_TEST_VECTOR" })).toString("base64"));
 JS
 printf '%s\n' '// brik64.pcd_file.v1' 'PC stage_one { fn run() -> i64 { return 1; } }' >"$FIXTURE/pcd/stage1.pcd"
 printf '%s\n' '// brik64.pcd_file.v1' 'PC stage_two { fn run() -> i64 { return 1; } }' >"$FIXTURE/pcd/stage2.pcd"
@@ -76,6 +76,14 @@ jq -e '
 
 cp "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json" \
   "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/original-provenance.json"
+cat >"$FIXTURE/generated/no-marker-materializer.js" <<'JS'
+#!/usr/bin/env node
+console.log("no beta17 result marker");
+JS
+cat >"$FIXTURE/generated/placeholder-materializer.js" <<'JS'
+#!/usr/bin/env node
+console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t<base64-json>");
+JS
 
 set +e
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-provenance.js" \
@@ -100,6 +108,20 @@ BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-prov
   >/tmp/brik64-beta17-materializer-provenance-bad-serial.stdout \
   2>/tmp/brik64-beta17-materializer-provenance-bad-serial.stderr
 bad_serial_rc=$?
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-provenance.js" \
+  --materializer generated/no-marker-materializer.js \
+  --pcd pcd/stage1.pcd \
+  --out "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/no-marker.json" \
+  >/tmp/brik64-beta17-materializer-provenance-no-marker.stdout \
+  2>/tmp/brik64-beta17-materializer-provenance-no-marker.stderr
+no_marker_rc=$?
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-provenance.js" \
+  --materializer generated/placeholder-materializer.js \
+  --pcd pcd/stage1.pcd \
+  --out "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher/placeholder.json" \
+  >/tmp/brik64-beta17-materializer-provenance-placeholder.stdout \
+  2>/tmp/brik64-beta17-materializer-provenance-placeholder.stderr
+placeholder_rc=$?
 printf '%s\n' 'tampered pcd after provenance generation' >>"$FIXTURE/pcd/stage1.pcd"
 BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-provenance.js" \
   --validate \
@@ -109,7 +131,7 @@ BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-materializer-prov
 tampered_rc=$?
 set -e
 
-if [[ "$missing_rc" -eq 0 || "$outside_rc" -eq 0 || "$bad_serial_rc" -eq 0 || "$tampered_rc" -eq 0 ]]; then
+if [[ "$missing_rc" -eq 0 || "$outside_rc" -eq 0 || "$bad_serial_rc" -eq 0 || "$no_marker_rc" -eq 0 || "$placeholder_rc" -eq 0 || "$tampered_rc" -eq 0 ]]; then
   echo "beta17_materializer_provenance_adversarial_unexpected_pass" >&2
   exit 1
 fi
@@ -117,6 +139,8 @@ fi
 grep -q "materializer_file_missing:generated/missing.js" /tmp/brik64-beta17-materializer-provenance-missing.stderr
 grep -q "input_pcd_path_invalid:../outside.pcd" /tmp/brik64-beta17-materializer-provenance-outside.stderr
 grep -q "provenance_l6plus_serial_invalid" /tmp/brik64-beta17-materializer-provenance-bad-serial.stderr
+grep -q "provenance_materializer_missing_beta17_result_marker" /tmp/brik64-beta17-materializer-provenance-no-marker.stderr
+grep -q "provenance_materializer_placeholder_result_marker" /tmp/brik64-beta17-materializer-provenance-placeholder.stderr
 grep -q "provenance_input_pcd_0_file_sha256_mismatch:pcd/stage1.pcd" /tmp/brik64-beta17-materializer-provenance-tampered.stderr
 
 echo "PASS beta17 fixpoint materializer provenance"

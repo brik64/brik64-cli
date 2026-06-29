@@ -11,7 +11,7 @@ FIXTURE="$TMP_DIR/workspace"
 mkdir -p "$FIXTURE/generated" "$FIXTURE/evidence/beta17-fixpoint-remote-dispatcher"
 cat >"$FIXTURE/generated/beta17-materializer.js" <<'JS'
 #!/usr/bin/env node
-console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t<base64-json>");
+console.log("BRIK64_BETA17_FIXPOINT_STAGE_RESULT\t" + Buffer.from(JSON.stringify({ decision: "NON_CLAIM_TEST_VECTOR" })).toString("base64"));
 JS
 materializer_sha="$(shasum -a 256 "$FIXTURE/generated/beta17-materializer.js" | awk '{print $1}')"
 materializer_bytes="$(wc -c <"$FIXTURE/generated/beta17-materializer.js" | tr -d ' ')"

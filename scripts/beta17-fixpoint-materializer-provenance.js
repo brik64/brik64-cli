@@ -14,6 +14,7 @@ const defaultInputPcdPaths = [
   'pcd/cli_core.pcd',
   'pcd/cli_polymer.pcd',
 ];
+const REQUIRED_RESULT_MARKER = 'BRIK64_BETA17_FIXPOINT_STAGE_RESULT';
 
 function valuesFor(name) {
   const values = [];
@@ -165,10 +166,29 @@ function validateFileRefAgainstWorkspace(ref, label, blockers) {
   }
 }
 
+function validateMaterializerContent(ref, blockers) {
+  if (!ref || typeof ref !== 'object' || !safeWorkspacePath(ref.path)) return;
+  const absolute = path.resolve(root, ref.path);
+  const workspace = path.resolve(root);
+  if (!(absolute === workspace || absolute.startsWith(`${workspace}${path.sep}`))) return;
+  if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) return;
+  const content = fs.readFileSync(absolute, 'utf8');
+  if (!content.includes(REQUIRED_RESULT_MARKER)) {
+    blockers.push('provenance_materializer_missing_beta17_result_marker');
+  }
+  if (content.includes('<base64-json>')) {
+    blockers.push('provenance_materializer_placeholder_result_marker');
+  }
+  if (/TEMPLATE_NON_CLAIM|fixtureMaterializer|FIXTURE_MATERIALIZER/i.test(content)) {
+    blockers.push('provenance_materializer_fixture_or_template_content');
+  }
+}
+
 function validateProvenanceWithWorkspaceFiles(provenance) {
   const validation = validateProvenance(provenance);
   const blockers = [...validation.blockers];
   validateFileRefAgainstWorkspace(provenance?.materializerRef, 'provenance_materializer_ref', blockers);
+  validateMaterializerContent(provenance?.materializerRef, blockers);
   for (const [index, item] of (provenance?.inputPcds || []).entries()) {
     validateFileRefAgainstWorkspace(item, `provenance_input_pcd_${index}`, blockers);
   }
@@ -261,6 +281,7 @@ if (require.main === module) {
 module.exports = {
   buildProvenance,
   pcdInputSetSha256,
+  REQUIRED_RESULT_MARKER,
   validateProvenance,
   validateProvenanceWithWorkspaceFiles,
 };

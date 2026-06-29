@@ -2875,3 +2875,45 @@ Boundary:
 - This is fresh operational blocker evidence from the live L6+N5 host. It does
   not execute remote mutation, install the missing dispatcher, create real
   Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance content validation
+
+Timestamp: 2026-06-29T06:10:00Z
+
+Task:
+- Prevent Beta17 materializer provenance from accepting a hash-bound file that is
+  still only a placeholder, fixture or template.
+
+Change:
+- Added content validation to `scripts/beta17-fixpoint-materializer-provenance.js`.
+- Provenance now fails closed when the materializer lacks
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`, contains literal `<base64-json>`, or
+  contains fixture/template indicators.
+- Updated valid dispatcher test materializers to emit a real base64 JSON payload
+  while keeping placeholder output as an adversarial case.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-materializer-provenance.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_provenance.sh` passed.
+- `npm run test:beta17:fixpoint:materializer-provenance` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-plan` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Break attempts:
+- Missing result marker is rejected with
+  `provenance_materializer_missing_beta17_result_marker`.
+- Literal placeholder marker is rejected with
+  `provenance_materializer_placeholder_result_marker`.
+- Fixture/template content is rejected with
+  `provenance_materializer_fixture_or_template_content`.
+
+Boundary:
+- This hardens the candidate/provenance path only. It does not create a real
+  L6+N5 Beta17 materializer, execute remote mutation, generate Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.
