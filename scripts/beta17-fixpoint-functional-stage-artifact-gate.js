@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const childProcess = require('child_process');
 
 const root = process.env.BRIK64_CLI_ROOT
   ? path.resolve(process.env.BRIK64_CLI_ROOT)
@@ -53,6 +54,32 @@ function closedClaimBoundary() {
   };
 }
 
+function runArtifact(artifactPath, args = []) {
+  const result = childProcess.spawnSync(process.execPath, [artifactPath, ...args], {
+    cwd: root,
+    encoding: 'utf8',
+    env: {
+      ...process.env,
+      BRIK64_NO_BANNER: '1',
+      NO_COLOR: '1',
+    },
+    timeout: 10_000,
+  });
+  return {
+    rc: result.status,
+    stdout: (result.stdout || '').trim(),
+    stderr: (result.stderr || '').trim(),
+  };
+}
+
+function parseJsonOutput(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
 function main() {
   const blockers = [];
   const checks = {};
@@ -91,6 +118,25 @@ function main() {
         checks.argvHandling = artifactText.includes('process.argv');
         checks.commandDispatcher = /case\s+['"`][a-z0-9:_-]+['"`]|commands\s*=|commandHandlers\s*=|new Map\(/i.test(artifactText);
         checks.noCandidateOnlyMessage = !artifactText.includes('candidate package is not public-release eligible yet');
+        const versionRun = runArtifact(artifactPath, ['--version']);
+        const helpRun = runArtifact(artifactPath, ['--help']);
+        const engineRun = runArtifact(artifactPath, ['engine', 'status', '--json']);
+        const monomersRun = runArtifact(artifactPath, ['monomers', 'list', '--json']);
+        const engineJson = parseJsonOutput(engineRun.stdout);
+        const monomersJson = parseJsonOutput(monomersRun.stdout);
+        checks.execVersion = versionRun.rc === 0 && versionRun.stdout === version;
+        checks.execHelp = helpRun.rc === 0 && /certify|verify|emit|polymerize|lift|monomers|engine/i.test(helpRun.stdout);
+        checks.execEngineStatusJson = engineRun.rc === 0
+          && engineJson
+          && engineJson.engine === 'L4+N5'
+          && engineJson.runtimeProfile === 'l4plus_n5_local'
+          && engineJson.localRuntime === 'available';
+        checks.execMonomersListJson = monomersRun.rc === 0
+          && monomersJson
+          && (
+            (Array.isArray(monomersJson.monomers) && monomersJson.monomers.length >= 64)
+            || Number(monomersJson.totalCount || monomersJson.total || 0) >= 64
+          );
         if (!checks.artifactShaMatches) blockers.push('stage1_artifact_sha256_mismatch');
         if (!checks.artifactBytesMatch) blockers.push('stage1_artifact_bytes_mismatch');
         if (!checks.artifactMinSize) blockers.push(`stage1_artifact_too_small:${artifactBytes}:${minBytes}`);
@@ -99,6 +145,10 @@ function main() {
         if (!checks.argvHandling) blockers.push('stage1_artifact_missing_argv_handling');
         if (!checks.commandDispatcher) blockers.push('stage1_artifact_missing_command_dispatcher');
         if (!checks.noCandidateOnlyMessage) blockers.push('stage1_artifact_candidate_only_stub');
+        if (!checks.execVersion) blockers.push(`stage1_artifact_exec_version_failed:${versionRun.rc}:${versionRun.stdout || versionRun.stderr || 'empty'}`);
+        if (!checks.execHelp) blockers.push(`stage1_artifact_exec_help_failed:${helpRun.rc}:${helpRun.stdout || helpRun.stderr || 'empty'}`);
+        if (!checks.execEngineStatusJson) blockers.push(`stage1_artifact_exec_engine_status_json_failed:${engineRun.rc}:${engineRun.stdout || engineRun.stderr || 'empty'}`);
+        if (!checks.execMonomersListJson) blockers.push(`stage1_artifact_exec_monomers_list_json_failed:${monomersRun.rc}:${monomersRun.stdout || monomersRun.stderr || 'empty'}`);
       }
     }
   }
