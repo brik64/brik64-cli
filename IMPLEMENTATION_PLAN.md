@@ -127,6 +127,15 @@
   `0.1.0-beta.17`, so the public release preflight cannot rely only on the
   aggregate readiness report. The regression test also restores all Beta17
   evidence it mutates, keeping the worktree clean after checks.
+- Publication preflight update: Beta17 now has
+  `preflight:beta17:fixpoint:publication`, a non-mutating publication
+  readiness gate that binds `release/manifest.json`, package tarball,
+  `package.manifest.json`, required fixpoint evidence files, readiness,
+  public-surface sync and external-audit status before any public mutation can
+  be considered. Current real evidence is correctly blocked because the active
+  release manifest and package metadata are still `0.1.0-beta.16.1`, public
+  sync evidence is still based on live `0.1.0-beta.15.7.1`, and external audit
+  remains blocked until public surfaces are synced to Beta17.
 
 ## Legacy Plan Context
 

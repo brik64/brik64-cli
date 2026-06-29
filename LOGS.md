@@ -3726,3 +3726,49 @@ Break attempts:
 Boundary:
 - This iteration wires the release preflight only. It does not publish Beta17,
   sync public surfaces or run the external audit.
+
+## Beta17 Ralph Loop Iteration - Publication preflight gate
+
+Timestamp: 2026-06-29T07:05:00Z
+
+Task:
+- Add a non-mutating publication preflight for Beta17 so the release train has
+  an explicit stoplight before changing public surfaces.
+
+Change:
+- Added `scripts/beta17-fixpoint-publication-preflight.js`.
+- Added npm scripts `preflight:beta17:fixpoint:publication` and
+  `test:beta17:fixpoint:publication-preflight`.
+- Added `scripts/tests/test_beta17_fixpoint_publication_preflight.sh`.
+- Generated
+  `evidence/beta17-fixpoint-publication-preflight/report.json` from current
+  repo evidence.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-publication-preflight.js` passed.
+- `npm run test:beta17:fixpoint:publication-preflight` passed.
+- `npm run preflight:beta17:fixpoint:publication` failed closed as expected
+  with `BLOCKED_BETA17_PUBLICATION_PREFLIGHT`.
+
+Break attempts:
+- Stale release manifest version fails closed with
+  `release_manifest_version_mismatch:0.1.0-beta.16.1`.
+- Package tarball hash/byte drift fails closed with
+  `cli_package_sha256_mismatch` and `cli_package_bytes_mismatch`.
+- Blocked readiness propagates readiness blockers into the publication
+  preflight.
+- Blocked public-surface sync and external-audit status block publication
+  even if local package fixtures are otherwise green.
+
+Current real blockers:
+- `release/manifest.json` and `package.json` are still `0.1.0-beta.16.1`.
+- Package manifest evidence is still Beta16.1.
+- Public-surface sync evidence is blocked because live verify is still
+  `0.1.0-beta.15.7.1`.
+- External audit remains blocked until Beta17 public surfaces are synced and
+  audited from a clean public install.
+
+Boundary:
+- This iteration creates the publication preflight only. It does not mutate
+  public surfaces, publish Beta17, run the external audit or authorize
+  fixpoint/formal claims.

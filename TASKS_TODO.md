@@ -151,6 +151,37 @@
 
 # Beta17 Fixpoint Tasks
 
+- [x] Add non-mutating Beta17 publication preflight.
+      - Script:
+        `scripts/beta17-fixpoint-publication-preflight.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_publication_preflight.sh`.
+      - NPM:
+        `preflight:beta17:fixpoint:publication`.
+        `test:beta17:fixpoint:publication-preflight`.
+      - Result:
+        fixture PASS and four break attempts pass. The live repo report writes
+        `BLOCKED_BETA17_PUBLICATION_PREFLIGHT`, with `publicationAllowed=false`,
+        because manifest/package metadata remain Beta16.1, public sync is stale
+        to Beta15.7.1 live evidence, and external audit is still gated behind
+        public-surface sync.
+      - Boundary:
+        this is a preflight gate only. It does not publish Beta17, mutate public
+        surfaces, execute external audit or authorize fixpoint/formal claims.
+
+- [ ] Promote Beta17 release manifest and package metadata to candidate only
+      after package tarball and package manifest are generated from the
+      L6+N5-materialized artifact.
+      - Current blocker:
+        `preflight:beta17:fixpoint:publication` reports
+        `release_manifest_version_mismatch:0.1.0-beta.16.1`,
+        `package_manifest_version_mismatch:0.1.0-beta.16.1` and
+        `package_json_version_mismatch:0.1.0-beta.16.1`.
+      - Done when:
+        `release/manifest.json`, `package.json`, package tarball,
+        `package.manifest.json` and `SHA256SUMS` all bind
+        `0.1.0-beta.17` without opening public claims prematurely.
+
 - [x] Add Beta17 materializer generation result validator.
       - Script:
         `scripts/beta17-fixpoint-materializer-generation-result.js`.
