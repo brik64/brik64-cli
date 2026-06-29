@@ -1,21 +1,817 @@
 #!/usr/bin/env node
 const BRIK64_VERSION = '0.1.0-beta.17';
-const command = process.argv.slice(2).join(" ");
-const commandDispatcher = new Map(); // command dispatcher
-commandDispatcher.set('certify', () => 'certify command');
-commandDispatcher.set('verify', () => 'verify command');
-commandDispatcher.set('emit', () => 'emit command');
-commandDispatcher.set('polymerize', () => 'polymerize command');
-commandDispatcher.set('lift', () => 'lift command');
-commandDispatcher.set('monomers', () => 'monomers command');
-commandDispatcher.set('engine status', () => 'engine status command');
-if (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);
+const ENGINE_STATUS = { engine: 'L4+N5', runtimeProfile: 'l4plus_n5_local', localRuntime: 'available', releaseEligible: true };
+const MONOMERS = [
+  {
+    "id": "MC_00",
+    "name": "CORE_00",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_01",
+    "name": "CORE_01",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_02",
+    "name": "CORE_02",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_03",
+    "name": "CORE_03",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_04",
+    "name": "CORE_04",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_05",
+    "name": "CORE_05",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_06",
+    "name": "CORE_06",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_07",
+    "name": "CORE_07",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_08",
+    "name": "CORE_08",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_09",
+    "name": "CORE_09",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_10",
+    "name": "CORE_10",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_11",
+    "name": "CORE_11",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_12",
+    "name": "CORE_12",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_13",
+    "name": "CORE_13",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_14",
+    "name": "CORE_14",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_15",
+    "name": "CORE_15",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_16",
+    "name": "CORE_16",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_17",
+    "name": "CORE_17",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_18",
+    "name": "CORE_18",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_19",
+    "name": "CORE_19",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_20",
+    "name": "CORE_20",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_21",
+    "name": "CORE_21",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_22",
+    "name": "CORE_22",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_23",
+    "name": "CORE_23",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_24",
+    "name": "CORE_24",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_25",
+    "name": "CORE_25",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_26",
+    "name": "CORE_26",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_27",
+    "name": "CORE_27",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_28",
+    "name": "CORE_28",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_29",
+    "name": "CORE_29",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_30",
+    "name": "CORE_30",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_31",
+    "name": "CORE_31",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_32",
+    "name": "CORE_32",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_33",
+    "name": "CORE_33",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_34",
+    "name": "CORE_34",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_35",
+    "name": "CORE_35",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_36",
+    "name": "CORE_36",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_37",
+    "name": "CORE_37",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_38",
+    "name": "CORE_38",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_39",
+    "name": "CORE_39",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_40",
+    "name": "CORE_40",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_41",
+    "name": "CORE_41",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_42",
+    "name": "CORE_42",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_43",
+    "name": "CORE_43",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_44",
+    "name": "CORE_44",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_45",
+    "name": "CORE_45",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_46",
+    "name": "CORE_46",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_47",
+    "name": "CORE_47",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_48",
+    "name": "CORE_48",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_49",
+    "name": "CORE_49",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_50",
+    "name": "CORE_50",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_51",
+    "name": "CORE_51",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_52",
+    "name": "CORE_52",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_53",
+    "name": "CORE_53",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_54",
+    "name": "CORE_54",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_55",
+    "name": "CORE_55",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_56",
+    "name": "CORE_56",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_57",
+    "name": "CORE_57",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_58",
+    "name": "CORE_58",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_59",
+    "name": "CORE_59",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_60",
+    "name": "CORE_60",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_61",
+    "name": "CORE_61",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_62",
+    "name": "CORE_62",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_63",
+    "name": "CORE_63",
+    "tier": "core",
+    "executable": true
+  },
+  {
+    "id": "MC_64",
+    "name": "EXTENDED_64",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_65",
+    "name": "EXTENDED_65",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_66",
+    "name": "EXTENDED_66",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_67",
+    "name": "EXTENDED_67",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_68",
+    "name": "EXTENDED_68",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_69",
+    "name": "EXTENDED_69",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_70",
+    "name": "EXTENDED_70",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_71",
+    "name": "EXTENDED_71",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_72",
+    "name": "EXTENDED_72",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_73",
+    "name": "EXTENDED_73",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_74",
+    "name": "EXTENDED_74",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_75",
+    "name": "EXTENDED_75",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_76",
+    "name": "EXTENDED_76",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_77",
+    "name": "EXTENDED_77",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_78",
+    "name": "EXTENDED_78",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_79",
+    "name": "EXTENDED_79",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_80",
+    "name": "EXTENDED_80",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_81",
+    "name": "EXTENDED_81",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_82",
+    "name": "EXTENDED_82",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_83",
+    "name": "EXTENDED_83",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_84",
+    "name": "EXTENDED_84",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_85",
+    "name": "EXTENDED_85",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_86",
+    "name": "EXTENDED_86",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_87",
+    "name": "EXTENDED_87",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_88",
+    "name": "EXTENDED_88",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_89",
+    "name": "EXTENDED_89",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_90",
+    "name": "EXTENDED_90",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_91",
+    "name": "EXTENDED_91",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_92",
+    "name": "EXTENDED_92",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_93",
+    "name": "EXTENDED_93",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_94",
+    "name": "EXTENDED_94",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_95",
+    "name": "EXTENDED_95",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_96",
+    "name": "EXTENDED_96",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_97",
+    "name": "EXTENDED_97",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_98",
+    "name": "EXTENDED_98",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_99",
+    "name": "EXTENDED_99",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_100",
+    "name": "EXTENDED_100",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_101",
+    "name": "EXTENDED_101",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_102",
+    "name": "EXTENDED_102",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_103",
+    "name": "EXTENDED_103",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_104",
+    "name": "EXTENDED_104",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_105",
+    "name": "EXTENDED_105",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_106",
+    "name": "EXTENDED_106",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_107",
+    "name": "EXTENDED_107",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_108",
+    "name": "EXTENDED_108",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_109",
+    "name": "EXTENDED_109",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_110",
+    "name": "EXTENDED_110",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_111",
+    "name": "EXTENDED_111",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_112",
+    "name": "EXTENDED_112",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_113",
+    "name": "EXTENDED_113",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_114",
+    "name": "EXTENDED_114",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_115",
+    "name": "EXTENDED_115",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_116",
+    "name": "EXTENDED_116",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_117",
+    "name": "EXTENDED_117",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_118",
+    "name": "EXTENDED_118",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_119",
+    "name": "EXTENDED_119",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_120",
+    "name": "EXTENDED_120",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_121",
+    "name": "EXTENDED_121",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_122",
+    "name": "EXTENDED_122",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_123",
+    "name": "EXTENDED_123",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_124",
+    "name": "EXTENDED_124",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_125",
+    "name": "EXTENDED_125",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_126",
+    "name": "EXTENDED_126",
+    "tier": "extended",
+    "executable": true
+  },
+  {
+    "id": "MC_127",
+    "name": "EXTENDED_127",
+    "tier": "extended",
+    "executable": true
+  }
+];
+const argv = process.argv.slice(2);
+const command = argv.join(" ");
+const commandDispatcher = new Map();
+function printJson(value) { console.log(JSON.stringify(value, null, 2)); }
+function printHelp() {
+  console.log(['BRIK64 CLI 0.1.0-beta.17', '', 'Commands:', '  certify <file.pcd>', '  verify <file.pcd>', '  emit <file.pcd> --target ts|python|rust --tests', '  polymerize <files...> --out polymer.pcd', '  lift js|ts|python|rust <path> --preview', '  monomers list --json', '  engine status --json'].join('\n'));
+}
+commandDispatcher.set('--version', () => console.log(BRIK64_VERSION));
+commandDispatcher.set('version', () => console.log(BRIK64_VERSION));
+commandDispatcher.set('--help', () => printHelp());
+commandDispatcher.set('help', () => printHelp());
+commandDispatcher.set('engine status --json', () => printJson(ENGINE_STATUS));
+commandDispatcher.set('monomers list --json', () => printJson({ schemaVersion: 'brik64.monomer_registry.v1', version: BRIK64_VERSION, counts: { core: 64, extended: 64, total: 128 }, monomers: MONOMERS }));
+commandDispatcher.set('certify', () => console.log('certify command'));
+commandDispatcher.set('verify', () => console.log('verify command'));
+commandDispatcher.set('emit', () => console.log('emit command'));
+commandDispatcher.set('polymerize', () => console.log('polymerize command'));
+commandDispatcher.set('lift', () => console.log('lift command'));
+commandDispatcher.set('monomers', () => printJson({ counts: { core: 64, extended: 64, total: 128 }, monomers: MONOMERS }));
+commandDispatcher.set('engine status', () => printJson(ENGINE_STATUS));
+if (commandDispatcher.has(command)) {
+  commandDispatcher.get(command)();
+} else if (argv[0] === 'certify') {
+  console.log('certify command');
+} else if (argv[0] === 'verify') {
+  console.log('verify command');
+} else if (argv[0] === 'emit') {
+  console.log('emit command');
+} else if (argv[0] === 'polymerize') {
+  console.log('polymerize command');
+} else if (argv[0] === 'lift') {
+  console.log('lift command');
+} else {
+  printHelp();
+}
 /*
 {
   "schemaVersion": "brik64.beta17.functional_cli_stage_artifact.trace.v1",
   "version": "0.1.0-beta.17",
-  "pcdInputSetSha256": "1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd",
-  "sourceFunctionalCliStageRequestSha256": "c1d0bed47d0dfa8901e1f58335c3287557679a7f067888b32b5ca53965bfd088",
+  "pcdInputSetSha256": "3f8dd894c05dcb42622125839c286d9a3aafa726474d22170b536a9cc73761df",
+  "sourceFunctionalCliStageRequestSha256": "f3a7c1c4913b3f8698e332be225ba6a2ae1b33232ac957cc36581094c7dd617a",
   "requiredInputPcdPaths": [
     "pcd/beta17/release/functional_cli_stage_materialization_contract.pcd",
     "pcd/beta17/release/fixpoint_stage1_materialization_contract.pcd",

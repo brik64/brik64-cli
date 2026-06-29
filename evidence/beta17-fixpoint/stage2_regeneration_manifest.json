@@ -6,16 +6,16 @@
   "generatedFromPcdPolymer": true,
   "stage1Artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-    "bytes": 190315
+    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+    "bytes": 204448
   },
   "stage2Artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-    "sha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-    "bytes": 190315
+    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+    "bytes": 204448
   },
-  "stage1ArtifactSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
-  "stage2ArtifactSha256": "c236b623295f10314cd2fdc0a153bd1042934885e539a9a0f6e14f1b30855c35",
+  "stage1ArtifactSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
+  "stage2ArtifactSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
   "byteIdentical": true,
   "claimBoundary": {
     "publicReleaseAllowed": false,

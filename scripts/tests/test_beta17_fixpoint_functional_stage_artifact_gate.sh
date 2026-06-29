@@ -34,6 +34,11 @@ const monomers = Array.from({ length: 128 }, (_, index) => ({
 const commandHandlers = new Map([
   ["--version", () => console.log(version)],
   ["--help", () => console.log("brik64 certify verify emit polymerize lift monomers engine")],
+  ["certify", () => console.log("certify command")],
+  ["verify", () => console.log("verify command")],
+  ["emit", () => console.log("emit command")],
+  ["polymerize", () => console.log("polymerize command")],
+  ["lift", () => console.log("lift command")],
   ["doctor", () => console.log(JSON.stringify({ status: "PASS", version }))],
   ["engine status --json", () => console.log(JSON.stringify({
     engine: "L4+N5",
@@ -96,6 +101,11 @@ jq -e '
   and .checks.execHelp==true
   and .checks.execEngineStatusJson==true
   and .checks.execMonomersListJson==true
+  and .checks.execBaseCommands.certify==true
+  and .checks.execBaseCommands.verify==true
+  and .checks.execBaseCommands.emit==true
+  and .checks.execBaseCommands.polymerize==true
+  and .checks.execBaseCommands.lift==true
   and .claimBoundary.definitiveFixpointAllowed==false
 ' "$PASS_ROOT/evidence/beta17-fixpoint-functional-stage-artifact/report.json" >/dev/null
 
