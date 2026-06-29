@@ -242,5 +242,6 @@ function validateFunctionalCliStageResult(result, expected = {}) {
 module.exports = {
   parseFunctionalCliStageResult,
   validateFunctionalCliStageResult,
+  decodeStage1Artifact: (result) => decodeArtifact(result, []),
   RESULT_PREFIX,
 };

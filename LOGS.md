@@ -3956,3 +3956,42 @@ Current next action:
 Boundary:
 - This iteration validates the future result contract only. It does not execute
   L6+N5, hydrate artifacts, publish Beta17 or open fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage result hydration
+
+Timestamp: 2026-06-29T09:05:00Z
+
+Task:
+- Add a fail-closed hydrator that consumes a future validated
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` and writes Stage1/package
+  evidence only if every bound ref matches.
+
+Change:
+- Added `scripts/beta17-functional-cli-stage-result-hydrate.js`.
+- Added npm scripts `hydrate:beta17:functional-cli-stage-result` and
+  `test:beta17:functional-cli-stage-result-hydrate`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_result_hydrate.sh`.
+- Exported `decodeStage1Artifact` from
+  `scripts/beta17-functional-cli-stage-result.js`.
+- Generated real blocked hydration evidence at
+  `evidence/beta17-functional-cli-stage-result/hydrate-report.json`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-result-hydrate.js` passed.
+- `npm run test:beta17:functional-cli-stage-result-hydrate` passed.
+- `npm run hydrate:beta17:functional-cli-stage-result` failed closed as
+  expected on real state.
+
+Break attempts:
+- Missing result line fails closed.
+- Invalid result fails closed.
+- Unsafe output path fails closed.
+- Hash-bound synthetic PASS writes artifact and manifests only when all
+  expected SHA/byte refs match.
+
+Current real blocker:
+- `missing_functional_cli_stage_result_line:evidence/beta17-functional-cli-stage-result/result.line`.
+
+Boundary:
+- This iteration adds the consumer/hydrator only. It does not execute L6+N5,
+  invent a result, publish Beta17 or authorize fixpoint/formal claims.

@@ -168,6 +168,12 @@
   markers and closed claim boundaries. This prepares safe hydration of a future
   remote L6+N5 result without allowing metadata-only or claim-overreaching
   payloads.
+- Functional CLI Stage hydration update: Beta17 now has
+  `hydrate:beta17:functional-cli-stage-result`, a fail-closed consumer for the
+  future L6+N5 result line. It validates the result, decodes the Stage1
+  artifact, writes only safe hash-bound refs, and produces a hydration report.
+  Current live evidence is blocked because no
+  `evidence/beta17-functional-cli-stage-result/result.line` exists yet.
 
 ## Legacy Plan Context
 

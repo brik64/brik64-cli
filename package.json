@@ -114,6 +114,8 @@
     "bundle:beta17:functional-cli-stage-request": "node scripts/beta17-functional-cli-stage-request-bundle.js",
     "test:beta17:functional-cli-stage-request": "bash scripts/tests/test_beta17_functional_cli_stage_request_bundle.sh",
     "test:beta17:functional-cli-stage-result": "bash scripts/tests/test_beta17_functional_cli_stage_result.sh",
+    "hydrate:beta17:functional-cli-stage-result": "node scripts/beta17-functional-cli-stage-result-hydrate.js",
+    "test:beta17:functional-cli-stage-result-hydrate": "bash scripts/tests/test_beta17_functional_cli_stage_result_hydrate.sh",
     "gate:beta17:fixpoint:stage-contract": "node scripts/beta17-fixpoint-stage-contract-gate.js",
     "test:beta17:fixpoint:stage-contract": "bash scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh",
     "bundle:beta17:fixpoint:stage-request": "node scripts/beta17-fixpoint-stage-request-bundle.js",

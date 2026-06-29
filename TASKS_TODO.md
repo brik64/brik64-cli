@@ -279,6 +279,23 @@
         this validates future result payloads. It does not call L6+N5, hydrate
         artifacts or prove that the functional CLI has been generated.
 
+- [x] Add fail-closed hydration for a validated functional CLI Stage result.
+      - Script:
+        `scripts/beta17-functional-cli-stage-result-hydrate.js`.
+      - Test:
+        `scripts/tests/test_beta17_functional_cli_stage_result_hydrate.sh`.
+      - NPM:
+        `hydrate:beta17:functional-cli-stage-result`.
+        `test:beta17:functional-cli-stage-result-hydrate`.
+      - Result:
+        valid synthetic result hydrates Stage1, Stage1 manifest, functional
+        stage report and package manifest refs. Real repo run writes
+        `BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION` because no
+        L6+N5 result line exists yet.
+      - Boundary:
+        this consumes a result after it exists. It does not execute L6+N5 or
+        fabricate the functional CLI artifact.
+
 - [x] Add Beta17 materializer generation result validator.
       - Script:
         `scripts/beta17-fixpoint-materializer-generation-result.js`.

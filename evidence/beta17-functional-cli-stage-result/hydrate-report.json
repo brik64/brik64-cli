@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "brik64.beta17_functional_cli_stage_result_hydration.v1",
+  "generatedAt": "2026-06-29T06:52:00.511Z",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION",
+  "hydrated": false,
+  "blockers": [
+    "missing_functional_cli_stage_result_line:evidence/beta17-functional-cli-stage-result/result.line"
+  ],
+  "context": {},
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}
