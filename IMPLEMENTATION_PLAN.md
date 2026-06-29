@@ -60,6 +60,12 @@
   is acceptable to the validator. It does not prove production fixpoint,
   publishability, formal N5 or self-hosting without the later readiness and
   release gates.
+- Materializer generation update: Beta17 now has a distinct request bundle for
+  generating the stage materializer itself:
+  `evidence/beta17-fixpoint-materializer-generation-request/request.line`.
+  This request must be consumed by L6+N5 before dispatcher install can become
+  claim-bearing evidence. The existing Stage1/Stage2 request remains separate
+  and must not be used to pretend that the materializer already exists.
 
 ## Legacy Plan Context
 
