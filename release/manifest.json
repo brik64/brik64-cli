@@ -3,10 +3,10 @@
   "releaseId": "brik64-0.1.0-beta.17",
   "version": "0.1.0-beta.17",
   "channel": "beta",
-  "state": "candidate",
+  "state": "public",
   "source": {
-    "commit": "aaf50bd3ed810df2254401f4a9f850d4b24ca31b",
-    "commitBinding": "candidate_base_commit"
+    "commit": "5f97e72462af0dea4c6cbecfa62f9724498d113e",
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "package": {
@@ -17,9 +17,9 @@
   },
   "releaseNotes": [
     {
-      "type": "prepared",
-      "surface": "CLI package candidate",
-      "text": "Prepares a Beta17 package candidate from L6+N5 stage evidence while keeping public release disabled until functional package, public sync and external audit gates pass."
+      "type": "fixed",
+      "surface": "CLI package",
+      "text": "Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation."
     }
   ],
   "sdks": [
@@ -82,17 +82,20 @@
       {
         "id": "beta17_fixpoint_readiness",
         "path": "evidence/beta17-fixpoint-readiness/report.json",
-        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
+        "phase": "post_publication"
       },
       {
         "id": "beta17_public_surface_sync",
         "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
+        "phase": "post_publication"
       },
       {
         "id": "beta17_external_audit_status",
         "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
-        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
+        "phase": "post_publication"
       },
       {
         "id": "beta17_cli_package",

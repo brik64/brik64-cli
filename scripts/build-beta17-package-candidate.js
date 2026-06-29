@@ -20,6 +20,11 @@ const packageManifestPath = path.join(outDir, 'package.manifest.json');
 const candidateManifestPath = path.join(outDir, 'release.manifest.candidate.json');
 const releaseManifestPath = path.join(root, 'release', 'manifest.json');
 const sumsPath = path.join(outDir, 'SHA256SUMS');
+const existingReleaseManifest = fs.existsSync(releaseManifestPath)
+  ? readJson(releaseManifestPath)
+  : null;
+const preservePublicManifest = existingReleaseManifest?.version === version
+  && existingReleaseManifest?.state === 'public';
 
 function sha256(data) {
   return crypto.createHash('sha256').update(data).digest('hex');
@@ -347,10 +352,10 @@ const releaseManifest = {
   releaseId: `brik64-${version}`,
   version,
   channel: 'beta',
-  state: 'candidate',
+  state: preservePublicManifest ? 'public' : 'candidate',
   source: {
-    commit: gitHead(),
-    commitBinding: 'candidate_base_commit',
+    commit: preservePublicManifest ? (existingReleaseManifest.source?.commit || gitHead()) : gitHead(),
+    commitBinding: preservePublicManifest ? 'public_release_base_commit' : 'candidate_base_commit',
   },
   cli: {
     package: {
@@ -361,9 +366,9 @@ const releaseManifest = {
   },
   releaseNotes: [
     {
-      type: 'prepared',
-      surface: 'CLI package candidate',
-      text: 'Prepares a Beta17 package candidate from L6+N5 stage evidence while keeping public release disabled until functional package, public sync and external audit gates pass.',
+      type: 'fixed',
+      surface: 'CLI package',
+      text: 'Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation.',
     },
   ],
   sdks: [
@@ -385,16 +390,19 @@ const releaseManifest = {
         id: 'beta17_fixpoint_readiness',
         path: 'evidence/beta17-fixpoint-readiness/report.json',
         decision: 'PASS_BETA17_FIXPOINT_READINESS_GATE',
+        ...(preservePublicManifest ? { phase: 'post_publication' } : {}),
       },
       {
         id: 'beta17_public_surface_sync',
         path: 'evidence/beta17-fixpoint/public_surface_sync_report.json',
         decision: 'PASS_BETA17_PUBLIC_SURFACE_SYNC',
+        ...(preservePublicManifest ? { phase: 'post_publication' } : {}),
       },
       {
         id: 'beta17_external_audit_status',
         path: 'evidence/beta17-fixpoint-external-audit-status/report.json',
         decision: 'PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE',
+        ...(preservePublicManifest ? { phase: 'post_publication' } : {}),
       },
       {
         id: 'beta17_cli_package',
