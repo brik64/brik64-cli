@@ -343,7 +343,8 @@
     "test:l6plus:pcd-artifact-factory-install": "bash scripts/tests/test_l6plus_pcd_artifact_factory_install.sh",
     "gate:beta17:target-aware-factory-result": "node scripts/beta17-target-aware-factory-result-gate.js",
     "test:beta17:target-aware-factory-result": "bash scripts/tests/test_beta17_target_aware_factory_result_gate.sh",
-    "test:release:publish-plan-signature-refresh": "bash scripts/tests/test_release_train_publish_plan_signature_refresh.sh"
+    "test:release:publish-plan-signature-refresh": "bash scripts/tests/test_release_train_publish_plan_signature_refresh.sh",
+    "test:release:publish-execute-beta17-generated-dirty": "bash scripts/tests/test_release_train_publish_execute_beta17_generated_dirty.sh"
   },
   "author": {
     "name": "BRIK64 INC",
