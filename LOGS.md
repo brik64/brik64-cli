@@ -2385,3 +2385,33 @@ Boundary:
 - This creates a non-claim deploy plan from a local candidate materializer. It
   does not create the real L6+N5 materializer, install the remote dispatcher,
   generate real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher installer dry-run
+
+Timestamp: 2026-06-29T01:58:00Z
+
+Task:
+- Add a fail-closed installer dry-run for a validated Beta17 dispatcher
+  deploy plan.
+
+Change:
+- Added `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+- Added npm scripts:
+  `install:beta17:fixpoint:remote-dispatcher` and
+  `test:beta17:fixpoint:remote-dispatcher-install`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- Break attempts rejected:
+  remote execute without exact confirmation, invalid deploy-plan capability
+  and tampered local materializer after deploy-plan generation.
+
+Boundary:
+- This validates and emits the remote install script only. It does not create
+  the real L6+N5 materializer, execute remote mutation in tests, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

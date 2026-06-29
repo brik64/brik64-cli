@@ -222,8 +222,30 @@
         remote path are rejected.
       - Boundary:
         this creates the deployment plan from a candidate file. It does not
-        create the real L6+N5 materializer, install the remote endpoint,
-        generate Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+      create the real L6+N5 materializer, install the remote endpoint,
+      generate Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+- [x] Add Beta17 remote dispatcher installer dry-run.
+      - Script:
+        `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh`.
+      - NPM:
+        `install:beta17:fixpoint:remote-dispatcher`.
+        `test:beta17:fixpoint:remote-dispatcher-install`.
+      - Result:
+        a validated deploy plan can now produce an auditable
+        `install-script.sh` that copies the materializer into the L6+N5 tree
+        and patches the wrapper with the Beta17 stage dispatcher case. Remote
+        execution is disabled unless `--execute --confirm
+        INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM` is provided.
+      - Break attempts:
+        execute without confirmation, invalid capability and tampered local
+        materializer are rejected.
+      - Boundary:
+        this prepares and validates the install path. It does not create the
+        real L6+N5 materializer, execute remote mutation in tests, generate
+        Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:

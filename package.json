@@ -110,6 +110,8 @@
     "test:beta17:fixpoint:remote-dispatcher-plan": "bash scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh",
     "preflight:beta17:fixpoint:remote-dispatcher": "node scripts/beta17-fixpoint-remote-dispatcher-preflight.js",
     "test:beta17:fixpoint:remote-dispatcher-preflight": "bash scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh",
+    "install:beta17:fixpoint:remote-dispatcher": "node scripts/beta17-fixpoint-remote-dispatcher-install.js",
+    "test:beta17:fixpoint:remote-dispatcher-install": "bash scripts/tests/test_beta17_fixpoint_remote_dispatcher_install.sh",
     "attempt:beta17:fixpoint:remote-stage": "node scripts/beta17-fixpoint-stage-remote-attempt.js",
     "test:beta17:fixpoint:remote-stage": "bash scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh",
     "bundle:beta15.4:l6-materializer-request": "node scripts/beta15_4-l6-materializer-request-bundle.js",
