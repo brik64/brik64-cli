@@ -4455,3 +4455,34 @@ Next exact action:
 Boundary:
 - Internal readiness drift is corrected. Public release, public sync, external
   audit, and final fixpoint/public claims remain closed.
+
+## 2026-06-29 - Beta17 required-inputs wrapper reconciliation
+
+RESUME
+- lane: cli_0_1_beta / beta17-fixpoint-candidate
+- iter_id: beta17-wrapper-evidence-reconciliation
+- source_sha: b7cf6b294ae501fe48b878e9f848eb846d422445
+- current gate: beta17-fixpoint-required-inputs
+- last verdict: BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS
+- primary blocker: gate expected stale wrapper evidence shape
+
+Change:
+- Updated `scripts/beta17-fixpoint-required-inputs-gate.js` to validate the
+  current dispatcher-install contract already accepted by remote-stage and
+  remote-promotion gates.
+- Install marker now reads `execution.installResult` with legacy fallback.
+- Dispatcher capability, script validation, materializer exec binding and
+  materializer refs are checked explicitly.
+- Accepted remote attempts now recognize `stageResultValidation.accepted`.
+
+Validation:
+- `npm run gate:beta17:fixpoint:required-inputs` passed.
+- `npm run gate:beta17:candidate-release-train` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed with
+  `publicationAllowed=false`.
+- `npm test` passed.
+
+Boundary:
+- This fixes a wrapper/gate discrepancy, not a motor generation failure.
+- Beta17 remains candidate-only. Public publication, public surface sync,
+  external audit and final fixpoint/public claims remain closed.

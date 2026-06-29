@@ -746,3 +746,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   instead of running the public mutation path. `tests/smoke.sh` also switches
   to the generated Beta17 tarball in this mode, so CI validates the L6+N5
   materialized artifact rather than the historical source tree.
+- Required-inputs wrapper reconciliation: `gate:beta17:fixpoint:required-inputs`
+  now accepts the current executed dispatcher-install evidence contract used by
+  the remote stage attempt and promotion gates. The install marker is validated
+  from `execution.installResult`, the dispatcher capability/script binding is
+  checked, and accepted remote attempts may be recorded as
+  `stageResultValidation.accepted`. This closes the false blocker where the
+  wrapper had executed correctly but the required-inputs gate was still reading
+  an older `remoteInstallResult`/top-level `accepted` shape.

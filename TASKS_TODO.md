@@ -1981,3 +1981,19 @@
       - Current gate:
         `gate:beta17:fixpoint-readiness` now blocks only on public surface sync
         and external audit evidence.
+
+- [x] Reconcile Beta17 required-inputs gate with the executed wrapper evidence.
+      - Script:
+        `scripts/beta17-fixpoint-required-inputs-gate.js`.
+      - Result:
+        `gate:beta17:fixpoint:required-inputs` now validates the current
+        dispatcher install contract (`execution.installResult`, capability,
+        script validation and materializer binding) and the current accepted
+        attempt shape (`stageResultValidation.accepted`).
+      - Validation:
+        `npm run gate:beta17:fixpoint:required-inputs`,
+        `npm run gate:beta17:candidate-release-train`,
+        `npm run release:train:dry-run -- --allow-dirty` and `npm test` pass.
+      - Boundary:
+        This confirms the wrapper/gate discrepancy is corrected. It does not
+        publish Beta17 or open public/fixpoint claims.

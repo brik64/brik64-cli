@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.required_inputs_report.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T03:37:50.540Z",
-  "decision": "BLOCKED_BETA17_FIXPOINT_REQUIRED_INPUTS",
+  "generatedAt": "2026-06-29T09:29:52.338Z",
+  "decision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
   "publicationAllowed": false,
   "claimBoundary": {
     "publicReleaseAllowed": false,
@@ -48,9 +48,12 @@
       "defaultPath": null,
       "description": "Non-fixture Beta17 stage materializer generated from canonical PCD/polymer through L6+N5.",
       "ref": {
-        "path": null,
-        "exists": false
-      }
+        "path": "generated/beta17-fixpoint-stage-materializer.js",
+        "exists": true,
+        "sha256": "47947e05a2ba137c7cd8e6a3b828efa9350762c8295800a5fa27f1299f0bbde6",
+        "bytes": 8320
+      },
+      "observedDecision": null
     },
     {
       "id": "materializer_provenance",
@@ -59,9 +62,11 @@
       "description": "Hash-bound provenance for the generated materializer and canonical PCD input set.",
       "ref": {
         "path": "evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json",
-        "exists": false
+        "exists": true,
+        "sha256": "5393b734721efbd74febb05c5e3f999fa2983f495c72ad74a911b9647aee0d51",
+        "bytes": 2166
       },
-      "observedDecision": null
+      "observedDecision": "MATERIALIZER_PROVENANCE_NON_CLAIM"
     },
     {
       "id": "dispatcher_deploy_plan",
@@ -70,9 +75,11 @@
       "description": "Validated non-claim plan for installing the Beta17 stage dispatcher on the L6+N5 host.",
       "ref": {
         "path": "evidence/beta17-fixpoint-remote-dispatcher/deploy-plan.json",
-        "exists": false
+        "exists": true,
+        "sha256": "fd30f9aee2877f73a586b80ca3ca0202302e224d1f72251791ee40bde1c8384e",
+        "bytes": 1697
       },
-      "observedDecision": null
+      "observedDecision": "DEPLOY_PLAN_NON_CLAIM"
     },
     {
       "id": "dispatcher_install_report",
@@ -81,9 +88,11 @@
       "description": "Executed dispatcher install report with remote hash-bound install marker.",
       "ref": {
         "path": "evidence/beta17-fixpoint-remote-dispatcher/install-report.json",
-        "exists": false
+        "exists": true,
+        "sha256": "b9392896b40c8fa49bed325a4eba9ac0ade39b396df3a61a390e3cb4974124f0",
+        "bytes": 2640
       },
-      "observedDecision": null
+      "observedDecision": "PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL"
     },
     {
       "id": "remote_stage_attempt",
@@ -93,10 +102,10 @@
       "ref": {
         "path": "evidence/beta17-fixpoint-remote-attempt/report.json",
         "exists": true,
-        "sha256": "a538ff706ecdc12e9add2e2df92df454d94eb35d285f98af4f06edecd5856a3e",
-        "bytes": 9846
+        "sha256": "d50335af09b53c75691a5271417b14d1dabf72baf21a02fd8d2a7b5348c06df1",
+        "bytes": 26685
       },
-      "observedDecision": "BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT"
+      "observedDecision": "PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT"
     },
     {
       "id": "remote_promotion_report",
@@ -105,9 +114,11 @@
       "description": "Promotion gate report for the accepted remote Stage1/Stage2 result.",
       "ref": {
         "path": "evidence/beta17-fixpoint-remote-promotion/report.json",
-        "exists": false
+        "exists": true,
+        "sha256": "2d791c827a5cedd517ecc14fb6ef0e9de651bb2f5806fb7a1542d401e49d0c7f",
+        "bytes": 3989
       },
-      "observedDecision": null
+      "observedDecision": "PASS_BETA17_FIXPOINT_REMOTE_PROMOTION_GATE"
     },
     {
       "id": "remote_promotion_manifest",
@@ -116,21 +127,13 @@
       "description": "Canonical promotion manifest binding source and target Stage1/Stage2 evidence.",
       "ref": {
         "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
-        "exists": false
+        "exists": true,
+        "sha256": "cd4cae928a624ab1f092fb926b1908569914e1e851d1ef3a1a4ce0101c9c5f61",
+        "bytes": 5924
       },
-      "observedDecision": null
+      "observedDecision": "PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION"
     }
   ],
-  "blockers": [
-    "generated_materializer_argument_missing",
-    "materializer_provenance_missing:evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json",
-    "dispatcher_deploy_plan_missing:evidence/beta17-fixpoint-remote-dispatcher/deploy-plan.json",
-    "dispatcher_install_report_missing:evidence/beta17-fixpoint-remote-dispatcher/install-report.json",
-    "remote_stage_attempt_not_pass:BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
-    "remote_stage_attempt_accepted_attempt_count_invalid",
-    "remote_stage_attempt_install_evidence_missing",
-    "remote_promotion_report_missing:evidence/beta17-fixpoint-remote-promotion/report.json",
-    "remote_promotion_manifest_missing:evidence/beta17-fixpoint/remote_promotion_manifest.json"
-  ],
-  "nextAction": "provide a real L6+N5-generated Beta17 materializer, executed dispatcher install evidence and passing remote Stage1/Stage2 promotion evidence"
+  "blockers": [],
+  "nextAction": "run plan/preflight/install/attempt/promote/readiness sequence with the verified inputs"
 }

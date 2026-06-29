@@ -182,17 +182,40 @@ function validateKnownReport(id, json, blockers) {
     }
   }
   if (id === 'dispatcher_install_report') {
+    const installResult = json.execution?.installResult || json.remoteInstallResult || null;
     if (json.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_DISPATCHER_INSTALL') {
       blockers.push(`dispatcher_install_report_not_executed_pass:${json.decision || 'missing'}`);
     }
     if (json.executed !== true) blockers.push('dispatcher_install_report_not_executed');
-    if (json.remoteInstallResult?.status !== 'installed') blockers.push('dispatcher_install_report_remote_marker_missing');
+    if (json.publicationAllowed !== false) blockers.push('dispatcher_install_report_publication_boundary_open');
+    if (json.plan?.capability !== 'beta17_fixpoint_stage_dispatcher') {
+      blockers.push(`dispatcher_install_report_capability_invalid:${json.plan?.capability || 'missing'}`);
+    }
+    if (json.installScript?.validation?.accepted !== true) {
+      blockers.push('dispatcher_install_report_script_validation_not_accepted');
+    }
+    if (!json.installScript?.validation?.requiredCommands?.includes('beta17-fixpoint-stage-materialize')) {
+      blockers.push('dispatcher_install_report_materialize_command_missing');
+    }
+    if (!String(json.installScript?.validation?.materializerExecBinding || '').includes(String(json.plan?.materializerRemotePath || ''))) {
+      blockers.push('dispatcher_install_report_materializer_exec_binding_mismatch');
+    }
+    if (!json.plan?.localMaterializerRef || !json.plan?.materializerProvenanceRef) {
+      blockers.push('dispatcher_install_report_materializer_refs_missing');
+    }
+    if (installResult?.status !== 'installed') blockers.push('dispatcher_install_report_remote_marker_missing');
+    if (installResult?.sha256 && json.plan?.materializerSha256 && installResult.sha256 !== json.plan.materializerSha256) {
+      blockers.push('dispatcher_install_report_remote_marker_sha256_mismatch');
+    }
   }
   if (id === 'remote_stage_attempt') {
     if (json.decision !== 'PASS_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT') {
       blockers.push(`remote_stage_attempt_not_pass:${json.decision || 'missing'}`);
     }
-    if (!Array.isArray(json.attempts) || json.attempts.filter((item) => item.accepted === true).length !== 1) {
+    const acceptedAttempts = Array.isArray(json.attempts)
+      ? json.attempts.filter((item) => item.accepted === true || item.stageResultValidation?.accepted === true)
+      : [];
+    if (acceptedAttempts.length !== 1) {
       blockers.push('remote_stage_attempt_accepted_attempt_count_invalid');
     }
     if (!json.installEvidence?.reportRef) blockers.push('remote_stage_attempt_install_evidence_missing');
