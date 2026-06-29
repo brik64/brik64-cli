@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "brik64.beta17_functional_cli_stage_attempt.v1",
+  "generatedAt": "2026-06-29T07:05:32.997Z",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT",
+  "hydrated": false,
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "request": {
+    "requestLine": {
+      "path": "evidence/beta17-functional-cli-stage-request/request.line",
+      "sha256": "c1d0bed47d0dfa8901e1f58335c3287557679a7f067888b32b5ca53965bfd088",
+      "bytes": 15200
+    },
+    "requestManifest": {
+      "path": "evidence/beta17-functional-cli-stage-request/request.manifest.json",
+      "sha256": "4b064b5e94d29b6c3a3847da1ed434fd8345d7cba935d8ea635c88574dc1f9bb",
+      "bytes": 2777
+    }
+  },
+  "result": null,
+  "hydration": null,
+  "blockers": [
+    "functional_cli_stage_result_unavailable"
+  ],
+  "nextAction": "obtain a valid BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT from L6+N5 and rerun attempt:beta17:functional-cli-stage"
+}

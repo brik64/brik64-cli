@@ -258,11 +258,19 @@
         `evidence/beta17-functional-cli-stage-request/request.line`.
       - Expected result marker:
         `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+      - Attempt command:
+        `npm run attempt:beta17:functional-cli-stage`.
+      - Current evidence:
+        `evidence/beta17-functional-cli-stage-attempt/report.json` reports
+        `BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT`.
+      - Current blocker:
+        `functional_cli_stage_result_unavailable`.
       - Done when:
-        the result validates, writes a full Stage1 CLI artifact, passes
-        `gate:beta17:fixpoint:functional-stage-artifact`, regenerates the
-        package candidate as `releaseEligible=true`, and then advances to
-        public sync / external audit blockers.
+        L6+N5 emits a valid result line, the attempt hydrates Stage1/package
+        refs, `gate:beta17:fixpoint:functional-stage-artifact` passes on the
+        hydrated artifact, and the package candidate becomes
+        `releaseEligible=true` while `publicationAllowed=false` until public
+        sync and external audit close.
 
 - [x] Add parser/validator for the future functional CLI Stage L6+N5 result.
       - Script:

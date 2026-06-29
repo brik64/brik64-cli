@@ -3995,3 +3995,44 @@ Current real blocker:
 Boundary:
 - This iteration adds the consumer/hydrator only. It does not execute L6+N5,
   invent a result, publish Beta17 or authorize fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage attempt entrypoint
+
+Timestamp: 2026-06-29T09:35:00Z
+
+Task:
+- Add a single fail-closed attempt command that bridges the functional CLI Stage
+  request and the existing result hydrator.
+
+Change:
+- Added `scripts/beta17-functional-cli-stage-attempt.js`.
+- Added npm scripts `attempt:beta17:functional-cli-stage` and
+  `test:beta17:functional-cli-stage-attempt`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_attempt.sh`.
+- Generated real attempt evidence at
+  `evidence/beta17-functional-cli-stage-attempt/report.json`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-attempt.js` passed.
+- `npm run test:beta17:functional-cli-stage-attempt` passed.
+- `npm run attempt:beta17:functional-cli-stage` failed closed as expected on
+  real state.
+
+Break attempts:
+- Missing request/result fails closed with missing request and unavailable
+  result blockers.
+- Invalid result with `generatedFromPcdPolymer=false` fails closed.
+- Valid synthetic result hydrates Stage1/package refs but keeps publication
+  closed.
+
+Current real blocker:
+- `functional_cli_stage_result_unavailable`.
+
+Next exact action:
+- Produce a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` from L6+N5 and
+  rerun `npm run attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- This iteration does not execute L6+N5, publish Beta17, or authorize
+  fixpoint/formal/public-release claims. It only makes the next blocker
+  machine-readable and test-gated.

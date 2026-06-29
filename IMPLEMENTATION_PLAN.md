@@ -174,6 +174,15 @@
   artifact, writes only safe hash-bound refs, and produces a hydration report.
   Current live evidence is blocked because no
   `evidence/beta17-functional-cli-stage-result/result.line` exists yet.
+- Functional CLI Stage attempt update: Beta17 now has
+  `attempt:beta17:functional-cli-stage`, a single entrypoint for the optimized
+  goal step between request generation and hydration. It consumes an explicit
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` if supplied, validates it with
+  the request manifest, runs the hydrator, and writes
+  `evidence/beta17-functional-cli-stage-attempt/report.json`. Current real
+  evidence is fail-closed with `functional_cli_stage_result_unavailable`,
+  proving that the remaining blocker is L6+N5 functional CLI materialization,
+  not package metadata or local hydration plumbing.
 
 ## Legacy Plan Context
 
