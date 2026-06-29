@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T08:39:21.426Z",
+  "generatedAt": "2026-06-29T08:44:46.600Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
   "releaseId": "brik64-0.1.0-beta.17",
@@ -21,10 +21,10 @@
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
       "exists": true,
       "pass": true,
-      "expectedSha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
-      "expectedBytes": 404021,
-      "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
-      "bytes": 404021
+      "expectedSha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "expectedBytes": 404533,
+      "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "bytes": 404533
     },
     {
       "id": "package_manifest",
@@ -35,8 +35,8 @@
       "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
       "package": {
         "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-        "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
-        "bytes": 404021
+        "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+        "bytes": 404533
       },
       "releaseEligible": true,
       "publicationAllowed": false,

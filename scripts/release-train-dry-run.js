@@ -1392,6 +1392,18 @@ function main() {
         failures.push(`evidence_missing:${item.id}`);
         continue;
       }
+      if (item.decision === 'FILE_EXISTS') {
+        const stat = fs.statSync(evidencePath);
+        requiredEvidence.push({
+          id: item.id,
+          path: item.path,
+          expectedDecision: 'FILE_EXISTS',
+          actualDecision: stat.isFile() ? 'FILE_EXISTS' : 'NOT_FILE',
+          pass: stat.isFile()
+        });
+        if (!stat.isFile()) failures.push(`evidence_not_file:${item.id}`);
+        continue;
+      }
       const evidence = readJson(evidencePath);
       requiredEvidence.push({
         id: item.id,

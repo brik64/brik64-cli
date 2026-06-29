@@ -15,11 +15,17 @@ Timestamp: `2026-06-29T08:39:59Z`
 - Updated `scripts/tests/test_beta17_package_candidate.sh` to reject the old
   false `package_manifest_publication_allowed_false` blocker for a candidate
   manifest, while keeping the release blocked on real gates.
+- Updated `scripts/build-beta17-package-candidate.js` so the candidate release
+  manifest writes structured `verification.requiredEvidence` items instead of
+  string refs.
+- Updated `scripts/release-train-dry-run.js` to support `decision=FILE_EXISTS`
+  for binary release artifacts declared in `verification.requiredEvidence`.
 
 Evidence:
 
 - `npm run test:beta17:fixpoint:publication-preflight` passed.
 - `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run test:beta17:release-train-readiness` passed.
 - `npm run preflight:beta17:fixpoint:publication -- --manifest evidence/beta17-package/release.manifest.candidate.json`
   still fails closed, now without `package_manifest_publication_allowed_false`.
 

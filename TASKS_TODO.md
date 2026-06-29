@@ -1946,6 +1946,11 @@
         `publicationAllowed=false` as candidate-ready package evidence instead
         of a package blocker. Public manifests still require
         `publicationAllowed=true`.
+      - Candidate manifest update:
+        `package:beta17:fixpoint:candidate` now writes structured
+        `verification.requiredEvidence` entries, including `FILE_EXISTS` for
+        the CLI tarball, so the candidate manifest can be consumed by
+        `release:train:dry-run` after metadata promotion.
       - Current preflight blockers:
         repo `package.json` is still `0.1.0-beta.16.1`, fixpoint readiness is
         blocked, live public surface evidence is still `0.1.0-beta.15.7.1`,

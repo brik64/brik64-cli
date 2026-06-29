@@ -732,3 +732,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `package_manifest_publication_allowed_false` blocker. Public manifests still
   require `publicationAllowed=true`. The real candidate preflight now blocks
   only on active metadata promotion, public-surface sync and external audit.
+- Candidate release-manifest evidence update: `package:beta17:fixpoint:candidate`
+  now writes `verification.requiredEvidence` as structured evidence items
+  with `id`, `path` and `decision`, and `release:train:dry-run` supports
+  `decision=FILE_EXISTS` for binary artifacts such as the CLI tarball. This
+  keeps the candidate manifest consumable by the release train without forcing
+  binary packages through JSON report parsing.

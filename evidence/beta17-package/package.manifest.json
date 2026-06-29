@@ -8,8 +8,8 @@
   "generationClaim": "l6plus_n5_stage_artifact_candidate",
   "package": {
     "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-    "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
-    "bytes": 404021
+    "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+    "bytes": 404533
   },
   "stageArtifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",

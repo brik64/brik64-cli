@@ -5,14 +5,14 @@
   "channel": "beta",
   "state": "candidate",
   "source": {
-    "commit": "49fdd35d305b2eddace82d452f5a5771b50bc163",
+    "commit": "756987fe70d40d4df64366076ab04c8610380297",
     "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-      "sha256": "810e26b665a05cdbfb1aba7808e4aa95dc88c849fff9330b60bb4cceaa271342",
-      "bytes": 404021
+      "sha256": "526bd74bbdbc6279ecaf8c4c89fafb2c8e1e58cd6967fc86cccdf94c5a9599ac",
+      "bytes": 404533
     }
   },
   "releaseNotes": [
@@ -79,10 +79,26 @@
   },
   "verification": {
     "requiredEvidence": [
-      "evidence/beta17-fixpoint-readiness/report.json",
-      "evidence/beta17-fixpoint/public_surface_sync_report.json",
-      "evidence/beta17-fixpoint-external-audit-status/report.json",
-      "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz"
+      {
+        "id": "beta17_fixpoint_readiness",
+        "path": "evidence/beta17-fixpoint-readiness/report.json",
+        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE"
+      },
+      {
+        "id": "beta17_public_surface_sync",
+        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
+        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC"
+      },
+      {
+        "id": "beta17_external_audit_status",
+        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
+        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+      },
+      {
+        "id": "beta17_cli_package",
+        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+        "decision": "FILE_EXISTS"
+      }
     ]
   },
   "claimBoundary": {

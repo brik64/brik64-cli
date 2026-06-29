@@ -366,10 +366,26 @@ writeJson(candidateManifestPath, {
   },
   verification: {
     requiredEvidence: [
-      'evidence/beta17-fixpoint-readiness/report.json',
-      'evidence/beta17-fixpoint/public_surface_sync_report.json',
-      'evidence/beta17-fixpoint-external-audit-status/report.json',
-      packageManifest.package.path,
+      {
+        id: 'beta17_fixpoint_readiness',
+        path: 'evidence/beta17-fixpoint-readiness/report.json',
+        decision: 'PASS_BETA17_FIXPOINT_READINESS_GATE',
+      },
+      {
+        id: 'beta17_public_surface_sync',
+        path: 'evidence/beta17-fixpoint/public_surface_sync_report.json',
+        decision: 'PASS_BETA17_PUBLIC_SURFACE_SYNC',
+      },
+      {
+        id: 'beta17_external_audit_status',
+        path: 'evidence/beta17-fixpoint-external-audit-status/report.json',
+        decision: 'PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE',
+      },
+      {
+        id: 'beta17_cli_package',
+        path: packageManifest.package.path,
+        decision: 'FILE_EXISTS',
+      },
     ],
   },
   claimBoundary: {
