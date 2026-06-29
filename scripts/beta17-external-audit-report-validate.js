@@ -51,6 +51,11 @@ function validateArtifactRef(report, artifactKey, options, checks, blockers) {
     blockers.push(`external_audit_artifact_sha256_invalid:${artifactKey}`);
     return;
   }
+  if (!Number.isInteger(ref.bytes) || ref.bytes < 1) {
+    checks[checkKey] = false;
+    blockers.push(`external_audit_artifact_bytes_invalid:${artifactKey}`);
+    return;
+  }
   if (options.rootDir) {
     const root = path.resolve(options.rootDir);
     const resolved = path.resolve(root, ref.path);
@@ -68,6 +73,12 @@ function validateArtifactRef(report, artifactKey, options, checks, blockers) {
     if (actual !== ref.sha256.toLowerCase()) {
       checks[checkKey] = false;
       blockers.push(`external_audit_artifact_sha256_mismatch:${artifactKey}`);
+      return;
+    }
+    const actualBytes = fs.statSync(resolved).size;
+    if (actualBytes !== ref.bytes) {
+      checks[checkKey] = false;
+      blockers.push(`external_audit_artifact_bytes_mismatch:${artifactKey}`);
       return;
     }
   }

@@ -31,11 +31,17 @@ write_external_audit_report() {
     echo "beta17 $artifact evidence" >"evidence/beta17-fixpoint/audit-artifacts/$artifact.json"
   done
   local audit_log_sha generated_code_sha adversarial_sha public_surface_sha claim_safe_sha
+  local audit_log_bytes generated_code_bytes adversarial_bytes public_surface_bytes claim_safe_bytes
   audit_log_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/audit-log.json | awk '{print $1}')"
   generated_code_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json | awk '{print $1}')"
   adversarial_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json | awk '{print $1}')"
   public_surface_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json | awk '{print $1}')"
   claim_safe_sha="$(shasum -a 256 evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json | awk '{print $1}')"
+  audit_log_bytes="$(wc -c <evidence/beta17-fixpoint/audit-artifacts/audit-log.json | tr -d ' ')"
+  generated_code_bytes="$(wc -c <evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json | tr -d ' ')"
+  adversarial_bytes="$(wc -c <evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json | tr -d ' ')"
+  public_surface_bytes="$(wc -c <evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json | tr -d ' ')"
+  claim_safe_bytes="$(wc -c <evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json | tr -d ' ')"
   cat >evidence/beta17-fixpoint/external_audit_report.json <<JSON
 {
   "decision": "PASS_BETA17_EXTERNAL_AUDIT",
@@ -46,11 +52,11 @@ write_external_audit_report() {
   "publicSurfaceScan": { "pass": true },
   "claimSafeScan": { "pass": true },
   "artifacts": {
-    "auditLog": { "path": "evidence/beta17-fixpoint/audit-artifacts/audit-log.json", "sha256": "$audit_log_sha" },
-    "generatedCodeQuality": { "path": "evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json", "sha256": "$generated_code_sha" },
-    "adversarialResults": { "path": "evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json", "sha256": "$adversarial_sha" },
-    "publicSurfaceScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json", "sha256": "$public_surface_sha" },
-    "claimSafeScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json", "sha256": "$claim_safe_sha" }
+    "auditLog": { "path": "evidence/beta17-fixpoint/audit-artifacts/audit-log.json", "sha256": "$audit_log_sha", "bytes": $audit_log_bytes },
+    "generatedCodeQuality": { "path": "evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json", "sha256": "$generated_code_sha", "bytes": $generated_code_bytes },
+    "adversarialResults": { "path": "evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json", "sha256": "$adversarial_sha", "bytes": $adversarial_bytes },
+    "publicSurfaceScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json", "sha256": "$public_surface_sha", "bytes": $public_surface_bytes },
+    "claimSafeScan": { "path": "evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json", "sha256": "$claim_safe_sha", "bytes": $claim_safe_bytes }
   }
 }
 JSON

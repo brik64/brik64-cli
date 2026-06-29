@@ -2632,3 +2632,42 @@ Boundary:
 - This strengthens final evidence-pack indexing. It does not create the real
   L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
   artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - External audit artifact byte binding
+
+Timestamp: 2026-06-29T04:17:00Z
+
+Task:
+- Require Beta17 external audit artifact refs to include byte counts and match
+  referenced files.
+
+Change:
+- Updated `scripts/beta17-external-audit-report-validate.js` so each required
+  audit artifact ref must include `bytes` and match the file size when a
+  workspace root is available.
+- Updated external audit, readiness and release-train fixtures to emit
+  byte-bound audit artifact refs.
+- Updated `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md` so external agents
+  produce the enforced contract.
+
+Evidence:
+- `node --check scripts/beta17-external-audit-report-validate.js` passed.
+- `bash -n scripts/tests/test_beta17_external_audit_report_validate.sh`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_readiness_gate.sh` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:external-audit-report` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- Regression battery passed:
+  `test:beta17:external-audit-prompt`,
+  `test:beta17:fixpoint:evidence:manifest`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  mutating `generatedCodeQuality.bytes` triggers
+  `external_audit_artifact_bytes_mismatch:generatedCodeQuality`.
+
+Boundary:
+- This strengthens external audit metadata binding. It does not run the actual
+  external audit, create the real L6+N5 materializer, execute remote mutation,
+  generate real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

@@ -323,6 +323,26 @@
         L6+N5 materializer, generate Stage1/Stage2 artifacts, prove fixpoint
         or publish Beta17.
 
+- [x] Add byte-count binding to Beta17 external audit artifact refs.
+      - Script:
+        `scripts/beta17-external-audit-report-validate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_external_audit_report_validate.sh`,
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Docs:
+        `docs/ops/BETA17_EXTERNAL_AUDIT_PROMPT.md`.
+      - Result:
+        external audit artifact refs now require `bytes` and are checked
+        against the referenced files before readiness can accept the report.
+      - Break attempts:
+        mutating `generatedCodeQuality.bytes` is rejected with
+        `external_audit_artifact_bytes_mismatch:generatedCodeQuality`.
+      - Boundary:
+        this hardens external audit evidence metadata. It does not run the
+        actual external audit, create real L6+N5 Stage1/Stage2 artifacts, prove
+        fixpoint or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.

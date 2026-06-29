@@ -400,8 +400,8 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - External audit artifact binding: a passing `external_audit_report.json` must
   include hash-bound artifact refs for the audit log, generated-code quality
   report, adversarial results, public-surface scan and claim-safe scan. The
-  validator verifies safe relative paths, file existence and SHA-256 matches
-  when run from the evidence workspace.
+  validator verifies safe relative paths, file existence, SHA-256 and byte
+  counts when run from the evidence workspace.
 - Evidence pack manifest: `evidence/beta17-fixpoint/evidence_pack_manifest.json`
   inventories the Beta17 evidence pack with path/SHA-256/bytes refs. Readiness
   validates the manifest schema, version, closed public/formal claim boundaries

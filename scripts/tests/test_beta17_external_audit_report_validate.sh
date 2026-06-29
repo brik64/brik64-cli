@@ -17,6 +17,11 @@ generated_code_sha="$(shasum -a 256 "$TMP_DIR/artifacts/generated-code-quality.j
 adversarial_sha="$(shasum -a 256 "$TMP_DIR/artifacts/adversarial-results.json" | awk '{print $1}')"
 public_surface_sha="$(shasum -a 256 "$TMP_DIR/artifacts/public-surface-scan.json" | awk '{print $1}')"
 claim_safe_sha="$(shasum -a 256 "$TMP_DIR/artifacts/claim-safe-scan.json" | awk '{print $1}')"
+audit_log_bytes="$(wc -c <"$TMP_DIR/artifacts/audit-log.json" | tr -d ' ')"
+generated_code_bytes="$(wc -c <"$TMP_DIR/artifacts/generated-code-quality.json" | tr -d ' ')"
+adversarial_bytes="$(wc -c <"$TMP_DIR/artifacts/adversarial-results.json" | tr -d ' ')"
+public_surface_bytes="$(wc -c <"$TMP_DIR/artifacts/public-surface-scan.json" | tr -d ' ')"
+claim_safe_bytes="$(wc -c <"$TMP_DIR/artifacts/claim-safe-scan.json" | tr -d ' ')"
 
 cat >"$TMP_DIR/pass.json" <<JSON
 {
@@ -28,11 +33,11 @@ cat >"$TMP_DIR/pass.json" <<JSON
   "publicSurfaceScan": { "pass": true },
   "claimSafeScan": { "pass": true },
   "artifacts": {
-    "auditLog": { "path": "artifacts/audit-log.json", "sha256": "$audit_log_sha" },
-    "generatedCodeQuality": { "path": "artifacts/generated-code-quality.json", "sha256": "$generated_code_sha" },
-    "adversarialResults": { "path": "artifacts/adversarial-results.json", "sha256": "$adversarial_sha" },
-    "publicSurfaceScan": { "path": "artifacts/public-surface-scan.json", "sha256": "$public_surface_sha" },
-    "claimSafeScan": { "path": "artifacts/claim-safe-scan.json", "sha256": "$claim_safe_sha" }
+    "auditLog": { "path": "artifacts/audit-log.json", "sha256": "$audit_log_sha", "bytes": $audit_log_bytes },
+    "generatedCodeQuality": { "path": "artifacts/generated-code-quality.json", "sha256": "$generated_code_sha", "bytes": $generated_code_bytes },
+    "adversarialResults": { "path": "artifacts/adversarial-results.json", "sha256": "$adversarial_sha", "bytes": $adversarial_bytes },
+    "publicSurfaceScan": { "path": "artifacts/public-surface-scan.json", "sha256": "$public_surface_sha", "bytes": $public_surface_bytes },
+    "claimSafeScan": { "path": "artifacts/claim-safe-scan.json", "sha256": "$claim_safe_sha", "bytes": $claim_safe_bytes }
   }
 }
 JSON
@@ -138,5 +143,28 @@ jq -e '
   .decision=="BLOCKED_BETA17_EXTERNAL_AUDIT_VALIDATION"
   and (.blockers | index("external_audit_artifact_sha256_mismatch:auditLog"))
 ' "$TMP_DIR/bad-hash.validation.json" >/dev/null
+
+python3 - "$TMP_DIR/pass.json" "$TMP_DIR/bad-bytes.json" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+data["artifacts"]["generatedCodeQuality"]["bytes"] += 1
+json.dump(data, open(sys.argv[2], "w"), indent=2)
+PY
+
+set +e
+node "$ROOT/scripts/beta17-external-audit-report-validate.js" "$TMP_DIR/bad-bytes.json" \
+  >"$TMP_DIR/bad-bytes.validation.json"
+bad_bytes_rc=$?
+set -e
+
+if [[ "$bad_bytes_rc" -eq 0 ]]; then
+  echo "bad_bytes_external_audit_validation_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_EXTERNAL_AUDIT_VALIDATION"
+  and (.blockers | index("external_audit_artifact_bytes_mismatch:generatedCodeQuality"))
+' "$TMP_DIR/bad-bytes.validation.json" >/dev/null
 
 echo "PASS beta17 external audit report validator"

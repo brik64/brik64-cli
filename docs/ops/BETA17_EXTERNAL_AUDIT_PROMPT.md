@@ -174,23 +174,28 @@ Write this exact top-level contract:
   "artifacts": {
     "auditLog": {
       "path": "evidence/beta17-fixpoint/audit-artifacts/audit-log.json",
-      "sha256": "64 lowercase hex characters"
+      "sha256": "64 lowercase hex characters",
+      "bytes": 1
     },
     "generatedCodeQuality": {
       "path": "evidence/beta17-fixpoint/audit-artifacts/generated-code-quality.json",
-      "sha256": "64 lowercase hex characters"
+      "sha256": "64 lowercase hex characters",
+      "bytes": 1
     },
     "adversarialResults": {
       "path": "evidence/beta17-fixpoint/audit-artifacts/adversarial-results.json",
-      "sha256": "64 lowercase hex characters"
+      "sha256": "64 lowercase hex characters",
+      "bytes": 1
     },
     "publicSurfaceScan": {
       "path": "evidence/beta17-fixpoint/audit-artifacts/public-surface-scan.json",
-      "sha256": "64 lowercase hex characters"
+      "sha256": "64 lowercase hex characters",
+      "bytes": 1
     },
     "claimSafeScan": {
       "path": "evidence/beta17-fixpoint/audit-artifacts/claim-safe-scan.json",
-      "sha256": "64 lowercase hex characters"
+      "sha256": "64 lowercase hex characters",
+      "bytes": 1
     }
   },
   "findings": [],
