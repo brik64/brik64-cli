@@ -34,6 +34,14 @@ function gitStatus(args) {
   return result.status;
 }
 
+function runNodeScript(script, args = []) {
+  return childProcess.spawnSync('node', [script, ...args], {
+    cwd: root,
+    encoding: 'utf8',
+    env: process.env
+  });
+}
+
 function command(name, description, commandLine, mutatesPublicSurface) {
   return { name, description, command: commandLine, mutatesPublicSurface };
 }
@@ -90,6 +98,14 @@ function main() {
   const packageDir = `evidence/${label}-package`;
   const packageManifest = readJson(path.join(root, packageDir, 'package.manifest.json'));
   const packagePath = packageManifest.package.path;
+  const currentHead = gitOutput(['rev-parse', '--short', 'HEAD']);
+  const currentHeadFull = gitOutput(['rev-parse', 'HEAD']);
+  if (manifest.state === 'public') {
+    const signatureRefresh = runNodeScript('scripts/release-github-verified-signature-gate.js');
+    if (signatureRefresh.status !== 0) {
+      (dryRunInProgress ? warnings : failures).push(`github_verified_signature_refresh_failed:${signatureRefresh.status}`);
+    }
+  }
   const npmSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'npm');
   const pypiSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi');
   const cratesSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'crates.io');
@@ -109,8 +125,6 @@ function main() {
   const legacySignatureReportPath = path.join(root, 'evidence', `${label}-github-verified-signature`, 'report.json');
   const signatureReportPath = fs.existsSync(genericSignatureReportPath) ? genericSignatureReportPath : legacySignatureReportPath;
   const signatureReport = fs.existsSync(signatureReportPath) ? readJson(signatureReportPath) : null;
-  const currentHead = gitOutput(['rev-parse', '--short', 'HEAD']);
-  const currentHeadFull = gitOutput(['rev-parse', 'HEAD']);
 
   if (manifest.state !== 'public') failures.push(`manifest_state_not_public:${manifest.state}`);
   if (manifest.state === 'public') {
