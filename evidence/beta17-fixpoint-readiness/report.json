@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint_readiness_gate.v1",
-  "generatedAt": "2026-06-29T05:31:20.768Z",
+  "generatedAt": "2026-06-29T05:40:38.802Z",
   "version": "0.1.0-beta.17",
   "expectedVersion": "0.1.0-beta.17",
   "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
@@ -31,7 +31,7 @@
     },
     "evidence_pack_manifest": {
       "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
-      "sha256": "4b72e20da781abfe943ea7d056ab30ab3bc150ff34a569efd79e972c6afb3542",
+      "sha256": "6de3750ebdcf281267ffe77642646a93d7ebea0b2e424cc08230044f3f4010ee",
       "sizeBytes": 4127
     },
     "canonical_harness_manifest": {
@@ -77,8 +77,8 @@
     },
     "public_surface_sync_report": {
       "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
-      "sizeBytes": 1044
+      "sha256": "255fb5ae6d80c009e88938868e5673005d23def88128f30d213ad6521bc15612",
+      "sizeBytes": 3433
     },
     "external_audit_report": {
       "path": "evidence/beta17-fixpoint/external_audit_report.json",

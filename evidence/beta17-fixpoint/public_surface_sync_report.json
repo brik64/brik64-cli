@@ -1,34 +1,113 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.public_surface_sync_report.v1",
   "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T05:40:27.754Z",
   "decision": "BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
   "synced": false,
-  "reason": "public surfaces are not yet updated to Beta17 fixpoint artifacts",
+  "reason": "live_verify_version_mismatch:0.1.0-beta.15.7.1",
+  "blockers": [
+    "live_verify_version_mismatch:0.1.0-beta.15.7.1"
+  ],
+  "liveVerifyReportRef": {
+    "path": "evidence/release-train-live-verify/report.json",
+    "sha256": "01a9b36aff6d224fac396f5d23ca5e03fc1d23baed0acd9e05b0e7772eaf83bc",
+    "bytes": 3827
+  },
+  "liveVerifyDecision": "PASS_RELEASE_TRAIN_LIVE_VERIFY",
+  "liveVerifyVersion": "0.1.0-beta.15.7.1",
   "surfaceChecks": [
     {
       "id": "cli_installer",
       "version": "0.1.0-beta.17",
-      "pass": false
+      "pass": true,
+      "observationIds": [
+        "curl_installer"
+      ],
+      "observed": [
+        {
+          "id": "curl_installer",
+          "url": "https://brik64.com/cli/install.sh",
+          "statusCode": 200,
+          "sha256": "624c755bb01014fb29bf64f03bf0e0c41248f1e7a0185e2e365a8fc7e503bda0",
+          "bytes": 3822
+        }
+      ]
     },
     {
       "id": "cli_manifest",
       "version": "0.1.0-beta.17",
-      "pass": false
+      "pass": true,
+      "observationIds": [
+        "channel_manifest"
+      ],
+      "observed": [
+        {
+          "id": "channel_manifest",
+          "url": "https://brik64.com/cli/beta.json",
+          "statusCode": 200,
+          "sha256": "65b8283a60264b861ed440325f21e14cff2331a5ef56eed2a8008c75a6908e81",
+          "bytes": 366
+        }
+      ]
     },
     {
       "id": "docs",
       "version": "0.1.0-beta.17",
-      "pass": false
+      "pass": true,
+      "observationIds": [
+        "docs_install"
+      ],
+      "observed": [
+        {
+          "id": "docs_install",
+          "url": "https://docs.brik64.com/cli/install",
+          "statusCode": 200,
+          "sha256": "9d7290404c47a03c312d2536fb3eed8cecafc96b30fc7334fb4cf8e9d234fa83",
+          "bytes": 304034
+        }
+      ]
     },
     {
       "id": "web_changelog",
       "version": "0.1.0-beta.17",
-      "pass": false
+      "pass": true,
+      "observationIds": [
+        "web_changelog",
+        "web_home"
+      ],
+      "observed": [
+        {
+          "id": "web_changelog",
+          "url": "https://brik64.com/changelog",
+          "statusCode": 200,
+          "sha256": "c8453b46144e3a78a9cd6f6b579b77050e45334784c4ed9c17091806dbcc54d2",
+          "bytes": 151496
+        },
+        {
+          "id": "web_home",
+          "url": "https://brik64.com/download",
+          "statusCode": 200,
+          "sha256": "b013136149c46a29e61b2a90b33b59e63790b0d57771097b549b1933ab39fcc9",
+          "bytes": 99983
+        }
+      ]
     },
     {
       "id": "skills",
       "version": "0.1.0-beta.17",
-      "pass": false
+      "pass": true,
+      "observationIds": [
+        "public_skill"
+      ],
+      "observed": [
+        {
+          "id": "public_skill",
+          "url": "https://raw.githubusercontent.com/brik64/brik64-tools-skills/main/skills/brik64/SKILL.md",
+          "statusCode": 200,
+          "sha256": "17ca3e19a4ae6ec7a7a5334ca06f3c61fc524003f4e523c742c715481079a431",
+          "bytes": 9934
+        }
+      ]
     }
   ],
   "claimBoundary": {
