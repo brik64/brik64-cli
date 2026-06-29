@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T12:29:55.715Z",
+  "generatedAt": "2026-06-29T12:36:30.008Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
   "releaseId": "brik64-0.1.0-beta.17",
@@ -21,9 +21,9 @@
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
       "exists": true,
       "pass": true,
-      "expectedSha256": "e0cb9a8c2d50426f113f0fac44b7ef94aea6fe74b8b953602535193c1e5ba442",
+      "expectedSha256": "e73927553298aa65709cc88b2626f8664cf2c99afe71e2c16ae0a558ad546c15",
       "expectedBytes": 603204,
-      "sha256": "e0cb9a8c2d50426f113f0fac44b7ef94aea6fe74b8b953602535193c1e5ba442",
+      "sha256": "e73927553298aa65709cc88b2626f8664cf2c99afe71e2c16ae0a558ad546c15",
       "bytes": 603204
     },
     {
@@ -35,7 +35,7 @@
       "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
       "package": {
         "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-        "sha256": "e0cb9a8c2d50426f113f0fac44b7ef94aea6fe74b8b953602535193c1e5ba442",
+        "sha256": "e73927553298aa65709cc88b2626f8664cf2c99afe71e2c16ae0a558ad546c15",
         "bytes": 603204
       },
       "releaseEligible": true,
@@ -77,7 +77,7 @@
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
       "exists": true,
       "pass": true,
-      "sha256": "6f733e758fde1327e93d63f17f95bcb1b51a1fa0e1a1f75db4d23c50c47bf3ea",
+      "sha256": "b34c3c8f69d8508860646c609ead2b200f564117534ffe00cc5f662c7086ecdd",
       "bytes": 961
     },
     {
@@ -85,7 +85,7 @@
       "path": "evidence/beta17-fixpoint/stage2_regeneration_manifest.json",
       "exists": true,
       "pass": true,
-      "sha256": "7e6e39e0cbdf3e7bde914c04660e8f6435269c52ce963a0e9e1a5d5d43625444",
+      "sha256": "4dd521050906eb051412e6b5b326c96eb253a2e2d24df790660e9af463eda5f2",
       "bytes": 1131
     },
     {
@@ -93,7 +93,7 @@
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
       "exists": true,
       "pass": true,
-      "sha256": "957d94a666d8e8c268caef069d418c041291e22b82a4596357944ad7b3a3f322",
+      "sha256": "4c895052403f211ba2f756f5582443c64d6f4ffb183acbb91895bc3102e25e6a",
       "bytes": 1115
     },
     {
@@ -109,7 +109,7 @@
       "path": "evidence/beta17-fixpoint/seal_report.json",
       "exists": true,
       "pass": true,
-      "sha256": "657d91df2536a25b64095904d74c3b86c08bf92da93e2b3e39ea0c801a7d76b2",
+      "sha256": "ceea1c9516e9830b8d4ea2b39b8256128de760d4520debe9519cd74211fee2b3",
       "bytes": 791
     },
     {
@@ -117,7 +117,7 @@
       "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
       "exists": true,
       "pass": true,
-      "sha256": "b4cc6f87f056db762034f287438013eebf34f857accf443109c9e8138595211c",
+      "sha256": "d09852a20b968165b2bc0060d07754836a9833ceaab12702d35f877751d60b4d",
       "bytes": 5924
     },
     {
@@ -125,7 +125,7 @@
       "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
       "exists": true,
       "pass": true,
-      "sha256": "4e92ef5b33b85578dfdf2d1262748a0088fde820ee2becd95fc3d9d2b449b4e8",
+      "sha256": "71552da40ae9dcabec7de10f3efeb604791f939f7ab0c1f1f949a1fcc31ac1e2",
       "bytes": 4132
     },
     {
@@ -135,19 +135,10 @@
       "exists": true,
       "pass": false,
       "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
-      "sha256": "65a48634f0719d1dd1b15b596295fe739ab83dc7a4a5e9b29e8858e2cf132ad8",
-      "bytes": 6983,
+      "sha256": "7212d8866df1dfcec28d9139dcdcb081f088f2e29af7f32b1dd7e028356ea13a",
+      "bytes": 6231,
       "blocker": "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
       "blockers": [
-        "evidence_pack_manifest_sha256_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-        "remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest",
-        "remote_promotion_ref_file_sha256_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "remote_promotion_target_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "remote_promotion_source_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-        "byte_identity_stage1_artifact_sha256_mismatch",
-        "byte_identity_stage_artifact_size_mismatch",
-        "stage2_manifest_stage1_artifact_sha256_mismatch",
-        "seal_stage1_artifact_sha256_mismatch",
         "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
         "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
         "external_audit_missing_clean_public_install",
@@ -196,15 +187,6 @@
   ],
   "blockers": [
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
-    "readiness:evidence_pack_manifest_sha256_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-    "readiness:remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest",
-    "readiness:remote_promotion_ref_file_sha256_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "readiness:remote_promotion_target_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "readiness:remote_promotion_source_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "readiness:byte_identity_stage1_artifact_sha256_mismatch",
-    "readiness:byte_identity_stage_artifact_size_mismatch",
-    "readiness:stage2_manifest_stage1_artifact_sha256_mismatch",
-    "readiness:seal_stage1_artifact_sha256_mismatch",
     "readiness:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
     "readiness:external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
     "readiness:external_audit_missing_clean_public_install",

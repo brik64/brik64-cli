@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.required_inputs_report.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T12:12:06.708Z",
+  "generatedAt": "2026-06-29T12:38:05.721Z",
   "decision": "PASS_BETA17_FIXPOINT_REQUIRED_INPUTS",
   "publicationAllowed": false,
   "claimBoundary": {
@@ -128,7 +128,7 @@
       "ref": {
         "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
         "exists": true,
-        "sha256": "b4cc6f87f056db762034f287438013eebf34f857accf443109c9e8138595211c",
+        "sha256": "d09852a20b968165b2bc0060d07754836a9833ceaab12702d35f877751d60b4d",
         "bytes": 5924
       },
       "observedDecision": "PASS_BETA17_FIXPOINT_REMOTE_RESULT_PROMOTION"

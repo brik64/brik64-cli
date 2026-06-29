@@ -2,13 +2,16 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.17",
   "version": "0.1.0-beta.17",
-  "manifestDigest": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
-  "sourceHead": "aaf50bd",
+  "manifestDigest": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
+  "sourceHead": "cdab2ee",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [],
+  "dirtyFiles": [
+    "evidence/beta17-candidate-release-train-gate/report.json",
+    "evidence/beta17-fixpoint-publication-preflight/report.json"
+  ],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -74,5 +77,7 @@
   "executed": [],
   "blockers": [],
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "worktree_dirty_dry_run:2"
+  ]
 }
