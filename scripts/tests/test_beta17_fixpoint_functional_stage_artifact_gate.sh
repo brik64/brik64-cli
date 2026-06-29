@@ -26,11 +26,29 @@ JS
     cat >"$artifact" <<'JS'
 #!/usr/bin/env node
 const version = "0.1.0-beta.17";
+const monomers = Array.from({ length: 128 }, (_, index) => ({
+  id: `MC_${String(index).padStart(2, "0")}`,
+  name: `MONOMER_${index}`,
+  tier: index < 64 ? "core" : "extended",
+}));
 const commandHandlers = new Map([
   ["--version", () => console.log(version)],
+  ["--help", () => console.log("brik64 certify verify emit polymerize lift monomers engine")],
   ["doctor", () => console.log(JSON.stringify({ status: "PASS", version }))],
+  ["engine status --json", () => console.log(JSON.stringify({
+    engine: "L4+N5",
+    runtimeProfile: "l4plus_n5_local",
+    localRuntime: "available",
+    releaseEligible: true,
+  }))],
+  ["monomers list --json", () => console.log(JSON.stringify({
+    totalCount: monomers.length,
+    coreCount: 64,
+    extendedCount: 64,
+    monomers,
+  }))],
 ]);
-const command = process.argv[2] || "--version";
+const command = process.argv.slice(2).join(" ") || "--version";
 if (commandHandlers.has(command)) {
   commandHandlers.get(command)();
   process.exit(0);
@@ -74,6 +92,10 @@ jq -e '
   and .checks.nodeEntrypoint==true
   and .checks.argvHandling==true
   and .checks.commandDispatcher==true
+  and .checks.execVersion==true
+  and .checks.execHelp==true
+  and .checks.execEngineStatusJson==true
+  and .checks.execMonomersListJson==true
   and .claimBoundary.definitiveFixpointAllowed==false
 ' "$PASS_ROOT/evidence/beta17-fixpoint-functional-stage-artifact/report.json" >/dev/null
 
@@ -119,5 +141,56 @@ jq -e '
   and (.blockers | index("stage1_artifact_missing_node_entrypoint"))
   and (.blockers | index("stage1_artifact_missing_argv_handling"))
 ' "$METADATA_ROOT/evidence/beta17-fixpoint-functional-stage-artifact/report.json" >/dev/null
+
+# Break attempt 4: a large dispatcher stub must not pass without executable command semantics.
+STUB_ROOT="$TMP_DIR/stub"
+write_fixture "$STUB_ROOT" functional
+cat >"$STUB_ROOT/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" <<'JS'
+#!/usr/bin/env node
+const BRIK64_VERSION = '0.1.0-beta.17';
+const command = process.argv.slice(2).join(" ");
+const commandDispatcher = new Map();
+commandDispatcher.set('certify', () => 'certify command');
+commandDispatcher.set('verify', () => 'verify command');
+commandDispatcher.set('emit', () => 'emit command');
+commandDispatcher.set('polymerize', () => 'polymerize command');
+commandDispatcher.set('lift', () => 'lift command');
+commandDispatcher.set('monomers', () => 'monomers command');
+commandDispatcher.set('engine status', () => 'engine status command');
+if (require.main === module) console.log(commandDispatcher.get(command) ? commandDispatcher.get(command)() : BRIK64_VERSION);
+JS
+python3 - "$STUB_ROOT/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" <<'PY'
+import pathlib, sys
+path = pathlib.Path(sys.argv[1])
+with path.open("a") as fh:
+    for index in range(5000):
+        fh.write(f"// generated stub filler {index}\n")
+PY
+sha="$(sha256_file "$STUB_ROOT/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs")"
+bytes="$(wc -c <"$STUB_ROOT/evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs" | tr -d ' ')"
+python3 - "$STUB_ROOT/evidence/beta17-fixpoint/stage1_artifact_manifest.json" "$sha" "$bytes" <<'PY'
+import json, pathlib, sys
+path = pathlib.Path(sys.argv[1])
+data = json.loads(path.read_text())
+data["artifact"]["sha256"] = sys.argv[2]
+data["artifact"]["bytes"] = int(sys.argv[3])
+path.write_text(json.dumps(data, indent=2) + "\n")
+PY
+if BRIK64_CLI_ROOT="$STUB_ROOT" node "$ROOT/scripts/beta17-fixpoint-functional-stage-artifact-gate.js" \
+  >"$TMP_DIR/stub.stdout" 2>"$TMP_DIR/stub.stderr"; then
+  echo "large dispatcher stub unexpectedly passed" >&2
+  exit 1
+fi
+jq -e '
+  .decision=="BLOCKED_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE"
+  and (.checks.artifactMinSize==true)
+  and (.checks.commandDispatcher==true)
+  and (.checks.execHelp==false)
+  and (.checks.execEngineStatusJson==false)
+  and (.checks.execMonomersListJson==false)
+  and any(.blockers[]; startswith("stage1_artifact_exec_help_failed:"))
+  and any(.blockers[]; startswith("stage1_artifact_exec_engine_status_json_failed:"))
+  and any(.blockers[]; startswith("stage1_artifact_exec_monomers_list_json_failed:"))
+' "$STUB_ROOT/evidence/beta17-fixpoint-functional-stage-artifact/report.json" >/dev/null
 
 echo "PASS beta17 functional stage artifact gate tests"
