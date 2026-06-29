@@ -45,6 +45,22 @@
   optional `cli.installCommand` metadata, so future public checks fail closed
   with verifier failures instead of JavaScript runtime exceptions.
 
+## Beta17 Fixpoint Route Update
+
+- Iteration: `beta17-materializer-route`.
+- Lane: `l6plus_n5_self_host_fixpoint`.
+- Current focus: prevent route confusion before remote mutation by auditing
+  every materializer path as one of: accepted Beta17 Stage result, candidate
+  local materializer, blocked provenance, blocked remote endpoint, rejected
+  legacy beta15/beta16 materializer or rejected fixture/template.
+- Publication policy: Beta17 remains blocked until a non-fixture Stage result
+  passes the Beta17 validator and later Stage1/Stage2 byte/hash-identical
+  gates pass with fresh evidence.
+- Claim boundary: route-audit PASS only proves that a route-shaped Stage result
+  is acceptable to the validator. It does not prove production fixpoint,
+  publishability, formal N5 or self-hosting without the later readiness and
+  release gates.
+
 ## Legacy Plan Context
 
 The earlier Beta15.4 plan below remains historical context for the release-train

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "brik64.beta17_fixpoint.materializer_route_audit.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T03:58:35.220Z",
+  "decision": "BLOCKED_BETA17_FIXPOINT_MATERIALIZER_ROUTE_AUDIT",
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "requiredCapability": "beta17_fixpoint_stage_dispatcher",
+  "stageRequest": {
+    "accepted": true,
+    "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
+    "materializerRequestSha256": "908c4c5df156201a07961141c3996f1fdda1de6f2ebcae246ade696fb0a8b51a",
+    "inputPcdCount": 4
+  },
+  "candidateRoutes": [
+    {
+      "id": "beta17_fixture_materializer",
+      "classification": "rejected_fixture_non_claim",
+      "ref": {
+        "path": "scripts/beta17-fixpoint-stage-fixture-materializer.js",
+        "exists": true,
+        "sha256": "56dcb48cd2e93db0886d8207e7531fa449db2317e9773f84eabfaea7daafd20b",
+        "bytes": 8608
+      },
+      "blockers": [
+        "fixture_materializer_fixture_or_template_content"
+      ]
+    },
+    {
+      "id": "remote_l6_beta15_7_cli_materializer",
+      "classification": "rejected_legacy_cli_materializer",
+      "ref": {
+        "path": "scripts/remote_l6_beta15_7_cli_materializer.js",
+        "exists": true,
+        "sha256": "9650589821870fa4045cbf4310dbac5a423ee87f189fd87f6cbb213db6c09f64",
+        "bytes": 6694
+      },
+      "blockers": [
+        "legacy_materializer_not_beta17_fixpoint_stage:scripts/remote_l6_beta15_7_cli_materializer.js"
+      ]
+    },
+    {
+      "id": "remote_l6_beta16_1_cli_materializer",
+      "classification": "rejected_legacy_cli_materializer",
+      "ref": {
+        "path": "scripts/remote_l6_beta16_1_cli_materializer.js",
+        "exists": true,
+        "sha256": "091f199e6f4117361bb756f854f366e35d8ab691c537a5d40b651441afd7c10f",
+        "bytes": 6684
+      },
+      "blockers": [
+        "legacy_materializer_not_beta17_fixpoint_stage:scripts/remote_l6_beta16_1_cli_materializer.js"
+      ]
+    },
+    {
+      "id": "generated_materializer",
+      "classification": "blocked_local_materializer",
+      "ref": null,
+      "blockers": [
+        "generated_materializer_argument_missing"
+      ]
+    },
+    {
+      "id": "materializer_provenance",
+      "classification": "blocked_provenance",
+      "ref": null,
+      "blockers": [
+        "provenance_file_missing:evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json"
+      ]
+    },
+    {
+      "id": "remote_l6_endpoint",
+      "classification": "blocked_remote_stage_endpoint",
+      "capabilities": [
+        "beta15_7_ready",
+        "beta16_native_ready",
+        "beta16_1_ready"
+      ],
+      "blockers": [
+        "remote_endpoint_capability_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+        "remote_attempt_not_pass:BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
+        "remote_attempt_blocker:remote_dispatcher_install_report_missing",
+        "remote_attempt_blocker:remote_l6plus_wrapper_mode_not_beta17_stage:unknown",
+        "remote_attempt_blocker:remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+        "remote_attempt_blocker:remote_l6plus_beta17_stage_result_unavailable"
+      ]
+    },
+    {
+      "id": "stage_result",
+      "classification": "blocked_stage_result",
+      "ref": null,
+      "blockers": [
+        "stage_result_output_missing"
+      ]
+    }
+  ],
+  "blockers": [
+    "generated_materializer:generated_materializer_argument_missing",
+    "stage_result:stage_result_output_missing",
+    "provenance:provenance_file_missing:evidence/beta17-fixpoint-remote-dispatcher/materializer-provenance.json",
+    "remote:remote_endpoint_capability_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+    "remote:remote_attempt_not_pass:BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
+    "remote:remote_attempt_blocker:remote_dispatcher_install_report_missing",
+    "remote:remote_attempt_blocker:remote_l6plus_wrapper_mode_not_beta17_stage:unknown",
+    "remote:remote_attempt_blocker:remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+    "remote:remote_attempt_blocker:remote_l6plus_beta17_stage_result_unavailable",
+    "no_beta17_fixpoint_materializer_route_ready"
+  ],
+  "nextAction": "generate a non-fixture Beta17 materializer from PCD/polymer via L6+N5, install the dispatcher, then rerun this audit"
+}
