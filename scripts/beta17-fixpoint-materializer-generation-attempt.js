@@ -52,6 +52,27 @@ function rel(file) {
   return path.relative(root, file);
 }
 
+function safeRelativePath(value) {
+  const text = String(value || '');
+  return (
+    text.length > 0 &&
+    !text.startsWith('/') &&
+    !text.includes('\0') &&
+    !/^https?:\/\//i.test(text) &&
+    !text.split(/[\\/]+/).some((segment) => segment === '..')
+  );
+}
+
+function resolveWorkspaceRef(refPath) {
+  if (!safeRelativePath(refPath)) throw new Error(`unsafe_result_ref:${refPath || 'missing'}`);
+  const resolved = path.resolve(root, refPath);
+  const workspace = path.resolve(root);
+  if (!(resolved === workspace || resolved.startsWith(`${workspace}${path.sep}`))) {
+    throw new Error(`result_ref_outside_workspace:${refPath}`);
+  }
+  return resolved;
+}
+
 function run(command, args, options = {}) {
   const result = childProcess.spawnSync(command, args, {
     cwd: root,
@@ -194,6 +215,42 @@ function transcriptRef(file) {
   return { path: rel(file), sha256: sha256File(file), bytes: fs.statSync(file).size };
 }
 
+function hydrateResultArtifact(result, refField, contentField) {
+  const ref = result?.[refField];
+  const encoded = result?.[contentField];
+  if (!ref || !encoded) return null;
+  const target = resolveWorkspaceRef(ref.path);
+  const bytes = Buffer.from(String(encoded), 'base64');
+  if (ref.bytes !== undefined && Number(ref.bytes) !== bytes.length) {
+    throw new Error(`materializer_generation_${refField}_content_bytes_mismatch`);
+  }
+  if (ref.sha256 && sha256(bytes) !== String(ref.sha256).replace(/^sha256:/, '').toLowerCase()) {
+    throw new Error(`materializer_generation_${refField}_content_sha256_mismatch`);
+  }
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, bytes);
+  return transcriptRef(target);
+}
+
+function hydrateMaterializerGenerationResult(result) {
+  if (!result || typeof result !== 'object') return { hydratedRefs: {}, blockers: [] };
+  const hydratedRefs = {};
+  const blockers = [];
+  for (const [refField, contentField] of [
+    ['generatedMaterializer', 'generatedMaterializerContentBase64'],
+    ['generationReport', 'generationReportContentBase64'],
+    ['materializerProvenance', 'materializerProvenanceContentBase64'],
+  ]) {
+    try {
+      const hydrated = hydrateResultArtifact(result, refField, contentField);
+      if (hydrated) hydratedRefs[refField] = hydrated;
+    } catch (error) {
+      blockers.push(error.message);
+    }
+  }
+  return { hydratedRefs, blockers };
+}
+
 function persistProbeTranscripts(remote) {
   const transcriptDir = path.join(evidenceDir, 'transcripts');
   const files = {
@@ -270,9 +327,18 @@ function main() {
     : {};
   const validations = persistedAttempts.map((attempt) => {
     const generationResult = attempt.generationResultRaw || null;
+    const hydration = hydrateMaterializerGenerationResult(generationResult);
     const validation = validateMaterializerGenerationResult(generationResult, expectedContext);
     const { generationResultRaw, ...reportAttempt } = attempt;
-    return { ...reportAttempt, generationResultValidation: validation };
+    return {
+      ...reportAttempt,
+      hydratedResultArtifacts: hydration.hydratedRefs,
+      generationResultValidation: {
+        ...validation,
+        accepted: validation.accepted && hydration.blockers.length === 0,
+        blockers: [...validation.blockers, ...hydration.blockers],
+      },
+    };
   });
   const accepted = validations.find((attempt) => attempt.generationResultValidation.accepted);
   if (!accepted) blockers.push('remote_l6plus_beta17_materializer_generation_result_unavailable');
@@ -372,6 +438,8 @@ module.exports = {
   parseEndpointSignals,
   parseRemoteRefs,
   parseWrapperMode,
+  hydrateMaterializerGenerationResult,
   requiredEndpointCapability,
   requiredResultMarker,
+  safeRelativePath,
 };
