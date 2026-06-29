@@ -4,7 +4,7 @@
   "version": "0.1.0-beta.17",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "6e092f5e9cb06a3fe26dc6f3eddfc79cf82ec60e1cab3ad1fa329bb879ad91e9",
+  "manifestDigest": "e1b460ee4030c3e8a057b5587658e3a7bdfffe91b65d50fa0ca6cccda92314c8",
   "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
   "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
   "sdkInstall": {
@@ -24,17 +24,12 @@
       "version": "0.1.0-beta.17"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.17\n\n### Changed\n\n- Publishes the Beta17 CLI package candidate as the next beta channel artifact with generated package evidence and hash-bound installer metadata.\n\n### Fixed\n\n- Separates package publication checks from live surface checks so installer, docs, skills, and SDK channels can be updated before final live verification.\n",
+  "changelogMarkdown": "## 0.1.0-beta.17\n\n### Changed\n\n- Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage.\n",
   "releaseNotes": [
     {
       "type": "changed",
       "surface": "CLI package",
-      "text": "Publishes the Beta17 CLI package candidate as the next beta channel artifact with generated package evidence and hash-bound installer metadata."
-    },
-    {
-      "type": "fixed",
-      "surface": "Release validation",
-      "text": "Separates package publication checks from live surface checks so installer, docs, skills, and SDK channels can be updated before final live verification."
+      "text": "Adds a Beta17 CLI package candidate with executable version, help, engine status, monomer registry, and base command smoke coverage."
     }
   ]
 }

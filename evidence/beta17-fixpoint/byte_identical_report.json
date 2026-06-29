@@ -2,19 +2,19 @@
   "schemaVersion": "brik64.beta17_fixpoint.byte_identical_report.v1",
   "decision": "PASS_BYTE_IDENTICAL_REGENERATION",
   "byteIdentical": true,
-  "stage1ArtifactSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-  "stage2ArtifactSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-  "stage1ArtifactBytes": 204448,
-  "stage2ArtifactBytes": 204448,
+  "stage1ArtifactSha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+  "stage2ArtifactSha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+  "stage1ArtifactBytes": 246492,
+  "stage2ArtifactBytes": 246492,
   "stage1Artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-    "bytes": 204448
+    "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+    "bytes": 246492
   },
   "stage2Artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
-    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-    "bytes": 204448
+    "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+    "bytes": 246492
   },
   "claimBoundary": {
     "publicReleaseAllowed": false,

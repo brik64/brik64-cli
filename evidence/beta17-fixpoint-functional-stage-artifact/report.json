@@ -1,16 +1,16 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.functional_stage_artifact_gate.v1",
-  "generatedAt": "2026-06-29T11:48:32.259Z",
+  "generatedAt": "2026-06-29T12:26:23.312Z",
   "version": "0.1.0-beta.17",
   "decision": "PASS_BETA17_FUNCTIONAL_STAGE_ARTIFACT_GATE",
   "releaseEligibleStageArtifact": true,
   "minBytes": 50000,
   "artifact": {
     "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-    "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-    "bytes": 204448,
-    "expectedSha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-    "expectedBytes": 204448
+    "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+    "bytes": 246492,
+    "expectedSha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+    "expectedBytes": 246492
   },
   "checks": {
     "stage1ManifestVersion": true,
@@ -33,6 +33,17 @@
       "emit": true,
       "polymerize": true,
       "lift": true
+    },
+    "semanticSmoke": {
+      "init": true,
+      "invalidCertifyFailClosed": true,
+      "certify": true,
+      "verifyJson": true,
+      "emitTs": true,
+      "emitPython": true,
+      "polymerize": true,
+      "liftPreview": true,
+      "workdir": "/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/brik64-beta17-stage-semantic-QRSz1O"
     }
   },
   "blockers": [],

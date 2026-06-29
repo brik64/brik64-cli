@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.readiness_evidence_refresh.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T11:48:33.349Z",
+  "generatedAt": "2026-06-29T12:30:08.099Z",
   "decision": "PASS_BETA17_FIXPOINT_READINESS_EVIDENCE_REFRESH",
   "publicationAllowed": false,
   "claimBoundary": {
@@ -20,12 +20,12 @@
   },
   "refreshedRemotePromotionManifestRef": {
     "path": "evidence/beta17-fixpoint/remote_promotion_manifest.json",
-    "sha256": "b4cc6f87f056db762034f287438013eebf34f857accf443109c9e8138595211c",
+    "sha256": "d09852a20b968165b2bc0060d07754836a9833ceaab12702d35f877751d60b4d",
     "bytes": 5924
   },
   "evidencePackManifestRef": {
     "path": "evidence/beta17-fixpoint/evidence_pack_manifest.json",
-    "sha256": "349cf227d4d2d62eb2b4a21b65e8b8f63617fe9937f9643be9a7e665b62ae6b9",
+    "sha256": "9cb92cace2bc369dc8e25e5d82b6ab8a2109798a83dc4fc34f683b34e59e9756",
     "files": 19
   },
   "nextExpectedBlockers": [

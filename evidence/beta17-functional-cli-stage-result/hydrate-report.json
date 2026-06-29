@@ -1,33 +1,33 @@
 {
   "schemaVersion": "brik64.beta17_functional_cli_stage_result_hydration.v1",
-  "generatedAt": "2026-06-29T11:48:32.288Z",
+  "generatedAt": "2026-06-29T12:26:02.764Z",
   "version": "0.1.0-beta.17",
   "decision": "PASS_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_HYDRATION",
   "hydrated": true,
   "resultLine": {
     "path": "evidence/beta17-functional-cli-stage-result/result.line",
-    "sha256": "5e9bae90ce48f7b27e509a78a1a52d6ce2e47b31c57979ce3a8ae915a90f626e",
-    "bytes": 367291
+    "sha256": "067bccdc5f5bdcc3aca16b5508d73791d942d4939ce80a86a73dc33ee02543d7",
+    "bytes": 442031
   },
   "hydratedRefs": {
     "stage1Artifact": {
       "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
-      "sha256": "d5cf0cd36765e0fdee7aad4141a67797dd7df8fb495370d543eadb132831e49b",
-      "bytes": 204448
+      "sha256": "7c549d71c56bf2a188e79e7522d0e09aa3ce138df5e7b945674e83185b430a7d",
+      "bytes": 246492
     },
     "stage1Manifest": {
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
-      "sha256": "cba469f0ab0c9380608401092f242d0a751485b0ab061d4fde613575c0e61b6e",
+      "sha256": "6f733e758fde1327e93d63f17f95bcb1b51a1fa0e1a1f75db4d23c50c47bf3ea",
       "bytes": 961
     },
     "functionalStageReport": {
       "path": "evidence/beta17-fixpoint-functional-stage-artifact/report.json",
-      "sha256": "ea763d5ea8eafbd5a87ba53abd306ecaa0cd4f1ad03025e62889553e5a218229",
-      "bytes": 1621
+      "sha256": "c863f8a9f78f7ee7ad66b0fa2eb03389afe4841df45a47babb539fe81e70c590",
+      "bytes": 1965
     },
     "packageManifest": {
       "path": "evidence/beta17-package/package.manifest.json",
-      "sha256": "8f5d08636a196bf23e6768c0b7fa4af3be2ed3e9501b1339f892989888aa1933",
+      "sha256": "57c79ec59398161699b9654ff4c6b00f63038aa31c616ada64ca8e7e39d330bb",
       "bytes": 1073
     }
   },

@@ -21,14 +21,45 @@ if [ "$PACKAGE_VERSION" = "0.1.0-beta.17" ] && { [ "$MANIFEST_STATE" = "candidat
   BETA17_BRIK="$tmpdir/beta17-package/brik64-cli-$PACKAGE_VERSION/src/brik.js"
   test -f "$BETA17_BRIK"
   node "$BETA17_BRIK" --version | grep -q "$PACKAGE_VERSION"
-  node "$BETA17_BRIK" certify | grep -q "certify command"
-  node "$BETA17_BRIK" verify | grep -q "verify command"
-  node "$BETA17_BRIK" emit | grep -q "emit command"
-  node "$BETA17_BRIK" polymerize | grep -q "polymerize command"
-  node "$BETA17_BRIK" lift | grep -q "lift command"
   node "$BETA17_BRIK" engine status --json | grep -q '"engine": "L4+N5"'
   node "$BETA17_BRIK" engine status --json | grep -q '"runtimeProfile": "l4plus_n5_local"'
-  node "$BETA17_BRIK" monomers list --json | grep -q '"total": 128'
+  node "$BETA17_BRIK" monomers list --json | grep -Eq '"total": 128|"totalCount": 128'
+  beta17_work="$tmpdir/beta17-work"
+  mkdir -p "$beta17_work"
+  cat >"$beta17_work/program.pcd" <<'PCD'
+// brik64.pcd_file.v1
+PC sample {
+    domain input: i64 [0, 255];
+    fn sample(input: i64) -> i64 {
+        if (input == 0) {
+            return 1;
+        }
+        return 2;
+    }
+}
+PCD
+  (
+    cd "$beta17_work"
+    node "$BETA17_BRIK" init
+    if node "$BETA17_BRIK" certify >/tmp/brik64-beta17-certify-missing.out 2>/tmp/brik64-beta17-certify-missing.err; then
+      echo "beta17 certify without file should fail closed" >&2
+      exit 1
+    fi
+    grep -q "missing_path" /tmp/brik64-beta17-certify-missing.err
+    node "$BETA17_BRIK" certify program.pcd
+    test -f program.pcd.cert.json
+    node "$BETA17_BRIK" verify program.pcd --json | grep -q '"status": "PASS"'
+    node "$BETA17_BRIK" emit program.pcd --target ts --out out-ts --tests | grep -q "generated="
+    test -f out-ts/program/program.mjs
+    test -f out-ts/program/program.test.mjs
+    node "$BETA17_BRIK" emit program.pcd --target python --out out-python --tests | grep -q "generated="
+    test -f out-python/brik64_generated_program/program.py
+    test -f out-python/tests/test_program.py
+    node "$BETA17_BRIK" polymerize program.pcd --inline --root sample --out polymer.pcd --json | grep -q '"schemaVersion": "brik64.cli_polymer_manifest.v1"'
+    test -f polymer.pcd
+    printf 'function score(x) { if (x > 10) return x - 1; return x + 1; }\n' > source.js
+    node "$BETA17_BRIK" lift js source.js --preview | grep -Ei 'lift|candidate|preview|schemaVersion' >/dev/null
+  )
   exit 0
 fi
 

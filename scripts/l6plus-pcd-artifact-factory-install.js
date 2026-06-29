@@ -62,6 +62,42 @@ function isAbsoluteSafeRemotePath(value) {
 }
 
 function buildFactorySource() {
+  const runtimeSourcePath = path.join(path.resolve(__dirname, '..'), 'src', 'brik.js');
+  let runtimeSource = fs.readFileSync(runtimeSourcePath, 'utf8')
+    .replace(/const version = '[^']+';/, "const version = '0.1.0-beta.17';")
+    .replace(/const RELEASE_STATUS = '[^']+';/, "const RELEASE_STATUS = 'public_beta';");
+  runtimeSource = runtimeSource.replace(
+    "function repoRoot() {\n  return path.resolve(__dirname, '..');\n}",
+    `function repoRoot() {
+  let current = path.resolve(__dirname);
+  for (let depth = 0; depth < 8; depth += 1) {
+    if (fs.existsSync(path.join(current, 'engines', 'l4plus-n5', 'runtime-bundle.manifest.json'))) {
+      return current;
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return path.resolve(__dirname, '..');
+}`,
+  );
+  if (!runtimeSource.startsWith('#!/usr/bin/env node')) {
+    runtimeSource = `#!/usr/bin/env node\n${runtimeSource}`;
+  }
+  runtimeSource = runtimeSource.replace(
+    '#!/usr/bin/env node\n',
+    [
+      '#!/usr/bin/env node',
+      "import { createRequire } from 'module';",
+      "import { fileURLToPath } from 'url';",
+      "import * as nodePath from 'path';",
+      'const require = createRequire(import.meta.url);',
+      'const __filename = fileURLToPath(import.meta.url);',
+      'const __dirname = nodePath.dirname(__filename);',
+      '',
+    ].join('\n'),
+  );
+  const runtimeSourceBase64 = Buffer.from(runtimeSource).toString('base64');
   return String.raw`#!/usr/bin/env node
 const fs = require('fs');
 const crypto = require('crypto');
@@ -69,6 +105,7 @@ const crypto = require('crypto');
 const REQUEST_PREFIX = 'BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST\t';
 const RESULT_PREFIX = 'BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT\t';
 const CAPABILITY = 'l6plus_pcd_artifact_factory';
+const EMBEDDED_CLI_SOURCE_BASE64 = ` + JSON.stringify(runtimeSourceBase64) + String.raw`;
 const SERIAL_PATH = process.env.BRIK64_L6_SERIAL_PATH || '/opt/brik64/engines/l6plus-n5/current/serial.txt';
 const WRAPPER_PATH = process.env.BRIK64_L6_WRAPPER_PATH || '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5';
 const EXEC_TARGET = process.env.BRIK64_L6_EXEC_TARGET || '/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus';
@@ -165,54 +202,7 @@ function boundJsonRef(path, value) {
 }
 
 function buildFunctionalCliArtifact(request) {
-  const monomers = Array.from({ length: 128 }, (_, index) => ({
-    id: 'MC_' + String(index).padStart(2, '0'),
-    name: index < 64 ? 'CORE_' + String(index).padStart(2, '0') : 'EXTENDED_' + String(index).padStart(2, '0'),
-    tier: index < 64 ? 'core' : 'extended',
-    executable: true,
-  }));
-  const monomerLiteral = JSON.stringify(monomers, null, 2);
-  const cliSource = [
-    '#!/usr/bin/env node',
-    "const BRIK64_VERSION = '0.1.0-beta.17';",
-    "const ENGINE_STATUS = { engine: 'L4+N5', runtimeProfile: 'l4plus_n5_local', localRuntime: 'available', releaseEligible: true };",
-    'const MONOMERS = ' + monomerLiteral + ';',
-    'const argv = process.argv.slice(2);',
-    'const command = argv.join(" ");',
-    'const commandDispatcher = new Map();',
-    'function printJson(value) { console.log(JSON.stringify(value, null, 2)); }',
-    'function printHelp() {',
-    "  console.log(['BRIK64 CLI 0.1.0-beta.17', '', 'Commands:', '  certify <file.pcd>', '  verify <file.pcd>', '  emit <file.pcd> --target ts|python|rust --tests', '  polymerize <files...> --out polymer.pcd', '  lift js|ts|python|rust <path> --preview', '  monomers list --json', '  engine status --json'].join('\\n'));",
-    '}',
-    "commandDispatcher.set('--version', () => console.log(BRIK64_VERSION));",
-    "commandDispatcher.set('version', () => console.log(BRIK64_VERSION));",
-    "commandDispatcher.set('--help', () => printHelp());",
-    "commandDispatcher.set('help', () => printHelp());",
-    "commandDispatcher.set('engine status --json', () => printJson(ENGINE_STATUS));",
-    "commandDispatcher.set('monomers list --json', () => printJson({ schemaVersion: 'brik64.monomer_registry.v1', version: BRIK64_VERSION, counts: { core: 64, extended: 64, total: 128 }, monomers: MONOMERS }));",
-    "commandDispatcher.set('certify', () => console.log('certify command'));",
-    "commandDispatcher.set('verify', () => console.log('verify command'));",
-    "commandDispatcher.set('emit', () => console.log('emit command'));",
-    "commandDispatcher.set('polymerize', () => console.log('polymerize command'));",
-    "commandDispatcher.set('lift', () => console.log('lift command'));",
-    "commandDispatcher.set('monomers', () => printJson({ counts: { core: 64, extended: 64, total: 128 }, monomers: MONOMERS }));",
-    "commandDispatcher.set('engine status', () => printJson(ENGINE_STATUS));",
-    'if (commandDispatcher.has(command)) {',
-    '  commandDispatcher.get(command)();',
-    "} else if (argv[0] === 'certify') {",
-    "  console.log('certify command');",
-    "} else if (argv[0] === 'verify') {",
-    "  console.log('verify command');",
-    "} else if (argv[0] === 'emit') {",
-    "  console.log('emit command');",
-    "} else if (argv[0] === 'polymerize') {",
-    "  console.log('polymerize command');",
-    "} else if (argv[0] === 'lift') {",
-    "  console.log('lift command');",
-    "} else {",
-    '  printHelp();',
-    '}',
-  ].join('\n');
+  const cliSource = Buffer.from(EMBEDDED_CLI_SOURCE_BASE64, 'base64').toString('utf8');
   const trace = JSON.stringify({
     schemaVersion: 'brik64.beta17.functional_cli_stage_artifact.trace.v1',
     version: request.version,
@@ -221,8 +211,7 @@ function buildFunctionalCliArtifact(request) {
     requiredInputPcdPaths: request.requiredInputPcdPaths,
     claimBoundary: closedClaimBoundary(),
   }, null, 2);
-  const filler = Array.from({ length: 2600 }, (_, index) => '// brik64 beta17 functional cli materialized from PCD/polymer input ' + index).join('\n');
-  return Buffer.from(cliSource + '\n/*\n' + trace + '\n*/\n' + filler + '\n');
+  return Buffer.from(cliSource + '\n/*\n' + trace + '\n*/\n');
 }
 
 function buildBeta17FunctionalCliStageResult(request, inputRefs, factoryRequestSha256, serial, remoteWrapperSha256, wrapperExecTargetSha256) {

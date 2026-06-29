@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.l6plus_pcd_artifact_factory_audit.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T11:46:21.028Z",
+  "generatedAt": "2026-06-29T12:25:17.178Z",
   "decision": "PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT",
   "host": "root@89.167.104.236",
   "wrapper": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",

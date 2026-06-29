@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T11:49:53.655Z",
+  "generatedAt": "2026-06-29T12:29:55.715Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
   "releaseId": "brik64-0.1.0-beta.17",
@@ -21,10 +21,10 @@
       "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
       "exists": true,
       "pass": true,
-      "expectedSha256": "0a02a1fd1ac6cf8104957c4d663bd5c8f759d239cba09d9fe455c9fab7526738",
-      "expectedBytes": 433205,
-      "sha256": "0a02a1fd1ac6cf8104957c4d663bd5c8f759d239cba09d9fe455c9fab7526738",
-      "bytes": 433205
+      "expectedSha256": "e0cb9a8c2d50426f113f0fac44b7ef94aea6fe74b8b953602535193c1e5ba442",
+      "expectedBytes": 603204,
+      "sha256": "e0cb9a8c2d50426f113f0fac44b7ef94aea6fe74b8b953602535193c1e5ba442",
+      "bytes": 603204
     },
     {
       "id": "package_manifest",
@@ -35,8 +35,8 @@
       "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
       "package": {
         "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-        "sha256": "0a02a1fd1ac6cf8104957c4d663bd5c8f759d239cba09d9fe455c9fab7526738",
-        "bytes": 433205
+        "sha256": "e0cb9a8c2d50426f113f0fac44b7ef94aea6fe74b8b953602535193c1e5ba442",
+        "bytes": 603204
       },
       "releaseEligible": true,
       "publicationAllowed": false,
@@ -77,7 +77,7 @@
       "path": "evidence/beta17-fixpoint/stage1_artifact_manifest.json",
       "exists": true,
       "pass": true,
-      "sha256": "b026cdbdd74233b27700e85446f50fd99f3797028364656f02f5cfb9b318dca5",
+      "sha256": "6f733e758fde1327e93d63f17f95bcb1b51a1fa0e1a1f75db4d23c50c47bf3ea",
       "bytes": 961
     },
     {
@@ -135,10 +135,19 @@
       "exists": true,
       "pass": false,
       "decision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
-      "sha256": "b62489723c844f12e49e4e02befd16394c95ac0279d55f5ac641d79ea56fec13",
-      "bytes": 6231,
+      "sha256": "65a48634f0719d1dd1b15b596295fe739ab83dc7a4a5e9b29e8858e2cf132ad8",
+      "bytes": 6983,
       "blocker": "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
       "blockers": [
+        "evidence_pack_manifest_sha256_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+        "remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest",
+        "remote_promotion_ref_file_sha256_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+        "remote_promotion_target_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+        "remote_promotion_source_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+        "byte_identity_stage1_artifact_sha256_mismatch",
+        "byte_identity_stage_artifact_size_mismatch",
+        "stage2_manifest_stage1_artifact_sha256_mismatch",
+        "seal_stage1_artifact_sha256_mismatch",
         "public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
         "external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
         "external_audit_missing_clean_public_install",
@@ -187,6 +196,15 @@
   ],
   "blockers": [
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+    "readiness:evidence_pack_manifest_sha256_mismatch:evidence/beta17-fixpoint/stage1_artifact_manifest.json",
+    "readiness:remote_promotion_ref_sha256_mismatch:stage1ArtifactManifest",
+    "readiness:remote_promotion_ref_file_sha256_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "readiness:remote_promotion_target_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "readiness:remote_promotion_source_bytes_mismatch:stage1Artifact:evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "readiness:byte_identity_stage1_artifact_sha256_mismatch",
+    "readiness:byte_identity_stage_artifact_size_mismatch",
+    "readiness:stage2_manifest_stage1_artifact_sha256_mismatch",
+    "readiness:seal_stage1_artifact_sha256_mismatch",
     "readiness:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
     "readiness:external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
     "readiness:external_audit_missing_clean_public_install",
