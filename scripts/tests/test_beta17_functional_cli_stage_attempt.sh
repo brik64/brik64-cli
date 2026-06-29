@@ -194,8 +194,15 @@ PY
 
 PASS_ROOT="$TMP_DIR/pass"
 write_fixture "$PASS_ROOT" valid
-BRIK64_CLI_ROOT="$PASS_ROOT" node "$PASS_ROOT/scripts/beta17-functional-cli-stage-attempt.js" \
-  >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"
+if ! BRIK64_CLI_ROOT="$PASS_ROOT" node "$PASS_ROOT/scripts/beta17-functional-cli-stage-attempt.js" \
+  >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"; then
+  echo "valid functional stage attempt unexpectedly failed" >&2
+  cat "$TMP_DIR/pass.stdout" >&2 || true
+  cat "$TMP_DIR/pass.stderr" >&2 || true
+  jq '.' "$PASS_ROOT/evidence/beta17-functional-cli-stage-attempt/report.json" >&2 || true
+  jq '.' "$PASS_ROOT/evidence/beta17-functional-cli-stage-result/hydrate-report.json" >&2 || true
+  exit 1
+fi
 jq -e '
   .decision=="PASS_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT"
   and .hydrated==true
@@ -225,6 +232,7 @@ jq -e '
 INVALID_ROOT="$TMP_DIR/invalid"
 write_fixture "$INVALID_ROOT" invalid
 if BRIK64_CLI_ROOT="$INVALID_ROOT" node "$INVALID_ROOT/scripts/beta17-functional-cli-stage-attempt.js" \
+  --result-line "$INVALID_ROOT/evidence/beta17-functional-cli-stage-result/result.line" \
   >"$TMP_DIR/invalid.stdout" 2>"$TMP_DIR/invalid.stderr"; then
   echo "invalid functional stage attempt unexpectedly passed" >&2
   exit 1
