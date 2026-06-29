@@ -703,3 +703,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   correct next boundary: L6+N5 needs a target-aware factory materializer that
   can produce the functional CLI Stage result from PCD/polymer inputs, without
   turning the non-claim wrapper bridge into fixpoint/self-hosting evidence.
+- Target-aware factory result gate update:
+  `gate:beta17:target-aware-factory-result` now validates the output of
+  `artifact-factory-materialize` as a target-aware Beta17 CLI Stage output. A
+  generic `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` is not sufficient unless
+  it carries or embeds a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+  Current real evidence is blocked with missing target result line, non
+  target-aware factory result and non-functional Node CLI artifact blockers.

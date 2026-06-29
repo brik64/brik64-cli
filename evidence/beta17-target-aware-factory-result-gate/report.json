@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "brik64.beta17_target_aware_factory_result_gate.v1",
+  "generatedAt": "2026-06-29T08:03:20.054Z",
+  "version": "0.1.0-beta.17",
+  "decision": "BLOCKED_BETA17_TARGET_AWARE_FACTORY_RESULT_GATE",
+  "publicationAllowed": false,
+  "transcript": {
+    "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/factory-attempt.stdout.txt",
+    "sha256": "fb0b8341719b03bbc1af09ccf9dcafd82007265edd6a8b20e43c1db17d8fe7f2",
+    "bytes": 3935
+  },
+  "requestManifest": {
+    "path": "evidence/beta17-functional-cli-stage-request/request.manifest.json",
+    "sha256": "4b064b5e94d29b6c3a3847da1ed434fd8345d7cba935d8ea635c88574dc1f9bb",
+    "bytes": 2777
+  },
+  "factoryResult": {
+    "schemaVersion": "brik64.l6plus_pcd_artifact_factory_result.v1",
+    "version": "0.1.0-beta.17",
+    "artifactKind": "cli",
+    "capability": "l6plus_pcd_artifact_factory",
+    "generatedArtifactBytes": 657,
+    "generatedArtifactSha256": "b20c1cc262a9f6efa1b36589f09657a5f5ca305079ac82f57b35fa0d6031a8d5",
+    "hasTargetResultLine": false,
+    "artifactLooksLikeNodeCli": false,
+    "artifactContainsFunctionalMarker": false
+  },
+  "targetFunctionalCliStageResultObserved": false,
+  "validation": {
+    "accepted": false,
+    "blockers": [
+      "functional_cli_stage_result_missing"
+    ]
+  },
+  "blockers": [
+    "factory_result_missing_target_functional_cli_stage_result_line",
+    "factory_result_not_target_aware",
+    "factory_artifact_not_functional_node_cli"
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false,
+    "publicClaimsAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "nextAction": "upgrade L6+N5 factory materializer to emit a target-aware BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT"
+}

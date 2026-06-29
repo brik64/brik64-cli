@@ -4228,3 +4228,46 @@ Boundary:
   generated, not publishable, and not fixpoint/self-hosting/formal claim
   evidence because the current factory output is generic rather than a
   functional CLI Stage result.
+
+## Beta17 Ralph Loop Iteration - Target-aware factory result gate
+
+Timestamp: 2026-06-29T11:35:00Z
+
+Task:
+- Add a gate that distinguishes a generic L6+N5 artifact-factory result from a
+  target-aware Beta17 functional CLI Stage result.
+
+Change:
+- Added `scripts/beta17-target-aware-factory-result-gate.js`.
+- Added `scripts/tests/test_beta17_target_aware_factory_result_gate.sh`.
+- Added npm scripts `gate:beta17:target-aware-factory-result` and
+  `test:beta17:target-aware-factory-result`.
+- Generated real evidence at
+  `evidence/beta17-target-aware-factory-result-gate/report.json`.
+
+Validation:
+- `node --check scripts/beta17-target-aware-factory-result-gate.js` passed.
+- `npm run test:beta17:target-aware-factory-result` passed.
+- `npm run gate:beta17:target-aware-factory-result` failed closed against real
+  current L6+N5 factory output.
+
+Break attempts:
+- Synthetic target-aware factory result with embedded
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` passes.
+- Generic factory result without target result line fails closed.
+- Missing factory transcript fails closed.
+
+Current real blockers:
+- `factory_result_missing_target_functional_cli_stage_result_line`.
+- `factory_result_not_target_aware`.
+- `factory_artifact_not_functional_node_cli`.
+
+Next exact action:
+- Upgrade the L6+N5 factory materializer so `artifactKind=cli` requests for
+  Beta17 emit or embed a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`,
+  then rerun `gate:beta17:target-aware-factory-result` and
+  `attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- This iteration strengthens the gate only. It does not generate Beta17, does
+  not publish, and does not authorize fixpoint/self-hosting/formal claims.

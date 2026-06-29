@@ -1909,3 +1909,22 @@
         hydration gate writes a functional Stage1 CLI artifact, package
         candidate reports `releaseEligible=true`, and no publication/fixpoint
         claim is opened before readiness and external-audit gates.
+
+- [x] Add a target-aware factory result gate for Beta17.
+      - Script:
+        `scripts/beta17-target-aware-factory-result-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_target_aware_factory_result_gate.sh`.
+      - NPM:
+        `gate:beta17:target-aware-factory-result`.
+        `test:beta17:target-aware-factory-result`.
+      - Result:
+        fixture PASS, generic factory output fail-closed and missing transcript
+        fail-closed are all covered. Real evidence currently blocks with
+        `factory_result_missing_target_functional_cli_stage_result_line`,
+        `factory_result_not_target_aware` and
+        `factory_artifact_not_functional_node_cli`.
+      - Boundary:
+        this gate prevents confusing a valid generic factory result with a
+        functional Beta17 CLI Stage result. It does not generate or publish
+        Beta17.
