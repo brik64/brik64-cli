@@ -55,7 +55,6 @@
   "warnings": [
     "post_publication_evidence_decision_drift:beta17_fixpoint_readiness:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
     "post_publication_evidence_decision_drift:beta17_public_surface_sync:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
-    "post_publication_evidence_decision_drift:beta17_external_audit_status:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
-    "worktree_dirty_allowed:6"
+    "post_publication_evidence_decision_drift:beta17_external_audit_status:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
   ]
 }
