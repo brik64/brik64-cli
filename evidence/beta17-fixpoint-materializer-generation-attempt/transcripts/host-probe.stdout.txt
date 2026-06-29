@@ -1,0 +1,27 @@
+checksums_ok=5
+serial=BRIK64-L6PLUS-N5-20260605-BETA6MP-660de957
+brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-generated;engine=l6_plus;engine_tier=internal_generation;lane=internal_adaptive;claim_authority=non_claim;public_claim_allowed=false;stage1_compiler_binary_surface=generated_from_pcd_polymer;
+brikc_cli_l6plus 5.0.0-beta.1-l6plus-internal-generated
+engine=l6_plus
+engine_tier=internal_generation
+lane=internal_adaptive
+claim_authority=non_claim
+public_claim_allowed=false
+stage1_compiler_binary_surface=generated_from_pcd_polymer
+{
+  "decision": "PASS",
+  "report": "/var/lib/brik64/l6plus-n5/audit-report.json",
+  "checks": {
+    "serial_expected": true,
+    "binary_executable": true,
+    "checksums_ok": true,
+    "claim_boundary_closed": true,
+    "version_rc_ok": true,
+    "version_declares_l6_plus": true,
+    "version_declares_non_claim": true,
+    "invalid_compile_fails_closed": true,
+    "systemd_service_enabled": true,
+    "systemd_timer_enabled": true,
+    "systemd_service_active_or_exited": true
+  }
+}

@@ -1,0 +1,3 @@
+BRIK64_REMOTE_REF	wrapper	2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656	1546	/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5
+BRIK64_REMOTE_REF	wrapper_exec_target	7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a	851	/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus
+BRIK64_WRAPPER_MODE	unknown

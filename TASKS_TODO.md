@@ -1547,3 +1547,39 @@
         this is fresh blocker evidence only. It does not install the dispatcher,
         execute remote mutation, generate Stage1/Stage2 artifacts, prove
         fixpoint or publish Beta17.
+
+- [x] Add Beta17 materializer generation attempt gate.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-generation-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_generation_attempt.sh`.
+      - NPM:
+        `attempt:beta17:fixpoint:materializer-generation`.
+        `test:beta17:fixpoint:materializer-generation-attempt`.
+      - Result:
+        the gate consumes the materializer-generation request, probes the
+        L6+N5 host, tries bounded materializer-generation commands and accepts
+        only `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT` evidence
+        validated against the current request and observed remote hashes.
+      - Live evidence:
+        `evidence/beta17-fixpoint-materializer-generation-attempt/report.json`
+        reports
+        `BLOCKED_BETA17_FIXPOINT_MATERIALIZER_GENERATION_ATTEMPT`.
+      - Current blocker:
+        remote L6+N5 audit passes, but the wrapper mode is `unknown`, exposed
+        capabilities are `beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+        and no Beta17 materializer-generation result is emitted.
+      - Boundary:
+        this is fail-closed attempt evidence. It does not generate the
+        materializer, install the dispatcher, materialize Stage1/Stage2, prove
+        fixpoint or publish Beta17.
+
+- [ ] Install or expose the Beta17 materializer-generation endpoint on L6+N5.
+      - Required endpoint capability:
+        `beta17_fixpoint_materializer_generator`.
+      - Required result marker:
+        `BRIK64_BETA17_FIXPOINT_MATERIALIZER_GENERATION_RESULT`.
+      - Done when:
+        `npm run attempt:beta17:fixpoint:materializer-generation` passes with
+        a validated non-fixture generated materializer and closed claim
+        boundaries.

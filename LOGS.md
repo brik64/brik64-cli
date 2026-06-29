@@ -3399,3 +3399,59 @@ Boundary:
 - This validates future result evidence only. It does not generate the
   materializer, install the dispatcher, materialize Stage1/Stage2, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer generation attempt gate
+
+Timestamp: 2026-06-29T04:38:02Z
+
+Task:
+- Add a fail-closed attempt gate that sends/probes the Beta17 materializer
+  generation request against L6+N5 and accepts only a validated generated
+  materializer result.
+
+Change:
+- Added `scripts/beta17-fixpoint-materializer-generation-attempt.js`.
+- Added npm scripts `attempt:beta17:fixpoint:materializer-generation` and
+  `test:beta17:fixpoint:materializer-generation-attempt`.
+- Added `scripts/tests/test_beta17_fixpoint_materializer_generation_attempt.sh`.
+- Refreshed
+  `evidence/beta17-fixpoint-materializer-generation-request/` for source commit
+  `51ac26d44f15a4662731a2fc408afad7641dc20c`.
+- Added live blocked attempt evidence under
+  `evidence/beta17-fixpoint-materializer-generation-attempt/`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-materializer-generation-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_generation_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-attempt` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-result` passed.
+- `npm run test:beta17:fixpoint:materializer-generation-request` passed.
+- `npm run test:beta17:fixpoint:materializer-route` passed.
+- Live attempt ran through
+  `npm run bundle:beta17:fixpoint:materializer-generation-request` then
+  `npm run attempt:beta17:fixpoint:materializer-generation`; it exited with
+  expected blocked rc `2`.
+
+Live evidence:
+- Report:
+  `evidence/beta17-fixpoint-materializer-generation-attempt/report.json`.
+- Decision:
+  `BLOCKED_BETA17_FIXPOINT_MATERIALIZER_GENERATION_ATTEMPT`.
+- Blockers:
+  `remote_l6plus_wrapper_mode_not_materializer_generation:unknown`,
+  `remote_l6plus_materializer_generation_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  `remote_l6plus_beta17_materializer_generation_result_unavailable`.
+- Remote health:
+  host probe status `0`, audit decision `PASS`.
+
+Break attempts:
+- Skip-mode remote probe fails closed and records transcript evidence.
+- Missing generated result fails closed with
+  `remote_l6plus_beta17_materializer_generation_result_unavailable`.
+- Parser checks reject relying on generic endpoint text and require explicit
+  `beta17_fixpoint_materializer_generator` capability.
+
+Boundary:
+- This is attempt/blocker evidence only. It does not generate the materializer,
+  install a dispatcher, materialize Stage1/Stage2, prove fixpoint, authorize
+  public release or publish Beta17.
