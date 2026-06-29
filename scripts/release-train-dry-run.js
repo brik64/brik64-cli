@@ -1423,32 +1423,50 @@ function main() {
       : [];
 
     for (const item of manifestRequiredEvidence) {
+      const isPostPublication = item.phase === 'post_publication';
       const evidencePath = path.join(root, item.path);
       if (!fs.existsSync(evidencePath)) {
-        failures.push(`evidence_missing:${item.id}`);
+        if (isPostPublication) {
+          requiredEvidence.push({
+            id: item.id,
+            phase: item.phase,
+            path: item.path,
+            expectedDecision: item.decision,
+            actualDecision: 'MISSING_POST_PUBLICATION_EVIDENCE',
+            pass: false,
+            deferredUntil: 'post_publication_live_verify'
+          });
+        } else {
+          failures.push(`evidence_missing:${item.id}`);
+        }
         continue;
       }
       if (item.decision === 'FILE_EXISTS') {
         const stat = fs.statSync(evidencePath);
         requiredEvidence.push({
           id: item.id,
+          phase: item.phase || 'pre_publication',
           path: item.path,
           expectedDecision: 'FILE_EXISTS',
           actualDecision: stat.isFile() ? 'FILE_EXISTS' : 'NOT_FILE',
           pass: stat.isFile()
         });
-        if (!stat.isFile()) failures.push(`evidence_not_file:${item.id}`);
+        if (!stat.isFile() && !isPostPublication) failures.push(`evidence_not_file:${item.id}`);
         continue;
       }
       const evidence = readJson(evidencePath);
       requiredEvidence.push({
         id: item.id,
+        phase: item.phase || 'pre_publication',
         path: item.path,
         expectedDecision: item.decision,
         actualDecision: evidence.decision,
-        pass: evidence.decision === item.decision
+        pass: evidence.decision === item.decision,
+        deferredUntil: isPostPublication && evidence.decision !== item.decision
+          ? 'post_publication_live_verify'
+          : undefined
       });
-      if (evidence.decision !== item.decision) failures.push(`evidence_decision_drift:${item.id}`);
+      if (evidence.decision !== item.decision && !isPostPublication) failures.push(`evidence_decision_drift:${item.id}`);
     }
 
     if (!manifestRequiredEvidence.length) {

@@ -234,9 +234,14 @@ function validate() {
 
   const evidence = [];
   for (const item of manifest.verification?.requiredEvidence || []) {
+    const isPostPublication = item.phase === 'post_publication';
     const evidencePath = path.join(root, item.path);
     if (!fs.existsSync(evidencePath)) {
-      failures.push(`evidence_missing:${item.id}`);
+      if (isPostPublication) {
+        warnings.push(`post_publication_evidence_missing:${item.id}`);
+      } else {
+        failures.push(`evidence_missing:${item.id}`);
+      }
       continue;
     }
     const text = readText(evidencePath);
@@ -245,24 +250,32 @@ function validate() {
       const actualDecision = stat.isFile() ? 'FILE_EXISTS' : 'NOT_FILE';
       evidence.push({
         id: item.id,
+        phase: item.phase || 'pre_publication',
         path: item.path,
         expectedDecision: item.decision,
         actualDecision,
         sha256: sha256(text)
       });
-      if (actualDecision !== 'FILE_EXISTS') failures.push(`evidence_not_file:${item.id}`);
+      if (actualDecision !== 'FILE_EXISTS') {
+        if (isPostPublication) warnings.push(`post_publication_evidence_not_file:${item.id}`);
+        else failures.push(`evidence_not_file:${item.id}`);
+      }
       continue;
     }
     const parsed = readJson(evidencePath);
     const decision = parsed.decision;
     evidence.push({
       id: item.id,
+      phase: item.phase || 'pre_publication',
       path: item.path,
       expectedDecision: item.decision,
       actualDecision: decision,
       sha256: sha256(text)
     });
-    if (decision !== item.decision) failures.push(`evidence_decision_drift:${item.id}:${decision || 'missing'}`);
+    if (decision !== item.decision) {
+      if (isPostPublication) warnings.push(`post_publication_evidence_decision_drift:${item.id}:${decision || 'missing'}`);
+      else failures.push(`evidence_decision_drift:${item.id}:${decision || 'missing'}`);
+    }
   }
 
   let status = '';
