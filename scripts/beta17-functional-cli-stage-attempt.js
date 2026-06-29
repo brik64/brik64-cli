@@ -106,6 +106,29 @@ function readSuppliedResultLine() {
   return null;
 }
 
+function explicitResultLineRequested() {
+  return Boolean(resultLineText || suppliedResultLinePath);
+}
+
+function validateCandidateResultLine(resultLine) {
+  const parsed = parseFunctionalCliStageResult(resultLine);
+  if (!parsed) {
+    return {
+      accepted: false,
+      result: null,
+      validation: { accepted: false, blockers: ['functional_cli_stage_result_parse_failed'] },
+      blockers: ['functional_cli_stage_result_parse_failed'],
+    };
+  }
+  const validation = validateFunctionalCliStageResult(parsed, loadExpected());
+  return {
+    accepted: validation.accepted,
+    result: parsed,
+    validation,
+    blockers: validation.accepted ? [] : validation.blockers,
+  };
+}
+
 function runHydration() {
   return childProcess.spawnSync(process.execPath, [
     hydrateScript,
@@ -346,7 +369,20 @@ function main() {
   if (!requestLineExists) blockers.push(`missing_functional_cli_stage_request_line:${rel(requestLinePath)}`);
   if (!requestManifestExists) blockers.push(`missing_functional_cli_stage_request_manifest:${rel(requestManifestPath)}`);
 
-  const explicitResultLine = readSuppliedResultLine();
+  let explicitResultLine = readSuppliedResultLine();
+  const explicitRequested = explicitResultLineRequested();
+  let staleDefaultResult = null;
+  if (explicitResultLine && !explicitRequested) {
+    const defaultValidation = validateCandidateResultLine(explicitResultLine);
+    if (!defaultValidation.accepted) {
+      staleDefaultResult = {
+        path: rel(defaultResultLinePath),
+        sha256: sha256(explicitResultLine),
+        blockers: defaultValidation.blockers,
+      };
+      explicitResultLine = null;
+    }
+  }
   const remoteAttempt = explicitResultLine ? null : tryRemoteRequest();
   const resultLine = explicitResultLine || remoteAttempt?.resultLine || null;
   let result = null;
@@ -354,6 +390,11 @@ function main() {
   let hydration = null;
   if (!resultLine) {
     blockers.push('functional_cli_stage_result_unavailable');
+    if (staleDefaultResult) {
+      for (const blocker of staleDefaultResult.blockers) {
+        blockers.push(`stale_default_functional_cli_stage_result:${blocker}`);
+      }
+    }
     if (remoteAttempt && !remoteAttempt.skipped) {
       const capabilities = remoteAttempt.endpointCapabilities || [];
       if (!capabilities.includes(requiredEndpointCapability)) {
@@ -416,6 +457,7 @@ function main() {
           validation,
         }
       : null,
+    staleDefaultResult,
     remoteAttempt,
     remoteEndpointContract: {
       requiredEndpointCapability,
