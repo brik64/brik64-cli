@@ -1,0 +1,29 @@
+// brik64.pcd_file.v1
+// claim_boundary: beta17_functional_cli_stage_candidate_source_contract
+// beta17_source_contract: functional_cli_stage_materialization_contract
+PC functional_cli_stage_materialization_contract {
+    fn functional_cli_stage_materialization_contract(
+        stage1_artifact_hash_bound,
+        generated_by_l6plus_n5,
+        generated_from_pcd_polymer,
+        node_entrypoint_present,
+        version_bound,
+        argv_handling_present,
+        command_dispatcher_present,
+        functional_stage_min_size_pass,
+        package_candidate_can_reference_artifact,
+        public_claim_boundary_closed
+    ) {
+        if (stage1_artifact_hash_bound == 0) { return 0; }
+        if (generated_by_l6plus_n5 == 0) { return 0; }
+        if (generated_from_pcd_polymer == 0) { return 0; }
+        if (node_entrypoint_present == 0) { return 0; }
+        if (version_bound == 0) { return 0; }
+        if (argv_handling_present == 0) { return 0; }
+        if (command_dispatcher_present == 0) { return 0; }
+        if (functional_stage_min_size_pass == 0) { return 0; }
+        if (package_candidate_can_reference_artifact == 0) { return 0; }
+        if (public_claim_boundary_closed == 0) { return 0; }
+        return 1;
+    }
+}

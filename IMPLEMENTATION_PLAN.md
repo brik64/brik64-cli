@@ -154,6 +154,13 @@
   `stage1_artifact_missing_argv_handling` and
   `stage1_artifact_missing_command_dispatcher`; therefore the package candidate
   remains `releaseEligible=false`.
+- Functional CLI Stage request update: Beta17 now has a dedicated PCD source
+  contract and request bundle for asking L6+N5 to materialize Stage1 as a full
+  CLI artifact. `bundle:beta17:functional-cli-stage-request` produces
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST` with the functional CLI
+  requirements, required PCD hashes, output refs and closed claim boundary.
+  This is input evidence only; it does not replace the future L6+N5 result or
+  functional Stage artifact gate.
 
 ## Legacy Plan Context
 

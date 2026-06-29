@@ -3872,3 +3872,47 @@ Current real blockers:
 Boundary:
 - This iteration adds the functional-artifact gate only. It does not generate
   the full CLI, publish Beta17, run public-surface sync or run external audit.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage request bundle
+
+Timestamp: 2026-06-29T08:25:00Z
+
+Task:
+- Create the PCD-first input contract for asking L6+N5 to generate a functional
+  Beta17 CLI Stage1 artifact instead of metadata-only Stage output.
+
+Change:
+- Added
+  `pcd/beta17/release/functional_cli_stage_materialization_contract.pcd`.
+- Added `scripts/beta17-functional-cli-stage-request-bundle.js`.
+- Added npm scripts `bundle:beta17:functional-cli-stage-request` and
+  `test:beta17:functional-cli-stage-request`.
+- Added `scripts/tests/test_beta17_functional_cli_stage_request_bundle.sh`.
+- Generated `evidence/beta17-functional-cli-stage-request/request.json`,
+  `request.line`, `request.manifest.json` and `SHA256SUMS`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-request-bundle.js` passed.
+- `npm run test:beta17:functional-cli-stage-request` passed.
+- Generated manifest decision:
+  `PASS_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST_BUNDLE`.
+
+Break attempts:
+- Tampered PCD content fails closed with content SHA/byte mismatch.
+- Unsafe output ref fails closed with `request_output_ref_invalid`.
+- Missing `functionalStageArtifactGatePass` binding fails closed.
+- Open self-hosting claim boundary fails closed.
+- Min artifact bytes below 50000 fails closed.
+- Missing `process.argv` required marker fails closed.
+- Wrong input PCD set hash fails closed.
+
+Current real next input:
+- `evidence/beta17-functional-cli-stage-request/request.line` contains
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST`.
+- Request input set hash:
+  `1cde79f6479e7bb13bde26996652316cfa1323c8d3b712a2367c00f46eb4e4dd`.
+
+Boundary:
+- This iteration produces request/input evidence only. It does not execute
+  L6+N5, hydrate a generated artifact, publish Beta17 or authorize
+  fixpoint/formal claims.

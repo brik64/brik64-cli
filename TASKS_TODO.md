@@ -232,6 +232,38 @@
         this gate measures functional artifact shape only. It does not run the
         full CLI command matrix, sync public surfaces or prove fixpoint.
 
+- [x] Add a PCD-first request bundle for generating functional Beta17 CLI
+      Stage1 through L6+N5.
+      - PCD:
+        `pcd/beta17/release/functional_cli_stage_materialization_contract.pcd`.
+      - Script:
+        `scripts/beta17-functional-cli-stage-request-bundle.js`.
+      - Test:
+        `scripts/tests/test_beta17_functional_cli_stage_request_bundle.sh`.
+      - NPM:
+        `bundle:beta17:functional-cli-stage-request`.
+        `test:beta17:functional-cli-stage-request`.
+      - Result:
+        `evidence/beta17-functional-cli-stage-request/request.line` now carries
+        `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST` with 5 input PCDs,
+        functional CLI requirements and closed public/fixpoint/formal claim
+        boundaries.
+      - Boundary:
+        this is request/input evidence only. It does not prove that L6+N5 has
+        emitted the functional CLI artifact.
+
+- [ ] Execute or route the functional CLI Stage request through L6+N5 and
+      hydrate the result.
+      - Current input:
+        `evidence/beta17-functional-cli-stage-request/request.line`.
+      - Expected result marker:
+        `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+      - Done when:
+        the result validates, writes a full Stage1 CLI artifact, passes
+        `gate:beta17:fixpoint:functional-stage-artifact`, regenerates the
+        package candidate as `releaseEligible=true`, and then advances to
+        public sync / external audit blockers.
+
 - [x] Add Beta17 materializer generation result validator.
       - Script:
         `scripts/beta17-fixpoint-materializer-generation-result.js`.
