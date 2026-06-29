@@ -178,9 +178,30 @@
         `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` marker and the substitutions
         that cannot satisfy Beta17 fixpoint evidence.
       - Boundary:
-        this makes the operational blocker explicit. It does not install the
-        remote endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint
-        or publish Beta17.
+      this makes the operational blocker explicit. It does not install the
+      remote endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint
+      or publish Beta17.
+
+- [x] Add Beta17 remote dispatcher deployment preflight.
+      - Script:
+        `scripts/beta17-fixpoint-remote-dispatcher-preflight.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh`.
+      - NPM:
+        `preflight:beta17:fixpoint:remote-dispatcher`.
+        `test:beta17:fixpoint:remote-dispatcher-preflight`.
+      - Result:
+        dispatcher installation now has an offline, fail-closed preflight that
+        validates the deploy-plan schema, exact Beta17 capability, materializer
+        mode, local materializer file hash/bytes, closed claim boundaries and
+        non-acceptable substitutes before any Hetzner mutation.
+      - Break attempts:
+        wrong capability, beta16 legacy materializer path and fixture/template
+        deployment are rejected.
+      - Boundary:
+        this validates an installation plan. It does not install the remote
+        endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint or
+        publish Beta17.
 
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:

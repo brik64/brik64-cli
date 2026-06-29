@@ -2323,3 +2323,33 @@ Boundary:
 - This is an operational/readiness hardening change. It does not install the
   remote endpoint, generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint
   or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote dispatcher deployment preflight
+
+Timestamp: 2026-06-29T01:18:00Z
+
+Task:
+- Add a fail-closed preflight for the Beta17 L6+N5 dispatcher deploy plan
+  before any remote Hetzner mutation.
+
+Change:
+- Added `scripts/beta17-fixpoint-remote-dispatcher-preflight.js`.
+- Added `scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh`.
+- Added npm scripts:
+  `preflight:beta17:fixpoint:remote-dispatcher` and
+  `test:beta17:fixpoint:remote-dispatcher-preflight`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-preflight.js`
+  passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_remote_dispatcher_preflight.sh`
+  passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-preflight` passed.
+- Break attempts rejected:
+  wrong capability, beta16 legacy materializer path and fixture/template
+  deployment plan.
+
+Boundary:
+- This validates the deployment plan contract only. It does not install the
+  remote dispatcher, generate real L6+N5 Stage1/Stage2 artifacts, prove
+  fixpoint or publish Beta17.
