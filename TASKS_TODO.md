@@ -343,6 +343,22 @@
         actual external audit, create real L6+N5 Stage1/Stage2 artifacts, prove
         fixpoint or publish Beta17.
 
+- [x] Bind Beta17 release-train requiredEvidence to readiness report bytes.
+      - Script:
+        `scripts/release-train-dry-run.js`.
+      - Test:
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Result:
+        the Beta17 `requiredEvidence` entry now records the exact
+        `evidence/beta17-fixpoint-readiness/report.json` path, SHA-256 and byte
+        count consumed by the release train.
+      - Break attempts:
+        the release-train regression now fails unless the requiredEvidence ref
+        matches the generated readiness report hash and byte count.
+      - Boundary:
+        this hardens release-train evidence linkage. It does not create real
+        L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.

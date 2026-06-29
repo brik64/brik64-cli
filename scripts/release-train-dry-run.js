@@ -35,6 +35,22 @@ function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
+function fileEvidenceRef(file) {
+  if (!fs.existsSync(file) || !fs.statSync(file).isFile()) {
+    return {
+      path: path.relative(root, file),
+      sha256: null,
+      bytes: null,
+    };
+  }
+  const bytes = fs.readFileSync(file);
+  return {
+    path: path.relative(root, file),
+    sha256: crypto.createHash('sha256').update(bytes).digest('hex'),
+    bytes: bytes.length,
+  };
+}
+
 function run(name, args, options = {}) {
   const startedAt = Date.now();
   const result = childProcess.spawnSync(args[0], args.slice(1), {
@@ -1297,9 +1313,12 @@ function main() {
     } else if (currentPackageVersion === '0.1.0-beta.17') {
       const readinessPath = path.join(root, 'evidence', 'beta17-fixpoint-readiness', 'report.json');
       const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
+      const readinessRef = fileEvidenceRef(readinessPath);
       requiredEvidence.push({
         id: 'beta17_fixpoint_readiness',
-        path: 'evidence/beta17-fixpoint-readiness/report.json',
+        path: readinessRef.path,
+        sha256: readinessRef.sha256,
+        bytes: readinessRef.bytes,
         expectedDecision: 'PASS_BETA17_FIXPOINT_READINESS_GATE',
         actualDecision: readiness?.decision || null,
         pass: readiness?.decision === 'PASS_BETA17_FIXPOINT_READINESS_GATE'

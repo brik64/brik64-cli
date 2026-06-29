@@ -333,6 +333,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   ref declares `bytes` matching the source file before copying it into
   `evidence/beta17-fixpoint/`. A source ref with correct SHA-256 but stale or
   missing byte metadata fails closed.
+- Release-train readiness evidence binding: for `0.1.0-beta.17`,
+  `release:train:dry-run` records the exact
+  `evidence/beta17-fixpoint-readiness/report.json` path, SHA-256 and byte
+  count in `requiredEvidence`, so the release report is tied to the readiness
+  gate artifact it consumed.
 - Accepted attempt stdout/result binding: the promotion gate parses the
   accepted attempt stdout transcript and requires its
   `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` payload to match the hash-bound

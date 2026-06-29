@@ -2671,3 +2671,37 @@ Boundary:
 - This strengthens external audit metadata binding. It does not run the actual
   external audit, create the real L6+N5 materializer, execute remote mutation,
   generate real Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Release train readiness ref binding
+
+Timestamp: 2026-06-29T04:32:00Z
+
+Task:
+- Bind the Beta17 release-train `requiredEvidence` entry to the exact readiness
+  report file consumed by the dry-run.
+
+Change:
+- Updated `scripts/release-train-dry-run.js` so the Beta17 readiness evidence
+  entry includes `path`, `sha256` and `bytes` for
+  `evidence/beta17-fixpoint-readiness/report.json`.
+- Updated `scripts/tests/test_beta17_release_train_readiness.sh` to assert that
+  the release-train report records the current readiness report SHA-256 and byte
+  count.
+
+Evidence:
+- `node --check scripts/release-train-dry-run.js` passed.
+- `bash -n scripts/tests/test_beta17_release_train_readiness.sh` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:external-audit-report`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt enforced:
+  release-train regression rejects a Beta17 requiredEvidence record unless it
+  matches the generated readiness report SHA-256 and byte count.
+
+Boundary:
+- This strengthens release-train evidence linkage. It does not create the real
+  L6+N5 materializer, execute remote mutation, generate real Stage1/Stage2
+  artifacts, prove fixpoint or publish Beta17.

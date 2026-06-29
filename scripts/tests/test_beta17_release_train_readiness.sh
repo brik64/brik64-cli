@@ -280,11 +280,17 @@ write_evidence_pack_manifest
 
 node scripts/release-train-dry-run.js --allow-dirty >"$TMP_DIR/pass.stdout" 2>"$TMP_DIR/pass.stderr"
 
+readiness_sha="$(shasum -a 256 evidence/beta17-fixpoint-readiness/report.json | awk '{print $1}')"
+readiness_bytes="$(wc -c <evidence/beta17-fixpoint-readiness/report.json | tr -d ' ')"
+
 jq -e '
   .decision=="PASS_RELEASE_TRAIN_DRY_RUN"
   and .publicationAllowed==false
   and ([.commands[] | select(.name=="beta17_fixpoint_readiness") | .rc] | first)==0
   and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .pass] | first)==true
-' evidence/release-train-dry-run/report.json >/dev/null
+  and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .sha256] | first)==$sha
+  and ([.requiredEvidence[] | select(.id=="beta17_fixpoint_readiness") | .bytes] | first)==($bytes | tonumber)
+' --arg sha "$readiness_sha" --arg bytes "$readiness_bytes" \
+  evidence/release-train-dry-run/report.json >/dev/null
 
 echo "PASS beta17 release train readiness regression"
