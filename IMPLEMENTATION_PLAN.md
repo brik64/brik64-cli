@@ -224,6 +224,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   hash and closed claim boundaries. Missing files, paths outside the workspace,
   missing provenance, provenance mismatches and legacy beta15/beta16 remote
   materializer paths fail closed before any remote installation step.
+- Materializer provenance generation: `npm run provenance:beta17:fixpoint:materializer`
+  creates the required non-claim provenance manifest from a candidate
+  materializer plus explicit PCD inputs. It computes the PCD input-set hash from
+  real file path/SHA-256/byte rows and keeps public release, definitive
+  fixpoint, formal N5 and universal correctness boundaries closed.
 - Remote dispatcher installation dry-run: `npm run install:beta17:fixpoint:remote-dispatcher`
   validates the deploy plan again, verifies the local materializer hash and
   byte count, then emits an auditable `install-script.sh` that installs the

@@ -225,6 +225,28 @@
       create the real L6+N5 materializer, install the remote endpoint,
       generate Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
+- [x] Add Beta17 materializer provenance generator.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-provenance.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`.
+      - NPM:
+        `provenance:beta17:fixpoint:materializer`.
+        `test:beta17:fixpoint:materializer-provenance`.
+      - Result:
+        a candidate materializer and explicit PCD input list can now produce
+        the non-claim provenance manifest required by deploy-plan and preflight
+        gates. The generator computes `pcdInputSetSha256` from actual PCD
+        path/SHA-256/byte rows and closes public/fixpoint/formal/universal
+        claim boundaries.
+      - Break attempts:
+        missing materializer, PCD path outside workspace and invalid L6+N5
+        serial are rejected.
+      - Boundary:
+        this creates provenance for a candidate materializer. It does not
+        create the real L6+N5 materializer, execute remote mutation, generate
+        Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
