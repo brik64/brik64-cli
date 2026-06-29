@@ -29,13 +29,16 @@
   },
   "sdkPreflight": {
     "projectVersions": {
-      "npm": "0.1.0-beta.16.1",
-      "pypi": "0.1.0b16.post1",
-      "crates": "0.1.0-beta.16.1"
+      "npm": "0.1.0-beta.17",
+      "pypi": "0.1.0b17",
+      "crates": "0.1.0-beta.17"
     },
     "artifacts": {
       "npm": "/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.17.tgz",
-      "pypi": [],
+      "pypi": [
+        "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b17-py3-none-any.whl",
+        "/Users/carlosjperez/Documents/GitHub/brik64-lib-python/dist/brik64-0.1.0b17.tar.gz"
+      ],
       "crates": "/Users/carlosjperez/Documents/GitHub/brik64-lib-rust/Cargo.toml"
     }
   },
@@ -110,14 +113,9 @@
   ],
   "failures": [],
   "warnings": [
-    "github_verified_signature_commit_drift:48b817c050448492dae3a5bbc7602610523c5bda:5b3ab78cd1bbbc57dfa29fa1253c4061007e4336",
+    "github_verified_signature_commit_drift:48b817c050448492dae3a5bbc7602610523c5bda:740a6c0380b4f777a7cf8ba039fa3436fe8f7c85",
     "dry_run_report_currently_being_generated",
-    "pre_publish_live_verify_manifest_digest_drift",
-    "sdk_project_version_mismatch:npm:0.1.0-beta.16.1:0.1.0-beta.17",
-    "sdk_artifact_missing:npm:/Users/carlosjperez/Documents/GitHub/brik64-lib-js/dist/brik64-core-0.1.0-beta.17.tgz",
-    "sdk_project_version_mismatch:pypi:0.1.0b16.post1:0.1.0b17",
-    "sdk_artifact_missing:pypi:brik64-0.1.0b17*",
-    "sdk_project_version_mismatch:crates.io:0.1.0-beta.16.1:0.1.0-beta.17"
+    "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."
 }
