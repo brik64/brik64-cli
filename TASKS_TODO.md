@@ -182,6 +182,38 @@
         `package.manifest.json` and `SHA256SUMS` all bind
         `0.1.0-beta.17` without opening public claims prematurely.
 
+- [x] Generate a non-public Beta17 package candidate from current L6+N5 Stage
+      evidence.
+      - Script:
+        `scripts/build-beta17-package-candidate.js`.
+      - Test:
+        `scripts/tests/test_beta17_package_candidate.sh`.
+      - NPM:
+        `package:beta17:fixpoint:candidate`.
+        `test:beta17:fixpoint:package-candidate`.
+      - Result:
+        `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz`,
+        `package.manifest.json`, `SHA256SUMS` and
+        `release.manifest.candidate.json` are generated from the current
+        Stage1 artifact and evidence pack.
+      - Boundary:
+        package manifest is intentionally `releaseEligible=false` and
+        `publicationAllowed=false` because the current Stage1 artifact is
+        stage metadata, not a full functional CLI package. This is candidate
+        packaging evidence only.
+
+- [ ] Materialize a functional Beta17 CLI artifact, not just a Stage metadata
+      artifact.
+      - Current blocker:
+        `evidence/beta17-package/package.manifest.json` reports
+        `stage_artifact_not_functional_cli_sized`, and publication preflight
+        reports `package_manifest_release_eligible_false`.
+      - Done when:
+        L6+N5 produces a Stage1 artifact that is executable as the Beta17 CLI,
+        package candidate marks `releaseEligible=true`, generated package smoke
+        passes, and publication preflight advances to public sync/external
+        audit blockers only.
+
 - [x] Add Beta17 materializer generation result validator.
       - Script:
         `scripts/beta17-fixpoint-materializer-generation-result.js`.

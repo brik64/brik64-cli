@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "brik64.cli_beta17_package_manifest.v1",
+  "version": "0.1.0-beta.17",
+  "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
+  "releaseEligible": false,
+  "publicationAllowed": false,
+  "lane": "l6plus_n5_self_host_fixpoint",
+  "generationClaim": "l6plus_n5_stage_artifact_candidate",
+  "package": {
+    "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+    "sha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
+    "bytes": 25110
+  },
+  "stageArtifact": {
+    "path": "evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs",
+    "sha256": "1f40455650747babb5eb8e43f1f0899173a8dcc2e68919ea06f89d1fe947d325",
+    "bytes": 1473,
+    "functionalCliArtifact": false
+  },
+  "blockers": [
+    "stage_artifact_not_functional_cli_sized",
+    "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
+    "publication_requires_public_surface_sync_and_external_audit"
+  ],
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "publicClaimsAllowed": false,
+    "l6MaterializationClaimAllowed": true,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

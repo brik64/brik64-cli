@@ -57,6 +57,8 @@ JSON
   "schemaVersion": "brik64.cli_beta17_package_manifest.v1",
   "version": "$version",
   "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_BUILT",
+  "releaseEligible": true,
+  "publicationAllowed": true,
   "package": {
     "path": "evidence/beta17-package/brik64-cli-$version.tgz",
     "sha256": "$package_sha",

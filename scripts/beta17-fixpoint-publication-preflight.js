@@ -203,14 +203,20 @@ function main() {
       packageManifestCheck.version = packageManifest.version || null;
       packageManifestCheck.decision = packageManifest.decision || null;
       packageManifestCheck.package = packageManifest.package || null;
+      packageManifestCheck.releaseEligible = packageManifest.releaseEligible === true;
+      packageManifestCheck.publicationAllowed = packageManifest.publicationAllowed === true;
       packageManifestCheck.pass = packageManifest.version === version
         && packageManifest.package?.path === packageRef.path
         && packageManifest.package?.sha256 === packageRef.sha256
-        && packageManifest.package?.bytes === packageRef.bytes;
+        && packageManifest.package?.bytes === packageRef.bytes
+        && packageManifest.releaseEligible === true
+        && packageManifest.publicationAllowed === true;
       if (packageManifest.version !== version) blockers.push(`package_manifest_version_mismatch:${packageManifest.version || 'missing'}`);
       if (packageManifest.package?.path !== packageRef.path) blockers.push('package_manifest_package_path_mismatch');
       if (packageManifest.package?.sha256 !== packageRef.sha256) blockers.push('package_manifest_package_sha256_mismatch');
       if (packageManifest.package?.bytes !== packageRef.bytes) blockers.push('package_manifest_package_bytes_mismatch');
+      if (packageManifest.releaseEligible !== true) blockers.push('package_manifest_release_eligible_false');
+      if (packageManifest.publicationAllowed !== true) blockers.push('package_manifest_publication_allowed_false');
     }
     checks.push(packageManifestCheck);
   }

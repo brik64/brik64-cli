@@ -107,6 +107,8 @@
     "test:beta17:fixpoint:external-audit-status": "bash scripts/tests/test_beta17_fixpoint_external_audit_status_gate.sh",
     "preflight:beta17:fixpoint:publication": "node scripts/beta17-fixpoint-publication-preflight.js",
     "test:beta17:fixpoint:publication-preflight": "bash scripts/tests/test_beta17_fixpoint_publication_preflight.sh",
+    "package:beta17:fixpoint:candidate": "node scripts/build-beta17-package-candidate.js",
+    "test:beta17:fixpoint:package-candidate": "bash scripts/tests/test_beta17_package_candidate.sh",
     "gate:beta17:fixpoint:stage-contract": "node scripts/beta17-fixpoint-stage-contract-gate.js",
     "test:beta17:fixpoint:stage-contract": "bash scripts/tests/test_beta17_fixpoint_stage_contract_gate.sh",
     "bundle:beta17:fixpoint:stage-request": "node scripts/beta17-fixpoint-stage-request-bundle.js",

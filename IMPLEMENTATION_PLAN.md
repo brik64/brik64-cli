@@ -136,6 +136,15 @@
   release manifest and package metadata are still `0.1.0-beta.16.1`, public
   sync evidence is still based on live `0.1.0-beta.15.7.1`, and external audit
   remains blocked until public surfaces are synced to Beta17.
+- Package candidate update: Beta17 now has
+  `package:beta17:fixpoint:candidate`, a deterministic candidate-package
+  builder that packages the current L6+N5 Stage1 artifact and Beta17 evidence
+  into `evidence/beta17-package/` without mutating the active public
+  `release/manifest.json`. The package manifest is intentionally
+  `releaseEligible=false` and `publicationAllowed=false` while the Stage1
+  artifact is only a small stage metadata module, not a full functional CLI
+  artifact. This closes the metadata/package-location gap without opening a
+  false publication path.
 
 ## Legacy Plan Context
 

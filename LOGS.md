@@ -3772,3 +3772,53 @@ Boundary:
 - This iteration creates the publication preflight only. It does not mutate
   public surfaces, publish Beta17, run the external audit or authorize
   fixpoint/formal claims.
+
+## Beta17 Ralph Loop Iteration - Package candidate from Stage evidence
+
+Timestamp: 2026-06-29T07:35:00Z
+
+Task:
+- Generate a non-public Beta17 package candidate from current L6+N5 Stage
+  evidence and keep publication fail-closed if the package is not functional.
+
+Change:
+- Added `scripts/build-beta17-package-candidate.js`.
+- Added npm scripts `package:beta17:fixpoint:candidate` and
+  `test:beta17:fixpoint:package-candidate`.
+- Added `scripts/tests/test_beta17_package_candidate.sh`.
+- Hardened `scripts/beta17-fixpoint-publication-preflight.js` so a matching
+  package manifest cannot pass unless `releaseEligible=true` and
+  `publicationAllowed=true`.
+- Generated `evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz`,
+  `evidence/beta17-package/package.manifest.json`,
+  `evidence/beta17-package/SHA256SUMS` and
+  `evidence/beta17-package/release.manifest.candidate.json`.
+
+Validation:
+- `node --check scripts/build-beta17-package-candidate.js` passed.
+- `node --check scripts/beta17-fixpoint-publication-preflight.js` passed.
+- `npm run test:beta17:fixpoint:package-candidate` passed.
+- `npm run test:beta17:fixpoint:publication-preflight` passed.
+- `npm run package:beta17:fixpoint:candidate` passed.
+- `node scripts/beta17-fixpoint-publication-preflight.js --manifest evidence/beta17-package/release.manifest.candidate.json`
+  failed closed as expected with `BLOCKED_BETA17_PUBLICATION_PREFLIGHT`.
+
+Break attempts:
+- Missing Stage1 artifact manifest fails closed with
+  `missing_stage1_artifact_manifest`.
+- Stage1 artifact SHA drift fails closed with
+  `stage1_artifact_sha256_mismatch`.
+- Candidate package remains blocked by publication preflight because
+  `releaseEligible=false` and `publicationAllowed=false`.
+
+Current real blockers:
+- Current Stage1 artifact is 1473 bytes and is stage metadata, not a functional
+  CLI artifact; package manifest records
+  `stage_artifact_not_functional_cli_sized`.
+- Root `package.json` remains `0.1.0-beta.16.1`.
+- Public-surface sync and external-audit status remain blocked.
+
+Boundary:
+- This iteration creates package candidate evidence only. It does not publish
+  Beta17, mutate `release/manifest.json`, run external audit or authorize
+  fixpoint/formal claims.

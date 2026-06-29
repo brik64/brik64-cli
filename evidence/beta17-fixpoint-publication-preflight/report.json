@@ -1,43 +1,45 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T06:10:02.346Z",
+  "generatedAt": "2026-06-29T06:20:07.281Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
-  "releaseId": "brik64-0.1.0-beta.16.1",
-  "manifestVersion": "0.1.0-beta.16.1",
+  "releaseId": "brik64-0.1.0-beta.17",
+  "manifestVersion": "0.1.0-beta.17",
   "checks": [
     {
       "id": "release_manifest",
-      "path": "release/manifest.json",
+      "path": "evidence/beta17-package/release.manifest.candidate.json",
       "exists": true,
-      "version": "0.1.0-beta.16.1",
-      "releaseId": "brik64-0.1.0-beta.16.1",
-      "state": "public",
-      "pass": false
+      "version": "0.1.0-beta.17",
+      "releaseId": "brik64-0.1.0-beta.17",
+      "state": "candidate",
+      "pass": true
     },
     {
       "id": "cli_package",
-      "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
+      "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
       "exists": true,
       "pass": true,
-      "expectedSha256": "9ddc422fb51ebba03e5d5e52ac017eed5727494127eb77e22fdc915324bfaac0",
-      "expectedBytes": 631876,
-      "sha256": "9ddc422fb51ebba03e5d5e52ac017eed5727494127eb77e22fdc915324bfaac0",
-      "bytes": 631876
+      "expectedSha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
+      "expectedBytes": 25110,
+      "sha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
+      "bytes": 25110
     },
     {
       "id": "package_manifest",
-      "path": "evidence/beta16_1-package/package.manifest.json",
+      "path": "evidence/beta17-package/package.manifest.json",
       "exists": true,
       "pass": false,
-      "version": "0.1.0-beta.16.1",
-      "decision": "PASS_BRIK64_CLI_BETA16_1_PACKAGE_BUILT",
+      "version": "0.1.0-beta.17",
+      "decision": "PASS_BRIK64_CLI_BETA17_PACKAGE_CANDIDATE_BUILT",
       "package": {
-        "path": "evidence/beta16_1-package/brik64-cli-0.1.0-beta.16.1.tgz",
-        "sha256": "9ddc422fb51ebba03e5d5e52ac017eed5727494127eb77e22fdc915324bfaac0",
-        "bytes": 631876
-      }
+        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
+        "sha256": "de7289df373cc6c1843c5c98ac9b83271accd8d81ae9d5c70adc80d04e36b89a",
+        "bytes": 25110
+      },
+      "releaseEligible": false,
+      "publicationAllowed": false
     },
     {
       "id": "package_json",
@@ -185,9 +187,8 @@
     }
   ],
   "blockers": [
-    "release_manifest_version_mismatch:0.1.0-beta.16.1",
-    "release_manifest_id_mismatch:brik64-0.1.0-beta.16.1",
-    "package_manifest_version_mismatch:0.1.0-beta.16.1",
+    "package_manifest_release_eligible_false",
+    "package_manifest_publication_allowed_false",
     "package_json_version_mismatch:0.1.0-beta.16.1",
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
     "readiness:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
