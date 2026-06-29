@@ -18,6 +18,7 @@ const assert = require('assert');
 const {
   attemptedMaterializationCommands,
   parseEndpointCapabilities,
+  parseEndpointSignals,
   parseWrapperMode,
   remediationCommands,
   remediationPlan,
@@ -45,6 +46,27 @@ assert.deepStrictEqual(
   ['beta17_fixpoint_stage_dispatcher'],
 );
 assert.deepStrictEqual(parseEndpointCapabilities('no endpoint'), []);
+assert.deepStrictEqual(
+  parseEndpointSignals([
+    'BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_7_ready,beta16_native_ready,beta16_1_ready',
+    'BRIK64_L6_CLI_MATERIALIZATION_RESULT\\tavailable',
+    'BRIK64_L6_BETA16_STAGE1_MATERIALIZATION_RESULT\tavailable',
+  ].join('\n')),
+  [
+    {
+      marker: 'BRIK64_L6_CLI_MATERIALIZER_ENDPOINT',
+      fields: ['installed', 'beta15_7_ready,beta16_native_ready,beta16_1_ready'],
+    },
+    {
+      marker: 'BRIK64_L6_CLI_MATERIALIZATION_RESULT',
+      fields: ['available'],
+    },
+    {
+      marker: 'BRIK64_L6_BETA16_STAGE1_MATERIALIZATION_RESULT',
+      fields: ['available'],
+    },
+  ],
+);
 assert.strictEqual(parseWrapperMode('BRIK64_WRAPPER_MODE\tunknown\n'), 'unknown');
 for (const expectedCommand of [
   'provenance:beta17:fixpoint:materializer',
@@ -122,6 +144,7 @@ jq -e '
   and (.remoteEndpointContract.attemptedMaterializationCommands | index("beta17-fixpoint-stage-materialize"))
   and (.remoteEndpointContract.attemptedMaterializationCommands | index("fixpoint-stage-materialize"))
   and (.remoteEndpointContract.attemptedMaterializationCommands | index("materialize"))
+  and (.remote.endpointSignals | type)=="array"
   and (.remoteEndpointContract.nonAcceptableSubstitutes | index("beta15.7 or beta16 materializer endpoint"))
   and (.nextAction | contains("beta17_fixpoint_stage_dispatcher"))
   and (.nextAction | contains("BRIK64_BETA17_FIXPOINT_STAGE_RESULT"))

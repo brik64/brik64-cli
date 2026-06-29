@@ -169,6 +169,20 @@ function parseEndpointCapabilities(stdout) {
   return capabilities;
 }
 
+function parseEndpointSignals(stdout) {
+  const signals = [];
+  for (const line of String(stdout || '').split(/\r?\n/)) {
+    const match = line.match(/^(BRIK64_[A-Z0-9_]+)(?:\t|\\t)(.+)$/);
+    if (!match) continue;
+    const [, marker, rest] = match;
+    signals.push({
+      marker,
+      fields: rest.split(/\t|\\t/).filter(Boolean),
+    });
+  }
+  return signals;
+}
+
 function requestLineSha256(request) {
   return sha256(`BRIK64_BETA17_FIXPOINT_STAGE_REQUEST\t${Buffer.from(JSON.stringify(request)).toString('base64')}\n`);
 }
@@ -199,6 +213,7 @@ function probeRemote() {
     remoteRefs: parseRemoteRefs(remoteRefProbe.stdout),
     wrapperMode: parseWrapperMode(remoteRefProbe.stdout),
     endpointCapabilities: parseEndpointCapabilities(endpointStatusProbe.stdout),
+    endpointSignals: parseEndpointSignals(endpointStatusProbe.stdout),
   };
 }
 
@@ -385,6 +400,7 @@ function main() {
       },
       wrapperMode: remote.wrapperMode,
       endpointCapabilities: remote.endpointCapabilities,
+      endpointSignals: remote.endpointSignals,
       remoteRefs: remote.remoteRefs,
       transcripts: probeTranscripts,
     },
@@ -416,6 +432,7 @@ if (require.main === module) {
 module.exports = {
   attemptedMaterializationCommands,
   parseEndpointCapabilities,
+  parseEndpointSignals,
   parseRemoteRefs,
   parseWrapperMode,
   requiredEndpointCapability,

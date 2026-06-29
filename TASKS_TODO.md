@@ -1259,6 +1259,23 @@
         materializer, execute remote mutation, generate Stage1/Stage2 artifacts,
         prove fixpoint or publish Beta17.
 
+- [x] Capture live Beta17 remote-stage blocker evidence.
+      - Scripts:
+        `scripts/beta17-fixpoint-stage-request-bundle.js`,
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Evidence:
+        `evidence/beta17-fixpoint-stage-request/`,
+        `evidence/beta17-fixpoint-remote-attempt/`.
+      - Result:
+        the live L6+N5 host currently reports beta15.7/beta16 endpoint
+        capabilities and legacy result signals, but no
+        `beta17_fixpoint_stage_dispatcher`. The attempt fails closed with
+        `remote_l6plus_beta17_stage_result_unavailable`.
+      - Boundary:
+        this is fresh blocker evidence only. It does not execute remote
+        mutation, generate Stage1/Stage2 artifacts, prove fixpoint or publish
+        Beta17.
+
 - [x] Add structured remediation input/stop-rule plan to blocked Beta17
       remote-stage attempts.
       - Script:

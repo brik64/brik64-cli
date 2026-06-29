@@ -2819,3 +2819,59 @@ Boundary:
 - This makes the remediation path operationally clearer. It does not create the
   real L6+N5 materializer, execute remote mutation, generate real Stage1 or
   Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Live remote-stage blocker evidence
+
+Timestamp: 2026-06-29T05:43:00Z
+
+Task:
+- Run a non-mutating live Beta17 remote-stage attempt against the configured
+  L6+N5 host and preserve the current blocker evidence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to parse endpoint
+  status signals into structured `remote.endpointSignals`.
+- Extended `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` with
+  parser coverage for legacy endpoint/result signals.
+- Generated a fresh stage request and live remote-attempt evidence under:
+  `evidence/beta17-fixpoint-stage-request/` and
+  `evidence/beta17-fixpoint-remote-attempt/`.
+
+Live evidence:
+- Stage request: `evidence/beta17-fixpoint-stage-request/request.json`
+  SHA-256 `f109f24ba91010be439f9156bf018c07871b4febee5175dde22d74f75c7e18b9`.
+- Remote attempt report: `evidence/beta17-fixpoint-remote-attempt/report.json`
+  decision `BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT`.
+- Remote wrapper: SHA-256
+  `2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656`,
+  1546 bytes.
+- Remote wrapper exec target: SHA-256
+  `7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a`,
+  851 bytes.
+- Installed endpoint capabilities observed:
+  `beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+- Legacy endpoint signals observed:
+  `BRIK64_L6_CLI_MATERIALIZATION_RESULT=available` and
+  `BRIK64_L6_BETA16_STAGE1_MATERIALIZATION_RESULT=available`.
+- Blockers:
+  `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  `remote_l6plus_beta17_stage_result_unavailable`.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Regression battery passed:
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Live `npm run attempt:beta17:fixpoint:remote-stage` failed closed with the
+  blockers above, as expected while the Beta17 dispatcher is missing.
+
+Boundary:
+- This is fresh operational blocker evidence from the live L6+N5 host. It does
+  not execute remote mutation, install the missing dispatcher, create real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

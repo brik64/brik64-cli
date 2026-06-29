@@ -334,6 +334,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   requires a non-fixture L6+N5-generated materializer, canonical input PCDs and
   an authorized `BRIK64-L6PLUS-N5-` serial, and stops on command failure,
   open claims, fixture/manual evidence or non-byte-identical Stage1/Stage2.
+- Live remote-stage blocker evidence: a fresh non-mutating
+  `attempt:beta17:fixpoint:remote-stage` run confirms the configured L6+N5 host
+  exposes `beta15_7_ready,beta16_native_ready,beta16_1_ready` and legacy result
+  signals, but not `beta17_fixpoint_stage_dispatcher`. The report captures
+  wrapper and exec-target SHA-256/byte refs plus endpoint signals under
+  `evidence/beta17-fixpoint-remote-attempt/`.
 - Remote promotion gate: `npm run gate:beta17:fixpoint:remote-promotion`
   validates a passing remote attempt before any final evidence-pack promotion.
   It requires exactly one accepted attempt, complete transcript refs, a
