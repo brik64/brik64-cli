@@ -961,3 +961,16 @@
         this rejects stale or pre-target-verification promotion manifests. It
         does not create real L6+N5 Stage1/Stage2 artifacts, prove fixpoint or
         publish Beta17.
+
+- [x] Beta17 readiness requires promoted source refs.
+      - Gate:
+        `scripts/beta17-fixpoint-readiness-gate.js`.
+      - Tests:
+        `scripts/tests/test_beta17_fixpoint_readiness_gate.sh`,
+        `scripts/tests/test_beta17_release_train_readiness.sh`.
+      - Goal:
+        require promoted Stage artifacts to retain `source` refs that bind the
+        promoted canonical artifact to the remote/source evidence SHA-256.
+      - Boundary:
+        this rejects target-only promotion manifests. It does not create real
+        L6+N5 Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

@@ -323,6 +323,10 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   include `target` metadata matching the canonical promoted file path,
   SHA-256 and byte count. Older promotion manifests without target-copy proof
   remain blocked.
+- Promotion source binding: readiness requires promoted Stage artifact refs to
+  include `source` metadata binding the canonical promoted file back to the
+  source/remote evidence SHA-256. Target-only promotion manifests remain
+  blocked.
 - Release train binding: `release:train:dry-run` routes `0.1.0-beta.17`
   candidate branches and manifest-driven runs through
   `gate:beta17:fixpoint-readiness`. In candidate mode it also records

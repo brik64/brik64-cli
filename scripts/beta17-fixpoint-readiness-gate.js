@@ -147,6 +147,17 @@ function checkPromotedFileRef(remotePromotion, promotedKey, evidence, blockers) 
     blockers.push(`remote_promotion_ref_sha256_invalid:${promotedKey}`);
     return;
   }
+  const source = promoted.source;
+  if (!source || typeof source !== 'object') {
+    blockers.push(`remote_promotion_missing_source_ref:${promotedKey}`);
+    return;
+  }
+  if (!isSafeRelativePath(source.path)) {
+    blockers.push(`remote_promotion_source_path_unsafe:${promotedKey}:${source.path || 'missing'}`);
+  }
+  if (String(source.sha256 || '').toLowerCase() !== String(promoted.sha256 || '').toLowerCase()) {
+    blockers.push(`remote_promotion_source_sha256_mismatch:${promotedKey}`);
+  }
   const target = promoted.target;
   if (!target || typeof target !== 'object') {
     blockers.push(`remote_promotion_missing_target_ref:${promotedKey}`);

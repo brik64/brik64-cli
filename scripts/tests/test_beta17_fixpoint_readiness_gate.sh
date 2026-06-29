@@ -231,6 +231,11 @@ for token, filename in {
 data = json.loads(text)
 for key in ("stage1Artifact", "stage2Artifact"):
     ref = data["promoted"][key]
+    source_path = ref["path"].replace("evidence/beta17-fixpoint/", "evidence/beta17-source/")
+    ref["source"] = {
+        "path": source_path,
+        "sha256": ref["sha256"],
+    }
     ref["target"] = {
         "path": ref["path"],
         "sha256": ref["sha256"],
@@ -583,6 +588,44 @@ data["promoted"]["stage2Artifact"]["target"] = {
     "path": "evidence/beta17-fixpoint/generated/stage2/brik64-cli-stage2.mjs",
     "sha256": hashlib.sha256(stage2.read_bytes()).hexdigest(),
     "bytes": stage2.stat().st_size,
+}
+json.dump(data, open(manifest, "w"), indent=2)
+PY
+write_evidence_pack_manifest "$FIXTURE"
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint/remote_promotion_manifest.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path))
+data["promoted"]["stage2Artifact"].pop("source", None)
+json.dump(data, open(path, "w"), indent=2)
+PY
+
+set +e
+BRIK64_CLI_ROOT="$FIXTURE" node "$ROOT/scripts/beta17-fixpoint-readiness-gate.js" \
+  >"$TMP_DIR/promoted-source-missing.stdout" 2>"$TMP_DIR/promoted-source-missing.stderr"
+promoted_source_missing_rc=$?
+set -e
+
+if [[ "$promoted_source_missing_rc" -eq 0 ]]; then
+  echo "promoted_source_missing_unexpected_pass" >&2
+  exit 1
+fi
+
+jq -e '
+  .decision=="BLOCKED_BETA17_FIXPOINT_READINESS_GATE"
+  and (.blockers | index("remote_promotion_missing_source_ref:stage2Artifact"))
+' "$FIXTURE/evidence/beta17-fixpoint-readiness/report.json" >/dev/null
+
+python3 - "$FIXTURE/evidence/beta17-fixpoint" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1])
+manifest = root / "remote_promotion_manifest.json"
+data = json.load(open(manifest))
+stage2 = root / "generated/stage2/brik64-cli-stage2.mjs"
+data["promoted"]["stage2Artifact"]["source"] = {
+    "path": "evidence/beta17-source/generated/stage2/brik64-cli-stage2.mjs",
+    "sha256": hashlib.sha256(stage2.read_bytes()).hexdigest(),
 }
 json.dump(data, open(manifest, "w"), indent=2)
 PY
