@@ -1,8 +1,8 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.16.1",
+  "version": "0.1.0-beta.17",
   "private": true,
-  "description": "BRIK64 CLI beta16.1.x with strict L4+N5 local engine bundle, semantic type gates, deterministic target parity, and synchronized public release surfaces.",
+  "description": "BRIK64 CLI beta17 candidate package with generated artifact evidence, closed publication gates, and release-train preflight checks.",
   "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
@@ -107,6 +107,7 @@
     "test:beta17:fixpoint:external-audit-status": "bash scripts/tests/test_beta17_fixpoint_external_audit_status_gate.sh",
     "preflight:beta17:fixpoint:publication": "node scripts/beta17-fixpoint-publication-preflight.js",
     "test:beta17:fixpoint:publication-preflight": "bash scripts/tests/test_beta17_fixpoint_publication_preflight.sh",
+    "gate:beta17:candidate-release-train": "node scripts/beta17-candidate-release-train-gate.js",
     "package:beta17:fixpoint:candidate": "node scripts/build-beta17-package-candidate.js",
     "test:beta17:fixpoint:package-candidate": "bash scripts/tests/test_beta17_package_candidate.sh",
     "gate:beta17:fixpoint:functional-stage-artifact": "node scripts/beta17-fixpoint-functional-stage-artifact-gate.js",

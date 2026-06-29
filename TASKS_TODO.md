@@ -1951,11 +1951,18 @@
         `verification.requiredEvidence` entries, including `FILE_EXISTS` for
         the CLI tarball, so the candidate manifest can be consumed by
         `release:train:dry-run` after metadata promotion.
+      - Active metadata update:
+        `package.json` and `release/manifest.json` now point to
+        `0.1.0-beta.17` with `release/manifest.json.state=candidate`.
+        `release:train:dry-run -- --allow-dirty` passes in candidate mode via
+        `gate:beta17:candidate-release-train`, while
+        `preflight:beta17:fixpoint:publication -- --manifest
+        release/manifest.json` still fails closed on readiness, public-surface
+        sync and external-audit blockers.
       - Current preflight blockers:
-        repo `package.json` is still `0.1.0-beta.16.1`, fixpoint readiness is
-        blocked, live public surface evidence is still `0.1.0-beta.15.7.1`,
-        and external audit is intentionally blocked until public-surface sync
-        passes.
+        fixpoint readiness is blocked, live public surface evidence is still
+        `0.1.0-beta.15.7.1`, and external audit is intentionally blocked until
+        public-surface sync passes.
       - Done when:
         readiness, public-surface sync, external audit, SDK/docs/web/skills
         release train and claim-safe scan all pass before public mutation.

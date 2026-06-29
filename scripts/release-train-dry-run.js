@@ -928,6 +928,18 @@ function manifestDrivenBetaCommands(manifest, canAccessSiblingRepos) {
     ];
   }
   if (manifest.version === '0.1.0-beta.17') {
+    if (manifest.state === 'candidate') {
+      return [
+        run('beta17_fixpoint_required_inputs', ['npm', 'run', 'gate:beta17:fixpoint:required-inputs'], {
+          stdoutLimit: 12000,
+          stderrLimit: 12000
+        }),
+        run('beta17_candidate_release_train_gate', ['node', 'scripts/beta17-candidate-release-train-gate.js'], {
+          stdoutLimit: 12000,
+          stderrLimit: 12000
+        })
+      ];
+    }
     return [
       run('beta17_fixpoint_required_inputs', ['npm', 'run', 'gate:beta17:fixpoint:required-inputs'], {
         stdoutLimit: 12000,
@@ -992,11 +1004,19 @@ function main() {
 
   const beta = betaNumber(manifest.version);
   const draft = manifest.state === 'draft';
+  const beta17Candidate = manifest.version === '0.1.0-beta.17' && manifest.state === 'candidate';
   const minimalReleaseManifestMode = !manifest.publicSurfaces && !Array.isArray(manifest.verification?.requiredEvidence);
   const runLiveL6Gate = process.env.GITHUB_ACTIONS !== 'true' || process.env.BRIK64_L6_LIVE_GATES === '1';
   const canAccessSiblingRepos = process.env.GITHUB_ACTIONS !== 'true';
   const commands = candidateBranchMode
     ? candidateBranchCommands(currentPackageVersion)
+    : beta17Candidate
+      ? [
+          run('beta17_candidate_release_train_gate', ['npm', 'run', 'gate:beta17:candidate-release-train'], {
+            stdoutLimit: 12000,
+            stderrLimit: 12000
+          })
+        ]
     : minimalReleaseManifestMode
       ? [
           run('minimal_manifest_version_contract', ['node', '-e', `
@@ -1047,12 +1067,33 @@ function main() {
 
   const validationReportPath = path.join(root, 'evidence', 'release-manifest-validate', 'report.json');
   const validationReport = fs.existsSync(validationReportPath) ? readJson(validationReportPath) : null;
-  if (!candidateBranchMode && !minimalReleaseManifestMode && (!validationReport || validationReport.manifestDigest !== manifestDigest)) {
+  if (!candidateBranchMode && !beta17Candidate && !minimalReleaseManifestMode && (!validationReport || validationReport.manifestDigest !== manifestDigest)) {
     failures.push('manifest_validation_digest_missing_or_drift');
   }
 
   const requiredEvidence = [];
-  if (candidateBranchMode) {
+  if (beta17Candidate) {
+    const candidateGatePath = path.join(root, 'evidence', 'beta17-candidate-release-train-gate', 'report.json');
+    const candidateGate = fs.existsSync(candidateGatePath) ? readJson(candidateGatePath) : null;
+    const candidateGateRef = fileEvidenceRef(candidateGatePath);
+    requiredEvidence.push({
+      id: 'beta17_candidate_release_train_gate',
+      path: candidateGateRef.path,
+      sha256: candidateGateRef.sha256,
+      bytes: candidateGateRef.bytes,
+      expectedDecision: 'PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE',
+      actualDecision: candidateGate?.decision || null,
+      pass: candidateGate?.decision === 'PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE'
+        && candidateGate?.publicationAllowed === false
+        && candidateGate?.claimBoundary?.publicReleaseAllowed === false
+    });
+    if (!candidateGate) failures.push('candidate_readiness_missing:beta17_candidate_release_train_gate');
+    else if (candidateGate.decision !== 'PASS_BETA17_CANDIDATE_RELEASE_TRAIN_GATE') {
+      failures.push(`candidate_beta17_release_train_gate_invalid:${candidateGate.decision}`);
+    } else if (candidateGate.publicationAllowed !== false || candidateGate.claimBoundary?.publicReleaseAllowed !== false) {
+      failures.push('candidate_beta17_release_train_gate_boundary_invalid');
+    }
+  } else if (candidateBranchMode) {
     const readinessPath = path.join(root, 'evidence', 'beta9-release-readiness', 'report.json');
     const readiness = fs.existsSync(readinessPath) ? readJson(readinessPath) : null;
     if (currentPackageVersion === '0.1.0-beta.9') {

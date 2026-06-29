@@ -37,6 +37,38 @@ Boundary:
 - Beta17 publication remains blocked by active metadata promotion,
   public-surface sync and external audit.
 
+## Iteration 45 - Beta17 active metadata promoted to candidate mode
+
+Timestamp: `2026-06-29T09:04:12Z`
+
+- Added `scripts/beta17-candidate-release-train-gate.js`, a non-public gate
+  for active Beta17 candidate metadata.
+- Updated `scripts/release-train-dry-run.js` so
+  `release/manifest.json.state=candidate` for Beta17 validates the candidate
+  gate instead of running public sync/publish commands.
+- Promoted `package.json` and `release/manifest.json` to `0.1.0-beta.17`
+  candidate metadata only.
+- Updated `tests/smoke.sh` so Beta17 candidate mode smokes the generated
+  package tarball from `release/manifest.json`, not the historical
+  `src/brik.js` implementation.
+
+Evidence:
+
+- `npm test` passed.
+- `npm run gate:beta17:candidate-release-train` passed.
+- `npm run release:train:dry-run -- --allow-dirty` passed with
+  `publicationAllowed=false`.
+- `npm run preflight:beta17:fixpoint:publication -- --manifest
+  release/manifest.json` still fails closed on readiness, public-surface sync
+  and external-audit blockers.
+
+Boundary:
+
+- This promotes active metadata to Beta17 candidate only.
+- It does not publish Beta17, sync public surfaces or run the external audit.
+- Public release, definitive fixpoint, formal N5, self-hosting and
+  Rust-independence claims remain closed.
+
 ## Iteration 33 - Beta17 readiness binds promoted refs
 
 Timestamp: `2026-06-28T00:00:00Z`

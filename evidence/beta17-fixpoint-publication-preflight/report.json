@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.publication_preflight.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T08:44:46.600Z",
+  "generatedAt": "2026-06-29T09:08:23.447Z",
   "decision": "BLOCKED_BETA17_PUBLICATION_PREFLIGHT",
   "publicationAllowed": false,
   "releaseId": "brik64-0.1.0-beta.17",
@@ -9,7 +9,7 @@
   "checks": [
     {
       "id": "release_manifest",
-      "path": "evidence/beta17-package/release.manifest.candidate.json",
+      "path": "release/manifest.json",
       "exists": true,
       "version": "0.1.0-beta.17",
       "releaseId": "brik64-0.1.0-beta.17",
@@ -45,8 +45,8 @@
     {
       "id": "package_json",
       "path": "package.json",
-      "version": "0.1.0-beta.16.1",
-      "pass": false
+      "version": "0.1.0-beta.17",
+      "pass": true
     },
     {
       "id": "evidence:evidence/beta17-fixpoint/canonical_motor_manifest.json",
@@ -186,7 +186,6 @@
     }
   ],
   "blockers": [
-    "package_json_version_mismatch:0.1.0-beta.16.1",
     "readiness_not_pass:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
     "readiness:public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
     "readiness:external_audit_not_pass:BLOCKED_BETA17_EXTERNAL_AUDIT",
@@ -213,7 +212,6 @@
     "package_manifest_candidate_publication_closed"
   ],
   "nextActions": [
-    "Promote release/manifest.json and package metadata to 0.1.0-beta.17 as a candidate, with exact package path, bytes and SHA-256.",
     "Refresh Beta17 fixpoint readiness evidence and rerun gate:beta17:fixpoint-readiness.",
     "Run the release train dry-run, sync public surfaces to Beta17, run live verify, then rerun sync:beta17:fixpoint:public-surfaces.",
     "Run the external audit from a clean public install after public-surface sync passes, then rerun gate:beta17:fixpoint:external-audit-status."

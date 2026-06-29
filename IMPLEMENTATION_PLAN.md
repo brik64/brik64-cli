@@ -738,3 +738,11 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `decision=FILE_EXISTS` for binary artifacts such as the CLI tarball. This
   keeps the candidate manifest consumable by the release train without forcing
   binary packages through JSON report parsing.
+- Active candidate metadata update: Beta17 now has an explicit candidate-mode
+  release-train gate. `package.json` and `release/manifest.json` can point to
+  `0.1.0-beta.17` while `release/manifest.json.state=candidate`; in that
+  state `release:train:dry-run` validates the generated package candidate and
+  expected publication blockers through `gate:beta17:candidate-release-train`
+  instead of running the public mutation path. `tests/smoke.sh` also switches
+  to the generated Beta17 tarball in this mode, so CI validates the L6+N5
+  materialized artifact rather than the historical source tree.
