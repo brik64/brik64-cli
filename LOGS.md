@@ -4036,3 +4036,55 @@ Boundary:
 - This iteration does not execute L6+N5, publish Beta17, or authorize
   fixpoint/formal/public-release claims. It only makes the next blocker
   machine-readable and test-gated.
+
+## Beta17 Ralph Loop Iteration - Functional CLI Stage remote route probe
+
+Timestamp: 2026-06-29T09:55:00Z
+
+Task:
+- Extend the functional CLI Stage attempt gate so it actively probes the L6+N5
+  wrapper for a functional CLI materialization endpoint instead of only waiting
+  for a local result line.
+
+Change:
+- Updated `scripts/beta17-functional-cli-stage-attempt.js` to try the bounded
+  remote commands `beta17-functional-cli-stage-materialize`,
+  `functional-cli-stage-materialize` and
+  `beta17-fixpoint-functional-cli-stage-materialize` with the current
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST`.
+- The report now records endpoint capabilities, transcripts, the required
+  capability `beta17_functional_cli_stage_materializer`, and non-acceptable
+  substitutes.
+- Updated `scripts/tests/test_beta17_functional_cli_stage_attempt.sh` with a
+  remote-skip fail-closed case.
+- Regenerated real attempt evidence at
+  `evidence/beta17-functional-cli-stage-attempt/report.json`.
+
+Validation:
+- `node --check scripts/beta17-functional-cli-stage-attempt.js` passed.
+- `npm run test:beta17:functional-cli-stage-attempt` passed.
+- `npm run attempt:beta17:functional-cli-stage` failed closed as expected on
+  real L6+N5 state.
+
+Break attempts:
+- Missing request/result still fails closed.
+- Invalid result with `generatedFromPcdPolymer=false` still fails closed.
+- Remote skipped by `BRIK64_L6_SKIP_REMOTE=1` fails closed without network.
+- Real remote wrapper lacks `beta17_functional_cli_stage_materializer` and no
+  attempted command emits `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+
+Current real blockers:
+- `functional_cli_stage_result_unavailable`.
+- `remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+- `remote_l6plus_functional_cli_stage_result_not_emitted`.
+
+Next exact action:
+- Install or generate the L6+N5 endpoint capability
+  `beta17_functional_cli_stage_materializer` so the wrapper emits
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`, then rerun
+  `npm run attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- This iteration probes and records remote capability evidence only. It does
+  not publish Beta17, invent a result, or authorize fixpoint/formal/public
+  claims.

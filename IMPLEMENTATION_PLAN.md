@@ -179,10 +179,14 @@
   goal step between request generation and hydration. It consumes an explicit
   `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT` if supplied, validates it with
   the request manifest, runs the hydrator, and writes
-  `evidence/beta17-functional-cli-stage-attempt/report.json`. Current real
-  evidence is fail-closed with `functional_cli_stage_result_unavailable`,
-  proving that the remaining blocker is L6+N5 functional CLI materialization,
-  not package metadata or local hydration plumbing.
+  `evidence/beta17-functional-cli-stage-attempt/report.json`. It now also
+  probes the L6+N5 wrapper with the functional CLI Stage request and records
+  transcripts for the attempted remote commands. Current real evidence is
+  fail-closed with `functional_cli_stage_result_unavailable`,
+  `remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`
+  and `remote_l6plus_functional_cli_stage_result_not_emitted`, proving that
+  the remaining blocker is a missing L6+N5 functional CLI Stage endpoint, not
+  package metadata or local hydration plumbing.
 
 ## Legacy Plan Context
 

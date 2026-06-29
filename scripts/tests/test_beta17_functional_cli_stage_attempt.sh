@@ -227,4 +227,19 @@ jq -e '
   and (.blockers | index("functional_cli_stage_generatedFromPcdPolymer_not_true"))
 ' "$INVALID_ROOT/evidence/beta17-functional-cli-stage-attempt/report.json" >/dev/null
 
+REMOTE_SKIP_ROOT="$TMP_DIR/remote-skip"
+write_fixture "$REMOTE_SKIP_ROOT" valid
+rm -f "$REMOTE_SKIP_ROOT/evidence/beta17-functional-cli-stage-result/result.line"
+if BRIK64_CLI_ROOT="$REMOTE_SKIP_ROOT" BRIK64_L6_SKIP_REMOTE=1 node "$REMOTE_SKIP_ROOT/scripts/beta17-functional-cli-stage-attempt.js" \
+  >"$TMP_DIR/remote-skip.stdout" 2>"$TMP_DIR/remote-skip.stderr"; then
+  echo "remote-skip attempt without result unexpectedly passed" >&2
+  exit 1
+fi
+jq -e '
+  .decision=="BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT"
+  and (.blockers | index("functional_cli_stage_result_unavailable"))
+  and .remoteAttempt.skipped==true
+  and .remoteAttempt.reason=="remote_skipped_by_BRIK64_L6_SKIP_REMOTE"
+' "$REMOTE_SKIP_ROOT/evidence/beta17-functional-cli-stage-attempt/report.json" >/dev/null
+
 echo "PASS beta17 functional CLI stage attempt tests"

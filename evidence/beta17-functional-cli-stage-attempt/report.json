@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta17_functional_cli_stage_attempt.v1",
-  "generatedAt": "2026-06-29T07:05:32.997Z",
+  "generatedAt": "2026-06-29T07:13:56.586Z",
   "version": "0.1.0-beta.17",
   "decision": "BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT",
   "hydrated": false,
@@ -17,19 +17,122 @@
   "request": {
     "requestLine": {
       "path": "evidence/beta17-functional-cli-stage-request/request.line",
-      "sha256": "c1d0bed47d0dfa8901e1f58335c3287557679a7f067888b32b5ca53965bfd088",
+      "sha256": "d1c692c8db342c24fc118f903269520941143c79e58d8d77113732fd9a27f533",
       "bytes": 15200
     },
     "requestManifest": {
       "path": "evidence/beta17-functional-cli-stage-request/request.manifest.json",
-      "sha256": "4b064b5e94d29b6c3a3847da1ed434fd8345d7cba935d8ea635c88574dc1f9bb",
+      "sha256": "46c7c8f14021635252f7ae58a14a8aa046bb464701ff457bbbabc63b1f3a9ba9",
       "bytes": 2777
     }
   },
   "result": null,
+  "remoteAttempt": {
+    "skipped": false,
+    "endpointCapabilities": [
+      "beta15_7_ready",
+      "beta16_native_ready",
+      "beta16_1_ready"
+    ],
+    "attempts": [
+      {
+        "command": [
+          "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+          "beta17-functional-cli-stage-materialize",
+          "@@FILE:<functional-cli-stage-request-line>"
+        ],
+        "status": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "stdoutTranscript": {
+          "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/remote-attempt-1.stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderrTranscript": {
+          "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/remote-attempt-1.stderr.txt",
+          "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+          "bytes": 55
+        },
+        "resultLineObserved": false
+      },
+      {
+        "command": [
+          "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+          "functional-cli-stage-materialize",
+          "@@FILE:<functional-cli-stage-request-line>"
+        ],
+        "status": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "stdoutTranscript": {
+          "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/remote-attempt-2.stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderrTranscript": {
+          "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/remote-attempt-2.stderr.txt",
+          "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+          "bytes": 55
+        },
+        "resultLineObserved": false
+      },
+      {
+        "command": [
+          "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+          "beta17-fixpoint-functional-cli-stage-materialize",
+          "@@FILE:<functional-cli-stage-request-line>"
+        ],
+        "status": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "stdoutTranscript": {
+          "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/remote-attempt-3.stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderrTranscript": {
+          "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/remote-attempt-3.stderr.txt",
+          "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+          "bytes": 55
+        },
+        "resultLineObserved": false
+      }
+    ],
+    "resultLine": null,
+    "transcripts": {
+      "endpointStatusStdout": {
+        "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/endpoint-status.stdout.txt",
+        "sha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
+        "bytes": 204
+      },
+      "endpointStatusStderr": {
+        "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/endpoint-status.stderr.txt",
+        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
+        "bytes": 55
+      }
+    }
+  },
+  "remoteEndpointContract": {
+    "requiredEndpointCapability": "beta17_functional_cli_stage_materializer",
+    "attemptedRemoteCommands": [
+      "beta17-functional-cli-stage-materialize",
+      "functional-cli-stage-materialize",
+      "beta17-fixpoint-functional-cli-stage-materialize"
+    ],
+    "requiredResultMarker": "BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT",
+    "nonAcceptableSubstitutes": [
+      "healthy L6+N5 host without functional CLI stage endpoint",
+      "beta15.7 or beta16 materializer readiness endpoints",
+      "metadata-only Beta17 stage artifact result",
+      "manual artifact patch without L6+N5 result line"
+    ]
+  },
   "hydration": null,
   "blockers": [
-    "functional_cli_stage_result_unavailable"
+    "functional_cli_stage_result_unavailable",
+    "remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+    "remote_l6plus_functional_cli_stage_result_not_emitted"
   ],
   "nextAction": "obtain a valid BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT from L6+N5 and rerun attempt:beta17:functional-cli-stage"
 }

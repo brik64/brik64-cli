@@ -21,6 +21,16 @@ const requestManifestPath = argValue('--request-manifest', defaultRequestManifes
 const suppliedResultLinePath = argValue('--result-line', process.env.BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT_LINE || '');
 const resultLineText = argValue('--result-text', process.env.BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT || '');
 const hydrateScript = path.join(root, 'scripts', 'beta17-functional-cli-stage-result-hydrate.js');
+const host = process.env.BRIK64_L6_HOST || 'root@89.167.104.236';
+const wrapper = process.env.BRIK64_L6_WRAPPER || '/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5';
+const skipRemote = process.env.BRIK64_L6_SKIP_REMOTE === '1';
+const resultMarker = 'BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT';
+const requiredEndpointCapability = 'beta17_functional_cli_stage_materializer';
+const attemptedRemoteCommands = [
+  'beta17-functional-cli-stage-materialize',
+  'functional-cli-stage-materialize',
+  'beta17-fixpoint-functional-cli-stage-materialize',
+];
 
 function argValue(name, fallback) {
   const index = process.argv.indexOf(name);
@@ -108,6 +118,116 @@ function runHydration() {
   });
 }
 
+function run(command, args, options = {}) {
+  const result = childProcess.spawnSync(command, args, {
+    cwd: root,
+    encoding: 'utf8',
+    maxBuffer: 1024 * 1024 * 8,
+    ...options,
+  });
+  return {
+    status: result.status === null ? 1 : result.status,
+    stdout: result.stdout || '',
+    stderr: result.stderr || '',
+  };
+}
+
+function ssh(script) {
+  if (skipRemote) {
+    return {
+      status: 65,
+      stdout: '',
+      stderr: 'remote probe skipped by BRIK64_L6_SKIP_REMOTE=1',
+    };
+  }
+  return run('ssh', ['-o', 'BatchMode=yes', '-o', 'ConnectTimeout=10', host, script]);
+}
+
+function parseEndpointCapabilities(stdout) {
+  const capabilities = [];
+  for (const line of String(stdout || '').split(/\r?\n/)) {
+    const match = line.match(/^BRIK64_L6_CLI_MATERIALIZER_ENDPOINT(?:\t|\\t)installed(?:\t|\\t)(.+)$/);
+    if (!match) continue;
+    for (const item of match[1].split(',')) {
+      const trimmed = item.trim();
+      if (trimmed) capabilities.push(trimmed);
+    }
+  }
+  return capabilities;
+}
+
+function parseResultLine(text) {
+  return String(text || '').split(/\r?\n/).find((line) => line.startsWith(`${resultMarker}\t`)) || null;
+}
+
+function writeTranscript(file, text) {
+  writeText(file, text || '');
+  return fileRef(file);
+}
+
+function tryRemoteRequest() {
+  const transcriptDir = path.join(evidenceDir, 'transcripts');
+  if (!fs.existsSync(requestLinePath)) {
+    return {
+      skipped: true,
+      reason: 'missing_request_line',
+      attempts: [],
+      resultLine: null,
+      transcripts: {},
+    };
+  }
+  if (skipRemote) {
+    return {
+      skipped: true,
+      reason: 'remote_skipped_by_BRIK64_L6_SKIP_REMOTE',
+      attempts: [],
+      resultLine: null,
+      transcripts: {},
+    };
+  }
+
+  const statusProbe = ssh(`${wrapper} beta17-functional-cli-stage-status || ${wrapper} endpoint-status || true`);
+  const transcripts = {
+    endpointStatusStdout: writeTranscript(path.join(transcriptDir, 'endpoint-status.stdout.txt'), statusProbe.stdout),
+    endpointStatusStderr: writeTranscript(path.join(transcriptDir, 'endpoint-status.stderr.txt'), statusProbe.stderr),
+  };
+  const capabilities = parseEndpointCapabilities(statusProbe.stdout);
+  const requestEncoded = fs.readFileSync(requestLinePath, 'utf8').trim().split(/\t/)[1] || '';
+  const attempts = [];
+  let resultLine = parseResultLine(`${statusProbe.stdout}\n${statusProbe.stderr}`);
+  for (const [index, command] of attemptedRemoteCommands.entries()) {
+    if (resultLine) break;
+    const remote = [
+      'set -u',
+      'tmp="$(mktemp /tmp/brik64-beta17-functional-cli-stage-request.XXXXXX.line)"',
+      `printf '%s\\n' 'BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_REQUEST\t${requestEncoded}' > "$tmp"`,
+      `${wrapper} ${command} "@@FILE:$tmp" || true`,
+      'rm -f "$tmp"',
+    ].join('; ');
+    const executed = ssh(remote);
+    const stdoutRef = writeTranscript(path.join(transcriptDir, `remote-attempt-${index + 1}.stdout.txt`), executed.stdout);
+    const stderrRef = writeTranscript(path.join(transcriptDir, `remote-attempt-${index + 1}.stderr.txt`), executed.stderr);
+    const observedResultLine = parseResultLine(`${executed.stdout}\n${executed.stderr}`);
+    attempts.push({
+      command: [wrapper, command, '@@FILE:<functional-cli-stage-request-line>'],
+      status: executed.status,
+      stdout_sha256: stdoutRef.sha256,
+      stderr_sha256: stderrRef.sha256,
+      stdoutTranscript: stdoutRef,
+      stderrTranscript: stderrRef,
+      resultLineObserved: Boolean(observedResultLine),
+    });
+    if (observedResultLine) resultLine = observedResultLine;
+  }
+  return {
+    skipped: false,
+    endpointCapabilities: capabilities,
+    attempts,
+    resultLine,
+    transcripts,
+  };
+}
+
 function main() {
   fs.rmSync(evidenceDir, { recursive: true, force: true });
   fs.mkdirSync(evidenceDir, { recursive: true });
@@ -117,12 +237,23 @@ function main() {
   if (!requestLineExists) blockers.push(`missing_functional_cli_stage_request_line:${rel(requestLinePath)}`);
   if (!requestManifestExists) blockers.push(`missing_functional_cli_stage_request_manifest:${rel(requestManifestPath)}`);
 
-  const resultLine = readSuppliedResultLine();
+  const explicitResultLine = readSuppliedResultLine();
+  const remoteAttempt = explicitResultLine ? null : tryRemoteRequest();
+  const resultLine = explicitResultLine || remoteAttempt?.resultLine || null;
   let result = null;
   let validation = { accepted: false, blockers: [] };
   let hydration = null;
   if (!resultLine) {
     blockers.push('functional_cli_stage_result_unavailable');
+    if (remoteAttempt && !remoteAttempt.skipped) {
+      const capabilities = remoteAttempt.endpointCapabilities || [];
+      if (!capabilities.includes(requiredEndpointCapability)) {
+        blockers.push(`remote_l6plus_functional_cli_stage_endpoint_missing:${capabilities.length ? capabilities.join(',') : 'missing'}`);
+      }
+      if ((remoteAttempt.attempts || []).length > 0 && !remoteAttempt.attempts.some((attempt) => attempt.resultLineObserved)) {
+        blockers.push('remote_l6plus_functional_cli_stage_result_not_emitted');
+      }
+    }
   } else {
     result = parseFunctionalCliStageResult(resultLine);
     if (!result) {
@@ -165,12 +296,26 @@ function main() {
       : null,
     result: resultLine
       ? {
-          source: suppliedResultLinePath || (fs.existsSync(defaultResultLinePath) ? rel(defaultResultLinePath) : 'inline'),
+          source: explicitResultLine
+            ? suppliedResultLinePath || (fs.existsSync(defaultResultLinePath) ? rel(defaultResultLinePath) : 'inline')
+            : 'remote-l6plus-attempt',
           sha256: sha256(resultLine),
           parsed: Boolean(result),
           validation,
         }
       : null,
+    remoteAttempt,
+    remoteEndpointContract: {
+      requiredEndpointCapability,
+      attemptedRemoteCommands,
+      requiredResultMarker: resultMarker,
+      nonAcceptableSubstitutes: [
+        'healthy L6+N5 host without functional CLI stage endpoint',
+        'beta15.7 or beta16 materializer readiness endpoints',
+        'metadata-only Beta17 stage artifact result',
+        'manual artifact patch without L6+N5 result line',
+      ],
+    },
     hydration,
     blockers: [...new Set(blockers)],
     nextAction: accepted
@@ -196,4 +341,7 @@ if (require.main === module) {
 module.exports = {
   loadExpected,
   closedClaimBoundary,
+  attemptedRemoteCommands,
+  requiredEndpointCapability,
+  parseEndpointCapabilities,
 };

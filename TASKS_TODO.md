@@ -265,6 +265,14 @@
         `BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT`.
       - Current blocker:
         `functional_cli_stage_result_unavailable`.
+        `remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+        `remote_l6plus_functional_cli_stage_result_not_emitted`.
+      - Required remote capability:
+        `beta17_functional_cli_stage_materializer`.
+      - Attempted remote commands:
+        `beta17-functional-cli-stage-materialize`,
+        `functional-cli-stage-materialize`,
+        `beta17-fixpoint-functional-cli-stage-materialize`.
       - Done when:
         L6+N5 emits a valid result line, the attempt hydrates Stage1/package
         refs, `gate:beta17:fixpoint:functional-stage-artifact` passes on the
