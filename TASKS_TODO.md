@@ -247,6 +247,26 @@
         create the real L6+N5 materializer, execute remote mutation, generate
         Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
 
+- [x] Add standalone Beta17 materializer provenance gate.
+      - Script:
+        `scripts/beta17-fixpoint-materializer-provenance.js --validate`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`.
+      - NPM:
+        `gate:beta17:fixpoint:materializer-provenance`.
+      - Result:
+        an existing provenance manifest can now be validated against current
+        workspace files before deploy-plan generation or remote installation
+        consumes it.
+      - Break attempts:
+        PCD tampering after provenance generation is rejected with a file
+        SHA-256 mismatch, alongside existing missing materializer, outside PCD
+        path and invalid serial cases.
+      - Boundary:
+        this validates candidate provenance. It does not create the real
+        L6+N5 materializer, execute remote mutation, generate Stage1/Stage2
+        artifacts, prove fixpoint or publish Beta17.
+
 - [x] Add Beta17 remote dispatcher installer dry-run.
       - Script:
         `scripts/beta17-fixpoint-remote-dispatcher-install.js`.

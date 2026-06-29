@@ -2479,3 +2479,44 @@ Boundary:
 - This generates non-claim provenance from candidate inputs. It does not create
   the real L6+N5 materializer, execute remote mutation, generate real
   Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Materializer provenance standalone gate
+
+Timestamp: 2026-06-29T02:58:00Z
+
+Task:
+- Add standalone validation for existing Beta17 materializer provenance
+  manifests.
+
+Change:
+- Updated `scripts/beta17-fixpoint-materializer-provenance.js` with
+  `--validate --input <manifest>`.
+- Added npm script `gate:beta17:fixpoint:materializer-provenance`.
+- Extended `scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`
+  to validate an existing manifest against current workspace files.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-materializer-provenance.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_materializer_provenance.sh`
+  passed.
+- `npm run test:beta17:fixpoint:materializer-provenance` passed.
+- Full Beta17 regression battery passed:
+  `test:beta17:fixpoint:remote-dispatcher-plan`,
+  `test:beta17:fixpoint:remote-dispatcher-preflight`,
+  `test:beta17:fixpoint:remote-dispatcher-install`,
+  `test:beta17:fixpoint:remote-stage`,
+  `test:beta17:fixpoint:stage-result`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `test:beta17:external-audit-prompt`,
+  `npm test` and `git diff --check`.
+- Break attempt rejected:
+  PCD tampering after provenance generation triggers
+  `provenance_input_pcd_0_file_sha256_mismatch`.
+
+Boundary:
+- This validates candidate provenance against workspace files. It does not
+  create the real L6+N5 materializer, execute remote mutation, generate real
+  Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.

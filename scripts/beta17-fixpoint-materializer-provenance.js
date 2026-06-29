@@ -31,6 +31,10 @@ function argValue(name, fallback) {
   return values.length > 0 ? values[values.length - 1] : fallback;
 }
 
+function hasArg(name) {
+  return process.argv.includes(name);
+}
+
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
@@ -140,9 +144,50 @@ function validateProvenance(provenance) {
   return { accepted: blockers.length === 0, blockers };
 }
 
+function validateFileRefAgainstWorkspace(ref, label, blockers) {
+  if (!ref || typeof ref !== 'object' || !safeWorkspacePath(ref.path)) return;
+  const absolute = path.resolve(root, ref.path);
+  const workspace = path.resolve(root);
+  if (!(absolute === workspace || absolute.startsWith(`${workspace}${path.sep}`))) {
+    blockers.push(`${label}_path_outside_workspace:${ref.path}`);
+    return;
+  }
+  if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) {
+    blockers.push(`${label}_file_missing:${ref.path}`);
+    return;
+  }
+  const stat = fs.statSync(absolute);
+  if (sha256File(absolute) !== String(ref.sha256 || '').toLowerCase()) {
+    blockers.push(`${label}_file_sha256_mismatch:${ref.path}`);
+  }
+  if (stat.size !== ref.bytes) {
+    blockers.push(`${label}_file_bytes_mismatch:${ref.path}`);
+  }
+}
+
+function validateProvenanceWithWorkspaceFiles(provenance) {
+  const validation = validateProvenance(provenance);
+  const blockers = [...validation.blockers];
+  validateFileRefAgainstWorkspace(provenance?.materializerRef, 'provenance_materializer_ref', blockers);
+  for (const [index, item] of (provenance?.inputPcds || []).entries()) {
+    validateFileRefAgainstWorkspace(item, `provenance_input_pcd_${index}`, blockers);
+  }
+  return { accepted: blockers.length === 0, blockers: [...new Set(blockers)] };
+}
+
+function readJson(file) {
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (error) {
+    throw new Error(`provenance_json_parse_failed:${error.message}`);
+  }
+}
+
 function main() {
+  const validateOnly = hasArg('--validate');
   const materializer = argValue('--materializer', null);
   const outPath = path.resolve(argValue('--out', defaultOutPath));
+  const inputPath = path.resolve(argValue('--input', defaultOutPath));
   const l6plusEngineSerial = argValue('--l6-serial', 'BRIK64-L6PLUS-N5-PENDING');
   const inputPcds = valuesFor('--pcd');
   const options = {
@@ -152,11 +197,18 @@ function main() {
   };
   const blockers = [];
   let provenance = null;
-  if (!materializer) blockers.push('materializer_argument_missing');
+  if (!validateOnly && !materializer) blockers.push('materializer_argument_missing');
   try {
-    if (blockers.length === 0) {
+    if (validateOnly) {
+      if (!fs.existsSync(inputPath)) {
+        blockers.push(`provenance_input_missing:${path.relative(root, inputPath)}`);
+      } else {
+        provenance = readJson(inputPath);
+        blockers.push(...validateProvenanceWithWorkspaceFiles(provenance).blockers);
+      }
+    } else if (blockers.length === 0) {
       provenance = buildProvenance(options);
-      blockers.push(...validateProvenance(provenance).blockers);
+      blockers.push(...validateProvenanceWithWorkspaceFiles(provenance).blockers);
       if (blockers.length === 0) writeJson(outPath, provenance);
     }
   } catch (error) {
@@ -178,7 +230,7 @@ function main() {
     },
     provenance: provenance
       ? {
-          path: path.relative(root, outPath),
+          path: path.relative(root, validateOnly ? inputPath : outPath),
           materializerRef: provenance.materializerRef,
           pcdInputSetSha256: provenance.pcdInputSetSha256,
           inputPcdCount: provenance.inputPcds.length,
@@ -189,7 +241,7 @@ function main() {
       ? 'use this provenance with plan:beta17:fixpoint:remote-dispatcher --provenance'
       : 'provide a materializer file and real PCD inputs, then regenerate provenance',
   };
-  const reportPath = path.join(path.dirname(outPath), 'materializer-provenance-report.json');
+  const reportPath = path.join(path.dirname(validateOnly ? inputPath : outPath), 'materializer-provenance-report.json');
   writeJson(reportPath, report);
   console.log(`decision=${report.decision}`);
   console.log(`report=${path.relative(root, reportPath)}`);
@@ -210,4 +262,5 @@ module.exports = {
   buildProvenance,
   pcdInputSetSha256,
   validateProvenance,
+  validateProvenanceWithWorkspaceFiles,
 };

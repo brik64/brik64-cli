@@ -107,6 +107,7 @@
     "fixture:beta17:fixpoint:stage-materializer": "node scripts/beta17-fixpoint-stage-fixture-materializer.js",
     "test:beta17:fixpoint:stage-fixture": "bash scripts/tests/test_beta17_fixpoint_stage_fixture_materializer.sh",
     "provenance:beta17:fixpoint:materializer": "node scripts/beta17-fixpoint-materializer-provenance.js",
+    "gate:beta17:fixpoint:materializer-provenance": "node scripts/beta17-fixpoint-materializer-provenance.js --validate",
     "test:beta17:fixpoint:materializer-provenance": "bash scripts/tests/test_beta17_fixpoint_materializer_provenance.sh",
     "plan:beta17:fixpoint:remote-dispatcher": "node scripts/beta17-fixpoint-remote-dispatcher-deploy-plan.js",
     "test:beta17:fixpoint:remote-dispatcher-plan": "bash scripts/tests/test_beta17_fixpoint_remote_dispatcher_deploy_plan.sh",

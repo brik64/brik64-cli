@@ -229,6 +229,12 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   materializer plus explicit PCD inputs. It computes the PCD input-set hash from
   real file path/SHA-256/byte rows and keeps public release, definitive
   fixpoint, formal N5 and universal correctness boundaries closed.
+- Standalone materializer provenance gate:
+  `npm run gate:beta17:fixpoint:materializer-provenance` validates an existing
+  provenance manifest against current workspace files. It rejects stale
+  materializer refs, tampered PCD inputs, invalid serials and open claim
+  boundaries before deploy-plan generation or installation can consume the
+  manifest.
 - Remote dispatcher installation dry-run: `npm run install:beta17:fixpoint:remote-dispatcher`
   validates the deploy plan again, verifies the local materializer hash and
   byte count, then emits an auditable `install-script.sh` that installs the
