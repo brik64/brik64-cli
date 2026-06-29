@@ -26,6 +26,9 @@ const wrapper = process.env.BRIK64_L6_WRAPPER || '/opt/brik64/engines/l6plus-n5/
 const skipRemote = process.env.BRIK64_L6_SKIP_REMOTE === '1';
 const resultMarker = 'BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT';
 const requiredEndpointCapability = 'beta17_functional_cli_stage_materializer';
+const factoryRequestMarker = 'BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST';
+const factoryResultMarker = 'BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT';
+const requiredFactoryCapability = 'l6plus_pcd_artifact_factory';
 const attemptedRemoteCommands = [
   'beta17-functional-cli-stage-materialize',
   'functional-cli-stage-materialize',
@@ -147,8 +150,10 @@ function parseEndpointCapabilities(stdout) {
   const capabilities = [];
   for (const line of String(stdout || '').split(/\r?\n/)) {
     const match = line.match(/^BRIK64_L6_CLI_MATERIALIZER_ENDPOINT(?:\t|\\t)installed(?:\t|\\t)(.+)$/);
-    if (!match) continue;
-    for (const item of match[1].split(',')) {
+    const factory = line.match(/^BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY(?:\t|\\t)(?:installed|available)(?:\t|\\t)(.+)$/);
+    const items = match?.[1] || factory?.[1] || '';
+    if (!items) continue;
+    for (const item of items.split(',')) {
       const trimmed = item.trim();
       if (trimmed) capabilities.push(trimmed);
     }
@@ -160,9 +165,55 @@ function parseResultLine(text) {
   return String(text || '').split(/\r?\n/).find((line) => line.startsWith(`${resultMarker}\t`)) || null;
 }
 
+function parseFactoryResultLine(text) {
+  return String(text || '').split(/\r?\n/).find((line) => line.startsWith(`${factoryResultMarker}\t`)) || null;
+}
+
 function writeTranscript(file, text) {
   writeText(file, text || '');
   return fileRef(file);
+}
+
+function decodeRequestLine() {
+  const line = fs.readFileSync(requestLinePath, 'utf8').trim();
+  const encoded = line.split(/\t/)[1] || '';
+  return JSON.parse(Buffer.from(encoded, 'base64').toString('utf8'));
+}
+
+function buildFactoryRequestLine() {
+  const request = decodeRequestLine();
+  const factoryRequest = {
+    schemaVersion: 'brik64.l6plus_pcd_artifact_factory_request.v1',
+    version: request.version,
+    artifactKind: 'cli',
+    lane: request.lane,
+    iterId: request.iterId,
+    sourceCommit: request.sourceCommit,
+    claimBoundary: {
+      publicReleaseAllowed: false,
+      definitiveFixpointAllowed: false,
+      formalN5ClaimAllowed: false,
+      universalCorrectnessClaimAllowed: false,
+      publicClaimsAllowed: false,
+      selfHostingClaimAllowed: false,
+      rustIndependenceClaimAllowed: false,
+    },
+    pcdInputSetSha256: request.pcdInputSetSha256,
+    requiredInputPcdPaths: request.requiredInputPcdPaths,
+    inputPcds: request.inputPcds,
+    outputRefs: {
+      primaryArtifact: request.outputRefs?.stage1Artifact || 'evidence/beta17-fixpoint/generated/stage1/brik64-cli-stage1.mjs',
+      stage1Manifest: request.outputRefs?.stage1Manifest || 'evidence/beta17-fixpoint/stage1_artifact_manifest.json',
+      packageManifest: request.outputRefs?.packageManifest || 'evidence/beta17-package/package.manifest.json',
+    },
+    requirements: {
+      sourceRequestSchema: request.schemaVersion,
+      sourceRequiredResultLine: request.requiredResultLine,
+      functionalRequirements: request.functionalRequirements,
+      requiredBindings: request.requiredBindings,
+    },
+  };
+  return `${factoryRequestMarker}\t${Buffer.from(JSON.stringify(factoryRequest)).toString('base64')}\n`;
 }
 
 function tryRemoteRequest() {
@@ -187,14 +238,50 @@ function tryRemoteRequest() {
   }
 
   const statusProbe = ssh(`${wrapper} beta17-functional-cli-stage-status || ${wrapper} endpoint-status || true`);
+  const factoryStatusProbe = ssh(`${wrapper} artifact-factory-status || ${wrapper} pcd-artifact-factory-status || ${wrapper} factory-status || true`);
   const transcripts = {
     endpointStatusStdout: writeTranscript(path.join(transcriptDir, 'endpoint-status.stdout.txt'), statusProbe.stdout),
     endpointStatusStderr: writeTranscript(path.join(transcriptDir, 'endpoint-status.stderr.txt'), statusProbe.stderr),
+    factoryStatusStdout: writeTranscript(path.join(transcriptDir, 'factory-status.stdout.txt'), factoryStatusProbe.stdout),
+    factoryStatusStderr: writeTranscript(path.join(transcriptDir, 'factory-status.stderr.txt'), factoryStatusProbe.stderr),
   };
-  const capabilities = parseEndpointCapabilities(statusProbe.stdout);
+  const capabilities = [
+    ...new Set([
+      ...parseEndpointCapabilities(statusProbe.stdout),
+      ...parseEndpointCapabilities(factoryStatusProbe.stdout),
+    ]),
+  ];
   const requestEncoded = fs.readFileSync(requestLinePath, 'utf8').trim().split(/\t/)[1] || '';
   const attempts = [];
   let resultLine = parseResultLine(`${statusProbe.stdout}\n${statusProbe.stderr}`);
+  let factoryResultLine = parseFactoryResultLine(`${factoryStatusProbe.stdout}\n${factoryStatusProbe.stderr}`);
+  let factoryAttempt = null;
+  if (!resultLine && capabilities.includes(requiredFactoryCapability)) {
+    const factoryLine = buildFactoryRequestLine();
+    const factoryEncoded = factoryLine.trim().split(/\t/)[1] || '';
+    const remote = [
+      'set -u',
+      'tmp="$(mktemp /tmp/brik64-l6plus-pcd-artifact-factory-request.XXXXXX.line)"',
+      `printf '%s\\n' '${factoryRequestMarker}\t${factoryEncoded}' > "$tmp"`,
+      `${wrapper} artifact-factory-materialize "@@FILE:$tmp" || true`,
+      'rm -f "$tmp"',
+    ].join('; ');
+    const executed = ssh(remote);
+    const stdoutRef = writeTranscript(path.join(transcriptDir, 'factory-attempt.stdout.txt'), executed.stdout);
+    const stderrRef = writeTranscript(path.join(transcriptDir, 'factory-attempt.stderr.txt'), executed.stderr);
+    factoryResultLine = parseFactoryResultLine(`${executed.stdout}\n${executed.stderr}`);
+    resultLine = parseResultLine(`${executed.stdout}\n${executed.stderr}`) || resultLine;
+    factoryAttempt = {
+      command: [wrapper, 'artifact-factory-materialize', '@@FILE:<pcd-artifact-factory-request-line>'],
+      status: executed.status,
+      stdout_sha256: stdoutRef.sha256,
+      stderr_sha256: stderrRef.sha256,
+      stdoutTranscript: stdoutRef,
+      stderrTranscript: stderrRef,
+      factoryResultLineObserved: Boolean(factoryResultLine),
+      functionalCliStageResultLineObserved: Boolean(parseResultLine(`${executed.stdout}\n${executed.stderr}`)),
+    };
+  }
   for (const [index, command] of attemptedRemoteCommands.entries()) {
     if (resultLine) break;
     const remote = [
@@ -222,6 +309,9 @@ function tryRemoteRequest() {
   return {
     skipped: false,
     endpointCapabilities: capabilities,
+    requiredFactoryCapability,
+    factoryAttempt,
+    factoryResultLineObserved: Boolean(factoryResultLine),
     attempts,
     resultLine,
     transcripts,
@@ -249,6 +339,9 @@ function main() {
       const capabilities = remoteAttempt.endpointCapabilities || [];
       if (!capabilities.includes(requiredEndpointCapability)) {
         blockers.push(`remote_l6plus_functional_cli_stage_endpoint_missing:${capabilities.length ? capabilities.join(',') : 'missing'}`);
+      }
+      if (capabilities.includes(requiredFactoryCapability) && remoteAttempt.factoryResultLineObserved) {
+        blockers.push('remote_l6plus_factory_result_not_functional_cli_stage_result');
       }
       if ((remoteAttempt.attempts || []).length > 0 && !remoteAttempt.attempts.some((attempt) => attempt.resultLineObserved)) {
         blockers.push('remote_l6plus_functional_cli_stage_result_not_emitted');

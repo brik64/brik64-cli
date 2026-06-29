@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.beta17_functional_cli_stage_attempt.v1",
-  "generatedAt": "2026-06-29T07:13:56.586Z",
+  "generatedAt": "2026-06-29T07:55:03.662Z",
   "version": "0.1.0-beta.17",
   "decision": "BLOCKED_BETA17_FUNCTIONAL_CLI_STAGE_ATTEMPT",
   "hydrated": false,
@@ -17,12 +17,12 @@
   "request": {
     "requestLine": {
       "path": "evidence/beta17-functional-cli-stage-request/request.line",
-      "sha256": "d1c692c8db342c24fc118f903269520941143c79e58d8d77113732fd9a27f533",
+      "sha256": "c1d0bed47d0dfa8901e1f58335c3287557679a7f067888b32b5ca53965bfd088",
       "bytes": 15200
     },
     "requestManifest": {
       "path": "evidence/beta17-functional-cli-stage-request/request.manifest.json",
-      "sha256": "46c7c8f14021635252f7ae58a14a8aa046bb464701ff457bbbabc63b1f3a9ba9",
+      "sha256": "4b064b5e94d29b6c3a3847da1ed434fd8345d7cba935d8ea635c88574dc1f9bb",
       "bytes": 2777
     }
   },
@@ -32,8 +32,39 @@
     "endpointCapabilities": [
       "beta15_7_ready",
       "beta16_native_ready",
-      "beta16_1_ready"
+      "beta16_1_ready",
+      "l6plus_pcd_artifact_factory",
+      "cli",
+      "sdk",
+      "harness",
+      "engine",
+      "docs",
+      "evidence-pack"
     ],
+    "requiredFactoryCapability": "l6plus_pcd_artifact_factory",
+    "factoryAttempt": {
+      "command": [
+        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+        "artifact-factory-materialize",
+        "@@FILE:<pcd-artifact-factory-request-line>"
+      ],
+      "status": 0,
+      "stdout_sha256": "fb0b8341719b03bbc1af09ccf9dcafd82007265edd6a8b20e43c1db17d8fe7f2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutTranscript": {
+        "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/factory-attempt.stdout.txt",
+        "sha256": "fb0b8341719b03bbc1af09ccf9dcafd82007265edd6a8b20e43c1db17d8fe7f2",
+        "bytes": 3935
+      },
+      "stderrTranscript": {
+        "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/factory-attempt.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "factoryResultLineObserved": true,
+      "functionalCliStageResultLineObserved": false
+    },
+    "factoryResultLineObserved": true,
     "attempts": [
       {
         "command": [
@@ -110,6 +141,16 @@
         "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/endpoint-status.stderr.txt",
         "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
         "bytes": 55
+      },
+      "factoryStatusStdout": {
+        "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/factory-status.stdout.txt",
+        "sha256": "d2a8267107182933cb19b3fb55d0f09e7476167d8f2133c6056ada72901e3560",
+        "bytes": 167
+      },
+      "factoryStatusStderr": {
+        "path": "evidence/beta17-functional-cli-stage-attempt/transcripts/factory-status.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
       }
     }
   },
@@ -131,7 +172,8 @@
   "hydration": null,
   "blockers": [
     "functional_cli_stage_result_unavailable",
-    "remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
+    "remote_l6plus_functional_cli_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready,l6plus_pcd_artifact_factory,cli,sdk,harness,engine,docs,evidence-pack",
+    "remote_l6plus_factory_result_not_functional_cli_stage_result",
     "remote_l6plus_functional_cli_stage_result_not_emitted"
   ],
   "nextAction": "obtain a valid BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT from L6+N5 and rerun attempt:beta17:functional-cli-stage"

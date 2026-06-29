@@ -689,3 +689,17 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
 - Beta17 materialization must route through this general factory before
   publication or fixpoint claims. A version-specific Beta17 endpoint is not the
   optimized target architecture.
+- Remote factory validation update: the guarded remote install has now passed
+  with `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL`, and the live wrapper audit
+  passes with `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT`. The wrapper discrepancy
+  is corrected at the routing/capability layer: `factory-status` is supported,
+  `l6plus_pcd_artifact_factory` is advertised, and
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` is emitted.
+- Remaining Beta17 blocker: the installed factory currently emits a generic
+  artifact-factory result, not the Beta17-specific
+  `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`. The functional CLI Stage attempt
+  now routes through `artifact-factory-materialize` and fails closed on
+  `remote_l6plus_factory_result_not_functional_cli_stage_result`. This is the
+  correct next boundary: L6+N5 needs a target-aware factory materializer that
+  can produce the functional CLI Stage result from PCD/polymer inputs, without
+  turning the non-claim wrapper bridge into fixpoint/self-hosting evidence.

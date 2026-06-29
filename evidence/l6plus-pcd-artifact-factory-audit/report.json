@@ -1,8 +1,8 @@
 {
   "schemaVersion": "brik64.l6plus_pcd_artifact_factory_audit.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T07:48:23.182Z",
-  "decision": "BLOCKED_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT",
+  "generatedAt": "2026-06-29T07:54:54.005Z",
+  "decision": "PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT",
   "host": "root@89.167.104.236",
   "wrapper": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
   "skippedRemote": false,
@@ -11,7 +11,14 @@
   "observedCapabilities": [
     "beta15_7_ready",
     "beta16_1_ready",
-    "beta16_native_ready"
+    "beta16_native_ready",
+    "cli",
+    "docs",
+    "engine",
+    "evidence-pack",
+    "harness",
+    "l6plus_pcd_artifact_factory",
+    "sdk"
   ],
   "probes": [
     {
@@ -19,60 +26,84 @@
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "artifact-factory-status"
       ],
-      "status": 65,
+      "status": 0,
       "stdoutTranscript": {
         "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-1.stdout.txt",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "bytes": 0
+        "sha256": "d2a8267107182933cb19b3fb55d0f09e7476167d8f2133c6056ada72901e3560",
+        "bytes": 167
       },
       "stderrTranscript": {
         "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-1.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
       },
-      "capabilities": [],
-      "resultMarkerObserved": false,
-      "unsupported": true
+      "capabilities": [
+        "cli",
+        "docs",
+        "engine",
+        "evidence-pack",
+        "harness",
+        "l6plus_pcd_artifact_factory",
+        "sdk"
+      ],
+      "resultMarkerObserved": true,
+      "unsupported": false
     },
     {
       "command": [
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "pcd-artifact-factory-status"
       ],
-      "status": 65,
+      "status": 0,
       "stdoutTranscript": {
         "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-2.stdout.txt",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "bytes": 0
+        "sha256": "d2a8267107182933cb19b3fb55d0f09e7476167d8f2133c6056ada72901e3560",
+        "bytes": 167
       },
       "stderrTranscript": {
         "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-2.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
       },
-      "capabilities": [],
-      "resultMarkerObserved": false,
-      "unsupported": true
+      "capabilities": [
+        "cli",
+        "docs",
+        "engine",
+        "evidence-pack",
+        "harness",
+        "l6plus_pcd_artifact_factory",
+        "sdk"
+      ],
+      "resultMarkerObserved": true,
+      "unsupported": false
     },
     {
       "command": [
         "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
         "factory-status"
       ],
-      "status": 65,
+      "status": 0,
       "stdoutTranscript": {
         "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-3.stdout.txt",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "bytes": 0
+        "sha256": "d2a8267107182933cb19b3fb55d0f09e7476167d8f2133c6056ada72901e3560",
+        "bytes": 167
       },
       "stderrTranscript": {
         "path": "evidence/l6plus-pcd-artifact-factory-audit/transcripts/probe-3.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
       },
-      "capabilities": [],
-      "resultMarkerObserved": false,
-      "unsupported": true
+      "capabilities": [
+        "cli",
+        "docs",
+        "engine",
+        "evidence-pack",
+        "harness",
+        "l6plus_pcd_artifact_factory",
+        "sdk"
+      ],
+      "resultMarkerObserved": true,
+      "unsupported": false
     },
     {
       "command": [
@@ -120,16 +151,12 @@
       "unsupported": false
     }
   ],
-  "blockers": [
-    "l6plus_pcd_artifact_factory_capability_missing:beta15_7_ready,beta16_1_ready,beta16_native_ready",
-    "l6plus_pcd_artifact_factory_result_marker_missing:BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT",
-    "l6plus_factory_status_unsupported"
-  ],
+  "blockers": [],
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,
     "formalN5ClaimAllowed": false,
     "universalCorrectnessClaimAllowed": false
   },
-  "nextAction": "replace version-specific wrapper routing with a general l6plus_pcd_artifact_factory capability before Beta17 materialization"
+  "nextAction": "route Beta17 functional CLI request through l6plus_pcd_artifact_factory"
 }

@@ -1873,7 +1873,7 @@
         closed except the bounded `definitiveFixpointAllowed` gate output, and
         no public release is declared before public sync plus external audit.
 
-- [ ] Install and validate the general L6+N5 PCD artifact factory.
+- [x] Install and validate the general L6+N5 PCD artifact factory.
       - Current dry-run:
         `npm run install:l6plus:pcd-artifact-factory` writes
         `evidence/l6plus-pcd-artifact-factory-install/install-report.json`
@@ -1889,3 +1889,23 @@
         the live wrapper exposes `l6plus_pcd_artifact_factory`, emits the
         factory result marker, `factory-status` passes, and Beta17 functional
         CLI requests can be routed through `artifact-factory-materialize`.
+      - Closed:
+        remote install passed with
+        `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL`; live audit passed with
+        `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT`.
+
+- [ ] Upgrade the general L6+N5 PCD artifact factory from generic artifact
+      materialization to Beta17 functional CLI result materialization.
+      - Current state:
+        `npm run attempt:beta17:functional-cli-stage` now routes through
+        `artifact-factory-materialize` and observes
+        `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`.
+      - Current blocker:
+        the factory result is generic and does not emit
+        `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`; the attempt fails closed
+        with `remote_l6plus_factory_result_not_functional_cli_stage_result`.
+      - Done when:
+        L6+N5 emits a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`, the
+        hydration gate writes a functional Stage1 CLI artifact, package
+        candidate reports `releaseEligible=true`, and no publication/fixpoint
+        claim is opened before readiness and external-audit gates.

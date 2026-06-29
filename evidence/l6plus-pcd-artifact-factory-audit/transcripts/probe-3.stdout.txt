@@ -1,0 +1,2 @@
+BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY	installed	l6plus_pcd_artifact_factory,cli,sdk,harness,engine,docs,evidence-pack
+BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT	available

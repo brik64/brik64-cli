@@ -4174,3 +4174,57 @@ Next exact action:
 Boundary:
 - This iteration does not install the remote factory, generate Beta17, publish
   Beta17, or authorize fixpoint/formal/public-release claims.
+
+## Beta17 Ralph Loop Iteration - Remote general factory install and Beta17 route attempt
+
+Timestamp: 2026-06-29T11:05:00Z
+
+Task:
+- Correct the L6+N5 wrapper discrepancy by installing the general
+  `l6plus_pcd_artifact_factory` capability under an explicit non-claim guard,
+  then route the Beta17 functional CLI request through that general factory.
+
+Change:
+- Executed the guarded installer:
+  `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+- Extended `scripts/beta17-functional-cli-stage-attempt.js` so it probes
+  `artifact-factory-status`, builds a normalized
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST`, runs
+  `artifact-factory-materialize`, and records whether the factory result is a
+  valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`.
+- Updated real evidence under:
+  `evidence/l6plus-pcd-artifact-factory-install/`,
+  `evidence/l6plus-pcd-artifact-factory-audit/`, and
+  `evidence/beta17-functional-cli-stage-attempt/`.
+
+Validation:
+- `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM` passed with
+  `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL`.
+- `npm run audit:l6plus:pcd-artifact-factory` passed with
+  `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_AUDIT`.
+- `npm run test:beta17:functional-cli-stage-attempt` passed.
+- `npm run attempt:beta17:functional-cli-stage` failed closed on the next real
+  boundary.
+
+Break attempts:
+- Existing missing-result fixture still fails closed.
+- Invalid result with `generatedFromPcdPolymer=false` still fails closed.
+- Remote skipped by `BRIK64_L6_SKIP_REMOTE=1` still fails closed.
+- Real remote factory emits a generic factory result, but no functional CLI
+  Stage result; this is rejected.
+
+Current real blockers:
+- `functional_cli_stage_result_unavailable`.
+- `remote_l6plus_factory_result_not_functional_cli_stage_result`.
+- `remote_l6plus_functional_cli_stage_result_not_emitted`.
+
+Next exact action:
+- Upgrade the L6+N5 factory materializer so a `cli` artifact request for
+  Beta17 emits a valid `BRIK64_BETA17_FUNCTIONAL_CLI_STAGE_RESULT`, then rerun
+  `npm run attempt:beta17:functional-cli-stage`.
+
+Boundary:
+- The wrapper/capability discrepancy is corrected. Beta17 is still not
+  generated, not publishable, and not fixpoint/self-hosting/formal claim
+  evidence because the current factory output is generic rather than a
+  functional CLI Stage result.
