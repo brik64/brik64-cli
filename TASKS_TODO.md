@@ -245,6 +245,14 @@
       - Current explicit blocker:
         `gate:beta17:fixpoint-readiness` reports
         `public_surface_sync_not_pass:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+      - Producer:
+        `scripts/beta17-fixpoint-public-surface-sync-report.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_public_surface_sync_report.sh`.
+      - Current real blocker:
+        `sync:beta17:fixpoint:public-surfaces` writes
+        `live_verify_version_mismatch:0.1.0-beta.15.7.1`, so public surfaces
+        are not yet proven synced to Beta17.
       - Done when:
         installer, manifest, docs, web, skills and changelog are synced to the
         exact Beta17 artifact refs and a fresh

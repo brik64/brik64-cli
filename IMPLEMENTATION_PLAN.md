@@ -110,6 +110,13 @@
   closes the previous missing-manifest and binding-drift blockers without
   opening publication or fixpoint claims. The readiness gate now blocks only on
   the expected live public-surface sync and external audit evidence.
+- Public-surface sync contract update: Beta17 now has
+  `sync:beta17:fixpoint:public-surfaces`, a fail-closed producer for
+  `public_surface_sync_report.json`. It converts `release-train-live-verify`
+  evidence into `PASS_BETA17_PUBLIC_SURFACE_SYNC` only when every required
+  surface is observed at `0.1.0-beta.17`; otherwise it writes a blocked report
+  with exact blockers. Current real evidence is blocked because the latest
+  live verify report is still `0.1.0-beta.15.7.1`.
 
 ## Legacy Plan Context
 

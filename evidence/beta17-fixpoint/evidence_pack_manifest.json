@@ -2,7 +2,7 @@
   "schemaVersion": "brik64.beta17_fixpoint.evidence_pack_manifest.v1",
   "version": "0.1.0-beta.17",
   "status": "CANDIDATE_NON_CLAIM",
-  "generatedAt": "2026-06-29T05:31:20.585Z",
+  "generatedAt": "2026-06-29T05:40:38.615Z",
   "files": [
     {
       "path": "evidence/beta17-fixpoint/byte_identical_report.json",
@@ -71,8 +71,8 @@
     },
     {
       "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-      "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c",
-      "bytes": 1044
+      "sha256": "255fb5ae6d80c009e88938868e5673005d23def88128f30d213ad6521bc15612",
+      "bytes": 3433
     },
     {
       "path": "evidence/beta17-fixpoint/readiness_evidence_refresh_report.json",
@@ -100,7 +100,7 @@
       "bytes": 837
     }
   ],
-  "packSha256": "bcdb92032b3c84cc47c25b422a090f2df7627c72632038fc7f43a0a3c9138572",
+  "packSha256": "490187ca642ef08224e4a892149ee094e5d0b7fc366f45cb6f741733c4f912e6",
   "claimBoundary": {
     "publicReleaseAllowed": false,
     "definitiveFixpointAllowed": false,

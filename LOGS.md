@@ -3613,3 +3613,44 @@ Boundary:
 - This iteration produces CANDIDATE_NON_CLAIM readiness evidence only. It does
   not publish Beta17, authorize public fixpoint claims, or replace the required
   public-surface sync and external audit campaigns.
+
+## Beta17 Ralph Loop Iteration - Public surface sync contract
+
+Timestamp: 2026-06-29T06:03:00Z
+
+Task:
+- Add a fail-closed Beta17 public-surface sync report producer so the
+  readiness gate can distinguish a real Beta17 public sync from stale live
+  release evidence.
+
+Change:
+- Added `scripts/beta17-fixpoint-public-surface-sync-report.js`.
+- Added npm scripts `sync:beta17:fixpoint:public-surfaces` and
+  `test:beta17:fixpoint:public-surface-sync`.
+- Added `scripts/tests/test_beta17_fixpoint_public_surface_sync_report.sh`.
+- Refreshed `evidence/beta17-fixpoint/public_surface_sync_report.json` from the
+  current live verification report.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-public-surface-sync-report.js` passed.
+- `npm run test:beta17:fixpoint:public-surface-sync` passed.
+- `npm run sync:beta17:fixpoint:public-surfaces` failed closed as expected with
+  `BLOCKED_BETA17_PUBLIC_SURFACE_SYNC`.
+- `npm run beta17:fixpoint:evidence:manifest` passed.
+- `npm run gate:beta17:fixpoint-readiness` remains intentionally blocked.
+
+Break attempts:
+- Missing live verify report fails closed with `missing_live_verify_report`.
+- Stale live verify version fails closed with
+  `live_verify_version_mismatch:0.1.0-beta.16.1` in fixture tests.
+- Missing `public_skill` observation fails closed with
+  `surface_missing_observation:skills:public_skill`.
+
+Current real blocker:
+- The actual `release-train-live-verify` evidence in this checkout is still for
+  `0.1.0-beta.15.7.1`, so the Beta17 public sync report is blocked with
+  `live_verify_version_mismatch:0.1.0-beta.15.7.1`.
+
+Boundary:
+- This iteration creates the public-sync evidence contract. It does not mutate
+  public surfaces, publish Beta17, or replace the required external audit.
