@@ -4134,3 +4134,43 @@ Boundary:
 - This iteration is an audit/gate. It does not install a remote factory,
   generate the Beta17 CLI artifact, publish Beta17, or authorize fixpoint,
   formal N5, self-hosting, Rust-independence, or public-release claims.
+
+## Beta17 Ralph Loop Iteration - General L6+N5 PCD artifact factory installer dry-run
+
+Timestamp: 2026-06-29T10:45:00Z
+
+Task:
+- Prepare the correction path for the wrapper discrepancy by generating a
+  guarded installer for a general `l6plus_pcd_artifact_factory` capability.
+
+Change:
+- Added `scripts/l6plus-pcd-artifact-factory-install.js`.
+- Added `scripts/tests/test_l6plus_pcd_artifact_factory_install.sh`.
+- Added npm scripts `install:l6plus:pcd-artifact-factory` and
+  `test:l6plus:pcd-artifact-factory-install`.
+- Generated dry-run evidence at
+  `evidence/l6plus-pcd-artifact-factory-install/install-report.json`.
+
+Validation:
+- `node --check scripts/l6plus-pcd-artifact-factory-install.js` passed.
+- `npm run test:l6plus:pcd-artifact-factory-install` passed.
+- `npm run install:l6plus:pcd-artifact-factory` passed as dry-run.
+
+Break attempts:
+- Invalid remote factory path fails closed.
+- `--execute` without confirmation fails closed.
+- Generated installer keeps public/fixpoint/formal claim boundaries closed.
+
+Current state:
+- The general factory installer is ready in dry-run only. The live wrapper has
+  not been mutated by this iteration.
+
+Next exact action:
+- Run the guarded remote install only when ready:
+  `npm run install:l6plus:pcd-artifact-factory -- --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`,
+  then run `npm run audit:l6plus:pcd-artifact-factory` and route Beta17 through
+  `artifact-factory-materialize`.
+
+Boundary:
+- This iteration does not install the remote factory, generate Beta17, publish
+  Beta17, or authorize fixpoint/formal/public-release claims.

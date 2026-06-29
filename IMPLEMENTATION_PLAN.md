@@ -669,3 +669,23 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   pre-execution guard. The live host still advertises only beta15.7/beta16
   capabilities, and the Beta17 attempt stops before materialization commands
   because no executed dispatcher install report exists.
+
+## Beta17 General Factory Update
+
+- L6+N5 general factory audit: the Beta17 route now rejects accumulating
+  version-specific wrapper endpoints as the generation model. The required
+  capability is `l6plus_pcd_artifact_factory`, and the required result marker
+  is `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`. Current real wrapper evidence
+  remains blocked: observed capabilities are only
+  `beta15_7_ready,beta16_1_ready,beta16_native_ready`, the factory result marker
+  is absent, and `factory-status` is unsupported.
+- General factory install dry-run: `install:l6plus:pcd-artifact-factory` now
+  produces a guarded installer for a reusable wrapper capability. The generated
+  factory accepts `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST`, supports artifact
+  kinds `cli`, `sdk`, `harness`, `engine`, `docs` and `evidence-pack`, emits
+  `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT`, and keeps public/fixpoint/formal
+  claim boundaries closed. Current evidence is dry-run only; remote mutation
+  requires `--execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+- Beta17 materialization must route through this general factory before
+  publication or fixpoint claims. A version-specific Beta17 endpoint is not the
+  optimized target architecture.

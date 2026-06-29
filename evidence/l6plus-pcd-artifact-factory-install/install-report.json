@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "brik64.l6plus_pcd_artifact_factory_install.v1",
+  "version": "0.1.0-beta.17",
+  "generatedAt": "2026-06-29T07:48:16.844Z",
+  "decision": "PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL_DRY_RUN",
+  "executed": false,
+  "publicationAllowed": false,
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "universalCorrectnessClaimAllowed": false
+  },
+  "factory": {
+    "path": "evidence/l6plus-pcd-artifact-factory-install/l6plus-pcd-artifact-factory.js",
+    "sha256": "89ef8b3f7f0ced204c73f4a53a80e22019b300bc8e7f86ed00a388273f6132b9",
+    "bytes": 5810,
+    "remotePath": "/opt/brik64/engines/l6plus-n5/current/artifacts/generated/l6plus_pcd_artifact_factory.js",
+    "requiredCapability": "l6plus_pcd_artifact_factory",
+    "requestMarker": "BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_REQUEST",
+    "resultMarker": "BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT"
+  },
+  "installScript": {
+    "path": "evidence/l6plus-pcd-artifact-factory-install/install-script.sh",
+    "sha256": "0cbebdb622f6ff0610f452d2b18d03acc7430fb790dac1f53d2a2e5521205c7e",
+    "bytes": 2442,
+    "validation": {
+      "accepted": true,
+      "blockers": []
+    }
+  },
+  "execution": null,
+  "blockers": [],
+  "nextAction": "rerun with --execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM to install the general factory, then run npm run audit:l6plus:pcd-artifact-factory"
+}

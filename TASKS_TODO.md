@@ -1872,3 +1872,20 @@
         `npm run gate:beta17:fixpoint-readiness` passes with claim boundaries
         closed except the bounded `definitiveFixpointAllowed` gate output, and
         no public release is declared before public sync plus external audit.
+
+- [ ] Install and validate the general L6+N5 PCD artifact factory.
+      - Current dry-run:
+        `npm run install:l6plus:pcd-artifact-factory` writes
+        `evidence/l6plus-pcd-artifact-factory-install/install-report.json`
+        with `PASS_L6PLUS_PCD_ARTIFACT_FACTORY_INSTALL_DRY_RUN`.
+      - Execute guard:
+        remote mutation requires
+        `--execute --confirm INSTALL_L6PLUS_PCD_ARTIFACT_FACTORY_NON_CLAIM`.
+      - Current audit blocker:
+        `npm run audit:l6plus:pcd-artifact-factory` reports missing
+        `l6plus_pcd_artifact_factory` and missing
+        `BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT` on the live wrapper.
+      - Done when:
+        the live wrapper exposes `l6plus_pcd_artifact_factory`, emits the
+        factory result marker, `factory-status` passes, and Beta17 functional
+        CLI requests can be routed through `artifact-factory-materialize`.
