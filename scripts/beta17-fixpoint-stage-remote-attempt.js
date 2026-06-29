@@ -16,6 +16,13 @@ const wrapper = process.env.BRIK64_L6_WRAPPER || '/opt/brik64/engines/l6plus-n5/
 const healthcheck = process.env.BRIK64_L6_HEALTHCHECK || '/opt/brik64/engines/l6plus-n5/bin/healthcheck';
 const audit = process.env.BRIK64_L6_AUDIT || '/opt/brik64/engines/l6plus-n5/bin/audit';
 const skipRemote = process.env.BRIK64_L6_SKIP_REMOTE === '1';
+const requiredEndpointCapability = 'beta17_fixpoint_stage_dispatcher';
+const attemptedMaterializationCommands = [
+  'beta17-fixpoint-stage-materialize',
+  'fixpoint-stage-materialize',
+  'materialize',
+];
+const requiredStageResultMarker = 'BRIK64_BETA17_FIXPOINT_STAGE_RESULT';
 
 function sha256(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
@@ -150,7 +157,7 @@ function probeRemote() {
 function attemptRemote(request) {
   if (skipRemote) return [];
   const encoded = Buffer.from(JSON.stringify(request)).toString('base64');
-  return ['beta17-fixpoint-stage-materialize', 'fixpoint-stage-materialize', 'materialize'].map((command) => {
+  return attemptedMaterializationCommands.map((command) => {
     const remote = [
       'set -u',
       'tmp="$(mktemp /tmp/brik64-beta17-fixpoint-stage-request.XXXXXX.json)"',
@@ -239,10 +246,10 @@ function main() {
   const remote = probeRemote();
   if (remote.hostProbe.status !== 0) blockers.push('remote_l6plus_probe_failed');
   if (!skipRemote && remote.auditJson?.decision !== 'PASS') blockers.push('remote_l6plus_audit_not_pass');
-  if (!skipRemote && remote.wrapperMode !== 'beta17_fixpoint_stage_dispatcher') {
+  if (!skipRemote && remote.wrapperMode !== requiredEndpointCapability) {
     blockers.push(`remote_l6plus_wrapper_mode_not_beta17_stage:${remote.wrapperMode || 'missing'}`);
   }
-  if (!skipRemote && !remote.endpointCapabilities.includes('beta17_fixpoint_stage_dispatcher')) {
+  if (!skipRemote && !remote.endpointCapabilities.includes(requiredEndpointCapability)) {
     const capabilities = remote.endpointCapabilities.length > 0 ? remote.endpointCapabilities.join(',') : 'missing';
     blockers.push(`remote_l6plus_beta17_stage_endpoint_missing:${capabilities}`);
   }
@@ -284,6 +291,24 @@ function main() {
     },
     host,
     skipped: skipRemote,
+    remoteEndpointContract: {
+      requiredEndpointCapability,
+      requiredWrapperMode: requiredEndpointCapability,
+      attemptedMaterializationCommands,
+      requiredStageResultMarker,
+      installHint: [
+        `install ${requiredEndpointCapability} in the L6+N5 wrapper`,
+        `back it with a non-fixture L6+N5 materializer that emits ${requiredStageResultMarker}`,
+        'bind Stage1 and Stage2 artifacts, byte identity, harness, seal, input PCD set and materializer request SHA-256',
+        'keep publicationAllowed=false until the promoted result, public surface sync and external audit pass',
+      ],
+      nonAcceptableSubstitutes: [
+        'healthy L6+N5 host audit without beta17 dispatcher',
+        'beta15.7 or beta16 materializer endpoint',
+        'fixture or TEMPLATE_NON_CLAIM stage result',
+        'manual artifact patch not regenerated from PCD/polymer through L6+N5',
+      ],
+    },
     request: request
       ? {
           path: rel(requestPath),
@@ -318,7 +343,7 @@ function main() {
     blockers: uniqueBlockers,
     nextAction: accepted
       ? 'promote accepted remote result into evidence/beta17-fixpoint after independent audit'
-      : 'deploy a real beta17 fixpoint stage dispatcher on the L6+N5 host and rerun this attempt',
+      : `deploy ${requiredEndpointCapability} on the L6+N5 host, ensure it emits ${requiredStageResultMarker}, and rerun this attempt`,
   };
   writeJson(path.join(evidenceDir, 'report.json'), report);
   console.log(`decision=${report.decision}`);
@@ -339,7 +364,10 @@ if (require.main === module) {
 }
 
 module.exports = {
+  attemptedMaterializationCommands,
   parseEndpointCapabilities,
   parseRemoteRefs,
   parseWrapperMode,
+  requiredEndpointCapability,
+  requiredStageResultMarker,
 };

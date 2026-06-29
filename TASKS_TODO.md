@@ -163,8 +163,24 @@
         public/fixpoint/formal claim boundaries by default and produces a
         deterministic pack hash over the file refs.
       - Boundary:
-        this strengthens evidence indexing only. It does not create real
-        Stage1/Stage2 materialization evidence or authorize Beta17 publication.
+      this strengthens evidence indexing only. It does not create real
+      Stage1/Stage2 materialization evidence or authorize Beta17 publication.
+
+- [x] Make Beta17 remote attempts report the endpoint installation contract.
+      - Script:
+        `scripts/beta17-fixpoint-stage-remote-attempt.js`.
+      - Test:
+        `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh`.
+      - Result:
+        the remote attempt report now records the required
+        `beta17_fixpoint_stage_dispatcher` capability, the attempted
+        materialization commands, the required
+        `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` marker and the substitutions
+        that cannot satisfy Beta17 fixpoint evidence.
+      - Boundary:
+        this makes the operational blocker explicit. It does not install the
+        remote endpoint, generate real Stage1/Stage2 artifacts, prove fixpoint
+        or publish Beta17.
 
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:

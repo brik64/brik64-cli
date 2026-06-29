@@ -16,10 +16,20 @@ fi
 node <<'NODE'
 const assert = require('assert');
 const {
+  attemptedMaterializationCommands,
   parseEndpointCapabilities,
   parseWrapperMode,
+  requiredEndpointCapability,
+  requiredStageResultMarker,
 } = require('./scripts/beta17-fixpoint-stage-remote-attempt');
 
+assert.strictEqual(requiredEndpointCapability, 'beta17_fixpoint_stage_dispatcher');
+assert.strictEqual(requiredStageResultMarker, 'BRIK64_BETA17_FIXPOINT_STAGE_RESULT');
+assert.deepStrictEqual(attemptedMaterializationCommands, [
+  'beta17-fixpoint-stage-materialize',
+  'fixpoint-stage-materialize',
+  'materialize',
+]);
 assert.deepStrictEqual(
   parseEndpointCapabilities('BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\tinstalled\tbeta15_7_ready,beta16_native_ready,beta16_1_ready\n'),
   ['beta15_7_ready', 'beta16_native_ready', 'beta16_1_ready'],
@@ -62,6 +72,15 @@ jq -e '
   and .skipped==true
   and (.blockers | index("remote_l6plus_probe_failed"))
   and (.blockers | index("remote_l6plus_beta17_stage_result_unavailable"))
+  and .remoteEndpointContract.requiredEndpointCapability=="beta17_fixpoint_stage_dispatcher"
+  and .remoteEndpointContract.requiredWrapperMode=="beta17_fixpoint_stage_dispatcher"
+  and .remoteEndpointContract.requiredStageResultMarker=="BRIK64_BETA17_FIXPOINT_STAGE_RESULT"
+  and (.remoteEndpointContract.attemptedMaterializationCommands | index("beta17-fixpoint-stage-materialize"))
+  and (.remoteEndpointContract.attemptedMaterializationCommands | index("fixpoint-stage-materialize"))
+  and (.remoteEndpointContract.attemptedMaterializationCommands | index("materialize"))
+  and (.remoteEndpointContract.nonAcceptableSubstitutes | index("beta15.7 or beta16 materializer endpoint"))
+  and (.nextAction | contains("beta17_fixpoint_stage_dispatcher"))
+  and (.nextAction | contains("BRIK64_BETA17_FIXPOINT_STAGE_RESULT"))
   and .request.path=="evidence/beta17-fixpoint-stage-request/request.json"
   and (.remote.transcripts.hostProbeStderr.path=="evidence/beta17-fixpoint-remote-attempt/transcripts/host-probe.stderr.txt")
   and (.remote.transcripts.hostProbeStderr.bytes > 0)

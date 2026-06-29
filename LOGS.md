@@ -2281,3 +2281,45 @@ Boundary:
 - This proves the current L6+N5 host lacks the Beta17 stage dispatcher endpoint
   under the probed wrapper. It does not install the endpoint, generate real
   Stage1/Stage2 artifacts, prove fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Remote endpoint install contract
+
+Timestamp: 2026-06-29T00:55:00Z
+
+Task:
+- Make the blocked Beta17 remote attempt report the exact endpoint
+  installation contract instead of only listing generic endpoint absence.
+
+Change:
+- Updated `scripts/beta17-fixpoint-stage-remote-attempt.js` to expose the
+  required `beta17_fixpoint_stage_dispatcher` capability, attempted
+  materialization commands, required
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT` marker, install hints and
+  non-acceptable substitutes in the generated report.
+- Updated `scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` to
+  assert those report fields in the skip/blocked path.
+
+Evidence:
+- `node --check scripts/beta17-fixpoint-stage-remote-attempt.js` passed.
+- `bash -n scripts/tests/test_beta17_fixpoint_stage_remote_attempt.sh` passed.
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- Broader regression battery passed:
+  `test:beta17:external-audit-prompt`,
+  `test:beta17:fixpoint:stage-result`,
+  `test:beta17:fixpoint:remote-result-promotion`,
+  `test:beta17:fixpoint:remote-promotion`,
+  `test:beta17:fixpoint-readiness`,
+  `test:beta17:release-train-readiness`,
+  `npm test` and `git diff --check`.
+- Live remote attempt with a fresh request bundle remained correctly blocked
+  on `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`
+  and `remote_l6plus_beta17_stage_result_unavailable`.
+- The live report included `requiredEndpointCapability:
+  beta17_fixpoint_stage_dispatcher` and required marker
+  `BRIK64_BETA17_FIXPOINT_STAGE_RESULT`.
+
+Boundary:
+- This is an operational/readiness hardening change. It does not install the
+  remote endpoint, generate real L6+N5 Stage1/Stage2 artifacts, prove fixpoint
+  or publish Beta17.
