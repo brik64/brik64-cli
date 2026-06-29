@@ -754,3 +754,13 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   `stageResultValidation.accepted`. This closes the false blocker where the
   wrapper had executed correctly but the required-inputs gate was still reading
   an older `remoteInstallResult`/top-level `accepted` shape.
+- Pre-publication mutation gate: Beta17 now has an explicit
+  `gate:beta17:pre-publication-mutation` for the release-train handoff from a
+  validated local candidate to public-surface mutation. The gate requires
+  `release/manifest.json.state=public`, hash-bound CLI package evidence,
+  `PASS_BETA17_FIXPOINT_REQUIRED_INPUTS`, closed public/fixpoint/formal claim
+  boundaries, and all local evidence-pack files. It deliberately does not
+  require public-surface sync or external audit, because those are post-mutation
+  gates. `publicationMutationAllowed=true` is therefore not the same as
+  `publicationAllowed=true`; final public readiness remains gated by live verify
+  and external audit.

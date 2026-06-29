@@ -1997,3 +1997,21 @@
       - Boundary:
         This confirms the wrapper/gate discrepancy is corrected. It does not
         publish Beta17 or open public/fixpoint claims.
+
+- [x] Add a Beta17 pre-publication mutation gate to remove release-train
+      circularity.
+      - Script:
+        `scripts/beta17-pre-publication-mutation-gate.js`.
+      - Test:
+        `scripts/tests/test_beta17_pre_publication_mutation_gate.sh`.
+      - Result:
+        A `state=public` Beta17 manifest can be dry-run/publish-plan eligible
+        before public-surface sync and external audit exist, as long as local
+        package/evidence inputs are hash-bound and claims remain closed.
+      - Break attempts:
+        candidate manifest fails closed; package hash drift fails closed;
+        public claims opened before live verification fail closed.
+      - Boundary:
+        `publicationMutationAllowed=true` only authorizes release-train
+        mutation. It does not mean public release accepted, external audit
+        passed, or final fixpoint claim allowed.
