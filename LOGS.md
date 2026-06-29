@@ -3238,3 +3238,26 @@ Boundary:
 - This is release-train hardening. It does not generate the L6+N5
   materializer, install the dispatcher, materialize Stage1/Stage2, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - PR review comment closure
+
+Timestamp: 2026-06-29T04:05:00Z
+
+Task:
+- Address the remaining PR #223 code-quality review comment without changing
+  Beta17 fixpoint semantics.
+
+Change:
+- Removed the unused `version` constant from
+  `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+
+Validation:
+- `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js` passed.
+- `npm run test:beta17:fixpoint:remote-dispatcher-install` passed.
+- `npm run test:beta17:fixpoint:required-inputs` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is review hygiene only. It does not generate the L6+N5 materializer,
+  install the dispatcher, materialize Stage1/Stage2, prove fixpoint or publish
+  Beta17.

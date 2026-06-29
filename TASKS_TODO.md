@@ -449,6 +449,19 @@
         the real materializer, execute remote install, prove fixpoint or
         publish Beta17.
 
+- [x] Close PR #223 code-quality review comment.
+      - File:
+        `scripts/beta17-fixpoint-remote-dispatcher-install.js`.
+      - Result:
+        removed unused `version` constant flagged by review.
+      - Validation:
+        `node --check scripts/beta17-fixpoint-remote-dispatcher-install.js`,
+        `npm run test:beta17:fixpoint:remote-dispatcher-install`,
+        `npm run test:beta17:fixpoint:required-inputs` and
+        `git diff --check` passed.
+      - Boundary:
+        review hygiene only; no materialization or fixpoint claim.
+
 - [x] Add stale-manifest check for the Beta17 evidence pack.
       - Script:
         `scripts/beta17-fixpoint-evidence-pack-manifest.js --check`.

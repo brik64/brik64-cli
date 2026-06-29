@@ -14,7 +14,6 @@ const root = process.env.BRIK64_CLI_ROOT
   : path.resolve(__dirname, '..');
 const defaultPlanPath = path.join(root, 'evidence', 'beta17-fixpoint-remote-dispatcher', 'deploy-plan.json');
 const defaultOutDir = path.join(root, 'evidence', 'beta17-fixpoint-remote-dispatcher');
-const version = '0.1.0-beta.17';
 const executeConfirmation = 'INSTALL_BETA17_FIXPOINT_DISPATCHER_NON_CLAIM';
 const installResultMarker = 'BRIK64_BETA17_DISPATCHER_INSTALL_RESULT';
 
