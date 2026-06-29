@@ -1,7 +1,7 @@
 {
   "schemaVersion": "brik64.beta17_fixpoint.remote_attempt.v1",
   "version": "0.1.0-beta.17",
-  "generatedAt": "2026-06-29T02:30:17.451Z",
+  "generatedAt": "2026-06-29T03:17:59.334Z",
   "decision": "BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT",
   "publicationAllowed": false,
   "claimBoundary": {
@@ -118,9 +118,10 @@
   },
   "request": {
     "path": "evidence/beta17-fixpoint-stage-request/request.json",
-    "sha256": "f109f24ba91010be439f9156bf018c07871b4febee5175dde22d74f75c7e18b9",
+    "sha256": "904700d893ba6effcc7f83070847978c1ecb024464e1d6728b87aedab8616224",
     "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9"
   },
+  "installEvidence": null,
   "remote": {
     "hostProbe": {
       "status": 0,
@@ -213,7 +214,7 @@
   "expectedContext": {
     "workspaceRoot": "/private/tmp/brik64-cli-beta17-fixpoint",
     "pcdInputSetSha256": "6d2fbee100aa2e266e8aafecfcae8d486d82367cb2909a170fe8c49e1bd59da9",
-    "materializerRequestSha256": "01972f01d1231991e86e56f02a2d65e0fc3511aed9652e854b546927b2660247",
+    "materializerRequestSha256": "af93b234fe02d916d16e5d5f0809ab0ab4a34bcd6a99652f9b72ddfd8572e289",
     "remoteWrapperSha256": "2e9cd2ffaa68efd0190c06e5cd78072d825bc6313945a51ce14ee9e0a1e4c656",
     "wrapperExecTargetSha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
     "requiredInputPcdPaths": [
@@ -223,96 +224,9 @@
       "pcd/cli_polymer.pcd"
     ]
   },
-  "attempts": [
-    {
-      "command": [
-        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
-        "beta17-fixpoint-stage-materialize",
-        "@@FILE:<beta17-stage-request>"
-      ],
-      "status": 0,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
-      "stageResult": null,
-      "stdoutTranscript": {
-        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stdout.txt",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "bytes": 0
-      },
-      "stderrTranscript": {
-        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-1.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
-      },
-      "stageResultValidation": {
-        "accepted": false,
-        "blockers": [
-          "stage_result_missing_or_invalid"
-        ],
-        "normalized": null
-      }
-    },
-    {
-      "command": [
-        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
-        "fixpoint-stage-materialize",
-        "@@FILE:<beta17-stage-request>"
-      ],
-      "status": 0,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
-      "stageResult": null,
-      "stdoutTranscript": {
-        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-2.stdout.txt",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "bytes": 0
-      },
-      "stderrTranscript": {
-        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-2.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
-      },
-      "stageResultValidation": {
-        "accepted": false,
-        "blockers": [
-          "stage_result_missing_or_invalid"
-        ],
-        "normalized": null
-      }
-    },
-    {
-      "command": [
-        "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
-        "materialize",
-        "@@FILE:<beta17-stage-request>"
-      ],
-      "status": 0,
-      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stderr_sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-      "observed": "brik64_l6plus_fail_closed:unsupported_or_missing_input",
-      "stageResult": null,
-      "stdoutTranscript": {
-        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-3.stdout.txt",
-        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-        "bytes": 0
-      },
-      "stderrTranscript": {
-        "path": "evidence/beta17-fixpoint-remote-attempt/transcripts/attempt-3.stderr.txt",
-        "sha256": "282d25cebad552dfadda17a5e3abea999bd34544600e1b851852492e4f3cfde3",
-        "bytes": 55
-      },
-      "stageResultValidation": {
-        "accepted": false,
-        "blockers": [
-          "stage_result_missing_or_invalid"
-        ],
-        "normalized": null
-      }
-    }
-  ],
+  "attempts": [],
   "blockers": [
+    "remote_dispatcher_install_report_missing",
     "remote_l6plus_wrapper_mode_not_beta17_stage:unknown",
     "remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready",
     "remote_l6plus_beta17_stage_result_unavailable"

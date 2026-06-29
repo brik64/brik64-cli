@@ -1409,3 +1409,21 @@
         this hardens readiness/release train only. It does not create or install
         the real dispatcher, generate Stage1/Stage2 artifacts, prove fixpoint or
         publish Beta17.
+
+- [x] Refresh live Beta17 remote-stage blocker evidence under current gates.
+      - Commands:
+        `npm run bundle:beta17:fixpoint:stage-request`,
+        `npm run attempt:beta17:fixpoint:remote-stage`.
+      - Evidence:
+        `evidence/beta17-fixpoint-stage-request/`,
+        `evidence/beta17-fixpoint-remote-attempt/report.json`.
+      - Result:
+        live non-mutating attempt now fails closed with
+        `remote_dispatcher_install_report_missing`, missing Beta17 wrapper mode,
+        missing Beta17 endpoint capability and unavailable Beta17 stage result.
+        The report has zero materialization attempts because install evidence is
+        missing, which is the current expected guard behavior.
+      - Boundary:
+        this is fresh blocker evidence only. It does not install the dispatcher,
+        execute remote mutation, generate Stage1/Stage2 artifacts, prove
+        fixpoint or publish Beta17.

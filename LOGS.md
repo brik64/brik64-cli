@@ -3099,3 +3099,50 @@ Boundary:
 - This is a readiness/release-train guard. It does not install the live
   dispatcher, execute remote mutation, generate Stage1/Stage2 artifacts, prove
   fixpoint or publish Beta17.
+
+## Beta17 Ralph Loop Iteration - Fresh live remote-stage blocker evidence
+
+Timestamp: 2026-06-29T08:25:00Z
+
+Task:
+- Refresh live non-mutating remote-stage evidence after adding install-evidence
+  gates to remote stage, promotion and readiness.
+
+Commands:
+- `npm run bundle:beta17:fixpoint:stage-request`
+- `npm run attempt:beta17:fixpoint:remote-stage`
+
+Live evidence:
+- Stage request SHA-256:
+  `904700d893ba6effcc7f83070847978c1ecb024464e1d6728b87aedab8616224`.
+- Stage request line SHA-256:
+  `af93b234fe02d916d16e5d5f0809ab0ab4a34bcd6a99652f9b72ddfd8572e289`.
+- Stage request manifest SHA-256:
+  `ecd0074ad5536a16184bb9d7dcc1c8617b144a91a46f69858f157cdd2f262a6d`.
+- Remote attempt report SHA-256:
+  `a538ff706ecdc12e9add2e2df92df454d94eb35d285f98af4f06edecd5856a3e`.
+- Remote attempt decision:
+  `BLOCKED_BETA17_FIXPOINT_REMOTE_STAGE_ATTEMPT`.
+- Blockers:
+  `remote_dispatcher_install_report_missing`,
+  `remote_l6plus_wrapper_mode_not_beta17_stage:unknown`,
+  `remote_l6plus_beta17_stage_endpoint_missing:beta15_7_ready,beta16_native_ready,beta16_1_ready`,
+  `remote_l6plus_beta17_stage_result_unavailable`.
+- Remote endpoint capabilities observed:
+  `beta15_7_ready,beta16_native_ready,beta16_1_ready`.
+- Materialization attempts count: `0`, because missing install evidence blocks
+  the stage attempt before materialization commands are executed.
+
+Validation before refreshing evidence:
+- `npm run test:beta17:fixpoint:remote-stage` passed.
+- `npm run test:beta17:fixpoint-readiness` passed.
+- `npm run test:beta17:release-train-readiness` passed.
+- `npm run test:beta17:fixpoint:remote-promotion` passed.
+- `npm run test:beta17:fixpoint:remote-result-promotion` passed.
+- `npm test` passed.
+- `git diff --check` passed.
+
+Boundary:
+- This is fresh operational blocker evidence. It does not install the live
+  dispatcher, execute remote mutation, generate Stage1/Stage2 artifacts, prove
+  fixpoint or publish Beta17.

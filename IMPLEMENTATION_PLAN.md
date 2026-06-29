@@ -499,3 +499,9 @@ Publish `BRIK64 CLI v0.1.0-beta.15.4` only after:
   remote promotion gate report by SHA/bytes, and requires that report to include
   executed Beta17 dispatcher install evidence. A standalone promotion manifest
   is no longer enough to unlock Beta17 readiness or release-train dry-run.
+
+- Current live blocker evidence refreshed after readiness/promotion hardening:
+  `evidence/beta17-fixpoint-remote-attempt/report.json` now reflects the active
+  pre-execution guard. The live host still advertises only beta15.7/beta16
+  capabilities, and the Beta17 attempt stops before materialization commands
+  because no executed dispatcher install report exists.
