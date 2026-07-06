@@ -8,13 +8,16 @@
   "generationClaim": "pcd_contract_backed_candidate",
   "package": {
     "path": "evidence/beta18_1-package/brik64-cli-0.1.0-beta.18.1.tgz",
-    "sha256": "0cf2ffa546e19373ac2e730d2c5b0cac17e2c2e186a9537676979709ba9cf1e5",
-    "bytes": 4674040
+    "sha256": "845f4b2501632e67a1f6cb2c435fd92edf722dfa6dd16fb6c85a6705a1dbf7cb",
+    "bytes": 4674601
   },
   "inputs": [
     "src/brik.js",
     "package.json",
     ".brik/manifest.json",
+    "engines/l4plus-n5/runtime-bundle.manifest.json",
+    "engines/l4plus-n5/serial.txt",
+    "engines/l4plus-n5/checksums.tsv",
     "pcd/beta18_1/release/blueprint_output_contract.pcd"
   ],
   "claimBoundary": {
