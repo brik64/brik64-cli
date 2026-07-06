@@ -1,0 +1,12 @@
+// brik64.pcd_file.v1
+PC beta18_1_blueprint_output_contract {
+  fn classify_output(certified_pcd_count: i64, polymer_count: i64, sdk_logic_modules: i64, unsupported_count: i64) -> i64 {
+    if (certified_pcd_count > 0) {
+      if (polymer_count > 0) {
+        return 2;
+      }
+    }
+    if (sdk_logic_modules > 0) return 1;
+    return 0;
+  }
+}

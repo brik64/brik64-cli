@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.18",
+  "version": "0.1.0-beta.18.1",
   "private": true,
   "description": "BRIK64 CLI beta18 candidate package with operation-aware blueprint and lift evidence reporting.",
   "homepage": "https://brik64.com",
@@ -112,6 +112,7 @@
     "gate:beta17:candidate-release-train": "node scripts/beta17-candidate-release-train-gate.js",
     "package:beta17:fixpoint:candidate": "node scripts/build-beta17-package-candidate.js",
     "package:beta17:local": "node scripts/build-beta17-package.js",
+    "package:beta18.1:local": "node scripts/build-beta18_1-package.js",
     "smoke:beta17:package": "bash scripts/beta17-package-smoke.sh",
     "test:beta17:fixpoint:package-candidate": "bash scripts/tests/test_beta17_package_candidate.sh",
     "gate:beta17:fixpoint:functional-stage-artifact": "node scripts/beta17-fixpoint-functional-stage-artifact-gate.js",
@@ -346,7 +347,9 @@
     "test:release:publish-plan-signature-refresh": "bash scripts/tests/test_release_train_publish_plan_signature_refresh.sh",
     "test:release:publish-execute-beta17-generated-dirty": "bash scripts/tests/test_release_train_publish_execute_beta17_generated_dirty.sh",
     "gate:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh",
-    "test:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh"
+    "test:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh",
+    "gate:beta18.1:blueprint-output-contract": "bash scripts/tests/test_beta18_1_blueprint_output_contract.sh",
+    "test:beta18.1:blueprint-output-contract": "bash scripts/tests/test_beta18_1_blueprint_output_contract.sh"
   },
   "author": {
     "name": "BRIK64 INC",

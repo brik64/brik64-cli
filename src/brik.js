@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.18';
+const version = '0.1.0-beta.18.1';
 const RELEASE_STATUS = 'public_beta';
 const PCD_FILE_HEADER = '// brik64.pcd_file.v1';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
@@ -4407,7 +4407,23 @@ function certify(file, args = []) {
   const source = readFileRequired(file);
   const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
   requireClaimReadyDomain(ast, { file, syntaxOnly: parsed['--syntax-only'], prototypeNonClaim: parsed['--prototype-non-claim'] });
-  const cert = {
+  const cert = localCandidateCertificate(file, source, ast);
+  const certPath = certPathFor(file);
+  writeFileControlled(certPath, JSON.stringify(cert, null, 2) + '\n');
+  ledgerAppendRequired('pcd.certify', {
+    pcd: path.relative(process.cwd(), resolvedFile),
+    pcdPathHash: pathHashForLedger(resolvedFile),
+    semantic_pcd_sha256: cert.semantic_pcd_sha256,
+    ast_sha256: cert.ast_sha256,
+    domain_contract_sha256: cert.domain_contract_sha256,
+    certificate: path.relative(process.cwd(), certPath),
+    certificateSha256: sha256(JSON.stringify(cert))
+  });
+  process.stdout.write(`certificate=${path.relative(process.cwd(), certPath)}\n`);
+}
+
+function localCandidateCertificate(file, source, ast) {
+  return {
     schemaVersion: 'brik64.cli_local_candidate_certificate.v1',
     cliVersion: version,
     pcd: file,
@@ -4425,18 +4441,6 @@ function certify(file, args = []) {
       releaseAllowed: false
     }
   };
-  const certPath = certPathFor(file);
-  writeFileControlled(certPath, JSON.stringify(cert, null, 2) + '\n');
-  ledgerAppendRequired('pcd.certify', {
-    pcd: path.relative(process.cwd(), resolvedFile),
-    pcdPathHash: pathHashForLedger(resolvedFile),
-    semantic_pcd_sha256: cert.semantic_pcd_sha256,
-    ast_sha256: cert.ast_sha256,
-    domain_contract_sha256: cert.domain_contract_sha256,
-    certificate: path.relative(process.cwd(), certPath),
-    certificateSha256: sha256(JSON.stringify(cert))
-  });
-  process.stdout.write(`certificate=${path.relative(process.cwd(), certPath)}\n`);
 }
 
 function certificateFor(file, source, ast) {
@@ -5464,6 +5468,106 @@ function blueprintMermaid(report) {
   ].filter(Boolean).join('\n') + '\n';
 }
 
+function blueprintClassForCandidate(candidate, operations) {
+  const families = new Set((operations || []).map((operation) => operation.family));
+  const extendedFamilies = new Set(['external_boundary', 'date_time', 'structured_data']);
+  return [...families].some((family) => extendedFamilies.has(family)) ? 'extended' : 'core';
+}
+
+function writeBlueprintPcdCandidate(outDir, candidate, fileReport, counters) {
+  const candidateName = sanitizeCandidateName(`${path.basename(fileReport.file, path.extname(fileReport.file))}_${candidate.name}`, 'candidate');
+  const classification = blueprintClassForCandidate(candidate, fileReport.operations);
+  const pcdDir = path.join(outDir, 'pcd', classification);
+  mkdirControlled(pcdDir);
+  const fileName = `${candidateName}.pcd`;
+  const pcdPath = path.join(pcdDir, fileName);
+  const pcd = buildCandidatePcd(candidateName, candidate.params, candidate.expression, {
+    bodyLines: candidate.bodyLines || [`        return ${candidate.expression};`]
+  });
+  const parsed = withFailAsException(() => {
+    const ast = parsePcd(pcd, { baseDir: pcdDir });
+    requireClaimReadyDomain(ast, { file: path.relative(process.cwd(), pcdPath), prototypeNonClaim: true });
+    return ast;
+  });
+  if (!parsed.ok) {
+    const error = new Error(parsed.error || 'pcd_candidate_not_certified');
+    error.brik64Controlled = true;
+    error.exitCode = parsed.code || 65;
+    throw error;
+  }
+  const ast = parsed.value;
+  writeFileControlled(pcdPath, pcd);
+  const cert = localCandidateCertificate(path.relative(process.cwd(), pcdPath), pcd, ast);
+  const certPath = certPathFor(pcdPath);
+  writeFileControlled(certPath, JSON.stringify(cert, null, 2) + '\n');
+  counters.certifiedPcdCount += 1;
+  return {
+    file: path.relative(outDir, pcdPath),
+    certificate: path.relative(outDir, certPath),
+    class: classification,
+    source: fileReport.file,
+    function: candidate.name,
+    semantic_pcd_sha256: cert.semantic_pcd_sha256,
+    ast,
+    pcdPath,
+    sourceText: pcd
+  };
+}
+
+function writeBlueprintPolymer(outDir, pcdEntries) {
+  if (pcdEntries.length === 0) return null;
+  const polymerDir = path.join(outDir, 'pcd', 'polymers');
+  mkdirControlled(polymerDir);
+  const units = pcdEntries.map((entry) => ({
+    file: entry.file,
+    resolvedFile: entry.pcdPath,
+    semantic_pcd_sha256: entry.semantic_pcd_sha256,
+    domain_contract_sha256: entry.ast.domainContract.sha256,
+    ast: entry.ast
+  }));
+  const rootUnit = units[units.length - 1];
+  const rootName = rootUnit.ast.fnName;
+  const content = renderInlinePolymer(units, rootName);
+  const outPath = path.join(polymerDir, 'app-system.polymer.pcd');
+  writeFileControlled(outPath, content);
+  const parsed = withFailAsException(() => parsePcd(content, { baseDir: polymerDir }));
+  if (!parsed.ok) return null;
+  const ast = parsed.value;
+  const cert = localCandidateCertificate(path.relative(process.cwd(), outPath), content, ast);
+  const certPath = certPathFor(outPath);
+  writeFileControlled(certPath, JSON.stringify(cert, null, 2) + '\n');
+  const manifest = {
+    schemaVersion: 'brik64.cli_blueprint_polymer_manifest.v1',
+    cliVersion: version,
+    mode: 'local',
+    semanticMode: 'inline_merged_functions_blueprint',
+    root: {
+      file: path.relative(outDir, outPath),
+      pcName: ast.pcName,
+      fnName: ast.fnName,
+      semantic_pcd_sha256: sha256(content),
+      domain_contract_sha256: ast.domainContract.sha256
+    },
+    output: path.relative(outDir, outPath),
+    output_sha256: sha256(content),
+    composite_domain_sha256: sha256(units.map((unit) => unit.domain_contract_sha256).sort().join('\n')),
+    sources: units.map((unit) => ({
+      file: unit.file,
+      semantic_pcd_sha256: unit.semantic_pcd_sha256,
+      domain_contract_sha256: unit.domain_contract_sha256
+    })),
+    claimBoundary: 'local_candidate_only'
+  };
+  writeFileControlled(`${outPath}.manifest.json`, JSON.stringify(manifest, null, 2) + '\n');
+  return {
+    file: path.relative(outDir, outPath),
+    certificate: path.relative(outDir, certPath),
+    manifest: path.relative(outDir, `${outPath}.manifest.json`),
+    semantic_pcd_sha256: sha256(content),
+    sourceCount: pcdEntries.length
+  };
+}
+
 function blueprintCommand(repoPath, args = []) {
   const parsed = parseArgs(args, {
     '--out': 'value',
@@ -5479,6 +5583,9 @@ function blueprintCommand(repoPath, args = []) {
   const fileReports = [];
   const allOperations = [];
   const unsupported = [];
+  const pcdEntries = [];
+  const sdkLogicModules = [];
+  const counters = { certifiedPcdCount: 0 };
   for (const file of files) {
     const language = languageForFile(file);
     const relativePath = path.relative(repoRoot, file);
@@ -5508,19 +5615,62 @@ function blueprintCommand(repoPath, args = []) {
     };
     fileReports.push(report);
     allOperations.push(...operations.map((operation) => ({ ...operation, file: relativePath })));
+    for (const candidate of extracted.candidates) {
+      const unsupportedConstructs = unsupportedLiftConstructs(candidate);
+      const eligible = unsupportedConstructs.length === 0 && candidate.liftAnalysis?.certificationEligible !== false;
+      if (!eligible) continue;
+      try {
+        pcdEntries.push(writeBlueprintPcdCandidate(outDir, candidate, report, counters));
+      } catch (error) {
+        unsupported.push({
+          file: relativePath,
+          code: 'pcd_candidate_not_certified',
+          function: candidate.name,
+          reason: redactValue(error && error.message ? error.message : error)
+        });
+      }
+    }
     if (operations.length > 0 && extracted.candidates.length === 0) {
       unsupported.push({
         file: relativePath,
         code: 'operation_not_extracted',
         operationFamilies: report.operationFamilies
       });
+      sdkLogicModules.push({
+        file: relativePath,
+        language,
+        route: 'sdk_first_candidate',
+        operationFamilies: report.operationFamilies,
+        reason: 'source operations were detected but no certifiable PCD candidate was emitted'
+      });
     }
   }
+  const polymer = writeBlueprintPolymer(outDir, pcdEntries);
   const families = [...new Set(allOperations.map((operation) => operation.family))].sort();
   const boundaries = families.filter((family) => ['external_boundary', 'date_time', 'structured_data'].includes(family));
+  const pcdInventoryRows = pcdEntries.length;
+  const polymerCount = polymer ? 1 : 0;
+  const mode = pcdInventoryRows > 0 && counters.certifiedPcdCount > 0 && polymerCount > 0
+    ? 'pcd_certified'
+    : sdkLogicModules.length > 0
+      ? 'sdk_logic'
+      : 'inspection_draft';
+  const blueprintSource = mode === 'pcd_certified'
+    ? 'certified_polymers'
+    : mode === 'sdk_logic'
+      ? 'sdk_logic_inventory'
+      : 'repository_inspection';
+  const status = mode === 'pcd_certified'
+    ? (unsupported.length === 0 ? 'PASS_WITH_SCOPE' : 'PASS_WITH_UNSUPPORTED_LOGIC')
+    : mode === 'sdk_logic'
+      ? 'SDK_LOGIC_BLUEPRINT'
+      : 'INSPECTION_DRAFT';
   const report = {
     schemaVersion: 'brik64.cli_blueprint_report.v1',
     cliVersion: version,
+    mode,
+    blueprintSource,
+    status,
     repo: {
       pathHash: sha256(repoRoot),
       fileCount: files.length,
@@ -5534,15 +5684,37 @@ function blueprintCommand(repoPath, args = []) {
       operations: allOperations,
       unsupportedCount: unsupported.length
     },
+    counts: {
+      pcdInventoryRows,
+      certifiedPcdCount: counters.certifiedPcdCount,
+      polymerCount,
+      sdkLogicModules: sdkLogicModules.length,
+      unsupportedCount: unsupported.length
+    },
+    pcdInventory: pcdEntries.map((entry) => ({
+      pcd: entry.file,
+      class: entry.class,
+      source: entry.source,
+      certificate: entry.certificate,
+      semantic_pcd_sha256: entry.semantic_pcd_sha256
+    })),
+    polymers: polymer ? [polymer] : [],
+    sdkLogicModules,
     files: fileReports,
     boundaries,
-    claimBoundary: 'scoped_local_blueprint_only'
+    claimBoundary: mode === 'pcd_certified' ? 'local_candidate_pcd_polymer_blueprint' : 'scoped_local_blueprint_only'
   };
   const plan = [
     '# BRIK64 Blueprint Plan',
     '',
     `- CLI: ${version}`,
+    `- Mode: ${mode}`,
+    `- Blueprint source: ${blueprintSource}`,
     `- Files inspected: ${files.length}`,
+    `- PCD inventory rows: ${pcdInventoryRows}`,
+    `- Certified PCDs: ${counters.certifiedPcdCount}`,
+    `- Polymers: ${polymerCount}`,
+    `- SDK logic modules: ${sdkLogicModules.length}`,
     `- Operation families detected: ${families.join(', ') || 'none'}`,
     `- Unsupported or not extracted items: ${unsupported.length}`,
     '',
@@ -5571,6 +5743,26 @@ function blueprintCommand(repoPath, args = []) {
     '| --- | --- |',
     ...families.map((family) => `| ${family} | ${allOperations.filter((operation) => operation.family === family).length} |`),
     '',
+    '## Blueprint Evidence',
+    '',
+    `- Mode: ${mode}`,
+    `- Source: ${blueprintSource}`,
+    `- Certified PCDs: ${counters.certifiedPcdCount}`,
+    `- Polymers: ${polymerCount}`,
+    `- SDK logic modules: ${sdkLogicModules.length}`,
+    '',
+    '## PCD Inventory',
+    '',
+    '| PCD | Class | Source | Certificate |',
+    '| --- | --- | --- | --- |',
+    ...(pcdEntries.length ? pcdEntries.map((entry) => `| ${entry.file} | ${entry.class.toUpperCase()} | ${entry.source} | ${entry.certificate} |`) : ['| none | n/a | n/a | n/a |']),
+    '',
+    '## SDK Logic Modules',
+    '',
+    '| File | Language | Families | Reason |',
+    '| --- | --- | --- | --- |',
+    ...(sdkLogicModules.length ? sdkLogicModules.map((entry) => `| ${entry.file} | ${entry.language} | ${entry.operationFamilies.join(', ') || 'none'} | ${entry.reason} |`) : ['| none | n/a | n/a | n/a |']),
+    '',
     '## Files',
     '',
     '| File | Language | Families | Lift candidates | Warnings |',
@@ -5581,16 +5773,24 @@ function blueprintCommand(repoPath, args = []) {
   const audit = [
     '# BRIK64 Audit Report',
     '',
-    `- Status: ${unsupported.length === 0 ? 'PASS_WITH_SCOPE' : 'NEEDS_REVIEW'}`,
+    `- Status: ${status}`,
+    `- Mode: ${mode}`,
+    `- Blueprint source: ${blueprintSource}`,
     `- CLI: ${version}`,
     '- Raw source uploaded: no',
     '- Network sent: no',
     '- Whole-application proof claimed: no',
+    `- PCD inventory rows: ${pcdInventoryRows}`,
+    `- Certified PCDs: ${counters.certifiedPcdCount}`,
+    `- Polymers: ${polymerCount}`,
+    `- SDK logic modules: ${sdkLogicModules.length}`,
     `- Unsupported/not extracted items: ${unsupported.length}`,
     '',
     '## Claim Boundary',
     '',
-    'This report is a local scoped blueprint. It is not a formal proof, compliance certification, fixpoint claim, or whole-application correctness claim.',
+    mode === 'pcd_certified'
+      ? 'This report is derived from local PCD candidates and a local polymer. It is local candidate evidence only, not formal proof, compliance certification, fixpoint claim, or whole-application correctness claim.'
+      : 'This report is a local scoped blueprint draft. It is not a certified PCD/polymer blueprint, formal proof, compliance certification, fixpoint claim, or whole-application correctness claim.',
     ''
   ].join('\n');
   writeFileControlled(path.join(outDir, 'BRIK64_BLUEPRINT_PLAN.md'), plan);
@@ -5599,7 +5799,11 @@ function blueprintCommand(repoPath, args = []) {
   writeFileControlled(path.join(outDir, 'architecture-map.mmd'), mermaid);
   writeFileControlled(path.join(outDir, 'operation-coverage.json'), JSON.stringify(report.operationCoverage, null, 2) + '\n');
   writeFileControlled(path.join(outDir, 'unsupported-logic.json'), JSON.stringify(unsupported, null, 2) + '\n');
-  writeFileControlled(path.join(outDir, 'pcd-inventory.csv'), 'pcd,class,source\n');
+  writeFileControlled(
+    path.join(outDir, 'pcd-inventory.csv'),
+    ['pcd,class,source,certificate', ...pcdEntries.map((entry) => `${entry.file},${entry.class},${entry.source},${entry.certificate}`)].join('\n') + '\n'
+  );
+  writeFileControlled(path.join(outDir, 'sdk-logic-modules.json'), JSON.stringify(sdkLogicModules, null, 2) + '\n');
   if (parsed['--evidence']) writeFileControlled(path.join(outDir, 'blueprint-report.json'), JSON.stringify(report, null, 2) + '\n');
   if (parsed['--json']) {
     process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);

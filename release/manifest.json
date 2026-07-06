@@ -1,111 +1,57 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.17",
-  "version": "0.1.0-beta.17",
+  "releaseId": "brik64-0.1.0-beta.18.1",
+  "version": "0.1.0-beta.18.1",
   "channel": "beta",
-  "state": "public",
+  "state": "draft",
   "source": {
-    "commit": "5f97e72462af0dea4c6cbecfa62f9724498d113e",
-    "commitBinding": "public_release_base_commit"
+    "commit": "58934ae12022ea627f5deae565e19b45e2e3c07c",
+    "commitBinding": "candidate_base_commit"
   },
   "cli": {
     "package": {
-      "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-      "sha256": "e73927553298aa65709cc88b2626f8664cf2c99afe71e2c16ae0a558ad546c15",
-      "bytes": 603204
+      "path": "evidence/beta18_1-package/brik64-cli-0.1.0-beta.18.1.tgz",
+      "sha256": "0cf2ffa546e19373ac2e730d2c5b0cac17e2c2e186a9537676979709ba9cf1e5",
+      "bytes": 4674040
     }
   },
   "releaseNotes": [
     {
-      "type": "fixed",
-      "surface": "CLI package",
-      "text": "Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation."
+      "type": "added",
+      "surface": "blueprint",
+      "text": "Adds explicit blueprint output modes for certified PCD candidates, SDK logic inventories, and inspection drafts."
+    },
+    {
+      "type": "changed",
+      "surface": "skills",
+      "text": "Aligns agent workflows around logic planning before selecting PCD-first or BRIK64 SDK-first implementation routes."
     }
   ],
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.17",
+      "version": "0.1.0-beta.18.1",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b17",
+      "version": "0.1.0b18.post1",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.17",
+      "version": "0.1.0-beta.18.1",
       "required": true,
       "publication": "pending_release_train_publish"
     }
   ],
-  "publicSurfaces": {
-    "githubRelease": {
-      "required": true,
-      "status": "pending_release_train_publish",
-      "tag": "v0.1.0-beta.17"
-    },
-    "curlInstaller": {
-      "required": true,
-      "status": "pending_release_train_publish",
-      "url": "https://brik64.com/cli/install.sh"
-    },
-    "channelManifest": {
-      "required": true,
-      "status": "pending_release_train_publish",
-      "url": "https://brik64.com/cli/beta.json"
-    },
-    "web": {
-      "required": true,
-      "status": "pending_release_train_publish",
-      "url": "https://brik64.com/download"
-    },
-    "docs": {
-      "required": true,
-      "status": "pending_release_train_publish",
-      "url": "https://docs.brik64.com"
-    },
-    "skills": {
-      "required": true,
-      "status": "pending_release_train_publish",
-      "repo": "brik64/brik64-tools-skills"
-    }
-  },
-  "verification": {
-    "requiredEvidence": [
-      {
-        "id": "beta17_fixpoint_readiness",
-        "path": "evidence/beta17-fixpoint-readiness/report.json",
-        "decision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
-        "phase": "post_publication"
-      },
-      {
-        "id": "beta17_public_surface_sync",
-        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-        "decision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
-        "phase": "post_publication"
-      },
-      {
-        "id": "beta17_external_audit_status",
-        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
-        "decision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
-        "phase": "post_publication"
-      },
-      {
-        "id": "beta17_cli_package",
-        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-        "decision": "FILE_EXISTS"
-      }
-    ]
-  },
   "claimBoundary": {
-    "publicClaimsAllowed": false,
+    "publicClaimsAllowed": true,
     "formalN5ClaimAllowed": false,
     "fixpointClaimAllowed": false,
     "selfHostingClaimAllowed": false,
