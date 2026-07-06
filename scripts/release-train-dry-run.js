@@ -693,6 +693,14 @@ function candidateBranchCommands(version) {
       })
     ];
   }
+  if (version === '0.1.0-beta.18') {
+    return [
+      run('beta18_blueprint_lift', ['npm', 'run', 'gate:beta18:blueprint-lift'], {
+        stdoutLimit: 12000,
+        stderrLimit: 12000
+      })
+    ];
+  }
   if (version === '0.1.0-beta.15.5') {
     return [
       cliL6GenerationRequiredGate(),
