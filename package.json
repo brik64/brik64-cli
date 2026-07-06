@@ -371,6 +371,7 @@
   "files": [
     "src",
     "pcd",
+    "engines",
     "docs",
     "evidence",
     "packaging",

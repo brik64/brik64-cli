@@ -72,6 +72,28 @@ if (!tarballName) throw new Error('npm_pack_missing_tarball_name');
 const packagePath = path.join(outDir, tarballName);
 const packageSha = sha256File(packagePath);
 const packageRel = path.posix.join('evidence', 'beta18_1-package', tarballName);
+const tarList = run('tar', ['-tzf', packagePath]).stdout;
+const requiredPackageEntries = [
+  'package/engines/l4plus-n5/runtime-bundle.manifest.json',
+  'package/engines/l4plus-n5/serial.txt',
+  'package/engines/l4plus-n5/checksums.tsv',
+  'package/engines/l4plus-n5/pcd/engine.pcd',
+  'package/engines/l4plus-n5/pcd/runtime_adapter.pcd',
+  'package/engines/l4plus-n5/pcd/harness.pcd',
+];
+const missingPackageEntries = requiredPackageEntries.filter((entry) => !tarList.includes(`${entry}\n`));
+if (missingPackageEntries.length) {
+  writeJson(manifestPath, {
+    schemaVersion: 'brik64.cli_beta18_1_package_manifest.v1',
+    version,
+    decision: 'FAIL_BRIK64_CLI_BETA18_1_PACKAGE_BUILT',
+    releaseEligible: false,
+    publicationAllowed: false,
+    failures: missingPackageEntries.map((entry) => `package_missing:${entry}`),
+  });
+  console.error(missingPackageEntries.map((entry) => `package_missing:${entry}`).join('\n'));
+  process.exit(1);
+}
 
 writeJson(manifestPath, {
   schemaVersion: 'brik64.cli_beta18_1_package_manifest.v1',
@@ -90,6 +112,9 @@ writeJson(manifestPath, {
     'src/brik.js',
     'package.json',
     '.brik/manifest.json',
+    'engines/l4plus-n5/runtime-bundle.manifest.json',
+    'engines/l4plus-n5/serial.txt',
+    'engines/l4plus-n5/checksums.tsv',
     'pcd/beta18_1/release/blueprint_output_contract.pcd',
   ],
   claimBoundary: {
