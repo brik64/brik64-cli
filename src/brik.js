@@ -5452,18 +5452,110 @@ function languageForFile(file) {
   return 'js';
 }
 
+function blueprintLabel(value, max = 64) {
+  const text = String(value || 'n/a').replace(/\s+/g, ' ').trim();
+  const clipped = text.length > max ? `${text.slice(0, max - 1)}...` : text;
+  return clipped.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function blueprintNodeId(prefix, value) {
+  return `${prefix}_${String(value || 'none').replace(/[^A-Za-z0-9_]/g, '_').slice(0, 80) || 'none'}`;
+}
+
+function blueprintModuleName(file) {
+  const parts = String(file || '').split(/[\\/]/).filter(Boolean);
+  if (parts[0] === 'api' && parts[1] === 'src') return parts.slice(0, 3).join('/');
+  if (parts[0] === 'app' && parts.length > 2) return parts.slice(0, 3).join('/');
+  if (parts[0] === 'lib' && parts.length > 2) return parts.slice(0, 3).join('/');
+  if (parts[0] === 'components' && parts.length > 2) return parts.slice(0, 3).join('/');
+  return parts.slice(0, Math.min(2, parts.length)).join('/') || 'root';
+}
+
+function summarizeBlueprintModules(fileReports) {
+  const modules = new Map();
+  for (const file of fileReports) {
+    const moduleName = blueprintModuleName(file.file);
+    if (!modules.has(moduleName)) {
+      modules.set(moduleName, {
+        module: moduleName,
+        files: 0,
+        operationCount: 0,
+        liftCandidateCount: 0,
+        warningCodes: new Set(),
+        operationFamilies: new Set()
+      });
+    }
+    const entry = modules.get(moduleName);
+    entry.files += 1;
+    entry.operationCount += (file.operations || []).reduce((sum, operation) => sum + (operation.count || 0), 0);
+    entry.liftCandidateCount += file.liftCandidateCount || 0;
+    for (const code of file.warningCodes || []) entry.warningCodes.add(code);
+    for (const family of file.operationFamilies || []) entry.operationFamilies.add(family);
+  }
+  return [...modules.values()]
+    .map((entry) => ({
+      ...entry,
+      warningCodes: [...entry.warningCodes].sort(),
+      operationFamilies: [...entry.operationFamilies].sort()
+    }))
+    .sort((left, right) => right.operationCount - left.operationCount || left.module.localeCompare(right.module));
+}
+
+function summarizeOperations(allOperations) {
+  const operations = new Map();
+  for (const operation of allOperations) {
+    const key = `${operation.family}:${operation.operation}`;
+    const entry = operations.get(key) || {
+      family: operation.family,
+      operation: operation.operation,
+      count: 0,
+      files: new Set()
+    };
+    entry.count += operation.count || 0;
+    if (operation.file) entry.files.add(operation.file);
+    operations.set(key, entry);
+  }
+  return [...operations.values()]
+    .map((entry) => ({ ...entry, files: [...entry.files].sort() }))
+    .sort((left, right) => right.count - left.count || `${left.family}:${left.operation}`.localeCompare(`${right.family}:${right.operation}`));
+}
+
 function blueprintMermaid(report) {
   const familyNodes = report.operationCoverage.families
-    .map((family) => `  repo --> family_${family.replace(/[^A-Za-z0-9_]/g, '_')}["${family}"]`)
+    .map((family) => {
+      const count = report.operationSummary
+        .filter((operation) => operation.family === family)
+        .reduce((sum, operation) => sum + operation.count, 0);
+      return `  repo --> ${blueprintNodeId('family', family)}["${blueprintLabel(`${family}: ${count}`)}"]`;
+    })
+    .join('\n');
+  const moduleNodes = (report.moduleSummary || []).slice(0, 14)
+    .map((module) => {
+      const moduleId = blueprintNodeId('module', module.module);
+      const familyLinks = module.operationFamilies.slice(0, 4)
+        .map((family) => `  ${moduleId} --> ${blueprintNodeId(`${moduleId}_family`, family)}["${blueprintLabel(family)}"]`)
+        .join('\n');
+      return [
+        `  repo --> ${moduleId}["${blueprintLabel(`${module.module}: ${module.operationCount} ops`)}"]`,
+        familyLinks
+      ].filter(Boolean).join('\n');
+    })
     .join('\n');
   const boundaryNodes = report.boundaries
-    .map((boundary) => `  repo --> boundary_${boundary.replace(/[^A-Za-z0-9_]/g, '_')}["boundary: ${boundary}"]`)
+    .map((boundary) => `  repo --> ${blueprintNodeId('boundary', boundary)}["${blueprintLabel(`boundary: ${boundary}`)}"]`)
     .join('\n');
+  const routeNodes = [
+    `  repo --> route_${report.mode}["${blueprintLabel(`route: ${report.mode}`)}"]`,
+    `  route_${report.mode} --> evidence["${blueprintLabel(`evidence: ${report.blueprintSource}`)}"]`,
+    `  evidence --> unsupported["${blueprintLabel(`unsupported/not extracted: ${report.counts.unsupportedCount}`)}"]`
+  ].join('\n');
   return [
     "%%{init: {'theme': 'base', 'themeVariables': { 'background': '#002035', 'primaryColor': '#0A2540', 'primaryTextColor': '#E0F7FA', 'lineColor': '#00D2FF', 'edgeLabelBackground': '#002035' }}}%%",
     'flowchart TD',
     '  repo["Repository logic blueprint"]',
     familyNodes || '  repo --> no_ops["no source operations detected"]',
+    moduleNodes,
+    routeNodes,
     boundaryNodes
   ].filter(Boolean).join('\n') + '\n';
 }
@@ -5648,6 +5740,8 @@ function blueprintCommand(repoPath, args = []) {
   const polymer = writeBlueprintPolymer(outDir, pcdEntries);
   const families = [...new Set(allOperations.map((operation) => operation.family))].sort();
   const boundaries = families.filter((family) => ['external_boundary', 'date_time', 'structured_data'].includes(family));
+  const moduleSummary = summarizeBlueprintModules(fileReports);
+  const operationSummary = summarizeOperations(allOperations);
   const pcdInventoryRows = pcdEntries.length;
   const polymerCount = polymer ? 1 : 0;
   const mode = pcdInventoryRows > 0 && counters.certifiedPcdCount > 0 && polymerCount > 0
@@ -5684,6 +5778,8 @@ function blueprintCommand(repoPath, args = []) {
       operations: allOperations,
       unsupportedCount: unsupported.length
     },
+    operationSummary,
+    moduleSummary,
     counts: {
       pcdInventoryRows,
       certifiedPcdCount: counters.certifiedPcdCount,
@@ -5743,6 +5839,18 @@ function blueprintCommand(repoPath, args = []) {
     '| --- | --- |',
     ...families.map((family) => `| ${family} | ${allOperations.filter((operation) => operation.family === family).length} |`),
     '',
+    '## Top Operation Types',
+    '',
+    '| Operation | Family | Count | Files |',
+    '| --- | --- | --- | --- |',
+    ...(operationSummary.length ? operationSummary.slice(0, 24).map((entry) => `| ${entry.operation} | ${entry.family} | ${entry.count} | ${entry.files.length} |`) : ['| none | n/a | 0 | 0 |']),
+    '',
+    '## Top Logic Modules',
+    '',
+    '| Module | Files | Operations | Families | Lift candidates | Warnings |',
+    '| --- | --- | --- | --- | --- | --- |',
+    ...(moduleSummary.length ? moduleSummary.slice(0, 32).map((entry) => `| ${entry.module} | ${entry.files} | ${entry.operationCount} | ${entry.operationFamilies.join(', ') || 'none'} | ${entry.liftCandidateCount} | ${entry.warningCodes.join(', ') || 'none'} |`) : ['| none | 0 | 0 | n/a | 0 | none |']),
+    '',
     '## Blueprint Evidence',
     '',
     `- Mode: ${mode}`,
@@ -5763,6 +5871,12 @@ function blueprintCommand(repoPath, args = []) {
     '| --- | --- | --- | --- |',
     ...(sdkLogicModules.length ? sdkLogicModules.map((entry) => `| ${entry.file} | ${entry.language} | ${entry.operationFamilies.join(', ') || 'none'} | ${entry.reason} |`) : ['| none | n/a | n/a | n/a |']),
     '',
+    '## Unsupported Or Not Extracted Logic',
+    '',
+    '| File | Code | Families / Reason |',
+    '| --- | --- | --- |',
+    ...(unsupported.length ? unsupported.slice(0, 80).map((entry) => `| ${entry.file || 'n/a'} | ${entry.code || 'unsupported'} | ${(entry.operationFamilies || [entry.reason || 'see unsupported-logic.json']).join(', ')} |`) : ['| none | n/a | n/a |']),
+    '',
     '## Files',
     '',
     '| File | Language | Families | Lift candidates | Warnings |',
@@ -5772,6 +5886,28 @@ function blueprintCommand(repoPath, args = []) {
   ].join('\n');
   const audit = [
     '# BRIK64 Audit Report',
+    '',
+    '## Executive Summary',
+    '',
+    mode === 'pcd_certified'
+      ? 'BRIK64 produced scoped local PCD candidates, certified them locally, polymerized them, and generated a blueprint from those local artifacts.'
+      : mode === 'sdk_logic'
+        ? 'BRIK64 inspected the repository locally and produced an SDK-first logic blueprint. The repository contains substantial application logic, but this run did not produce certified PCD/polymer artifacts, so the result is a scoped implementation blueprint rather than certification evidence.'
+        : 'BRIK64 inspected the repository locally and produced an inspection draft. No certifiable PCD candidates or SDK-first modules were closed in this run.',
+    '',
+    '## Scorecard',
+    '',
+    '| Area | Result | Notes |',
+    '| --- | --- | --- |',
+    `| Local install/runtime | PASS | CLI ${version}; no source upload; network sent: no |`,
+    `| Repository scan | PASS | ${files.length} source files inspected |`,
+    `| Operation extraction | PASS | ${allOperations.length} operation records across ${families.length} families |`,
+    `| PCD certification | ${mode === 'pcd_certified' ? 'PASS' : 'NOT_APPLICABLE'} | ${counters.certifiedPcdCount} certified PCDs in this run |`,
+    `| SDK-first route | ${sdkLogicModules.length ? 'PASS' : 'NOT_APPLICABLE'} | ${sdkLogicModules.length} modules routed to SDK-first adoption |`,
+    `| Unsupported logic accounting | PASS | ${unsupported.length} unsupported/not-extracted records written to unsupported-logic.json |`,
+    `| Claim boundary | PASS | No whole-application proof, compliance certification, fixpoint, or formal correctness claim |`,
+    '',
+    '## Run Metadata',
     '',
     `- Status: ${status}`,
     `- Mode: ${mode}`,
@@ -5785,6 +5921,30 @@ function blueprintCommand(repoPath, args = []) {
     `- Polymers: ${polymerCount}`,
     `- SDK logic modules: ${sdkLogicModules.length}`,
     `- Unsupported/not extracted items: ${unsupported.length}`,
+    `- Operation families: ${families.join(', ') || 'none'}`,
+    `- Boundaries: ${boundaries.join(', ') || 'none'}`,
+    '',
+    '## Highest-Impact Logic Areas',
+    '',
+    '| Module | Operations | Families | Route |',
+    '| --- | --- | --- | --- |',
+    ...(moduleSummary.length ? moduleSummary.slice(0, 20).map((entry) => `| ${entry.module} | ${entry.operationCount} | ${entry.operationFamilies.join(', ') || 'none'} | ${mode === 'pcd_certified' ? 'PCD/polymer where eligible' : mode === 'sdk_logic' ? 'SDK-first candidate' : 'inspection draft'} |`) : ['| none | 0 | n/a | n/a |']),
+    '',
+    '## Most Common Operation Types',
+    '',
+    '| Operation | Family | Count |',
+    '| --- | --- | --- |',
+    ...(operationSummary.length ? operationSummary.slice(0, 16).map((entry) => `| ${entry.operation} | ${entry.family} | ${entry.count} |`) : ['| none | n/a | 0 |']),
+    '',
+    '## Evidence Files',
+    '',
+    '- `BRIK64_BLUEPRINT_PLAN.md`: execution plan and route summary.',
+    '- `system-blueprint.md`: human-readable architecture and logic blueprint.',
+    '- `architecture-map.mmd`: renderable Mermaid architecture map.',
+    '- `operation-coverage.json`: operation coverage inventory.',
+    '- `unsupported-logic.json`: unsupported or not extracted logic ledger.',
+    '- `sdk-logic-modules.json`: SDK-first module inventory.',
+    '- `pcd-inventory.csv`: certified PCD inventory when PCD-first candidates exist.',
     '',
     '## Claim Boundary',
     '',
