@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.16.1';
+const version = '0.1.0-beta.18';
 const RELEASE_STATUS = 'public_beta';
 const PCD_FILE_HEADER = '// brik64.pcd_file.v1';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
@@ -90,10 +90,36 @@ function writeLastErrorReport(message) {
   }
 }
 
+let failAsExceptionDepth = 0;
+
 function fail(code, message) {
+  if (failAsExceptionDepth > 0) {
+    const error = new Error(message);
+    error.brik64Controlled = true;
+    error.exitCode = code;
+    throw error;
+  }
   writeLastErrorReport(message);
   process.stderr.write(`${message}\n`);
   process.exit(code);
+}
+
+function withFailAsException(fn) {
+  failAsExceptionDepth += 1;
+  try {
+    return { ok: true, value: fn() };
+  } catch (error) {
+    if (error && error.brik64Controlled) {
+      return {
+        ok: false,
+        code: error.exitCode || 70,
+        error: error.message || 'brik64_controlled_error'
+      };
+    }
+    throw error;
+  } finally {
+    failAsExceptionDepth -= 1;
+  }
 }
 
 function parseArgs(args, allowed) {
@@ -663,6 +689,12 @@ const COMMAND_HELP = {
     'Example:',
     '  brik64 adoption report --json'
   ],
+  blueprint: [
+    'blueprint <repo> --out <dir> [--mermaid] [--evidence] [--json]',
+    'Inspects a repository locally and writes a scoped blueprint plan, Mermaid map, operation coverage, and audit report.',
+    'Example:',
+    '  brik64 blueprint . --out brik64-blueprint --mermaid --evidence --json'
+  ],
   template: [
     'template --type <gate|utility|numeric-monomer> --out <file.pcd> [--force]',
     'Writes a starter PCD matching the current public parser profile.',
@@ -726,6 +758,8 @@ function help(topic) {
   process.stdout.write('       --out <file> | --in-place | --write [--force|-f]\n');
   process.stdout.write('  lift <js|ts|python|rust> <path> --preview\n');
   process.stdout.write('       generate local PCD candidates without certification\n');
+  process.stdout.write('  blueprint <repo>     inspect a repository and write blueprint reports\n');
+  process.stdout.write('       --out <dir> --mermaid --evidence --json\n');
   process.stdout.write('  adoption report      summarize local lift preview evidence\n');
   process.stdout.write('       --json --out <file>\n');
   process.stdout.write('  explain <file.pcd>   explain parser/type/import diagnostics\n');
@@ -4923,6 +4957,57 @@ function unsupportedLiftConstructs(candidate) {
   return [...new Set(unsupported)];
 }
 
+function sourceOperationInventory(source, language) {
+  const text = String(source || '');
+  const operations = [];
+  const add = (family, operation, pattern) => {
+    const matches = [...text.matchAll(pattern)];
+    if (matches.length > 0) operations.push({ family, operation, count: matches.length });
+  };
+  add('arithmetic', 'addition', /\+/g);
+  add('arithmetic', 'subtraction', /(?<![=!<>])-|Math\.abs\b|\babs\s*\(/g);
+  add('arithmetic', 'multiplication', /\*/g);
+  add('arithmetic', 'division', /\/(?![/*])/g);
+  add('arithmetic', 'modulo', /%/g);
+  add('arithmetic', 'min_max_clamp', /\b(?:Math\.)?(?:min|max)\s*\(|\bclamp\s*\(/g);
+  add('boolean', 'and', language === 'python' ? /\band\b/g : /&&/g);
+  add('boolean', 'or', language === 'python' ? /\bor\b/g : /\|\|/g);
+  add('boolean', 'not', language === 'python' ? /\bnot\b/g : /!(?!=)/g);
+  add('comparison', 'comparison', /(?:>=|<=|==|!=|>|<)/g);
+  add('string', 'string_literal', /(["'`])(?:\\.|(?!\1).)*\1/g);
+  add('string', 'string_methods', /\.(?:trim|toLowerCase|toUpperCase|toString|includes|startsWith|endsWith|split|join)\s*\(/g);
+  add('structured_data', 'json', /\bJSON\.(?:parse|stringify)\s*\(|\bjson\.(?:loads|dumps)\s*\(/g);
+  add('date_time', 'date_time', /\b(?:Date|new Date|DateTime|datetime|Temporal)\b/g);
+  add('external_boundary', 'database', /\b(?:db|sql|query|insert|update|delete|select|prisma|sqlite|postgres)\b/gi);
+  add('external_boundary', 'network', /\b(?:fetch|axios|http|https|request)\b/gi);
+  add('external_boundary', 'auth_or_secret', /\b(?:auth|session|token|password|secret|jwt|cookie)\b/gi);
+  return operations;
+}
+
+function operationCoverageFromInventory(sourceOperations, written, warnings) {
+  const families = [...new Set(sourceOperations.map((item) => item.family))].sort();
+  const extractedFamilies = new Set();
+  for (const candidate of written) {
+    for (const code of candidate.warningCodes || []) {
+      if (code.includes('boolean')) extractedFamilies.add('boolean');
+      if (code.includes('string')) extractedFamilies.add('string');
+    }
+    if ((candidate.semanticCoveragePercent || 0) > 0) extractedFamilies.add('candidate');
+  }
+  const hasOnlyBooleanCandidates = written.length > 0
+    && sourceOperations.some((op) => ['arithmetic', 'string', 'structured_data', 'date_time', 'external_boundary'].includes(op.family))
+    && written.every((candidate) => (candidate.warningCodes || []).every((code) => code.includes('boolean')));
+  const silentLoss = sourceOperations.length > 0 && warnings.length === 0 && written.length === 0;
+  return {
+    sourceOperationFamilies: families,
+    sourceOperations,
+    candidateCount: written.length,
+    silentLoss,
+    booleanCollapseSuspected: hasOnlyBooleanCandidates,
+    operationNotExtractedCount: sourceOperations.length > 0 && written.length === 0 ? sourceOperations.length : 0
+  };
+}
+
 const GENERATED_LIFT_HELPER_NAMES = new Set([
   'assertDomain',
   'assert_domain',
@@ -5159,6 +5244,7 @@ function lift(language, sourcePath, args = []) {
     : language === 'rust'
       ? extractRustLiftCandidates(source)
       : extractJsLikeLiftCandidates(source, language);
+  const sourceOperations = sourceOperationInventory(source, language);
   const candidatesDir = path.join(outDir, 'candidates');
   mkdirControlled(candidatesDir);
   const written = [];
@@ -5207,10 +5293,13 @@ function lift(language, sourcePath, args = []) {
       bodyLines: parsed['--stub-only'] ? [`        return ${candidate.expression};`] : candidate.bodyLines,
       sourceComment: parsed['--include-source-comment'] ? candidate.sourceBody : null
     });
-    try {
-      parsePcd(pcd, { baseDir: candidatesDir });
-    } catch (_) {
-      warnings.push({ code: 'candidate_validation_failed', function: candidate.name });
+    const validation = withFailAsException(() => parsePcd(pcd, { baseDir: candidatesDir }));
+    if (!validation.ok) {
+      warnings.push({
+        code: 'candidate_validation_failed',
+        function: candidate.name,
+        reason: redactValue(validation.error || 'pcd_parse_error')
+      });
       continue;
     }
     writeFileControlled(path.join(candidatesDir, fileName), pcd);
@@ -5225,6 +5314,21 @@ function lift(language, sourcePath, args = []) {
       warningCodes: [...new Set((candidate.liftAnalysis?.warnings || []).map((warning) => warning.code))].sort()
     });
   }
+  const operationCoverage = operationCoverageFromInventory(sourceOperations, written, warnings);
+  if (operationCoverage.operationNotExtractedCount > 0) {
+    warnings.push({
+      code: 'operation_not_extracted',
+      reason: 'source contains operations that were not emitted as certifiable PCD candidates',
+      sourceOperationFamilies: operationCoverage.sourceOperationFamilies
+    });
+  }
+  if (operationCoverage.booleanCollapseSuspected) {
+    warnings.push({
+      code: 'boolean_collapse_suspected',
+      reason: 'source includes richer arithmetic/string/boundary operations but emitted candidates do not preserve those operation families'
+    });
+  }
+  const finalOperationCoverage = operationCoverageFromInventory(sourceOperations, written, warnings);
   const manifest = {
     schemaVersion: 'brik64.cli_lift_preview.v1',
     cliVersion: version,
@@ -5249,6 +5353,7 @@ function lift(language, sourcePath, args = []) {
       : 0,
     certificationEligibleCandidateCount: written.filter((candidate) => candidate.certificationEligible).length,
     warningCodes: [...new Set(warnings.map((warning) => warning.code))].sort(),
+    operationCoverage: finalOperationCoverage,
     claimBoundary: 'local_candidate_only'
   };
   mkdirControlled(outDir);
@@ -5311,6 +5416,198 @@ function adoptionReport(args = []) {
   process.stdout.write(`generated candidates: ${report.generatedCandidates}\n`);
   process.stdout.write(`unsupported warnings: ${report.unsupportedWarnings}\n`);
   process.stdout.write(`pcd inventory: ${report.pcdInventoryCount}\n`);
+}
+
+function blueprintSourceFiles(repoRoot) {
+  const extensions = new Set(['.js', '.jsx', '.ts', '.tsx', '.mjs', '.cjs', '.py', '.rs']);
+  const files = [];
+  function walk(dir) {
+    for (const name of fs.readdirSync(dir).sort()) {
+      if (['.git', '.brik', 'node_modules', 'target', 'dist', 'build', '.next', '.open-next', 'coverage', '.turbo', '.vercel'].includes(name)) continue;
+      const file = path.join(dir, name);
+      const stat = fs.lstatSync(file);
+      if (stat.isSymbolicLink()) continue;
+      if (stat.isDirectory()) {
+        walk(file);
+        continue;
+      }
+      if (/(^|[._-])test\.[A-Za-z0-9]+$/.test(name) || /\.spec\.[A-Za-z0-9]+$/.test(name)) continue;
+      if (extensions.has(path.extname(name))) files.push(file);
+      if (files.length > 512) fail(65, 'blueprint_source_file_limit_exceeded');
+    }
+  }
+  walk(repoRoot);
+  return files;
+}
+
+function languageForFile(file) {
+  const ext = path.extname(file);
+  if (['.py'].includes(ext)) return 'python';
+  if (['.rs'].includes(ext)) return 'rust';
+  if (['.ts', '.tsx'].includes(ext)) return 'ts';
+  return 'js';
+}
+
+function blueprintMermaid(report) {
+  const familyNodes = report.operationCoverage.families
+    .map((family) => `  repo --> family_${family.replace(/[^A-Za-z0-9_]/g, '_')}["${family}"]`)
+    .join('\n');
+  const boundaryNodes = report.boundaries
+    .map((boundary) => `  repo --> boundary_${boundary.replace(/[^A-Za-z0-9_]/g, '_')}["boundary: ${boundary}"]`)
+    .join('\n');
+  return [
+    "%%{init: {'theme': 'base', 'themeVariables': { 'background': '#002035', 'primaryColor': '#0A2540', 'primaryTextColor': '#E0F7FA', 'lineColor': '#00D2FF', 'edgeLabelBackground': '#002035' }}}%%",
+    'flowchart TD',
+    '  repo["Repository logic blueprint"]',
+    familyNodes || '  repo --> no_ops["no source operations detected"]',
+    boundaryNodes
+  ].filter(Boolean).join('\n') + '\n';
+}
+
+function blueprintCommand(repoPath, args = []) {
+  const parsed = parseArgs(args, {
+    '--out': 'value',
+    '--mermaid': 'boolean',
+    '--evidence': 'boolean',
+    '--json': 'boolean'
+  });
+  const repoRoot = path.resolve(repoPath || '.');
+  if (!fs.existsSync(repoRoot) || !fs.lstatSync(repoRoot).isDirectory()) fail(66, 'blueprint_repo_missing');
+  const outDir = path.resolve(parsed['--out'] || 'brik64-blueprint');
+  mkdirControlled(outDir);
+  const files = blueprintSourceFiles(repoRoot);
+  const fileReports = [];
+  const allOperations = [];
+  const unsupported = [];
+  for (const file of files) {
+    const language = languageForFile(file);
+    const relativePath = path.relative(repoRoot, file);
+    const source = fs.readFileSync(file, 'utf8');
+    if (source.includes('\u0000')) {
+      unsupported.push({ file: relativePath, code: 'binary_input_skipped' });
+      continue;
+    }
+    if (Buffer.byteLength(source, 'utf8') > 512 * 1024) {
+      unsupported.push({ file: relativePath, code: 'large_file_skipped' });
+      continue;
+    }
+    const operations = sourceOperationInventory(source, language);
+    const extracted = language === 'python'
+      ? extractPythonLiftCandidates(source)
+      : language === 'rust'
+        ? extractRustLiftCandidates(source)
+        : extractJsLikeLiftCandidates(source, language);
+    const warningCodes = [...new Set(extracted.warnings.map((warning) => warning.code))].sort();
+    const report = {
+      file: relativePath,
+      language,
+      operationFamilies: [...new Set(operations.map((operation) => operation.family))].sort(),
+      operations,
+      liftCandidateCount: extracted.candidates.length,
+      warningCodes
+    };
+    fileReports.push(report);
+    allOperations.push(...operations.map((operation) => ({ ...operation, file: relativePath })));
+    if (operations.length > 0 && extracted.candidates.length === 0) {
+      unsupported.push({
+        file: relativePath,
+        code: 'operation_not_extracted',
+        operationFamilies: report.operationFamilies
+      });
+    }
+  }
+  const families = [...new Set(allOperations.map((operation) => operation.family))].sort();
+  const boundaries = families.filter((family) => ['external_boundary', 'date_time', 'structured_data'].includes(family));
+  const report = {
+    schemaVersion: 'brik64.cli_blueprint_report.v1',
+    cliVersion: version,
+    repo: {
+      pathHash: sha256(repoRoot),
+      fileCount: files.length,
+      rawSourceIncluded: false,
+      absolutePathIncluded: false,
+      networkSent: false
+    },
+    outputDir: path.relative(process.cwd(), outDir),
+    operationCoverage: {
+      families,
+      operations: allOperations,
+      unsupportedCount: unsupported.length
+    },
+    files: fileReports,
+    boundaries,
+    claimBoundary: 'scoped_local_blueprint_only'
+  };
+  const plan = [
+    '# BRIK64 Blueprint Plan',
+    '',
+    `- CLI: ${version}`,
+    `- Files inspected: ${files.length}`,
+    `- Operation families detected: ${families.join(', ') || 'none'}`,
+    `- Unsupported or not extracted items: ${unsupported.length}`,
+    '',
+    '## Execution Plan',
+    '',
+    '1. Review operation coverage and unsupported logic.',
+    '2. Convert eligible deterministic logic into CORE PCD candidates.',
+    '3. Isolate external effects as EXTENDED boundaries.',
+    '4. Certify and verify only scoped PCD artifacts.',
+    '5. Keep whole-application proof claims out of public reports.',
+    ''
+  ].join('\n');
+  const mermaid = blueprintMermaid(report);
+  const systemBlueprint = [
+    '# BRIK64 System Blueprint',
+    '',
+    '## Architecture Map',
+    '',
+    '```mermaid',
+    mermaid.trimEnd(),
+    '```',
+    '',
+    '## Operation Families',
+    '',
+    '| Family | Count |',
+    '| --- | --- |',
+    ...families.map((family) => `| ${family} | ${allOperations.filter((operation) => operation.family === family).length} |`),
+    '',
+    '## Files',
+    '',
+    '| File | Language | Families | Lift candidates | Warnings |',
+    '| --- | --- | --- | --- | --- |',
+    ...fileReports.map((file) => `| ${file.file} | ${file.language} | ${file.operationFamilies.join(', ') || 'none'} | ${file.liftCandidateCount} | ${file.warningCodes.join(', ') || 'none'} |`),
+    ''
+  ].join('\n');
+  const audit = [
+    '# BRIK64 Audit Report',
+    '',
+    `- Status: ${unsupported.length === 0 ? 'PASS_WITH_SCOPE' : 'NEEDS_REVIEW'}`,
+    `- CLI: ${version}`,
+    '- Raw source uploaded: no',
+    '- Network sent: no',
+    '- Whole-application proof claimed: no',
+    `- Unsupported/not extracted items: ${unsupported.length}`,
+    '',
+    '## Claim Boundary',
+    '',
+    'This report is a local scoped blueprint. It is not a formal proof, compliance certification, fixpoint claim, or whole-application correctness claim.',
+    ''
+  ].join('\n');
+  writeFileControlled(path.join(outDir, 'BRIK64_BLUEPRINT_PLAN.md'), plan);
+  writeFileControlled(path.join(outDir, 'system-blueprint.md'), systemBlueprint);
+  writeFileControlled(path.join(outDir, 'BRIK64_AUDIT_REPORT.md'), audit);
+  writeFileControlled(path.join(outDir, 'architecture-map.mmd'), mermaid);
+  writeFileControlled(path.join(outDir, 'operation-coverage.json'), JSON.stringify(report.operationCoverage, null, 2) + '\n');
+  writeFileControlled(path.join(outDir, 'unsupported-logic.json'), JSON.stringify(unsupported, null, 2) + '\n');
+  writeFileControlled(path.join(outDir, 'pcd-inventory.csv'), 'pcd,class,source\n');
+  if (parsed['--evidence']) writeFileControlled(path.join(outDir, 'blueprint-report.json'), JSON.stringify(report, null, 2) + '\n');
+  if (parsed['--json']) {
+    process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+    return;
+  }
+  process.stdout.write(`blueprint=${path.relative(process.cwd(), outDir)}\n`);
+  process.stdout.write(`files=${files.length}\n`);
+  process.stdout.write(`unsupported=${unsupported.length}\n`);
 }
 
 function buildExplainReport(file) {
@@ -5686,6 +5983,7 @@ async function main() {
   if (cmd === 'logout') return logout();
   if (cmd === 'migrate') return migrate(file, args);
   if (cmd === 'lift') return lift(file, args[0], args.slice(1));
+  if (cmd === 'blueprint') return blueprintCommand(file, args);
   if (cmd === 'adoption' && file === 'report') return adoptionReport(args);
   if (cmd === 'explain') return explain(file, args);
   if (cmd === 'lock') return lock([file, ...args].filter(Boolean));

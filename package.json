@@ -1,8 +1,8 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.17",
+  "version": "0.1.0-beta.18",
   "private": true,
-  "description": "BRIK64 CLI beta17 candidate package with generated artifact evidence, closed publication gates, and release-train preflight checks.",
+  "description": "BRIK64 CLI beta18 candidate package with operation-aware blueprint and lift evidence reporting.",
   "homepage": "https://brik64.com",
   "repository": {
     "type": "git",
@@ -344,7 +344,9 @@
     "gate:beta17:target-aware-factory-result": "node scripts/beta17-target-aware-factory-result-gate.js",
     "test:beta17:target-aware-factory-result": "bash scripts/tests/test_beta17_target_aware_factory_result_gate.sh",
     "test:release:publish-plan-signature-refresh": "bash scripts/tests/test_release_train_publish_plan_signature_refresh.sh",
-    "test:release:publish-execute-beta17-generated-dirty": "bash scripts/tests/test_release_train_publish_execute_beta17_generated_dirty.sh"
+    "test:release:publish-execute-beta17-generated-dirty": "bash scripts/tests/test_release_train_publish_execute_beta17_generated_dirty.sh",
+    "gate:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh",
+    "test:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh"
   },
   "author": {
     "name": "BRIK64 INC",
