@@ -11,6 +11,23 @@ const manifestPath = path.join(outDir, 'package.manifest.json');
 const sumsPath = path.join(outDir, 'SHA256SUMS');
 const releaseManifestPath = path.join(root, 'release', 'manifest.json');
 
+function readExistingReleaseSource() {
+  try {
+    const manifest = JSON.parse(fs.readFileSync(releaseManifestPath, 'utf8'));
+    if (
+      manifest?.source
+      && typeof manifest.source.commit === 'string'
+      && /^[a-f0-9]{40}$/i.test(manifest.source.commit)
+      && typeof manifest.source.commitBinding === 'string'
+    ) {
+      return manifest.source;
+    }
+  } catch {
+    // Fall back to HEAD below when no usable release manifest exists.
+  }
+  return null;
+}
+
 function sha256File(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }
@@ -133,7 +150,7 @@ writeJson(releaseManifestPath, {
   version,
   channel: 'beta',
   state: 'public',
-  source: {
+  source: readExistingReleaseSource() || {
     commit: run('git', ['rev-parse', 'HEAD']).stdout.trim(),
     commitBinding: 'public_release_base_commit',
   },
