@@ -1,60 +1,25 @@
 {
   "schemaVersion": "brik64.release_manifest_validation_report.v1",
   "manifestPath": "release/manifest.json",
-  "version": "0.1.0-beta.17",
+  "version": "0.1.0-beta.18.2",
   "state": "public",
-  "manifestDigest": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
+  "manifestDigest": "4d47bce4906754273803742f0867f8b51b035905e37ac93d71c17acb870c5063",
   "decision": "PASS_RELEASE_MANIFEST_VALIDATE",
   "releaseEligible": true,
   "artifacts": {
     "manifest": {
       "path": "release/manifest.json",
-      "sha256": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
-      "bytes": 3373
+      "sha256": "4d47bce4906754273803742f0867f8b51b035905e37ac93d71c17acb870c5063",
+      "bytes": 3026
     },
     "packageJson": {
       "path": "package.json",
-      "version": "0.1.0-beta.17"
+      "version": "0.1.0-beta.18.2"
     },
-    "evidence": [
-      {
-        "id": "beta17_fixpoint_readiness",
-        "phase": "post_publication",
-        "path": "evidence/beta17-fixpoint-readiness/report.json",
-        "expectedDecision": "PASS_BETA17_FIXPOINT_READINESS_GATE",
-        "actualDecision": "BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
-        "sha256": "7212d8866df1dfcec28d9139dcdcb081f088f2e29af7f32b1dd7e028356ea13a"
-      },
-      {
-        "id": "beta17_public_surface_sync",
-        "phase": "post_publication",
-        "path": "evidence/beta17-fixpoint/public_surface_sync_report.json",
-        "expectedDecision": "PASS_BETA17_PUBLIC_SURFACE_SYNC",
-        "actualDecision": "BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
-        "sha256": "53ea8323a6e9a0fe8c2bf8f2fe72c2515b842de40f2101b67795ade5770be74c"
-      },
-      {
-        "id": "beta17_external_audit_status",
-        "phase": "post_publication",
-        "path": "evidence/beta17-fixpoint-external-audit-status/report.json",
-        "expectedDecision": "PASS_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
-        "actualDecision": "BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE",
-        "sha256": "b2dcfb08ca218cbe47ca57e0b0eaa999a9c05cbb21ede2cd434e3e8cca43134b"
-      },
-      {
-        "id": "beta17_cli_package",
-        "phase": "pre_publication",
-        "path": "evidence/beta17-package/brik64-cli-0.1.0-beta.17.tgz",
-        "expectedDecision": "FILE_EXISTS",
-        "actualDecision": "FILE_EXISTS",
-        "sha256": "d44cf9d86836d3c546966fe45d47c7ffe7ccb45a29940526b42d56cbd190ac9f"
-      }
-    ]
+    "evidence": []
   },
   "failures": [],
   "warnings": [
-    "post_publication_evidence_decision_drift:beta17_fixpoint_readiness:BLOCKED_BETA17_FIXPOINT_READINESS_GATE",
-    "post_publication_evidence_decision_drift:beta17_public_surface_sync:BLOCKED_BETA17_PUBLIC_SURFACE_SYNC",
-    "post_publication_evidence_decision_drift:beta17_external_audit_status:BLOCKED_BETA17_EXTERNAL_AUDIT_STATUS_GATE"
+    "worktree_dirty_allowed:29"
   ]
 }

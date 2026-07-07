@@ -5,7 +5,7 @@ workflows. It helps developers initialize `.brik` metadata, work with PCD files,
 create local candidate evidence, emit supported language targets, and prepare
 artifacts for managed platform workflows.
 
-Current public beta: `0.1.0-beta.17`
+Current public beta: `0.1.0-beta.18.2`
 
 ## Install
 
@@ -24,24 +24,39 @@ brik64 help
 
 The npm package namespace is reserved for SDK libraries, not CLI installation.
 
-## Beta17 Boundary
+## Beta18.2 Boundary
 
-`0.1.0-beta.17` is a versioned public beta package prepared from generated
-package evidence. It keeps local workspace commands focused on deterministic
-offline review, package integrity, and explicit handoff to managed public
-surfaces.
+`0.1.0-beta.18.2` is a versioned public beta for the Developer Assurance
+Loop. It keeps local workspace commands focused on deterministic offline
+review, package integrity, scoped blueprint reporting, and explicit handoff to
+managed public surfaces.
 
-The previous public beta16 package and archive are not rewritten by this
-follow-up. Beta17 publishes as its own versioned CLI package and public manifest
-entry.
+The previous public beta packages and archives are not rewritten by this
+follow-up. Beta18.2 publishes as its own versioned CLI package and public
+manifest entry when the release train closes.
 
-## Beta17 Command Surface
+## Beta18.2 Command Surface
 
-The public beta keeps the local workflow focused on explicit bounded-domain PCD
-review and claim-safe evidence:
+This public beta keeps the local workflow focused on explicit bounded-domain
+PCD review, SDK logic inventories where PCD is not the right adoption path, and
+honest inspection drafts when the repository can only be mapped.
 
-- `brik64 init` creates `.brik/manifest.json` plus `.brik/ledger/` local trace
-  files. It does not create `AGENTS.md`.
+- `brik64 init --profile <startup|regulated|sdk-first|pcd-first> --structure
+  <monolithic|modular>` creates `.brik/manifest.json`, `.brik/ledger/`, and
+  optional project folders for modular local review. It does not create
+  `AGENTS.md`.
+- `brik64 audit [path] --out <dir>` runs the Developer Assurance Loop and writes
+  audit results, blueprint material, and unsupported-logic notes.
+- `brik64 explain <file.pcd> --suggest --fix-plan` reports parser and semantic
+  guidance with actionable repair steps.
+- `brik64 test <file.pcd> --generate-scenarios` runs native local scenario
+  checks without requiring emitted language targets.
+- `brik64 diff <old.pcd> <new.pcd> --impact` compares PCD ASTs and reports
+  semantic review notes.
+- `brik64 doc <file.pcd|repo> --blueprint --format <markdown|mermaid>` writes
+  visual blueprint documentation from local evidence.
+- `brik64 lint-policy [path] --policy <gdpr|security|startup-readiness|all>`
+  performs static hygiene checks. It is not a compliance certificate.
 - `brik64 ledger status|verify|snapshot|tombstone|export|repair --dry-run`
   inspects the local append-only ledger chain.
 - `brik64 doctor` reports local workspace and ledger status; `--json` is for CI.
@@ -70,14 +85,14 @@ paths fail closed and keep local artifacts unchanged.
 
 ## SDK Boundary
 
-SDKs are distributed separately from the CLI. This CLI-only follow-up does not
-change SDK marketplace coordinates until the aligned SDK packages publish. The
-target Beta17 SDK coordinates are:
+SDKs are distributed separately from the CLI. This CLI follow-up expects aligned
+SDK marketplace coordinates when the release train publishes. The target
+Beta18.2 SDK coordinates are:
 
 ```sh
-npm install @brik64/core@0.1.0-beta.17
-pip install brik64==0.1.0b17
-cargo add brik64-core@0.1.0-beta.17
+npm install @brik64/core@0.1.0-beta.18.2
+pip install brik64==0.1.0b18.post2
+cargo add brik64-core@0.1.0-beta.18.2
 ```
 
 SDK packages are language libraries. They do not install the CLI, issue managed

@@ -1,35 +1,41 @@
 {
   "schemaVersion": "brik64.release_train_sync_payload.v1",
-  "releaseId": "brik64-0.1.0-beta.17",
-  "version": "0.1.0-beta.17",
+  "releaseId": "brik64-0.1.0-beta.18.2",
+  "version": "0.1.0-beta.18.2",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
-  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
-  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.17",
+  "manifestDigest": "4d47bce4906754273803742f0867f8b51b035905e37ac93d71c17acb870c5063",
+  "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2",
+  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2",
   "sdkInstall": {
     "npm": {
       "name": "@brik64/core",
       "marketplace": "npm",
-      "version": "0.1.0-beta.17"
+      "version": "0.1.0-beta.18.2"
     },
     "pypi": {
       "name": "brik64",
       "marketplace": "pypi",
-      "version": "0.1.0b17"
+      "version": "0.1.0b18.post2"
     },
     "crates.io": {
       "name": "brik64-core",
       "marketplace": "crates.io",
-      "version": "0.1.0-beta.17"
+      "version": "0.1.0-beta.18.2"
     }
   },
-  "changelogMarkdown": "## 0.1.0-beta.17\n\n### Fixed\n\n- Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation.\n",
+  "changelogMarkdown": "## 0.1.0-beta.18.2\n\n### Added\n\n- Adds developer assurance loop output modes for certified PCD candidates, SDK logic inventories, and inspection drafts.\n\n### Changed\n\n- Aligns agent workflows around developer assurance commands before scoped PCD-first or SDK-first closeout.\n",
   "releaseNotes": [
     {
-      "type": "fixed",
-      "surface": "CLI package",
-      "text": "Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation."
+      "type": "added",
+      "surface": "blueprint",
+      "text": "Adds developer assurance loop output modes for certified PCD candidates, SDK logic inventories, and inspection drafts."
+    },
+    {
+      "type": "changed",
+      "surface": "skills",
+      "text": "Aligns agent workflows around developer assurance commands before scoped PCD-first or SDK-first closeout."
     }
   ]
 }

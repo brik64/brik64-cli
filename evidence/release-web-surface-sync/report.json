@@ -1,13 +1,13 @@
 {
   "schemaVersion": "brik64.release_web_surface_sync_report.v1",
-  "releaseId": "brik64-0.1.0-beta.15.6",
-  "version": "0.1.0-beta.15.6",
-  "publishRequested": true,
-  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC",
+  "releaseId": "brik64-0.1.0-beta.18.2",
+  "version": "0.1.0-beta.18.2",
+  "publishRequested": false,
+  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC_DRY_RUN",
   "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
   "changedBeforeCommit": true,
-  "commit": "0af0935511522370a301cd28f25e967e8f7af592",
-  "pushed": true,
+  "commit": null,
+  "pushed": false,
   "observations": [
     {
       "id": "web_checkout_main",
@@ -24,67 +24,46 @@
       "stderr": "From https://github.com/brik64-admin/brik64.com\n * branch            main       -> FETCH_HEAD"
     },
     {
-      "id": "web_git_add",
-      "command": "git add public/cli/install.sh public/cli/beta.json public/cli/releases/0.1.0-beta.15.6.json src/app/changelog/page.tsx src/app/download/page.tsx src/app/sdks/page.tsx functions/api/download/sdk/[target].ts",
-      "rc": 0,
-      "stdout": "",
-      "stderr": ""
-    },
-    {
-      "id": "web_git_commit",
-      "command": "git commit -m Align public web surface to 0.1.0-beta.15.6",
-      "rc": 0,
-      "stdout": "[main 0af0935] Align public web surface to 0.1.0-beta.15.6\n 7 files changed, 74 insertions(+), 39 deletions(-)\n create mode 100644 public/cli/releases/0.1.0-beta.15.6.json",
-      "stderr": ""
-    },
-    {
-      "id": "web_git_push",
-      "command": "git push origin HEAD:main",
-      "rc": 0,
-      "stdout": "",
-      "stderr": "To https://github.com/brik64-admin/brik64.com.git\n   1643320..0af0935  HEAD -> main"
-    },
-    {
       "id": "install",
       "path": "public/cli/install.sh",
-      "sha256": "e591418c3c1c29b63b1458099005e633001bc3b015e81c029482f406d0928734",
-      "bytes": 3814
+      "sha256": "d823969f67a1b6a2cbf7d1d480b25959b440100a5b3a06588998893fa0bfe195",
+      "bytes": 3972
     },
     {
       "id": "beta",
       "path": "public/cli/beta.json",
-      "sha256": "c152452b3fce2db9477f873e3394876712dc4042b07f5ed507eff23f22af5851",
+      "sha256": "483df0befb06aa6bc88c4d81f8a078aa776232589e88ee080e11ec9e56734ed2",
       "bytes": 362
     },
     {
       "id": "changelog",
       "path": "src/app/changelog/page.tsx",
-      "sha256": "7aa5d7298fbab2c866d8c310aece02662f3ecfa52a302b847a6d3934b2bca884",
-      "bytes": 11985
+      "sha256": "d6a10aa930cd710117d7a57aee427250181167bcf6927fb97d8577be388c81c9",
+      "bytes": 14494
     },
     {
       "id": "download",
       "path": "src/app/download/page.tsx",
-      "sha256": "bc7d9997474d5919db4802594f83364f2bebe9ac2805a803b1cf1fd337b5a1c4",
-      "bytes": 14925
+      "sha256": "122af9f445bc09981267d688cce45ef151ba490f088776740cf66cb0e061adc7",
+      "bytes": 16281
     },
     {
       "id": "sdks",
       "path": "src/app/sdks/page.tsx",
-      "sha256": "088b813308382a87c4c86491658516a79d0c8b16f4b1601f1b7ee98764ca376a",
-      "bytes": 13123
+      "sha256": "5352960e0cdabed4cf35b4254731cb54b013429f6f4d79365a96b047598e8255",
+      "bytes": 13118
     },
     {
       "id": "sdkDownloadApi",
       "path": "functions/api/download/sdk/[target].ts",
-      "sha256": "094aa736eaea537ad1f48c451038829478953a018fe3ca437ecea1fec2def420",
+      "sha256": "5e6dd4c0f5fc16a2e31ad6666f2d94b455e7bcef089711db33812ec47232f90a",
       "bytes": 2578
     },
     {
       "id": "releaseManifest",
-      "path": "public/cli/releases/0.1.0-beta.15.6.json",
-      "sha256": "901cd9621e773d20a01203c5c1db25188c17005ab2f2381946c0a0407d016b76",
-      "bytes": 1195
+      "path": "public/cli/releases/0.1.0-beta.18.2.json",
+      "sha256": "4cead3c92a69fded33fcaf473ea27f04242266e0806cb56ad33a0610ffa4a0e9",
+      "bytes": 1210
     }
   ],
   "failures": [],

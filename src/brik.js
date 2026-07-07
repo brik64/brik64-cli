@@ -10,7 +10,7 @@ process.stdout.on('error', (error) => {
   throw error;
 });
 
-const version = '0.1.0-beta.18.1';
+const version = '0.1.0-beta.18.2';
 const RELEASE_STATUS = 'public_beta';
 const PCD_FILE_HEADER = '// brik64.pcd_file.v1';
 const SESSION_SCHEMA = 'brik64.cli_session.v1';
@@ -575,10 +575,11 @@ const CORE_MONOMER_BY_ID = Object.fromEntries(CORE_MONOMERS.map((spec) => [spec.
 
 const COMMAND_HELP = {
   init: [
-    'init',
-    'Creates the local .brik workspace manifest and append-only evidence ledger.',
+    'init [--profile <startup|regulated|sdk-first|pcd-first>] [--structure <monolithic|modular>] [--force] [--dry-run] [--json]',
+    'Creates or updates the local .brik workspace manifest, evidence ledger, and optional project structure.',
     'Example:',
-    '  brik64 init'
+    '  brik64 init --profile startup --structure modular',
+    '  brik64 init --profile sdk-first --dry-run --json'
   ],
   certify: [
     'certify <file.pcd>',
@@ -594,10 +595,41 @@ const COMMAND_HELP = {
     '  brik64 verify pcd/order_gate.pcd'
   ],
   explain: [
-    'explain <file.pcd> [--json]',
-    'Parses a PCD and reports PC, function, branch, import, and action diagnostics.',
+    'explain <file.pcd> [--suggest] [--fix-plan] [--json]',
+    'Parses a PCD and reports PC, function, branch, import, and action diagnostics with optional remediation guidance.',
     'Example:',
-    '  brik64 explain pcd/order_gate.pcd'
+    '  brik64 explain pcd/order_gate.pcd --suggest',
+    '  brik64 explain pcd/order_gate.pcd --fix-plan --json'
+  ],
+  test: [
+    'test <file.pcd> [--scenarios <cases.json>] [--generate-scenarios] [--json]',
+    'Runs bounded native scenarios against the local PCD evaluator without requiring emitted target toolchains.',
+    'Example:',
+    '  brik64 test pcd/order_gate.pcd --generate-scenarios --json'
+  ],
+  diff: [
+    'diff <old.pcd> <new.pcd> [--semantic-only] [--impact] [--json]',
+    'Compares PCD ASTs and reports semantic changes instead of only cryptographic hash drift.',
+    'Example:',
+    '  brik64 diff pcd/v1/order_gate.pcd pcd/v2/order_gate.pcd --impact'
+  ],
+  doc: [
+    'doc <file.pcd|repo> [--blueprint] [--format <markdown|mermaid|html>] [--out <dir>] [--json]',
+    'Generates reviewable blueprint documentation from a PCD or delegates to repository blueprint mode.',
+    'Example:',
+    '  brik64 doc pcd/order_gate.pcd --format markdown --out docs/brik64'
+  ],
+  'lint-policy': [
+    'lint-policy [path] --policy <gdpr|security|startup-readiness|all> [--strict] [--json]',
+    'Runs static policy heuristics for suspicious identifiers and boundary hygiene. This is not compliance certification.',
+    'Example:',
+    '  brik64 lint-policy . --policy all --json'
+  ],
+  audit: [
+    'audit [path] [--out <dir>] [--json]',
+    'Aggregates doctor, ledger, policy lint, explain diagnostics, and blueprint outputs into a local evidence report.',
+    'Example:',
+    '  brik64 audit . --out .brik/audit --json'
   ],
   emit: [
     'emit <file.pcd> --target <ts|rust|python> --out <dir|file> [--tests]',
@@ -747,7 +779,7 @@ function help(topic) {
   printBanner();
   if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=${RELEASE_STATUS}\n`);
   process.stdout.write('\ncommands:\n');
-  process.stdout.write('  init                 create .brik metadata only\n');
+  process.stdout.write('  init                 create/update .brik metadata and optional structure\n');
   process.stdout.write('  doctor [--json]      inspect workspace health\n');
   process.stdout.write('  engine status        inspect packaged local runtime bundle\n');
   process.stdout.write('  account status       show local or managed account routing\n');
@@ -758,6 +790,11 @@ function help(topic) {
   process.stdout.write('       --out <file> | --in-place | --write [--force|-f]\n');
   process.stdout.write('  lift <js|ts|python|rust> <path> --preview\n');
   process.stdout.write('       generate local PCD candidates without certification\n');
+  process.stdout.write('  test <file.pcd>      run bounded native scenarios against local PCD logic\n');
+  process.stdout.write('  diff <a.pcd> <b.pcd> compare PCD ASTs and semantic impact\n');
+  process.stdout.write('  doc <file|repo>      generate PCD or repository blueprint documentation\n');
+  process.stdout.write('  lint-policy <path>   scan scoped policy and boundary hygiene\n');
+  process.stdout.write('  audit <path>         aggregate local assurance reports\n');
   process.stdout.write('  blueprint <repo>     inspect a repository and write blueprint reports\n');
   process.stdout.write('       --out <dir> --mermaid --evidence --json\n');
   process.stdout.write('  adoption report      summarize local lift preview evidence\n');
@@ -1924,48 +1961,140 @@ function parsePcd(source, context = {}) {
   };
 }
 
-function init() {
-  const brikDir = path.resolve('.brik');
-  fs.mkdirSync(brikDir, { recursive: true });
-  const manifestPath = path.join(brikDir, 'manifest.json');
-  if (!fs.existsSync(manifestPath)) {
-    fs.writeFileSync(manifestPath, JSON.stringify({
-      schemaVersion: 'brik64.cli_project_manifest.v1',
-      schema: 'brik64.cli_project_manifest.v1',
+function initPlan(profile, structure) {
+  const selectedProfile = profile || 'pcd-first';
+  const selectedStructure = structure || (selectedProfile === 'sdk-first' ? 'monolithic' : 'modular');
+  const allowedProfiles = new Set(['startup', 'regulated', 'sdk-first', 'pcd-first']);
+  const allowedStructures = new Set(['monolithic', 'modular']);
+  if (!allowedProfiles.has(selectedProfile)) fail(64, `init_profile_unsupported:${selectedProfile}`);
+  if (!allowedStructures.has(selectedStructure)) fail(64, `init_structure_unsupported:${selectedStructure}`);
+  const baseDirs = selectedStructure === 'modular'
+    ? ['.brik', '.brik/ledger', 'pcd/core', 'pcd/extended', 'pcd/polymers', 'dist', 'evidence', 'docs/brik64']
+    : ['.brik', '.brik/ledger', 'pcd', 'dist', 'evidence'];
+  const profileDirs = {
+    startup: ['brik64-blueprint'],
+    regulated: ['.brik/policy', '.brik/audit', 'docs/brik64/policy'],
+    'sdk-first': ['src/brik64-sdk', 'docs/brik64'],
+    'pcd-first': ['pcd/core', 'pcd/extended', 'pcd/polymers']
+  };
+  return {
+    profile: selectedProfile,
+    structure: selectedStructure,
+    dirs: [...new Set([...baseDirs, ...(profileDirs[selectedProfile] || [])])],
+    manifest: '.brik/manifest.json',
+    ledgerEvents: path.relative(process.cwd(), ledgerEventsPath()),
+    ledgerHead: path.relative(process.cwd(), ledgerHeadPath())
+  };
+}
+
+function buildManifest(profile, structure) {
+  return {
+    schemaVersion: 'brik64.cli_project_manifest.v1',
+    schema: 'brik64.cli_project_manifest.v1',
+    cliVersion: version,
+    lane: 'cli_0_1_beta',
+    generationClaim: 'assisted_generation_non_claim',
+    createdBy: 'brik64-cli-bootstrap',
+    profile,
+    structure,
+    preferred_engine: 'auto',
+    polymer_strategy: profile === 'sdk-first' ? 'sdk_logic_inventory' : 'local_ast',
+    developerAssuranceLoop: {
+      enabled: true,
+      version: 'beta18.2',
+      commands: ['explain', 'test', 'diff', 'doc', 'lint-policy', 'audit', 'blueprint']
+    },
+    managed_platform: {
+      enabled: false,
+      routing: 'local_default'
+    },
+    engineTierPolicy: {
+      runtimeMode: 'local_runtime',
+      managedRuntime: 'managed_platform',
+      artifactFactory: 'private_factory',
+      publicDistribution: false,
+      embeddedManagedRuntime: false
+    },
+    claimBoundary: {
+      releaseAuthorized: false,
+      publicBetaAllowed: false,
+      releaseAllowed: false,
+      generatedAgentsFile: false,
+      wholeApplicationProof: false,
+      complianceCertification: false
+    }
+  };
+}
+
+function init(args = []) {
+  const parsed = parseArgs(args, {
+    '--profile': 'value',
+    '--structure': 'value',
+    '--force': 'boolean',
+    '--dry-run': 'boolean',
+    '--json': 'boolean'
+  });
+  const plan = initPlan(parsed['--profile'], parsed['--structure']);
+  if (parsed['--dry-run']) {
+    const report = {
+      schemaVersion: 'brik64.cli_init_plan.v1',
       cliVersion: version,
-      lane: 'cli_0_1_beta',
-      generationClaim: 'assisted_generation_non_claim',
-      createdBy: 'brik64-cli-bootstrap',
-      preferred_engine: 'auto',
-      polymer_strategy: 'local_ast',
-      managed_platform: {
-        enabled: false,
-        routing: 'local_default'
-      },
-      engineTierPolicy: {
-        runtimeMode: 'local_runtime',
-        managedRuntime: 'managed_platform',
-        artifactFactory: 'private_factory',
-        publicDistribution: false,
-        embeddedManagedRuntime: false
-      },
-      claimBoundary: {
-        releaseAuthorized: false,
-        publicBetaAllowed: false,
-        releaseAllowed: false,
-        generatedAgentsFile: false
-      }
-    }, null, 2) + '\n');
+      status: 'DRY_RUN',
+      profile: plan.profile,
+      structure: plan.structure,
+      wouldCreate: plan.dirs,
+      wouldWrite: [plan.manifest, plan.ledgerEvents, plan.ledgerHead],
+      claimBoundary: 'local_workspace_initialization_only'
+    };
+    if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+    else {
+      process.stdout.write(`init_profile=${plan.profile}\n`);
+      process.stdout.write(`init_structure=${plan.structure}\n`);
+      for (const dir of plan.dirs) process.stdout.write(`would_create=${dir}\n`);
+    }
+    return;
+  }
+  const brikDir = path.resolve('.brik');
+  for (const dir of plan.dirs) mkdirControlled(path.resolve(dir));
+  const manifestPath = path.join(brikDir, 'manifest.json');
+  let backedUpManifest = null;
+  if (fs.existsSync(manifestPath) && parsed['--force']) {
+    const backupDir = path.join(brikDir, 'backups');
+    mkdirControlled(backupDir);
+    backedUpManifest = path.join(backupDir, `manifest-${Date.now()}.json`);
+    writeFileControlled(backedUpManifest, fs.readFileSync(manifestPath, 'utf8'));
+  }
+  if (!fs.existsSync(manifestPath) || parsed['--force']) {
+    writeFileControlled(manifestPath, JSON.stringify(buildManifest(plan.profile, plan.structure), null, 2) + '\n');
   }
   mkdirControlled(ledgerDir());
   if (!fs.existsSync(ledgerEventsPath())) writeFileControlled(ledgerEventsPath(), '');
   if (!fs.existsSync(ledgerHeadPath())) writeFileControlled(ledgerHeadPath(), JSON.stringify(readLedgerHead(), null, 2) + '\n');
   ledgerAppendRequired('workspace.init', {
     manifest: '.brik/manifest.json',
+    profile: plan.profile,
+    structure: plan.structure,
+    forced: Boolean(parsed['--force']),
+    manifestBackup: backedUpManifest ? path.relative(process.cwd(), backedUpManifest) : null,
     manifestPathHash: pathHashForLedger(manifestPath),
     manifestSha256: sha256(fs.readFileSync(manifestPath, 'utf8'))
   });
-  process.stdout.write(`created=${path.relative(process.cwd(), manifestPath)}\n`);
+  const report = {
+    schemaVersion: 'brik64.cli_init_report.v1',
+    cliVersion: version,
+    status: 'PASS',
+    profile: plan.profile,
+    structure: plan.structure,
+    created: plan.dirs,
+    manifest: path.relative(process.cwd(), manifestPath),
+    manifestBackup: backedUpManifest ? path.relative(process.cwd(), backedUpManifest) : null
+  };
+  if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  else {
+    process.stdout.write(`created=${path.relative(process.cwd(), manifestPath)}\n`);
+    process.stdout.write(`profile=${plan.profile}\n`);
+    process.stdout.write(`structure=${plan.structure}\n`);
+  }
 }
 
 function templateCommand(args = []) {
@@ -6014,9 +6143,54 @@ function buildExplainReport(file) {
   }
 }
 
+function explainGuidance(report) {
+  const errors = report.diagnostics?.errors || [];
+  const suggestions = [];
+  const fixPlan = [];
+  const add = (code, suggestion, command = null) => {
+    if (!suggestions.some((item) => item.code === code)) suggestions.push({ code, suggestion });
+    if (command && !fixPlan.some((item) => item.command === command)) fixPlan.push({ step: fixPlan.length + 1, command });
+  };
+  if (report.status === 'PASS') {
+    add('parsed', 'PCD parses successfully. Certify it before emitting target code.', `brik64 certify ${report.file}`);
+    add('native_test', 'Run bounded native scenarios before target emission.', `brik64 test ${report.file} --generate-scenarios`);
+    return { suggestions, fixPlan };
+  }
+  for (const error of errors) {
+    if (error.includes('missing_pcd_header')) {
+      add('missing_pcd_header', 'Add the required `// brik64.pcd_file.v1` header or migrate the file.', `brik64 migrate ${report.file} --write`);
+    } else if (error.includes('missing_pc_block') || error.includes('legacy_format_detected')) {
+      add('legacy_format_detected', 'Convert legacy syntax into the current PC/fn block form.', `brik64 migrate ${report.file} --dry-run`);
+    } else if (error.includes('non_exhaustive_return')) {
+      add('non_exhaustive_return', 'Ensure every branch returns or add a final fallback return.');
+    } else if (error.includes('return_type_mismatch')) {
+      add('return_type_mismatch', 'Align the returned expression type with the declared function return type.');
+    } else if (error.includes('implicit_numeric_coercion') || error.includes('numeric_literal_type_mismatch')) {
+      add('numeric_type_mismatch', 'Use explicit compatible numeric types; do not mix integer and f64 literals silently.');
+    } else if (error.includes('reserved_identifier')) {
+      add('reserved_identifier', 'Rename PC, function, domain, or parameter identifiers that collide with PCD keywords.');
+    } else if (error.includes('unsupported_monomer')) {
+      add('unsupported_monomer', 'Use `brik64 monomers explain <MC_XX.NAME>` to confirm the official operation signature.');
+    } else if (error.includes('boundary_required')) {
+      add('boundary_required', 'Declare an explicit boundary for extended/external operations or move the logic to SDK-first handling.');
+    } else if (error.includes('bounded_domain_required')) {
+      add('bounded_domain_required', 'Declare bounded domains for parameters or use syntax-only mode only for drafts.', `brik64 domain inspect ${report.file} --json`);
+    } else {
+      add('inspect_parser_error', 'Review the parser error, then run explain again with `--fix-plan` after editing.');
+    }
+  }
+  if (fixPlan.length === 0) fixPlan.push({ step: 1, command: `brik64 explain ${report.file} --suggest` });
+  return { suggestions, fixPlan };
+}
+
 function explain(file, args = []) {
-  const parsed = parseArgs(args, { '--json': 'boolean' });
+  const parsed = parseArgs(args, { '--json': 'boolean', '--suggest': 'boolean', '--fix-plan': 'boolean' });
   const report = buildExplainReport(file);
+  if (parsed['--suggest'] || parsed['--fix-plan']) {
+    const guidance = explainGuidance(report);
+    if (parsed['--suggest']) report.suggestions = guidance.suggestions;
+    if (parsed['--fix-plan']) report.fixPlan = guidance.fixPlan;
+  }
   if (parsed['--json']) {
     process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
   } else {
@@ -6031,8 +6205,333 @@ function explain(file, args = []) {
     }
     for (const error of report.diagnostics.errors) process.stdout.write(`error: ${error}\n`);
     for (const action of report.diagnostics.actions) process.stdout.write(`action: ${action}\n`);
+    for (const suggestion of report.suggestions || []) process.stdout.write(`suggestion: ${suggestion.code}: ${suggestion.suggestion}\n`);
+    for (const step of report.fixPlan || []) process.stdout.write(`fix_step_${step.step}: ${step.command}\n`);
   }
   if (report.status !== 'PASS') process.exit(65);
+}
+
+function runNativePcdTest(file, args = []) {
+  validateManifest();
+  const parsed = parseArgs(args, {
+    '--scenarios': 'value',
+    '--generate-scenarios': 'boolean',
+    '--json': 'boolean'
+  });
+  const resolvedFile = workspacePath(file, 64, { mustExist: true, realpath: true });
+  const source = readFileRequired(file);
+  const ast = parsePcd(source, { baseDir: path.dirname(resolvedFile), importStack: [resolvedFile] });
+  let cases;
+  if (parsed['--scenarios']) {
+    const scenarioPath = workspacePath(parsed['--scenarios'], 64, { mustExist: true, realpath: true });
+    const data = readJsonRequired(scenarioPath, 'scenario_parse_error', 'scenario_file_required');
+    cases = Array.isArray(data) ? data : data.cases;
+    if (!Array.isArray(cases)) fail(65, 'scenario_cases_required');
+    cases = cases.map((item, index) => {
+      const argsObject = item.args && typeof item.args === 'object'
+        ? item.args
+        : Object.fromEntries(ast.params.map((param, paramIndex) => [param, (item.input || [])[paramIndex] ?? 0]));
+      return { index, args: argsObject, expected: item.expected };
+    });
+  } else {
+    cases = generatedCases(ast).map((item, index) => ({ index, args: item.args, expected: item.expected }));
+  }
+  if (!cases.length) fail(65, 'test_cases_empty');
+  const results = cases.map((testCase) => {
+    const actual = evaluateStatements(ast.body, {
+      ...testCase.args,
+      __imports: ast.imports || {},
+      __locals: ast.functions || {}
+    });
+    const pass = JSON.stringify(actual) === JSON.stringify(testCase.expected);
+    return { ...testCase, actual, pass };
+  });
+  const passed = results.every((item) => item.pass);
+  const report = {
+    schemaVersion: 'brik64.cli_native_test_report.v1',
+    cliVersion: version,
+    status: passed ? 'PASS' : 'FAIL',
+    decision: passed ? 'PASS_BRIK64_NATIVE_TEST' : 'FAIL_BRIK64_NATIVE_TEST',
+    file,
+    generatedScenarios: !parsed['--scenarios'],
+    scenarioCount: results.length,
+    passed: results.filter((item) => item.pass).length,
+    failed: results.filter((item) => !item.pass).length,
+    results,
+    claimBoundary: 'local_native_scenario_evidence_only'
+  };
+  const outDir = path.resolve('.brik', 'test-reports');
+  mkdirControlled(outDir);
+  writeFileControlled(path.join(outDir, `${path.basename(file, '.pcd')}-native-test.json`), JSON.stringify(report, null, 2) + '\n');
+  if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  else {
+    process.stdout.write(`native_test=${report.status}\n`);
+    process.stdout.write(`cases=${report.scenarioCount}\n`);
+    process.stdout.write(`passed=${report.passed}\n`);
+    process.stdout.write(`failed=${report.failed}\n`);
+  }
+  if (report.status !== 'PASS') process.exit(65);
+}
+
+function compactAstForDiff(ast) {
+  return {
+    pcName: ast.pcName,
+    fnName: ast.fnName,
+    params: ast.params,
+    paramTypes: ast.paramTypes,
+    returnType: ast.returnType,
+    constants: ast.constants,
+    domainContract: ast.domainContract?.domains || [],
+    boundaryContracts: ast.boundaryContracts || [],
+    functions: Object.fromEntries(Object.entries(ast.functions || {}).map(([name, fn]) => [name, {
+      params: fn.params,
+      paramTypes: fn.paramTypes,
+      returnType: fn.returnType,
+      branchCount: fn.branchCount,
+      body: fn.body
+    }]))
+  };
+}
+
+function diffCommand(file, args = []) {
+  const parsed = parseArgs(args, { '--json': 'boolean', '--semantic-only': 'boolean', '--impact': 'boolean' });
+  const other = parsed._[0];
+  if (!file || !other) fail(64, 'diff_requires_two_files');
+  const aPath = workspacePath(file, 64, { mustExist: true, realpath: true });
+  const bPath = workspacePath(other, 64, { mustExist: true, realpath: true });
+  const aSource = fs.readFileSync(aPath, 'utf8');
+  const bSource = fs.readFileSync(bPath, 'utf8');
+  const aAst = compactAstForDiff(parsePcd(aSource, { baseDir: path.dirname(aPath), importStack: [aPath] }));
+  const bAst = compactAstForDiff(parsePcd(bSource, { baseDir: path.dirname(bPath), importStack: [bPath] }));
+  const changes = [];
+  for (const key of ['pcName', 'fnName', 'returnType']) {
+    if (JSON.stringify(aAst[key]) !== JSON.stringify(bAst[key])) changes.push({ kind: 'changed', field: key, before: aAst[key], after: bAst[key] });
+  }
+  for (const key of ['params', 'paramTypes', 'constants', 'domainContract', 'boundaryContracts', 'functions']) {
+    if (JSON.stringify(aAst[key]) !== JSON.stringify(bAst[key])) changes.push({ kind: 'changed', field: key, beforeSha256: sha256(JSON.stringify(aAst[key])), afterSha256: sha256(JSON.stringify(bAst[key])) });
+  }
+  if (!parsed['--semantic-only'] && sha256(aSource) !== sha256(bSource)) {
+    changes.unshift({ kind: 'hash_changed', field: 'semantic_pcd_sha256', before: sha256(aSource), after: sha256(bSource) });
+  }
+  const report = {
+    schemaVersion: 'brik64.cli_semantic_diff.v1',
+    cliVersion: version,
+    status: changes.length ? 'CHANGED' : 'UNCHANGED',
+    files: [file, other],
+    changes,
+    impact: changes.length ? ['recertify_required', 'rerun_native_tests', 'regenerate_emitted_tests'] : [],
+    claimBoundary: 'semantic_ast_diff_only'
+  };
+  if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  else {
+    process.stdout.write(`semantic_diff=${report.status}\n`);
+    for (const change of changes) process.stdout.write(`[~] ${change.field}\n`);
+    if (parsed['--impact']) for (const impact of report.impact) process.stdout.write(`impact=${impact}\n`);
+  }
+}
+
+function expressionLabels(expression, labels = []) {
+  if (!expression || typeof expression !== 'object') return labels;
+  if (expression.type === 'MonomerCallExpression') labels.push(`${expression.key || expression.id || 'monomer'} (${expression.operation})`);
+  if (expression.type === 'BinaryExpression') labels.push(`binary ${expression.operator}`);
+  for (const value of Object.values(expression)) {
+    if (Array.isArray(value)) value.forEach((item) => expressionLabels(item, labels));
+    else if (value && typeof value === 'object') expressionLabels(value, labels);
+  }
+  return labels;
+}
+
+function pcdMermaid(ast) {
+  const lines = ['flowchart TD', `  pc["PC ${ast.pcName}"]`, `  fn["fn ${ast.fnName} -> ${ast.returnType}"]`, '  pc --> fn'];
+  let index = 0;
+  for (const statement of ast.body) {
+    if (statement.type === 'IfStatement') {
+      index += 1;
+      lines.push(`  cond${index}["if condition"]`);
+      lines.push(`  fn --> cond${index}`);
+      for (const label of expressionLabels(statement.condition)) {
+        index += 1;
+        lines.push(`  op${index}["${label.replace(/"/g, "'")}"]`);
+        lines.push(`  cond${index - 1} --> op${index}`);
+      }
+    }
+    if (statement.type === 'ReturnStatement') {
+      index += 1;
+      lines.push(`  ret${index}["return"]`);
+      lines.push(`  fn --> ret${index}`);
+      for (const label of expressionLabels(statement.argument)) {
+        index += 1;
+        lines.push(`  op${index}["${label.replace(/"/g, "'")}"]`);
+        lines.push(`  ret${index - 1} --> op${index}`);
+      }
+    }
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+function docCommand(target, args = []) {
+  const parsed = parseArgs(args, { '--blueprint': 'boolean', '--format': 'value', '--out': 'value', '--json': 'boolean' });
+  const format = parsed['--format'] || 'markdown';
+  const outDir = workspacePath(parsed['--out'] || 'docs/brik64', 64, { output: true });
+  if (parsed['--blueprint'] || (target && fs.existsSync(path.resolve(target)) && fs.lstatSync(path.resolve(target)).isDirectory())) {
+    return blueprintCommand(target || '.', ['--out', path.relative(process.cwd(), outDir), '--mermaid', '--evidence', parsed['--json'] ? '--json' : null].filter(Boolean));
+  }
+  const resolved = workspacePath(target, 64, { mustExist: true, realpath: true });
+  const source = fs.readFileSync(resolved, 'utf8');
+  const ast = parsePcd(source, { baseDir: path.dirname(resolved), importStack: [resolved] });
+  mkdirControlled(outDir);
+  const base = path.basename(resolved, '.pcd');
+  const mermaid = pcdMermaid(ast);
+  const markdown = [
+    `# BRIK64 PCD Blueprint: ${base}`,
+    '',
+    `- CLI: ${version}`,
+    `- PC: ${ast.pcName}`,
+    `- Entrypoint: ${ast.fnName}`,
+    `- Return type: ${ast.returnType}`,
+    `- Params: ${ast.params.join(', ') || 'none'}`,
+    `- Domains: ${(ast.domainContract?.domains || []).length}`,
+    `- Boundaries: ${(ast.boundaryContracts || []).join(', ') || 'none'}`,
+    '',
+    '```mermaid',
+    mermaid.trimEnd(),
+    '```',
+    '',
+    'Claim boundary: documentation blueprint only; not formal proof or compliance certification.',
+    ''
+  ].join('\n');
+  const outFile = path.join(outDir, format === 'mermaid' ? `${base}.mmd` : `${base}.md`);
+  writeFileControlled(outFile, format === 'mermaid' ? mermaid : markdown);
+  const report = { schemaVersion: 'brik64.cli_doc_report.v1', cliVersion: version, status: 'PASS', file: target, output: path.relative(process.cwd(), outFile), format };
+  if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  else process.stdout.write(`doc=${report.output}\n`);
+}
+
+function lintPolicyCommand(args = []) {
+  const parsed = parseArgs(args, { '--policy': 'value', '--json': 'boolean', '--strict': 'boolean' });
+  const target = parsed._[0] || '.';
+  const policy = parsed['--policy'] || 'all';
+  if (!['gdpr', 'security', 'startup-readiness', 'all'].includes(policy)) fail(64, `policy_unsupported:${policy}`);
+  const findings = [];
+  const files = fs.existsSync(path.resolve(target)) && fs.lstatSync(path.resolve(target)).isDirectory()
+    ? pcdInventory({ scope: 'all' }).map((item) => item.file)
+    : [target];
+  const pii = /\b(name|email|phone|address|dni|ssn|passport|birth|customer)\b/i;
+  const secret = /\b(secret|token|password|api[_-]?key|credential)\b/i;
+  for (const file of files) {
+    if (!String(file).endsWith('.pcd')) continue;
+    const resolved = workspacePath(file, 64, { mustExist: true, realpath: true });
+    const source = fs.readFileSync(resolved, 'utf8');
+    const astResult = withFailAsException(() => parsePcd(source, { baseDir: path.dirname(resolved), importStack: [resolved] }));
+    if (!astResult.ok) {
+      findings.push({ severity: 'error', code: 'pcd_parse_error', file, detail: astResult.error });
+      continue;
+    }
+    const ast = astResult.value;
+    const identifiers = [ast.pcName, ast.fnName, ...ast.params, ...Object.keys(ast.paramTypes || {})];
+    for (const identifier of identifiers) {
+      if ((policy === 'gdpr' || policy === 'all') && pii.test(identifier)) findings.push({ severity: 'warning', code: 'pii_like_identifier', file, identifier });
+      if ((policy === 'security' || policy === 'all') && secret.test(identifier)) findings.push({ severity: 'warning', code: 'secret_like_identifier', file, identifier });
+    }
+    if ((policy === 'startup-readiness' || policy === 'all') && ast.domainContract?.status !== 'complete') {
+      findings.push({ severity: 'warning', code: 'bounded_domain_incomplete', file, status: ast.domainContract?.status });
+    }
+  }
+  const report = {
+    schemaVersion: 'brik64.cli_policy_lint_report.v1',
+    cliVersion: version,
+    status: findings.some((item) => item.severity === 'error') || (parsed['--strict'] && findings.length) ? 'FAIL' : findings.length ? 'WARN' : 'PASS',
+    policy,
+    target,
+    findings,
+    claimBoundary: 'static_policy_hygiene_not_compliance_certification'
+  };
+  if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  else {
+    process.stdout.write(`lint_policy=${report.status}\n`);
+    process.stdout.write(`findings=${findings.length}\n`);
+    for (const finding of findings) process.stdout.write(`${finding.severity}:${finding.code}:${finding.file}\n`);
+  }
+  if (report.status === 'FAIL') process.exit(65);
+  return report;
+}
+
+function captureStdout(fn) {
+  const originalWrite = process.stdout.write;
+  let captured = '';
+  process.stdout.write = function patchedWrite(chunk, encoding, callback) {
+    captured += Buffer.isBuffer(chunk) ? chunk.toString(encoding || 'utf8') : String(chunk);
+    if (typeof callback === 'function') callback();
+    return true;
+  };
+  try {
+    const value = fn();
+    return { value, captured };
+  } finally {
+    process.stdout.write = originalWrite;
+  }
+}
+
+function auditCommand(target, args = []) {
+  const parsed = parseArgs(args, { '--out': 'value', '--json': 'boolean' });
+  const root = target || '.';
+  const outDir = workspacePath(parsed['--out'] || '.brik/audit', 64, { output: true });
+  mkdirControlled(outDir);
+  const doctorResult = withFailAsException(() => buildDoctorReport({ scope: 'project' }));
+  const ledgerResult = withFailAsException(() => verifyLedgerState());
+  const lintResult = withFailAsException(() => captureStdout(() => lintPolicyCommand([root, '--policy', 'all', '--json'])));
+  const pcds = pcdInventory({ scope: 'project' });
+  const explainReports = pcds.map((item) => withFailAsException(() => buildExplainReport(item.file)));
+  const explainFailures = explainReports.filter((item) => !item.ok || item.value.status !== 'PASS');
+  const blueprintOut = path.join(outDir, 'blueprint');
+  const blueprintResult = withFailAsException(() => captureStdout(() => blueprintCommand(root, ['--out', path.relative(process.cwd(), blueprintOut), '--mermaid', '--evidence', '--json'])));
+  const auditResultsPath = path.join(outDir, 'audit-results.json');
+  const auditReportPath = path.join(outDir, 'BRIK64_AUDIT_REPORT.md');
+  const blueprintPlanPath = path.join(blueprintOut, 'BRIK64_BLUEPRINT_PLAN.md');
+  const report = {
+    schemaVersion: 'brik64.cli_audit_aggregate.v1',
+    cliVersion: version,
+    status: doctorResult.ok && doctorResult.value.status === 'PASS' && ledgerResult.ok && ledgerResult.value.status === 'PASS' && explainFailures.length === 0 ? 'PASS' : 'WARN',
+    target: root,
+    auditReport: path.relative(process.cwd(), auditReportPath),
+    auditResults: path.relative(process.cwd(), auditResultsPath),
+    blueprintPlan: path.relative(process.cwd(), blueprintPlanPath),
+    outputs: {
+      auditDir: path.relative(process.cwd(), outDir),
+      blueprintDir: path.relative(process.cwd(), blueprintOut),
+      auditReport: path.relative(process.cwd(), auditReportPath),
+      auditResults: path.relative(process.cwd(), auditResultsPath),
+      blueprintPlan: path.relative(process.cwd(), blueprintPlanPath)
+    },
+    checks: {
+      doctor: doctorResult.ok ? doctorResult.value.status : 'ERROR',
+      ledger: ledgerResult.ok ? ledgerResult.value.status : 'ERROR',
+      lintPolicy: lintResult.ok ? 'RECORDED' : 'ERROR',
+      pcdCount: pcds.length,
+      explainFailures: explainFailures.length,
+      blueprint: blueprintResult.ok ? 'RECORDED' : 'ERROR'
+    },
+    claimBoundary: 'local_developer_assurance_loop_not_whole_application_proof'
+  };
+  const markdown = [
+    '# BRIK64 Developer Assurance Audit',
+    '',
+    `- CLI: ${version}`,
+    `- Status: ${report.status}`,
+    `- Target: ${root}`,
+    `- PCD count: ${pcds.length}`,
+    `- Doctor: ${report.checks.doctor}`,
+    `- Ledger: ${report.checks.ledger}`,
+    `- Explain failures: ${report.checks.explainFailures}`,
+    `- Blueprint output: ${report.outputs.blueprintDir}`,
+    '',
+    'Claim boundary: local scoped developer assurance only; not full application proof, compliance certification, self-hosting, or formal correctness.',
+    ''
+  ].join('\n');
+  writeFileControlled(auditResultsPath, JSON.stringify(report, null, 2) + '\n');
+  writeFileControlled(auditReportPath, markdown);
+  if (parsed['--json']) process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
+  else process.stdout.write(`audit=${path.relative(process.cwd(), outDir)}\n`);
 }
 
 function lock(args = []) {
@@ -6335,7 +6834,7 @@ async function main() {
     if (bannerSuppressed()) process.stdout.write(`BRIK64 CLI ${version}\nstatus=${RELEASE_STATUS}\n`);
     return;
   }
-  if (cmd === 'init') return init();
+  if (cmd === 'init') return init([file, ...args].filter(Boolean));
   if (cmd === 'template') return templateCommand([file, ...args].filter(Boolean));
   if (cmd === 'domain') return domainCommand([file, ...args].filter(Boolean));
   if (cmd === 'doctor') return doctor();
@@ -6348,6 +6847,11 @@ async function main() {
   if (cmd === 'migrate') return migrate(file, args);
   if (cmd === 'lift') return lift(file, args[0], args.slice(1));
   if (cmd === 'blueprint') return blueprintCommand(file, args);
+  if (cmd === 'test') return runNativePcdTest(file, args);
+  if (cmd === 'diff') return diffCommand(file, args);
+  if (cmd === 'doc') return docCommand(file, args);
+  if (cmd === 'lint-policy' || cmd === 'check-rules') return lintPolicyCommand([file, ...args].filter(Boolean));
+  if (cmd === 'audit') return auditCommand(file, args);
   if (cmd === 'adoption' && file === 'report') return adoptionReport(args);
   if (cmd === 'explain') return explain(file, args);
   if (cmd === 'lock') return lock([file, ...args].filter(Boolean));

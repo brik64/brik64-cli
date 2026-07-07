@@ -1,14 +1,42 @@
 {
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
-  "releaseId": "brik64-0.1.0-beta.17",
-  "version": "0.1.0-beta.17",
-  "manifestDigest": "0c02f6f184f4625c55b1b1986e1e5ca02cdfd5b8d9e96598a0d56fee48c41fc8",
-  "sourceHead": "e81f6eb",
+  "releaseId": "brik64-0.1.0-beta.18.2",
+  "version": "0.1.0-beta.18.2",
+  "manifestDigest": "4d47bce4906754273803742f0867f8b51b035905e37ac93d71c17acb870c5063",
+  "sourceHead": "8bfa384",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
-  "dirtyFiles": [],
+  "dirtyFiles": [
+    ".brik/manifest.json",
+    "CHANGELOG.md",
+    "README.md",
+    "evidence/release-web-surface-sync/report.json",
+    "package.json",
+    "release/manifest.json",
+    "src/brik.js",
+    "tests/smoke.sh",
+    "evidence/beta18_2-docs-web-sync/",
+    "evidence/beta18_2-feature-parity/",
+    "evidence/beta18_2-l6-generation/",
+    "evidence/beta18_2-l6-materializer-request/",
+    "evidence/beta18_2-marketplace-packages/",
+    "evidence/beta18_2-sdk-sync/",
+    "evidence/beta18_2-skills-sync/",
+    "evidence/l6plus-pcd-artifact-factory/",
+    "pcd/beta18_2/",
+    "scripts/beta18_2-docs-web-sync-gate.js",
+    "scripts/beta18_2-feature-parity-gate.js",
+    "scripts/beta18_2-l6-generation-attempt.js",
+    "scripts/beta18_2-marketplace-package-gate.js",
+    "scripts/beta18_2-package-smoke.js",
+    "scripts/beta18_2-package-smoke.sh",
+    "scripts/beta18_2-sdk-sync-gate.js",
+    "scripts/beta18_2-skills-sync-gate.js",
+    "scripts/build-beta18_2-package.js",
+    "scripts/tests/test_beta18_2_developer_assurance_loop.sh"
+  ],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -74,5 +102,7 @@
   "executed": [],
   "blockers": [],
   "failures": [],
-  "warnings": []
+  "warnings": [
+    "worktree_dirty_dry_run:27"
+  ]
 }

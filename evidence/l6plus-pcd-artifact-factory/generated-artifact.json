@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "brik64.generated_artifact.v1",
+  "version": "0.1.0-beta.18.2",
+  "artifactKind": "cli",
+  "generatedByL6PlusN5": true,
+  "generatedFromPcdPolymer": true,
+  "pcdInputSetSha256": "9b965fbf4ab1724a819589cb9404bd633aed98734a99bef6379103c2dcb176f9",
+  "factoryRequestSha256": "3f6b8f718aa0c6e43873b5991f2a34b169959ff9ae12e6582d5a42ea542d9be1",
+  "claimBoundary": {
+    "publicReleaseAllowed": false,
+    "definitiveFixpointAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@brik64/cli",
-  "version": "0.1.0-beta.18.1",
+  "version": "0.1.0-beta.18.2",
   "private": true,
   "description": "BRIK64 CLI beta18 candidate package with operation-aware blueprint and lift evidence reporting.",
   "homepage": "https://brik64.com",
@@ -348,8 +348,19 @@
     "test:release:publish-execute-beta17-generated-dirty": "bash scripts/tests/test_release_train_publish_execute_beta17_generated_dirty.sh",
     "gate:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh",
     "test:beta18:blueprint-lift": "bash scripts/tests/test_beta18_blueprint_lift.sh",
+    "package:beta18.2:local": "node scripts/build-beta18_2-package.js",
+    "package:beta18_2:local": "node scripts/build-beta18_2-package.js",
+    "smoke:beta18_2:package": "node scripts/beta18_2-package-smoke.js",
+    "attempt:beta18_2:l6-generation": "node scripts/beta18_2-l6-generation-attempt.js",
+    "gate:beta18_2:feature-parity": "node scripts/beta18_2-feature-parity-gate.js",
+    "gate:beta18_2:sdk-sync": "node scripts/beta18_2-sdk-sync-gate.js",
+    "gate:beta18_2:marketplace-packages": "node scripts/beta18_2-marketplace-package-gate.js",
+    "gate:beta18_2:docs-web-sync": "node scripts/beta18_2-docs-web-sync-gate.js",
+    "gate:beta18_2:skills-sync": "node scripts/beta18_2-skills-sync-gate.js",
     "gate:beta18.1:blueprint-output-contract": "bash scripts/tests/test_beta18_1_blueprint_output_contract.sh",
-    "test:beta18.1:blueprint-output-contract": "bash scripts/tests/test_beta18_1_blueprint_output_contract.sh"
+    "test:beta18.1:blueprint-output-contract": "bash scripts/tests/test_beta18_1_blueprint_output_contract.sh",
+    "gate:beta18.2:developer-assurance-loop": "bash scripts/tests/test_beta18_2_developer_assurance_loop.sh",
+    "test:beta18.2:developer-assurance-loop": "bash scripts/tests/test_beta18_2_developer_assurance_loop.sh"
   },
   "author": {
     "name": "BRIK64 INC",
@@ -373,7 +384,6 @@
     "pcd",
     "engines",
     "docs",
-    "evidence",
     "packaging",
     "README.md",
     "LICENSE",

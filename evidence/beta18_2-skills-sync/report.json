@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_skills_sync_gate.v1",
+  "version": "0.1.0-beta.18.2",
+  "skillsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-tools-skills-blueprint-flow",
+  "decision": "PASS_BETA18_2_SKILLS_SYNC_GATE",
+  "publicationAllowed": true,
+  "failures": []
+}

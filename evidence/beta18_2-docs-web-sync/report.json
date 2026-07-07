@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_docs_web_sync_gate.v1",
+  "version": "0.1.0-beta.18.2",
+  "packageSha256": "91fdc95b8b22c29e56f5ca47a19c01151c807245ecbc1b278606623f27e46bc3",
+  "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
+  "docsRoot": "/Users/carlosjperez/Documents/GitHub/brik64-docs-site-beta18-1",
+  "decision": "PASS_BETA18_2_DOCS_WEB_SYNC_GATE",
+  "publicationAllowed": true,
+  "failures": []
+}
