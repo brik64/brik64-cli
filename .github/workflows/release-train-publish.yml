@@ -143,7 +143,7 @@ jobs:
           set -euo pipefail
           VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("release/manifest.json","utf8")).version)')"
           BETA_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' "$VERSION")"
-          SMOKE_SCRIPT="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `smoke:beta${m[1]}.${m[2]}:package` : `smoke:beta${m[1]}:package`)' "$VERSION")"
+          SMOKE_SCRIPT="$(node -e 'const fs=require("fs"); const scripts=JSON.parse(fs.readFileSync("package.json","utf8")).scripts || {}; const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/); if (!m) process.exit(1); const candidates=m[2] ? [`smoke:beta${m[1]}_${m[2]}:package`, `smoke:beta${m[1]}.${m[2]}:package`] : [`smoke:beta${m[1]}:package`]; const found=candidates.find((name)=>scripts[name]); if (!found) { console.error(`missing_smoke_script:${candidates.join("|")}`); process.exit(1); } process.stdout.write(found)' "$VERSION")"
           node - "$BETA_LABEL" <<'NODE'
           const fs = require('fs');
           const crypto = require('crypto');
