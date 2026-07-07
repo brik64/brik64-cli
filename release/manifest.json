@@ -6,7 +6,7 @@
   "state": "public",
   "source": {
     "commit": "b59a78f0099aaa587fde0a1f0bf25bde28939c84",
-    "commitBinding": "release_ref_exact"
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
     "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
