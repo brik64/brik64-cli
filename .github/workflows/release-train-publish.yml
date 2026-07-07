@@ -68,16 +68,25 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pytest
 
-      - name: Validate release train pre-publication
-        env:
-          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
-        run: npm run release:train:dry-run
-
       - name: Check requested manifest digest
         shell: bash
         run: |
           set -euo pipefail
           ACTUAL="$(node -e 'const fs=require("fs"),crypto=require("crypto"); process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync("release/manifest.json","utf8")).digest("hex"))')"
+          echo "release_manifest_digest=$ACTUAL"
+          test "$ACTUAL" = "${{ inputs.manifest_digest }}"
+
+      - name: Validate release train pre-publication
+        env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+        run: npm run release:train:dry-run
+
+      - name: Check manifest digest after pre-publication validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTUAL="$(node -e 'const fs=require("fs"),crypto=require("crypto"); process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync("release/manifest.json","utf8")).digest("hex"))')"
+          echo "release_manifest_digest_after_dry_run=$ACTUAL"
           test "$ACTUAL" = "${{ inputs.manifest_digest }}"
 
       - name: Generate sync payload
