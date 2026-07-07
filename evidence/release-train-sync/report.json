@@ -11,7 +11,7 @@
     },
     "syncPayload": {
       "path": "evidence/release-train-sync/sync-payload.json",
-      "sha256": "350258e350b082437a8ac15e7418f352d3dffb3f33c9e61e3a1d402666c70340"
+      "sha256": "7eac9cdf3020ff3a4de0ff15bd3a116e65fed06fd4156e2dfafb56222e1b51cc"
     }
   },
   "failures": [],

@@ -5,7 +5,7 @@
   "channel": "beta",
   "state": "public",
   "source": {
-    "commit": "60baadfb8b2f4b439c822225b51304ceac5f8dc6",
+    "commit": "46b502d5a30214f00bbe14d0ade2412017933135",
     "commitBinding": "public_release_base_commit"
   },
   "cli": {
