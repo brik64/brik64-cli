@@ -2,17 +2,14 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.18.2",
   "version": "0.1.0-beta.18.2",
-  "manifestDigest": "e05180646538e3ce8823aba161c850bcbadb26ce0e1e20964e382b53b55b6f51",
-  "sourceHead": "adfcac1",
+  "manifestDigest": "54fa25f1728bab506125e7f158c4e541749e2771b23d3348c912dd3f129a4579",
+  "sourceHead": "ba3f8b6",
   "publishRequested": false,
   "publicationMutated": false,
   "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
   "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
   "dirtyFiles": [
-    "evidence/beta18_2-docs-web-sync/report.json",
-    "release/manifest.json",
-    "scripts/tests/test_beta18_2_developer_assurance_loop.sh",
-    "src/brik.js"
+    "release/manifest.json"
   ],
   "commandPreflight": [
     {
@@ -80,6 +77,6 @@
   "blockers": [],
   "failures": [],
   "warnings": [
-    "worktree_dirty_dry_run:4"
+    "worktree_dirty_dry_run:1"
   ]
 }

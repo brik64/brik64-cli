@@ -2,12 +2,12 @@
   "schemaVersion": "brik64.release_train_publish_plan.v1",
   "releaseId": "brik64-0.1.0-beta.18.2",
   "version": "0.1.0-beta.18.2",
-  "manifestDigest": "e05180646538e3ce8823aba161c850bcbadb26ce0e1e20964e382b53b55b6f51",
+  "manifestDigest": "54fa25f1728bab506125e7f158c4e541749e2771b23d3348c912dd3f129a4579",
   "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
   "dryRunInProgress": true,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.18.2 e05180646538e3ce8823aba161c850bcbadb26ce0e1e20964e382b53b55b6f51",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.18.2 54fa25f1728bab506125e7f158c4e541749e2771b23d3348c912dd3f129a4579",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": false,
     "BRIK64_NPM_TOKEN": false,
@@ -22,10 +22,10 @@
   },
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
-    "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "adfcac1f6b7ccc4a22f91842e56f1a898a0e6792",
-    "verified": true,
-    "reason": "valid"
+    "decision": "BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+    "commit": "ba3f8b657d1801a5e369725ec73897644d67625e",
+    "verified": false,
+    "reason": ""
   },
   "sdkPreflight": {
     "projectVersions": {
@@ -113,6 +113,8 @@
   ],
   "failures": [],
   "warnings": [
+    "github_verified_signature_refresh_failed:2",
+    "github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
     "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],

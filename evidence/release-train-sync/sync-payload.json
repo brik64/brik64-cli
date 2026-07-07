@@ -4,7 +4,7 @@
   "version": "0.1.0-beta.18.2",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "e05180646538e3ce8823aba161c850bcbadb26ce0e1e20964e382b53b55b6f51",
+  "manifestDigest": "54fa25f1728bab506125e7f158c4e541749e2771b23d3348c912dd3f129a4579",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
   "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2",
   "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2",
