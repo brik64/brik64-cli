@@ -347,7 +347,7 @@ function main() {
     hostProbe: { status: hostProbe.status, auditDecision: auditJson?.decision || null, stdoutSha256: sha256(hostProbe.stdout), stderrSha256: sha256(hostProbe.stderr) },
     remoteRefProbe: { status: remoteRefProbe.status, stdoutSha256: sha256(remoteRefProbe.stdout), stderrSha256: sha256(remoteRefProbe.stderr) },
     endpointProbe: { status: endpointProbe.status, stdoutSha256: sha256(endpointProbe.stdout), stderrSha256: sha256(endpointProbe.stderr) },
-    factoryStatusProbe: { status: factoryStatusProbe.status, stdoutSha256: sha256(factoryStatusProbe.stdout), stderrSha256: sha256(factoryStatusProbe.stderr), status: factoryStatus.status, capabilities: factoryStatus.capabilities },
+    factoryStatusProbe: { probeStatus: factoryStatusProbe.status, stdoutSha256: sha256(factoryStatusProbe.stdout), stderrSha256: sha256(factoryStatusProbe.stderr), status: factoryStatus.status, capabilities: factoryStatus.capabilities },
     factoryRequest: {
       path: rel(path.join(requestDir, 'request.json')),
       sha256: sha256File(path.join(requestDir, 'request.json')),
