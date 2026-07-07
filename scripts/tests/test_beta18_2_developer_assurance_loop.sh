@@ -41,4 +41,26 @@ grep -q '"auditReport": ".brik/audit/BRIK64_AUDIT_REPORT.md"' audit.json
 test -f .brik/audit/BRIK64_AUDIT_REPORT.md
 test -f .brik/audit/blueprint/BRIK64_BLUEPRINT_PLAN.md
 
+fresh_repo="$tmpdir/fresh-public-prompt-repo"
+mkdir -p "$fresh_repo"
+cd "$fresh_repo"
+cat > package.json <<'JSON'
+{"name":"fresh-public-prompt-repo","type":"module"}
+JSON
+cat > pricing.js <<'JS'
+export function computePrice(base, seats) {
+  if (seats > 10) return base * seats * 80 / 100;
+  return base * seats;
+}
+JS
+
+node "$BRIK" blueprint . --out .brik/blueprint --mermaid --evidence --json | tee blueprint.json | grep -q '"mode": "pcd_certified"'
+test -f .brik/blueprint/BRIK64_BLUEPRINT_PLAN.md
+test -f .brik/blueprint/system-blueprint.md
+test -f .brik/blueprint/architecture-map.mmd
+node "$BRIK" audit . --out .brik/audit --json | tee fresh-audit.json | grep -q '"status": "PASS"'
+grep -q '"initializedByAudit": true' fresh-audit.json
+grep -Eq '"blueprintCertifiedPcdCount": [1-9]' fresh-audit.json
+grep -Eq '"blueprintPolymerCount": [1-9]' fresh-audit.json
+
 echo "PASS_BRIK64_CLI_BETA18_2_DEVELOPER_ASSURANCE_LOOP"

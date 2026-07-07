@@ -6477,21 +6477,50 @@ function auditCommand(target, args = []) {
   const root = target || '.';
   const outDir = workspacePath(parsed['--out'] || '.brik/audit', 64, { output: true });
   mkdirControlled(outDir);
+  const manifestPath = path.resolve('.brik', 'manifest.json');
+  const initializedByAudit = !fs.existsSync(manifestPath);
+  if (initializedByAudit) {
+    captureStdout(() => init(['--profile', 'pcd-first', '--structure', 'modular', '--json']));
+  }
+  const blueprintOut = path.join(outDir, 'blueprint');
+  const blueprintResult = withFailAsException(() => captureStdout(() => blueprintCommand(root, ['--out', path.relative(process.cwd(), blueprintOut), '--mermaid', '--evidence', '--json'])));
+  let blueprintReport = null;
+  if (blueprintResult.ok) {
+    try {
+      blueprintReport = JSON.parse(blueprintResult.value.captured || '{}');
+    } catch {
+      blueprintReport = null;
+    }
+  }
   const doctorResult = withFailAsException(() => buildDoctorReport({ scope: 'project' }));
   const ledgerResult = withFailAsException(() => verifyLedgerState());
   const lintResult = withFailAsException(() => captureStdout(() => lintPolicyCommand([root, '--policy', 'all', '--json'])));
   const pcds = pcdInventory({ scope: 'project' });
   const explainReports = pcds.map((item) => withFailAsException(() => buildExplainReport(item.file)));
   const explainFailures = explainReports.filter((item) => !item.ok || item.value.status !== 'PASS');
-  const blueprintOut = path.join(outDir, 'blueprint');
-  const blueprintResult = withFailAsException(() => captureStdout(() => blueprintCommand(root, ['--out', path.relative(process.cwd(), blueprintOut), '--mermaid', '--evidence', '--json'])));
+  const blueprintCounts = blueprintReport?.counts || {};
+  const effectivePcdCount = Math.max(pcds.length, Number(blueprintCounts.certifiedPcdCount || 0));
+  const effectivePolymerCount = Number(blueprintCounts.polymerCount || 0);
+  const doctorErrors = doctorResult.ok ? (doctorResult.value.diagnostics?.errors || doctorResult.value.errors || []) : [];
+  const doctorOnlyEmptyInventory = doctorErrors.length === 1 && doctorErrors[0] === 'pcd_inventory_empty';
+  const doctorScopedPass = doctorResult.ok && (
+    doctorResult.value.status === 'PASS'
+    || (doctorOnlyEmptyInventory && Number(blueprintCounts.certifiedPcdCount || 0) > 0)
+  );
+  const doctorStatus = doctorResult.ok
+    ? doctorResult.value.status === 'PASS'
+      ? 'PASS'
+      : doctorScopedPass
+        ? 'PASS_SCOPED_BLUEPRINT'
+        : doctorResult.value.status
+    : 'ERROR';
   const auditResultsPath = path.join(outDir, 'audit-results.json');
   const auditReportPath = path.join(outDir, 'BRIK64_AUDIT_REPORT.md');
   const blueprintPlanPath = path.join(blueprintOut, 'BRIK64_BLUEPRINT_PLAN.md');
   const report = {
     schemaVersion: 'brik64.cli_audit_aggregate.v1',
     cliVersion: version,
-    status: doctorResult.ok && doctorResult.value.status === 'PASS' && ledgerResult.ok && ledgerResult.value.status === 'PASS' && explainFailures.length === 0 ? 'PASS' : 'WARN',
+    status: doctorScopedPass && ledgerResult.ok && ledgerResult.value.status === 'PASS' && explainFailures.length === 0 && blueprintResult.ok ? 'PASS' : 'WARN',
     target: root,
     auditReport: path.relative(process.cwd(), auditReportPath),
     auditResults: path.relative(process.cwd(), auditResultsPath),
@@ -6504,12 +6533,16 @@ function auditCommand(target, args = []) {
       blueprintPlan: path.relative(process.cwd(), blueprintPlanPath)
     },
     checks: {
-      doctor: doctorResult.ok ? doctorResult.value.status : 'ERROR',
+      doctor: doctorStatus,
       ledger: ledgerResult.ok ? ledgerResult.value.status : 'ERROR',
       lintPolicy: lintResult.ok ? 'RECORDED' : 'ERROR',
-      pcdCount: pcds.length,
+      pcdCount: effectivePcdCount,
+      workspacePcdCount: pcds.length,
+      blueprintCertifiedPcdCount: Number(blueprintCounts.certifiedPcdCount || 0),
+      blueprintPolymerCount: effectivePolymerCount,
       explainFailures: explainFailures.length,
-      blueprint: blueprintResult.ok ? 'RECORDED' : 'ERROR'
+      blueprint: blueprintResult.ok ? 'RECORDED' : 'ERROR',
+      initializedByAudit
     },
     claimBoundary: 'local_developer_assurance_loop_not_whole_application_proof'
   };
@@ -6519,10 +6552,13 @@ function auditCommand(target, args = []) {
     `- CLI: ${version}`,
     `- Status: ${report.status}`,
     `- Target: ${root}`,
-    `- PCD count: ${pcds.length}`,
+    `- PCD count: ${effectivePcdCount}`,
+    `- Blueprint certified PCDs: ${report.checks.blueprintCertifiedPcdCount}`,
+    `- Blueprint polymers: ${report.checks.blueprintPolymerCount}`,
     `- Doctor: ${report.checks.doctor}`,
     `- Ledger: ${report.checks.ledger}`,
     `- Explain failures: ${report.checks.explainFailures}`,
+    `- Initialized by audit: ${initializedByAudit}`,
     `- Blueprint output: ${report.outputs.blueprintDir}`,
     '',
     'Claim boundary: local scoped developer assurance only; not full application proof, compliance certification, self-hosting, or formal correctness.',

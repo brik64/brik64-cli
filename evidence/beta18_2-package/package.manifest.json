@@ -8,8 +8,8 @@
   "generationClaim": "pcd_contract_backed_candidate",
   "package": {
     "path": "evidence/beta18_2-package/brik64-cli-0.1.0-beta.18.2.tgz",
-    "sha256": "91fdc95b8b22c29e56f5ca47a19c01151c807245ecbc1b278606623f27e46bc3",
-    "bytes": 181902
+    "sha256": "6bd173ee84c1364e35e420839f7da00e23f0befae8d9c0a6e53ff8c86e253d70",
+    "bytes": 182265
   },
   "inputs": [
     "src/brik.js",

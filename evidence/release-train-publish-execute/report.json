@@ -2,13 +2,18 @@
   "schemaVersion": "brik64.release_train_publish_execute_report.v1",
   "releaseId": "brik64-0.1.0-beta.18.2",
   "version": "0.1.0-beta.18.2",
-  "manifestDigest": "4d47bce4906754273803742f0867f8b51b035905e37ac93d71c17acb870c5063",
-  "sourceHead": "c4bbd52",
-  "publishRequested": true,
-  "publicationMutated": true,
-  "decision": "FAIL_RELEASE_TRAIN_PUBLISH_EXECUTE",
-  "boundary": "Mutation mode executes ordered publication commands after full preflight.",
-  "dirtyFiles": [],
+  "manifestDigest": "e05180646538e3ce8823aba161c850bcbadb26ce0e1e20964e382b53b55b6f51",
+  "sourceHead": "adfcac1",
+  "publishRequested": false,
+  "publicationMutated": false,
+  "decision": "PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN",
+  "boundary": "Dry-run mode validates the ordered publication commands and never mutates public surfaces.",
+  "dirtyFiles": [
+    "evidence/beta18_2-docs-web-sync/report.json",
+    "release/manifest.json",
+    "scripts/tests/test_beta18_2_developer_assurance_loop.sh",
+    "src/brik.js"
+  ],
   "commandPreflight": [
     {
       "name": "github_release",
@@ -71,25 +76,10 @@
       "failures": []
     }
   ],
-  "executed": [
-    {
-      "name": "github_release",
-      "rc": 0,
-      "elapsedMs": 5651,
-      "stdout": "{\"ref\":\"refs/tags/v0.1.0-beta.18.2\",\"node_id\":\"REF_kwDOSvpCcrpyZWZzL3RhZ3MvdjAuMS4wLWJldGEuMTguMg\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.18.2\",\"object\":{\"sha\":\"c4bbd5273ec5808e9d654b7d2d79cc7e8fcd40e9\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/commits/c4bbd5273ec5808e9d654b7d2d79cc7e8fcd40e9\"}}{\"ref\":\"refs/tags/v0.1.0-beta.18.2\",\"node_id\":\"REF_kwDOSvpCcrpyZWZzL3RhZ3MvdjAuMS4wLWJldGEuMTguMg\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/refs/tags/v0.1.0-beta.18.2\",\"object\":{\"sha\":\"c4bbd5273ec5808e9d654b7d2d79cc7e8fcd40e9\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/brik64/brik64-cli/git/commits/c4bbd5273ec5808e9d654b7d2d79cc7e8fcd40e9\"}}https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2\nhttps://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2\n",
-      "stderr": "release not found\n"
-    },
-    {
-      "name": "sdk_npm",
-      "rc": 1,
-      "elapsedMs": 2469,
-      "stdout": "",
-      "stderr": "npm notice\nnpm notice 📦  @brik64/core@0.1.0-beta.18.2\nnpm notice Tarball Contents\nnpm notice 269B LICENSE\nnpm notice 2.0kB README.md\nnpm notice 692B dist/eva/index.d.ts\nnpm notice 972B dist/eva/index.d.ts.map\nnpm notice 797B dist/eva/index.js\nnpm notice 965B dist/eva/index.js.map\nnpm notice 325B dist/index.d.ts\nnpm notice 192B dist/index.d.ts.map\nnpm notice 1.8kB dist/index.js\nnpm notice 178B dist/index.js.map\nnpm notice 1.3kB dist/mc/arithmetic.d.ts\nnpm notice 901B dist/mc/arithmetic.d.ts.map\nnpm notice 1.8kB dist/mc/arithmetic.js\nnpm notice 2.0kB dist/mc/arithmetic.js.map\nnpm notice 837B dist/mc/audio.d.ts\nnpm notice 716B dist/mc/audio.d.ts.map\nnpm notice 1.6kB dist/mc/audio.js\nnpm notice 1.3kB dist/mc/audio.js.map\nnpm notice 753B dist/mc/concurrency.d.ts\nnpm notice 643B dist/mc/concurrency.d.ts.map\nnpm notice 1.6kB dist/mc/concurrency.js\nnpm notice 1.2kB dist/mc/concurrency.js.map\nnpm notice 572B dist/mc/control.d.ts\nnpm notice 758B dist/mc/control.d.ts.map\nnpm notice 867B dist/mc/control.js\nnpm notice 1.2kB dist/mc/control.js.map\nnpm notice 671B dist/mc/crypto.d.ts\nnpm notice 643B dist/mc/crypto.d.ts.map\nnpm notice 1.8kB dist/mc/crypto.js\nnpm notice 2.5kB dist/mc/crypto.js.map\nnpm notice 801B dist/mc/filesystem.d.ts\nnpm notice 686B dist/mc/filesystem.d.ts.map\nnpm notice 1.6kB dist/mc/filesystem.js\nnpm notice 1.2kB dist/mc/filesystem.js.map\nnpm notice 876B dist/mc/float64.d.ts\nnpm notice 714B dist/mc/float64.d.ts.map\nnpm notice 1.0kB dist/mc/float64.js\nnpm notice 1.0kB dist/mc/float64.js.map\nnpm notice 996B dist/mc/graphics.d.ts\nnpm notice 967B dist/mc/graphics.d.ts.map\nnpm notice 1.6kB dist/mc/graphics.js\nnpm notice 1.4kB dist/mc/graphics.js.map\nnpm notice 485B dist/mc/index.d.ts\nnpm notice 429B dist/mc/index.d.ts.map\nnpm notice 1.5kB dist/mc/index.js\nnpm notice 317B dist/mc/index.js.map\nnpm notice 908B dist/mc/interop.d.ts\nnpm notice 725B dist/mc/interop.d.ts.map\nnpm notice 1.6kB dist/mc/interop.js\nnpm notice 1.2kB dist/mc/interop.js.map\nnpm notice 566B dist/mc/logic.d.ts\nnpm notice 642B dist/mc/logic.d.ts.map\nnpm notice 784B dist/mc/logic.js\nnpm notice 1.1kB dist/mc/logic.js.map\nnpm notice 755B dist/mc/math.d.ts\nnpm notice 654B dist/mc/math.d.ts.map\nnpm notice 966B dist/mc/math.js\nnpm notice 1.1kB dist/mc/math.js.map\nnpm notice 564B dist/mc/memory.d.ts\nnpm notice 718B dist/mc/memory.d.ts.map\nnpm notice 949B dist/mc/memory.js\nnpm notice 1.3kB dist/mc/memory.js.map\nnpm notice 902B dist/mc/network.d.ts\nnpm notice 765B dist/mc/network.d.ts.map\nnpm notice 1.6kB dist/mc/network.js\nnpm notice 1.3kB dist/mc/network.js.map\nnpm notice 630B dist/mc/string.d.ts\nnpm notice 674B dist/mc/string.d.ts.map\nnpm notice 967B dist/mc/string.js\nnpm notice 1.2kB dist/mc/string.js.map\nnpm notice 496B dist/mc/system.d.ts\nnpm notice 522B dist/mc/system.d.ts.map\nnpm notice 1.1kB dist/mc/system.js\nnpm notice 1.3kB dist/mc/system.js.map\nnpm notice 1.3kB package.json\nnpm notice 780B src/eva/index.ts\nnpm notice 290B src/index.ts\nnpm notice 1.6kB src/mc/arithmetic.ts\nnpm notice 1.3kB src/mc/audio.ts\nnpm notice 1.3kB src/mc/concurrency.ts\nnpm notice 660B src/mc/control.ts\nnpm notice 1.5kB src/mc/crypto.ts\nnpm notice 1.3kB src/mc/filesystem.ts\nnpm notice 857B src/mc/float64.ts\nnpm notice 1.5kB src/mc/graphics.ts\nnpm notice 450B src/mc/index.ts\nnpm notice 1.3kB src/mc/interop.ts\nnpm notice 613B src/mc/logic.ts\nnpm notice 782B src/mc/math.ts\nnpm notice 748B src/mc/memory.ts\nnpm notice 1.4kB src/mc/network.ts\nnpm notice 724B src/mc/string.ts\nnpm notice 791B src/mc/system.ts\nnpm notice Tarball Details\nnpm notice name: @brik64/core\nnpm notice version: 0.1.0-beta.18.2\nnpm notice filename: brik64-core-0.1.0-beta.18.2.tgz\nnpm notice package size: 20.8 kB\nnpm notice unpacked size: 92.6 kB\nnpm notice shasum: ef65bbff4e0921ed613d16665f22def8db62517e\nnpm notice integrity: sha512-gTH+x2EISPUZ1[...]Qnth+HQdRwPBg==\nnpm notice total files: 93\nnpm notice\nnpm notice Publishing to https://registry.npmjs.org/ with tag beta and default access\nnpm error code E404\nnpm error 40"
-    }
-  ],
+  "executed": [],
   "blockers": [],
-  "failures": [
-    "command_failed:sdk_npm:1"
-  ],
-  "warnings": []
+  "failures": [],
+  "warnings": [
+    "worktree_dirty_dry_run:4"
+  ]
 }
