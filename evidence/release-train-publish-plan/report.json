@@ -22,10 +22,10 @@
   },
   "signatureReport": {
     "path": "evidence/release-github-verified-signature/report.json",
-    "decision": "BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
-    "commit": "42b90a880f3e6a9a78c9105069465bbc9d9e4e79",
-    "verified": false,
-    "reason": ""
+    "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+    "commit": "ce872ad93d093bf2354cbfe436cb5a81fa4da2be",
+    "verified": true,
+    "reason": "valid"
   },
   "sdkPreflight": {
     "projectVersions": {
@@ -113,8 +113,6 @@
   ],
   "failures": [],
   "warnings": [
-    "github_verified_signature_refresh_failed:2",
-    "github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
     "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
