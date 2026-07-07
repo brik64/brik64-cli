@@ -53,16 +53,25 @@ function fileEvidenceRef(file) {
 
 function run(name, args, options = {}) {
   const startedAt = Date.now();
+  const manifestDigestBefore = fs.existsSync(manifestPath)
+    ? sha256(readText(manifestPath))
+    : null;
   const result = childProcess.spawnSync(args[0], args.slice(1), {
     cwd: root,
     encoding: 'utf8',
     env: process.env
   });
+  const manifestDigestAfter = fs.existsSync(manifestPath)
+    ? sha256(readText(manifestPath))
+    : null;
   return {
     name,
     command: args.join(' '),
     rc: result.status,
     elapsedMs: Date.now() - startedAt,
+    manifestDigestBefore,
+    manifestDigestAfter,
+    manifestMutated: manifestDigestBefore !== manifestDigestAfter,
     stdout: (result.stdout || '').slice(0, options.stdoutLimit || 4000),
     stderr: (result.stderr || '').slice(0, options.stderrLimit || 4000)
   };
