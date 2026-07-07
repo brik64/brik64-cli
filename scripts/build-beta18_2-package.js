@@ -50,6 +50,27 @@ function run(command, args, options = {}) {
   return result;
 }
 
+function readJsonIfExists(file) {
+  try {
+    return JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+function existingPackageMatchesRelease() {
+  if (process.env.BRIK64_FORCE_REPACK === '1') return false;
+  const release = readJsonIfExists(releaseManifestPath);
+  const packageManifest = readJsonIfExists(manifestPath);
+  const packageRel = packageManifest?.package?.path;
+  const packagePath = packageRel ? path.join(root, packageRel) : null;
+  const expectedSha = release?.cli?.package?.sha256;
+  if (!release || !packageManifest || !packagePath || !fs.existsSync(packagePath) || !expectedSha) return false;
+  if (release.version !== version || packageManifest.version !== version) return false;
+  if (packageManifest.package?.sha256 !== expectedSha) return false;
+  return sha256File(packagePath) === expectedSha;
+}
+
 function pypiVersion(value) {
   const match = String(value).match(/^(\d+\.\d+\.\d+)-beta\.(\d+)(?:\.(\d+))?(?:\.(\d+))?$/);
   if (!match) return value;
@@ -79,6 +100,14 @@ if (failures.length) {
   });
   console.error(failures.join('\n'));
   process.exit(1);
+}
+
+if (existingPackageMatchesRelease()) {
+  const packageManifest = readJsonIfExists(manifestPath);
+  console.log(`decision=PASS_BRIK64_CLI_BETA18_2_PACKAGE_BUILT`);
+  console.log(`package=${packageManifest.package.path}`);
+  console.log(`sha256=${packageManifest.package.sha256}`);
+  process.exit(0);
 }
 
 fs.rmSync(outDir, { recursive: true, force: true });
