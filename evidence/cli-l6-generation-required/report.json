@@ -1,6 +1,6 @@
 {
   "schemaVersion": "brik64.cli_l6_generation_required_gate.v1",
-  "generatedAt": "2026-07-07T19:44:24.116Z",
+  "generatedAt": "2026-07-07T19:49:01.392Z",
   "version": "0.1.0-beta.18.2",
   "label": "beta18_2",
   "decision": "PASS_CLI_L6_GENERATION_REQUIRED_GATE",

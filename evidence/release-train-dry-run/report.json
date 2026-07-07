@@ -7,28 +7,25 @@
   "minimalReleaseManifestMode": false,
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "1e2f72292f9994ad325d6266404624ae0a7ba3c65be574d384a16dce379c83fa",
-  "decision": "FAIL_RELEASE_TRAIN_DRY_RUN",
+  "manifestDigest": "c447cb3b7164fbf5456fee20a65df3fe685db448f042d376c61491cea9785dd2",
+  "decision": "PASS_RELEASE_TRAIN_DRY_RUN",
   "publicationAllowed": false,
   "boundary": "Dry-run only. This workflow validates manifest, tests and evidence but never publishes public artifacts.",
-  "initialDirtyFiles": [
-    "release/manifest.json",
-    "scripts/build-beta18_2-package.js"
-  ],
+  "initialDirtyFiles": [],
   "commands": [
     {
       "name": "manifest_validate",
       "command": "node scripts/release-manifest-validate.js --allow-dirty",
       "rc": 0,
-      "elapsedMs": 404,
-      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.18.2\nwarnings=worktree_dirty_allowed:2\n",
+      "elapsedMs": 146,
+      "stdout": "decision=PASS_RELEASE_MANIFEST_VALIDATE\nversion=0.1.0-beta.18.2\n",
       "stderr": ""
     },
     {
       "name": "release_flow_audit",
       "command": "npm run release:flow:audit",
       "rc": 0,
-      "elapsedMs": 618,
+      "elapsedMs": 162,
       "stdout": "\n> @brik64/cli@0.1.0-beta.18.2 release:flow:audit\n> node scripts/release-flow-audit.js\n\ndecision=PASS_RELEASE_FLOW_AUDIT\npublicationAllowed=false\n",
       "stderr": ""
     },
@@ -36,15 +33,15 @@
       "name": "smoke_tests",
       "command": "bash -lc BRIK64_RELEASE_GATES=1 bash -x tests/smoke.sh",
       "rc": 0,
-      "elapsedMs": 11630,
+      "elapsedMs": 4918,
       "stdout": "created=.brik/manifest.json\nprofile=pcd-first\nstructure=modular\ncertificate=program.pcd.cert.json\ncertificate=polymer.pcd.cert.json\ncertificate=stale.pcd.cert.json\ncertificate=legacy.beta7.pcd.cert.json\ncertificate=variant.pcd.cert.json\ncertificate=root.pcd.cert.json\nbrik64-cli bootstrap smoke: PASS\n",
-      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow\n+ BRIK=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.18.2\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW/config\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' 0.1.0-beta.18.2 = 0.1.0-beta.17 ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.18.2'\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (s.includes(\"█████████████\") || !s.includes(\"BRIK64 CLI\")) process.exit(1); });'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --version\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -Eq 'status=(pre_public_candidate|public_beta)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'polymerize <files>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'verify <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'migrate <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'explain <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'telemetry status'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js engine status\n+ grep -q '\"runtimeProfile\": \"l4plus_n5_local\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js engine status\n+ grep -q '\"engine\": \"L4+N5\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[1])' 0.1.0-beta.18.2\n+ BETA_NUMBER=18\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' 0.1.0-beta.18.2\n+ BETA_LABEL=beta18_2\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' 0.1.0-beta.18.2\n+ BETA_DECISION_LABEL=BETA18_2\n+ PACKAGE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/build-beta18-package.sh\n+ SMOKE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18-package-smoke.sh\n+ '[' beta18_2 = beta14_3 ']'\n+ '[' beta18_2 = beta14_4 ']'\n+ '[' beta18_2 = beta14_5 ']'\n+ '[' beta18_2 = beta14_6 ']'\n+ '[' beta18_2 = beta15_2 ']'\n+ '[' beta18_2 = beta15_4 ']'\n+ '[' beta18_2 = beta15_5 ']'\n+ '[' beta18_2 = beta15_6 ']'\n+ '[' beta18_2 = beta15_7 ']'\n+ '[' beta18_2 = beta16_1 ']'\n+ '[' beta18_2 = beta18_2 ']'\n+ PACKAGE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/build-beta18_2-package.js\n+ SMOKE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18_2-package-smoke.sh\n+ PACKAGE_DECISION=PASS_BRIK64_CLI_BETA18_2_PACKAGE_BUILT\n+ SMOKE_DECISION=PASS_BRIK64_CLI_BETA18_2_LOCAL_PACKAGE_SMOKE\n+ test -f /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/build-beta18_2-package.js\n+ test -f /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18_2-package-smoke.sh\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' public '!=' public ']'\n++ bash /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18_2-package-smoke.sh\n+ package_smoke_out=decision=PASS_BRIK64_CLI_BETA18_2_PACKAGE_SMOKE\n+ grep -Eq 'decision=(PASS_BRIK64_CLI_BETA18_2_LOCAL_PACKAGE_SMOKE|PASS_BRIK64_CLI_BETA18_2_PACKAGE_SMOKE)'\n+ node -e 'const fs=require(\"fs\"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,\"utf8\")); const expected = (label === \"beta15_6\" || label === \"beta18_2\") ? true : ((label === \"beta15_5\") && state === \"public\"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' beta18_2 public\n+ '[' 18 = 9 ']'\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js init --profile startup --structure modular --dry-run --json\n+ grep -q '\"status\": \"DRY_RUN\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js init\n+ test -f .brik/manifest.json\n+ test -d pcd/core\n+ test -d pcd/extended\n+ test -d pcd/polymers\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.managedRuntime !== \"managed_platform\") process.exit(1)'\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.preferred_engine !== \"auto\" || m.polymer_strategy !== \"local_ast\" || m.managed_platform.routing !== \"local_default\") process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js account status\n+ grep -q 'tier: free'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js login --token-env BRIK64_MISSING_TOKEN\n+ grep -q login_token_env_missing /tmp/brik-login.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry status\n+ grep -q '\"enabled\": false'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry explain\n+ grep -q networkSent=false\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry enable\n+ grep -q telemetry=enabled\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry status\n+ grep -q '\"enabled\": true'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry export\n+ grep -q '\"rawSourceIncluded\": false'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js feedback --category bug --message 'token=abc carlos@example.com /Users/carlosjperez/private'\n+ grep -q '\\[redacted'\n+ test -f .brik/feedback-preview.json\n+ grep -q '\\[redacted_email\\]' .brik/feedback-preview.json\n+ grep -q '\\[redacted_path\\]' .brik/feedback-preview.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry purge-local\n+ grep -q purged=local_telemetry_feedback\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry disable\n+ grep -q telemetry=disabled\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js errors status\n+ grep -q '\"lastReportPresent\": true'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js errors explain-last\n+ grep -q '\"rawPcdIncluded\": false'\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js certify program.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js explain program.pcd\n+ grep -q 'status: PASS'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js explain program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_explain_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js explain program.pcd --suggest --fix-plan --json\n+ grep -q '\"fixPlan\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js test program.pcd --generate-scenarios --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_native_test_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js diff program.pcd program.pcd --json\n+ grep -q '\"status\": \"UNCHANGED\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js doc program.pcd --format markdown --out docs/brik64 --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_doc_report.v1\"'\n+ test -f docs/brik64/program.md\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js lint-policy program.pcd --policy all --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_policy_lint_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js verify program.pcd\n+ grep -q verification=PASS\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js verify program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_local_verify_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js verify program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-verify-cloud.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js polymerize program.pcd --out polymer.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_polymer_manifest.v1\"'\n+ test -f polymer.pcd\n+ test -f polymer.pcd.manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js certify polymer.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js polymerize program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-poly-cloud.err\n+ for target in ts rust python\n+ out=out-ts\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW/out-ts/program/program.mjs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW/out-ts/program/program.test.mjs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.0BDfGlSWrW/out-rust/program/pr"
+      "stderr": "+ set -euo pipefail\n+++ dirname tests/smoke.sh\n++ cd tests/..\n++ pwd\n+ ROOT_DIR=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow\n+ BRIK=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js\n++ node -e 'const fs=require(\"fs\"); process.stdout.write(JSON.parse(fs.readFileSync(\"package.json\",\"utf8\")).version)'\n+ PACKAGE_VERSION=0.1.0-beta.18.2\n++ mktemp -d\n+ tmpdir=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v\n+ trap cleanup EXIT\n+ export BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v/config\n+ BRIK64_CONFIG_HOME=/var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v/config\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' 0.1.0-beta.18.2 = 0.1.0-beta.17 ']'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --version\n+ grep -q 'BRIK64 CLI 0.1.0-beta.18.2'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --version\n+ node -e 'let s=\"\"; process.stdin.on(\"data\", (d) => { s += d; }); process.stdin.on(\"end\", () => { s = s.replace(/\\x1b\\[[0-9;]*m/g, \"\"); if (s.includes(\"█████████████\") || !s.includes(\"BRIK64 CLI\")) process.exit(1); });'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -Eq 'status=(pre_public_candidate|public_beta)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'polymerize <files>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'verify <file.pcd>'\n+ grep -q 'migrate <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'explain <file.pcd>'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js --help\n+ grep -q 'telemetry status'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js engine status\n+ grep -q '\"runtimeProfile\": \"l4plus_n5_local\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js engine status\n+ grep -q '\"engine\": \"L4+N5\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js engine status\n+ grep -q '\"nativeExecutableIncluded\": false'\n+ '[' 1 = 1 ']'\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[1])' 0.1.0-beta.18.2\n+ BETA_NUMBER=18\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' 0.1.0-beta.18.2\n+ BETA_LABEL=beta18_2\n++ node -e 'const v=process.argv[1]; const m=v.match(/-beta\\.(\\d+)(?:\\.(\\d+))?(?:\\.\\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `BETA${m[1]}_${m[2]}` : `BETA${m[1]}`)' 0.1.0-beta.18.2\n+ BETA_DECISION_LABEL=BETA18_2\n+ PACKAGE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/build-beta18-package.sh\n+ SMOKE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18-package-smoke.sh\n+ '[' beta18_2 = beta14_3 ']'\n+ '[' beta18_2 = beta14_4 ']'\n+ '[' beta18_2 = beta14_5 ']'\n+ '[' beta18_2 = beta14_6 ']'\n+ '[' beta18_2 = beta15_2 ']'\n+ '[' beta18_2 = beta15_4 ']'\n+ '[' beta18_2 = beta15_5 ']'\n+ '[' beta18_2 = beta15_6 ']'\n+ '[' beta18_2 = beta15_7 ']'\n+ '[' beta18_2 = beta16_1 ']'\n+ '[' beta18_2 = beta18_2 ']'\n+ PACKAGE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/build-beta18_2-package.js\n+ SMOKE_SCRIPT=/Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18_2-package-smoke.sh\n+ PACKAGE_DECISION=PASS_BRIK64_CLI_BETA18_2_PACKAGE_BUILT\n+ SMOKE_DECISION=PASS_BRIK64_CLI_BETA18_2_LOCAL_PACKAGE_SMOKE\n+ test -f /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/build-beta18_2-package.js\n+ test -f /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18_2-package-smoke.sh\n++ node -e 'const fs=require(\"fs\"); const p=\"release/manifest.json\"; if (!fs.existsSync(p)) { process.stdout.write(\"missing\"); process.exit(0); } const m=JSON.parse(fs.readFileSync(p,\"utf8\")); process.stdout.write(m.state || \"missing\")'\n+ MANIFEST_STATE=public\n+ '[' public '!=' public ']'\n++ bash /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/scripts/beta18_2-package-smoke.sh\n+ package_smoke_out=decision=PASS_BRIK64_CLI_BETA18_2_PACKAGE_SMOKE\n+ grep -Eq 'decision=(PASS_BRIK64_CLI_BETA18_2_LOCAL_PACKAGE_SMOKE|PASS_BRIK64_CLI_BETA18_2_PACKAGE_SMOKE)'\n+ node -e 'const fs=require(\"fs\"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,\"utf8\")); const expected = (label === \"beta15_6\" || label === \"beta18_2\") ? true : ((label === \"beta15_5\") && state === \"public\"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' beta18_2 public\n+ '[' 18 = 9 ']'\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js init --profile startup --structure modular --dry-run --json\n+ grep -q '\"status\": \"DRY_RUN\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js init\n+ test -f .brik/manifest.json\n+ test -d pcd/core\n+ test -d pcd/extended\n+ test -d pcd/polymers\n+ test '!' -f AGENTS.md\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.engineTierPolicy.managedRuntime !== \"managed_platform\") process.exit(1)'\n+ node -e 'const fs=require(\"fs\"); const m=JSON.parse(fs.readFileSync(\".brik/manifest.json\",\"utf8\")); if (m.preferred_engine !== \"auto\" || m.polymer_strategy !== \"local_ast\" || m.managed_platform.routing !== \"local_default\") process.exit(1)'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js account status\n+ grep -q 'tier: free'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js login --token-env BRIK64_MISSING_TOKEN\n+ grep -q login_token_env_missing /tmp/brik-login.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry status\n+ grep -q '\"enabled\": false'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry explain\n+ grep -q networkSent=false\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry enable\n+ grep -q telemetry=enabled\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry status\n+ grep -q '\"enabled\": true'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry export\n+ grep -q '\"rawSourceIncluded\": false'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js feedback --category bug --message 'token=abc carlos@example.com /Users/carlosjperez/private'\n+ grep -q '\\[redacted'\n+ test -f .brik/feedback-preview.json\n+ grep -q '\\[redacted_email\\]' .brik/feedback-preview.json\n+ grep -q '\\[redacted_path\\]' .brik/feedback-preview.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry purge-local\n+ grep -q purged=local_telemetry_feedback\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js telemetry disable\n+ grep -q telemetry=disabled\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js doctor\n+ grep -q pcd_inventory_empty /tmp/brik-empty-doctor.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js errors status\n+ grep -q '\"lastReportPresent\": true'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js errors explain-last\n+ grep -q '\"rawPcdIncluded\": false'\n+ cat\n+ cd /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd\n+ grep -q certificate_required /tmp/brik-emit.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js certify program.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js explain program.pcd\n+ grep -q 'status: PASS'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js explain program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_explain_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js explain program.pcd --suggest --fix-plan --json\n+ grep -q '\"fixPlan\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js test program.pcd --generate-scenarios --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_native_test_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js diff program.pcd program.pcd --json\n+ grep -q '\"status\": \"UNCHANGED\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js doc program.pcd --format markdown --out docs/brik64 --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_doc_report.v1\"'\n+ test -f docs/brik64/program.md\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js lint-policy program.pcd --policy all --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_policy_lint_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd\n+ grep -q pcd_sha256=\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js verify program.pcd\n+ grep -q verification=PASS\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js verify program.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_local_verify_report.v1\"'\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js verify program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-verify-cloud.err\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js polymerize program.pcd --out polymer.pcd --json\n+ grep -q '\"schemaVersion\": \"brik64.cli_polymer_manifest.v1\"'\n+ test -f polymer.pcd\n+ test -f polymer.pcd.manifest.json\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js certify polymer.pcd\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js polymerize program.pcd --cloud\n+ grep -q managed_entitlement_required /tmp/brik-poly-cloud.err\n+ for target in ts rust python\n+ out=out-ts\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd --target ts --out out-ts --tests\n+ grep -q generated= /tmp/brik-emit-ts.out\n+ grep -q tests= /tmp/brik-emit-ts.out\n+ for target in ts rust python\n+ out=out-rust\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd --target rust --out out-rust --tests\n+ grep -q generated= /tmp/brik-emit-rust.out\n+ grep -q tests= /tmp/brik-emit-rust.out\n+ for target in ts rust python\n+ out=out-python\n+ node /Users/carlosjperez/Documents/GitHub/brik64-cli-blueprint-flow/src/brik.js emit program.pcd --target python --out out-python --tests\n+ grep -q generated= /tmp/brik-emit-python.out\n+ grep -q tests= /tmp/brik-emit-python.out\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v/out-ts/program/program.mjs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v/out-ts/program/program.test.mjs\n+ test -f /var/folders/rh/rrm90qbs1_qc0816bjfd4hwh0000gn/T/tmp.RCQVDOdU7v/out-rust/program/pr"
     },
     {
       "name": "cli_l6_generation_required",
       "command": "npm run gate:cli:l6-generation-required",
       "rc": 0,
-      "elapsedMs": 569,
+      "elapsedMs": 156,
       "stdout": "\n> @brik64/cli@0.1.0-beta.18.2 gate:cli:l6-generation-required\n> node scripts/cli-l6-generation-required-gate.js\n\nPASS_CLI_L6_GENERATION_REQUIRED_GATE evidence/cli-l6-generation-required/report.json\n",
       "stderr": ""
     },
@@ -52,7 +49,7 @@
       "name": "beta18_2_feature_parity",
       "command": "node scripts/beta18_2-feature-parity-gate.js",
       "rc": 0,
-      "elapsedMs": 1053,
+      "elapsedMs": 539,
       "stdout": "decision=PASS_BETA18_2_FEATURE_PARITY_GATE\n",
       "stderr": ""
     },
@@ -60,7 +57,7 @@
       "name": "beta18_2_local_package",
       "command": "node scripts/build-beta18_2-package.js",
       "rc": 0,
-      "elapsedMs": 1772,
+      "elapsedMs": 669,
       "stdout": "decision=PASS_BRIK64_CLI_BETA18_2_PACKAGE_BUILT\npackage=evidence/beta18_2-package/brik64-cli-0.1.0-beta.18.2.tgz\nsha256=6bd173ee84c1364e35e420839f7da00e23f0befae8d9c0a6e53ff8c86e253d70\n",
       "stderr": ""
     },
@@ -68,7 +65,7 @@
       "name": "beta18_2_package_smoke",
       "command": "node scripts/beta18_2-package-smoke.js",
       "rc": 0,
-      "elapsedMs": 1844,
+      "elapsedMs": 455,
       "stdout": "decision=PASS_BRIK64_CLI_BETA18_2_PACKAGE_SMOKE\n",
       "stderr": ""
     },
@@ -76,7 +73,7 @@
       "name": "beta18_2_sdk_sync",
       "command": "node scripts/beta18_2-sdk-sync-gate.js",
       "rc": 0,
-      "elapsedMs": 79,
+      "elapsedMs": 38,
       "stdout": "decision=PASS_BETA18_2_SDK_SYNC_GATE\n",
       "stderr": ""
     },
@@ -84,7 +81,7 @@
       "name": "beta18_2_marketplace_packages",
       "command": "node scripts/beta18_2-marketplace-package-gate.js",
       "rc": 0,
-      "elapsedMs": 145,
+      "elapsedMs": 36,
       "stdout": "decision=PASS_BETA18_2_MARKETPLACE_PACKAGE_GATE\n",
       "stderr": ""
     },
@@ -92,7 +89,7 @@
       "name": "beta18_2_skills_sync",
       "command": "node scripts/beta18_2-skills-sync-gate.js",
       "rc": 0,
-      "elapsedMs": 96,
+      "elapsedMs": 39,
       "stdout": "decision=PASS_BETA18_2_SKILLS_SYNC_GATE\n",
       "stderr": ""
     },
@@ -100,7 +97,7 @@
       "name": "beta18_2_docs_web_sync",
       "command": "node scripts/beta18_2-docs-web-sync-gate.js",
       "rc": 0,
-      "elapsedMs": 88,
+      "elapsedMs": 41,
       "stdout": "decision=PASS_BETA18_2_DOCS_WEB_SYNC_GATE\n",
       "stderr": ""
     },
@@ -108,7 +105,7 @@
       "name": "sync_surfaces",
       "command": "node scripts/release-train-sync-surfaces.js",
       "rc": 0,
-      "elapsedMs": 86,
+      "elapsedMs": 39,
       "stdout": "decision=PASS_RELEASE_TRAIN_SYNC_SURFACES\npublicationAllowed=false\n",
       "stderr": ""
     },
@@ -116,16 +113,16 @@
       "name": "publish_plan",
       "command": "bash -lc BRIK64_RELEASE_TRAIN_DRY_RUN_IN_PROGRESS=1 node scripts/release-train-publish-plan.js",
       "rc": 0,
-      "elapsedMs": 3044,
-      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift\n",
+      "elapsedMs": 1317,
+      "stdout": "decision=PASS_PUBLISH_PLAN_DRY_RUN\npublicationAllowed=false\nwarnings=github_verified_signature_refresh_failed:2,github_verified_signature_not_pass:BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE,dry_run_report_currently_being_generated,pre_publish_live_verify_manifest_digest_drift\n",
       "stderr": ""
     },
     {
       "name": "publish_execute_dry_run",
       "command": "node scripts/release-train-publish-execute.js",
       "rc": 0,
-      "elapsedMs": 2123,
-      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN\npublicationMutated=false\nwarnings=worktree_dirty_dry_run:2\n",
+      "elapsedMs": 164,
+      "stdout": "decision=PASS_RELEASE_TRAIN_PUBLISH_EXECUTE_DRY_RUN\npublicationMutated=false\n",
       "stderr": ""
     }
   ],
@@ -138,7 +135,5 @@
       "pass": true
     }
   ],
-  "failures": [
-    "initial_worktree_dirty:2"
-  ]
+  "failures": []
 }
