@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_package_manifest.v1",
+  "version": "0.1.0-beta.18.2",
+  "decision": "PASS_BRIK64_CLI_BETA18_2_PACKAGE_BUILT",
+  "releaseEligible": true,
+  "publicationAllowed": true,
+  "lane": "cli_0_1_beta",
+  "generationClaim": "pcd_contract_backed_candidate",
+  "package": {
+    "path": "evidence/beta18_2-package/brik64-cli-0.1.0-beta.18.2.tgz",
+    "sha256": "6bd173ee84c1364e35e420839f7da00e23f0befae8d9c0a6e53ff8c86e253d70",
+    "bytes": 182265
+  },
+  "inputs": [
+    "src/brik.js",
+    "package.json",
+    ".brik/manifest.json",
+    "engines/l4plus-n5/runtime-bundle.manifest.json",
+    "engines/l4plus-n5/serial.txt",
+    "engines/l4plus-n5/checksums.tsv",
+    "pcd/beta18_2/release/developer_assurance_loop_contract.pcd"
+  ],
+  "claimBoundary": {
+    "publicClaimsAllowed": true,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

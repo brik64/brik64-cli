@@ -68,16 +68,25 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pytest
 
-      - name: Validate release train pre-publication
-        env:
-          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
-        run: npm run release:train:dry-run
-
       - name: Check requested manifest digest
         shell: bash
         run: |
           set -euo pipefail
           ACTUAL="$(node -e 'const fs=require("fs"),crypto=require("crypto"); process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync("release/manifest.json","utf8")).digest("hex"))')"
+          echo "release_manifest_digest=$ACTUAL"
+          test "$ACTUAL" = "${{ inputs.manifest_digest }}"
+
+      - name: Validate release train pre-publication
+        env:
+          GH_TOKEN: ${{ secrets.BRIK64_GITHUB_RELEASE_TOKEN }}
+        run: npm run release:train:dry-run
+
+      - name: Check manifest digest after pre-publication validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTUAL="$(node -e 'const fs=require("fs"),crypto=require("crypto"); process.stdout.write(crypto.createHash("sha256").update(fs.readFileSync("release/manifest.json","utf8")).digest("hex"))')"
+          echo "release_manifest_digest_after_dry_run=$ACTUAL"
           test "$ACTUAL" = "${{ inputs.manifest_digest }}"
 
       - name: Generate sync payload
@@ -134,7 +143,7 @@ jobs:
           set -euo pipefail
           VERSION="$(node -e 'const fs=require("fs"); process.stdout.write(JSON.parse(fs.readFileSync("release/manifest.json","utf8")).version)')"
           BETA_LABEL="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `beta${m[1]}_${m[2]}` : `beta${m[1]}`)' "$VERSION")"
-          SMOKE_SCRIPT="$(node -e 'const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/); if (!m) process.exit(1); process.stdout.write(m[2] ? `smoke:beta${m[1]}.${m[2]}:package` : `smoke:beta${m[1]}:package`)' "$VERSION")"
+          SMOKE_SCRIPT="$(node -e 'const fs=require("fs"); const scripts=JSON.parse(fs.readFileSync("package.json","utf8")).scripts || {}; const v=process.argv[1]; const m=v.match(/-beta\.(\d+)(?:\.(\d+))?(?:\.\d+)*$/); if (!m) process.exit(1); const candidates=m[2] ? [`smoke:beta${m[1]}_${m[2]}:package`, `smoke:beta${m[1]}.${m[2]}:package`] : [`smoke:beta${m[1]}:package`]; const found=candidates.find((name)=>scripts[name]); if (!found) { console.error(`missing_smoke_script:${candidates.join("|")}`); process.exit(1); } process.stdout.write(found)' "$VERSION")"
           node - "$BETA_LABEL" <<'NODE'
           const fs = require('fs');
           const crypto = require('crypto');
@@ -276,6 +285,7 @@ jobs:
             evidence/beta9-public-surfaces/sdk-marketplace-publish.json
             evidence/release-github-verified-signature/report.json
             evidence/release-web-surface-sync/report.json
+            evidence/release-train-dry-run/report.json
             evidence/release-train-live-verify/report.json
             evidence/release-train-publish-plan/report.json
             evidence/release-train-publish-execute/report.json

@@ -89,6 +89,10 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
     PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.js"
     SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
   fi
+  if [ "$BETA_LABEL" = "beta18_2" ]; then
+    PACKAGE_SCRIPT="$ROOT_DIR/scripts/build-${BETA_LABEL}-package.js"
+    SMOKE_SCRIPT="$ROOT_DIR/scripts/${BETA_LABEL}-package-smoke.sh"
+  fi
   PACKAGE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_BUILT"
   SMOKE_DECISION="PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_LOCAL_PACKAGE_SMOKE"
   test -f "$PACKAGE_SCRIPT"
@@ -104,7 +108,7 @@ if [ "${BRIK64_RELEASE_GATES:-0}" = "1" ]; then
   fi
   package_smoke_out="$(bash "$SMOKE_SCRIPT")"
   grep -Eq "decision=($SMOKE_DECISION|PASS_BRIK64_CLI_${BETA_DECISION_LABEL}_PACKAGE_SMOKE)" <<<"$package_smoke_out"
-node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = label === "beta15_6" ? true : ((label === "beta15_5") && state === "public"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
+node -e 'const fs=require("fs"); const label=process.argv[1]; const state=process.argv[2]; const r=JSON.parse(fs.readFileSync(`evidence/${label}-package/package.manifest.json`,"utf8")); const expected = (label === "beta15_6" || label === "beta18_2") ? true : ((label === "beta15_5") && state === "public"); if (r.releaseEligible !== expected) { console.error(`release_eligible_drift:${r.releaseEligible}:${expected}`); process.exit(1); }' "$BETA_LABEL" "$MANIFEST_STATE"
   if [ "$BETA_NUMBER" = "9" ]; then
     node -e 'const fs=require("fs"); const r=JSON.parse(fs.readFileSync("evidence/beta9-package/package.manifest.json","utf8")); if (!r.requiredPublicReleaseGates.includes("curl_gcp_installer_beta9")) process.exit(1)'
     beta9_readiness_out="$(node "$ROOT_DIR/scripts/beta9-release-readiness-gate.js")"
@@ -114,8 +118,12 @@ fi
 
 (
   cd "$tmpdir"
+  node "$BRIK" init --profile startup --structure modular --dry-run --json | grep -q '"status": "DRY_RUN"'
   node "$BRIK" init
   test -f .brik/manifest.json
+  test -d pcd/core
+  test -d pcd/extended
+  test -d pcd/polymers
   test ! -f AGENTS.md
   node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.engineTierPolicy.managedRuntime !== "managed_platform") process.exit(1)'
   node -e 'const fs=require("fs"); const m=JSON.parse(fs.readFileSync(".brik/manifest.json","utf8")); if (m.preferred_engine !== "auto" || m.polymer_strategy !== "local_ast" || m.managed_platform.routing !== "local_default") process.exit(1)'
@@ -171,6 +179,12 @@ grep -q "certificate_required" /tmp/brik-emit.err
 node "$BRIK" certify program.pcd
 node "$BRIK" explain program.pcd | grep -q "status: PASS"
 node "$BRIK" explain program.pcd --json | grep -q '"schemaVersion": "brik64.cli_explain_report.v1"'
+node "$BRIK" explain program.pcd --suggest --fix-plan --json | grep -q '"fixPlan"'
+node "$BRIK" test program.pcd --generate-scenarios --json | grep -q '"schemaVersion": "brik64.cli_native_test_report.v1"'
+node "$BRIK" diff program.pcd program.pcd --json | grep -q '"status": "UNCHANGED"'
+node "$BRIK" doc program.pcd --format markdown --out docs/brik64 --json | grep -q '"schemaVersion": "brik64.cli_doc_report.v1"'
+test -f docs/brik64/program.md
+node "$BRIK" lint-policy program.pcd --policy all --json | grep -q '"schemaVersion": "brik64.cli_policy_lint_report.v1"'
 node "$BRIK" emit program.pcd | grep -q "pcd_sha256="
 node "$BRIK" verify program.pcd | grep -q "verification=PASS"
 node "$BRIK" verify program.pcd --json | grep -q '"schemaVersion": "brik64.cli_local_verify_report.v1"'
@@ -206,6 +220,8 @@ test -f "$tmpdir/out-python/tests/test_program.py"
 test ! -f "$tmpdir/out-python/test_program.py"
 node "$BRIK" ledger verify --json | grep -q '"status": "PASS"'
 node "$BRIK" ledger status | grep -q "ledger_status=PASS"
+node "$BRIK" audit . --out .brik/audit --json | grep -q '"schemaVersion": "brik64.cli_audit_aggregate.v1"'
+test -f .brik/audit/BRIK64_AUDIT_REPORT.md
 
 if node "$BRIK" emit program.pcd --target go --out out-go --tests >/tmp/brik-emit-go.out 2>/tmp/brik-emit-go.err; then
   echo "unsupported target should fail closed" >&2

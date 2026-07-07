@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_package_smoke.v1",
+  "version": "0.1.0-beta.18.2",
+  "decision": "PASS_BRIK64_CLI_BETA18_2_PACKAGE_SMOKE",
+  "releaseEligible": true,
+  "failures": []
+}

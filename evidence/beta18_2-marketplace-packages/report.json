@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_marketplace_package_gate.v1",
+  "version": "0.1.0-beta.18.2",
+  "decision": "PASS_BETA18_2_MARKETPLACE_PACKAGE_GATE",
+  "marketplacePublicationAllowed": true,
+  "note": "Pre-publication package coordinate gate. Live marketplace publication is verified by release train live checks.",
+  "failures": []
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_feature_parity_gate.v1",
+  "version": "0.1.0-beta.18.2",
+  "decision": "PASS_BETA18_2_FEATURE_PARITY_GATE",
+  "publicationAllowed": true,
+  "failures": []
+}

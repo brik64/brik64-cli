@@ -3,6 +3,33 @@
 All notable BRIK64 CLI changes are recorded here. This file is required for
 every beta, release candidate, or public release.
 
+## 0.1.0-beta.18.2
+
+### Added
+
+- Adds the Developer Assurance Loop around `brik64 audit`, combining repository
+  inspection, blueprint output, unsupported-logic notes, and local audit reports
+  into one command path.
+- Adds guided workspace setup with `brik64 init --profile` and `--structure` so
+  new projects can start with monolithic or modular review folders.
+- Adds `brik64 explain --suggest --fix-plan`, native `brik64 test`,
+  semantic `brik64 diff`, blueprint `brik64 doc`, and `brik64 lint-policy`
+  commands for day-to-day local review.
+
+### Changed
+
+- Clarifies when output is a certified PCD workflow, SDK logic inventory, or
+  inspection draft so reports do not overstate repository coverage.
+- Aligns the public agent workflow with the new audit-first command path before
+  optional PCD-first or SDK-first follow-up work.
+
+### Compatibility
+
+- SDK package coordinates are aligned to the Beta18.2 publication set.
+- This beta does not establish formal certification for arbitrary user code,
+  universal correctness, independent toolchain closure, or native Windows
+  compatibility.
+
 ## 0.1.0-beta.17
 
 ### Changed

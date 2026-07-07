@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_l6plus_engine_probe.v1",
+  "version": "0.1.0-beta.18.2",
+  "generatedAt": "2026-07-07T09:49:42.904Z",
+  "host": "root@89.167.104.236",
+  "wrapper": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5",
+  "endpointStatus": {
+    "endpointLine": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_7_ready,beta16_native_ready,beta16_1_ready",
+    "resultLine": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\\tavailable",
+    "statusTag": "beta15_7_ready,beta16_native_ready,beta16_1_ready"
+  },
+  "advertisedTags": [
+    "beta15_7_ready",
+    "beta16_native_ready",
+    "beta16_1_ready"
+  ],
+  "remoteRefs": {
+    "wrapper": {
+      "sha256": "e48301915f4937c54f573deb7da89f0a939f5490b016bb2e77ae0dacaac28772",
+      "bytes": 3119,
+      "target": "/opt/brik64/engines/l6plus-n5/bin/brik64-l6plus-n5"
+    },
+    "wrapper_exec_target": {
+      "sha256": "7bad9474a6ff607176c9b00161d917fb0648327b87c684f8b01708a7d7ad758a",
+      "bytes": 851,
+      "target": "/opt/brik64/engines/l6plus-n5/current/native/linux-x86_64/brikc_cli_l6plus"
+    }
+  },
+  "hostProbe": {
+    "status": 0,
+    "auditDecision": "PASS",
+    "stdoutSha256": "5d89b620851b7fff75efae61d54739722b6ef3713a886108cb6a16d68266058f",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "remoteRefProbe": {
+    "status": 0,
+    "stdoutSha256": "d6bfe105d21a88f88240b6dda804df7b46fa26b92e047750e056969ea3ae3f93",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "endpointProbe": {
+    "status": 0,
+    "stdoutSha256": "1c246e282871eea530777c8ecb82979c798742f09abad7bc87a2d4414a416cb5",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "factoryStatusProbe": {
+    "status": "available",
+    "stdoutSha256": "d2a8267107182933cb19b3fb55d0f09e7476167d8f2133c6056ada72901e3560",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "capabilities": []
+  },
+  "factoryRequest": {
+    "path": "evidence/beta18_2-l6-materializer-request/request.json",
+    "sha256": "979d4d14f9a4b9839083c88f4617442c4505457477771b3b322e19866b395ee8",
+    "requestLinePath": "evidence/beta18_2-l6-materializer-request/request.line",
+    "requestLineSha256": "3f6b8f718aa0c6e43873b5991f2a34b169959ff9ae12e6582d5a42ea542d9be1"
+  },
+  "factoryAttempt": {
+    "status": 0,
+    "stdoutSha256": "36836eb5b301f19f26f03d198cb42a53bca1677f8f39e83a2d2e256a71e3e554",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "resultPresent": true,
+    "validation": {
+      "accepted": true,
+      "blockers": []
+    }
+  },
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  }
+}

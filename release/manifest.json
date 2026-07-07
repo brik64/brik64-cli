@@ -1,51 +1,92 @@
 {
   "schemaVersion": "brik64.release_manifest.v1",
-  "releaseId": "brik64-0.1.0-beta.18.1",
-  "version": "0.1.0-beta.18.1",
+  "releaseId": "brik64-0.1.0-beta.18.2",
+  "version": "0.1.0-beta.18.2",
   "channel": "beta",
-  "state": "draft",
+  "state": "public",
   "source": {
-    "commit": "23c28fd0657f85312f9ae48eccb86ee4d7b9a37b",
-    "commitBinding": "candidate_base_commit"
+    "commit": "46b502d5a30214f00bbe14d0ade2412017933135",
+    "commitBinding": "public_release_base_commit"
   },
   "cli": {
+    "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
+    "verifyCommand": "brik64 --version && brik64 help",
     "package": {
-      "path": "evidence/beta18_1-package/brik64-cli-0.1.0-beta.18.1.tgz",
-      "sha256": "cdd17bb7ab11024d65ee9c0bb7736ab00fdeace355512d172b9cf30e678a4e54",
-      "bytes": 4676984
+      "path": "evidence/beta18_2-package/brik64-cli-0.1.0-beta.18.2.tgz",
+      "sha256": "6bd173ee84c1364e35e420839f7da00e23f0befae8d9c0a6e53ff8c86e253d70",
+      "bytes": 182265
+    }
+  },
+  "publicSurfaces": {
+    "githubRelease": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "tag": "v0.1.0-beta.18.2",
+      "url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.18.2"
+    },
+    "curlInstaller": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/cli/install.sh"
+    },
+    "channelManifest": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/cli/beta.json"
+    },
+    "web": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/download"
+    },
+    "docs": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://docs.brik64.com"
+    },
+    "skills": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "repo": "brik64/brik64-tools-skills",
+      "url": "https://github.com/brik64/brik64-tools-skills"
+    },
+    "releaseManifest": {
+      "required": true,
+      "status": "pending_release_train_publish",
+      "url": "https://brik64.com/cli/releases/0.1.0-beta.18.2.json"
     }
   },
   "releaseNotes": [
     {
       "type": "added",
       "surface": "blueprint",
-      "text": "Adds explicit blueprint output modes for certified PCD candidates, SDK logic inventories, and inspection drafts."
+      "text": "Adds developer assurance loop output modes for certified PCD candidates, SDK logic inventories, and inspection drafts."
     },
     {
       "type": "changed",
       "surface": "skills",
-      "text": "Aligns agent workflows around logic planning before selecting PCD-first or BRIK64 SDK-first implementation routes."
+      "text": "Aligns agent workflows around developer assurance commands before scoped PCD-first or SDK-first closeout."
     }
   ],
   "sdks": [
     {
       "marketplace": "npm",
       "name": "@brik64/core",
-      "version": "0.1.0-beta.18.1",
+      "version": "0.1.0-beta.18.2",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "pypi",
       "name": "brik64",
-      "version": "0.1.0b18.post1",
+      "version": "0.1.0b18.post2",
       "required": true,
       "publication": "pending_release_train_publish"
     },
     {
       "marketplace": "crates.io",
       "name": "brik64-core",
-      "version": "0.1.0-beta.18.1",
+      "version": "0.1.0-beta.18.2",
       "required": true,
       "publication": "pending_release_train_publish"
     }

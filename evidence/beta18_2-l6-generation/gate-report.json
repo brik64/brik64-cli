@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "brik64.cli_beta18_2_l6_generation_gate.v1",
+  "version": "0.1.0-beta.18.2",
+  "generatedAt": "2026-07-07T09:49:42.913Z",
+  "decision": "PASS_BETA18_2_L6_GENERATION_GATE",
+  "publicationAllowed": true,
+  "releasePublicationAllowed": true,
+  "claimBoundary": {
+    "publicClaimsAllowed": false,
+    "formalN5ClaimAllowed": false,
+    "fixpointClaimAllowed": false,
+    "selfHostingClaimAllowed": false,
+    "rustIndependenceClaimAllowed": false
+  },
+  "blockers": [],
+  "remoteCapability": {
+    "endpointStatus": {
+      "endpointLine": "BRIK64_L6_CLI_MATERIALIZER_ENDPOINT\\tinstalled\\tbeta15_7_ready,beta16_native_ready,beta16_1_ready",
+      "resultLine": "BRIK64_L6_CLI_MATERIALIZATION_RESULT\\tavailable",
+      "statusTag": "beta15_7_ready,beta16_native_ready,beta16_1_ready"
+    },
+    "advertisedTags": [
+      "beta15_7_ready",
+      "beta16_native_ready",
+      "beta16_1_ready"
+    ],
+    "beta18_2Ready": false,
+    "artifactFactoryStatus": {
+      "line": "BRIK64_L6PLUS_PCD_ARTIFACT_FACTORY_RESULT\tavailable",
+      "status": "available",
+      "capabilities": []
+    },
+    "artifactFactoryAccepted": true
+  }
+}

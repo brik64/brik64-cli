@@ -1,0 +1,29 @@
+// brik64.pcd_file.v1
+// claim_boundary: local_candidate_only
+PC developer_assurance_loop_contract {
+    domain init_profiles: i64 [0, 1];
+    domain explain_guidance: i64 [0, 1];
+    domain native_test: i64 [0, 1];
+    domain semantic_diff: i64 [0, 1];
+    domain doc_blueprint: i64 [0, 1];
+    domain policy_lint: i64 [0, 1];
+    domain audit_aggregate: i64 [0, 1];
+    fn developer_assurance_loop_contract(
+        init_profiles: i64,
+        explain_guidance: i64,
+        native_test: i64,
+        semantic_diff: i64,
+        doc_blueprint: i64,
+        policy_lint: i64,
+        audit_aggregate: i64
+    ) -> i64 {
+        if (init_profiles == 0) return 0;
+        if (explain_guidance == 0) return 0;
+        if (native_test == 0) return 0;
+        if (semantic_diff == 0) return 0;
+        if (doc_blueprint == 0) return 0;
+        if (policy_lint == 0) return 0;
+        if (audit_aggregate == 0) return 0;
+        return 1;
+    }
+}

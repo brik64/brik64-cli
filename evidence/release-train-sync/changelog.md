@@ -1,5 +1,9 @@
-## 0.1.0-beta.17
+## 0.1.0-beta.18.2
 
-### Fixed
+### Added
 
-- Replaces the Beta17 generated CLI wrapper with a functional command runtime, packages the local offline runtime bundle, and hardens package smoke checks so placeholder command responses cannot pass release validation.
+- Adds developer assurance loop output modes for certified PCD candidates, SDK logic inventories, and inspection drafts.
+
+### Changed
+
+- Aligns agent workflows around developer assurance commands before scoped PCD-first or SDK-first closeout.
