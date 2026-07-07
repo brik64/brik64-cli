@@ -1,28 +1,25 @@
 {
   "schemaVersion": "brik64.release_github_verified_signature_gate.v1",
-  "generatedAt": "2026-07-07T19:29:40.348Z",
+  "generatedAt": "2026-07-07T19:39:12.103Z",
   "releaseId": "brik64-0.1.0-beta.18.2",
   "version": "0.1.0-beta.18.2",
-  "decision": "BLOCKED_RELEASE_GITHUB_VERIFIED_SIGNATURE",
+  "decision": "PASS_RELEASE_GITHUB_VERIFIED_SIGNATURE",
   "repo": "brik64/brik64-cli",
-  "commit": "ba3f8b657d1801a5e369725ec73897644d67625e",
+  "commit": "60baadfb8b2f4b439c822225b51304ceac5f8dc6",
   "verification": {
     "source": "gh",
-    "verified": false,
-    "reason": "",
-    "verifiedAt": null,
-    "payloadPresent": false
+    "verified": true,
+    "reason": "valid",
+    "verifiedAt": "2026-07-07T19:30:43Z",
+    "payloadPresent": true
   },
   "sourceReport": "evidence/beta8-github-verified-signature/report.json",
   "boundary": {
     "gateKind": "release_integrity_identity_gate",
     "compilerFunctionalityEvidence": false,
-    "publicReleaseAllowed": false,
+    "publicReleaseAllowed": true,
     "adminOverrideAllowed": false
   },
-  "failures": [
-    "source_signature_gate_failed:2",
-    "commit_not_github_verified"
-  ],
+  "failures": [],
   "warnings": []
 }
