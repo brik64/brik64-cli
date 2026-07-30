@@ -4,10 +4,23 @@
   "version": "0.1.0-beta.15.4",
   "channel": "beta",
   "state": "public",
-  "manifestDigest": "29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
+  "manifestDigest": "cc17b069220baf53e01d6feb40f16be5f382824730990c0c2d3e7e97968974ee",
   "installCommand": "curl -fsSL https://brik64.com/cli/install.sh | bash",
+  "githubReleaseUrl": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.4",
+  "release_url": "https://github.com/brik64/brik64-cli/releases/tag/v0.1.0-beta.15.4",
   "sdkInstall": {
-    "undefined": {
+    "npm": {
+      "name": "@brik64/core",
+      "marketplace": "npm",
+      "version": "0.1.0-beta.15.4"
+    },
+    "pypi": {
+      "name": "brik64",
+      "marketplace": "pypi",
+      "version": "0.1.0b15.post4"
+    },
+    "crates.io": {
+      "name": "brik64-core",
       "marketplace": "crates.io",
       "version": "0.1.0-beta.15.4"
     }

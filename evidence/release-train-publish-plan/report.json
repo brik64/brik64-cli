@@ -2,12 +2,12 @@
   "schemaVersion": "brik64.release_train_publish_plan.v1",
   "releaseId": "brik64-0.1.0-beta.15.4",
   "version": "0.1.0-beta.15.4",
-  "manifestDigest": "29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
-  "decision": "PASS_PUBLISH_PLAN_DRY_RUN",
-  "dryRunInProgress": true,
+  "manifestDigest": "cc17b069220baf53e01d6feb40f16be5f382824730990c0c2d3e7e97968974ee",
+  "decision": "FAIL_PUBLISH_PREFLIGHT",
+  "dryRunInProgress": false,
   "publishRequested": false,
   "publicationAllowed": false,
-  "expectedConfirm": "PUBLISH 0.1.0-beta.15.4 29362f92a34a3ce4c8f9ada777c49da10d5000aad3d26ca9a3d0dfe880d8df99",
+  "expectedConfirm": "PUBLISH 0.1.0-beta.15.4 cc17b069220baf53e01d6feb40f16be5f382824730990c0c2d3e7e97968974ee",
   "secretAvailability": {
     "BRIK64_GITHUB_RELEASE_TOKEN": true,
     "BRIK64_NPM_TOKEN": true,
@@ -96,10 +96,10 @@
     "Create a GitHub Release note amendment that points to the superseding manifest.",
     "Run release-train-live-verify and keep the failed report as evidence."
   ],
-  "failures": [],
+  "failures": [
+    "github_verified_signature_commit_drift:0cd226ebbc0c3807545fc6367227b6919415f2de:4d3624da5b67afde9d9b8086104c39ba51fdf3b7"
+  ],
   "warnings": [
-    "github_verified_signature_commit_drift:0cd226ebbc0c3807545fc6367227b6919415f2de:e15178828776f533a4fc0cb53dbb2afedf85659a",
-    "dry_run_report_currently_being_generated",
     "pre_publish_live_verify_manifest_digest_drift"
   ],
   "boundary": "This script generates and verifies the publication plan. It never mutates public surfaces directly."

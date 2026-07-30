@@ -15,47 +15,47 @@
     {
       "id": "version",
       "status": 0,
-      "elapsedMs": 109
+      "elapsedMs": 150
     },
     {
       "id": "help_lift",
       "status": 0,
-      "elapsedMs": 113
+      "elapsedMs": 139
     },
     {
       "id": "help_template",
       "status": 0,
-      "elapsedMs": 107
+      "elapsedMs": 141
     },
     {
       "id": "init",
       "status": 0,
-      "elapsedMs": 103
+      "elapsedMs": 142
     },
     {
       "id": "template_numeric",
       "status": 0,
-      "elapsedMs": 103
+      "elapsedMs": 146
     },
     {
       "id": "certify_numeric",
       "status": 0,
-      "elapsedMs": 103
+      "elapsedMs": 160
     },
     {
       "id": "emit_ts",
       "status": 0,
-      "elapsedMs": 112
+      "elapsedMs": 209
     },
     {
       "id": "emit_python",
       "status": 0,
-      "elapsedMs": 107
+      "elapsedMs": 159
     },
     {
       "id": "emit_rust",
       "status": 0,
-      "elapsedMs": 109
+      "elapsedMs": 154
     }
   ]
 }

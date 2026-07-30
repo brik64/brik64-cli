@@ -68,6 +68,12 @@ function currentBetaNumber(version) {
   return Number(match[1]);
 }
 
+function betaDisplayLabel(version) {
+  const match = version.match(/^0\.1\.0-beta\.(\d+(?:\.\d+)?)$/);
+  if (!match) throw new Error(`unsupported_cli_beta_version:${version}`);
+  return `Beta${match[1]}`;
+}
+
 function changelogEntry(manifest) {
   const notes = manifest.releaseNotes
     .filter((note) => ['added', 'changed', 'fixed', 'security', 'removed'].includes(note.type))
@@ -86,13 +92,17 @@ ${notes}
 function syncFiles(manifest) {
   const failures = [];
   const betaNumber = currentBetaNumber(manifest.version);
+  const betaLabel = betaDisplayLabel(manifest.version);
   const previousBetas = Array.from({ length: betaNumber + 1 }, (_, i) => i).sort((a, b) => b - a).join('|');
   const previousBetaPattern = new RegExp(`0\\.1\\.0-beta\\.(?:${previousBetas})(?:\\.\\d+)?(?!\\d)`, 'g');
   const previousPyPattern = new RegExp(`0\\.1\\.0b(?:${previousBetas})(?:\\.post\\d+)?(?!\\d)`, 'g');
   const previousBetaWordPattern = new RegExp(`\\b[Bb]eta(?:${Array.from({ length: betaNumber }, (_, i) => i).join('|')})\\b`, 'g');
+  const currentBetaPatchWordPattern = new RegExp(`\\b[Bb]eta${betaNumber}\\.\\d+\\b`, 'g');
   const jsSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'npm');
   const pySdk = manifest.sdks.find((sdk) => sdk.marketplace === 'pypi');
   const rustSdk = manifest.sdks.find((sdk) => sdk.marketplace === 'crates.io');
+  const githubReleaseUrl = manifest.publicSurfaces.githubRelease.url
+    || `https://github.com/brik64/brik64-cli/releases/tag/${manifest.publicSurfaces.githubRelease.tag || `v${manifest.version}`}`;
   const packageSha = manifest.cli.package.sha256;
   const releaseManifestFile = path.join(webRoot, 'public', 'cli', 'releases', `${manifest.version}.json`);
   const files = {
@@ -160,12 +170,12 @@ function syncFiles(manifest) {
       sha256: packageSha
     },
     sdks: {
-      npm: jsSdk ? `${jsSdk.package}@${jsSdk.version}` : null,
-      pypi: pySdk ? `${pySdk.package}==${pySdk.version}` : null,
-      crates: rustSdk ? `${rustSdk.package}@${rustSdk.version}` : null
+      npm: jsSdk ? `${jsSdk.name}@${jsSdk.version}` : null,
+      pypi: pySdk ? `${pySdk.name}==${pySdk.version}` : null,
+      crates: rustSdk ? `${rustSdk.name}@${rustSdk.version}` : null
     },
     publicReferences: {
-      github: manifest.publicSurfaces.githubRelease.url,
+      github: githubReleaseUrl,
       packageManifest: `https://github.com/brik64/brik64-cli/releases/download/v${manifest.version}/package.manifest.json`,
       checksums: `https://github.com/brik64/brik64-cli/releases/download/v${manifest.version}/SHA256SUMS`
     },
@@ -183,10 +193,11 @@ function syncFiles(manifest) {
     text = text
       .replace(previousBetaPattern, manifest.version)
       .replace(previousPyPattern, pySdk?.version || manifest.version)
+      .replace(currentBetaPatchWordPattern, (value) => value[0] === 'B' ? betaLabel : betaLabel.toLowerCase())
       .replace(previousBetaWordPattern, (value) => value[0] === 'B' ? `Beta${betaNumber}` : `beta${betaNumber}`);
-    if (jsSdk) text = text.replace(/@brik64\/core@0\.1\.0-beta\.\d+(?:\.\d+)?/g, `${jsSdk.package}@${jsSdk.version}`);
-    if (pySdk) text = text.replace(/brik64==0\.1\.0b\d+(?:\.post\d+)?/g, `${pySdk.package}==${pySdk.version}`);
-    if (rustSdk) text = text.replace(/brik64-core(?:@| --version )0\.1\.0-beta\.\d+(?:\.\d+)?/g, (match) => match.includes('--version') ? `${rustSdk.package} --version ${rustSdk.version}` : `${rustSdk.package}@${rustSdk.version}`);
+    if (jsSdk) text = text.replace(/@brik64\/core@0\.1\.0-beta\.\d+(?:\.\d+)?|undefined@0\.1\.0-beta\.\d+(?:\.\d+)?/g, `${jsSdk.name}@${jsSdk.version}`);
+    if (pySdk) text = text.replace(/brik64==0\.1\.0b\d+(?:\.post\d+)?|undefined==0\.1\.0b\d+(?:\.post\d+)?/g, `${pySdk.name}==${pySdk.version}`);
+    if (rustSdk) text = text.replace(/brik64-core(?:@| --version )0\.1\.0-beta\.\d+(?:\.\d+)?|undefined(?:@| --version )0\.1\.0-beta\.\d+(?:\.\d+)?/g, (match) => match.includes('--version') ? `${rustSdk.name} --version ${rustSdk.version}` : `${rustSdk.name}@${rustSdk.version}`);
     fs.writeFileSync(file, text);
   }
 

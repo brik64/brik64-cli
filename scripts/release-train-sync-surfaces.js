@@ -52,6 +52,8 @@ function main() {
   const forbidden = /\bHetzner\b|\b1Password\b|\bL[456]\+?N5\b|\bN5\b|\binternal artifact factory\b|\bapproval\b|\bauthorization\b|\bmethodology\b/i;
   if (forbidden.test(markdown)) failures.push('public_release_notes_internal_language');
   if (!markdown.includes(manifest.version)) failures.push('release_notes_version_missing');
+  const githubReleaseUrl = manifest.publicSurfaces.githubRelease.url
+    || `https://github.com/brik64/brik64-cli/releases/tag/${manifest.publicSurfaces.githubRelease.tag || `v${manifest.version}`}`;
 
   const payload = {
     schemaVersion: 'brik64.release_train_sync_payload.v1',
@@ -61,10 +63,11 @@ function main() {
     state: manifest.state,
     manifestDigest: sha256(manifestText),
     installCommand: manifest.cli.installCommand,
-    githubReleaseUrl: manifest.publicSurfaces.githubRelease.url,
-    sdkInstall: Object.fromEntries(manifest.sdks.map((sdk) => [sdk.language, {
+    githubReleaseUrl,
+    release_url: githubReleaseUrl,
+    sdkInstall: Object.fromEntries(manifest.sdks.map((sdk) => [sdk.marketplace, {
+      name: sdk.name,
       marketplace: sdk.marketplace,
-      package: sdk.package,
       version: sdk.version
     }])),
     changelogMarkdown: markdown,

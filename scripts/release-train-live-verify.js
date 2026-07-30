@@ -237,13 +237,23 @@ function sdkVersion(manifest, marketplace, fallback) {
 
 function publicSurfaces(manifest) {
   const version = manifest.version;
-  return manifest.publicSurfaces || {
+  const surfaces = manifest.publicSurfaces || {
     curlInstaller: { url: 'https://brik64.com/cli/install.sh' },
     channelManifest: { url: 'https://brik64.com/cli/beta.json' },
     githubRelease: { url: `https://github.com/brik64/brik64-cli/releases/tag/v${version}` },
     docs: { urls: ['https://docs.brik64.com/cli/install'] },
     web: { urls: ['https://brik64.com/', 'https://brik64.com/changelog'] }
   };
+  if (surfaces.githubRelease && !surfaces.githubRelease.url && surfaces.githubRelease.tag) {
+    surfaces.githubRelease.url = `https://github.com/brik64/brik64-cli/releases/tag/${surfaces.githubRelease.tag}`;
+  }
+  if (surfaces.docs && !surfaces.docs.urls) {
+    surfaces.docs.urls = [surfaces.docs.url || 'https://docs.brik64.com/cli/install'];
+  }
+  if (surfaces.web && !surfaces.web.urls) {
+    surfaces.web.urls = [surfaces.web.url || 'https://brik64.com/', 'https://brik64.com/changelog'];
+  }
+  return surfaces;
 }
 
 async function runOnce(attempt, maxAttempts) {

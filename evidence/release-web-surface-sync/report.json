@@ -1,20 +1,20 @@
 {
   "schemaVersion": "brik64.release_web_surface_sync_report.v1",
-  "releaseId": "brik64-0.1.0-beta.13",
-  "version": "0.1.0-beta.13",
-  "publishRequested": true,
-  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC",
+  "releaseId": "brik64-0.1.0-beta.15.4",
+  "version": "0.1.0-beta.15.4",
+  "publishRequested": false,
+  "decision": "PASS_RELEASE_WEB_SURFACE_SYNC_DRY_RUN",
   "webRoot": "/Users/carlosjperez/Documents/GitHub/brik64.com",
   "changedBeforeCommit": true,
-  "commit": "847431779a79beed535c8df5f62a499cc059ee44",
-  "pushed": true,
+  "commit": null,
+  "pushed": false,
   "observations": [
     {
       "id": "web_checkout_main",
       "command": "git checkout main",
       "rc": 0,
-      "stdout": "Your branch is up to date with 'origin/main'.",
-      "stderr": "Switched to branch 'main'"
+      "stdout": "M\tpublic/cli/releases/0.1.0-beta.15.4.json\nM\tsrc/app/download/page.tsx\nM\tsrc/app/home-cli/agent.json/route.ts\nM\tsrc/app/home-cli/page.tsx\nM\tsrc/app/sdks/page.tsx\nM\tsrc/components/StructuredData.tsx\nYour branch is up to date with 'origin/main'.",
+      "stderr": "Already on 'main'"
     },
     {
       "id": "web_pull_main",
@@ -24,67 +24,46 @@
       "stderr": "From https://github.com/brik64-admin/brik64.com\n * branch            main       -> FETCH_HEAD"
     },
     {
-      "id": "web_git_add",
-      "command": "git add public/cli/install.sh public/cli/beta.json public/cli/releases/0.1.0-beta.13.json src/app/changelog/page.tsx src/app/download/page.tsx src/app/sdks/page.tsx functions/api/download/sdk/[target].ts",
-      "rc": 0,
-      "stdout": "",
-      "stderr": ""
-    },
-    {
-      "id": "web_git_commit",
-      "command": "git commit -m Align public web surface to 0.1.0-beta.13",
-      "rc": 0,
-      "stdout": "[main 8474317] Align public web surface to 0.1.0-beta.13\n 1 file changed, 1 insertion(+), 1 deletion(-)",
-      "stderr": ""
-    },
-    {
-      "id": "web_git_push",
-      "command": "git push origin HEAD:main",
-      "rc": 0,
-      "stdout": "",
-      "stderr": "To https://github.com/brik64-admin/brik64.com.git\n   c00d32e..8474317  HEAD -> main"
-    },
-    {
       "id": "install",
       "path": "public/cli/install.sh",
-      "sha256": "7babe7c8b180c0727c63bbf8256687d59551e7a1f4fda37b1c9c20cfa8a36dbf",
-      "bytes": 3259
+      "sha256": "179ffc90e2ab2ee9e0d25f3ca85467597f8c63e659465efdd0e447482306c2f7",
+      "bytes": 3814
     },
     {
       "id": "beta",
       "path": "public/cli/beta.json",
-      "sha256": "2d0fc6e91f8c59710bb59598def3bf675708406e596c3b45f055dcad4e18d908",
-      "bytes": 358
+      "sha256": "16dee1bc2b554b288913601885a42932324eb69b38fde7ea5c19d16efe00790b",
+      "bytes": 362
     },
     {
       "id": "changelog",
       "path": "src/app/changelog/page.tsx",
-      "sha256": "11a940d2727c805be03366fc3629ae250769460ab75de41551e63a2ac0e64a33",
-      "bytes": 7655
+      "sha256": "d9b4dcf788268697759f5ba6440622dddef57664810d6dae0b053c5b212812dd",
+      "bytes": 11282
     },
     {
       "id": "download",
       "path": "src/app/download/page.tsx",
-      "sha256": "7840be1d3b8586609ff53bade85ec840e05ff10eb76753e40b8c3a34ff9e7aac",
-      "bytes": 13612
+      "sha256": "118274b6c490affa860f5824363fac5ae97f8bcf3feaa298f6b451c11e4d01e9",
+      "bytes": 14925
     },
     {
       "id": "sdks",
       "path": "src/app/sdks/page.tsx",
-      "sha256": "d1a0802fd9dcb5524564c7c8d738e3bafea12736ce37c97fc0636e031e09804d",
-      "bytes": 11683
+      "sha256": "c1a822f7700c7bbaa0c639f2cf8d84cd11dd884780ce2e2a08c81d6f9c2f37cc",
+      "bytes": 13123
     },
     {
       "id": "sdkDownloadApi",
       "path": "functions/api/download/sdk/[target].ts",
-      "sha256": "2497bd3750863d45b1c9d98c3f4092ff03c9401662b7cd165fd4a51b11307a91",
-      "bytes": 2332
+      "sha256": "3c264e256f2db6bbd2ba383959ed9dba383d69d2206490dc256a5d202540c11c",
+      "bytes": 2578
     },
     {
       "id": "releaseManifest",
-      "path": "public/cli/releases/0.1.0-beta.13.json",
-      "sha256": "117e7a2ff4777d5078bce92c0550c3c0163245b07c84665e34d11279bb5a19c6",
-      "bytes": 1169
+      "path": "public/cli/releases/0.1.0-beta.15.4.json",
+      "sha256": "3dc8dfed23a0d927a871afbdea1e34bbc53a6a5cf299f8640c703c56873fcc6e",
+      "bytes": 1195
     }
   ],
   "failures": [],
