@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "brik64.cli_error_report_local.v1",
+  "cliVersion": "0.1.0-beta.15.2",
+  "capturedAt": "2026-06-15T19:40:59.629Z",
+  "command": "CLI 0.1.0-beta.15.3",
+  "normalizedErrorCode": "unknown_command",
+  "redactedMessage": "unknown_command:CLI",
+  "rawSourceIncluded": false,
+  "rawPcdIncluded": false,
+  "absolutePathIncluded": false,
+  "networkSent": false
+}
